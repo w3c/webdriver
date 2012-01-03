@@ -1,0 +1,97 @@
+<section>
+  <h2>Sessions</h2>
+  <p>Non-normative summary: A session is equivalent to a single instantiation of a particular browser, including all
+  child windows. The WebDriver API gives each session a UUID stored as a string that can be used to differentiate one
+  session from another, allowing multiple browsers to be controlled on the same machine if needed, and allowing
+  sessions to be routed via a multiplexer. This ID is sent with every 
+  <code>Command</code>and returned with every 
+  <code>Response</code>and is stored on the 
+  <code>sessionId</code>field.</p>
+  <section>
+    <h3>Creating a Session</h3>
+    <p>The process for successfully creating a session follows.</p>
+    <ol>
+      <li>The local end creates a new Capabilities or MutableCapabilities instance describing the desired capabilities
+      for the session. It is valid for no fields to be filled in this Capabilities object.</li>
+      <li>The local end creates a new Command with the "name" being "newSession" and the "parameters" containing an
+      entry named "desiredCapabilities" with the value set to the Capabilities instance from the previous step. The
+      "sessionId" fields SHOULD be left empty.</li>
+      <li>For an out of process WebDriver server, this Command is encoded and transmitted to the remote end point. For
+      an in-process WebDriver server, a factory function or method is called.</li>
+      <li>The remote end examines the Capabilities, and creates a new session matching as many of the Capabilities as
+      possible. How the new session is created depends on the implementation of this specification. In the case of a
+      browser automation framework, it is expected that a new instance of the browser is started if possible.</li>
+      <li>The session is assigned a UUID which MUST be unique for each session (by definition). Generating the UUID
+      MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
+      discarded in favour of the freshly generated UUID.</li>
+      <li>The remote end create a new Response object. 
+      <ul>
+        <li>The "sessionId" field is assigned the UUID associated with this session.</li>
+        <li>The session is described by filling a Capabilities instance with keys matching the parts of this
+        specification that can be fulfilled. This is assigned to the "value" field of the Response. This fields MUST
+        be filled</li>
+        <li>The "status" field is set to "0"</li>
+      </ul></li>
+      <li>The Response is transmitted or returned back to the local end.</li>
+    </ol>
+    <p>There is no requirement for the local end to validate that some or all of the fields sent on the Capabilities
+    associated with the Command match those returned in the Response.</p>
+    <section>
+      <h3>Capability Names</h3>
+      <p>The following keys are to be used in the Capabilities instances.</p>
+      <dl>
+        <dt>browserName</dt>
+        <dd>The name of the desired browser as a string</dd>
+        <dt>version</dt>
+        <dd>The version number of the browser, given as a string</dd>
+        <dt>platform</dt>
+        <dd>The OS that the browser is running on, matching any of the platform names given below.</dd>
+        <dt>platformVersion</dt>
+        <dd>The version of the OS that the browser is running on as a string.</dd>
+      </dl>
+      <section>
+        <h3>Platform Names</h3>
+        <p>These are named in the style of enums in C-like languages.</p>
+        <ul>
+          <li>ANDROID</li>
+          <li>LINUX</li>
+          <li>MAC</li>
+          <li>UNIX</li>
+          <li>WINDOWS</li>
+        </ul>
+        <p>In addition "ANY" may be used to indicate the underlying OS is either unknown or does not matter.
+        Implementors MAY add additional platform names.</p>
+      </section>
+    </section>
+    <section>
+      <h3>Error Handling</h3>
+      <p>The following status codes will be returned by the "newSession" command. Please consult the table in the
+      "commands" section for numerical values:</p>
+      <dl>
+        <dt>Success</dt>
+        <dd>The session was successfully created. The "value" field of the Response contains a Capabilities object
+        describing the session</dd>
+        <dt>Timeout</dt>
+        <dd>The new session could not be created within the time allowed for command execution on the remote end. This
+        time MAY be infinite. The "value" field of the Response SHOULD contain a string explaining that a timeout has
+        occurred, but it MAY be left empty or filled with the empty string.</dd>
+        <dt>UnknownError</dt>
+        <dd>An unhandled error of some sort has occurred. The "value" field of the Response contains a more detailed
+        description of the error.</dd>
+      </dl>
+    </section>
+    <section>
+      <h3>Remote End Matching of Capabilities</h3>
+      <p>This section is non-normative.</p>
+      <p>The suggested order for comparing keys in the Capabilities instance when creating a session is:</p>
+      <ol>
+        <li>browserName</li>
+        <li>version</li>
+        <li>platform</li>
+        <li>platformVersion</li>
+      </ol>
+      <p>For all comparisons, if the key is missing, that particular criteria shall not factor into the
+      comparison.</p>
+    </section>
+  </section>
+</section>

@@ -1,0 +1,30 @@
+<section>
+  <h2>Browser Capabilities</h2>
+  <p>Different browsers support different levels of various specifications. For example, some support SVG or the CSS
+  Selector API, but only browsers that implement HTML5 will support LocalStorage. The WebDriver API provides
+  a mechanism to query the supported capabilities of a browser. Each broad area of functionality
+  within the WebDriver API has an associated capability string. Whether a particular capability MUST or MAY
+  be supported --- as well as fallback mechanisms for handling those cases where a capability is not supported --- is
+  discussed where the capability string is defined.</p>
+  
+  <section>
+    <h3>Capabilities</h3>
+  <dl class="idl" title="interface Capabilities">
+    <dt>readonly attribute object capabilities</dt>
+    <dd>The underlying collection of capabilities, represented as a dictionary mapping strings to values which may be
+    of type boolean, numerical or string.</dd>
+    <dt>boolean has(string capabilityName)</dt>
+    <dd>Queries the underlying <code>capabilities</code> to see whether the value is set. This will return true if the capabilities contain a key with the given <code>capabilityName</code> and the value of that key is defined. If the value is a boolean, this function will return that boolean value.</dd>
+    <dt>object get(string capabilityName)</dt>
+    <dd>Get the value of the key matching capabilityName in the underlying<code>capabilities</code>or <code>null</code>if no value is defined.</dd>
+  </dl>
+  <p>A <code>Capabilities</code> instance MUST be immutable. If a mutable <code>Capabilities</code> instance is required, then the <code>MutableCapabilities</code> MUST be used instead.</p>
+</section>
+<section>
+  <h3>MutableCapabilities</h3>
+  <dl class="idl" title="interface MutableCapabilities : Capabilities">
+    <dt>void set(string capabilityName, object value)</dt>
+    <dd>Set the value of the given <code>capabilityName</code>to the given <code>value</code>. If the value is not a boolean, numerical type or a string, a <code>WebDriverException</code>should be thrown.</dd>
+  </dl>
+</section>
+</section>

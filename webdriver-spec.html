@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WebDriver</title>
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     -->
+    <script src='http://dev.w3.org/2009/dap/ReSpec.js/js/respec.js' class='remove'></script>
+    <script class='remove'>
+      var respecConfig = {
+          // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
+          specStatus:           "ED",
+          
+          // the specification's short name, as in http://www.w3.org/TR/short-name/
+          shortName:            "webdriver",
+
+          // if your specification has a subtitle that goes below the main
+          // formal title, define it here
+          // subtitle   :  "an excellent document",
+
+          // if you wish the publication date to be other than today, set this
+          // publishDate:  "2009-08-06",
+
+          // if the specification's copyright date is a range of years, specify
+          // the start date here:
+          // copyrightStart: "2005"
+
+          // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+          // and its maturity status
+          // previousPublishDate:  "1977-03-15",
+          // previousMaturity:  "WD",
+
+          // if there a publicly available Editor's Draft, this is the link
+          // edDraftURI:           "http://dev.w3.org/2009/dap/ReSpec.js/documentation.html",
+
+          // if this is a LCWD, uncomment and set the end of its review period
+          // lcEnd: "2009-08-05",
+
+          // if you want to have extra CSS, append them to this list
+          // it is recommended that the respec.css stylesheet be kept
+          extraCSS:             ["http://dev.w3.org/2009/dap/ReSpec.js/css/respec.css"],
+
+          // editors, add as many as you like
+          // only "name" is required
+          editors:  [
+              { name: "Simon Stewart", url: "https://plus.google.com/104565969450039850531/posts",
+                company: "Google", companyURL: "http://www.google.com/" },
+              { name: "David Burns", url: "http://www.theautomatedtester.co.uk/",
+                company: "Mozilla", companyURL: "http://www.mozilla.org/" },
+          ],
+
+          // authors, add as many as you like. 
+          // This is optional, uncomment if you have authors as well as editors.
+          // only "name" is required. Same format as editors.
+
+          //authors:  [
+          //    { name: "Your Name", url: "http://example.org/",
+          //      company: "Your Company", companyURL: "http://example.com/" },
+          //],
+          
+          // name of the WG
+          wg:           "Browser Testing and Tools Working Group",
+          
+          // URI of the public WG page
+          wgURI:        "http://www.w3.org/2011/08/browser-testing-charter.html",
+          
+          // name (with the @w3c.org) of the public mailing to which comments are due
+          wgPublicList: "public-test-infra",
+          
+          // URI of the patent status for this WG, for Rec-track documents
+          // !!!! IMPORTANT !!!!
+          // This is important for Rec-track documents, do not copy a patent URI from a random
+          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+          // Team Contact.
+          wgPatentURI:  "",
+      };
+    </script>
+  </head>
+  <body>
+
+<section id='abstract'>
+<p>This specification defines the WebDriver API, a platform-and language-neutral interface that allows programs or scripts to introspect into, and control the behaviour of, a web browser. The WebDriver API is primarily intended to allow developers to write tests that automate a browser from a separate controlling process, but may also be implemented in such a way as to allow in-browser scripts to control a (separate?) browser.</p>
+
+<p>The WebDriver API is defined by a set of interfaces to discover and manipulate DOM elements on a page, and to control the behaviour of the containing browser.</p>
+
+<p>This specification also includes a non-normative reference serialisation (to JSON) of the interface's invocations and responses that may be useful for browser vendors.</p>
+</section>
+<section>
+  <h2>Introduction</h2>
+  <p>The WebDriver API aims to provide a synchronous API that can be used for a variety of use cases, though
+  it is primarily designed to support automated testing of web apps.</p>
+  <section>
+    <h3>Intended Audience</h3>
+    <p>This specification is intended for implementors of the WebDriver API. It is not intended as light bed
+    time reading.</p>
+  </section>
+  <section>
+    <h3>Relationship of WebDriver API and Existing Specifications</h3>
+    <p>Where possible and appropriate, the WebDriver API references existing specifications. For example, the
+    list of boolean attributes for elements is drawn from the 
+    <a href="http://dev.w3.org/html5/spec/Overview.html">HTML5 specification</a>. When references are made, this
+    specification will link to the relevant sections.</p>
+  </section>
+  
+  <section>
+    <h3>Naming the Two Sides of the API</h3>
+    
+    <p>The WebDriver API can be thought of as a client/server process. However, implementation details can mean that this terminology becomes confusing. For this reason, the two sides of the API are called the "local" and the "remote" ends.</p>
+    <dl>
+      <dt>Local</dt>
+      <dd>The user-facing API. Command objects are sent and Response objects are consumed by the local end of the WebDriver API.</dd>
+      
+      <dt>Remote</dt>
+      <dd>The implementation of the user-facing API. Command objects are consumed and Response objects are sent by the remote end of the WebDriver API.</dd>
+      
+    </dl>
+    
+    <p>There is no requirement that the local and remote ends be in different processes.</p>
+  </section>
+</section>
+<section>
+  <h2>Commands and Responses</h2>
+  <p>The WebDriver API is designed to be used both in-process and out-of-process. The IDL listed in Appendix
+  XXXX SHOULD be used as the basis for the user-facing API. When used out-of-process, the WebDriver API
+  defines command/repsonse objects that MUST be used. How these are encoded and transmitted between the browser being
+  automated and the user of the API is left undefined, but a non-normative implementation of this as JSON over HTTP is
+  given in appendix XXXX.</p>
+  <section>
+    <h3>Command</h3>
+    <p>A command represents a call to the remote end of the WebDriver API.</p>
+    <dl class="idl" title="interface Command">
+      <dt>attribute string sessionId</dt>
+      <dd>A reference to the session to which this command is associated.</dd>
+      <dt>attribute string name</dt>
+      <dd>The name of the command to execute</dd>
+      <!-- TODO: This should be a Dictionary or Map, not an object -->
+      <dt>attribute object parameters</dt>
+      <dd>A map of the named parameters to an object representing its value.</dd>
+    </dl>
+  </section>
+  <section>
+    <h3>Response</h3>
+    <p>A response represents the value returned from remote end of the WebDriver API.</p>
+    <dl class="idl" title="interface Response">
+      <dt>readonly attribute string sessionId</dt>
+      <dd>A reference to the session to which this command is associated.</dd>
+      <dt>readonly attribute integer status</dt>
+      <dd>The status code representing the success or failure of the method. Anything other than 0 indicates a failure
+      of some kind</dd>
+      <dt>readonly attribute object value</dt>
+      <dd>The return value of the method call. It's type is determined by the <code>Command</code> that has been executed. In the specification, each command definition will make clear what the expected return type is.</dd>
+    </dl>
+  </section>
+  
+  <section>
+    <h3>Processing Additional Fields on Commands and Responses</h3>
+    
+    <p>Any Command or Response MAY contain additional fields than those listed above. These fields MUST be maintained, unaltered by any intermediate processing nodes. There is no requirement to maintain the ordering of fields.</p>
+    
+    <div class="note">
+      <p>This requirement exists to allow for extension of the protocol, and to allow implementors to decorate Commands and Responses with additional information, perhaps giving context to a series of messages. or providing security information.</p>
+    </div>
+  </section>
+  
+  <section>
+    <h3>Error Codes</h3>
+    <p>The WebDriver API indicates the success or failure of a command invocation via a status code on the 
+    <code>Response</code>object. The following values are used and have the following meanings.</p>
+    <!-- TODO: These values are derived from existing common usage. Do they need to be reconsidered? -->
+    <table>
+      <tr>
+        <th>Status Code</th>
+        <th>Summary</th>
+        <th>Detail</th>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>Success</td>
+        <td>The command executed successfully.</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>NoSuchElement</td>
+        <td>An element could not be located on the page using the given search parameters.</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>NoSuchFrame</td>
+        <td>A request to switch to a frame could not be satisfied because the frame could not be found.</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>UnknownCommand</td>
+        <td>The requested resource could not be found, or a request was received using an HTTP method that is not
+        supported by the mapped resource.</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>StaleElementReference</td>
+        <td>An element command failed because the referenced element is no longer attached to the DOM.</td>
+      </tr>
+      <tr>
+        <td>11</td>
+        <td>ElementNotVisible</td>
+        <td>An element command could not be completed because the element is not visible on the page.</td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>InvalidElementState</td>
+        <td>An element command could not be completed because the element is in an invalid state (e.g. attempting to
+        click a disabled element).</td>
+      </tr>
+      <tr>
+        <td>13</td>
+        <td>UnknownError</td>
+        <td>An unknown server-side error occurred while processing the command.</td>
+      </tr>
+      <tr>
+        <td>15</td>
+        <td>ElementIsNotSelectable</td>
+        <td>An attempt was made to select an element that cannot be selected.</td>
+      </tr>
+      <tr>
+        <td>17</td>
+        <td>JavaScriptError</td>
+        <td>An error occurred while executing user supplied !JavaScript.</td>
+      </tr>
+      <tr>
+        <td>19</td>
+        <td>XPathLookupError</td>
+        <td>An error occurred while searching for an element by XPath.</td>
+      </tr>
+      <tr>
+        <td>21</td>
+        <td>Timeout</td>
+        <td>An operation did not complete before its timeout expired.</td>
+      </tr>
+      <tr>
+        <td>23</td>
+        <td>NoSuchWindow</td>
+        <td>A request to switch to a different window could not be satisfied because the window could not be
+        found.</td>
+      </tr>
+      <tr>
+        <td>24</td>
+        <td>InvalidCookieDomain</td>
+        <td>An illegal attempt was made to set a cookie under a different domain than the current page.</td>
+      </tr>
+      <tr>
+        <td>25</td>
+        <td>UnableToSetCookie</td>
+        <td>A request to set a cookie's value could not be satisfied.</td>
+      </tr>
+      <tr>
+        <td>26</td>
+        <td>UnexpectedAlertOpen</td>
+        <td>A modal dialog was open, blocking this operation</td>
+      </tr>
+      <tr>
+        <td>27</td>
+        <td>NoAlertOpenError</td>
+        <td>An attempt was made to operate on a modal dialog when one was not open.</td>
+      </tr>
+      <tr>
+        <td>28</td>
+        <td>ScriptTimeout</td>
+        <td>A script did not complete before its timeout expired.</td>
+      </tr>
+      <tr>
+        <td>29</td>
+        <td>InvalidElementCoordinates</td>
+        <td>The coordinates provided to an interactions operation are invalid.</td>
+      </tr>
+      <tr>
+        <td>30</td>
+        <td>IMENotAvailable</td>
+        <td>IME was not available.</td>
+      </tr>
+      <tr>
+        <td>31</td>
+        <td>IMEEngineActivationFailed</td>
+        <td>An IME engine could not be started.</td>
+      </tr>
+      <tr>
+        <td>32</td>
+        <td>InvalidSelector</td>
+        <td>Argument was an invalid selector (e.g. XPath/CSS).</td>
+      </tr>
+    </table>
+  </section>
+</section>
+<section>
+  <h2>Browser Capabilities</h2>
+  <p>Different browsers support different levels of various specifications. For example, some support SVG or the CSS
+  Selector API, but only browsers that implement HTML5 will support LocalStorage. The WebDriver API provides
+  a mechanism to query the supported capabilities of a browser. Each broad area of functionality
+  within the WebDriver API has an associated capability string. Whether a particular capability MUST or MAY
+  be supported --- as well as fallback mechanisms for handling those cases where a capability is not supported --- is
+  discussed where the capability string is defined.</p>
+  
+  <section>
+    <h3>Capabilities</h3>
+  <dl class="idl" title="interface Capabilities">
+    <dt>readonly attribute object capabilities</dt>
+    <dd>The underlying collection of capabilities, represented as a dictionary mapping strings to values which may be
+    of type boolean, numerical or string.</dd>
+    <dt>boolean has(string capabilityName)</dt>
+    <dd>Queries the underlying <code>capabilities</code> to see whether the value is set. This will return true if the capabilities contain a key with the given <code>capabilityName</code> and the value of that key is defined. If the value is a boolean, this function will return that boolean value.</dd>
+    <dt>object get(string capabilityName)</dt>
+    <dd>Get the value of the key matching capabilityName in the underlying<code>capabilities</code>or <code>null</code>if no value is defined.</dd>
+  </dl>
+  <p>A <code>Capabilities</code> instance MUST be immutable. If a mutable <code>Capabilities</code> instance is required, then the <code>MutableCapabilities</code> MUST be used instead.</p>
+</section>
+<section>
+  <h3>MutableCapabilities</h3>
+  <dl class="idl" title="interface MutableCapabilities : Capabilities">
+    <dt>void set(string capabilityName, object value)</dt>
+    <dd>Set the value of the given <code>capabilityName</code>to the given <code>value</code>. If the value is not a boolean, numerical type or a string, a <code>WebDriverException</code>should be thrown.</dd>
+  </dl>
+</section>
+</section>
+<section>
+  <h2>Sessions</h2>
+  <p>Non-normative summary: A session is equivalent to a single instantiation of a particular browser, including all
+  child windows. The WebDriver API gives each session a UUID stored as a string that can be used to differentiate one
+  session from another, allowing multiple browsers to be controlled on the same machine if needed, and allowing
+  sessions to be routed via a multiplexer. This ID is sent with every 
+  <code>Command</code>and returned with every 
+  <code>Response</code>and is stored on the 
+  <code>sessionId</code>field.</p>
+  <section>
+    <h3>Creating a Session</h3>
+    <p>The process for successfully creating a session follows.</p>
+    <ol>
+      <li>The local end creates a new Capabilities or MutableCapabilities instance describing the desired capabilities
+      for the session. It is valid for no fields to be filled in this Capabilities object.</li>
+      <li>The local end creates a new Command with the "name" being "newSession" and the "parameters" containing an
+      entry named "desiredCapabilities" with the value set to the Capabilities instance from the previous step. The
+      "sessionId" fields SHOULD be left empty.</li>
+      <li>For an out of process WebDriver server, this Command is encoded and transmitted to the remote end point. For
+      an in-process WebDriver server, a factory function or method is called.</li>
+      <li>The remote end examines the Capabilities, and creates a new session matching as many of the Capabilities as
+      possible. How the new session is created depends on the implementation of this specification. In the case of a
+      browser automation framework, it is expected that a new instance of the browser is started if possible.</li>
+      <li>The session is assigned a UUID which MUST be unique for each session (by definition). Generating the UUID
+      MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
+      discarded in favour of the freshly generated UUID.</li>
+      <li>The remote end create a new Response object. 
+      <ul>
+        <li>The "sessionId" field is assigned the UUID associated with this session.</li>
+        <li>The session is described by filling a Capabilities instance with keys matching the parts of this
+        specification that can be fulfilled. This is assigned to the "value" field of the Response. This fields MUST
+        be filled</li>
+        <li>The "status" field is set to "0"</li>
+      </ul></li>
+      <li>The Response is transmitted or returned back to the local end.</li>
+    </ol>
+    <p>There is no requirement for the local end to validate that some or all of the fields sent on the Capabilities
+    associated with the Command match those returned in the Response.</p>
+    <section>
+      <h3>Capability Names</h3>
+      <p>The following keys are to be used in the Capabilities instances.</p>
+      <dl>
+        <dt>browserName</dt>
+        <dd>The name of the desired browser as a string</dd>
+        <dt>version</dt>
+        <dd>The version number of the browser, given as a string</dd>
+        <dt>platform</dt>
+        <dd>The OS that the browser is running on, matching any of the platform names given below.</dd>
+        <dt>platformVersion</dt>
+        <dd>The version of the OS that the browser is running on as a string.</dd>
+      </dl>
+      <section>
+        <h3>Platform Names</h3>
+        <p>These are named in the style of enums in C-like languages.</p>
+        <ul>
+          <li>ANDROID</li>
+          <li>LINUX</li>
+          <li>MAC</li>
+          <li>UNIX</li>
+          <li>WINDOWS</li>
+        </ul>
+        <p>In addition "ANY" may be used to indicate the underlying OS is either unknown or does not matter.
+        Implementors MAY add additional platform names.</p>
+      </section>
+    </section>
+    <section>
+      <h3>Error Handling</h3>
+      <p>The following status codes will be returned by the "newSession" command. Please consult the table in the
+      "commands" section for numerical values:</p>
+      <dl>
+        <dt>Success</dt>
+        <dd>The session was successfully created. The "value" field of the Response contains a Capabilities object
+        describing the session</dd>
+        <dt>Timeout</dt>
+        <dd>The new session could not be created within the time allowed for command execution on the remote end. This
+        time MAY be infinite. The "value" field of the Response SHOULD contain a string explaining that a timeout has
+        occurred, but it MAY be left empty or filled with the empty string.</dd>
+        <dt>UnknownError</dt>
+        <dd>An unhandled error of some sort has occurred. The "value" field of the Response contains a more detailed
+        description of the error.</dd>
+      </dl>
+    </section>
+    <section>
+      <h3>Remote End Matching of Capabilities</h3>
+      <p>This section is non-normative.</p>
+      <p>The suggested order for comparing keys in the Capabilities instance when creating a session is:</p>
+      <ol>
+        <li>browserName</li>
+        <li>version</li>
+        <li>platform</li>
+        <li>platformVersion</li>
+      </ol>
+      <p>For all comparisons, if the key is missing, that particular criteria shall not factor into the
+      comparison.</p>
+    </section>
+  </section>
+</section>
+<section>
+  <h2>Navigation</h2>
+  
+  <p>
+  <p>get() and history navigation. The discussion of "get" will
+  need to be pretty precise about when the method returns,
+  including the common case of switching to "about:blank" when
+  opening a new tab.</p>
+
+  <p>This section will also need to deal with handling self-signed
+  SSL certificates.</p>
+
+  <p>WebDriver implementations MUST support navigating between
+  domains.</p>
+</section>
+<section>
+  <h2>Controlling Windows</h2>
+  <p>Iterating over open windows, resizing and moving.</p>
+</section>
+<section>
+  <h2>Switching Where Commands Are Handled</h2>
+  <p>Including switching to windows and frames. Also not that from the point of view of the WebDriver API, windows and frames can be treated identically.</p>
+</section><section>
+  <!-- TODO(simon): identify a better location for this -->
+  <h2>Running Without Window Focus</h2>
+  <p>All browsers MUST fire events properly (eg: blur and focus) even when the window doesn't have focus.</p>
+</section>
+<section>
+  <h2>Elements</h2>
+  <p>One of the key abstractions of the WebDriver API is the 
+  <code>WebElement</code> interface. Each instance of this interface represents an 
+  <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614">Element</a>as defined in the
+  [[!DOM-LEVEL-3-CORE]] specification. Because the WebDriver API is designed to allow users to interact with apps as if
+  they were actual users, the capabilities offered by the 
+  <code>WebElement</code> interface are somewhat different from those offered by the DOM Element interface.</p>
+  <p>This section of the specification covers finding elements. Later sections deal with querying and interacting with
+  these located elements. The primary interface used by the WebDriver API for locating elements is the 
+  <code>SearchContext</code>.</p>
+  <section>
+    <h2>Lists of WebElements</h2>
+    
+    <p>The primary grouping of <code>WebElement</code> instances is the WebElementList:</p>
+    
+    <dl class="idl" title="interface WebElementList">
+      <dt>readonly attribute unsigned long length</dt>
+      <dd>The number of <code>WebElement</code> instances represented by this list.</dd>
+      <dt>getter WebElement item(in unsigned long index)</dt>
+      <dd>Retrieve the <code>WebElement</code> at the given 0-based index in the collection. If there is no WebElement at this location, <code>null</code> must be returned.</dd>
+    </dl>
+    
+    <div class="note">
+      <p>Implementations of this interface in other languages MAY implement this as an indexed, ordered collection native to that language. For example, in Python the WebElementList might be implemented as an native "list". In C# or Java, a "List&lt;WebElement&gt;" would be an acceptable implementation. In this case, the WebElementList interface is optional, and the operations for determining length and returning WebElements may be replaced with native accessors.</p>
+    </div>
+  </section>
+  <section>
+    <dl class="idl" title="interface Locator">
+      <dt>readonly attribute DOMString strategy</dt>
+      <dd>The name of the strategy that should be used to locate elements.</dd>
+      <dt>readonly attribute DOMString value</dt>
+      <dd>The value to pass to the element finding strategy</dd>
+    </dl>
+  </section>
+  <section>
+    <dl class="idl" title="interface SeachContext">
+      <dt>caller getter WebElementList findElements(in Locator locator)</dt>
+      <dd></dd>
+      <dt>called getter WebElement findElement(in Locator locator)</dt>
+      <dd></dd>
+    </dl>
+  </section>
+  <section>
+    <h2>Element Location Strategies</h2>
+    <section>
+      <h2>XPath</h2>
+      <p>All WebDriver implementations MUST support finding elements by XPath 1.0 [[!XPATH]] with the <a href="http://dev.w3.org/html5/spec/Overview.html#interactions-with-xpath-and-xslt">edits from section 3.3</a> of the [[!HTML5]] specification made. If no native support is present in the browser, a pure JS implementation MAY be used. When called, the returned values MUST be equivalent of calling "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate">evaluate</a>" function from the DOM Level 3 XPath spec [[DOM-LEVEL-3-XPATH]] with the result type set to "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE">ORDERED_NODE_SNAPSHOT_TYPE</a> (7).</p>
+    </section>
+    <section>
+    <h2>Javascript</h2>
+    <p>Finding elements by JS is covered in the JS part of this spec</p></section>
+    <section>
+      <h2>CSS Selectors</h2>
+        <tr>
+          <th>Capability Name</th>
+          <th>Type</th>
+        </tr>
+        <tr>
+          <td>cssSelectorsEnabled</td>
+          <td>boolean</td>
+        </tr>
+      </table>
+      <p>If a browser supports the 
+      <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a>it MUST support locating elements by
+      CSS Selector. If the browser does not support the browser CSS Selector spec it MAY chose to implement locating
+      by this mechanism.</p>
+    </section>
+    <section>
+      <h2>Element ID</h2>
+      <p>This strategy MUST be supported by all WebDriver implementations.</p>
+      <p>The HTML5 specification ([[!HTML5]]) states that <a href="http://www.w3.org/TR/html5/elements.html#the-id-attribute">element IDs must be unique within their home subtree</a>. Sadly, this uniqueness requirement is not always met. Consequently, this strategy is equally valid for finding a single element, or groups of elements. In the case of finding a single WebElement, this MUST be functionally identical to a call to "<a href="http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html#dom-document-getelementbyid">document.getElementById()</a>" from the Web DOM Core specification ([[!DOM-LEVEL-3-CORE]]). When finding multiple elements, this is equivalent to an XPath query of "<tt>//*[@id = 'value']</tt>" where "value" is the ID being searched for with all "'" characters being properly escaped..</p>
+    </section>
+    <section>
+      <h2>Link Text</h2>
+      <p></p>
+    </section>
+    <section>
+      <h2>ARIA</h2>
+      <p></p>
+    </section>
+  </section>
+</section>
+
+  <section>
+    <h2>Reading Element State</h2>
+    <p></p>
+    <section>
+      <h2>Determing Visibility</h2>
+      <p></p>
+    </section>
+    <section>
+      <h2>Reading Attributes and Properties</h2>
+      <p>Including boolean properties and how people get the two concepts
+      confused.
+    </section>
+  </section>
+
+  <section>
+    <h2>Rendering Text</h2>
+    <p>A description of the algorithm used by WebElement.getText</p>
+  </section>
+
+  <section>
+    <h2>Executing Javascript</h2>
+    <p></p>
+
+  <section>
+    <h2>Synchronous Javascript Execution</h2>
+    <p></p>
+  </section>
+
+  <section>
+    <h2>ASynchronous Javascript Execution</h2>
+    <p></p>
+  </section>
+
+  <section>
+    <h2>Reporting Errors</h2>
+    <p></p>
+  </section>
+
+  </section>
+
+  <section>
+    <h2>Cookies</h2>
+    <p></p>
+  </section>
+
+  <section>
+    <h2>Timeouts and Implicit Waits</h2>
+    <p></p>
+  </section>
+
+  <section>
+    <h2>User Input</h2>
+    <p></p>
+
+  <section>
+    <h2>High Level APIs: Clicking and Typing</h2>
+    <p></p>
+  </section>
+
+  <section>
+    <h2>Low Level APIs</h2>
+    <p></p>
+
+  <section>
+    <h2>Mouse</h2>
+    <p></p>
+  </section>
+
+  <section>
+    <h2>Keyboard</h2>
+    <p></p>
+  </section>
+
+  <section>
+    <h2>Touch</h2>
+    <p></p>
+  </section>
+
+  </section>
+
+  </section>
+
+  <section>
+    <h2>Modal Dialogs</h2>
+    <p></p>
+
+  <section>
+    <h2>window.alert, prompt and confirm</h2>
+    <p></p>
+  </section>
+
+  <section>
+    <h2>Modal Windows</h2>
+    <p></p>
+  </section>
+
+  </section>
+
+  <section>
+    <h2>Snapshots</h2>
+    <p></p>
+
+  <section>
+    <h2>Screen</h2>
+    <p></p>
+  </section>
+
+  <section>
+    <h2>Current Window</h2>
+    <p></p>
+  </section>
+
+  <section>
+    <h2>Element</h2>
+    <p></p>
+  </section>
+
+  </section>
+
+
+  <section>
+    <h2>Handling non-HTML Content</h2>
+    <p></p>
+  </section>
+
+  <section>
+    <h2>Extending the Protocol</h2>
+    <p></p>
+  </section>
+
+<section class='appendix'>
+  <h2>Command Summary</h2>
+  
+  <p>This is an exhaustive list of the commands listed in this specification.</p>
+</section>    <section class='appendix'>
+      <h2>Command Format</h2>
+      <p>This is essentially the content at the start of the json wire protocol</p>
+    </section>
+
+    <section class='appendix'>
+      <h2>Thread Safety</h2>
+      <p></p>
+    </section>
+
+    <section class='appendix'>
+      <h2>Logging</h2>
+      <p></p>
+    </section>
+
+    <section class='appendix'>
+      <h2>Mapping to HTTP and JSON</h2>
+      <p></p>
+    </section>
+
+    <section class='appendix'>
+      <h2>Acknowledgements</h2>
+      <p>
+        Many thanks to Robin Berjon for making our lives so much easier with his cool tool. Thanks to Malcolm Rowe for proof reading and suggesting areas for improvement.
+      </p>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,171 @@
+<section>
+  <h2>Commands and Responses</h2>
+  <p>The WebDriver API is designed to be used both in-process and out-of-process. The IDL listed in Appendix
+  XXXX SHOULD be used as the basis for the user-facing API. When used out-of-process, the WebDriver API
+  defines command/repsonse objects that MUST be used. How these are encoded and transmitted between the browser being
+  automated and the user of the API is left undefined, but a non-normative implementation of this as JSON over HTTP is
+  given in appendix XXXX.</p>
+  <section>
+    <h3>Command</h3>
+    <p>A command represents a call to the remote end of the WebDriver API.</p>
+    <dl class="idl" title="interface Command">
+      <dt>attribute string sessionId</dt>
+      <dd>A reference to the session to which this command is associated.</dd>
+      <dt>attribute string name</dt>
+      <dd>The name of the command to execute</dd>
+      <!-- TODO: This should be a Dictionary or Map, not an object -->
+      <dt>attribute object parameters</dt>
+      <dd>A map of the named parameters to an object representing its value.</dd>
+    </dl>
+  </section>
+  <section>
+    <h3>Response</h3>
+    <p>A response represents the value returned from remote end of the WebDriver API.</p>
+    <dl class="idl" title="interface Response">
+      <dt>readonly attribute string sessionId</dt>
+      <dd>A reference to the session to which this command is associated.</dd>
+      <dt>readonly attribute integer status</dt>
+      <dd>The status code representing the success or failure of the method. Anything other than 0 indicates a failure
+      of some kind</dd>
+      <dt>readonly attribute object value</dt>
+      <dd>The return value of the method call. It's type is determined by the <code>Command</code> that has been executed. In the specification, each command definition will make clear what the expected return type is.</dd>
+    </dl>
+  </section>
+  
+  <section>
+    <h3>Processing Additional Fields on Commands and Responses</h3>
+    
+    <p>Any Command or Response MAY contain additional fields than those listed above. These fields MUST be maintained, unaltered by any intermediate processing nodes. There is no requirement to maintain the ordering of fields.</p>
+    
+    <div class="note">
+      <p>This requirement exists to allow for extension of the protocol, and to allow implementors to decorate Commands and Responses with additional information, perhaps giving context to a series of messages. or providing security information.</p>
+    </div>
+  </section>
+  
+  <section>
+    <h3>Error Codes</h3>
+    <p>The WebDriver API indicates the success or failure of a command invocation via a status code on the 
+    <code>Response</code>object. The following values are used and have the following meanings.</p>
+    <!-- TODO: These values are derived from existing common usage. Do they need to be reconsidered? -->
+    <table>
+      <tr>
+        <th>Status Code</th>
+        <th>Summary</th>
+        <th>Detail</th>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>Success</td>
+        <td>The command executed successfully.</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>NoSuchElement</td>
+        <td>An element could not be located on the page using the given search parameters.</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>NoSuchFrame</td>
+        <td>A request to switch to a frame could not be satisfied because the frame could not be found.</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>UnknownCommand</td>
+        <td>The requested resource could not be found, or a request was received using an HTTP method that is not
+        supported by the mapped resource.</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>StaleElementReference</td>
+        <td>An element command failed because the referenced element is no longer attached to the DOM.</td>
+      </tr>
+      <tr>
+        <td>11</td>
+        <td>ElementNotVisible</td>
+        <td>An element command could not be completed because the element is not visible on the page.</td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>InvalidElementState</td>
+        <td>An element command could not be completed because the element is in an invalid state (e.g. attempting to
+        click a disabled element).</td>
+      </tr>
+      <tr>
+        <td>13</td>
+        <td>UnknownError</td>
+        <td>An unknown server-side error occurred while processing the command.</td>
+      </tr>
+      <tr>
+        <td>15</td>
+        <td>ElementIsNotSelectable</td>
+        <td>An attempt was made to select an element that cannot be selected.</td>
+      </tr>
+      <tr>
+        <td>17</td>
+        <td>JavaScriptError</td>
+        <td>An error occurred while executing user supplied !JavaScript.</td>
+      </tr>
+      <tr>
+        <td>19</td>
+        <td>XPathLookupError</td>
+        <td>An error occurred while searching for an element by XPath.</td>
+      </tr>
+      <tr>
+        <td>21</td>
+        <td>Timeout</td>
+        <td>An operation did not complete before its timeout expired.</td>
+      </tr>
+      <tr>
+        <td>23</td>
+        <td>NoSuchWindow</td>
+        <td>A request to switch to a different window could not be satisfied because the window could not be
+        found.</td>
+      </tr>
+      <tr>
+        <td>24</td>
+        <td>InvalidCookieDomain</td>
+        <td>An illegal attempt was made to set a cookie under a different domain than the current page.</td>
+      </tr>
+      <tr>
+        <td>25</td>
+        <td>UnableToSetCookie</td>
+        <td>A request to set a cookie's value could not be satisfied.</td>
+      </tr>
+      <tr>
+        <td>26</td>
+        <td>UnexpectedAlertOpen</td>
+        <td>A modal dialog was open, blocking this operation</td>
+      </tr>
+      <tr>
+        <td>27</td>
+        <td>NoAlertOpenError</td>
+        <td>An attempt was made to operate on a modal dialog when one was not open.</td>
+      </tr>
+      <tr>
+        <td>28</td>
+        <td>ScriptTimeout</td>
+        <td>A script did not complete before its timeout expired.</td>
+      </tr>
+      <tr>
+        <td>29</td>
+        <td>InvalidElementCoordinates</td>
+        <td>The coordinates provided to an interactions operation are invalid.</td>
+      </tr>
+      <tr>
+        <td>30</td>
+        <td>IMENotAvailable</td>
+        <td>IME was not available.</td>
+      </tr>
+      <tr>
+        <td>31</td>
+        <td>IMEEngineActivationFailed</td>
+        <td>An IME engine could not be started.</td>
+      </tr>
+      <tr>
+        <td>32</td>
+        <td>InvalidSelector</td>
+        <td>Argument was an invalid selector (e.g. XPath/CSS).</td>
+      </tr>
+    </table>
+  </section>
+</section>
