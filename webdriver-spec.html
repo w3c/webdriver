@@ -308,7 +308,12 @@
     <dd>The underlying collection of capabilities, represented as a dictionary mapping strings to values which may be
     of type boolean, numerical or string.</dd>
     <dt>boolean has(string capabilityName)</dt>
-    <dd>Queries the underlying <code>capabilities</code> to see whether the value is set. This will return true if the capabilities contain a key with the given <code>capabilityName</code> and the value of that key is defined. If the value is a boolean, this function will return that boolean value.</dd>
+    <dd>Queries the underlying <code>capabilities</code> to see whether the
+    value is set. This will return true if the capabilities contain a key with
+    the given <code>capabilityName</code> and the value of that key is defined.
+    If the value is a boolean, this function will return that boolean value. If
+    the value is "null", an empty string or a 0 then this method will return
+    false.</dd>
     <dt>object get(string capabilityName)</dt>
     <dd>Get the value of the key matching capabilityName in the underlying<code>capabilities</code>or <code>null</code>if no value is defined.</dd>
   </dl>
@@ -345,9 +350,10 @@
       <li>The remote end examines the Capabilities, and creates a new session matching as many of the Capabilities as
       possible. How the new session is created depends on the implementation of this specification. In the case of a
       browser automation framework, it is expected that a new instance of the browser is started if possible.</li>
-      <li>The session is assigned a UUID which MUST be unique for each session (by definition). Generating the UUID
+      <li>The session must be assigned a UUID which MUST be unique for each session (by definition). Generating the UUID
       MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
-      discarded in favour of the freshly generated UUID.</li>
+      discarded in favour of the freshly generated UUID. Because of this, it is
+      recommanded that UUID generation be done on the remote end.</li>
       <li>The remote end create a new Response object. 
       <ul>
         <li>The "sessionId" field is assigned the UUID associated with this session.</li>
@@ -373,6 +379,7 @@
         <dt>platformVersion</dt>
         <dd>The version of the OS that the browser is running on as a string.</dd>
       </dl>
+
       <section>
         <h3>Platform Names</h3>
         <p>These are named in the style of enums in C-like languages.</p>
@@ -385,6 +392,9 @@
         </ul>
         <p>In addition "ANY" may be used to indicate the underlying OS is either unknown or does not matter.
         Implementors MAY add additional platform names.</p>
+
+        <!-- TODO: Add section on comparing platforms -->
+
       </section>
     </section>
     <section>
@@ -433,6 +443,40 @@
 
   <p>WebDriver implementations MUST support navigating between
   domains.</p>
+
+  <section>
+    <h3>Detecting When to Proceed</h3>
+
+    <p>This entire section is non-normative for now, and should be considered a
+    placeholder for future discussion.</p>
+
+    <p>Upon receiving a Command, the remote end SHOULD not execute that Command
+    until the current frame has "loaded". This can be detected in a number of
+    ways:</p>
+
+    <dl>
+      <dt>Conservative</dt>
+      <dd>The remote end waits until all frames and iframes in the window
+      containing an HTML document are at "document.readyState == 'complete'" and
+      there are no outstanding HTTP requests, other than those caused by an
+      XMLHTTPRequest. If a frame does not contain an HTML document, the remote
+      end waits until all HTTP traffic to that frame is complete.</dd>
+
+      <dt>Normal</dt>
+      <dd>The remote ends waits until the current frame reaches
+      "document.readyState == 'complete'" or there are no more outstanding
+      network requests.</dd>
+
+      <dt>Eager</dt>
+      <dd>The remote end waits until the currrent frame reaches
+      "document.readyState == 'interactive' || document.readyState ==
+      'complete'" or there are no more outstanding network requests.</dd>
+    </dl>
+
+    <p>Unless the user specificies otherwise, the "Normal" page load detection
+    mechanism must be used.</p>
+
+  </section>
 </section>
 <section>
   <h2>Controlling Windows</h2>
@@ -444,7 +488,15 @@
 </section><section>
   <!-- TODO(simon): identify a better location for this -->
   <h2>Running Without Window Focus</h2>
-  <p>All browsers MUST fire events properly (eg: blur and focus) even when the window doesn't have focus.</p>
+  <p>All browsers must comply with the <a
+    href="http://www.w3.org/TR/html5/editing.html#focus">focus</a> section of
+  the [[!HTML5]] spec. In particular, the requirement that the element within a top-level browsing
+  context be independent of whether or not the top-level browsing context itself
+  has system focus MUST be followed.</p>
+
+  <p class="note">This requirement is put in place to allow efficient machine
+  utilization when using the WebDriver API to control several browsers
+  independently on the same desktop</p>
 </section>
 <section>
   <h2>Elements</h2>
@@ -454,6 +506,17 @@
   [[!DOM-LEVEL-3-CORE]] specification. Because the WebDriver API is designed to allow users to interact with apps as if
   they were actual users, the capabilities offered by the 
   <code>WebElement</code> interface are somewhat different from those offered by the DOM Element interface.</p>
+
+  <p>Each WebElement instance must have an ID, which is distinct from the value
+  of the DOM Element's "id" property. The ID for every WebElement representing the same
+  underlying DOM Element must be the same. The IDs used to refer to different
+  underlying DOM Elements must be unique.</p>
+
+  <div class="note">
+    <p>This requirement around WebElement IDs allows for efficient equality
+    checks when the WebDriver API is being used out of process.</p>
+  </div>
+
   <p>This section of the specification covers finding elements. Later sections deal with querying and interacting with
   these located elements. The primary interface used by the WebDriver API for locating elements is the 
   <code>SearchContext</code>.</p>
@@ -472,6 +535,9 @@
     <div class="note">
       <p>Implementations of this interface in other languages MAY implement this as an indexed, ordered collection native to that language. For example, in Python the WebElementList might be implemented as an native "list". In C# or Java, a "List&lt;WebElement&gt;" would be an acceptable implementation. In this case, the WebElementList interface is optional, and the operations for determining length and returning WebElements may be replaced with native accessors.</p>
     </div>
+
+    <p>A reference to an WebElement is obtained via a SearchContext. The key
+    interfaces are:</p>
   </section>
   <section>
     <dl class="idl" title="interface Locator">
@@ -489,6 +555,7 @@
       <dd></dd>
     </dl>
   </section>
+
   <section>
     <h2>Element Location Strategies</h2>
     <section>
@@ -496,8 +563,8 @@
       <p>All WebDriver implementations MUST support finding elements by XPath 1.0 [[!XPATH]] with the <a href="http://dev.w3.org/html5/spec/Overview.html#interactions-with-xpath-and-xslt">edits from section 3.3</a> of the [[!HTML5]] specification made. If no native support is present in the browser, a pure JS implementation MAY be used. When called, the returned values MUST be equivalent of calling "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate">evaluate</a>" function from the DOM Level 3 XPath spec [[DOM-LEVEL-3-XPATH]] with the result type set to "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE">ORDERED_NODE_SNAPSHOT_TYPE</a> (7).</p>
     </section>
     <section>
-    <h2>Javascript</h2>
-    <p>Finding elements by JS is covered in the JS part of this spec</p></section>
+    <h2>ECMAScript</h2>
+    <p>Finding elements by ecmascript is covered in the ecmascript part of this spec</p></section>
     <section>
       <h2>CSS Selectors</h2>
         <tr>
@@ -550,8 +617,18 @@
   </section>
 
   <section>
-    <h2>Executing Javascript</h2>
-    <p></p>
+    <h2>Executing Ecmascript</h2>
+    <p>This entire section is currently non-normative</p>
+
+    <div class="note">
+      <p>Open questions: What happens if a user's JS triggers a modal dialog?
+      Blocking seems like a reasonable idea, but there is an assumption that
+      WebDriver is not threadsafe.
+
+      What happens to unhandled JS errors? Caused by a user's JS? Caused by JS
+      on a page? How does a user of the API obtain the list of errors? Is that
+      list cleared upon read?
+    </div>
 
   <section>
     <h2>Synchronous Javascript Execution</h2>
@@ -601,6 +678,8 @@
   <section>
     <h2>Keyboard</h2>
     <p></p>
+    <h3>IME</h3>
+    <p></p>
   </section>
 
   <section>
@@ -614,7 +693,10 @@
 
   <section>
     <h2>Modal Dialogs</h2>
-    <p></p>
+    <p>This entire section should be considered non-normative</p>
+
+    <p>The remote end MUST fail fast if any command is received while a modal
+    dialog is open, unless that command handles the dialog.</p>
 
   <section>
     <h2>window.alert, prompt and confirm</h2>
@@ -687,7 +769,8 @@
     <section class='appendix'>
       <h2>Acknowledgements</h2>
       <p>
-        Many thanks to Robin Berjon for making our lives so much easier with his cool tool. Thanks to Malcolm Rowe for proof reading and suggesting areas for improvement.
+        Many thanks to Robin Berjon for making our lives so much easier with his
+        cool tool. Thanks to Jason Leyba and Malcolm Rowe for proof reading and suggesting areas for improvement.
       </p>
     </section>
   </body>

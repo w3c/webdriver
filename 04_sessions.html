@@ -21,9 +21,10 @@
       <li>The remote end examines the Capabilities, and creates a new session matching as many of the Capabilities as
       possible. How the new session is created depends on the implementation of this specification. In the case of a
       browser automation framework, it is expected that a new instance of the browser is started if possible.</li>
-      <li>The session is assigned a UUID which MUST be unique for each session (by definition). Generating the UUID
+      <li>The session must be assigned a UUID which MUST be unique for each session (by definition). Generating the UUID
       MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
-      discarded in favour of the freshly generated UUID.</li>
+      discarded in favour of the freshly generated UUID. Because of this, it is
+      recommanded that UUID generation be done on the remote end.</li>
       <li>The remote end create a new Response object. 
       <ul>
         <li>The "sessionId" field is assigned the UUID associated with this session.</li>
@@ -49,6 +50,7 @@
         <dt>platformVersion</dt>
         <dd>The version of the OS that the browser is running on as a string.</dd>
       </dl>
+
       <section>
         <h3>Platform Names</h3>
         <p>These are named in the style of enums in C-like languages.</p>
@@ -61,6 +63,9 @@
         </ul>
         <p>In addition "ANY" may be used to indicate the underlying OS is either unknown or does not matter.
         Implementors MAY add additional platform names.</p>
+
+        <!-- TODO: Add section on comparing platforms -->
+
       </section>
     </section>
     <section>

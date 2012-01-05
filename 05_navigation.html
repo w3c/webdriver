@@ -12,4 +12,38 @@
 
   <p>WebDriver implementations MUST support navigating between
   domains.</p>
+
+  <section>
+    <h3>Detecting When to Proceed</h3>
+
+    <p>This entire section is non-normative for now, and should be considered a
+    placeholder for future discussion.</p>
+
+    <p>Upon receiving a Command, the remote end SHOULD not execute that Command
+    until the current frame has "loaded". This can be detected in a number of
+    ways:</p>
+
+    <dl>
+      <dt>Conservative</dt>
+      <dd>The remote end waits until all frames and iframes in the window
+      containing an HTML document are at "document.readyState == 'complete'" and
+      there are no outstanding HTTP requests, other than those caused by an
+      XMLHTTPRequest. If a frame does not contain an HTML document, the remote
+      end waits until all HTTP traffic to that frame is complete.</dd>
+
+      <dt>Normal</dt>
+      <dd>The remote ends waits until the current frame reaches
+      "document.readyState == 'complete'" or there are no more outstanding
+      network requests.</dd>
+
+      <dt>Eager</dt>
+      <dd>The remote end waits until the currrent frame reaches
+      "document.readyState == 'interactive' || document.readyState ==
+      'complete'" or there are no more outstanding network requests.</dd>
+    </dl>
+
+    <p>Unless the user specificies otherwise, the "Normal" page load detection
+    mechanism must be used.</p>
+
+  </section>
 </section>

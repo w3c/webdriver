@@ -19,8 +19,18 @@
   </section>
 
   <section>
-    <h2>Executing Javascript</h2>
-    <p></p>
+    <h2>Executing Ecmascript</h2>
+    <p>This entire section is currently non-normative</p>
+
+    <div class="note">
+      <p>Open questions: What happens if a user's JS triggers a modal dialog?
+      Blocking seems like a reasonable idea, but there is an assumption that
+      WebDriver is not threadsafe.
+
+      What happens to unhandled JS errors? Caused by a user's JS? Caused by JS
+      on a page? How does a user of the API obtain the list of errors? Is that
+      list cleared upon read?
+    </div>
 
   <section>
     <h2>Synchronous Javascript Execution</h2>
@@ -85,7 +95,10 @@
 
   <section>
     <h2>Modal Dialogs</h2>
-    <p></p>
+    <p>This entire section should be considered non-normative</p>
+
+    <p>The remote end MUST fail fast if any command is received while a modal
+    dialog is open, unless that command handles the dialog.</p>
 
   <section>
     <h2>window.alert, prompt and confirm</h2>
