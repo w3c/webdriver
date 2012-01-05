@@ -6,6 +6,17 @@
   [[!DOM-LEVEL-3-CORE]] specification. Because the WebDriver API is designed to allow users to interact with apps as if
   they were actual users, the capabilities offered by the 
   <code>WebElement</code> interface are somewhat different from those offered by the DOM Element interface.</p>
+
+  <p>Each WebElement instance must have an ID, which is distinct from the value
+  of the DOM Element's "id" property. The ID for every WebElement representing the same
+  underlying DOM Element must be the same. The IDs used to refer to different
+  underlying DOM Elements must be unique.</p>
+
+  <div class="note">
+    <p>This requirement around WebElement IDs allows for efficient equality
+    checks when the WebDriver API is being used out of process.</p>
+  </div>
+
   <p>This section of the specification covers finding elements. Later sections deal with querying and interacting with
   these located elements. The primary interface used by the WebDriver API for locating elements is the 
   <code>SearchContext</code>.</p>
@@ -24,6 +35,9 @@
     <div class="note">
       <p>Implementations of this interface in other languages MAY implement this as an indexed, ordered collection native to that language. For example, in Python the WebElementList might be implemented as an native "list". In C# or Java, a "List&lt;WebElement&gt;" would be an acceptable implementation. In this case, the WebElementList interface is optional, and the operations for determining length and returning WebElements may be replaced with native accessors.</p>
     </div>
+
+    <p>A reference to an WebElement is obtained via a SearchContext. The key
+    interfaces are:</p>
   </section>
   <section>
     <dl class="idl" title="interface Locator">
@@ -41,6 +55,7 @@
       <dd></dd>
     </dl>
   </section>
+
   <section>
     <h2>Element Location Strategies</h2>
     <section>
