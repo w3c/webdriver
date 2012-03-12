@@ -479,8 +479,136 @@
   </section>
 </section>
 <section>
-  <h2>Controlling Windows</h2>
-  <p>Iterating over open windows, resizing and moving.</p>
+<h2>Controlling Windows</h2>
+
+<section>
+	<h2>Defining "window" and "frame"</h2>
+	
+	<p>Within this specification, a window equates to anything that would be referred to as "window.top" in javascript. Put another way, within this spec browser tabs are counted as separate windows.</p>
+
+	<p><strong>TODO: define "frame"</strong></p>
+</section>
+
+<section>
+	<h2>Window Handles</h2>
+	
+	<p>Each window has a "window handle" associated with it. This is an opaque string which is unique to the window. The suggested implementation is as a UUID. The "getWindowHandle" command can be used to obtain the window handle for the window that commands are currently acting upon:</p>
+	
+	<table>
+		<tr>
+			<td>Command Name</td>
+			<td>getWindowHandle</td>
+		</tr>
+		<tr>
+			<td>Parameters</td>
+			<td>"sessionId" {string} The key that identifies which session this request is for.</td>
+		</tr>
+		<tr>
+		    <td>Return Value</td>
+		    <td>string</td>
+		</tr>
+	</table>
+</section>
+
+<section>
+	<h2>Iterating Over Windows</h2>
+	
+	<table>
+		<tr>
+			<td>Command Name</td>
+			<td>getWindowHandles</td>
+		</tr>
+		<tr>
+			<td>Parameters</td>
+			<td>"sessionId" {string} The key that identifies which session this request is for.</td>
+		</tr>
+		<tr>
+		    <td>Return Value</td>
+		    <td>Array.&lt;string&gt;</td>
+		</tr>
+	</table>
+	
+	<p>This array of returned strings MUST contain a handle for every window associated with the browser session and no others. In addition, at the time of collecting the window handles the javascript expression "window.top.closed" MUST evaluate to false.</p>
+	    
+	<p>The ordering of the keys is not defined, but SHOULD be determined by iterating over each top level browser window and returning the tabs within that window before iterating over the tabs of the next top level browser window. For example, in the diagram below, the window handles should be returned as the handles for: win1tab1, win1tab2, win2.</p>
+	
+	<img src="example_windows.png" alt="Two top level windows. The first window has two tabs, lablled win1tab1 and win1tab2. The second window has only one tab labelled win2"/>
+</section>
+
+<section>
+    <h2>Closing Windows</h2>
+    
+    <table>
+    	<tr>
+    		<td>Command Name</td>
+			<td>close</td>
+    	</tr>
+    	<tr>
+			<td>Parameters</td>
+    		<td>"sessionId" {string} The key that identifies which session this request is for.</td>
+    	</tr>
+    	<tr>
+    	    <td>Return Value</td>
+    		<td>None</td>
+    	</tr>
+    </table>
+    
+    <p>The close command closes the window that commands are currently being sent to. If this means that a call to get the list of window handles returns an empty list, then this close command MUST be the equivalent of calling "quit". In all other cases, control MUST be returned to the calling process once the window has been closed or an alert is displayed by the closing window.</p>
+    
+    <p>Once the window has closed, future commands MUST return an error (TODO: Which error?) until a new window is selected for receiving commands.</p>
+</section>
+
+<section>
+    <h2>Resizing and Positioning Windows</h2>
+    
+    <table>
+    	<tr>
+    		<td>Command Name</td>
+			<td>setWindowSize</td>
+    	</tr>
+    	<tr>
+			<td>Parameters</td>
+    		<td>"sessionId" {string} The key that identifies which session this request is for.<br />
+    		    "windowHandle" {string} The handle referring to the window to resize.<br/>
+    		    "width" {number} The new window width.<br />
+                "height" {number} The new window height.
+    		</td>
+    	</tr>
+    	<tr>
+    	    <td>Return Value</td>
+    		<td>None</td>
+    	</tr>
+    	
+    	<tr>
+    		<td>Command Name</td>
+			<td>getWindowSize</td>
+    	</tr>
+    	<tr>
+			<td>Parameters</td>
+    		<td>"sessionId" {string} The key that identifies which session this request is for.<br />
+    		    "windowHandle" {string} The handle referring to the window to resize.
+    		</td>
+    	</tr>
+    	<tr>
+    	    <td>Return Value</td>
+    		<td>An object with two keys:<br />
+    		    "width" {number} The width of the specified window.</br />
+                "height" {number} The height of the specified window.</br />    
+    		</td>
+    	</tr>
+    </table>
+    
+    <p>Both of these commands accept the window handles returned by "getWindowHandles" and "getWindowHandle". In addition, the window handle may be "current", in which case the window that commands are currently being handled by MUST be acted upon.</p>
+    
+    <p>The "width" and "height" values refer to the "window.outerheight" and "window.outerwidth" properties. For those browsers that do not support these properties, these represent the height and width of the whole browser window including window chrome and window resizing borders/handles.</p>
+</section>
+
+<section>
+    <h2>Scaling the Content of Windows</h2>
+    
+    <p>TODO</p>
+</section>
+
 </section>
 <section>
   <h2>Switching Where Commands Are Handled</h2>
