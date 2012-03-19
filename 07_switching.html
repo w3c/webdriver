@@ -1,4 +1,111 @@
 <section>
-  <h2>Switching Where Commands Are Handled</h2>
-  <p>Including switching to windows and frames. Also not that from the point of view of the WebDriver API, windows and frames can be treated identically.</p>
+<h2>Where Commands Are Handled</h2>
+  
+<p>Web applications can be composed of multiple windows and/or frames. For a normal user, the context in which an operation is performed is obvious: it's the window or frame that currently has OS focus and which has just received user input. The WebDriver API does not follow this convention. There is an expectation that many browsers using the WebDriver API may be used at the same time on the same machine. This section describes how WebDriver tracks which window or frame is currently the context in which commands are being executed.</p>
+    
+<section>
+<h2>Default Content</h2>
+<p>WebDriver has the concept of "default content". This can be determined using the following algorithm.</p>
+
+<p>Start by assigning "window._top" to the variable "window", then:
+
+<ol>
+    <li>If "window" has a FRAMESET, use the first FRAME as "window" and return to step 1.</li>
+    <li>If "window" has an IFRAME:
+        <ol>
+            <li>If the previous value of "window" did not have an IFRAME, use the IFRAME as "window" and return to step 1.</li>
+            <li>If the previous value of "window" did have an IFRAME, the current value of "window" is the default content.</li>
+        </ol>
+    </li>
+    <li>In all other cases the current value of "window" is the default content</li>
+</ol>
+    
+</p>
+</section>
+
+<section>
+<h2>Switching Windows</h2>
+
+<table>
+	<tr>
+		<td>Command Name</td>
+		<td>switchToWindow</td>
+	</tr>
+	<tr>
+		<td>Parameters</td>
+		<td>"sessionId" {string} The key that identifies which session this request is for.<br/>
+		    "name" {string} The identifier used for a window.</td>
+		</td>
+	</tr>
+	<tr>
+	    <td>Return Value</td>
+	    <td>None</td>
+	</tr>
+	<tr>
+	    <td>Throws</td>
+	    <td>NoSuchWindowException if no matching window can be found</td>
+	</tr>
+</table>
+
+<p>The "switchToWindow" command is used to select which window should currently be accepting commands. In order to determine which window should be used for accepting commands, the "switchToWindow" command will iterate over all windows. For each window, the following will be compared --- in this order --- with the "name" parameter:
+    
+    <ol>
+        <li>A window handle, obtained from "getWindowHandles" or "getWindowHandle".</li>
+        <li>The window name, as defined when the window was opened (the value of "window.name")</li>
+        <li>The "id" attribute of the window.</li>
+    </ol>
+
+If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise the "default content" of the first window to match will be selected for accepting commands.</p>
+
+<p>When a new browser session is started by WebDriver and only a single window is present then the default content of that window becomes the "current" window. When more than one window is opened, the "current" window is undefined. Any commands that are executed at this point that require a window MUST throw an exception (<strong>TODO: Which exception? Ideally the same as if a window had just been closed</strong>). The correct way for a user to recover from this situation is to obtain the list of window handles and to "switch to" one of these.</p>
+
+</section>
+
+<section>
+<h2>Switching Frames</h2>
+
+<table>
+	<tr>
+		<td>Command Name</td>
+		<td>switchToFrame</td>
+	</tr>
+	<tr>
+		<td>Parameters</td>
+		<td>"sessionId" {string} The key that identifies which session this request is for.<br/>
+		    "id" {?(string|number|!WebElement=)} The identifier used for a window.</td>
+		</td>
+	</tr>
+	<tr>
+	    <td>Return Value</td>
+	    <td>None</td>
+	</tr>
+	<tr>
+	    <td>Throws</td>
+	    <td>NoSuchFrameException if no matching frame can be found</td>
+	</tr>
+</table>
+
+<p>The "switchToFrame" command is used to select which frame within a window should be used for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "id" parameter can be one of a string, number of an element. The following algorithm is used to determine which frame is being switched to:
+
+<ol>
+    <li>If the "id" is a number the current context is set to the equivalent of "window.frames[n]" where "n" is the number.</li>
+    <li>If the "id" is a string:
+        <ol>
+            <li>If the value is "_top", the current context is set to the equivalent of "window._top".</li>
+            <li>If the JS expression "window.frames[id]" evaluated in the current context returns a window, where "id" is the value of the the "id" parameter, exists, the current context is set to that.</li>
+            <li>Otherwise for each value of "window.frames" (referred to as "window"):
+                <ol>
+                    <li>If "window" has a "name" property or attribute equal to the "id" parameter, this becomes the current context.</li>
+                    <li>If "window" has an "id" property or attribute equal to the "id" parameter, this becomes the current context.</li>
+                </ol>
+            </li>
+        </ol>
+    </li>
+    <li>If the "id" represents a WebElement, and the corresponding DOM element represents a FRAME or an IFRAME, and the WebElement is part of the current context, the "window" property of that DOM element becomes the current context.</li>
+</ol>
+
+In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
+
+</section>
+
 </section>
