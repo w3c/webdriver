@@ -617,7 +617,7 @@
     
 <section>
 <h2>Default Content</h2>
-<p>WebDriver has the concept of "default content". This can be determined using the following algorithm.</p>
+<p>WebDriver's <def="default_content">default context</def> is determined by running the algorithm:</p>
 
 <p>Start by assigning "window._top" to the variable "window", then:
 
@@ -697,14 +697,14 @@ If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise th
 	</tr>
 </table>
 
-<p>The "switchToFrame" command is used to select which frame within a window should be used for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "id" parameter can be one of a string, number of an element. The following algorithm is used to determine which frame is being switched to:
+<p>The "switchToFrame" command is used to select which frame within a window should be used for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "id" parameter can be one of a string, number of an element. WebDriver implementations MUST determine which frame to select using the following algorithm:
 
 <ol>
-    <li>If the "id" is a number the current context is set to the equivalent of "window.frames[n]" where "n" is the number.</li>
+    <li>If the "id" is a number the current context is set to the equivalent of the JS expression "window.frames[n]" where "n" is the number and "window" is the DOM window represented by the current context.</li>
     <li>If the "id" is a string:
         <ol>
             <li>If the value is "_top", the current context is set to the equivalent of "window._top".</li>
-            <li>If the JS expression "window.frames[id]" evaluated in the current context returns a window, where "id" is the value of the the "id" parameter, exists, the current context is set to that.</li>
+            <li>If the JS expression "window.frames[id]" evaluated in the current context returns a window, where "id" is the value of the the "id" parameter, the current context is set to that.</li>
             <li>Otherwise for each value of "window.frames" (referred to as "window"):
                 <ol>
                     <li>If "window" has a "name" property or attribute equal to the "id" parameter, this becomes the current context.</li>
@@ -831,25 +831,34 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
     </section>
   </section>
 </section>
-
+<section>
+<h2>Reading Element State</h2>
+  <p></p>
   <section>
-    <h2>Reading Element State</h2>
-    <p></p>
-    <section>
-      <h2>Determing Visibility</h2>
-      <p></p>
-    </section>
-    <section>
-      <h2>Reading Attributes and Properties</h2>
+    <h2>Determining Visibility</h2>
+      <p>The following algorithm is used to determine if an element has been displayed.
+        <ul>
+          <li>The element must be shown in the viewport in the browser</li>
+          <li>The element has a height and width greater than 0px.</li>
+          <li>The element, or an ancestor, must not have a visibility that is hidden or a
+          display property that is none. </li>
+          <li>OPTIONs and OPTGROUP are treated as special cases, they are considered shown if and
+          only if the enclosing select element is visible.</li>
+          <li>MAP elelemnts are shown if and only if the image it uses is visible. Areas within
+          a map are shown if the enclosing Map is visible.</li>
+          <li>Any INPUT elements of type hidden will not be visibile</li>
+          <li>Any NOSCRIPT elements will not be visible</li>
+          <li>The element should be hidden if their parent has a fixed size AND has the
+          CSS style of "overflow:hidden" and the element's location is not within the fixed
+          size of the parent</li>
+        </ul>
+      </section>
+  <section>
+    <h2>Reading Attributes and Properties</h2>
       <p>Including boolean properties and how people get the two concepts
-      confused.
+          confused.
     </section>
-  </section>
-
-  <section>
-    <h2>Rendering Text</h2>
-    <p>A description of the algorithm used by WebElement.getText</p>
-  </section>
+</section>
 
   <section>
     <h2>Executing Ecmascript</h2>
