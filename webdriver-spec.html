@@ -879,48 +879,70 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
           confused.
     </section>
 </section>
-
-  <section>
-    <h2>Executing Ecmascript</h2>
-    <p>This entire section is currently non-normative</p>
-
+<section>
+  <h2>Executing Ecmascript</h2>
+  <p>This entire section is currently non-normative</p>
     <div class="note">
       <p>Open questions: What happens if a user's JS triggers a modal dialog?
       Blocking seems like a reasonable idea, but there is an assumption that
       WebDriver is not threadsafe.
-
+      
       What happens to unhandled JS errors? Caused by a user's JS? Caused by JS
       on a page? How does a user of the API obtain the list of errors? Is that
       list cleared upon read?
     </div>
-
   <section>
-    <h2>Synchronous Javascript Execution</h2>
-    <p></p>
+  <h2>Synchronous Javascript Execution</h2>
+  <p></p>
   </section>
-
   <section>
     <h2>ASynchronous Javascript Execution</h2>
     <p></p>
   </section>
-
   <section>
     <h2>Reporting Errors</h2>
     <p></p>
   </section>
-
-  </section>
-
+</section>
+<section> 
+  <h2>Cookies</h2>
+  <p></p>
+</section>
+<section>
+  <h2>Timeouts</h2>
+  <p>This section describes how timeouts and implicit waits are handled within WebDriver</p>
   <section>
-    <h2>Cookies</h2>
-    <p></p>
+    <p>The "timeouts" command is used to set the value of a timeout that a command can execute
+     for.</p> 
+    <table>
+      <tr>
+        <td>Command Name</td>
+        <td>timeouts</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>"sessionId" {string} The key that identifies which session this request is for.</br>
+            "type" {string} The type of operation to set the timeout for. Valid values are: "implicit", "page load", "script"</br>
+            "ms" - {number} The amount of time, in milliseconds, that time-limited commands are permitted to run.
+        </td>
+      </tr>
+      <tr>
+        <td>Return Value</td>
+        <td>None</td>
+      </tr>
+      <tr>
+        <td>Throws</td>
+        <td>None</td>
+      </tr>
+    </table>
+    <ul>
+      <li>implicit - Set the amount of time the driver should wait when searching for elements. When searching for a single element, the driver should poll the page until an element is found or the timeout expires, whichever occurs first. When searching for multiple elements, the driver should poll the page until at least one element is found or the timeout expires, at which point it should return an empty list.</br>
+      If this command is never sent, the driver should default to an implicit wait of 0ms.</li>
+      <li>page load -<strong>TODO(David, Simon)  fill me in</strong> </li>
+      <li>script - Set the amount of time the driver should wait when scripts are loading on to the page. </li>
+    </ul>
   </section>
-
-  <section>
-    <h2>Timeouts and Implicit Waits</h2>
-    <p></p>
-  </section>
-
+</section>
   <section>
     <h2>User Input</h2>
     <p></p>
