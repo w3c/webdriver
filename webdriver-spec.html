@@ -836,23 +836,43 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
   <p></p>
   <section>
     <h2>Determining Visibility</h2>
-      <p>The following algorithm is used to determine if an element has been displayed.
-        <ul>
-          <li>The element must be shown in the viewport in the browser</li>
-          <li>The element has a height and width greater than 0px.</li>
-          <li>The element, or an ancestor, must not have a visibility that is hidden or a
-          display property that is none. </li>
-          <li>OPTIONs and OPTGROUP are treated as special cases, they are considered shown if and
-          only if the enclosing select element is visible.</li>
-          <li>MAP elelemnts are shown if and only if the image it uses is visible. Areas within
-          a map are shown if the enclosing Map is visible.</li>
-          <li>Any INPUT elements of type hidden will not be visibile</li>
-          <li>Any NOSCRIPT elements will not be visible</li>
-          <li>The element should be hidden if their parent has a fixed size AND has the
-          CSS style of "overflow:hidden" and the element's location is not within the fixed
-          size of the parent</li>
-        </ul>
-      </section>
+      <p>The following algorithm is used to determine if an element has been displayed.</p>
+      <ul>
+        <li>The element has a height and width greater than 0px.</li>
+        <li>The element, or an ancestor, must not be visible if that element is hidden or 
+        has a display property that is none.</li>
+        <li>OPTIONs and OPTGROUP are treated as special cases, they are considered shown if and
+        only if the enclosing select element is visible.</li>
+        <li>MAP elelemnts are shown if and only if the image it uses is visible. Areas within
+        a map are shown if the enclosing MAP is visible.</li>
+        <li>Any INPUT elements of "type=hidden" are not visible</li>
+        <li>Any NOSCRIPT elements will not be visible</li>
+        <li>The element MUST be hidden if their ancestor has a fixed size AND has the
+        CSS style of "overflow:hidden" and the element's location is not within the fixed
+        size of the parent</li>
+      </ul>
+    <table>
+      <tr>
+        <td>Command Name</td>
+        <td>isDisplayed</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
+            "id" {string} ID of the element to route the command to
+        </td>
+      </tr>
+      <tr>
+        <td>Return Value</td>
+        <td>{boolean} Whether the element is displayed or not</td>
+      </tr>
+      <tr>
+        <td>Throws</td>
+        <td>StaleElementReferenceException if the element referenced is no longer attached to
+          the DOM</td>
+      </tr>
+    </table>
+  </section>
   <section>
     <h2>Reading Attributes and Properties</h2>
       <p>Including boolean properties and how people get the two concepts
