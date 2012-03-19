@@ -5,7 +5,7 @@
     
 <section>
 <h2>Default Content</h2>
-<p>WebDriver has the concept of "default content". This can be determined using the following algorithm.</p>
+<p>WebDriver's <def="default_content">default context</def> is determined by running the algorithm:</p>
 
 <p>Start by assigning "window._top" to the variable "window", then:
 
@@ -85,14 +85,14 @@ If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise th
 	</tr>
 </table>
 
-<p>The "switchToFrame" command is used to select which frame within a window should be used for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "id" parameter can be one of a string, number of an element. The following algorithm is used to determine which frame is being switched to:
+<p>The "switchToFrame" command is used to select which frame within a window should be used for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "id" parameter can be one of a string, number of an element. WebDriver implementations MUST determine which frame to select using the following algorithm:
 
 <ol>
-    <li>If the "id" is a number the current context is set to the equivalent of "window.frames[n]" where "n" is the number.</li>
+    <li>If the "id" is a number the current context is set to the equivalent of the JS expression "window.frames[n]" where "n" is the number and "window" is the DOM window represented by the current context.</li>
     <li>If the "id" is a string:
         <ol>
             <li>If the value is "_top", the current context is set to the equivalent of "window._top".</li>
-            <li>If the JS expression "window.frames[id]" evaluated in the current context returns a window, where "id" is the value of the the "id" parameter, exists, the current context is set to that.</li>
+            <li>If the JS expression "window.frames[id]" evaluated in the current context returns a window, where "id" is the value of the the "id" parameter, the current context is set to that.</li>
             <li>Otherwise for each value of "window.frames" (referred to as "window"):
                 <ol>
                     <li>If "window" has a "name" property or attribute equal to the "id" parameter, this becomes the current context.</li>
