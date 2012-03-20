@@ -42,7 +42,190 @@
   </section>
   <section>
     <h2>Reading Attributes and Properties</h2>
-      <p>Including boolean properties and how people get the two concepts
-          confused.
+
+<p>Although the [[!HTML5]] spec is very clear about the difference between the properties and attributes of a DOM element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning both the value of a DOM element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
+
+<p>In order to implement the "getElementAttribute" command, a series of sub functions are needed. These are detailed below.</p>
+
+<section>
+<h2>Reading an Attribute</h2>
+    
+<p>Reading an attribute is equivalent to calling the Javascript "getAttribute" function on an element, with the following exceptions:
+<ul>
+    <li>The "style" attribute MUST return the same value as if the "style" property was requested (see below).</li>
+    <li>If the attribute represents a boolean and the attribute name is listed below the null value MUST be returned if the attribute is false, otherwise the string 'true' MUST be returned.</li>
+    <li>If the attribute name represents a boolean and the attribute is not listed below, the null value SHOULD be returned if the attribute is false, otherwise the string 'true' SHOULD be returned.</li>
+</ul>
+</p>
+<p>The following are considered boolean attributes:
+<ul>
+   <li>async</li>
+    <li>autofocus</li>
+    <li>autoplay</li>
+    <li>checked</li>
+    <li>compact</li>
+    <li>complete</li>
+    <li>controls</li>
+    <li>declare</li>
+    <li>defaultchecked</li>
+    <li>defaultselected</li>
+    <li>defer</li>
+    <li>disabled</li>
+    <li>draggable</li>
+    <li>ended</li>
+    <li>formnovalidate</li>
+    <li>hidden</li>
+    <li>indeterminate</li>
+    <li>iscontenteditable</li>
+    <li>ismap</li>
+    <li>itemscope</li>
+    <li>loop</li>
+    <li>multiple</li>
+    <li>muted</li>
+    <li>nohref</li>
+    <li>noresize</li>
+    <li>noshade</li>
+    <li>novalidate</li>
+    <li>nowrap</li>
+    <li>open</li>
+    <li>paused</li>
+    <li>pubdate</li>
+    <li>readonly</li>
+    <li>required</li>
+    <li>reversed</li>
+    <li>scoped</li>
+    <li>seamless</li>
+    <li>seeking</li>
+    <li>selected</li>
+    <li>spellcheck</li>
+    <li>truespeed</li>
+    <li>willvalidate</li>
+</ul>
+</p>
+</section>
+
+<section>
+    <h2>Reading a Property</h2>
+
+<p>A DOM element property may be read using the equivalent of the Javascript "return element['propertyName']" with the null value being returned when there is no match. The following exceptions MUST be made:
+        
+    <ul>
+        <li>For a property that is marked as boolean in [[!HTML5]] the boolean value "true" or "false" MUST be returned. If a document is using HTML5, then the section on <a href="http://www.w3.org/TR/html5/Overview.html#boolean-attributes">boolean attributes</a> from the [[!HTML5]] spec MUST be followed. If the document is using a prior version of HTML, then "false" is returned iff the value of the property is equal to undefined.</li>
+        <li>If the element is an OPTION element and the property name is "value" and there is no "value" attribute, then the text content of the OPTION element MUST be returned, in accordance with [[!HTML401]] spec, specifically the section on <a href="http://www.w3.org/TR/1999/REC-html401-19991224/interact/forms.html#adef-value-OPTION">pre-selected options</a>. The text content MUST be the result of calling the "getElementText" command on the OPTION element.</li>
+    </ul>
+</p>
+    
+<p>If no property matches and the desired property name is in the table below, a WebDriver implementation MUST search for the aliased property before returning null.</p>
+
+    <table>
+        <tr>
+            <th>Original property name</th>
+            <th>Aliased property name</th>
+        </tr>
+        <tr>
+            <td>class</td>
+            <td>className</td>
+        </tr>
+        <tr>
+            <td>readaonly</td>
+            <td>readOnly</td>
+        </tr>
+    </table>
+
+<p class="note">These aliases provide the commonly used names for element properties.</p>
+
+<section>
+<h2>The "style" Property</h2>
+
+<p>The "style" property MUST be <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM]] spec.</p> Consequently, it SHOULD be equivalent to obtaining the "cssText" property, with the additional constraint that the same value MUST be returned after a round trip through "executeScript". That is, the following pseudo-code MUST be true (where "driver" is a WebDriver instance, and "element" is a WebElement):</p>
+
+<pre class="code">
+var style = element.getAttribute('style');
+driver.executeScript('arguments[0].style = arguments[1]', element, style);
+var recovered = element.getAttribute('style');
+assertEquals(style, recovered);
+</pre>
+
+</section>
+</section>
+      
+<section>
+<a name="selectable"><h2>Determining Whether a WebElement Is Selected</h2></a>
+    
+<p>WebDriver determines whether a WebElement is selected using the following algorithm:
+
+<ol>
+    <li><a href="is_selectable"></a>If the item is not "selectable", the WebElement is not selected. A selectable element is either an OPTION element or an INPUT element of type "checkbox" or "radio".</li> 
+    <li>If the WebElement represents an INPUT element, call the "getProperty" method described above looking for the "checked" property. This indicates whether the element is selected.</li>
+    <li>Otherwise, call the "getProperty" method described above looking for the "selected" property. This indicates whether the element is selected.</li>
+</ol>
+
+</p>    
+</section>
+
+<section>
+<h2>The "getElementAttribute" Command</h2>
+<table>
+	<tr>
+		<td>Command Name</td>
+		<td>getElementAttribute</td>
+	</tr>
+	<tr>
+		<td>Parameters</td>
+		<td>"sessionId" {string} The key that identifies which session this request is for.<br/>
+		    "id" {string} The ID of the WebElement on which to operate.</br>
+		    "name" {string} The name of the property of attribute to return.</td>
+		</td>
+	</tr>
+	<tr>
+	    <td>Return Value</td>
+	    <td>{string|null}</td>
+	</tr>
+	<tr>
+	    <td>Throws</td>
+	    <td>StaleElementException If the element is no longer attached to the DOM.</td>
+	</tr>
+</table>
+
+<p>The "getElementAttribute" command depends on the functions described above. The algorithm to use is:
+
+<ol>
+    <li>Examine the combination of WebElement tag name and the attribute name to determine whether the return value is expected to be a URL.</li>
+    <li>If the combination is one that expects a URL:
+        <ol>
+            <li>Get the named attribute using the algorithm described above.</li>
+            <li>If there is a value, return the named property using the algorithm described above.</li>
+            <li>Otherwise, return null.
+        </ol>
+    </li>
+    <li>If the named attribute case insensitively matches "selected" or "checked" and the WebElement is selectable (as detailed in <a href="#is_selectable">the first bullet point of determining whether a WebElement is selected</a>), get the value determined by that algorithm. Return the string "true" if the result is true, or the null value if false.</li>
+    <li>Get the value of the named property using the algorithm above.</li>
+    <li>If the returned value is defined, not null and not an object return the value coerced into a string.</li>
+    <li>Get the value of the named attribute using the algorithm above.</li>
+    <li>If the value is defined and not null, return the value coerced into a string.</li>
+    <li>Otherwise return null.</li>
+</ol>
+</p>
+
+<p>The following combination of WebElement tag names and values for "name" are considered to return a URL value:
+    <strong>TODO: This doesn't feel like an exhaustive list</strong>
+
+<table>
+    <tr>
+        <th>Tag name</th>
+        <th>"name" value</th>
+    </tr>
+    <tr>
+        <td>A</td>
+        <td>href</td>
+    </tr>
+    <tr>
+        <td>IMG</td>
+        <td>src</td>
+    </tr>
+</table>
+    
+</p>
+
     </section>
 </section>
