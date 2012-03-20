@@ -823,7 +823,22 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
     </section>
     <section>
       <h2>Link Text</h2>
-      <p></p>
+      <p>This strategy MUST be supported by all WebDriver implementations. </p>
+      <p>The following algorithm should be used:</p>
+      <ol>
+        <li>WebDriver will need to look up all of the A elements on the page. The lookup SHOULD be done using 
+          <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a>
+            but MAY use "<a href="http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html#dom-document-getelementsbytagname">document.getElementsByTagName()</a>" 
+            from the Web DOM Core specification ([[!DOM-LEVEL-3-CORE]]). </li>
+        <li>If an element, or elements, is returned then the 
+          <a href="#visibility">visibility</a> of the elements need to be checked</li>
+        <li>The element, or elements, will be found if and only if the text passed into the search
+          matches the search EXACTLY.</li>
+      </ol>
+    </section>
+    <section>
+      <h2>Partial Link Text</h2>
+      <p>This strategy MUST be supported by all WebDriver implementations.</p>
     </section>
     <section>
       <h2>ARIA</h2>
@@ -943,40 +958,34 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
     </ul>
   </section>
 </section>
-  <section>
-    <h2>User Input</h2>
-    <p></p>
-
-  <section>
-    <h2>High Level APIs: Clicking and Typing</h2>
-    <p></p>
-  </section>
-
-  <section>
-    <h2>Low Level APIs</h2>
-    <p></p>
-
-  <section>
-    <h2>Mouse</h2>
-    <p></p>
-  </section>
-
-  <section>
-    <h2>Keyboard</h2>
-    <p></p>
-    <h3>IME</h3>
-    <p></p>
-  </section>
-
-  <section>
-    <h2>Touch</h2>
-    <p></p>
-  </section>
-
-  </section>
-
-  </section>
-
+<section>
+  <h2>User Input</h2>
+  <p></p>
+    <section>
+      <h2>High Level APIs: Clicking and Typing</h2>
+      <p></p>
+    </section>
+    <section>
+      <h2>Low Level APIs</h2>
+      <p></p>
+      <section>
+        <h2>Mouse</h2>
+        <p></p>
+      </section>
+      <section>
+        <h2>Keyboard</h2>
+        <p></p>
+        <section>
+          <h2>IME</h2>
+          <p></p>
+        </section>
+      </section>
+      <section>
+        <h2>Touch</h2>
+        <p></p>
+      </section>
+    </section>
+</section>
   <section>
     <h2>Modal Dialogs</h2>
     <p>This entire section should be considered non-normative</p>

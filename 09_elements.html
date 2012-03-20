@@ -84,11 +84,26 @@
     <section>
       <h2>Element ID</h2>
       <p>This strategy MUST be supported by all WebDriver implementations.</p>
-      <p>The HTML5 specification ([[!HTML5]]) states that <a href="http://www.w3.org/TR/html5/elements.html#the-id-attribute">element IDs must be unique within their home subtree</a>. Sadly, this uniqueness requirement is not always met. Consequently, this strategy is equally valid for finding a single element, or groups of elements. In the case of finding a single WebElement, this MUST be functionally identical to a call to "<a href="http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html#dom-document-getelementbyid">document.getElementById()</a>" from the Web DOM Core specification ([[!DOM-LEVEL-3-CORE]]). When finding multiple elements, this is equivalent to an XPath query of "<tt>//*[@id = 'value']</tt>" where "value" is the ID being searched for with all "'" characters being properly escaped..</p>
+      <p>The HTML5 specification ([[!HTML5]]) states that <a href="http://www.w3.org/TR/html5/elements.html#the-id-attribute">element IDs must be unique within their home subtree</a>. Sadly, this uniqueness requirement is not always met. Consequently, this strategy is equally valid for finding a single element, or groups of elements. In the case of finding a single WebElement, this MUST be functionally identical to a call to "<a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-getElBId">document.getElementById()</a>" from the Web DOM Core specification ([[!DOM-LEVEL-3-CORE]]). When finding multiple elements, this is equivalent to an XPath query of "<tt>//*[@id = 'value']</tt>" where "value" is the ID being searched for with all "'" characters being properly escaped..</p>
     </section>
     <section>
       <h2>Link Text</h2>
-      <p></p>
+      <p>This strategy MUST be supported by all WebDriver implementations. </p>
+      <p>The following algorithm should be used:</p>
+      <ol>
+        <li>WebDriver will need to look up all of the A elements on the page. The lookup SHOULD be done using 
+          <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a>
+            but MAY use "<a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-A6C9094">document.getElementsByTagName()</a>" 
+            from the Web DOM Core specification ([[!DOM-LEVEL-3-CORE]]). </li>
+        <li>If an element, or elements, is returned then the 
+          <a href="#visibility">visibility</a> of the elements need to be checked</li>
+        <li>The element, or elements, will be found if and only if the text passed into the search
+          matches the search EXACTLY.</li>
+      </ol>
+    </section>
+    <section>
+      <h2>Partial Link Text</h2>
+      <p>This strategy MUST be supported by all WebDriver implementations.</p>
     </section>
     <section>
       <h2>ARIA</h2>
