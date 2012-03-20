@@ -89,21 +89,27 @@
     <section>
       <h2>Link Text</h2>
       <p>This strategy MUST be supported by all WebDriver implementations. </p>
-      <p>The following algorithm should be used:</p>
+      <p>The following algorithm MUST be used:</p>
       <ol>
         <li>WebDriver will need to look up all of the A elements on the page. The lookup SHOULD be done using 
           <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a>
             but MAY use "<a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-A6C9094">document.getElementsByTagName()</a>" 
             from the Web DOM Core specification ([[!DOM-LEVEL-3-CORE]]). </li>
-        <li>If an element, or elements, is returned then the 
-          <a href="#visibility">visibility</a> of the elements need to be checked</li>
-        <li>The element, or elements, will be found if and only if the text passed into the search
-          matches the search EXACTLY.</li>
+        <li>The value of getElementText MUST match with case sensitive of the search term passed in</li>
+        <li>Compare the visibility of the element and return the element if and only if that matches the visible text</li>
       </ol>
     </section>
     <section>
       <h2>Partial Link Text</h2>
       <p>This strategy MUST be supported by all WebDriver implementations.</p>
+      <p>The following algorithm MUST be used:</p>
+      <ol>
+        <li>Look up all of the A elements on the page. The lookup SHOULD be done using 
+          <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a>
+            but MAY use "<a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-A6C9094">document.getElementsByTagName()</a>" 
+            from the Web DOM Core specification ([[!DOM-LEVEL-3-CORE]]). </li>
+        <li>The search term MUST match case sensitive a subsection of the value of getElementText</li>
+      </ol>
     </section>
     <section>
       <h2>ARIA</h2>
