@@ -444,7 +444,7 @@
   <dd>The remote end MUST wait until all frames and iframes in the window currently be used to process commands
   that contain an HTML document are at "document.readyState == 'complete'" and
   there are no outstanding HTTP requests, other than those caused by
-  XMLHTTPRequests. If a frame or iframe does not contain an HTML document, the remote
+  XMLHttpRequests. If a frame or iframe does not contain an HTML document, the remote
   end SHOULD wait until all HTTP traffic to that frame is complete.</dd>
 
   <dt>normal</dt>
@@ -494,7 +494,7 @@
     <li>HTTP redirects MUST be automatically followed without first returning control to the user.</li>
     <li>Control MUST return to the user on pages with an HTML META tags that would cause a refresh only if the timeout is greater than 1 second.</li>
     <li>Control MUST be returned to the user if any modal dialog box, such as those opened by on <code>window.onbeforeunload</code> or <code>window.alert</code>, is opened at any point.</li>
-    <li>Control MUST be returned to the user if user credentials are requested by the browser. That is, if BASIC, DIGEST, NTML or similar authentication is required. This does not include FORM-based authentication.</li>
+    <li>Control MUST be returned to the user if user credentials are requested by the browser. That is, if BASIC, DIGEST, NTLM or similar authentication is required. This does not include FORM-based authentication.</li>
 </ul>
     
 </p>
@@ -508,12 +508,12 @@
 </table>
 
 
-<p>WebDriver implementations MUST support users accessing sites served via HTTPS. This includes those sites using self-signed certificates, and where the certificate does not match the serving domain, without needing to respond to any warnings about insecure access.</p>
+<p>WebDriver implementations MUST support users accessing sites served via HTTPS. Access to  those sites using self-signed certificates, and where the certificate does not match the serving domain MUST be the same as if the HTTPS was configured properly.</p>
 
 <p class="note">The reason for this is that WebDriver instances are often used for testing. It's a sorry fact that many QA and testers are asked to verify that apps work on sites that have insecure HTTPS configurations</p>
 </section>
 
-<p>If the <code>Capabilities</code> used to initialize has the WebDriver session have the capability <code>secureSsl</code> set to true, implementations MAY chose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. If this is the case, the <code>Capabilities</code> describing the session MUST also set the <code>secureSsl</code> capability to "true".
+<p>The exception to requirement is if the <code>Capabilities</code> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY chose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. If this is the case, the <code>Capabilities</code> describing the session MUST also set the <code>secureSsl</code> capability to "true".
 
 </section>
 
