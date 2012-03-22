@@ -4,26 +4,71 @@
     Direct interaction with elements is sending interaction commands directly to
     an element. In this kind of interaction, the implementation of this
     specification should take additional steps to ensure the interaction could
-    happen as the user intended. Indirect interaction is more versatile by not
+    happen as the user intended (for example, by scrolling the element into the
+    viewport). Indirect interaction is more versatile by not
     tying a user-interaction to an element. Instead, these interactions are
     based on mouse position and the currently active element.</p>
     <section>
     <h2>Interaction directly with elements</h2>
     <section>
+    <h2>Interactable elements</h2>
+    <section>
+    <p>A common pre-requirement for all user-input actions is interactability of
+    the element. The following conditions must be met for the element to be
+    considered interactable:
+    <ul>
+      <li>The element SHOULD be visible, as defined in section 10.1.</li>
+      <li>The element SHOULD be enabled:
+      <ul>
+        <li>The element does not support the <a
+          href="http://www.w3.org/TR/html401/interact/forms.html#adef-disabled">disabled</a> attribute (according to the [[!HTML401]] spec).</li>
+        </li>
+        <p>OR</p>
+        <li>The element supports the <a
+          href="http://www.w3.org/TR/html401/interact/forms.html#adef-disabled">disabled</a> attribute but it is not present, AND</li>
+        <li>If the element is an OPTION or OPTGROUP, it's parent element is
+        enabled.</li>
+      </ul>
+      </li>
+    </ul>
+    </p>
+    </section>
     <h2>Clicking</h2>
     <dl class="idl" title="interface WebElement">
       <dt>void click()</dt>
       <dd>Clicks in the middle of the <code>WebElement</code> instance. The
       middle of the element is defined as the middle of the box returned by
-      calling <a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">getBoundingClientRect</a> on the underlying DOM Element, according to the [[!CSSOM-VIEW]] spec. If the element is outside the <a href="http://www.w3.org/TR/CSS2/visuren.html#viewport">viewport</a> (according to the [[!CSS2]] spec), the implementation should bring the element into view first. The implementation MAY invoke scrollIntoView on the underlying DOM Element.</dd>
+      calling <a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">getBoundingClientRect</a> on the underlying DOM Element, according to the [[!CSSOM-VIEW]] spec. If the element is outside the <a href="http://www.w3.org/TR/CSS2/visuren.html#viewport">viewport</a> (according to the [[!CSS2]] spec), the implementation should bring the element into view first. The implementation MAY invoke scrollIntoView on the underlying DOM Element. The element SHOULD be visible, as defined in section 10.1.</dd>
     </dl>
     </section>
     <section>
     <h2>Typing keys</h2>
+    <p>A pre-requirement for keys-based interaction with an element is that it is
+    editable. The following conditions must be met for the element to be
+    considered editable:
+    <ul>
+      <li>The "readOnly" property MUST NOT be set on the element and one of the
+      following holds:</li>
+      <ul>
+        <li>The element is a TEXTAREA element</li>
+        <li>The element is an INPUT element and the element's <a href="http://www.w3.org/TR/html5/the-input-element.html">control type</a> is a textual
+        field, as defined in the [[!HTML5]] spec.</li>
+        <li>The element is considered editable based on the the "contentEditable" attribute set, as defined in the [[!HTML5]] spec.</li>
+      </ul>
+    </ul>
+    </p>
+    <dl class="idl" title="interface WebElement">
+      <dt>void clear()</dt>
+      <dd>For editable elements, clear the value of the element. If the element is not the currently focused one, it is first given the focus.</dd>
+      <dt>void sendKeys(string keysToSend)</dt>
+      <dd>TODO specify: Should focus on the element first. Works for typing into the body,
+      position of the cursor at the end of typing, special keys, null key.</dd>
+    </dl>
     </section>
     </section>
 
-    <p class="note">User input should be emulated natively</p>
+    <p class="note">User input should be emulated natively. TODO explain
+    meaning.</p>
     <section>
       <h2>High Level APIs: Clicking and Typing</h2>
       <p></p>
