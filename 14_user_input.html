@@ -1,6 +1,29 @@
 <section>
   <h2>User Input</h2>
-  <p></p>
+    <p>There are two ways to interact with a elements: Directly or indirectly.
+    Direct interaction with elements is sending interaction commands directly to
+    an element. In this kind of interaction, the implementation of this
+    specification should take additional steps to ensure the interaction could
+    happen as the user intended. Indirect interaction is more versatile by not
+    tying a user-interaction to an element. Instead, these interactions are
+    based on mouse position and the currently active element.</p>
+    <section>
+    <h2>Interaction directly with elements</h2>
+    <section>
+    <h2>Clicking</h2>
+    <dl class="idl" title="interface WebElement">
+      <dt>void click()</dt>
+      <dd>Clicks in the middle of the <code>WebElement</code> instance. The
+      middle of the element is defined as the middle of the box returned by
+      calling <a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">getBoundingClientRect</a> on the underlying DOM Element, according to the [[!CSSOM-VIEW]] spec. If the element is outside the <a href="http://www.w3.org/TR/CSS2/visuren.html#viewport">viewport</a> (according to the [[!CSS2]] spec), the implementation should bring the element into view first. The implementation MAY invoke scrollIntoView on the underlying DOM Element.</dd>
+    </dl>
+    </section>
+    <section>
+    <h2>Typing keys</h2>
+    </section>
+    </section>
+
+    <p class="note">User input should be emulated natively</p>
     <section>
       <h2>High Level APIs: Clicking and Typing</h2>
       <p></p>

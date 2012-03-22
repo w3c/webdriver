@@ -880,7 +880,7 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
       <tr>
         <td>Parameters</td>
         <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-            "id" {string} ID of the element to route the command to
+            "id" {string} The ID of the WebElement on which to operate.
         </td>
       </tr>
       <tr>
@@ -1083,6 +1083,7 @@ assertEquals(style, recovered);
 
     </section>
 </section>
+</section>
 <section>
   <h2>Executing Ecmascript</h2>
   <p>This entire section is currently non-normative</p>
@@ -1149,7 +1150,30 @@ assertEquals(style, recovered);
 </section>
 <section>
   <h2>User Input</h2>
-  <p></p>
+    <p>There are two ways to interact with a elements: Directly or indirectly.
+    Direct interaction with elements is sending interaction commands directly to
+    an element. In this kind of interaction, the implementation of this
+    specification should take additional steps to ensure the interaction could
+    happen as the user intended. Indirect interaction is more versatile by not
+    tying a user-interaction to an element. Instead, these interactions are
+    based on mouse position and the currently active element.</p>
+    <section>
+    <h2>Interaction directly with elements</h2>
+    <section>
+    <h2>Clicking</h2>
+    <dl class="idl" title="interface WebElement">
+      <dt>void click()</dt>
+      <dd>Clicks in the middle of the <code>WebElement</code> instance. The
+      middle of the element is defined as the middle of the box returned by
+      calling <a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">getBoundingClientRect</a> on the underlying DOM Element, according to the [[!CSSOM-VIEW]] spec. If the element is outside the <a href="http://www.w3.org/TR/CSS2/visuren.html#viewport">viewport</a> (according to the [[!CSS2]] spec), the implementation should bring the element into view first. The implementation MAY invoke scrollIntoView on the underlying DOM Element.</dd>
+    </dl>
+    </section>
+    <section>
+    <h2>Typing keys</h2>
+    </section>
+    </section>
+
+    <p class="note">User input should be emulated natively</p>
     <section>
       <h2>High Level APIs: Clicking and Typing</h2>
       <p></p>
@@ -1175,52 +1199,40 @@ assertEquals(style, recovered);
       </section>
     </section>
 </section>
-  <section>
-    <h2>Modal Dialogs</h2>
+<section>
+  <h2>Modal Dialogs</h2>
     <p>This entire section should be considered non-normative</p>
-
     <p>The remote end MUST fail fast if any command is received while a modal
-    dialog is open, unless that command handles the dialog.</p>
-
-  <section>
-    <h2>window.alert, prompt and confirm</h2>
-    <p></p>
-  </section>
-
-  <section>
-    <h2>Modal Windows</h2>
-    <p></p>
-  </section>
-
-  </section>
-
-  <section>
-    <h2>Snapshots</h2>
-    <p></p>
-
+      dialog is open, unless that command handles the dialog.</p>
+    <section>
+      <h2>window.alert, prompt and confirm</h2>
+      <p></p>
+    </section>
+    <section>
+      <h2>Modal Windows</h2>
+      <p></p>
+    </section>
+</section>
+<section>
+  <h2>Snapshots</h2>
+  <p></p>
   <section>
     <h2>Screen</h2>
     <p></p>
   </section>
-
   <section>
     <h2>Current Window</h2>
     <p></p>
   </section>
-
   <section>
     <h2>Element</h2>
     <p></p>
   </section>
-
-  </section>
-
-
-  <section>
-    <h2>Handling non-HTML Content</h2>
-    <p></p>
-  </section>
-
+</section>
+<section>
+  <h2>Handling non-HTML Content</h2>
+  <p></p>
+</section>
   <section>
     <h2>Extending the Protocol</h2>
     <p></p>
