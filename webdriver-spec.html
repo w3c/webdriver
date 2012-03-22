@@ -430,53 +430,98 @@
   </section>
 </section>
 <section>
-  <h2>Navigation</h2>
+<h2>Navigation</h2>
   
-  <p>
-  <p>get() and history navigation. The discussion of "get" will
-  need to be pretty precise about when the method returns,
-  including the common case of switching to "about:blank" when
-  opening a new tab.</p>
+<p>Almost all usages of the WebDriver API begin by navigating to a particular URL. This section not only describes the commands used for navigation, but also describes when commands must be processed.</p>
 
-  <p>This section will also need to deal with handling self-signed
-  SSL certificates.</p>
+<p>All WebDriver implementations MUST support navigating between different HTTP domains.</p>
 
-  <p>WebDriver implementations MUST support navigating between
-  domains.</p>
+<section>
+<a name="page-load-strategies"><h2>Page Load Strategies</h2></a>
 
-  <section>
-    <h3>Detecting When to Proceed</h3>
+<dl>
+  <dt>conservative</dt>
+  <dd>The remote end MUST wait until all frames and iframes in the window currently be used to process commands
+  that contain an HTML document are at "document.readyState == 'complete'" and
+  there are no outstanding HTTP requests, other than those caused by
+  XMLHTTPRequests. If a frame or iframe does not contain an HTML document, the remote
+  end SHOULD wait until all HTTP traffic to that frame is complete.</dd>
 
-    <p>This entire section is non-normative for now, and should be considered a
-    placeholder for future discussion.</p>
+  <dt>normal</dt>
+  <dd>The remote ends MUST wait until the frame currently handling commands reaches
+  "document.readyState == 'complete'" or there are no more outstanding
+  network requests other than XMLHttpRequests.</dd>
 
-    <p>Upon receiving a Command, the remote end SHOULD not execute that Command
-    until the current frame has "loaded". This can be detected in a number of
-    ways:</p>
+  <dt>eager</dt>
+  <dd>The remote end MUST wait until the frame currently handling commands reaches
+  "document.readyState == 'interactive' || document.readyState ==
+  'complete'" or there are no more outstanding network requests.</dd>
+  
+  <dt>none</dt>
+  <dd>The remote end does not do any checks to see if a page load is currently active.</dd>
+</dl>
 
-    <dl>
-      <dt>Conservative</dt>
-      <dd>The remote end waits until all frames and iframes in the window
-      containing an HTML document are at "document.readyState == 'complete'" and
-      there are no outstanding HTTP requests, other than those caused by an
-      XMLHTTPRequest. If a frame does not contain an HTML document, the remote
-      end waits until all HTTP traffic to that frame is complete.</dd>
+<p>All WebDriver implementations MUST support the <code>normal</code> and <code>eager</code> modes and SHOULD support the <code>conservative</code> and <code>none</code> modes. If no page loading strategy is chosen, then <code>normal</code> MUST be the default.</p>
+</section>
 
-      <dt>Normal</dt>
-      <dd>The remote ends waits until the current frame reaches
-      "document.readyState == 'complete'" or there are no more outstanding
-      network requests.</dd>
+<section>
+<h2>Navigation Commands</h2>
 
-      <dt>Eager</dt>
-      <dd>The remote end waits until the currrent frame reaches
-      "document.readyState == 'interactive' || document.readyState ==
-      'complete'" or there are no more outstanding network requests.</dd>
-    </dl>
+<table>
+	<tr>
+		<td>Command Name</td>
+		<td>get</td>
+	</tr>
+	<tr>
+		<td>Parameters</td>
+		<td>"sessionId" {string} The key that identifies which session this request is for.<br/>
+		    "url" {string} The .</td>
+		</td>
+	</tr>
+	<tr>
+	    <td>Return Value</td>
+	    <td>None</td>
+	</tr>
+	<tr>
+	    <td>Throws</td>
+	    <td>TimedOutException if the page load takes too long.</td>
+	</tr>
+</table>
 
-    <p>Unless the user specificies otherwise, the "Normal" page load detection
-    mechanism must be used.</p>
+<p>The "get" command is used to cause the browser under test to navigate to a new location, and is named after the HTTP verb. From a user's point of view, this is as if they have entered the "url" into the URL bar. When the command returns is based on the <a href="#page-load-strategies">page load strategy</a> that the user has selected with the following exceptions when the strategy is not "none":
 
-  </section>
+<ul>
+    <li>HTTP redirects MUST be automatically followed without first returning control to the user.</li>
+    <li>Control MUST return to the user on pages with an HTML META tags that would cause a refresh only if the timeout is greater than 1 second.</li>
+    <li>Control MUST be returned to the user if any modal dialog box, such as those opened by on <code>window.onbeforeunload</code> or <code>window.alert</code>, is opened at any point.</li>
+    <li>Control MUST be returned to the user if user credentials are requested by the browser. That is, if BASIC, DIGEST, NTML or similar authentication is required. This does not include FORM-based authentication.</li>
+</ul>
+    
+</p>
+
+<section>
+<h2>Invalid SSL Certificates</h2>
+
+<table>
+  <tr><td>Capability Name</td><td>Type</td></tr>
+  <tr><td>secureSsl</td><td>boolean</td></tr>
+</table>
+
+
+<p>WebDriver implementations MUST support users accessing sites served via HTTPS. This includes those sites using self-signed certificates, and where the certificate does not match the serving domain, without needing to respond to any warnings about insecure access.</p>
+
+<p class="note">The reason for this is that WebDriver instances are often used for testing. It's a sorry fact that many QA and testers are asked to verify that apps work on sites that have insecure HTTPS configurations</p>
+</section>
+
+<p>If the <code>Capabilities</code> used to initialize has the WebDriver session have the capability <code>secureSsl</code> set to true, implementations MAY chose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. If this is the case, the <code>Capabilities</code> describing the session MUST also set the <code>secureSsl</code> capability to "true".
+
+</section>
+
+<section>
+<h3>Detecting When to Handle Commands</h3>
+
+<p>WebDriver instances MUST only process commands when the <a href="page-loading-strategies">page loading strategy</a> being used indicates that control would be returned to the user.</p>
+</section>
 </section>
 <section>
 <h2>Controlling Windows</h2>
@@ -617,22 +662,9 @@
     
 <section>
 <h2>Default Content</h2>
-<p>WebDriver's <def="default_content">default context</def> is determined by running the algorithm:</p>
 
-<p>Start by assigning "window._top" to the variable "window", then:
+<p>WebDriver's <def="default_content">default context</def> is the equivalent of <code>window._top</code>.</p>
 
-<ol>
-    <li>If "window" has a FRAMESET, use the first FRAME as "window" and return to step 1.</li>
-    <li>If "window" has an IFRAME:
-        <ol>
-            <li>If the previous value of "window" did not have an IFRAME, use the IFRAME as "window" and return to step 1.</li>
-            <li>If the previous value of "window" did have an IFRAME, the current value of "window" is the default content.</li>
-        </ol>
-    </li>
-    <li>In all other cases the current value of "window" is the default content</li>
-</ol>
-    
-</p>
 </section>
 
 <section>
@@ -1496,74 +1528,3 @@ assertEquals(style, recovered);
     </section>
   </body>
 </html>
-<section>
-<h2>Navigation</h2>
-  
-<p>Almost all usages of the WebDriver API begin by navigating to a particular URL. This section not only describes the commands used for navigation, but also describes when commands must be processed.</p>
-
-<section>
-<h2>Navigation Commands</h2>
-
-<table>
-	<tr>
-		<td>Command Name</td>
-		<td>get</td>
-	</tr>
-	<tr>
-		<td>Parameters</td>
-		<td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-		    "url" {string} The .</td>
-		</td>
-	</tr>
-	<tr>
-	    <td>Return Value</td>
-	    <td>None</td>
-	</tr>
-	<tr>
-	    <td>Throws</td>
-	    <td>TimedOutException if the page load takes too long.</td>
-	</tr>
-</table>
-
-<p>The "get" command is used to cause the browser under test to navigate to a new location, and is named after the HTTP verb. From a user's point of view, this is as if they have entered the "url" into the URL bar. The most complex piec
-
-  <p>This section will also need to deal with handling self-signed
-  SSL certificates.</p>
-
-  <p>WebDriver implementations MUST support navigating between
-  domains.</p>
-
-  <section>
-    <h3>Detecting When to Proceed</h3>
-
-    <p>This entire section is non-normative for now, and should be considered a
-    placeholder for future discussion.</p>
-
-    <p>Upon receiving a Command, the remote end SHOULD not execute that Command
-    until the current frame has "loaded". This can be detected in a number of
-    ways:</p>
-
-    <dl>
-      <dt>Conservative</dt>
-      <dd>The remote end waits until all frames and iframes in the window
-      containing an HTML document are at "document.readyState == 'complete'" and
-      there are no outstanding HTTP requests, other than those caused by an
-      XMLHTTPRequest. If a frame does not contain an HTML document, the remote
-      end waits until all HTTP traffic to that frame is complete.</dd>
-
-      <dt>Normal</dt>
-      <dd>The remote ends waits until the current frame reaches
-      "document.readyState == 'complete'" or there are no more outstanding
-      network requests.</dd>
-
-      <dt>Eager</dt>
-      <dd>The remote end waits until the currrent frame reaches
-      "document.readyState == 'interactive' || document.readyState ==
-      'complete'" or there are no more outstanding network requests.</dd>
-    </dl>
-
-    <p>Unless the user specificies otherwise, the "Normal" page load detection
-    mechanism must be used.</p>
-
-  </section>
-</section>
