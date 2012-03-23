@@ -888,7 +888,7 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
 <h2>Reading Element State</h2>
   <p></p>
   <section>
-    <h2>Determining Visibility</h2>
+    <a name="visibility"><h2>Determining Visibility</h2></a>
       <p>The following algorithm is used to determine if an element has been displayed.</p>
       <ul>
         <li>The element has a height and width greater than 0px.</li>
@@ -1114,6 +1114,67 @@ assertEquals(style, recovered);
 </p>
 
     </section>
+</section>
+
+<section>
+   <h2>Rendering Text</h2>
+   <p>All WebDriver implementations must support getting the <a href="#visibility">visible</a> text of a WebElement, with excess whitespace compressed.</p>
+   
+<p>The following definitions are used in this section:
+    <dl>
+        <dt><a href="text.whitespace">Whitespace</a></dt>
+        <dd>Any text that matches the ECMAScript regular expression class <code>\s</code>.
+        
+        <dt><a href="text.whitespace-nbsp">Whitespace excluding non-breaking spaces</a></dt>
+        <dd>Any text that matches the ECMAScript regular expression <code>[^\S\xa0]</code>
+            
+        <dt><a href="text.blocklevel">Block level element</a></dt>
+        <dd>A block-level element is one which is not a table cell, and whose effective CSS display style is not in the set ['inline', 'inline-block', 'inline-table', 'none', 'table-cell', 'table-column', 'table-column-group']</dd>
+        
+        <dt><a href="text.horizontal">Horizontal whitespace characters</a></dt>
+        <dd>Horizontal whitespace characters are defined by the ECMAScript regular expression <code>[\x20\t\u2028\u2029]</code>.</dd>
+    </dl>
+</p>
+
+<p>The expected return value is roughly what a text-only browser such as Lynx would display. The algorithm for determining this text is as follows:</p>
+
+<p>Let <code>lines</code> equal an empty array. Then:
+<ol>  
+    <li><a name="text.1">For</a> each <code>child</code> of node, at time of execution, in order:
+        <ol>
+            <li>Get whitespace, text-transform, and then, if <code>child</code> is:
+                <ul>
+                    <li>a node which is not <a href="#visibility">visible</a>, do nothing</li>
+                    <li>a [[!DOM-LEVEL-3-CORE]] <a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-1312295772">text node</a> let <code>text</code> equal the <code>nodeValue</code> property of <code>child</code>. Then:
+                        <ol>
+                            <li>Remove any zero-width spaces (\u200b), form feeds (\f) or vertical tab feeds (\v) from <code>text</code>.</li>
+                            <li>Canonicalize any recognized single newline sequence in <code>text</code> to a single newline (greedily matching <code>(\r\n|\r|\n)</code> to a single \n)</li>
+                            <li>If the parent's effective CSS whitespace style is 'normal' or 'nowrap' replace each newline (\n) in <code>text</code> with a single space character (\x20). If the parent's effective CSS whitespace style is 'pre' or 'pre-wrap' replace each <a href="#text.horizontal">horizontal whitespace character</a> with a non-breaking space character (\xa0). Otherwise replace each sequence of <a href="#text.horizontal">horizontal whitespace characters</a> except non-breaking spaces (\xa0) with a single space character</li>
+                            <li>Apply the parent's effective CSS text-transform style as per the <a href="http://www.w3.org/TR/CSS2/text.html#propdef-text-transform">CSS2 specification</a> ([[!CSS2]])</li>
+                            <li>If <code>last(lines)</code> ends with a space character and <code>text</code> starts with a space character, trim the first character of <code>text</code>.</li>
+                            <li>Append <code>text</code> to <code>last(lines)</code> in-place</li>
+                        </ol>
+                    </li>
+                    <li>an element which is <a href="#visibility">visible</a>. If the element is a:
+                        <ul>
+                            <li>BR element: Push '' to <code>lines</code> and continue</li>
+                            <li><a href="#text.blocklevel">Block-level</a> element and if <code>last(lines)</code> is not '', push '' to <code>lines</code>.</li>
+                        </ul>
+                    And then recurse depth-first to <a href="text.1">step 1</a> with <code>child</code> set to the current element</li>
+                    <li>If element is a TD element, or the effective CSS display style is 'table-cell', and last(lines) is not '', and <code>last(lines)</code> does not end with whitespace append a single space character to <code>last(lines)</code> [Note: Most innerText implementations append a \t here]</li>
+                    <li>If element is a block-level element: push '' to <cpde>lines</code></li>
+                </ul>
+            </li>
+        </ol>
+    </li>
+    <li>For each line in <code>lines</code> trim any leading and trailing whitespace excluding <a href="text.whitespace-nbsp">non-breaking space characters</a>.</li>
+    <li>Let <code>s</code> be <code>lines.join('\n')</code></li>
+    <li>Trim any leading and trailing <a href="text.whitespace-nbsp">whitespace excluding non-breaking space characters</a> from <code>s</code>.</li>
+    <li>Replace any non-breaking spaces (\xa0) with spaces (\x20) in <code>s</code>.</li>
+    <li>Return <code>s</code>.</li>
+</ol>
+</p>
+
 </section>
 </section>
 <section>
@@ -1523,7 +1584,7 @@ assertEquals(style, recovered);
       <h2>Acknowledgements</h2>
       <p>
         Many thanks to Robin Berjon for making our lives so much easier with his
-        cool tool. Thanks to Jason Leyba and Malcolm Rowe for proof reading and suggesting areas for improvement.
+        cool tool. Thanks to Jason Leyba and Malcolm Rowe for proof reading and suggesting areas for improvement. Thanks to Jason Leyba, Eran Messeri and Daniel Wagner-Hall for contributing sections to this document.
       </p>
     </section>
   </body>
