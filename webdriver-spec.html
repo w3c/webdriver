@@ -1342,7 +1342,6 @@ assertEquals(style, recovered);
     <h2>Interaction directly with elements</h2>
     <section>
     <h2>Interactable elements</h2>
-    <section>
     <p>A common pre-requirement for all user-input actions is interactability of
     the element. The following conditions must be met for the element to be
     considered interactable:
@@ -1363,6 +1362,7 @@ assertEquals(style, recovered);
     </ul>
     </p>
     </section>
+    <section>
     <h2>Clicking</h2>
     <dl class="idl" title="interface WebElement">
       <dt>void click()</dt>
@@ -1387,13 +1387,213 @@ assertEquals(style, recovered);
       </ul>
     </ul>
     </p>
+    <p>Prior to any keyboard interaction, the element SHOULD be focused if it
+    does not currently have the focus. This is the case if one of the following
+    holds:
+    <ul>
+      <li>The element is not <code>document.activeElement</code></li>
+      <li>The owner document of the element to be interacted with is not the
+      focused document.</li>
+    </ul>
+    In case focusing is needed, the implementation MAY call
+    <code>document.activeElement.blur()</code>, then invoke <code>focus()</code>
+    on the element to be interacted with.
+    </p>
     <dl class="idl" title="interface WebElement">
       <dt>void clear()</dt>
       <dd>For editable elements, clear the value of the element. If the element is not the currently focused one, it is first given the focus.</dd>
       <dt>void sendKeys(string keysToSend)</dt>
-      <dd>TODO specify: Should focus on the element first. Works for typing into the body,
-      position of the cursor at the end of typing, special keys, null key.</dd>
+      <dd>For editable elements, sends a sequence of keyboard events representing the keys in the keysToSend parameter. If the element already contains text, the cursor is positioned at the end of the text (unless the element was already focused - in which case, the position of the cursor is not changed). After the call to this method, the cursor will be positioned at the end of the typed text sequence. There are four different types of keys that are emulated:
+      <ul>
+        <li>Character literals - lower-case symbols.</li>
+        <li>Uppercase letters and symbols requiring the SHIFT key for typing.</li>
+        <li>Modifier keys</li>
+        <li>Special keys</li>
+      </ul>The rest of this section details the values used to represent the different keys, as well as the expected behaviour for each key type.</dd>
     </dl>
+    <p>Generally, when emulating user input, the implementation MUST generate
+    the same sequence of events that would have been produced if a real user was
+    sitting in front of the keyboard and typing the sequence of characters. In
+    cases where there is more than one way to type this sequence, the
+    implementation SHOULD choose one of the valid ways. For example, typing <code>AB</code> may be achieved by:
+    <ul>
+      <li>Holding down the Shift key</li>
+      <li>Pressing the letter 'a'</li>
+      <li>Pressing the letter 'b'</li>
+      <li>Releasing the Shift key</li>
+    </ul>
+    Alternatively, it can be achieved by:
+    <ul>
+      <li>Holding down the Shift key</li>
+      <li>Pressing the letter 'a'</li>
+      <li>Releasing the Shift key</li>
+      <li>Holding down the Shift key</li>
+      <li>Pressing the letter 'b'</li>
+      <li>Releasing the Shift key</li>
+    </ul>
+    Since both methods are valid, any of them can be used.
+    <p>
+    The implementation MAY use the following algorithm to generate the events.
+    If the implementation is using a different algorithm, it MUST adhere to the
+    requirements listed below.
+    <p>For each key, <code>key</code> in <code>keysToSend</code>, do
+    <ol>
+      <li>If <code>key</code> is a lower-case symbol:</li>
+      <ol>
+        <li>If the Shift key is not pressed:</li>
+        <ol>
+          <li>Generate a pair of key-down and key-up events with <code>key</code> as
+          the character to emulate</li>
+        </ol>
+        <li>else (The Shift key is pressed)</li>
+        <ol>
+          <li>let <code>uppercaseKey</code> be the upper-case character matching <code>/key</code></li>
+          <li>Generate a pair of key-down and key-up events with <code>uppercaseKey</code> as
+          the character to emulate</li>
+        </ol>
+      </ol>
+      <li>Else if <code>key</code> is an upper-case symbol:</li>
+      <ol>
+        <li>If the Shift key is not pressed:</li>
+        <ol>
+          <li>Generate a key-down event of the Shift key.
+          <li>Generate a pair of key-down and key-up events with <code>key</code> as
+          the character to emulate</li>
+          <li>Generate a key-up event of the Shift key.
+        </ol>
+        <li>else (The Shift key is pressed)</li>
+        <ol>
+          <li>Generate a pair of key-down and key-up events with <code>key</code> as
+          the character to emulate</li>
+        </ol>
+      </ol>
+      <li>Else if <code>key</code> represents a modifier key:</li>
+      <ol>
+        <li>let <code>modifier</code> be the modifier key represented by
+        <code>key</code></li>
+        <li>If <code>modifier</code> is currently held down:</li>
+        <ol><li>Generate a key-up event of <code>modifier</code></li></ol>
+        <li>Else:</li>
+        <ol><li>Generate a key-down event of <code>modifier</code></li></ol>
+        <li>Store the state of the modifier key globally.</li>
+      </ol>
+      <li>Else if <code>key</code> represents the NULL key:</li>
+      <ol>
+        <li>Generate key-up events of all modifier keys currently held
+        down.</li>
+        <li>Reset the global state of all modifier keys.</li>
+      </ol>
+      <li>Else if <code>key</code> represents a special key:</li>
+      <ol>
+        <li>Translate <code>key</code> to the special key it represents</li>
+        <li>Generate a pair of key-down and key-up events for the special key.</li>
+      </ol>
+    </ol>
+    </p> <!-- Pseudo-code -->
+    <p>When not using this algorithm, the implementation must comply with these
+    requirements:
+    <ul>
+      <li>For uppercase letters and symbols that require the Shift key to be
+      pressed, a key-down event for the Shift key MUST preceed the key events
+      for such characters. A single shift key-down event is enough for a
+      sequence of uppercase letters.</li>
+      <li>A user-specified Shift press implies capitalization of all following
+      characters.</li>
+      <li>If a user-specified Shift press preceeds uppercase letters and
+      symbols, a second Shift key-down event MUST NOT be generated. In that
+      case, a Shift key-up event MUST NOT be generated implicitly by the
+      implementation.</li>
+      <li>The NULL key releases all currently held down modifier keys.</li>
+      <li>The state of all modifier keys must be reset at the end of each
+      <code>sendKeys</code> call and the appropriate key-up events
+      generated</li>
+    </ul>
+    </p>
+    </p> <!-- Algorithm paragraph -->
+    <h3>Character types</h3>
+    <p>The <code>keysToSend</code> parameter contains a mix of printable
+    characters and pressable keys that aren't text. Pressable keys that aren't
+    text are stored in the Unicode PUA (Private Use Area) code points,
+    0xE000-0xF8FF. The following table describes the mapping between PUA and
+    key:
+    <table>
+      <tr>
+        <th>Key</th>
+        <th>Code</th>
+        <th>Type</th>
+      </tr>
+      <tr><td>NULL</td><td>\uE000</td><td>Modifier</td></tr>
+      <tr><td>CANCEL</td><td>\uE001</td><td>Special key</td></tr>
+      <tr><td>HELP</td><td>\uE002</td><td>Special key</td></tr>
+      <tr><td>BACK_SPACE</td><td>\uE003</td><td>Special key</td></tr>
+      <tr><td>TAB</td><td>\uE004</td><td>Special key</td></tr>
+      <tr><td>CLEAR</td><td>\uE005</td><td>Special key</td></tr>
+      <tr><td>RETURN</td><td>\uE006</td><td>Special key</td></tr>
+      <tr><td>ENTER</td><td>\uE007</td><td>Special key</td></tr>
+      <tr><td>SHIFT</td><td>\uE008</td><td>Modifier</td></tr>
+      <tr><td>LEFT_SHIFT</td><td>\uE008</td><td>Modifier</td></tr>
+      <tr><td>CONTROL</td><td>\uE009</td><td>Modifier</td></tr>
+      <tr><td>LEFT_CONTROL</td><td>\uE009</td><td>Modifier</td></tr>
+      <tr><td>ALT</td><td>\uE00A</td><td>Modifier</td></tr>
+      <tr><td>LEFT_ALT</td><td>\uE00A</td><td>Modifier</td></tr>
+      <tr><td>PAUSE</td><td>\uE00B</td><td>Special key</td></tr>
+      <tr><td>ESCAPE</td><td>\uE00C</td><td>Special key</td></tr>
+      <tr><td>SPACE</td><td>\uE00D</td><td>Special key</td></tr>
+      <tr><td>PAGE_UP</td><td>\uE00E</td><td>Special key</td></tr>
+      <tr><td>PAGE_DOWN</td><td>\uE00F</td><td>Special key</td></tr>
+      <tr><td>END</td><td>\uE010</td><td>Special key</td></tr>
+      <tr><td>HOME</td><td>\uE011</td><td>Special key</td></tr>
+      <tr><td>LEFT</td><td>\uE012</td><td>Special key</td></tr>
+      <tr><td>ARROW_LEFT</td><td>\uE012</td><td>Special key</td></tr>
+      <tr><td>UP</td><td>\uE013</td><td>Special key</td></tr>
+      <tr><td>ARROW_UP</td><td>\uE013</td><td>Special key</td></tr>
+      <tr><td>RIGHT</td><td>\uE014</td><td>Special key</td></tr>
+      <tr><td>ARROW_RIGHT</td><td>\uE014</td><td>Special key</td></tr>
+      <tr><td>DOWN</td><td>\uE015</td><td>Special key</td></tr>
+      <tr><td>ARROW_DOWN</td><td>\uE015</td><td>Special key</td></tr>
+      <tr><td>INSERT</td><td>\uE016</td><td>Special key</td></tr>
+      <tr><td>DELETE</td><td>\uE017</td><td>Special key</td></tr>
+      <tr><td>SEMICOLON</td><td>\uE018</td><td>Special key</td></tr>
+      <tr><td>EQUALS</td><td>\uE019</td><td>Special key</td></tr>
+      <tr><td>NUMPAD0</td><td>\uE01A</td><td>Special key</td></tr>
+      <tr><td>NUMPAD1</td><td>\uE01B</td><td>Special key</td></tr>
+      <tr><td>NUMPAD2</td><td>\uE01C</td><td>Special key</td></tr>
+      <tr><td>NUMPAD3</td><td>\uE01D</td><td>Special key</td></tr>
+      <tr><td>NUMPAD4</td><td>\uE01E</td><td>Special key</td></tr>
+      <tr><td>NUMPAD5</td><td>\uE01F</td><td>Special key</td></tr>
+      <tr><td>NUMPAD6</td><td>\uE020</td><td>Special key</td></tr>
+      <tr><td>NUMPAD7</td><td>\uE021</td><td>Special key</td></tr>
+      <tr><td>NUMPAD8</td><td>\uE022</td><td>Special key</td></tr>
+      <tr><td>NUMPAD9</td><td>\uE023</td><td>Special key</td></tr>
+      <tr><td>MULTIPLY</td><td>\uE024</td><td>Special key</td></tr>
+      <tr><td>ADD</td><td>\uE025</td><td>Special key</td></tr>
+      <tr><td>SEPARATOR</td><td>\uE026</td><td>Special key</td></tr>
+      <tr><td>SUBTRACT</td><td>\uE027</td><td>Special key</td></tr>
+      <tr><td>DECIMAL</td><td>\uE028</td><td>Special key</td></tr>
+      <tr><td>DIVIDE</td><td>\uE029</td><td>Special key</td></tr>
+      <tr><td>F1</td><td>\uE031</td><td>Special key</td></tr>
+      <tr><td>F2</td><td>\uE032</td><td>Special key</td></tr>
+      <tr><td>F3</td><td>\uE033</td><td>Special key</td></tr>
+      <tr><td>F4</td><td>\uE034</td><td>Special key</td></tr>
+      <tr><td>F5</td><td>\uE035</td><td>Special key</td></tr>
+      <tr><td>F6</td><td>\uE036</td><td>Special key</td></tr>
+      <tr><td>F7</td><td>\uE037</td><td>Special key</td></tr>
+      <tr><td>F8</td><td>\uE038</td><td>Special key</td></tr>
+      <tr><td>F9</td><td>\uE039</td><td>Special key</td></tr>
+      <tr><td>F10</td><td>\uE03A</td><td>Special key</td></tr>
+      <tr><td>F11</td><td>\uE03B</td><td>Special key</td></tr>
+      <tr><td>F12</td><td>\uE03C</td><td>Special key</td></tr>
+      <tr><td>META</td><td>\uE03D</td><td>Special key</td></tr>
+      <tr><td>COMMAND</td><td>\uE03D</td><td>Special key</td></tr>
+      <tr><td>ZENKAKU_HANKAKU</td><td>\uE040</td><td>Special key</td></tr>
+    </table>
+    <p>The keys considered upper-case symbols are:
+    <ul>
+      <li>A - Z</li>
+      <li>!$^*()+{}:?|~@#%_\" &amp; &lt; &gt;</li>
+    </ul>
+    </p>
+    </p>
     </section>
     </section>
 
@@ -1496,74 +1696,3 @@ assertEquals(style, recovered);
     </section>
   </body>
 </html>
-<section>
-<h2>Navigation</h2>
-  
-<p>Almost all usages of the WebDriver API begin by navigating to a particular URL. This section not only describes the commands used for navigation, but also describes when commands must be processed.</p>
-
-<section>
-<h2>Navigation Commands</h2>
-
-<table>
-	<tr>
-		<td>Command Name</td>
-		<td>get</td>
-	</tr>
-	<tr>
-		<td>Parameters</td>
-		<td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-		    "url" {string} The .</td>
-		</td>
-	</tr>
-	<tr>
-	    <td>Return Value</td>
-	    <td>None</td>
-	</tr>
-	<tr>
-	    <td>Throws</td>
-	    <td>TimedOutException if the page load takes too long.</td>
-	</tr>
-</table>
-
-<p>The "get" command is used to cause the browser under test to navigate to a new location, and is named after the HTTP verb. From a user's point of view, this is as if they have entered the "url" into the URL bar. The most complex piec
-
-  <p>This section will also need to deal with handling self-signed
-  SSL certificates.</p>
-
-  <p>WebDriver implementations MUST support navigating between
-  domains.</p>
-
-  <section>
-    <h3>Detecting When to Proceed</h3>
-
-    <p>This entire section is non-normative for now, and should be considered a
-    placeholder for future discussion.</p>
-
-    <p>Upon receiving a Command, the remote end SHOULD not execute that Command
-    until the current frame has "loaded". This can be detected in a number of
-    ways:</p>
-
-    <dl>
-      <dt>Conservative</dt>
-      <dd>The remote end waits until all frames and iframes in the window
-      containing an HTML document are at "document.readyState == 'complete'" and
-      there are no outstanding HTTP requests, other than those caused by an
-      XMLHTTPRequest. If a frame does not contain an HTML document, the remote
-      end waits until all HTTP traffic to that frame is complete.</dd>
-
-      <dt>Normal</dt>
-      <dd>The remote ends waits until the current frame reaches
-      "document.readyState == 'complete'" or there are no more outstanding
-      network requests.</dd>
-
-      <dt>Eager</dt>
-      <dd>The remote end waits until the currrent frame reaches
-      "document.readyState == 'interactive' || document.readyState ==
-      'complete'" or there are no more outstanding network requests.</dd>
-    </dl>
-
-    <p>Unless the user specificies otherwise, the "Normal" page load detection
-    mechanism must be used.</p>
-
-  </section>
-</section>
