@@ -10,7 +10,7 @@
       list cleared upon read?
   </div>
   
-  <p>If a browser supports JavaScript, it MUST set the "javascriptEnabled" capability to true, and it MUST support the execution of arbitrary JavaScript.</p>
+  <p>If a browser supports JavaScript and JavaScript is enabled, it MUST set the "javascriptEnabled" capability to true, and it MUST support the execution of arbitrary JavaScript.</p>
   <table>
     <tr><td>Capability Name</td><td>Type</td></tr>
     <tr><td>javascriptEnabled</td><td>boolean</td></tr>
@@ -19,7 +19,7 @@
 <section>
 <h2>Javascript Command Parameters</h2>
       
-<p> The <code>Argument</code> type is defined as being <code>{(number|boolean|DOMString|WebElement|dictionary)?}</code>
+<p> The <code>Argument</code> type is defined as being <code>{(number|boolean|DOMString|WebElement|dictionary|Array.&gt;Argument>)?}</code>
       
 <dl class="idl" title="interface JavascriptCommandParameters">
     <dt>readonly attribute DOMString script</dt>
@@ -167,7 +167,7 @@
         <li>Otherwise, the WebDriver implementation MUST wait for one of the following to occur:
             <ol>
                 <li>if the timer from step #7 fires, the WebDriver implementation MUST immediately set the command response status to Timeout and return.</li>
-                <li>if the <code>window</code> fires an <code>unload</code> event, the WebDriver implementation MUST immediately set the command response status to UnknownError and return.</li>
+                <li>if the <code>window</code> fires an <code>unload</code> event, the WebDriver implementation MUST immediately set the command response status to JavascriptError and return with the error message set to "Javascript execution context no longer exists.".</li>
                 <li>if the <code>callback</code> function is invoked, then:
                       <ol>
                         <li>Let <code>result</code> be the first argument passed to <code>callback</code>.</li>

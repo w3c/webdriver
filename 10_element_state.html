@@ -6,15 +6,15 @@
       <p>The following algorithm is used to determine if an element has been displayed.</p>
       <ul>
         <li>The element has a height and width greater than 0px.</li>
-        <li>The element, or an ancestor, must not be visible if that element, or its ancestor,
+        <li>The element MUST not be visible if that element, or any of its ancestors,
         is hidden or has a display property that is none.</li>
         <li>OPTIONs and OPTGROUP are treated as special cases, they are considered shown if and
         only if the enclosing select element is visible.</li>
         <li>MAP elements are shown if and only if the image it uses is visible. Areas within
         a map are shown if the enclosing MAP is visible.</li>
         <li>Any INPUT elements of "type=hidden" are not visible</li>
-        <li>Any NOSCRIPT elements will not be visible</li>
-        <li>The element MUST be hidden if their ancestor has a fixed size AND has the
+        <li>Any NOSCRIPT elements MUST not be visible if Javascript is enabled.</li>
+        <li>The element MUST be not be visible if their ancestor has a fixed size AND has the
         CSS style of "overflow:hidden" and the element's location is not within the fixed
         size of the parent</li>
       </ul>
@@ -25,13 +25,12 @@
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-            "id" {string} The ID of the WebElement on which to operate.
+        <td>"id" {string} The ID of the WebElement on which to operate.
         </td>
       </tr>
       <tr>
         <td>Return Value</td>
-        <td>{boolean} Whether the element is displayed or not</td>
+        <td>{boolean} Whether the element is displayed.</td>
       </tr>
       <tr>
         <td>Throws</td>
@@ -115,7 +114,7 @@
     </ul>
 </p>
     
-<p>If no property matches and the desired property name is in the table below, a WebDriver implementation MUST search for the aliased property before returning null.</p>
+<p>If no property matches and the desired property name is in the table below, a WebDriver implementation MUST return the result of getting the aliased property.</p>
 
     <table>
         <tr>
@@ -127,7 +126,7 @@
             <td>className</td>
         </tr>
         <tr>
-            <td>readaonly</td>
+            <td>readonly</td>
             <td>readOnly</td>
         </tr>
     </table>
@@ -137,7 +136,9 @@
 <section>
 <h2>The "style" Property</h2>
 
-<p>The "style" property MUST be <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM]] spec.</p> Consequently, it SHOULD be equivalent to obtaining the "cssText" property, with the additional constraint that the same value MUST be returned after a round trip through "executeScript". That is, the following pseudo-code MUST be true (where "driver" is a WebDriver instance, and "element" is a WebElement):</p>
+<p>The "style" property MUST be <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM]] spec. Notably, css property names MUST be cased the same as specified in in section 6.5.1 of the [[!CSSOM]] spec.</p>
+
+<p>Consequently, it SHOULD be equivalent to obtaining the "cssText" property, with the additional constraint that the same value MUST be returned after a round trip through "executeScript". That is, the following pseudo-code MUST be true (where "driver" is a WebDriver instance, and "element" is a WebElement):</p>
 
 <pre class="code">
 var style = element.getAttribute('style');
@@ -187,7 +188,7 @@ assertEquals(style, recovered);
 	</tr>
 </table>
 
-<p>The "getElementAttribute" command depends on the functions described above. The algorithm to use is:
+<p>The "getElementAttribute" command depends on the functions described above. The algorithm to use MUST be:
 
 <ol>
     <li>Examine the combination of WebElement tag name and the attribute name to determine whether the return value is expected to be a URL.</li>
@@ -200,7 +201,7 @@ assertEquals(style, recovered);
     </li>
     <li>If the named attribute case insensitively matches "selected" or "checked" and the WebElement is selectable (as detailed in <a href="#is_selectable">the first bullet point of determining whether a WebElement is selected</a>), get the value determined by that algorithm. Return the string "true" if the result is true, or the null value if false.</li>
     <li>Get the value of the named property using the algorithm above.</li>
-    <li>If the returned value is defined, not null and not an object return the value coerced into a string.</li>
+    <li>If the returned value is defined, not null and not an object, return the value coerced into a string.</li>
     <li>Get the value of the named attribute using the algorithm above.</li>
     <li>If the value is defined and not null, return the value coerced into a string.</li>
     <li>Otherwise return null.</li>
@@ -236,16 +237,16 @@ assertEquals(style, recovered);
    
 <p>The following definitions are used in this section:
     <dl>
-        <dt><a href="text.whitespace">Whitespace</a></dt>
+        <dt><a name="text.whitespace">Whitespace</a></dt>
         <dd>Any text that matches the ECMAScript regular expression class <code>\s</code>.
         
-        <dt><a href="text.whitespace-nbsp">Whitespace excluding non-breaking spaces</a></dt>
+        <dt><a name="text.whitespace-nbsp">Whitespace excluding non-breaking spaces</a></dt>
         <dd>Any text that matches the ECMAScript regular expression <code>[^\S\xa0]</code>
             
-        <dt><a href="text.blocklevel">Block level element</a></dt>
+        <dt><a name="text.blocklevel">Block level element</a></dt>
         <dd>A block-level element is one which is not a table cell, and whose effective CSS display style is not in the set ['inline', 'inline-block', 'inline-table', 'none', 'table-cell', 'table-column', 'table-column-group']</dd>
         
-        <dt><a href="text.horizontal">Horizontal whitespace characters</a></dt>
+        <dt><a name="text.horizontal">Horizontal whitespace characters</a></dt>
         <dd>Horizontal whitespace characters are defined by the ECMAScript regular expression <code>[\x20\t\u2028\u2029]</code>.</dd>
     </dl>
 </p>

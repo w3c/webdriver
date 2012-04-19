@@ -16,15 +16,14 @@
       <li>The local end creates a new Command with the "name" being "newSession" and the "parameters" containing an
       entry named "desiredCapabilities" with the value set to the Capabilities instance from the previous step. The
       "sessionId" fields SHOULD be left empty.</li>
-      <li>For an out of process WebDriver server, this Command is encoded and transmitted to the remote end point. For
-      an in-process WebDriver server, a factory function or method is called.</li>
+      <li>The Command is serialized and transmitted to the remote end.</li>
       <li>The remote end examines the Capabilities, and creates a new session matching as many of the Capabilities as
       possible. How the new session is created depends on the implementation of this specification. In the case of a
       browser automation framework, it is expected that a new instance of the browser is started if possible.</li>
       <li>The session must be assigned a UUID which MUST be unique for each session (by definition). Generating the UUID
       MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
       discarded in favour of the freshly generated UUID. Because of this, it is
-      recommanded that UUID generation be done on the remote end.</li>
+      recommended that UUID generation be done on the remote end.</li>
       <li>The remote end create a new Response object. 
       <ul>
         <li>The "sessionId" field is assigned the UUID associated with this session.</li>
@@ -43,7 +42,7 @@
       <dl>
         <dt>browserName</dt>
         <dd>The name of the desired browser as a string</dd>
-        <dt>version</dt>
+        <dt>browserVersion</dt>
         <dd>The version number of the browser, given as a string</dd>
         <dt>platform</dt>
         <dd>The OS that the browser is running on, matching any of the platform names given below.</dd>
@@ -53,9 +52,10 @@
 
       <section>
         <h3>Platform Names</h3>
-        <p>These are named in the style of enums in C-like languages.</p>
+        <p>These SHOULD be named in the style of enums in C-like languages.</p>
         <ul>
           <li>ANDROID</li>
+          <li>IOS</li>
           <li>LINUX</li>
           <li>MAC</li>
           <li>UNIX</li>
@@ -70,18 +70,18 @@
     </section>
     <section>
       <h3>Error Handling</h3>
-      <p>The following status codes will be returned by the "newSession" command. Please consult the table in the
+      <p>The following status codes MUST be returned by the "newSession" command. Please consult the table in the
       "commands" section for numerical values:</p>
       <dl>
         <dt>Success</dt>
-        <dd>The session was successfully created. The "value" field of the Response contains a Capabilities object
+        <dd>The session was successfully created. The "value" field of the Response MUST contain a Capabilities object
         describing the session</dd>
         <dt>Timeout</dt>
         <dd>The new session could not be created within the time allowed for command execution on the remote end. This
         time MAY be infinite. The "value" field of the Response SHOULD contain a string explaining that a timeout has
         occurred, but it MAY be left empty or filled with the empty string.</dd>
         <dt>UnknownError</dt>
-        <dd>An unhandled error of some sort has occurred. The "value" field of the Response contains a more detailed
+        <dd>An unhandled error of some sort has occurred. The "value" field of the Response SHOULD contain a more detailed
         description of the error.</dd>
       </dl>
     </section>
@@ -91,11 +91,11 @@
       <p>The suggested order for comparing keys in the Capabilities instance when creating a session is:</p>
       <ol>
         <li>browserName</li>
-        <li>version</li>
+        <li>browserVersion</li>
         <li>platform</li>
         <li>platformVersion</li>
       </ol>
-      <p>For all comparisons, if the key is missing, that particular criteria shall not factor into the
+      <p>For all comparisons, if the key is missing (as determined by a call to Capability.has()), that particular criteria shall not factor into the
       comparison.</p>
     </section>
   </section>
