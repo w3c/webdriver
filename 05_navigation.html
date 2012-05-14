@@ -3,7 +3,7 @@
   
 <p>Almost all usages of the WebDriver API begin by navigating to a particular URL. This section not only describes the commands used for navigation, but also describes when commands must be processed.</p>
 
-<p>All WebDriver implementations MUST support navigating between different HTTP domains.</p>
+<p>All WebDriver implementations MUST support navigating between different HTTP domains and between HTTPS and HTTP domains if the underlying browser supports this.</p>
 
 <section>
 <a name="page-load-strategies"><h2>Page Load Strategies</h2></a>
@@ -11,7 +11,7 @@
 <dl>
   <dt>conservative</dt>
   <dd>The remote end MUST wait until all frames and iframes in the window currently be used to process commands
-  that contain an HTML document are at "document.readyState == 'complete'" and
+  that contain an HTML document are at "<a href="http://dev.w3.org/html5/spec/single-page.html#current-document-readiness">document.readyState</a> == 'complete'" and
   there are no outstanding HTTP requests, other than those caused by
   XMLHttpRequests. If a frame or iframe does not contain an HTML document, the remote
   end SHOULD wait until all HTTP traffic to that frame is complete.</dd>
@@ -30,7 +30,8 @@
   <dd>The remote end does not do any checks to see if a page load is currently active.</dd>
 </dl>
 
-<p>All WebDriver implementations MUST support the <code>normal</code> and <code>eager</code> modes and SHOULD support the <code>conservative</code> and <code>none</code> modes. If no page loading strategy is chosen, then <code>normal</code> MUST be the default.</p>
+<p>All WebDriver implementations MUST support the <code>normal</code> and <code>eager</code> modes and SHOULD support the <code>conservative</code> and <code>none</code> modes. If no page loading strategy is chosen, then <code>normal</code> MUST be the default.
+In addition, implementors MAY add additional page loading strategies.</p>
 </section>
 
 <section>
@@ -52,7 +53,7 @@
 	</tr>
 	<tr>
 	    <td>Throws</td>
-	    <td>TimedOutException if the page load takes too long.</td>
+	    <td>TimedOutException if the page load takes too long <a href="#timeouts">as specified by the timeouts</a>.</td>
 	</tr>
 </table>
 
@@ -63,8 +64,7 @@
     <li>Control MUST return to the user on pages with an HTML META tags that would cause a refresh only if the timeout is greater than 1 second.</li>
     <li>Control MUST be returned to the user if any modal dialog box, such as those opened by on <code>window.onbeforeunload</code> or <code>window.alert</code>, is opened at any point.</li>
     <li>Control MUST be returned to the user if user credentials are requested by the browser. That is, if BASIC, DIGEST, NTLM or similar authentication is required. This does not include FORM-based authentication.</li>
-</ul>
-    
+</ul>    
 </p>
 
 <section>
@@ -76,7 +76,7 @@
 </table>
 
 
-<p>WebDriver implementations MUST support users accessing sites served via HTTPS. Access to  those sites using self-signed certificates, and where the certificate does not match the serving domain MUST be the same as if the HTTPS was configured properly.</p>
+<p>WebDriver implementations MUST support users accessing sites served via HTTPS. Access to those sites using self-signed or invalid certificates, and where the certificate does not match the serving domain MUST be the same as if the HTTPS was configured properly.</p>
 
 <p class="note">The reason for this is that WebDriver instances are often used for testing. It's a sorry fact that many QA and testers are asked to verify that apps work on sites that have insecure HTTPS configurations</p>
 </section>
