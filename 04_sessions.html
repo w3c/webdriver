@@ -3,10 +3,8 @@
   <p>Non-normative summary: A session is equivalent to a single instantiation of a particular browser, including all
   child windows. The WebDriver API gives each session a UUID stored as a string that can be used to differentiate one
   session from another, allowing multiple browsers to be controlled on the same machine if needed, and allowing
-  sessions to be routed via a multiplexer. This ID is sent with every 
-  <code>Command</code>and returned with every 
-  <code>Response</code>and is stored on the 
-  <code>sessionId</code>field.</p>
+  sessions to be routed via a multiplexer. This ID is sent with every <code>Command</code>and returned with every 
+  <code>Response</code>and is stored on the <code>sessionId</code>field.</p>
   <section>
     <h3>Creating a Session</h3>
     <p>The process for successfully creating a session follows.</p>
@@ -14,23 +12,31 @@
       <li>The local end creates a new Capabilities or MutableCapabilities instance describing the desired capabilities
       for the session. The Capabilities object MAY be empty, but MUST be defined.</li>
       <li>The local end creates a new Command with the "name" being "newSession" and the "parameters" containing an
-      entry named "desiredCapabilities" with the value set to the Capabilities instance from the previous step. The
-      "sessionId" fields SHOULD be left empty.</li>
+      entry named "desiredCapabilities" with the value set to the Capabilities instance from the previous step. An optional
+      "requiredCapabilities" entry MAY also be created and populated with a Capabilities instance. The "sessionId" fields
+      SHOULD be left empty.</li>
       <li>The Command is serialized and transmitted to the remote end.</li>
-      <li>The remote end examines the Capabilities, and creates a new session matching as many of the Capabilities as
-      possible. How the new session is created depends on the implementation of this specification. In the case of a
+      <li>The remote end examines the two Capabilities parameters, and creates a new session matching as many of the Capabilities as
+      possible from the "desiredCapabilities" and all of the Capabilities given in the "requiredCapabilities".
+      How the new session is created depends on the implementation of this specification. In the case of a
       browser automation framework, it is expected that a new instance of the browser is started if possible.</li>
+        <ul>
+          <li>If any of the "requiredCapabilities" cannot be fulfilled by the new session, the remote end MUST quit the session and return the
+            <code>SessionNotCreatedException</code> error code. The error message SHOULD list all unmet required capabilities though only the 
+            first unmet required capability MUST be given.</li>
+        </ul>
       <li>The session must be assigned a UUID which MUST be unique for each session (by definition). Generating the UUID
       MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
       discarded in favour of the freshly generated UUID. Because of this, it is
-      recommended that UUID generation be done on the remote end.</li>
+      recommended that UUID generation be done on the remote end. If the UUID has already been used, a Response MUST be sent with the status 
+      code set to <code>SessionNotCreatedException</code> and the value being an explanation that the UUID has previously been used.</li>
       <li>The remote end create a new Response object. 
       <ul>
         <li>The "sessionId" field is assigned the UUID associated with this session.</li>
         <li>The session is described by filling a Capabilities instance with keys matching the parts of this
         specification that can be fulfilled. This is assigned to the "value" field of the Response. This fields MUST
         be filled</li>
-        <li>The "status" field is set to "0"</li>
+        <li>The "status" field is set to the <code>SUCCESS</code> error code.</li>
       </ul></li>
       <li>The Response is transmitted or returned back to the local end.</li>
     </ol>
@@ -44,7 +50,7 @@
         <dd>The name of the desired browser as a string</dd>
         <dt>browserVersion</dt>
         <dd>The version number of the browser, given as a string</dd>
-        <dt>platform</dt>
+        <dt>platformName</dt>
         <dd>The OS that the browser is running on, matching any of the platform names given below.</dd>
         <dt>platformVersion</dt>
         <dd>The version of the OS that the browser is running on as a string.</dd>
