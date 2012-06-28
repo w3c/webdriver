@@ -116,11 +116,30 @@
           "height" {number} The height of the specified window.</br />
         </td>
       </tr>
+
+      <tr>
+        <td>Command Name</td>
+        <td>maximizeWindow</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>"sessionId" {string} The key that identifies which session this request is for.<br />
+          "windowHandle" {string} The handle referring to the window to resize.
+        </td>
+      </tr>
+      <tr>
+        <td>Return Value</td>
+        <td>None</td>
+      </tr>
     </table>
 
-    <p>Both of these commands accept the window handles returned by "getWindowHandles" and "getWindowHandle". In addition, the window handle may be "current", in which case the window that commands are currently being handled by MUST be acted upon.</p>
+    <p>Each of these commands accept the window handles returned by "getWindowHandles" and "getWindowHandle". In addition, the window handle may be "current", in which case the window that commands are currently being handled by MUST be acted upon.</p>
 
     <p>The "width" and "height" values refer to the "window.outerheight" and "window.outerwidth" properties. For those browsers that do not support these properties, these represent the height and width of the whole browser window including window chrome and window resizing borders/handles.</p>
+
+    <p>After setWindowSize, the whole browser window MUST be left as if the restore button had been pressed, and MUST NOT be in the maximised state.</p>
+
+    <p>After maximizeWindow, the whole browser window MUST be left as if the maximise button had been pressed; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
   </section>
 
   <section>
