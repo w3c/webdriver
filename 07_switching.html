@@ -78,7 +78,7 @@ If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise th
     <li>If the "id" is a number the current context is set to the equivalent of the JS expression "window.frames[n]" where "n" is the number and "window" is the DOM window represented by the current context.</li>
     <li>If the "id" is a string:
         <ol>
-            <li>If the value is "_top", the current context is set to the equivalent of "window._top".</li>
+            <li>If the value is "top" or null, the current context is set to the equivalent of "window.top".</li>
             <li>If the JS expression "window.frames[id]" evaluated in the current context returns a window, where "id" is the value of the the "id" parameter, the current context is set to that.</li>
             <li>Otherwise for each value of "window.frames" (referred to as "window"):
                 <ol>
