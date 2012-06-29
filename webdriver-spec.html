@@ -1395,33 +1395,27 @@ assertEquals(style, recovered);
 </section>
 <section>
   <h2>User Input</h2>
-    <p>There are two ways to interact with a elements: Directly or indirectly.
-    Direct interaction with elements is sending interaction commands directly to
-    an element. In this kind of interaction, the implementation of this
-    specification should take additional steps to ensure the interaction could
-    happen as the user intended (for example, by scrolling the element into the
-    viewport). Indirect interaction is more versatile by not
-    tying a user-interaction to an element. Instead, these interactions are
-    based on mouse position and the currently active element.</p>
+    <p>There are two ways to interact with elements: directly or implicitly. The
+    difference between the two is similar to the difference between "Do what I
+    mean" vs "Do as I say":  The commands for directly interacting with elements
+    express explicit intention for the desired outcome. For this kind of
+    interaction, the implementation of this specification should take
+    additional steps to ensure the interaction would happen as the user
+    intended (for example, by scrolling the element into the viewport).
+    Implicit interaction differs by following the user's instructions without
+    additional interpretation. Interaction would be with the currently active element, as defined by the browser. The implementation would maintain the current keyboard and mouse state in order to fulfill the user's instructions.</p>
     <section>
     <h2>Interaction directly with elements</h2>
     <section>
     <h2>Interactable elements</h2>
-    <p>A common pre-requirement for all user-input actions is interactability of
-    the element. The following conditions must be met for the element to be
-    considered interactable:
+    <p>Some user-input actions required the element to be interactable. The following conditions must be met for the element to be considered interactable:
     <ul>
-      <li>The element SHOULD be visible, as defined in section 10.1.</li>
-      <li>The element SHOULD be enabled:
+      <li>The element MUST be visible, as defined in section 10.1.</li>
+      <li>The element MUST NOT be disabled:
       <ul>
-        <li>The element does not support the <a
-          href="http://www.w3.org/TR/html401/interact/forms.html#adef-disabled">disabled</a> attribute (according to the [[!HTML401]] spec).</li>
-        </li>
-        <p>OR</p>
-        <li>The element supports the <a
-          href="http://www.w3.org/TR/html401/interact/forms.html#adef-disabled">disabled</a> attribute but it is not present, AND</li>
-        <li>If the element is an OPTION or OPTGROUP, it's parent element is
-        enabled.</li>
+        <li>If the currently loaded document is HTML4, the element does not support the <a href="http://www.w3.org/TR/html401/interact/forms.html#adef-disabled">disabled</a> attribute (according to the [[!HTML401]] spec), or the disabled attribute is not set.</li>
+        <li>If the currently loaded document is HTML5, the element is not <a
+          href="http://www.w3.org/TR/html401/interact/forms.html#adef-disabled">disabled</a> as defined in the [[!HTML5]] spec.</li>
       </ul>
       </li>
     </ul>
@@ -1433,13 +1427,13 @@ assertEquals(style, recovered);
       <dt>void click()</dt>
       <dd>Clicks in the middle of the <code>WebElement</code> instance. The
       middle of the element is defined as the middle of the box returned by
-      calling <a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">getBoundingClientRect</a> on the underlying DOM Element, according to the [[!CSSOM-VIEW]] spec. If the element is outside the <a href="http://www.w3.org/TR/CSS2/visuren.html#viewport">viewport</a> (according to the [[!CSS2]] spec), the implementation should bring the element into view first. The implementation MAY invoke scrollIntoView on the underlying DOM Element. The element SHOULD be visible, as defined in section 10.1.</dd>
+      calling <a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">getBoundingClientRect</a> on the underlying DOM Element, according to the [[!CSSOM-VIEW]] spec. If the element is outside the <a href="http://www.w3.org/TR/CSS2/visuren.html#viewport">viewport</a> (according to the [[!CSS2]] spec), the implementation should bring the element into view first. The implementation MAY invoke scrollIntoView on the underlying DOM Element. The element MUST be visible, as defined in section 10.1.</dd>
     </dl>
     </section>
     <section>
     <h2>Typing keys</h2>
     <p>A pre-requirement for keys-based interaction with an element is that it is
-    editable. The following conditions must be met for the element to be
+    interactable (as defined earlier in the section) and editable. The following conditions must be met for the element to be
     considered editable:
     <ul>
       <li>The "readOnly" property MUST NOT be set on the element and one of the
@@ -1467,8 +1461,8 @@ assertEquals(style, recovered);
     <dl class="idl" title="interface WebElement">
       <dt>void clear()</dt>
       <dd>For editable elements, clear the value of the element. If the element is not the currently focused one, it is first given the focus.</dd>
-      <dt>void sendKeys(string keysToSend)</dt>
-      <dd>For editable elements, sends a sequence of keyboard events representing the keys in the keysToSend parameter. If the element already contains text, the cursor is positioned at the end of the text (unless the element was already focused - in which case, the position of the cursor is not changed). After the call to this method, the cursor will be positioned at the end of the typed text sequence. There are four different types of keys that are emulated:
+      <dt>void sendKeys(string[] keysToSend)</dt>
+      <dd>For editable elements, sends a sequence of keyboard events representing the keys in the keysToSend parameter. If the element already contains text, the cursor is positioned at the end of the text before typing (unless the element was already focused - in which case, the position of the cursor is not changed). After the call to this method, the cursor will be positioned at the end of the typed text sequence. There are four different types of keys that are emulated:
       <ul>
         <li>Character literals - lower-case symbols.</li>
         <li>Uppercase letters and symbols requiring the SHIFT key for typing.</li>
@@ -1476,11 +1470,11 @@ assertEquals(style, recovered);
         <li>Special keys</li>
       </ul>The rest of this section details the values used to represent the different keys, as well as the expected behaviour for each key type.</dd>
     </dl>
-    <p>Generally, when emulating user input, the implementation MUST generate
+    <p>When emulating user input, the implementation MUST generate
     the same sequence of events that would have been produced if a real user was
     sitting in front of the keyboard and typing the sequence of characters. In
     cases where there is more than one way to type this sequence, the
-    implementation SHOULD choose one of the valid ways. For example, typing <code>AB</code> may be achieved by:
+    implementation MUST choose one of the valid ways. For example, typing <code>AB</code> may be achieved by:
     <ul>
       <li>Holding down the Shift key</li>
       <li>Pressing the letter 'a'</li>
@@ -1496,7 +1490,7 @@ assertEquals(style, recovered);
       <li>Pressing the letter 'b'</li>
       <li>Releasing the Shift key</li>
     </ul>
-    Since both methods are valid, any of them can be used.
+    Since both methods are valid, either of them can be used.
     <p>
     The implementation MAY use the following algorithm to generate the events.
     If the implementation is using a different algorithm, it MUST adhere to the
@@ -1512,7 +1506,7 @@ assertEquals(style, recovered);
         </ol>
         <li>else (The Shift key is pressed)</li>
         <ol>
-          <li>let <code>uppercaseKey</code> be the upper-case character matching <code>/key</code></li>
+          <li>let <code>uppercaseKey</code> be the upper-case character matching <code>key</code></li>
           <li>Generate a pair of key-down and key-up events with <code>uppercaseKey</code> as
           the character to emulate</li>
         </ol>
@@ -1540,13 +1534,14 @@ assertEquals(style, recovered);
         <ol><li>Generate a key-up event of <code>modifier</code></li></ol>
         <li>Else:</li>
         <ol><li>Generate a key-down event of <code>modifier</code></li></ol>
-        <li>Store the state of the modifier key globally.</li>
+        <li>Maintain this key state and use it to modify the input until it is
+        pressed again.</li>
       </ol>
       <li>Else if <code>key</code> represents the NULL key:</li>
       <ol>
         <li>Generate key-up events of all modifier keys currently held
         down.</li>
-        <li>Reset the global state of all modifier keys.</li>
+        <li>All modifier keys are now assumed to be released.</li>
       </ol>
       <li>Else if <code>key</code> represents a special key:</li>
       <ol>
@@ -1554,14 +1549,20 @@ assertEquals(style, recovered);
         <li>Generate a pair of key-down and key-up events for the special key.</li>
       </ol>
     </ol>
+    <p>Once keyboard input is complete, an implicit NULL key is sent unless the
+    final character is the NULL key.</p>
     </p> <!-- Pseudo-code -->
-    <p>When not using this algorithm, the implementation must comply with these
-    requirements:
+    <p>Any implementation MUST comply with these requirements:
     <ul>
       <li>For uppercase letters and symbols that require the Shift key to be
-      pressed, a key-down event for the Shift key MUST precede the key events
-      for such characters. A single shift key-down event is enough for a
-      sequence of uppercase letters.</li>
+      pressed, there are two options:
+      <ul>
+        <li>A single Shift key-down event is generated before the entire
+        sequence of uppercase letters.</li>
+        <li>Before each such letter or symbol, a Shift key-down event is
+        generated. After each letter or symbol, a Shift key-up event is
+        generated.</li>
+      </ul></li>
       <li>A user-specified Shift press implies capitalization of all following
       characters.</li>
       <li>If a user-specified Shift press precedes uppercase letters and
@@ -1652,7 +1653,9 @@ assertEquals(style, recovered);
       <tr><td>COMMAND</td><td>\uE03D</td><td>Special key</td></tr>
       <tr><td>ZENKAKU_HANKAKU</td><td>\uE040</td><td>Special key</td></tr>
     </table>
-    <p>The keys considered upper-case symbols are:
+    <p>The keys considered upper-case symbols are either defined by the current
+    keyboard locale or are derived from the US 104 keys Windows keyboard layout,
+    which are:
     <ul>
       <li>A - Z</li>
       <li>!$^*()+{}:?|~@#%_\" &amp; &lt; &gt;</li>
@@ -1662,8 +1665,13 @@ assertEquals(style, recovered);
     </section>
     </section>
 
-    <p class="note">User input should be emulated natively. TODO explain
-    meaning.</p>
+    <p class="note">User input should be emulated natively: The input events
+    should be indistinguishable from a user, behind a screen and a keyboard,
+    interacting with the browser. For that purpose, it is highly recommended
+    that input events will not be generated at the DOM level. Instead, emulated
+    input events should originate from the browser's own event queue, just like
+    user input.
+    </p>
     <section>
       <h2>High Level APIs: Clicking and Typing</h2>
       <p></p>
