@@ -1,6 +1,7 @@
 <section>
   <h2>Commands and Responses</h2>
-  <p>The WebDriver API is designed to be used both in-process and out-of-process. The IDL listed in Appendix
+  <p>The WebDriver API is designed to be used both in-process and
+  out-of-process. The IDL given in this specification and summarized in Appendix
   XXXX SHOULD be used as the basis for the user-facing API. When used out-of-process, the WebDriver API
   defines command/repsonse objects that MUST be used. How these are encoded and transmitted between the browser being
   automated and the user of the API is left undefined, but a non-normative implementation of this as JSON over HTTP is
@@ -9,17 +10,17 @@
     <h3>Command</h3>
     <p>A command represents a call to the remote end of the WebDriver API.</p>
     <dl class="idl" title="interface Command">
-      <dt>attribute string sessionId</dt>
-      <dd>A reference to the session to which this command is associated.</dd>
       <dt>attribute string name</dt>
       <dd>The case-sensitive name of the command to execute</dd>
       <dt>attribute dictionary parameters</dt>
       <dd>A map of the named parameters to an object representing its value.</dd>
+      <dt>attribute string sessionId</dt>
+      <dd>A reference to the session to which this command is associated.</dd>
     </dl>
   </section>
   <section>
     <h3>Response</h3>
-    <p>A response represents the value returned from remote end of the WebDriver API.</p>
+    <p>A response represents the value returned from the remote end of the WebDriver API.</p>
     <dl class="idl" title="interface Response">
       <dt>readonly attribute string sessionId</dt>
       <dd>A reference to the session to which this command is associated.</dd>
@@ -34,7 +35,10 @@
   <section>
     <h3>Processing Additional Fields on Commands and Responses</h3>
     
-    <p>Any Command or Response MAY contain additional fields than those listed above. These fields MUST be maintained, unaltered by any intermediate processing nodes. There is no requirement to maintain the ordering of fields.</p>
+    <p>Any Command or Response MAY contain additional fields than those listed
+    above. The content of fields MUST be maintained, unaltered by any
+    intermeditate processing nodes. There is no requirement to maintain the
+    ordering of fields.</p>
     
     <div class="note">
       <p>This requirement exists to allow for extension of the protocol, and to allow implementors to decorate Commands and Responses with additional information, perhaps giving context to a series of messages. or providing security information.</p>
