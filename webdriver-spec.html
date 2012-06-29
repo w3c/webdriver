@@ -493,7 +493,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	    <td>None</td>
 	</tr>
 	<tr>
-	    <td>Throws</td>
+	    <td>Errors</td>
 	    <td>TimedOutException if the page load takes too long <a href="#timeouts">as specified by the timeouts</a>.</td>
 	</tr>
 </table>
@@ -533,135 +533,183 @@ In addition, implementors MAY add additional page loading strategies.</p>
 </section>
 </section>
 <section>
-<h2>Controlling Windows</h2>
+  <h2>Controlling Windows</h2>
 
-<section>
-	<h2>Defining "window" and "frame"</h2>
-	
-	<p>Within this specification, a window equates to anything that would be referred to as "window.top" in javascript. Put another way, within this spec browser tabs are counted as separate windows.</p>
+  <section>
+    <h2>Defining "window" and "frame"</h2>
 
-	<p><strong>TODO: define "frame"</strong></p>
-</section>
+    <p>Within this specification, a window equates to anything that would be referred to as "window.top" in javascript. Put another way, within this spec browser tabs are counted as separate windows.</p>
 
-<section>
-	<h2>Window Handles</h2>
-	
-	<p>Each window has a "window handle" associated with it. This is an opaque string which is unique to the window. The suggested implementation is as a UUID. The "getWindowHandle" command can be used to obtain the window handle for the window that commands are currently acting upon:</p>
-	
-	<table>
-		<tr>
-			<td>Command Name</td>
-			<td>getWindowHandle</td>
-		</tr>
-		<tr>
-			<td>Parameters</td>
-			<td>"sessionId" {string} The key that identifies which session this request is for.</td>
-		</tr>
-		<tr>
-		    <td>Return Value</td>
-		    <td>string</td>
-		</tr>
-	</table>
-</section>
+    <p><strong>TODO: define "frame"</strong></p>
+  </section>
 
-<section>
-	<h2>Iterating Over Windows</h2>
-	
-	<table>
-		<tr>
-			<td>Command Name</td>
-			<td>getWindowHandles</td>
-		</tr>
-		<tr>
-			<td>Parameters</td>
-			<td>"sessionId" {string} The key that identifies which session this request is for.</td>
-		</tr>
-		<tr>
-		    <td>Return Value</td>
-		    <td>Array.&lt;string&gt;</td>
-		</tr>
-	</table>
-	
-	<p>This array of returned strings MUST contain a handle for every window associated with the browser session and no others. In addition, at the time of collecting the window handles the javascript expression "window.top.closed" MUST evaluate to false.</p>
-	    
-	<p>The ordering of the keys is not defined, but SHOULD be determined by iterating over each top level browser window and returning the tabs within that window before iterating over the tabs of the next top level browser window. For example, in the diagram below, the window handles should be returned as the handles for: win1tab1, win1tab2, win2.</p>
-	
-	<img src="example_windows.png" alt="Two top level windows. The first window has two tabs, lablled win1tab1 and win1tab2. The second window has only one tab labelled win2"/>
-</section>
+  <section>
+    <h2>Window Handles</h2>
 
-<section>
+    <p>Each window has a "window handle" associated with it. This is an opaque string which is unique to the window. The suggested implementation is as a UUID. The "getWindowHandle" command can be used to obtain the window handle for the window that commands are currently acting upon:</p>
+
+    <table>
+      <tr>
+        <td>Command Name</td>
+        <td>getWindowHandle</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>"sessionId" {string} The key that identifies which session this request is for.</td>
+      </tr>
+      <tr>
+        <td>Return Value</td>
+        <td>string</td>
+      </tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Iterating Over Windows</h2>
+
+    <table>
+      <tr>
+        <td>Command Name</td>
+        <td>getWindowHandles</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>"sessionId" {string} The key that identifies which session this request is for.</td>
+      </tr>
+      <tr>
+        <td>Return Value</td>
+        <td>Array.&lt;string&gt;</td>
+      </tr>
+    </table>
+
+    <p>This array of returned strings MUST contain a handle for every window associated with the browser session and no others. In addition, at the time of collecting the window handles the javascript expression "window.top.closed" MUST evaluate to false.</p>
+
+    <p>The ordering of the keys is not defined, but SHOULD be determined by iterating over each top level browser window and returning the tabs within that window before iterating over the tabs of the next top level browser window. For example, in the diagram below, the window handles should be returned as the handles for: win1tab1, win1tab2, win2.</p>
+
+    <img src="example_windows.png" alt="Two top level windows. The first window has two tabs, lablled win1tab1 and win1tab2. The second window has only one tab labelled win2"/>
+  </section>
+
+  <section>
     <h2>Closing Windows</h2>
-    
+
     <table>
-    	<tr>
-    		<td>Command Name</td>
-			<td>close</td>
-    	</tr>
-    	<tr>
-			<td>Parameters</td>
-    		<td>"sessionId" {string} The key that identifies which session this request is for.</td>
-    	</tr>
-    	<tr>
-    	    <td>Return Value</td>
-    		<td>None</td>
-    	</tr>
+      <tr>
+        <td>Command Name</td>
+        <td>close</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>"sessionId" {string} The key that identifies which session this request is for.</td>
+      </tr>
+      <tr>
+        <td>Return Value</td>
+        <td>None</td>
+      </tr>
     </table>
-    
+
     <p>The close command closes the window that commands are currently being sent to. If this means that a call to get the list of window handles returns an empty list, then this close command MUST be the equivalent of calling "quit". In all other cases, control MUST be returned to the calling process once the window has been closed or an alert is displayed by the closing window.</p>
-    
+
     <p>Once the window has closed, future commands MUST return an error NoSuchWindowException until a new window is selected for receiving commands.</p>
-</section>
+  </section>
 
-<section>
+  <section>
     <h2>Resizing and Positioning Windows</h2>
-    
-    <table>
-    	<tr>
-    		<td>Command Name</td>
-			<td>setWindowSize</td>
-    	</tr>
-    	<tr>
-			<td>Parameters</td>
-    		<td>"sessionId" {string} The key that identifies which session this request is for.<br />
-    		    "windowHandle" {string} The handle referring to the window to resize.<br/>
-    		    "width" {number} The new window width.<br />
-                "height" {number} The new window height.
-    		</td>
-    	</tr>
-    	<tr>
-    	    <td>Return Value</td>
-    		<td>None</td>
-    	</tr>
-    	
-    	<tr>
-    		<td>Command Name</td>
-			<td>getWindowSize</td>
-    	</tr>
-    	<tr>
-			<td>Parameters</td>
-    		<td>"sessionId" {string} The key that identifies which session this request is for.<br />
-    		    "windowHandle" {string} The handle referring to the window to resize.
-    		</td>
-    	</tr>
-    	<tr>
-    	    <td>Return Value</td>
-    		<td>An object with two keys:<br />
-    		    "width" {number} The width of the specified window.</br />
-                "height" {number} The height of the specified window.</br />    
-    		</td>
-    	</tr>
-    </table>
-    
-    <p>Both of these commands accept the window handles returned by "getWindowHandles" and "getWindowHandle". In addition, the window handle may be "current", in which case the window that commands are currently being handled by MUST be acted upon.</p>
-    
-    <p>The "width" and "height" values refer to the "window.outerheight" and "window.outerwidth" properties. For those browsers that do not support these properties, these represent the height and width of the whole browser window including window chrome and window resizing borders/handles.</p>
-</section>
 
-<section>
+    <table>
+      <tr>
+        <td>Command Name</td>
+        <td>setWindowSize</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>"sessionId" {string} The key that identifies which session this request is for.<br />
+          "windowHandle" {string} The handle referring to the window to resize.<br/>
+          "width" {number} The new window width.<br />
+          "height" {number} The new window height.
+        </td>
+      </tr>
+      <tr>
+        <td>Return Value</td>
+        <td>None</td>
+      </tr>
+      <tr>
+        <td>Errors</td>
+        <td>UnsupportedOperationException if the window could not be resized.</td>
+      </tr>
+
+      <tr>
+        <td>Command Name</td>
+        <td>getWindowSize</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>"sessionId" {string} The key that identifies which session this request is for.<br />
+          "windowHandle" {string} The handle referring to the window to resize.
+        </td>
+      </tr>
+      <tr>
+        <td>Return Value</td>
+        <td>An object with two keys:<br />
+          "width" {number} The width of the specified window.</br />
+          "height" {number} The height of the specified window.</br />
+        </td>
+      </tr>
+
+      <tr>
+        <td>Command Name</td>
+        <td>maximizeWindow</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>"sessionId" {string} The key that identifies which session this request is for.<br />
+          "windowHandle" {string} The handle referring to the window to resize.
+        </td>
+      </tr>
+      <tr>
+        <td>Return Value</td>
+        <td>None</td>
+      </tr>
+      <tr>
+        <td>Errors</td>
+        <td>UnsupportedOperationException if the window could not be resized.</td>
+      </tr>
+
+      <tr>
+        <td>Command Name</td>
+        <td>fullscreenWindow</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>"sessionId" {string} The key that identifies which session this request is for.<br />
+          "windowHandle" {string} The handle referring to the window to resize.
+        </td>
+      </tr>
+      <tr>
+        <td>Return Value</td>
+        <td>None</td>
+      </tr>
+      <tr>
+        <td>Errors</td>
+        <td>UnsupportedOperationException if the window could not be resized.</td>
+      </tr>
+    </table>
+
+    <p>Each of these commands accept the window handles returned by "getWindowHandles" and "getWindowHandle". In addition, the window handle may be "current", in which case the window that commands are currently being handled by MUST be acted upon.</p>
+
+    <p>The "width" and "height" values refer to the "window.outerheight" and "window.outerwidth" properties. For those browsers that do not support these properties, these represent the height and width of the whole browser window including window chrome and window resizing borders/handles.</p>
+
+    <p>After setWindowSize, the whole browser window MUST be left as if the restore button had been pressed, and MUST NOT be in the maximised state.</p>
+
+    <p>After maximizeWindow, the whole browser window MUST be left as if the maximise button had been pressed; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
+
+    <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size), an UnsupportedOperationException MUST be thrown.</p>
+  </section>
+
+  <section>
     <h2>Scaling the Content of Windows</h2>
-    
+
     <p>TODO</p>
-</section>
+  </section>
 
 </section>
 <section>
@@ -672,7 +720,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 <section>
 <h2>Default Content</h2>
 
-<p>WebDriver's <def="default_content">default context</def> is the equivalent of <code>window._top</code>.</p>
+<p>WebDriver's <def="default_content">default context</def> is the equivalent of <code>window.top</code>.</p>
 
 </section>
 
@@ -695,7 +743,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	    <td>None</td>
 	</tr>
 	<tr>
-	    <td>Throws</td>
+	    <td>Errors</td>
 	    <td>NoSuchWindowException if no matching window can be found</td>
 	</tr>
 </table>
@@ -733,7 +781,7 @@ If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise th
 	    <td>None</td>
 	</tr>
 	<tr>
-	    <td>Throws</td>
+	    <td>Errors</td>
 	    <td>NoSuchFrameException if no matching frame can be found</td>
 	</tr>
 </table>
@@ -742,9 +790,9 @@ If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise th
 
 <ol>
     <li>If the "id" is a number the current context is set to the equivalent of the JS expression "window.frames[n]" where "n" is the number and "window" is the DOM window represented by the current context.</li>
+    <li>If the "id" is null, the current context is set to the default context.</li>
     <li>If the "id" is a string:
         <ol>
-            <li>If the value is "_top", the current context is set to the equivalent of "window._top".</li>
             <li>If the JS expression "window.frames[id]" evaluated in the current context returns a window, where "id" is the value of the the "id" parameter, the current context is set to that.</li>
             <li>Otherwise for each value of "window.frames" (referred to as "window"):
                 <ol>
@@ -759,9 +807,12 @@ If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise th
 
 In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
 
+<p>Frame switching MUST succeed even if doing so would cross a security origin, or javascript executing in window.top's context would otherwise not be able to access the frame being switched to.</p>
+
 </section>
 
-</section><section>
+</section>
+<section>
   <!-- TODO(simon): identify a better location for this -->
   <h2>Running Without Window Focus</h2>
   <p>All browsers must comply with the <a
@@ -884,9 +935,8 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
 </section>
 <section>
 <h2>Reading Element State</h2>
-  <p></p>
   <section>
-    <a name="visibility"><h2>Determining Visibility</h2></a>
+    <h2><a name="visibility">Determining Visibility</a></h2>
       <p>The following algorithm is used to determine if an element has been displayed.</p>
       <ul>
         <li>The element has a height and width greater than 0px.</li>
@@ -898,9 +948,7 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
         a map are shown if the enclosing MAP is visible.</li>
         <li>Any INPUT elements of "type=hidden" are not visible</li>
         <li>Any NOSCRIPT elements MUST not be visible if Javascript is enabled.</li>
-        <li>The element MUST be not be visible if their ancestor has a fixed size AND has the
-        CSS style of "overflow:hidden" and the element's location is not within the fixed
-        size of the parent</li>
+        <li>The element MUST be not be visible if any ancestor in the element's transitive closure of <a href="http://www.w3.org/TR/cssom-view/#offset-attributes">offsetParents</a> has a fixed size, and has the CSS style of "overflow:hidden", and the element's location is not within the fixed size of the parent</li>
       </ul>
     <table>
       <tr>
@@ -917,205 +965,118 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
         <td>{boolean} Whether the element is displayed.</td>
       </tr>
       <tr>
-        <td>Throws</td>
+        <td>Errors</td>
         <td>StaleElementReferenceException if the element referenced is no longer attached to
           the DOM</td>
       </tr>
     </table>
   </section>
   <section>
-    <h2>Reading Attributes and Properties</h2>
-
-<p>Although the [[!HTML5]] spec is very clear about the difference between the properties and attributes of a DOM element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning both the value of a DOM element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
-
-<p>In order to implement the "getElementAttribute" command, a series of sub functions are needed. These are detailed below.</p>
-
-<section>
-<h2>Reading an Attribute</h2>
-    
-<p>Reading an attribute is equivalent to calling the Javascript "getAttribute" function on an element, with the following exceptions:
-<ul>
-    <li>The "style" attribute MUST return the same value as if the "style" property was requested (see below).</li>
-    <li>If the attribute represents a boolean and the attribute name is listed below the null value MUST be returned if the attribute is false, otherwise the string 'true' MUST be returned.</li>
-    <li>If the attribute name represents a boolean and the attribute is not listed below, the null value SHOULD be returned if the attribute is false, otherwise the string 'true' SHOULD be returned.</li>
-</ul>
-</p>
-<p>The following are considered boolean attributes:
-<ul>
-   <li>async</li>
-    <li>autofocus</li>
-    <li>autoplay</li>
-    <li>checked</li>
-    <li>compact</li>
-    <li>complete</li>
-    <li>controls</li>
-    <li>declare</li>
-    <li>defaultchecked</li>
-    <li>defaultselected</li>
-    <li>defer</li>
-    <li>disabled</li>
-    <li>draggable</li>
-    <li>ended</li>
-    <li>formnovalidate</li>
-    <li>hidden</li>
-    <li>indeterminate</li>
-    <li>iscontenteditable</li>
-    <li>ismap</li>
-    <li>itemscope</li>
-    <li>loop</li>
-    <li>multiple</li>
-    <li>muted</li>
-    <li>nohref</li>
-    <li>noresize</li>
-    <li>noshade</li>
-    <li>novalidate</li>
-    <li>nowrap</li>
-    <li>open</li>
-    <li>paused</li>
-    <li>pubdate</li>
-    <li>readonly</li>
-    <li>required</li>
-    <li>reversed</li>
-    <li>scoped</li>
-    <li>seamless</li>
-    <li>seeking</li>
-    <li>selected</li>
-    <li>spellcheck</li>
-    <li>truespeed</li>
-    <li>willvalidate</li>
-</ul>
-</p>
-</section>
-
-<section>
-    <h2>Reading a Property</h2>
-
-<p>A DOM element property may be read using the equivalent of the Javascript "return element['propertyName']" with the null value being returned when there is no match. The following exceptions MUST be made:
-        
-    <ul>
-        <li>For a property that is marked as boolean in [[!HTML5]] the boolean value "true" or "false" MUST be returned. If a document is using HTML5, then the section on <a href="http://www.w3.org/TR/html5/Overview.html#boolean-attributes">boolean attributes</a> from the [[!HTML5]] spec MUST be followed. If the document is using a prior version of HTML, then "false" is returned iff the value of the property is equal to undefined.</li>
-        <li>If the element is an OPTION element and the property name is "value" and there is no "value" attribute, then the text content of the OPTION element MUST be returned, in accordance with [[!HTML401]] spec, specifically the section on <a href="http://www.w3.org/TR/1999/REC-html401-19991224/interact/forms.html#adef-value-OPTION">pre-selected options</a>. The text content MUST be the result of calling the "getElementText" command on the OPTION element.</li>
-    </ul>
-</p>
-    
-<p>If no property matches and the desired property name is in the table below, a WebDriver implementation MUST return the result of getting the aliased property.</p>
-
+    <h2><a name="selectable">Determining Whether a WebElement Is Selected</a></h2>
+    <p>WebDriver determines whether a WebElement is selected using the following algorithm:
+      <ol>
+          <li><a href="is_selectable"></a>If the item is not "selectable", the WebElement is not selected. A selectable element is either an OPTION element or an INPUT element of type "checkbox" or "radio".</li> 
+          <li>If the WebElement represents an INPUT element, call the "getProperty" method described above looking for the "checked" property. This indicates whether the element is selected.</li>
+          <li>Otherwise, call the "getProperty" method described above looking for the "selected" property. This indicates whether the element is selected.</li>
+      </ol>
+    </p>    
     <table>
-        <tr>
-            <th>Original property name</th>
-            <th>Aliased property name</th>
-        </tr>
-        <tr>
-            <td>class</td>
-            <td>className</td>
-        </tr>
-        <tr>
-            <td>readonly</td>
-            <td>readOnly</td>
-        </tr>
+      <tr>
+        <td>Command Name</td>
+        <td>isSelected</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>"id" {string} The ID of the WebElement on which to operate.
+        </td>
+      </tr>
+      <tr>
+        <td>Return Value</td>
+        <td>{boolean} Whether the element is selected, according to the above algorithm.</td>
+      </tr>
+      <tr>
+        <td>Errors</td>
+        <td>StaleElementReferenceException if the element referenced is no longer attached to the DOM</td>
+      </tr>
     </table>
-
-<p class="note">These aliases provide the commonly used names for element properties.</p>
-
-<section>
-<h2>The "style" Property</h2>
-
-<p>The "style" property MUST be <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM]] spec. Notably, css property names MUST be cased the same as specified in in section 6.5.1 of the [[!CSSOM]] spec.</p>
-
-<p>Consequently, it SHOULD be equivalent to obtaining the "cssText" property, with the additional constraint that the same value MUST be returned after a round trip through "executeScript". That is, the following pseudo-code MUST be true (where "driver" is a WebDriver instance, and "element" is a WebElement):</p>
-
+  </section>
+  <section>
+    <h2><a name="attributes">Reading Attributes and Properties</a></h2>
+    <p>Although the [[!HTML5]] spec is very clear about the difference between the properties and attributes of a DOM element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning both the value of a DOM element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous. In this section, the "attribute" with name <code>name</code> shall refer to the result of calling the Javascript "getAttribute" function on the element, with the following exceptions:</p>
+    <ul>
+      <li>If, in the current rendering mode, the content attribute <code>name</code> reflects a boolean IDL attribute, as per <a href="http://www.whatwg.org/specs/web-apps/current-work/">the HTML specification</a>, the value MUST be the string 'true' if that IDL attribute's value is true or the null value if the IDL attribute's value is false.</li>
+      <li>If the element is an OPTION element and <code>name</code> is "value" and there is no "value" attribute, then the text content of the OPTION element MUST be returned, in accordance with [[!HTML401]] spec, specifically the section on <a href="http://www.w3.org/TR/1999/REC-html401-19991224/interact/forms.html#adef-value-OPTION">pre-selected options</a>. The text content MUST be the result of calling the "getElementText" command on the OPTION element.</li>
+      <li>If the element is selectable, and <code>name</code> is "selected", or the element is an INPUT element of type "checkbox" or "radio" and <code>name</code> is "checked", return the string 'true' if the element is selected, and the null value otherwise.</li>
+      <li>If <code>name</code> is "style", the value returned MUST be <a href="http://dev.w3.org/sswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM]] spec. Notably, css property names MUST be cased the same as specified in in section 6.5.1 of the [[!CSSOM]] spec.
+        <ul>
+          <li>Consequently, it SHOULD be equivalent to obtaining the "cssText" property, with the additional constraint that the same value MUST be returned after a round trip through "executeScript". That is, the following pseudo-code MUST be true (where "driver" is a WebDriver instance, and "element" is a WebElement):
 <pre class="code">
 var style = element.getAttribute('style');
 driver.executeScript('arguments[0].style = arguments[1]', element, style);
 var recovered = element.getAttribute('style');
 assertEquals(style, recovered);
 </pre>
+          </li>
+          <li>Color property values MUST be standardized to rgba format, matching the regular expression: <code>rgba\(\d+, \d+, \d+, (1|0(\.\d+)?)\)</code>.</li>
+        </ul></li>
+      <li>If the value is expected to be a URL (see the below table), return the property named <code>name</code>, i.e. a fully resolved URL:
+        <strong>TODO: This doesn't feel like an exhaustive list</strong>
+        <table>
+            <tr>
+                <th>Tag name</th>
+                <th>"name" value</th>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>href</td>
+            </tr>
+            <tr>
+                <td>IMG</td>
+                <td>src</td>
+            </tr>
+        </table>
+      </li>
+      <li>If <code>name</code> is in the below table, and the above stages have not yielded a defined, non-null value, the value of the aliased attribute in the table below should be returned:
+      <table>
+        <tr>
+          <th>Original property name</th>
+          <th>Aliased property name</th>
+        </tr>
+        <tr>
+          <td>class</td>
+          <td>className</td>
+        </tr>
+        <tr>
+          <td>readonly</td>
+          <td>readOnly</td>
+        </tr>
+      </table></li>
+    </ul>
+    <p class="note">These aliases provide the commonly used names for element properties.</p>
 
-</section>
-</section>
-      
-<section>
-<a name="selectable"><h2>Determining Whether a WebElement Is Selected</h2></a>
-    
-<p>WebDriver determines whether a WebElement is selected using the following algorithm:
-
-<ol>
-    <li><a href="is_selectable"></a>If the item is not "selectable", the WebElement is not selected. A selectable element is either an OPTION element or an INPUT element of type "checkbox" or "radio".</li> 
-    <li>If the WebElement represents an INPUT element, call the "getProperty" method described above looking for the "checked" property. This indicates whether the element is selected.</li>
-    <li>Otherwise, call the "getProperty" method described above looking for the "selected" property. This indicates whether the element is selected.</li>
-</ol>
-
-</p>    
-</section>
-
-<section>
-<h2>The "getElementAttribute" Command</h2>
-<table>
-	<tr>
-		<td>Command Name</td>
-		<td>getElementAttribute</td>
-	</tr>
-	<tr>
-		<td>Parameters</td>
-		<td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-		    "id" {string} The ID of the WebElement on which to operate.</br>
-		    "name" {string} The name of the property of attribute to return.</td>
-		</td>
-	</tr>
-	<tr>
-	    <td>Return Value</td>
-	    <td>{string|null}</td>
-	</tr>
-	<tr>
-	    <td>Throws</td>
-	    <td>StaleElementException If the element is no longer attached to the DOM.</td>
-	</tr>
-</table>
-
-<p>The "getElementAttribute" command depends on the functions described above. The algorithm to use MUST be:
-
-<ol>
-    <li>Examine the combination of WebElement tag name and the attribute name to determine whether the return value is expected to be a URL.</li>
-    <li>If the combination is one that expects a URL:
-        <ol>
-            <li>Get the named attribute using the algorithm described above.</li>
-            <li>If there is a value, return the named property using the algorithm described above.</li>
-            <li>Otherwise, return null.
-        </ol>
-    </li>
-    <li>If the named attribute case insensitively matches "selected" or "checked" and the WebElement is selectable (as detailed in <a href="#is_selectable">the first bullet point of determining whether a WebElement is selected</a>), get the value determined by that algorithm. Return the string "true" if the result is true, or the null value if false.</li>
-    <li>Get the value of the named property using the algorithm above.</li>
-    <li>If the returned value is defined, not null and not an object, return the value coerced into a string.</li>
-    <li>Get the value of the named attribute using the algorithm above.</li>
-    <li>If the value is defined and not null, return the value coerced into a string.</li>
-    <li>Otherwise return null.</li>
-</ol>
-</p>
-
-<p>The following combination of WebElement tag names and values for "name" are considered to return a URL value:
-    <strong>TODO: This doesn't feel like an exhaustive list</strong>
-
-<table>
-    <tr>
-        <th>Tag name</th>
-        <th>"name" value</th>
-    </tr>
-    <tr>
-        <td>A</td>
-        <td>href</td>
-    </tr>
-    <tr>
-        <td>IMG</td>
-        <td>src</td>
-    </tr>
-</table>
-    
-</p>
-
-    </section>
-</section>
-
-<section>
+    <table>
+      <tr>
+        <td>Command Name</td>
+        <td>getElementAttribute</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
+            "id" {string} The ID of the WebElement on which to operate.</br>
+            "name" {string} The name of the property of attribute to return.</td>
+        </td>
+      </tr>
+      <tr>
+          <td>Return Value</td>
+          <td>{string|null} The value returned by the above algorithm, coerced to a nullable string, or null if no value is defined.</td>
+      </tr>
+      <tr>
+          <td>Errors</td>
+          <td>StaleElementException If the element is no longer attached to the DOM.</td>
+      </tr>
+    </table>
+  </section>
+  <section>
    <h2>Rendering Text</h2>
    <p>All WebDriver implementations must support getting the <a href="#visibility">visible</a> text of a WebElement, with excess whitespace compressed.</p>
    
@@ -1176,9 +1137,9 @@ assertEquals(style, recovered);
 
 </section>
 </section>
+</section>
 <section>
-  <a name="ecmascript"></a>
-  <h2>Executing Javascript</h2>
+  <h2><a name="ecmascript">Executing Javascript</a></h2>
   <div class="note">
       <p>Open questions: What happens if a user's JS triggers a modal dialog?
       Blocking seems like a reasonable idea, but there is an assumption that
@@ -1245,7 +1206,7 @@ assertEquals(style, recovered);
       <td>{Argument} The value returned by the script, or null.</td>
     </tr>
     <tr>
-      <td>Throws</td>
+      <td>Errors</td>
       <td>
           JavascriptError if the executing script threw an exception.<br />
           StaleElementReferenceException if a WebElement referenced is no longer attached to the DOM.<br/>
@@ -1313,7 +1274,7 @@ assertEquals(style, recovered);
         <td>{Argument} The value returned by the script, or null.</td>
       </tr>
       <tr>
-        <td>Throws</td>
+        <td>Errors</td>
         <td>
             JavascriptError if the executing script threw an exception.<br />
             StaleElementReferenceException if a WebElement referenced is no longer attached to the DOM.<br/>
@@ -1410,7 +1371,7 @@ assertEquals(style, recovered);
         <td>None</td>
       </tr>
       <tr>
-        <td>Throws</td>
+        <td>Errors</td>
         <td>None</td>
       </tr>
     </table>
