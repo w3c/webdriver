@@ -3,26 +3,78 @@
   <head>
     <title>WebDriver</title>
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
-    <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove' async></script>
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     -->
+    <script src='http://dev.w3.org/2009/dap/ReSpec.js/js/respec.js' class='remove'></script>
     <script class='remove'>
       var respecConfig = {
+          // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
           specStatus:           "ED",
+          
+          // the specification's short name, as in http://www.w3.org/TR/short-name/
           shortName:            "webdriver",
+
+          // if your specification has a subtitle that goes below the main
+          // formal title, define it here
+          // subtitle   :  "an excellent document",
+
+          // if you wish the publication date to be other than today, set this
           // publishDate:  "2009-08-06",
+
+          // if the specification's copyright date is a range of years, specify
+          // the start date here:
           // copyrightStart: "2005"
+
+          // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+          // and its maturity status
           // previousPublishDate:  "1977-03-15",
           // previousMaturity:  "WD",
-          edDraftURI:           "http://dvcs.w3.org/hg/webdriver/raw-file/default/webdriver-spec.html",
+
+          // if there a publicly available Editor's Draft, this is the link
+          // edDraftURI:           "http://dev.w3.org/2009/dap/ReSpec.js/documentation.html",
+
+          // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
+
+          // if you want to have extra CSS, append them to this list
+          // it is recommended that the respec.css stylesheet be kept
+          extraCSS:             ["http://dev.w3.org/2009/dap/ReSpec.js/css/respec.css"],
+
+          // editors, add as many as you like
+          // only "name" is required
           editors:  [
               { name: "Simon Stewart", url: "https://plus.google.com/104565969450039850531/posts",
                 company: "Google", companyURL: "http://www.google.com/" },
               { name: "David Burns", url: "http://www.theautomatedtester.co.uk/",
                 company: "Mozilla", companyURL: "http://www.mozilla.org/" },
           ],
+
+          // authors, add as many as you like. 
+          // This is optional, uncomment if you have authors as well as editors.
+          // only "name" is required. Same format as editors.
+
+          //authors:  [
+          //    { name: "Your Name", url: "http://example.org/",
+          //      company: "Your Company", companyURL: "http://example.com/" },
+          //],
+          
+          // name of the WG
           wg:           "Browser Testing and Tools Working Group",
+          
+          // URI of the public WG page
           wgURI:        "http://www.w3.org/testing/browser/",
+          
+          // name (with the @w3c.org) of the public mailing to which comments are due
           wgPublicList: "public-browser-tools-testing",
+          
+          // URI of the patent status for this WG, for Rec-track documents
+          // !!!! IMPORTANT !!!!
+          // This is important for Rec-track documents, do not copy a patent URI from a random
+          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+          // Team Contact.
           wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/49799/status",
       };
     </script>
@@ -124,9 +176,9 @@
   <section>
     <h3>Error Codes</h3>
     <p>The WebDriver API indicates the success or failure of a command invocation via a status code on the 
-    <a>Response</a> object. The following values are used and have the following meanings.</p>
+    <code>Response</code>object. The following values are used and have the following meanings.</p>
     <!-- TODO: These values are derived from existing common usage. Do they need to be reconsidered? -->
-    <table class='simple'>
+    <table>
       <tr>
         <th>Status Code</th>
         <th>Summary</th>
@@ -277,7 +329,7 @@
     the value is <code>null</code>, an empty string or a 0 then this method will return
     false.</dd>
     <dt>(string or boolean or number)? get(string capabilityName)</dt>
-    <dd>Get the value of the key matching capabilityName in the underlying <code>capabilities</code> or <code>null</code>if no value is defined.</dd>
+    <dd>Get the value of the key matching capabilityName in the underlying<code>capabilities</code>or <code>null</code>if no value is defined.</dd>
   </dl>
   <p>A <code>Capabilities</code> instance MUST be immutable. If a mutable <code>Capabilities</code> instance is required, then the <code>MutableCapabilities</code> MUST be used instead.</p>
 </section>
@@ -285,7 +337,7 @@
   <h3>MutableCapabilities</h3>
   <dl class="idl" title="interface MutableCapabilities : Capabilities">
     <dt>void set(string capabilityName, (string or boolean or number)? value)</dt>
-    <dd>Set the value of the given <code>capabilityName</code> to the given <code>value</code>. If the value is not a boolean, numerical type or a string, a <code>WebDriverException</code> should be thrown.</dd>
+    <dd>Set the value of the given <code>capabilityName</code>to the given <code>value</code>. If the value is not a boolean, numerical type or a string, a <code>WebDriverException</code>should be thrown.</dd>
   </dl>
 </section>
 </section>
@@ -294,8 +346,8 @@
   <p>Non-normative summary: A session is equivalent to a single instantiation of a particular browser, including all
   child windows. The WebDriver API gives each session a UUID stored as a string that can be used to differentiate one
   session from another, allowing multiple browsers to be controlled on the same machine if needed, and allowing
-  sessions to be routed via a multiplexer. This ID is sent with every <a>Command</a> and returned with every 
-  <a>Response</a> and is stored on the <code>sessionId</code> field.</p>
+  sessions to be routed via a multiplexer. This ID is sent with every <code>Command</code>and returned with every 
+  <code>Response</code>and is stored on the <code>sessionId</code>field.</p>
   <section>
     <h3>Creating a Session</h3>
     <p>The process for successfully creating a session follows.</p>
@@ -786,7 +838,7 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
 <section>
   <h2>Elements</h2>
   <p>One of the key abstractions of the WebDriver API is the 
-  <a>WebElement</a> interface. Each instance of this interface represents an 
+  <code>WebElement</code> interface. Each instance of this interface represents an 
   <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-745549614">Element</a>as defined in the
   [[!DOM-LEVEL-3-CORE]] specification. Because the WebDriver API is designed to allow users to interact with apps as if
   they were actual users, the capabilities offered by the 
@@ -808,7 +860,7 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
   <section>
     <h2>Lists of WebElements</h2>
     
-    <p>The primary grouping of <a>WebElement</a> instances is an <code>array</code> of <a>WebElement</a> instances</p>
+    <p>The primary grouping of <code>WebElement</code> instances is an <code>array</code> of <code>WebElement</code> instances</p>
     
     <p>A reference to an WebElement is obtained via a SearchContext. The key
     interfaces are:</p>
@@ -965,7 +1017,7 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
       <li>If, in the current rendering mode, the content attribute <code>name</code> reflects a boolean IDL attribute, as per <a href="http://www.whatwg.org/specs/web-apps/current-work/">the HTML specification</a>, the value MUST be the string 'true' if that IDL attribute's value is true or the null value if the IDL attribute's value is false.</li>
       <li>If the element is an OPTION element and <code>name</code> is "value" and there is no "value" attribute, then the text content of the OPTION element MUST be returned, in accordance with [[!HTML401]] spec, specifically the section on <a href="http://www.w3.org/TR/1999/REC-html401-19991224/interact/forms.html#adef-value-OPTION">pre-selected options</a>. The text content MUST be the result of calling the "getElementText" command on the OPTION element.</li>
       <li>If the element is selectable, and <code>name</code> is "selected", or the element is an INPUT element of type "checkbox" or "radio" and <code>name</code> is "checked", return the string 'true' if the element is selected, and the null value otherwise.</li>
-      <li>If <code>name</code> is "style", the value returned MUST be <a href="http://dev.w3.org/sswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM-VIEW]] spec. Notably, css property names MUST be cased the same as specified in in section 6.5.1 of the [[!CSSOM-VIEW]] spec.
+      <li>If <code>name</code> is "style", the value returned MUST be <a href="http://dev.w3.org/sswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM]] spec. Notably, css property names MUST be cased the same as specified in in section 6.5.1 of the [[!CSSOM]] spec.
         <ul>
           <li>Consequently, it SHOULD be equivalent to obtaining the "cssText" property, with the additional constraint that the same value MUST be returned after a round trip through "executeScript". That is, the following pseudo-code MUST be true (where "driver" is a WebDriver instance, and "element" is a WebElement):
 <pre class="code">
@@ -1373,9 +1425,15 @@ assertEquals(style, recovered);
     <h2>Clicking</h2>
     <dl class="idl" title="interface WebElement">
       <dt>void click()</dt>
-      <dd>Clicks in the middle of the <code>WebElement</code> instance. The
-      middle of the element is defined as the middle of the box returned by
-      calling <a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">getBoundingClientRect</a> on the underlying DOM Element, according to the [[!CSSOM-VIEW]] spec. If the element is outside the <a href="http://www.w3.org/TR/CSS2/visuren.html#viewport">viewport</a> (according to the [[!CSS2]] spec), the implementation should bring the element into view first. The implementation MAY invoke scrollIntoView on the underlying DOM Element. The element MUST be visible, as defined in section 10.1.</dd>
+      <dd>Clicks in the middle of the <code>WebElement</code> instance. The middle of the element is defined as the middle of the box returned by
+      calling <a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">getBoundingClientRect</a> on the underlying DOM Element, according to the [[!CSSOM-VIEW]] spec. If the element is outside the <a href="http://www.w3.org/TR/CSS2/visuren.html#viewport">viewport</a> (according to the [[!CSS2]] spec), the implementation should bring the element into view first. The implementation MAY invoke scrollIntoView on the underlying DOM Element. The element MUST be visible, as defined in section 10.1. See the note below for when the element is obscured by another element.
+      Exceptions:
+      <ul>
+        <li>links (A elements): Clicking happens in the middle of the first bounding client rectangle. This is to overcome overflowing links where the middle of the bounding client rectangle does not actually fall on a clickable part of the link.</li>
+        <li>Select elements with without the multiple attribute set: Clicking on the select element MUST open up a selection menu. After clicking on an option, the selection menu MUST be closed. Clicking directly on an option element (without clicking on the select element previously) MUST open a selection menu, as if the select option was clicked first. Ultimately, after clicking clicking one of the options, the selection menu MUST be closed.</li>
+      </ul>
+      </dd>
+      <p class="note">As the goal is to emulate users as closely as possible, the implementation SHOULD NOT allow clicking on elements that are obscured by other elements. The implementation SHOULD try to scroll the element into view, but in case it is fully obscured, it should not be clickable.</p>
     </dl>
     </section>
     <section>
@@ -1530,7 +1588,7 @@ assertEquals(style, recovered);
     text are stored in the Unicode PUA (Private Use Area) code points,
     0xE000-0xF8FF. The following table describes the mapping between PUA and
     key:
-    <table class='simple'>
+    <table>
       <tr>
         <th>Key</th>
         <th>Code</th>
