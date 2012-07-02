@@ -596,7 +596,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 
     <p>The ordering of the keys is not defined, but SHOULD be determined by iterating over each top level browser window and returning the tabs within that window before iterating over the tabs of the next top level browser window. For example, in the diagram below, the window handles should be returned as the handles for: win1tab1, win1tab2, win2.</p>
 
-    <img src="example_windows.png" alt="Two top level windows. The first window has two tabs, lablled win1tab1 and win1tab2. The second window has only one tab labelled win2"/>
+    <img src="example-windows.png" alt="Two top level windows. The first window has two tabs, lablled win1tab1 and win1tab2. The second window has only one tab labelled win2"/>
   </section>
 
   <section>
@@ -900,7 +900,7 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
         </tr>
       </table>
       <p>If a browser supports the 
-      <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a> it MUST support locating elements by
+      <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a> ([[!SELECTORS-API]]) it MUST support locating elements by
       CSS Selector. If the browser does not support the browser CSS Selector spec it MAY chose to implement locating
       by this mechanism. Elements MUST be returned in the same order as if "<code>querySelectorAll</code>" had been called. Compound selectors are allowed.</p>
     </section>
@@ -919,7 +919,7 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
       <p>The following algorithm MUST be used:</p>
       <ol>
         <li>WebDriver will need to look up all of the A elements on the page. The lookup SHOULD be done using 
-          <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a>
+          [[!SELECTORS-API]]
             but MAY use "<a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/core.html#ID-A6C9094">document.getElementsByTagName()</a>" 
             from the Web DOM Core specification ([[!DOM-LEVEL-3-CORE]]). If the document being searched is a valid XHTML document, then this step MUST return all elements that the browser would consider an anchor tag.</li>
         <li>The value of getElementText MUST match with case sensitive of the search term passed in</li>
@@ -1120,7 +1120,7 @@ assertEquals(style, recovered);
                             <li>Remove any zero-width spaces (\u200b), form feeds (\f) or vertical tab feeds (\v) from <code>text</code>.</li>
                             <li>Canonicalize any recognized single newline sequence in <code>text</code> to a single newline (greedily matching <code>(\r\n|\r|\n)</code> to a single \n)</li>
                             <li>If the parent's effective CSS whitespace style is 'normal' or 'nowrap' replace each newline (\n) in <code>text</code> with a single space character (\x20). If the parent's effective CSS whitespace style is 'pre' or 'pre-wrap' replace each <a href="#text.horizontal">horizontal whitespace character</a> with a non-breaking space character (\xa0). Otherwise replace each sequence of <a href="#text.horizontal">horizontal whitespace characters</a> except non-breaking spaces (\xa0) with a single space character</li>
-                            <li>Apply the parent's effective CSS text-transform style as per the <a href="http://www.w3.org/TR/CSS2/text.html#propdef-text-transform">CSS2 specification</a> ([[!CSS2]])</li>
+                            <li>Apply the parent's effective CSS text-transform style as per the <a href="http://www.w3.org/TR/CSS21/text.html#propdef-text-transform">CSS 2.1 specification</a> ([[!CSS21]])</li>
                             <li>If <code>last(lines)</code> ends with a space character and <code>text</code> starts with a space character, trim the first character of <code>text</code>.</li>
                             <li>Append <code>text</code> to <code>last(lines)</code> in-place</li>
                         </ol>
@@ -1426,7 +1426,7 @@ assertEquals(style, recovered);
     <dl class="idl" title="interface WebElement">
       <dt>void click()</dt>
       <dd>Clicks in the middle of the <code>WebElement</code> instance. The middle of the element is defined as the middle of the box returned by
-      calling <a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">getBoundingClientRect</a> on the underlying DOM Element, according to the [[!CSSOM-VIEW]] spec. If the element is outside the <a href="http://www.w3.org/TR/CSS2/visuren.html#viewport">viewport</a> (according to the [[!CSS2]] spec), the implementation should bring the element into view first. The implementation MAY invoke scrollIntoView on the underlying DOM Element. The element MUST be visible, as defined in section 10.1. See the note below for when the element is obscured by another element.
+      calling <a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">getBoundingClientRect</a> on the underlying DOM Element, according to the [[!CSSOM-VIEW]] spec. If the element is outside the <a href="http://www.w3.org/TR/CSS21/visuren.html#viewport">viewport</a> (according to the [[!CSS21]] spec), the implementation should bring the element into view first. The implementation MAY invoke scrollIntoView on the underlying DOM Element. The element MUST be visible, as defined in section 10.1. See the note below for when the element is obscured by another element.
       Exceptions:
       <ul>
         <li>links (A elements): Clicking happens in the middle of the first bounding client rectangle. This is to overcome overflowing links where the middle of the bounding client rectangle does not actually fall on a clickable part of the link.</li>
