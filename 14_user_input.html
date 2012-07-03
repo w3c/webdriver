@@ -37,6 +37,13 @@
         <li>links (A elements): Clicking happens in the middle of the first bounding client rectangle. This is to overcome overflowing links where the middle of the bounding client rectangle does not actually fall on a clickable part of the link.</li>
         <li>Select elements with without the multiple attribute set: Clicking on the select element MUST open up a selection menu. After clicking on an option, the selection menu MUST be closed. Clicking directly on an option element (without clicking on the select element previously) MUST open a selection menu, as if the select option was clicked first. Ultimately, after clicking clicking one of the options, the selection menu MUST be closed.</li>
       </ul>
+      <p>The possible errors for this command:
+      <ul>
+        <li>StaleElementReference if the given element is no longer attached to the DOM.</li>
+        <li>ElementNotVisible if the element is hidden and thus cannot be interacted with.</li>
+        <li>MoveTargetOutOfBounds if the element cannot be scrolled into view.</li>
+      </ul>
+      </p>
       </dd>
       <p class="note">As the goal is to emulate users as closely as possible, the implementation SHOULD NOT allow clicking on elements that are obscured by other elements. The implementation SHOULD try to scroll the element into view, but in case it is fully obscured, it should not be clickable.</p>
     </dl>
