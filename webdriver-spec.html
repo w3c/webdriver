@@ -8,43 +8,25 @@
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline,
      -->
-    <script src='http://dev.w3.org/2009/dap/ReSpec.js/js/respec.js' class='remove'></script>
+    <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove' async></script>
     <script class='remove'>
       var respecConfig = {
-          // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
           specStatus:           "ED",
-          
-          // the specification's short name, as in http://www.w3.org/TR/short-name/
+
           shortName:            "webdriver",
 
-          // if your specification has a subtitle that goes below the main
-          // formal title, define it here
-          // subtitle   :  "an excellent document",
-
-          // if you wish the publication date to be other than today, set this
           // publishDate:  "2009-08-06",
 
-          // if the specification's copyright date is a range of years, specify
-          // the start date here:
           // copyrightStart: "2005"
 
-          // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
-          // and its maturity status
           // previousPublishDate:  "1977-03-15",
+
           // previousMaturity:  "WD",
 
-          // if there a publicly available Editor's Draft, this is the link
-          // edDraftURI:           "http://dev.w3.org/2009/dap/ReSpec.js/documentation.html",
+          edDraftURI:           "http://dvcs.w3.org/hg/webdriver/raw-file/default/webdriver-spec.html",
 
-          // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
 
-          // if you want to have extra CSS, append them to this list
-          // it is recommended that the respec.css stylesheet be kept
-          extraCSS:             ["http://dev.w3.org/2009/dap/ReSpec.js/css/respec.css"],
-
-          // editors, add as many as you like
-          // only "name" is required
           editors:  [
               { name: "Simon Stewart", url: "https://plus.google.com/104565969450039850531/posts",
                 company: "Google", companyURL: "http://www.google.com/" },
@@ -52,29 +34,12 @@
                 company: "Mozilla", companyURL: "http://www.mozilla.org/" },
           ],
 
-          // authors, add as many as you like. 
-          // This is optional, uncomment if you have authors as well as editors.
-          // only "name" is required. Same format as editors.
-
-          //authors:  [
-          //    { name: "Your Name", url: "http://example.org/",
-          //      company: "Your Company", companyURL: "http://example.com/" },
-          //],
-          
-          // name of the WG
           wg:           "Browser Testing and Tools Working Group",
           
-          // URI of the public WG page
           wgURI:        "http://www.w3.org/testing/browser/",
           
-          // name (with the @w3c.org) of the public mailing to which comments are due
           wgPublicList: "public-browser-tools-testing",
           
-          // URI of the patent status for this WG, for Rec-track documents
-          // !!!! IMPORTANT !!!!
-          // This is important for Rec-track documents, do not copy a patent URI from a random
-          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
-          // Team Contact.
           wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/49799/status",
       };
     </script>
@@ -178,7 +143,7 @@
     <p>The WebDriver API indicates the success or failure of a command invocation via a status code on the 
     <code>Response</code>object. The following values are used and have the following meanings.</p>
     <!-- TODO: These values are derived from existing common usage. Do they need to be reconsidered? -->
-    <table>
+    <table class="simple">
       <tr>
         <th>Status Code</th>
         <th>Summary</th>
@@ -1021,7 +986,7 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
       <li>If, in the current rendering mode, the content attribute <code>name</code> reflects a boolean IDL attribute, as per <a href="http://www.whatwg.org/specs/web-apps/current-work/">the HTML specification</a>, the value MUST be the string 'true' if that IDL attribute's value is true or the null value if the IDL attribute's value is false.</li>
       <li>If the element is an OPTION element and <code>name</code> is "value" and there is no "value" attribute, then the text content of the OPTION element MUST be returned, in accordance with [[!HTML401]] spec, specifically the section on <a href="http://www.w3.org/TR/1999/REC-html401-19991224/interact/forms.html#adef-value-OPTION">pre-selected options</a>. The text content MUST be the result of calling the "getElementText" command on the OPTION element.</li>
       <li>If the element is selectable, and <code>name</code> is "selected", or the element is an INPUT element of type "checkbox" or "radio" and <code>name</code> is "checked", return the string 'true' if the element is selected, and the null value otherwise.</li>
-      <li>If <code>name</code> is "style", the value returned MUST be <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM]] spec. Notably, css property names MUST be cased the same as specified in in section 6.5.1 of the [[!CSSOM]] spec.
+      <li>If <code>name</code> is "style", the value returned MUST be <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM-VIEW]] spec. Notably, css property names MUST be cased the same as specified in in section 6.5.1 of the [[!CSSOM-VIEW]] spec.
         <ul>
           <li>Consequently, it SHOULD be equivalent to obtaining the "cssText" property, with the additional constraint that the same value MUST be returned after a round trip through "executeScript". That is, the following pseudo-code MUST be true (where "driver" is a WebDriver instance, and "element" is a WebElement):
 <pre class="code">
@@ -1592,7 +1557,7 @@ assertEquals(style, recovered);
     text are stored in the Unicode PUA (Private Use Area) code points,
     0xE000-0xF8FF. The following table describes the mapping between PUA and
     key:
-    <table>
+    <table class="simple">
       <tr>
         <th>Key</th>
         <th>Code</th>
