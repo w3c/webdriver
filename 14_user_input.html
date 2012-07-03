@@ -50,18 +50,11 @@
     </section>
     <section>
     <h2>Typing keys</h2>
-    <p>A pre-requirement for keys-based interaction with an element is that it is
-    interactable (as defined earlier in the section) and editable. The following conditions must be met for the element to be
-    considered editable:
+    <p>A pre-requirement for keys-based interaction with an element is that it is interactable (as defined earlier in the section). Typing into an element could take place if one of the following conditions is met:
     <ul>
-      <li>The "readOnly" property MUST NOT be set on the element and one of the
-      following holds:</li>
-      <ul>
-        <li>The element is a TEXTAREA element</li>
-        <li>The element is an INPUT element and the element's <a href="http://www.w3.org/TR/html5/the-input-element.html">control type</a> is a textual
-        field, as defined in the [[!HTML5]] spec.</li>
-        <li>The element is considered editable based on the the "contentEditable" attribute set, as defined in the [[!HTML5]] spec.</li>
-      </ul>
+      <li>The element is <a href="http://www.w3.org/TR/2009/WD-html5-20090423/editing.html#focusable">focusable</a> as defined in the editing section of the [[!HTML5]] spec.</li>
+      <li>The element could be the <code>activeElement</code>. In addition to focusable elements, this allows typing to the <code>body</code> element.</li>
+      <li>In an HTML5 document, the element is <a href="http://www.w3.org/TR/2008/WD-html5-20080610/editing.html#editable">editable</a> as a result of having its <code>contentEditable</code> attribute set or the containing document is in <code>designMode</code>.</li>
     </ul>
     </p>
     <p>Prior to any keyboard interaction, the element SHOULD be focused if it
@@ -72,15 +65,13 @@
       <li>The owner document of the element to be interacted with is not the
       focused document.</li>
     </ul>
-    In case focusing is needed, the implementation MAY call
-    <code>document.activeElement.blur()</code>, then invoke <code>focus()</code>
-    on the element to be interacted with.
+    In case focusing is needed, the implementation MUST follow the <a href="http://www.w3.org/TR/2009/WD-html5-20090423/editing.html#focusable"><b>focusing steps</b></a> as described in the focus management section of the [[!HTML5]] spec. The focus MUST NOT leave the element at the end of the interaction, other than as a result of the interaction itself (i.e. when the tab key is sent).
     </p>
     <dl class="idl" title="interface WebElement">
       <dt>void clear()</dt>
-      <dd>For editable elements, clear the value of the element. If the element is not the currently focused one, it is first given the focus.</dd>
+      <dd>Clears the value of the element.</dd>
       <dt>void sendKeys(string[] keysToSend)</dt>
-      <dd>For editable elements, sends a sequence of keyboard events representing the keys in the keysToSend parameter. If the element already contains text, the cursor is positioned at the end of the text before typing (unless the element was already focused - in which case, the position of the cursor is not changed). After the call to this method, the cursor will be positioned at the end of the typed text sequence. There are four different types of keys that are emulated:
+      <dd>Sends a sequence of keyboard events representing the keys in the keysToSend parameter. If the element already contains text, the cursor is positioned at the end of the text before typing (unless the element was already focused - in which case, the position of the cursor is not changed). After the call to this method, the cursor will be positioned at the end of the typed text sequence. There are four different types of keys that are emulated:
       <ul>
         <li>Character literals - lower-case symbols.</li>
         <li>Uppercase letters and symbols requiring the SHIFT key for typing.</li>
