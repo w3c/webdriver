@@ -52,7 +52,8 @@
       <p>This section is non-normative: It SHOULD be possible to find elements using their ARIA roles. It MAY be possible to find elements using their ARIA states and properties. All references to "ARIA" refer to [[!WAI-ARIA]]</p>
     </section>
     <section>
-      <h2>CSS Selectors</h2>
+    <h2>CSS Selectors</h2>
+      <table>
         <tr>
           <th>Capability Name</th>
           <th>Type</th>
@@ -74,7 +75,16 @@
     <section>
       <h2>Element ID</h2>
       <p>This strategy MUST be supported by all WebDriver implementations.</p>
-      <p>The HTML5 specification ([[!HTML5]]) states that <a href="http://www.w3.org/TR/html5/elements.html#the-id-attribute">element IDs must be unique within their home subtree</a>. Sadly, this uniqueness requirement is not always met. Consequently, this strategy is equally valid for finding a single element, or groups of elements. In the case of finding a single WebElement, this MUST be functionally identical to a call to "<a href="http://www.w3.org/TR/2012/WD-dom-20120105/#dom-document-getelementbyid">document.getElementById()</a>" from the Web DOM Core specification ([[!DOM4]]). When finding multiple elements, this is equivalent to an CSS query of "<tt>#value</tt>" where "value" is the ID being searched for with all "'" characters being properly escaped..</p>
+      <p>The HTML5 specification ([[!HTML5]]) states that <a
+        href="http://www.w3.org/TR/html5/elements.html#the-id-attribute">element
+        IDs must be unique within their home subtree</a>. Sadly, this uniqueness
+      requirement is not always met. Consequently, this strategy is equally
+      valid for finding a single element, or groups of elements. In the case of
+      finding a single WebElement, this MUST be functionally identical to a call
+      to "<a
+        href="http://www.w3.org/TR/2012/WD-dom-20120105/#dom-document-getelementbyid">document.getElementById()</a>"
+      from the Web DOM Core specification ([[!DOM4]]). When finding multiple
+      elements, this is equivalent to an CSS query of "<code>#value</code>" where "value" is the ID being searched for with all "'" characters being properly escaped..</p>
     </section>
     <section>
       <h2>Link Text</h2>
@@ -95,7 +105,7 @@
       <ol>
         <li>Look up all of the A elements on the page. The lookup SHOULD be done using 
           <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a> ([[!SELECTORS-API]])
-            but MAY use "<a href="http://www.w3.org/TR/2012/WD-dom-20120105/#dom-document-getelementsbytagname">document.getElementsByTagName()</a>" from [[!DOM4]]. If the document being searched is a valid XHTML document, then this step MUST return all elements that the browser would consider an anchor tag.</a>.</li>
+            but MAY use "<a href="http://www.w3.org/TR/2012/WD-dom-20120105/#dom-document-getelementsbytagname">document.getElementsByTagName()</a>" from [[!DOM4]]. If the document being searched is a valid XHTML document, then this step MUST return all elements that the browser would consider an anchor tag..</li>
         <li>The search term MUST match case sensitive a subsection of the value of getElementText</li>
       </ol>
     </section>

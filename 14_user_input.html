@@ -24,7 +24,6 @@
       </ul>
       </li>
     </ul>
-    </p>
     </section>
     <section>
     <h2>Clicking</h2>
@@ -43,10 +42,9 @@
         <li>ElementNotVisible if the element is hidden and thus cannot be interacted with.</li>
         <li>MoveTargetOutOfBounds if the element cannot be scrolled into view.</li>
       </ul>
-      </p>
       </dd>
-      <p class="note">As the goal is to emulate users as closely as possible, the implementation SHOULD NOT allow clicking on elements that are obscured by other elements. The implementation SHOULD try to scroll the element into view, but in case it is fully obscured, it should not be clickable.</p>
     </dl>
+    <p class="note">As the goal is to emulate users as closely as possible, the implementation SHOULD NOT allow clicking on elements that are obscured by other elements. The implementation SHOULD try to scroll the element into view, but in case it is fully obscured, it should not be clickable.</p>
     </section>
     <section>
     <h2>Typing keys</h2>
@@ -56,7 +54,6 @@
       <li>The element could be the <code>activeElement</code>. In addition to focusable elements, this allows typing to the <code>body</code> element.</li>
       <li>In an HTML5 document, the element is <a href="http://dev.w3.org/html5/spec/editing.html#attr-contenteditable">editable</a> as a result of having its <code>contentEditable</code> attribute set or the containing document is in <code>designMode</code>.</li>
     </ul>
-    </p>
     <p>Prior to any keyboard interaction, the element SHOULD be focused if it
     does not currently have the focus. This is the case if one of the following
     holds:
@@ -65,7 +62,7 @@
       <li>The owner document of the element to be interacted with is not the
       focused document.</li>
     </ul>
-    In case focusing is needed, the implementation MUST follow the <a href="http://dev.w3.org/html5/spec/editing.html#focus-management"><b>focusing steps</b></a> as described in the focus management section of the [[!HTML5]] spec. The focus MUST NOT leave the element at the end of the interaction, other than as a result of the interaction itself (i.e. when the tab key is sent).
+    <p>In case focusing is needed, the implementation MUST follow the <a href="http://dev.w3.org/html5/spec/editing.html#focus-management"><b>focusing steps</b></a> as described in the focus management section of the [[!HTML5]] spec. The focus MUST NOT leave the element at the end of the interaction, other than as a result of the interaction itself (i.e. when the tab key is sent).
     </p>
     <dl class="idl" title="interface WebElement">
       <dt>void clear()</dt>
@@ -79,7 +76,7 @@
         <li>Uppercase letters and symbols requiring the SHIFT key for typing.</li>
         <li>Modifier keys</li>
         <li>Special keys</li>
-      </ul>The rest of this section details the values used to represent the different keys, as well as the expected behaviour for each key type.</p></dd>
+      </ul>The rest of this section details the values used to represent the different keys, as well as the expected behaviour for each key type.</dd>
     </dl>
     <p>When emulating user input, the implementation MUST generate
     the same sequence of events that would have been produced if a real user was
@@ -108,61 +105,72 @@
     requirements listed below.
     <p>For each key, <code>key</code> in <code>keysToSend</code>, do
     <ol>
-      <li>If <code>key</code> is a lower-case symbol:</li>
+      <li>If <code>key</code> is a lower-case symbol:
       <ol>
-        <li>If the Shift key is not pressed:</li>
+        <li>If the Shift key is not pressed:
         <ol>
           <li>Generate a pair of key-down and key-up events with <code>key</code> as
           the character to emulate</li>
         </ol>
-        <li>else (The Shift key is pressed)</li>
+        </li>
+        <li>else (The Shift key is pressed)
         <ol>
           <li>let <code>uppercaseKey</code> be the upper-case character matching <code>key</code></li>
           <li>Generate a pair of key-down and key-up events with <code>uppercaseKey</code> as
           the character to emulate</li>
         </ol>
+        </li>
       </ol>
-      <li>Else if <code>key</code> is an upper-case symbol:</li>
+      </li>
+      <li>Else if <code>key</code> is an upper-case symbol:
       <ol>
-        <li>If the Shift key is not pressed:</li>
+        <li>If the Shift key is not pressed:
         <ol>
           <li>Generate a key-down event of the Shift key.
           <li>Generate a pair of key-down and key-up events with <code>key</code> as
           the character to emulate</li>
           <li>Generate a key-up event of the Shift key.
         </ol>
-        <li>else (The Shift key is pressed)</li>
+        </li>
+        <li>else (The Shift key is pressed)
         <ol>
           <li>Generate a pair of key-down and key-up events with <code>key</code> as
           the character to emulate</li>
         </ol>
+        </li>
       </ol>
-      <li>Else if <code>key</code> represents a modifier key:</li>
+      </li>
+      <li>Else if <code>key</code> represents a modifier key:
       <ol>
         <li>let <code>modifier</code> be the modifier key represented by
         <code>key</code></li>
-        <li>If <code>modifier</code> is currently held down:</li>
+        <li>If <code>modifier</code> is currently held down:
         <ol><li>Generate a key-up event of <code>modifier</code></li></ol>
-        <li>Else:</li>
+        </li>
+        <li>Else:
         <ol><li>Generate a key-down event of <code>modifier</code></li></ol>
+        </li>
         <li>Maintain this key state and use it to modify the input until it is
         pressed again.</li>
       </ol>
-      <li>Else if <code>key</code> represents the NULL key:</li>
+      </li>
+      <li>Else if <code>key</code> represents the NULL key:
       <ol>
         <li>Generate key-up events of all modifier keys currently held
         down.</li>
         <li>All modifier keys are now assumed to be released.</li>
       </ol>
-      <li>Else if <code>key</code> represents a special key:</li>
+      </li>
+      <li>Else if <code>key</code> represents a special key:
       <ol>
         <li>Translate <code>key</code> to the special key it represents</li>
         <li>Generate a pair of key-down and key-up events for the special key.</li>
       </ol>
+      </li>
     </ol>
     <p>Once keyboard input is complete, an implicit NULL key is sent unless the
     final character is the NULL key.</p>
-    </p> <!-- Pseudo-code -->
+    <p> <!-- Pseudo-code --></p>
     <p>Any implementation MUST comply with these requirements:
     <ul>
       <li>For uppercase letters and symbols that require the Shift key to be
@@ -185,8 +193,7 @@
       <code>sendKeys</code> call and the appropriate key-up events
       generated</li>
     </ul>
-    </p>
-    </p> <!-- Algorithm paragraph -->
+    <p> <!-- Algorithm paragraph --></p>
     <h3>Character types</h3>
     <p>The <code>keysToSend</code> parameter contains a mix of printable
     characters and pressable keys that aren't text. Press-able keys that aren't
@@ -271,15 +278,13 @@
       <li>A - Z</li>
       <li>!$^*()+{}:?|~@#%_\" &amp; &lt; &gt;</li>
     </ul>
-    </p>
-    </p>
     </section>
     </section>
 
     <p class="note">User input should be emulated natively: The input events
     should be indistinguishable from a user, behind a screen and a keyboard,
     interacting with the browser. For that purpose, it is highly recommended
-    that input events will not be generated at the DOM level. Instead, emulated
+    that input events not be generated at the DOM level. Instead, emulated
     input events should originate from the browser's own event queue, just like
     user input.
     </p>

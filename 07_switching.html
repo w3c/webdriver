@@ -6,7 +6,7 @@
 <section>
 <h2>Default Content</h2>
 
-<p>WebDriver's <def="default_content">default context</def> is the equivalent of <code>window.top</code>.</p>
+<p>WebDriver's <dfn>default context</dfn> is the equivalent of <code>window.top</code>.</p>
 
 </section>
 
@@ -22,7 +22,6 @@
 		<td>Parameters</td>
 		<td>"sessionId" {string} The key that identifies which session this request is for.<br/>
 		    "name" {string} The identifier used for a window.</td>
-		</td>
 	</tr>
 	<tr>
 	    <td>Return Value</td>
@@ -42,7 +41,7 @@
         <li>The "id" attribute of the window.</li>
     </ol>
 
-If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise the "default content" of the first window to match will be selected for accepting commands.</p>
+<p>If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise the "default content" of the first window to match will be selected for accepting commands.</p>
 
 <p>When a new browser session is started by WebDriver and only a single window is present then the default content of that window becomes the "current" window. When more than one window is opened, the "current" window is undefined. Any commands that are executed at this point that require a window MUST throw an exception (<strong>TODO: Which exception? Ideally the same as if a window had just been closed</strong>). The correct way for a user to recover from this situation is to obtain the list of window handles and to "switch to" one of these.</p>
 
@@ -58,9 +57,8 @@ If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise th
 	</tr>
 	<tr>
 		<td>Parameters</td>
-		<td>"sessionId" {string} The key that identifies which session this request is for.<br/>
+		<td>"sessionId" {string} The key that identifies which session this request is for.<br>
 		    "id" {?(string|number|!WebElement=)} The identifier used for a window.</td>
-		</td>
 	</tr>
 	<tr>
 	    <td>Return Value</td>
@@ -91,7 +89,7 @@ If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise th
     <li>If the "id" represents a WebElement, and the corresponding DOM element represents a FRAME or an IFRAME, and the WebElement is part of the current context, the "window" property of that DOM element becomes the current context.</li>
 </ol>
 
-In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
+<p>In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
 
 <p>Frame switching MUST succeed even if doing so would cross a security origin, or javascript executing in window.top's context would otherwise not be able to access the frame being switched to.</p>
 

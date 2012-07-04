@@ -19,12 +19,13 @@
       <li>The remote end examines the two Capabilities parameters, and creates a new session matching as many of the Capabilities as
       possible from the "desiredCapabilities" and all of the Capabilities given in the "requiredCapabilities".
       How the new session is created depends on the implementation of this specification. In the case of a
-      browser automation framework, it is expected that a new instance of the browser is started if possible.</li>
+      browser automation framework, it is expected that a new instance of the browser is started if possible.
         <ul>
           <li>If any of the "requiredCapabilities" cannot be fulfilled by the new session, the remote end MUST quit the session and return the
             <code>SessionNotCreatedException</code> error code. The error message SHOULD list all unmet required capabilities though only the 
             first unmet required capability MUST be given.</li>
-        </ul>
+          </ul>
+      </li>
       <li>The session must be assigned a UUID which MUST be unique for each session (by definition). Generating the UUID
       MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
       discarded in favour of the freshly generated UUID. Because of this, it is

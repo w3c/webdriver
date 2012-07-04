@@ -338,12 +338,13 @@
       <li>The remote end examines the two Capabilities parameters, and creates a new session matching as many of the Capabilities as
       possible from the "desiredCapabilities" and all of the Capabilities given in the "requiredCapabilities".
       How the new session is created depends on the implementation of this specification. In the case of a
-      browser automation framework, it is expected that a new instance of the browser is started if possible.</li>
+      browser automation framework, it is expected that a new instance of the browser is started if possible.
         <ul>
           <li>If any of the "requiredCapabilities" cannot be fulfilled by the new session, the remote end MUST quit the session and return the
             <code>SessionNotCreatedException</code> error code. The error message SHOULD list all unmet required capabilities though only the 
             first unmet required capability MUST be given.</li>
-        </ul>
+          </ul>
+      </li>
       <li>The session must be assigned a UUID which MUST be unique for each session (by definition). Generating the UUID
       MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
       discarded in favour of the freshly generated UUID. Because of this, it is
@@ -472,7 +473,6 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	<tr>
 		<td>Parameters</td>
 		<td>"url" {string} The URL to be navigated to.</td>
-		</td>
 	</tr>
 	<tr>
 	    <td>Return Value</td>
@@ -492,7 +492,6 @@ In addition, implementors MAY add additional page loading strategies.</p>
     <li>Control MUST be returned to the user if any modal dialog box, such as those opened by on <code>window.onbeforeunload</code> or <code>window.alert</code>, is opened at any point.</li>
     <li>Control MUST be returned to the user if user credentials are requested by the browser. That is, if BASIC, DIGEST, NTLM or similar authentication is required. This does not include FORM-based authentication.</li>
 </ul>    
-</p>
 
 <section>
 <h2>Invalid SSL Certificates</h2>
@@ -629,15 +628,15 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br />
+        <td>"sessionId" {string} The key that identifies which session this request is for.<br>
           "windowHandle" {string} The handle referring to the window to resize.
         </td>
       </tr>
       <tr>
         <td>Return Value</td>
-        <td>An object with two keys:<br />
-          "width" {number} The width of the specified window.</br />
-          "height" {number} The height of the specified window.</br />
+        <td>An object with two keys:<br>
+          "width" {number} The width of the specified window.<br>
+          "height" {number} The height of the specified window.<br>
         </td>
       </tr>
 
@@ -647,7 +646,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br />
+        <td>"sessionId" {string} The key that identifies which session this request is for.<br>
           "windowHandle" {string} The handle referring to the window to resize.
         </td>
       </tr>
@@ -666,7 +665,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br />
+        <td>"sessionId" {string} The key that identifies which session this request is for.<br>
           "windowHandle" {string} The handle referring to the window to resize.
         </td>
       </tr>
@@ -706,7 +705,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 <section>
 <h2>Default Content</h2>
 
-<p>WebDriver's <def="default_content">default context</def> is the equivalent of <code>window.top</code>.</p>
+<p>WebDriver's <dfn>default context</dfn> is the equivalent of <code>window.top</code>.</p>
 
 </section>
 
@@ -722,7 +721,6 @@ In addition, implementors MAY add additional page loading strategies.</p>
 		<td>Parameters</td>
 		<td>"sessionId" {string} The key that identifies which session this request is for.<br/>
 		    "name" {string} The identifier used for a window.</td>
-		</td>
 	</tr>
 	<tr>
 	    <td>Return Value</td>
@@ -742,7 +740,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
         <li>The "id" attribute of the window.</li>
     </ol>
 
-If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise the "default content" of the first window to match will be selected for accepting commands.</p>
+<p>If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise the "default content" of the first window to match will be selected for accepting commands.</p>
 
 <p>When a new browser session is started by WebDriver and only a single window is present then the default content of that window becomes the "current" window. When more than one window is opened, the "current" window is undefined. Any commands that are executed at this point that require a window MUST throw an exception (<strong>TODO: Which exception? Ideally the same as if a window had just been closed</strong>). The correct way for a user to recover from this situation is to obtain the list of window handles and to "switch to" one of these.</p>
 
@@ -758,9 +756,8 @@ If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise th
 	</tr>
 	<tr>
 		<td>Parameters</td>
-		<td>"sessionId" {string} The key that identifies which session this request is for.<br/>
+		<td>"sessionId" {string} The key that identifies which session this request is for.<br>
 		    "id" {?(string|number|!WebElement=)} The identifier used for a window.</td>
-		</td>
 	</tr>
 	<tr>
 	    <td>Return Value</td>
@@ -791,7 +788,7 @@ If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise th
     <li>If the "id" represents a WebElement, and the corresponding DOM element represents a FRAME or an IFRAME, and the WebElement is part of the current context, the "window" property of that DOM element becomes the current context.</li>
 </ol>
 
-In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
+<p>In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
 
 <p>Frame switching MUST succeed even if doing so would cross a security origin, or javascript executing in window.top's context would otherwise not be able to access the frame being switched to.</p>
 
@@ -865,7 +862,8 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
       <p>This section is non-normative: It SHOULD be possible to find elements using their ARIA roles. It MAY be possible to find elements using their ARIA states and properties. All references to "ARIA" refer to [[!WAI-ARIA]]</p>
     </section>
     <section>
-      <h2>CSS Selectors</h2>
+    <h2>CSS Selectors</h2>
+      <table>
         <tr>
           <th>Capability Name</th>
           <th>Type</th>
@@ -887,7 +885,16 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
     <section>
       <h2>Element ID</h2>
       <p>This strategy MUST be supported by all WebDriver implementations.</p>
-      <p>The HTML5 specification ([[!HTML5]]) states that <a href="http://www.w3.org/TR/html5/elements.html#the-id-attribute">element IDs must be unique within their home subtree</a>. Sadly, this uniqueness requirement is not always met. Consequently, this strategy is equally valid for finding a single element, or groups of elements. In the case of finding a single WebElement, this MUST be functionally identical to a call to "<a href="http://www.w3.org/TR/2012/WD-dom-20120105/#dom-document-getelementbyid">document.getElementById()</a>" from the Web DOM Core specification ([[!DOM4]]). When finding multiple elements, this is equivalent to an CSS query of "<tt>#value</tt>" where "value" is the ID being searched for with all "'" characters being properly escaped..</p>
+      <p>The HTML5 specification ([[!HTML5]]) states that <a
+        href="http://www.w3.org/TR/html5/elements.html#the-id-attribute">element
+        IDs must be unique within their home subtree</a>. Sadly, this uniqueness
+      requirement is not always met. Consequently, this strategy is equally
+      valid for finding a single element, or groups of elements. In the case of
+      finding a single WebElement, this MUST be functionally identical to a call
+      to "<a
+        href="http://www.w3.org/TR/2012/WD-dom-20120105/#dom-document-getelementbyid">document.getElementById()</a>"
+      from the Web DOM Core specification ([[!DOM4]]). When finding multiple
+      elements, this is equivalent to an CSS query of "<code>#value</code>" where "value" is the ID being searched for with all "'" characters being properly escaped..</p>
     </section>
     <section>
       <h2>Link Text</h2>
@@ -908,7 +915,7 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
       <ol>
         <li>Look up all of the A elements on the page. The lookup SHOULD be done using 
           <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a> ([[!SELECTORS-API]])
-            but MAY use "<a href="http://www.w3.org/TR/2012/WD-dom-20120105/#dom-document-getelementsbytagname">document.getElementsByTagName()</a>" from [[!DOM4]]. If the document being searched is a valid XHTML document, then this step MUST return all elements that the browser would consider an anchor tag.</a>.</li>
+            but MAY use "<a href="http://www.w3.org/TR/2012/WD-dom-20120105/#dom-document-getelementsbytagname">document.getElementsByTagName()</a>" from [[!DOM4]]. If the document being searched is a valid XHTML document, then this step MUST return all elements that the browser would consider an anchor tag..</li>
         <li>The search term MUST match case sensitive a subsection of the value of getElementText</li>
       </ol>
     </section>
@@ -964,7 +971,6 @@ In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
           <li>If the WebElement represents an INPUT element, call the "getProperty" method described above looking for the "checked" property. This indicates whether the element is selected.</li>
           <li>Otherwise, call the "getProperty" method described above looking for the "selected" property. This indicates whether the element is selected.</li>
       </ol>
-    </p>    
     <table>
       <tr>
         <td>Command Name</td>
@@ -1046,10 +1052,9 @@ assertEquals(style, recovered);
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-            "id" {string} The ID of the WebElement on which to operate.</br>
+        <td>"sessionId" {string} The key that identifies which session this request is for.<br>
+            "id" {string} The ID of the WebElement on which to operate.<br>
             "name" {string} The name of the property of attribute to return.</td>
-        </td>
       </tr>
       <tr>
           <td>Return Value</td>
@@ -1079,7 +1084,6 @@ assertEquals(style, recovered);
         <dt><a name="text.horizontal">Horizontal whitespace characters</a></dt>
         <dd>Horizontal whitespace characters are defined by the ECMAScript regular expression <code>[\x20\t\u2028\u2029]</code>.</dd>
     </dl>
-</p>
 
 <p>The expected return value is roughly what a text-only browser such as Lynx would display. The algorithm for determining this text is as follows:</p>
 
@@ -1107,7 +1111,7 @@ assertEquals(style, recovered);
                         </ul>
                     And then recurse depth-first to <a href="text.1">step 1</a> with <code>child</code> set to the current element</li>
                     <li>If element is a TD element, or the effective CSS display style is 'table-cell', and last(lines) is not '', and <code>last(lines)</code> does not end with whitespace append a single space character to <code>last(lines)</code> [Note: Most innerText implementations append a \t here]</li>
-                    <li>If element is a block-level element: push '' to <cpde>lines</code></li>
+                    <li>If element is a block-level element: push '' to <code>lines</code></li>
                 </ul>
             </li>
         </ol>
@@ -1118,9 +1122,7 @@ assertEquals(style, recovered);
     <li>Replace any non-breaking spaces (\xa0) with spaces (\x20) in <code>s</code>.</li>
     <li>Return <code>s</code>.</li>
 </ol>
-</p>
 
-</section>
 </section>
 </section>
 <section>
@@ -1157,7 +1159,7 @@ assertEquals(style, recovered);
 
 <p>When executing Javascript, it MUST be possible to reference the <code>args</code> parameter using the function's <code>arguments</code> object. The arguments MUST be in the same order as defined in <code>args</code>. Each WebDriver implementation MUST preprocess the values in <code>args</code> using the following algorithm:
     
-<p name="JS-args-preprocess">For each index, <code>index</code> in <code>args</code>, if <code>args[index]</code> is...
+<p><a name="JS-args-preprocess"></a>For each index, <code>index</code> in <code>args</code>, if <code>args[index]</code> is...
     <ol>
         <li>a number, boolean, DOMString, or <code>null</code>, then let <code>args[index] = args[index]</code>.</li>
         <li>an array, then recursively apply this algorithm to <code>args[index]</code> and assign the result to <code>args[index]</code>.</li>
@@ -1232,11 +1234,10 @@ assertEquals(style, recovered);
                 <li>an object, then return the dictionary created by recursively applying this algorithm to each property in <code>result</code>.
               </ol>
           </ol>
-        <li>Set the command's response value to <code>value</code>.
+          <li>Set the command's response value to <code>value</code>.</li>
       </ol>
-    <li>Return the command response.
+      <li>Return the command response.</li>
   </ol>
-  </p>
   
   </section>
   <section>
@@ -1315,13 +1316,10 @@ assertEquals(style, recovered);
                         <li>Set the command's response value to <code>value</code>.</li>
                       </ol>
                     </li>
-                    <li>Return the command response.
+                    <li>Return the command response.</li>
                   </ol>
               </li>
              </ol>
-             </li>
-          </ol>
-    </p>
   </section>
   <section>
     <h2>Reporting Errors</h2>
@@ -1346,8 +1344,8 @@ assertEquals(style, recovered);
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.</br>
-            "type" {string} The type of operation to set the timeout for. Valid values are: "implicit", "page load", "script"</br>
+        <td>"sessionId" {string} The key that identifies which session this request is for.<br>
+            "type" {string} The type of operation to set the timeout for. Valid values are: "implicit", "page load", "script"<br>
             "ms" - {number} The amount of time, in milliseconds, that time-limited commands are permitted to run.
         </td>
       </tr>
@@ -1361,7 +1359,7 @@ assertEquals(style, recovered);
       </tr>
     </table>
     <ul>
-      <li>implicit - Set the amount of time the driver should wait when searching for elements. When searching for a single element, the driver should poll the page until an element is found or the timeout expires, whichever occurs first. When searching for multiple elements, the driver should poll the page until at least one element is found or the timeout expires, at which point it should return an empty list.</br>
+      <li>implicit - Set the amount of time the driver should wait when searching for elements. When searching for a single element, the driver should poll the page until an element is found or the timeout expires, whichever occurs first. When searching for multiple elements, the driver should poll the page until at least one element is found or the timeout expires, at which point it should return an empty list.<br>
       If this command is never sent, the driver MUST default to an implicit wait of 0ms.</li>
       <li>page load -<strong>TODO(David, Simon)  fill me in</strong> </li>
       <li>script - Set the amount of time the driver should wait when scripts are loading on to the page. </li>
@@ -1394,7 +1392,6 @@ assertEquals(style, recovered);
       </ul>
       </li>
     </ul>
-    </p>
     </section>
     <section>
     <h2>Clicking</h2>
@@ -1413,10 +1410,9 @@ assertEquals(style, recovered);
         <li>ElementNotVisible if the element is hidden and thus cannot be interacted with.</li>
         <li>MoveTargetOutOfBounds if the element cannot be scrolled into view.</li>
       </ul>
-      </p>
       </dd>
-      <p class="note">As the goal is to emulate users as closely as possible, the implementation SHOULD NOT allow clicking on elements that are obscured by other elements. The implementation SHOULD try to scroll the element into view, but in case it is fully obscured, it should not be clickable.</p>
     </dl>
+    <p class="note">As the goal is to emulate users as closely as possible, the implementation SHOULD NOT allow clicking on elements that are obscured by other elements. The implementation SHOULD try to scroll the element into view, but in case it is fully obscured, it should not be clickable.</p>
     </section>
     <section>
     <h2>Typing keys</h2>
@@ -1426,7 +1422,6 @@ assertEquals(style, recovered);
       <li>The element could be the <code>activeElement</code>. In addition to focusable elements, this allows typing to the <code>body</code> element.</li>
       <li>In an HTML5 document, the element is <a href="http://dev.w3.org/html5/spec/editing.html#attr-contenteditable">editable</a> as a result of having its <code>contentEditable</code> attribute set or the containing document is in <code>designMode</code>.</li>
     </ul>
-    </p>
     <p>Prior to any keyboard interaction, the element SHOULD be focused if it
     does not currently have the focus. This is the case if one of the following
     holds:
@@ -1435,7 +1430,7 @@ assertEquals(style, recovered);
       <li>The owner document of the element to be interacted with is not the
       focused document.</li>
     </ul>
-    In case focusing is needed, the implementation MUST follow the <a href="http://dev.w3.org/html5/spec/editing.html#focus-management"><b>focusing steps</b></a> as described in the focus management section of the [[!HTML5]] spec. The focus MUST NOT leave the element at the end of the interaction, other than as a result of the interaction itself (i.e. when the tab key is sent).
+    <p>In case focusing is needed, the implementation MUST follow the <a href="http://dev.w3.org/html5/spec/editing.html#focus-management"><b>focusing steps</b></a> as described in the focus management section of the [[!HTML5]] spec. The focus MUST NOT leave the element at the end of the interaction, other than as a result of the interaction itself (i.e. when the tab key is sent).
     </p>
     <dl class="idl" title="interface WebElement">
       <dt>void clear()</dt>
@@ -1449,7 +1444,7 @@ assertEquals(style, recovered);
         <li>Uppercase letters and symbols requiring the SHIFT key for typing.</li>
         <li>Modifier keys</li>
         <li>Special keys</li>
-      </ul>The rest of this section details the values used to represent the different keys, as well as the expected behaviour for each key type.</p></dd>
+      </ul>The rest of this section details the values used to represent the different keys, as well as the expected behaviour for each key type.</dd>
     </dl>
     <p>When emulating user input, the implementation MUST generate
     the same sequence of events that would have been produced if a real user was
@@ -1478,61 +1473,72 @@ assertEquals(style, recovered);
     requirements listed below.
     <p>For each key, <code>key</code> in <code>keysToSend</code>, do
     <ol>
-      <li>If <code>key</code> is a lower-case symbol:</li>
+      <li>If <code>key</code> is a lower-case symbol:
       <ol>
-        <li>If the Shift key is not pressed:</li>
+        <li>If the Shift key is not pressed:
         <ol>
           <li>Generate a pair of key-down and key-up events with <code>key</code> as
           the character to emulate</li>
         </ol>
-        <li>else (The Shift key is pressed)</li>
+        </li>
+        <li>else (The Shift key is pressed)
         <ol>
           <li>let <code>uppercaseKey</code> be the upper-case character matching <code>key</code></li>
           <li>Generate a pair of key-down and key-up events with <code>uppercaseKey</code> as
           the character to emulate</li>
         </ol>
+        </li>
       </ol>
-      <li>Else if <code>key</code> is an upper-case symbol:</li>
+      </li>
+      <li>Else if <code>key</code> is an upper-case symbol:
       <ol>
-        <li>If the Shift key is not pressed:</li>
+        <li>If the Shift key is not pressed:
         <ol>
           <li>Generate a key-down event of the Shift key.
           <li>Generate a pair of key-down and key-up events with <code>key</code> as
           the character to emulate</li>
           <li>Generate a key-up event of the Shift key.
         </ol>
-        <li>else (The Shift key is pressed)</li>
+        </li>
+        <li>else (The Shift key is pressed)
         <ol>
           <li>Generate a pair of key-down and key-up events with <code>key</code> as
           the character to emulate</li>
         </ol>
+        </li>
       </ol>
-      <li>Else if <code>key</code> represents a modifier key:</li>
+      </li>
+      <li>Else if <code>key</code> represents a modifier key:
       <ol>
         <li>let <code>modifier</code> be the modifier key represented by
         <code>key</code></li>
-        <li>If <code>modifier</code> is currently held down:</li>
+        <li>If <code>modifier</code> is currently held down:
         <ol><li>Generate a key-up event of <code>modifier</code></li></ol>
-        <li>Else:</li>
+        </li>
+        <li>Else:
         <ol><li>Generate a key-down event of <code>modifier</code></li></ol>
+        </li>
         <li>Maintain this key state and use it to modify the input until it is
         pressed again.</li>
       </ol>
-      <li>Else if <code>key</code> represents the NULL key:</li>
+      </li>
+      <li>Else if <code>key</code> represents the NULL key:
       <ol>
         <li>Generate key-up events of all modifier keys currently held
         down.</li>
         <li>All modifier keys are now assumed to be released.</li>
       </ol>
-      <li>Else if <code>key</code> represents a special key:</li>
+      </li>
+      <li>Else if <code>key</code> represents a special key:
       <ol>
         <li>Translate <code>key</code> to the special key it represents</li>
         <li>Generate a pair of key-down and key-up events for the special key.</li>
       </ol>
+      </li>
     </ol>
     <p>Once keyboard input is complete, an implicit NULL key is sent unless the
     final character is the NULL key.</p>
-    </p> <!-- Pseudo-code -->
+    <p> <!-- Pseudo-code --></p>
     <p>Any implementation MUST comply with these requirements:
     <ul>
       <li>For uppercase letters and symbols that require the Shift key to be
@@ -1555,8 +1561,7 @@ assertEquals(style, recovered);
       <code>sendKeys</code> call and the appropriate key-up events
       generated</li>
     </ul>
-    </p>
-    </p> <!-- Algorithm paragraph -->
+    <p> <!-- Algorithm paragraph --></p>
     <h3>Character types</h3>
     <p>The <code>keysToSend</code> parameter contains a mix of printable
     characters and pressable keys that aren't text. Press-able keys that aren't
@@ -1641,15 +1646,13 @@ assertEquals(style, recovered);
       <li>A - Z</li>
       <li>!$^*()+{}:?|~@#%_\" &amp; &lt; &gt;</li>
     </ul>
-    </p>
-    </p>
     </section>
     </section>
 
     <p class="note">User input should be emulated natively: The input events
     should be indistinguishable from a user, behind a screen and a keyboard,
     interacting with the browser. For that purpose, it is highly recommended
-    that input events will not be generated at the DOM level. Instead, emulated
+    that input events not be generated at the DOM level. Instead, emulated
     input events should originate from the browser's own event queue, just like
     user input.
     </p>
