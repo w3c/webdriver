@@ -1477,15 +1477,14 @@ assertEquals(style, recovered);
       <ol>
         <li>If the Shift key is not pressed:
         <ol>
-          <li>Generate a pair of key-down and key-up events with <code>key</code> as
+          <li>Generate a sequence of key-down, key-press and key-up events with <code>key</code> as
           the character to emulate</li>
         </ol>
         </li>
         <li>else (The Shift key is pressed)
         <ol>
           <li>let <code>uppercaseKey</code> be the upper-case character matching <code>key</code></li>
-          <li>Generate a pair of key-down and key-up events with <code>uppercaseKey</code> as
-          the character to emulate</li>
+          <li>Generate a sequence of key-down, key-press and key-up events with <code>uppercaseKey</code> as the character to emulate</li>
         </ol>
         </li>
       </ol>
@@ -1495,15 +1494,14 @@ assertEquals(style, recovered);
         <li>If the Shift key is not pressed:
         <ol>
           <li>Generate a key-down event of the Shift key.
-          <li>Generate a pair of key-down and key-up events with <code>key</code> as
+          <li>Generate a sequence of key-down, key-press and key-up events with <code>key</code> as
           the character to emulate</li>
           <li>Generate a key-up event of the Shift key.
         </ol>
         </li>
         <li>else (The Shift key is pressed)
         <ol>
-          <li>Generate a pair of key-down and key-up events with <code>key</code> as
-          the character to emulate</li>
+          <li>Generate a sequence of key-down, key-press and key-up events with <code>key</code> as the character to emulate</li>
         </ol>
         </li>
       </ol>
@@ -1532,7 +1530,7 @@ assertEquals(style, recovered);
       <li>Else if <code>key</code> represents a special key:
       <ol>
         <li>Translate <code>key</code> to the special key it represents</li>
-        <li>Generate a pair of key-down and key-up events for the special key.</li>
+        <li>Generate a sequence of key-down, key-press and key-up events for the special key.</li>
       </ol>
       </li>
     </ol>
@@ -1639,23 +1637,29 @@ assertEquals(style, recovered);
       <tr><td>COMMAND</td><td>\uE03D</td><td>Special key</td></tr>
       <tr><td>ZENKAKU_HANKAKU</td><td>\uE040</td><td>Special key</td></tr>
     </table>
-    <p>The keys considered upper-case symbols are either defined by the current
-    keyboard locale or are derived from the US 104 keys Windows keyboard layout,
-    which are:
+    <p>The keys considered upper-case symbols are either defined by the current keyboard locale or are derived from the US 104 keys Windows keyboard layout, which are:
     <ul>
       <li>A - Z</li>
       <li>!$^*()+{}:?|~@#%_\" &amp; &lt; &gt;</li>
     </ul>
+    <p>When the user input is emulated natively (see note below), the implementation SHOULD use the current keyboard locale to determine which symbols are upper case. In all other cases, the implementation MUST use the US 104 key Windows keyboard layout to determine those symbols.</p>
+    <p>The state of the physical keyboard MUST NOT affect emulated user input.</p>
+    </p>
+    <h3>Internationalized input</h3>
+    <p>Non-latin symbols: TBD</p>
+    <p>Complex scripts using Input Method Editor (IME): TBD</p>
     </section>
     </section>
 
-    <p class="note">User input should be emulated natively: The input events
-    should be indistinguishable from a user, behind a screen and a keyboard,
-    interacting with the browser. For that purpose, it is highly recommended
-    that input events not be generated at the DOM level. Instead, emulated
-    input events should originate from the browser's own event queue, just like
-    user input.
+    <p class="note">User input should be emulated natively: The input events should be indistinguishable from a user, behind a screen and a keyboard, interacting with the browser. For that purpose, it is highly recommended that input events not be generated at the DOM level. Instead, emulated input events should originate from the browser's own event queue, just like other user input. This is the order of preference for methods to emulate user input:
+    <ul>
+      <li>Injection into the browser's event queue.</li>
+      <li>Sending OS-specific input messages to the browser's window. This has the disadvantage of being OS-specific.</li>
+      <li>Use of Javascript to inject events at the DOM level.</li>
+      <li>Use of the accessibility API. The disadvantage of this method, in addition to being OS-specific, is that the browser's window must be focused. As a result, multiple tests cannot run in parallel on the same desktop session.</li>
+    </ul>
     </p>
+    <p class="note">These input methods could be used to interact with whe browser's chrome. However, the way to do so is not defined as it most likely to be implementation-specific.</p>
     <section>
       <h2>High Level APIs: Clicking and Typing</h2>
       <p></p>
