@@ -848,9 +848,9 @@ In addition, implementors MAY add additional page loading strategies.</p>
   </section>
   <section>
     <dl class="idl" title="interface SeachContext">
-      <dt>caller getter WebElement[] findElements(in Locator locator)</dt>
+      <dt>getter WebElement[] findElements(in Locator locator)</dt>
       <dd></dd>
-      <dt>called getter WebElement findElement(in Locator locator)</dt>
+      <dt>getter WebElement findElement(in Locator locator)</dt>
       <dd></dd>
     </dl>
   </section>
@@ -1663,7 +1663,7 @@ assertEquals(style, recovered);
     <dl class="idl" title="interface Actions">
       <dt>void keyDown(Keys theKey)</dt><dd>Performs a modifier key press. Does not release the modifier key - it is kept pressed for subsequent interactions. The only valid values for theKey parameter ones defined as modifier keys in the previous section.</dd>
       <dt>void keyUp(Keys theKey)</dt><dd>Performs a modifier key release. The only valid values for theKey parameter ones defined as modifier keys in the previous section.</dd>
-      <dt>void sendKeys(string[] keysToSend)</dt><dd>Sends a sequence of keys to the active element.</dd>a
+      <dt>void sendKeys(string[] keysToSend)</dt><dd>Sends a sequence of keys to the active element.</dd>
       <dt>void moveToElement(WebElement toElement)</dt><dd>Moves the mouse cursor to the middle of toElement, after toElement has been scrolled into view (if outside the viewport). The middle of the element is calculated using getBoundingClientRect</dd>
       <dt>void moveByOffset(int xOffset, int yOffset)</dt><dd>Moves the mouse cursor from its current position by the given offset. The offset provided may be negative. If the end coordinates are outside the viewport, then the viewport should be scrolled to match.</dd>
       <dt>void clickAndHold()</dt><dd>Clicks, without releasing, the left mouse button, at the current mouse location.</dd>
@@ -1678,7 +1678,7 @@ assertEquals(style, recovered);
       <li>To release all currently-held modifier keys, Keys.NULL MUST be used.</li>
       <li>The results of using this API to generate sequences of actions that are not logically possible (such as releasing a  modifier key twice) are undefined.</li>
       <li>The current mouse position MUST be persistent during the life of the browser. The interaction commands are not batched together, so one command should be able to rely on the mouse position set by another command.</li>
-    </ul></p>
+    </ul>
     <p>Mouse movement and scrolling: Despite the implicit nature of this API, some mouse movement actions still cause implicit scrolling. The alternative, of providing an API to scroll the viewport and forcing the user to do so, would be inconvenient. When moving to an element, the implementation SHOULD use the same method of scrolling as is used for <code>WebElement.click()</code>. When moving by an offset, the implementation has a greater freedom to decide how much to scroll. In both cases, the implementation MUST not scroll if the target coordinates are already in the viewport.</p>
     <p class="note">The methods described in this interface are a minimal set. An implementation may add additional helper methods for convenience. Such a method could be <code>dragAndDrop(WebElement, WebElement)</code> as a shorthand form of calling <code>moveTo(WebElement), clickAndHold(), moveTo(WebElement), release()</code></p>
     </section> <!-- high-level APIs -->
