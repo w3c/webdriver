@@ -2,7 +2,7 @@
   <h2>Elements</h2>
   <p>One of the key abstractions of the WebDriver API is the 
   <a>WebElement</a> interface. Each instance of this interface represents an 
-  <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-element">Element</a>as defined in the
+  <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-element">Element</a> as defined in the
   [[!DOM4]] specification. Because the WebDriver API is designed to allow users to interact with apps as if
   they were actual users, the capabilities offered by the 
   <code>WebElement</code> interface are somewhat different from those offered by the DOM Element interface.</p>
@@ -11,6 +11,13 @@
   of the DOM Element's "id" property. The ID for every WebElement representing the same
   underlying DOM Element must be the same. The IDs used to refer to different
   underlying DOM Elements must be unique.</p>
+
+  <dl class="idl" title="interface WebElement">
+    <dt>readonly attribute DOMString id</dt>
+    <dd>The WebDriver ID of this particular element. This SHOULD be a UUID.</dd>
+  </dl>
+
+  </dl>
 
   <div class="note">
     <p>This requirement around WebElement IDs allows for efficient equality

@@ -812,7 +812,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
   <h2>Elements</h2>
   <p>One of the key abstractions of the WebDriver API is the 
   <a>WebElement</a> interface. Each instance of this interface represents an 
-  <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-element">Element</a>as defined in the
+  <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-element">Element</a> as defined in the
   [[!DOM4]] specification. Because the WebDriver API is designed to allow users to interact with apps as if
   they were actual users, the capabilities offered by the 
   <code>WebElement</code> interface are somewhat different from those offered by the DOM Element interface.</p>
@@ -821,6 +821,13 @@ In addition, implementors MAY add additional page loading strategies.</p>
   of the DOM Element's "id" property. The ID for every WebElement representing the same
   underlying DOM Element must be the same. The IDs used to refer to different
   underlying DOM Elements must be unique.</p>
+
+  <dl class="idl" title="interface WebElement">
+    <dt>readonly attribute DOMString id</dt>
+    <dd>The WebDriver ID of this particular element. This SHOULD be a UUID.</dd>
+  </dl>
+
+  </dl>
 
   <div class="note">
     <p>This requirement around WebElement IDs allows for efficient equality
@@ -1394,7 +1401,7 @@ assertEquals(style, recovered);
     </section>
     <section>
     <h2>Clicking</h2>
-    <dl class="idl" title="interface WebElement">
+    <dl class="idl" title="partial interface WebElement">
       <dt>void click()</dt>
       <dd>Clicks in the middle of the <code>WebElement</code> instance. The middle of the element is defined as the middle of the box returned by
       calling <a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">getBoundingClientRect</a> on the underlying DOM Element, according to the [[!CSSOM-VIEW]] spec. If the element is outside the <a href="http://www.w3.org/TR/CSS21/visuren.html#viewport">viewport</a> (according to the [[!CSS21]] spec), the implementation should bring the element into view first. The implementation MAY invoke scrollIntoView on the underlying DOM Element. The element MUST be visible, as defined in section 10.1. See the note below for when the element is obscured by another element.
@@ -1431,7 +1438,7 @@ assertEquals(style, recovered);
     </ul>
     <p>In case focusing is needed, the implementation MUST follow the <a href="http://dev.w3.org/html5/spec/editing.html#focus-management"><b>focusing steps</b></a> as described in the focus management section of the [[!HTML5]] spec. The focus MUST NOT leave the element at the end of the interaction, other than as a result of the interaction itself (i.e. when the tab key is sent).
     </p>
-    <dl class="idl" title="interface WebElement">
+    <dl class="idl" title="partial interface WebElement">
       <dt>void clear()</dt>
       <dd>Clears the value of the element.</dd>
       <dt>void sendKeys(string[] keysToSend)</dt>
