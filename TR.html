@@ -1483,7 +1483,7 @@ assertEquals(style, recovered);
   </div>
   <div id="rendering-text" class="section">
    <h3><span class="secno">10.4 </span>Rendering Text</h3>
-   <p>All WebDriver implementations must support getting the <a href="#visibility">visible</a> text of a WebElement, with excess whitespace compressed.</p>
+   <p>All WebDriver implementations must support getting the <a href="#determining-visibility">visible</a> text of a WebElement, with excess whitespace compressed.</p>
    
 <p>The following definitions are used in this section:
     </p><dl>
@@ -1508,7 +1508,7 @@ assertEquals(style, recovered);
         <ol>
             <li>Get whitespace, text-transform, and then, if <code>child</code> is:
                 <ul>
-                    <li>a node which is not <a href="#visibility">visible</a>, do nothing</li>
+                    <li>a node which is not <a href="#determining-visibility">visible</a>, do nothing</li>
                     <li>a [<cite><a class="bibref" href="#bib-DOM4">DOM4</a></cite>] <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text">text node</a> let <code>text</code> equal the <code>nodeValue</code> property of <code>child</code>. Then:
                         <ol>
                             <li>Remove any zero-width spaces (\u200b), form feeds (\f) or vertical tab feeds (\v) from <code>text</code>.</li>
@@ -1519,7 +1519,7 @@ assertEquals(style, recovered);
                             <li>Append <code>text</code> to <code>last(lines)</code> in-place</li>
                         </ol>
                     </li>
-                    <li>an element which is <a href="#visibility">visible</a>. If the element is a:
+                    <li>an element which is <a href="#determining-visibility">visible</a>. If the element is a:
                         <ul>
                             <li>BR element: Push '' to <code>lines</code> and continue</li>
                             <li><a href="#text.blocklevel">Block-level</a> element and if <code>last(lines)</code> is not '', push '' to <code>lines</code>.</li>
