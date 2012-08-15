@@ -1,4 +1,93 @@
 <section> 
   <h2>Cookies</h2>
-  <p></p>
+  <p>This section describes the interaction with
+  <a href='http://www.w3.org/TR/DOM-Level-2-HTML/html.html#ID-8747038'>cookies</a> 
+  as described in Web DOM Core Specification ([[!DOM-LEVEL-2-CORE]]). When retrieving 
+  and setting a cookie it MUST be in the format of the <a href='#cookie'>Cookie JSON Object</a>.</p>
+  <section>
+  <p>Retrieving all cookies from the page:</p>
+  <table>
+    <tr>
+      <td>Command Name</td>
+      <td>getCookies</td>
+    </tr>
+    <tr>
+      <td>Parameters</td>
+      <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
+      </td>
+    </tr>
+    <tr>
+      <td>Return Value</td>
+      <td>Array.&lt;string&gt; A list of cookies</td>
+    </tr>
+  </table>
+  </section>
+  <section>
+  <p>Setting a cookie:</p>
+  <table>
+    <tr>
+      <td>Command Name</td>
+      <td>addCookie</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
+            "cookie" {object} A <a href='#cookie'>Cookie JSON object</a> defining the cookie to be added 
+        </td>
+      </tr>
+      <tr>
+        <td>Return Value</td>
+        <td>Array.&lt;object&gt; A list of cookies in the <a href='#cookie'>Cookie JSON object</a> format.</td>
+      </tr>
+      <tr>
+        <td>Throws</td>
+        <td>InvalidCookieDomain - If the cookie's domain is not visible from the current page.</br>
+            UnableToSetCookie - If attempting to set a cookie on a page that does not support cookies (e.g. pages with mime-type text/plain).
+        </td>
+      <tr>
+    </table>
+  </section>
+
+  <section>
+    <a name='cookie'><h2>Cookie JSON Object</h2></a>
+    <p>The JSON object describing a cookie is as follows. When returning Cookie objects, 
+    the server SHOULD only omit an optional field if it is incapable of providing the information</p>
+    <table>
+      <tr>
+        <td>key</td>
+        <td>type</td>
+        <td>description</td>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>{string}</td>
+        <td>The name of the cookie</td>
+      </tr>
+      <tr>
+        <td>value</td>
+        <td>{string}</td>
+        <td>The cookie value</td>
+      </tr>
+      <tr>
+        <td>path</td>
+        <td>{string}</td>
+        <td>The cookie path</td>
+      </tr>
+      <tr>
+        <td>domain</td>
+        <td>{string}</td>
+        <td>The domain the cookie is visible too</td>
+      </tr>
+      <tr>
+        <td>secure</td>
+        <td>{boolean}</td>
+        <td>Whether the cookie is a secure cookie.</td>
+      </tr>
+      <tr>
+        <td>expiry</td>
+        <td>{number}</td>
+        <td>When the cookie expires, specified in seconds since midnight, January 1, 1970 UTC.</td>
+      </tr>
+    </table>
+  </section>
 </section>
