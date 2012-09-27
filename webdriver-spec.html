@@ -920,6 +920,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
           <td>boolean</td>
         </tr>
       </table>
+      <p>Strategy name: css selector</p>
       <p>If a browser supports the 
       <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a> ([[!SELECTORS-API]]) it MUST support locating elements by
       CSS Selector. If the browser does not support the browser CSS Selector spec it MAY chose to implement locating
@@ -931,6 +932,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
     </section>
     <section>
       <h2>Element ID</h2>
+      <p>Strategy name: id</p>
       <p>This strategy MUST be supported by all WebDriver implementations.</p>
       <p>The HTML5 specification ([[!HTML5]]) states that <a
         href="http://www.w3.org/TR/html5/elements.html#the-id-attribute">element
@@ -945,6 +947,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
     </section>
     <section>
       <h2>Link Text</h2>
+      <p>Strategy name: link text</p>
       <p>This strategy MUST be supported by all WebDriver implementations. </p>
       <p>This strategy MUST return all <a href="http://www.w3.org/TR/html5/the-a-element.html#the-a-element">"a"</a> elements with visible text exactly and case sensitively equal to the term being searched for.</p>
       <div class="note">
@@ -962,6 +965,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
     </section>
     <section>
       <h2>Partial Link Text</h2>
+      <p>Strategy name: partial link text</p>
       <p>This strategy MUST be supported by all WebDriver implementations.</p>
       <p>This strategy is very similar to <a href="#link-text">link text</a>, but rather than matching the entire string, only a subset needs to match. That is, this MUST return all <a href="http://www.w3.org/TR/html5/the-a-element.html#the-a-element">"a"</a> elements with visible text that partially or completely and case sensitively matches the term being searched for.</p>
       <div class="note">
@@ -979,6 +983,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
     </section>
     <section>
       <h2>XPath</h2>
+      <p>Strategy name: xpath</p>
       <p>All WebDriver implementations MUST support finding elements by XPath 1.0 [[!XPATH]] with the <a href="http://dev.w3.org/html5/spec/Overview.html#interactions-with-xpath-and-xslt">edits from section 3.3</a> of the [[!HTML5]] specification made. If no native support is present in the browser, a pure JS implementation MAY be used. When called, the returned values MUST be equivalent of calling "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate">evaluate</a>" function from the DOM Level 3 XPath spec [[DOM-LEVEL-3-XPATH]] with the result type set to "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE">ORDERED_NODE_SNAPSHOT_TYPE</a> (7).</p>
     </section>
   </section>
