@@ -571,7 +571,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
   <section>
     <h2>Window Handles</h2>
 
-    <p>Each window has a "window handle" associated with it. This is an opaque string which is unique to the window. The suggested implementation is as a UUID. The "getWindowHandle" command can be used to obtain the window handle for the window that commands are currently acting upon:</p>
+    <p>Each window has a "window handle" associated with it. This is an opaque string which MUST uniquely identify the window within the session. This MAY be a UUID. The "getWindowHandle" command can be used to obtain the window handle for the window that commands are currently acting upon:</p>
 
     <table>
       <tr>
@@ -584,7 +584,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Return Value</td>
-        <td>string</td>
+        <td>{string} The opaque string which uniquely identifies this window within the session.</td>
       </tr>
     </table>
   </section>
@@ -603,7 +603,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Return Value</td>
-        <td>Array.&lt;string&gt;</td>
+        <td>{Array.&lt;string&gt;} An array containing a window handle for every open window in this session.</td>
       </tr>
     </table>
 
@@ -649,8 +649,8 @@ In addition, implementors MAY add additional page loading strategies.</p>
         <td>Parameters</td>
         <td>"sessionId" {string} The key that identifies which session this request is for.<br />
           "windowHandle" {string} The handle referring to the window to resize.<br/>
-          "width" {number} The new window width.<br />
-          "height" {number} The new window height.
+          "width" {number} The new window width in pixels.<br />
+          "height" {number} The new window height in pixels.
         </td>
       </tr>
       <tr>
@@ -675,8 +675,8 @@ In addition, implementors MAY add additional page loading strategies.</p>
       <tr>
         <td>Return Value</td>
         <td>An object with two keys:<br>
-          "width" {number} The width of the specified window.<br>
-          "height" {number} The height of the specified window.<br>
+          "width" {number} The width of the specified window in pixels.<br>
+          "height" {number} The height of the specified window in pixels.<br>
         </td>
       </tr>
 
@@ -772,7 +772,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	</tr>
 </table>
 
-<p>The "switchToWindow" command is used to select which window should currently be accepting commands. In order to determine which window should be used for accepting commands, the "switchToWindow" command will iterate over all windows. For each window, the following will be compared --- in this order --- with the "name" parameter:
+<p>The "switchToWindow" command is used to select which window should currently be accepting commands. In order to determine which window should be used for accepting commands, the "switchToWindow" command MUST iterate over all windows. For each window, the following MUST be compared --- in this order --- with the "name" parameter:
     
     <ol>
         <li>A window handle, obtained from "getWindowHandles" or "getWindowHandle".</li>
@@ -780,7 +780,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
         <li>The "id" attribute of the window.</li>
     </ol>
 
-<p>If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise the "default content" of the first window to match will be selected for accepting commands.</p>
+<p>If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise the "<a href="#default-content">default content</a>" of the first window to match will be selected for accepting commands.</p>
 
 <p>When a new browser session is started by WebDriver and only a single window is present then the default content of that window becomes the "current" window. When more than one window is opened, the "current" window is undefined. Any commands that are executed at this point that require a window MUST throw an exception (<strong>TODO: Which exception? Ideally the same as if a window had just been closed</strong>). The correct way for a user to recover from this situation is to obtain the list of window handles and to "switch to" one of these.</p>
 

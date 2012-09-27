@@ -33,7 +33,7 @@
 	</tr>
 </table>
 
-<p>The "switchToWindow" command is used to select which window should currently be accepting commands. In order to determine which window should be used for accepting commands, the "switchToWindow" command will iterate over all windows. For each window, the following will be compared --- in this order --- with the "name" parameter:
+<p>The "switchToWindow" command is used to select which window should currently be accepting commands. In order to determine which window should be used for accepting commands, the "switchToWindow" command MUST iterate over all windows. For each window, the following MUST be compared --- in this order --- with the "name" parameter:
     
     <ol>
         <li>A window handle, obtained from "getWindowHandles" or "getWindowHandle".</li>
@@ -41,7 +41,7 @@
         <li>The "id" attribute of the window.</li>
     </ol>
 
-<p>If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise the "default content" of the first window to match will be selected for accepting commands.</p>
+<p>If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise the "<a href="#default-content">default content</a>" of the first window to match will be selected for accepting commands.</p>
 
 <p>When a new browser session is started by WebDriver and only a single window is present then the default content of that window becomes the "current" window. When more than one window is opened, the "current" window is undefined. Any commands that are executed at this point that require a window MUST throw an exception (<strong>TODO: Which exception? Ideally the same as if a window had just been closed</strong>). The correct way for a user to recover from this situation is to obtain the list of window handles and to "switch to" one of these.</p>
 
