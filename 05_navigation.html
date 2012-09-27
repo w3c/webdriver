@@ -17,7 +17,7 @@
   end SHOULD wait until all HTTP traffic to that frame is complete.</dd>
 
   <dt>normal</dt>
-  <dd>The remote ends MUST wait until the frame currently handling commands reaches
+  <dd>The remote end MUST wait until the frame currently handling commands reaches
   "document.readyState == 'complete'" or there are no more outstanding
   network requests other than XMLHttpRequests.</dd>
 
@@ -56,13 +56,13 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	</tr>
 </table>
 
-<p>The "get" command is used to cause the browser under test to navigate to a new location, and is named after the HTTP verb. From a user's point of view, this is as if they have entered the "url" into the URL bar. When the command returns is based on the <a href="#page-load-strategies">page load strategy</a> that the user has selected with the following exceptions when the strategy is not "none":
+<p>The "get" command is used to cause the browser to navigate to a new location, and is named after the HTTP verb. From a user's point of view, this is as if they have entered the "url" into the URL bar. When the command returns is based on the <a href="#page-load-strategies">page load strategy</a> that the user has selected with the following exceptions when the strategy is not "none":
 
 <ul>
-    <li>HTTP redirects MUST be automatically followed without first returning control to the user.</li>
-    <li>Control MUST return to the user on pages with an HTML META tags that would cause a refresh only if the timeout is greater than 1 second.</li>
-    <li>Control MUST be returned to the user if any modal dialog box, such as those opened by on <code>window.onbeforeunload</code> or <code>window.alert</code>, is opened at any point.</li>
-    <li>Control MUST be returned to the user if user credentials are requested by the browser. That is, if BASIC, DIGEST, NTLM or similar authentication is required. This does not include FORM-based authentication.</li>
+    <li>HTTP redirects MUST be automatically followed without responding to the command.</li>
+    <li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met.</li>
+    <li>If any modal dialog box, such as those opened by on <code>window.onbeforeunload</code> or <code>window.alert</code>, is opened at any point in the page load, a response MUST be sent.</li>
+    <li>If a 401 response is seen by the browser, a response MUST be sent. That is, if BASIC, DIGEST, NTLM or similar authentication is required, the page load is assumed to be complete. This does not include FORM-based authentication.</li>
 </ul>    
 
 <section>
@@ -76,7 +76,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 
 <p>WebDriver implementations MUST support users accessing sites served via HTTPS. Access to those sites using self-signed or invalid certificates, and where the certificate does not match the serving domain MUST be the same as if the HTTPS was configured properly.</p>
 
-<p class="note">The reason for this is that WebDriver instances are often used for testing. It's a sorry fact that many QA and testers are asked to verify that apps work on sites that have insecure HTTPS configurations</p>
+<p class="note">The reason for this is that implementations of this spec are often used for testing. It's a sorry fact that many QA and testers are asked to verify that apps work on sites that have insecure HTTPS configurations</p>
 </section>
 
 <p>The exception to requirement is if the <code>Capabilities</code> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY chose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. If this is the case, the <code>Capabilities</code> describing the session MUST also set the <code>secureSsl</code> capability to "true".
@@ -86,6 +86,8 @@ In addition, implementors MAY add additional page loading strategies.</p>
 <section>
 <h3>Detecting When to Handle Commands</h3>
 
-<p>WebDriver instances MUST only process commands when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that control would be returned to the user.</p>
+<p>Commands MUST only be processed when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that page loading is complete.</p>
+
+<p>If a remote end receives a new <code>Command</code> for a session while still waiting to finish an existing <code>Command</code> for that session it MAY choose to queue the command for execution as soon as possible, it MAY throw a <code>WebDriverException</code> or it may leave the remote end in an inconsistent state. Because of this, local ends SHOULD NOT attempt to send a new <code>Command</code> to a session until the previous <code>Command</code> has returned.</p>
 </section>
 </section>
