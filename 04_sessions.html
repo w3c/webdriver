@@ -1,7 +1,7 @@
 <section>
   <h2>Sessions</h2>
   <p>Non-normative summary: A session is equivalent to a single instantiation of a particular browser, including all
-  child windows. The WebDriver API gives each session a UUID stored as a string that can be used to differentiate one
+  child windows. The WebDriver API gives each session an opaque string that can be used to differentiate one
   session from another, allowing multiple browsers to be controlled on the same machine if needed, and allowing
   sessions to be routed via a multiplexer. This ID is sent with every <a>Command</a> and returned with every 
   <a>Response</a> and is stored on the <code>sessionId</code> field.</p>
@@ -16,24 +16,25 @@
       "requiredCapabilities" entry MAY also be created and populated with a Capabilities instance. The "sessionId" fields
       SHOULD be left empty.</li>
       <li>The Command is transmitted to the remote end.</li>
-      <li>The remote end MUST examine the "requiredCapabilities" parameter if specified and SHOULD examine the "desiredCapabilities" parameter, and MUST create a new session matching as many of the Capabilities as
+      <li>The remote end MUST examine the "requiredCapabilities" parameter if specified, SHOULD examine the "desiredCapabilities" parameter, and MUST create a new session matching as many of the Capabilities as
       possible.
       How the new session is created depends on the implementation of this specification. 
         <ul>
           <li>If any of the "requiredCapabilities" cannot be fulfilled by the new session, the remote end MUST quit the session and return the
             <code>SessionNotCreatedException</code> error code. The sessionId of the Response object MUST be left as the default value unless the Command had the sessionId set, in which case that value MUST be used. The error message SHOULD list all unmet required capabilities though only the 
             first unmet required capability MUST be given.</li>
+          <li>If a capability is listed in both the requiredCapabilities and desiredCapabilities, the value in the requiredCapabilities MUST be used.</li>
           </ul>
       </li>
-      <li>The session MUST be assigned a UUID which MUST be unique for each session. Generating the UUID
+      <li>The session MUST be assigned a sessionId which MUST be unique for each session (a UUID is recommended). Generating the sessionId
       MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
-      discarded in favour of the freshly generated UUID. Because of this, it is
-      recommended that UUID generation be done on the remote end. If the UUID has already been used, a Response MUST be sent with the status 
-      code set to <code>SessionNotCreatedException</code> and the value being an explanation that the UUID has previously been used.</li>
+      discarded in favour of the freshly generated sessionId. Because of this, it is
+      recommended that sessionId generation be done on the remote end. If the sessionId has already been used, a Response MUST be sent with the status 
+      code set to <code>SessionNotCreatedException</code> and the value being an explanation that the sessionId has previously been used.</li>
       <li>The remote end MUST create a new Response object, with the following fields MUST be set to: 
       <ul>
-        <li>"sessionId": the UUID associated with this session.</li>
-        <li>"value": a Capabilities instance with keys matching the parts of this specification that can be fulfilled. </li>
+        <li>"sessionId": the <code>sessionId</code> associated with this session.</li>
+        <li>"value": a Capabilities instance. The keys of this Capabilities instance MUST be the strings given in each of the supported capabilities as defined in the relevant sections of this specification. Supported functionality MUST be included in this Capabilities instance, while unsupported functionality MAY be omitted.</li>
         <li>"status": the <code>SUCCESS</code> error code.</li>
       </ul></li>
       <li>The Response is returned to the local end.</li>
@@ -66,7 +67,7 @@
           <li>WINDOWS</li>
         </ul>
         <p>In addition "ANY" may be used to indicate the underlying OS is either unknown or does not matter.
-        Implementors MAY add additional platform names.</p>
+        Implementors MAY add additional platform names, and it is recommended that they are upper case and prefixed with the vendor code (eg: "MOZ-B2G").</p>
 
         <!-- TODO: Add section on comparing platforms -->
 
@@ -82,11 +83,11 @@
         describing the session.</dd>
         <dt>Timeout</dt>
         <dd>The new session could not be created within the time allowed for command execution on the remote end. This
-        time MAY be infinite. The "value" field of the Response SHOULD contain a string explaining that a timeout has
+        time MAY be infinite (in which case this status won't be seen). The "value" field of the Response SHOULD contain a string explaining that a timeout has
         occurred, but it MAY be left as the null value or filled with the empty string.</dd>
         <dt>UnknownError</dt>
         <dd>An unhandled error of some sort has occurred. The "value" field of the Response SHOULD contain a more detailed
-        description of the error.</dd>
+        description of the error as a string.</dd>
       </dl>
     </section>
     <section>
