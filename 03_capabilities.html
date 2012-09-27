@@ -13,16 +13,16 @@
   <dl class="idl" title="interface Capabilities">
     <dt>readonly attribute dictionary capabilities</dt>
     <dd>The underlying collection of capabilities, represented as a dictionary mapping strings to values which may be
-    of type <code>boolean</code>, <code>numerical</code> or <code>string</code>.</dd>
+    of type <code>boolean</code>, <code>numerical</code> or <code>string</code>. The default value is an empty dictionary.</dd>
     <dt>boolean has(string capabilityName)</dt>
     <dd>Queries the underlying <code>capabilities</code> to see whether the
-    value is set. This will return true if the capabilities contain a key with
+    value is set. This MUST return true if the capabilities contain a key with
     the given <code>capabilityName</code> and the value of that key is defined.
-    If the value is a boolean, this function will return that boolean value. If
-    the value is <code>null</code>, an empty string or a 0 then this method will return
+    If the value is a boolean, this function MUST return that boolean value. If
+    the value is <code>null</code>, an empty string or a 0 then this method MUST return
     false.</dd>
     <dt>(string or boolean or number)? get(string capabilityName)</dt>
-    <dd>Get the value of the key matching capabilityName in the underlying <code>capabilities</code> or  <code>null</code>if no value is defined.</dd>
+    <dd>Get the value of the key matching capabilityName in the underlying <code>capabilities</code> or <code>null</code>if no value is defined.</dd>
   </dl>
   <p>A <code>Capabilities</code> instance MUST be immutable. If a mutable <code>Capabilities</code> instance is required, then the <code>MutableCapabilities</code> MUST be used instead.</p>
 </section>
@@ -30,7 +30,24 @@
   <h3>MutableCapabilities</h3>
   <dl class="idl" title="interface MutableCapabilities : Capabilities">
     <dt>void set(string capabilityName, (string or boolean or number)? value)</dt>
-    <dd>Set the value of the given <code>capabilityName</code>to the given <code>value</code>. If the value is not a boolean, numerical type or a string, a <code>WebDriverException</code> should be thrown.</dd>
+    <dd>Set the value of the given <code>capabilityName</code>to the given <code>value</code>. If the value is not a boolean, numerical type, a string or the null value a <code>WebDriverException</code> SHOULD be thrown.</dd>
   </dl>
+
+  <p>In the case where the local and remote end are in the same process, it SHOULD be acceptable to use other types with the <code>set</code> method. If this is allowed, the value MUST be serialized to one of the acceptable types (boolean, numerical type, a string or the null value) before being sent out of process (such as transmitting from the local to the remote end). If this serialization is not possible, a <code>WebDriverException</code> MUST be thrown.</p>
+
+  <div class="note">
+	<p>As an example, perhaps the browser being automated supports user profiles. This may be modelled in code as a "Profile" object, leading to code such as:</p>
+	<pre class="code">
+		profile = Profile("some/user/directory")
+		capabilities = MutableCapabilities()
+		capabilities.set('profile', profile)
+		driver = RemoteDriver(profile)
+    </pre>
+
+    <p>In this example, the profile represents a directory on the local disk. One way to serialize this would be to zip the contents of this profile and then encode it using base64 to allow it to be passed as a string.</p>
+  <div>
 </section>
+
+<!-- TODO: can we use a language's natural hash or dictionary type as a capabilities object? -->
+
 </section>
