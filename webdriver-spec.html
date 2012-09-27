@@ -1129,7 +1129,7 @@ assertEquals(style, recovered);
         <dd>Horizontal whitespace characters are defined by the ECMAScript regular expression <code>[\x20\t\u2028\u2029]</code>.</dd>
     </dl>
 
-<p>The expected return value is roughly what a text-only browser such as Lynx would display. The algorithm for determining this text is as follows:</p>
+<p>The expected return value is roughly what a text-only browser would display. The algorithm for determining this text is as follows:</p>
 
 <p>Let <code>lines</code> equal an empty array. Then:
 <ol>  
@@ -1153,7 +1153,7 @@ assertEquals(style, recovered);
                             <li>BR element: Push '' to <code>lines</code> and continue</li>
                             <li><a href="#text.blocklevel">Block-level</a> element and if <code>last(lines)</code> is not '', push '' to <code>lines</code>.</li>
                         </ul>
-                    And then recurse depth-first to <a href="#text.1">step 1</a> with <code>child</code> set to the current element</li>
+                    And then recurse depth-first to <a href="#text.1">step 1</a> at the beginning of the algorithm with <code>child</code> set to the current element</li>
                     <li>If element is a TD element, or the effective CSS display style is 'table-cell', and last(lines) is not '', and <code>last(lines)</code> does not end with whitespace append a single space character to <code>last(lines)</code> [Note: Most innerText implementations append a \t here]</li>
                     <li>If element is a block-level element: push '' to <code>lines</code></li>
                 </ul>
