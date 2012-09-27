@@ -7,50 +7,47 @@
   <a>Response</a> and is stored on the <code>sessionId</code> field.</p>
   <section>
     <h3>Creating a Session</h3>
-    <p>The process for successfully creating a session follows.</p>
+    <p>The process for successfully creating a session MUST be.</p>
     <ol>
       <li>The local end creates a new Capabilities or MutableCapabilities instance describing the desired capabilities
-      for the session. The Capabilities object MAY be empty, but MUST be defined.</li>
-      <li>The local end creates a new Command with the "name" being "newSession" and the "parameters" containing an
+      for the session. The Capabilities object MUST be defined but MAY be empty.</li>
+      <li>The local end MUST create a new Command with the "name" being "newSession" and the "parameters" containing an
       entry named "desiredCapabilities" with the value set to the Capabilities instance from the previous step. An optional
       "requiredCapabilities" entry MAY also be created and populated with a Capabilities instance. The "sessionId" fields
       SHOULD be left empty.</li>
-      <li>The Command is serialized and transmitted to the remote end.</li>
-      <li>The remote end examines the two Capabilities parameters, and creates a new session matching as many of the Capabilities as
-      possible from the "desiredCapabilities" and all of the Capabilities given in the "requiredCapabilities".
-      How the new session is created depends on the implementation of this specification. In the case of a
-      browser automation framework, it is expected that a new instance of the browser is started if possible.
+      <li>The Command is transmitted to the remote end.</li>
+      <li>The remote end MUST examine the "requiredCapabilities" parameter if specified and SHOULD examine the "desiredCapabilities" parameter, and MUST create a new session matching as many of the Capabilities as
+      possible.
+      How the new session is created depends on the implementation of this specification. 
         <ul>
           <li>If any of the "requiredCapabilities" cannot be fulfilled by the new session, the remote end MUST quit the session and return the
-            <code>SessionNotCreatedException</code> error code. The error message SHOULD list all unmet required capabilities though only the 
+            <code>SessionNotCreatedException</code> error code. The sessionId of the Response object MUST be left as the default value unless the Command had the sessionId set, in which case that value MUST be used. The error message SHOULD list all unmet required capabilities though only the 
             first unmet required capability MUST be given.</li>
           </ul>
       </li>
-      <li>The session must be assigned a UUID which MUST be unique for each session (by definition). Generating the UUID
+      <li>The session MUST be assigned a UUID which MUST be unique for each session. Generating the UUID
       MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
       discarded in favour of the freshly generated UUID. Because of this, it is
       recommended that UUID generation be done on the remote end. If the UUID has already been used, a Response MUST be sent with the status 
       code set to <code>SessionNotCreatedException</code> and the value being an explanation that the UUID has previously been used.</li>
-      <li>The remote end create a new Response object. 
+      <li>The remote end MUST create a new Response object, with the following fields MUST be set to: 
       <ul>
-        <li>The "sessionId" field is assigned the UUID associated with this session.</li>
-        <li>The session is described by filling a Capabilities instance with keys matching the parts of this
-        specification that can be fulfilled. This is assigned to the "value" field of the Response. This fields MUST
-        be filled</li>
-        <li>The "status" field is set to the <code>SUCCESS</code> error code.</li>
+        <li>"sessionId": the UUID associated with this session.</li>
+        <li>"value": a Capabilities instance with keys matching the parts of this specification that can be fulfilled. </li>
+        <li>"status": the <code>SUCCESS</code> error code.</li>
       </ul></li>
-      <li>The Response is transmitted or returned back to the local end.</li>
+      <li>The Response is returned to the local end.</li>
     </ol>
     <p>There is no requirement for the local end to validate that some or all of the fields sent on the Capabilities
     associated with the Command match those returned in the Response.</p>
     <section>
       <h3>Capability Names</h3>
-      <p>The following keys are to be used in the Capabilities instances.</p>
+      <p>The following keys SHOULD be used in the Capabilities instances.</p>
       <dl>
         <dt>browserName</dt>
-        <dd>The name of the desired browser as a string</dd>
+        <dd>The name of the desired browser as a string.</dd>
         <dt>browserVersion</dt>
-        <dd>The version number of the browser, given as a string</dd>
+        <dd>The version number of the browser, given as a string.</dd>
         <dt>platformName</dt>
         <dd>The OS that the browser is running on, matching any of the platform names given below.</dd>
         <dt>platformVersion</dt>
@@ -59,7 +56,7 @@
 
       <section>
         <h3>Platform Names</h3>
-        <p>These SHOULD be named in the style of enums in C-like languages.</p>
+        <p>The following platform names are defined and MUST be used, case sensitively, for the "platformName" unless the actual platform being used is not given in this list:</p>
         <ul>
           <li>ANDROID</li>
           <li>IOS</li>
@@ -82,11 +79,11 @@
       <dl>
         <dt>Success</dt>
         <dd>The session was successfully created. The "value" field of the Response MUST contain a Capabilities object
-        describing the session</dd>
+        describing the session.</dd>
         <dt>Timeout</dt>
         <dd>The new session could not be created within the time allowed for command execution on the remote end. This
         time MAY be infinite. The "value" field of the Response SHOULD contain a string explaining that a timeout has
-        occurred, but it MAY be left empty or filled with the empty string.</dd>
+        occurred, but it MAY be left as the null value or filled with the empty string.</dd>
         <dt>UnknownError</dt>
         <dd>An unhandled error of some sort has occurred. The "value" field of the Response SHOULD contain a more detailed
         description of the error.</dd>
