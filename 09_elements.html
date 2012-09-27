@@ -9,8 +9,8 @@
 
   <p>Each WebElement instance must have an ID, which is distinct from the value
   of the DOM Element's "id" property. The ID for every WebElement representing the same
-  underlying DOM Element must be the same. The IDs used to refer to different
-  underlying DOM Elements must be unique.</p>
+  underlying DOM Element MUST be the same. The IDs used to refer to different
+  underlying DOM Elements MUST be unique within the session over the entire duration of the session.</p>
 
   <dl class="idl" title="interface WebElement">
     <dt>readonly attribute DOMString id</dt>
@@ -52,6 +52,8 @@
 
   <section>
     <h2>Element Location Strategies</h2>
+
+    <p>All element location strategies MUST return elements in the order in which they appear in the current document.</p>
     <section>
       <h2>ARIA</h2>
       <p>This section is non-normative: It SHOULD be possible to find elements using their ARIA roles. It MAY be possible to find elements using their ARIA states and properties. All references to "ARIA" refer to [[!WAI-ARIA]]</p>
@@ -71,7 +73,7 @@
       <p>If a browser supports the 
       <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a> ([[!SELECTORS-API]]) it MUST support locating elements by
       CSS Selector. If the browser does not support the browser CSS Selector spec it MAY chose to implement locating
-      by this mechanism. Elements MUST be returned in the same order as if "<code>querySelectorAll</code>" had been called. Compound selectors are allowed.</p>
+      by this mechanism. If the browser can support locating elements by CSS Selector, it MUST set the "cssSelector" capability to boolean true when responding to the <a href="#creating-a-session">"newSession" command</a>. Elements MUST be returned in the same order as if "<code>querySelectorAll</code>" had been called. Compound selectors are allowed.</p>
     </section>
     <section>
       <h2>ECMAScript</h2>
@@ -94,25 +96,36 @@
     <section>
       <h2>Link Text</h2>
       <p>This strategy MUST be supported by all WebDriver implementations. </p>
-      <p>The following algorithm MUST be used:</p>
-      <ol>
-        <li>WebDriver will need to look up all of the A elements on the page. The lookup SHOULD be done using 
-          [[!SELECTORS-API]]
-            but MAY use "<a href="http://www.w3.org/TR/2012/WD-dom-20120105/#dom-document-getelementsbytagname">document.getElementsByTagName()</a>" 
-            from the Web DOM Core specification ([[!DOM4]]). If the document being searched is a valid XHTML document, then this step MUST return all elements that the browser would consider an anchor tag.</li>
-        <li>The value of getElementText MUST match with case sensitive of the search term passed in</li>
-      </ol>
+      <p>This strategy MUST return all <a href="http://www.w3.org/TR/html5/the-a-element.html#the-a-element">"a"</a> elements with visible text exactly and case sensitively equal to the term being searched for.</p>
+      <div class="note">
+	    <p>This is equivalent to:</p>
+	    <pre>
+		  elements = driver.find_elements(by = By.TAG_NAME, value = "a")
+		  result = []
+		  for element in elements:
+		    text = element.get_text()
+		    if text == search_term:
+		      result.append(element)
+		</pre>
+		<p>Where "search_term" is the link text being searched for, and "result" contains the list of elements to return.</p>
+	  </div>
     </section>
     <section>
       <h2>Partial Link Text</h2>
       <p>This strategy MUST be supported by all WebDriver implementations.</p>
-      <p>The following algorithm MUST be used:</p>
-      <ol>
-        <li>Look up all of the A elements on the page. The lookup SHOULD be done using 
-          <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a> ([[!SELECTORS-API]])
-            but MAY use "<a href="http://www.w3.org/TR/2012/WD-dom-20120105/#dom-document-getelementsbytagname">document.getElementsByTagName()</a>" from [[!DOM4]]. If the document being searched is a valid XHTML document, then this step MUST return all elements that the browser would consider an anchor tag..</li>
-        <li>The search term MUST match case sensitive a subsection of the value of getElementText</li>
-      </ol>
+      <p>This strategy is very similar to <a href="#link-text">link text</a>, but rather than matching the entire string, only a subset needs to match. That is, this MUST return all <a href="http://www.w3.org/TR/html5/the-a-element.html#the-a-element">"a"</a> elements with visible text that partially or completely and case sensitively matches the term being searched for.</p>
+      <div class="note">
+	    <p>This is equivalent to:</p>
+	    <pre>
+		  elements = driver.find_elements(by = By.TAG_NAME, value = "a")
+		  result = []
+		  for element in elements:
+		    text = element.get_text()
+		    if text.find(seach_term) != -1:
+		      result.append(element)
+		</pre>
+		<p>Where "search_term" is the link text being searched for, and "result" contains the list of elements to return.</p>
+	  </div>
     </section>
     <section>
       <h2>XPath</h2>
