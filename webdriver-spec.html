@@ -1010,7 +1010,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
   </section>
   <section>
     <h2>Determining Whether a WebElement Is Selected</h2>
-    <p>WebDriver determines whether a WebElement is selected using the following algorithm:
+    <p>The remote end determines whether a WebElement is selected using the following algorithm:
       <ol>
           <li id="is_selectable">If the item is not "selectable", the WebElement is not selected. A selectable element is either an OPTION element or an INPUT element of type "checkbox" or "radio".</li> 
           <li>If the WebElement represents an INPUT element, call the "getProperty" method described above looking for the "checked" property. This indicates whether the element is selected.</li>
@@ -1162,11 +1162,7 @@ assertEquals(style, recovered);
             </li>
         </ol>
     </li>
-    <li>For each line in <code>lines</code> trim any leading and trailing whitespace excluding <a href="#text.whitespace-nbsp">non-breaking space characters</a>.</li>
-    <li>Let <code>s</code> be <code>lines.join('\n')</code></li>
-    <li>Trim any leading and trailing <a href="#text.whitespace-nbsp">whitespace excluding non-breaking space characters</a> from <code>s</code>.</li>
-    <li>Replace any non-breaking spaces (\xa0) with spaces (\x20) in <code>s</code>.</li>
-    <li>Return <code>s</code>.</li>
+    <li>The string MUST then have the white space normalised as defined in the [[!XPATH]] <a href='http://www.w4.org/TR/xpath/#function-normalize-space'>normalize-space function</a> which is then returned.</li>
 </ol>
 
 </section>
