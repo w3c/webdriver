@@ -29,7 +29,7 @@
 
           editors:  [
               { name: "Simon Stewart", url: "https://plus.google.com/104565969450039850531/posts",
-                company: "Google", companyURL: "http://www.google.com/" },
+              },
               { name: "David Burns", url: "http://www.theautomatedtester.co.uk/",
                 company: "Mozilla", companyURL: "http://www.mozilla.org/" },
           ],
@@ -89,12 +89,12 @@
       <dt>Remote</dt>
       <dd>The implementation of the user-facing API. Command objects are
       consumed and Response objects are sent by the remote end of the WebDriver
-      API. The implementation of the remote end may be on machine remote from
+      API. The implementation of the remote end may be on a machine remote from
       the user of the local end.</dd>
       
     </dl>
     
-    <p>There is no requirement that the local and remote ends be in different processes.</p>
+    <p>There is no requirement that the local and remote ends be in different processes. The IDL given in this specification and summarized in Appendix XXXX SHOULD be used as the basis for any conforming local implementation.</p>
   </section>
   
   <section>
@@ -115,22 +115,19 @@
 </section>
 <section>
   <h2>Commands and Responses</h2>
-  <p>The WebDriver API is designed to be used both in-process and
-  out-of-process. The IDL given in this specification and summarized in Appendix
-  XXXX SHOULD be used as the basis for the user-facing API. When used out-of-process, the WebDriver API
-  defines command/repsonse objects that MUST be used. How these are encoded and transmitted between the browser being
-  automated and the user of the API is left undefined, but a non-normative implementation of this as JSON over HTTP is
+  <p>The communication between the remote and local ends is performed via Command and Response objects. How these are encoded and transmitted between the remote and local ends is left undefined, but a non-normative implementation of this as JSON over HTTP is
   given in appendix XXXX.</p>
+
   <section>
     <h3>Command</h3>
     <p>A command represents a call to the remote end of the WebDriver API.</p>
     <dl class="idl" title="interface Command">
       <dt>attribute string name</dt>
-      <dd>The case-sensitive name of the command to execute</dd>
+      <dd>The case-sensitive name of the command to execute. The default value is the null value.</dd>
       <dt>attribute dictionary parameters</dt>
-      <dd>A map of the named parameters to an object representing its value.</dd>
+      <dd>A map of the named parameters to an object representing its value. The default value is an empty array.</dd>
       <dt>attribute string sessionId</dt>
-      <dd>A reference to the session to which this command is associated.</dd>
+      <dd>A reference to the session to which this command is associated. The default value is the null value.</dd>
     </dl>
   </section>
   <section>
@@ -138,13 +135,15 @@
     <p>A response represents the value returned from the remote end of the WebDriver API.</p>
     <dl class="idl" title="interface Response">
       <dt>readonly attribute string sessionId</dt>
-      <dd>A reference to the session to which this command is associated.</dd>
+      <dd>A reference to the session to which this command is associated. The default value is the null value.</dd>
       <dt>readonly attribute integer status</dt>
       <dd>The status code representing the success or failure of the method. Anything other than 0 indicates a failure
-      of some kind</dd>
+      of some kind. The default value is 0.</dd>
       <dt>readonly attribute object value</dt>
-      <dd>The return value of the method call. It's type is determined by the <code>Command</code> that has been executed. In the specification, each command definition will make clear what the expected return type is.</dd>
+      <dd>The return value of the method call. It's type is determined by the <code>Command</code> that has been executed. In the specification, each command definition will make clear what the expected return type is. The default value is the null value.</dd>
     </dl>
+
+	<p>There is no requirement that implementations of Command and Response exhibit any behaviour: they MAY be simple data structures. Reading of values MUST be idempotent, and writing any particular value MUST NOT cause any other values on the Command or Response to change.</p>
   </section>
   
   <section>
@@ -152,7 +151,7 @@
     
     <p>Any Command or Response MAY contain additional fields than those listed
     above. The content of fields MUST be maintained, unaltered by any
-    intermeditate processing nodes. There is no requirement to maintain the
+    intermediate processing nodes. There is no requirement to maintain the
     ordering of fields.</p>
     
     <div class="note">
