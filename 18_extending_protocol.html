@@ -1,5 +1,23 @@
   <section>
     <h2>Extending the Protocol</h2>
     <p></p>
+    <section>
+      <h3>Vendor-specific Extensions</h3>
+      <p>The WebDriver protocol is designed to allow extension to meet vendor-specific needs, such as interacting with the chrome of a browser. Vendor-specific extensions are implemented by appending a prefix to the command name. This should be of the form:</p>
+      <pre>
+        '-' + vendor prefix + '-' + command name
+      </pre>
+      <p>For example: "<code>-o-open-bookmark</code>" or "<code>-moz-install-extension</code>".</p>
+      <p>It is guaranteed that no command name in this or future versions of the WebDriver specification will be prefixed with a leading dash.</p>
+      
+      <div class="note">
+        It is suggested that vendors use the same vendor identifier as in [[!CSS2]] (notably, section <a href="http://www.w3.org/TR/CSS2/syndata.html#vendor-keyword-history">4.1.2.2</a>)
+      </div>
+    </section>
+    <section>
+      <h3>Extending the JSON/HTTP Protocol</h3>
+      <p>This section is non-normative.</p>
+      <p>The wire protocol (see Appendix XXX) makes use of URLs to distinguish command names. When extending the protocol by adding new URLs, vendors should use their vendor prefix without additional characters to prevent any potential clashes with other implementations. This leads to URLs of the form: <code>http://host:port/session/somekey/<b>moz</b>/extension</code>.
+    </section>
   </section>
 
