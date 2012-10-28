@@ -1008,20 +1008,23 @@ In addition, implementors MAY add additional page loading strategies.</p>
 <h2>Reading Element State</h2>
   <section>
     <h2>Determining Visibility</h2>
-      <p>The following algorithm is used to determine if an element has been displayed.</p>
+      <p>The following steps MUST be used to determine if an element is visible to a user. This specification refers to this as the element being "shown".</p>
       <ul>
-        <li>The element has a height and width greater than 0px.</li>
-        <li>The element MUST not be visible if that element, or any of its ancestors,
-        is hidden or has a display property that is none.</li>
-        <li>OPTIONs and OPTGROUP are treated as special cases, they are considered shown if and
-        only if the enclosing select element is visible.</li>
+        <li>The element MUST have a height and width greater than 0px.</li>
+        <li>The element MUST NOT be visible if that element, or any of its ancestors,
+        is hidden or has a CSS display property that is none.</li>
+        <li>OPTIONs and OPTGROUP elements are treated as special cases, they are considered shown if and only if the enclosing select element is visible.</li>
         <li>MAP elements are shown if and only if the image it uses is visible. Areas within
         a map are shown if the enclosing MAP is visible.</li>
         <li>Any INPUT elements of "type=hidden" are not visible</li>
-        <li>Any NOSCRIPT elements MUST not be visible if Javascript is enabled.</li>
-        <li>The element MUST be not be visible if any ancestor in the element's transitive closure of <a href="http://www.w3.org/TR/cssom-view/#offset-attributes">offsetParents</a> has a fixed size, and has the CSS style of "overflow:hidden", and the element's location is not within the fixed size of the parent</li>
+        <li>Any NOSCRIPT elements MUST NOT be visible if Javascript is enabled.</li>
+        <li>The element MUST NOT be visible if any ancestor in the element's transitive closure of <a href="http://www.w3.org/TR/cssom-view/#offset-attributes">offsetParents</a> has a fixed size, and has the CSS style of "overflow:hidden", and the element's location is not within the fixed size of the parent.</li>
       </ul>
-    <table>
+      
+    <p class="note">
+      Essentially, this attempts to model whether or not a user of the browser could possibly find a way to view the <code>WebElement</code> without resizing the browser window.
+    </p>
+    <table class="simple">
       <tr>
         <td>Command Name</td>
         <td>isDisplayed</td>
@@ -1033,24 +1036,24 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Return Value</td>
-        <td>{boolean} Whether the element is displayed.</td>
+        <td>{boolean} Whether the element is shown.</td>
       </tr>
       <tr>
         <td>Errors</td>
-        <td>StaleElementReferenceException if the element referenced is no longer attached to
-          the DOM</td>
+        <td>StaleElementReference if the element referenced is no longer attached to the DOM.</td>
       </tr>
     </table>
   </section>
+  
   <section>
     <h2>Determining Whether a WebElement Is Selected</h2>
-    <p>The remote end determines whether a WebElement is selected using the following algorithm:
+    <p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
       <ol>
           <li id="is_selectable">If the item is not "selectable", the WebElement is not selected. A selectable element is either an OPTION element or an INPUT element of type "checkbox" or "radio".</li> 
           <li>If the WebElement represents an INPUT element, call the "getProperty" method described above looking for the "checked" property. This indicates whether the element is selected.</li>
           <li>Otherwise, call the "getProperty" method described above looking for the "selected" property. This indicates whether the element is selected.</li>
       </ol>
-    <table>
+    <table class="simple">
       <tr>
         <td>Command Name</td>
         <td>isSelected</td>
@@ -1066,13 +1069,13 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Errors</td>
-        <td>StaleElementReferenceException if the element referenced is no longer attached to the DOM</td>
+        <td>StaleElementReference if the element referenced is no longer attached to the DOM.</td>
       </tr>
     </table>
   </section>
   <section>
     <h2>Reading Attributes and Properties</h2>
-    <p>Although the [[!HTML5]] spec is very clear about the difference between the properties and attributes of a DOM element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning both the value of a DOM element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous. In this section, the "attribute" with name <code>name</code> shall refer to the result of calling the Javascript "getAttribute" function on the element, with the following exceptions:</p>
+    <p>Although the [[!HTML5]] spec is very clear about the difference between the properties and attributes of a DOM element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning either of the value of a DOM element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous. In this section, the "attribute" with name <code>name</code> shall refer to the result of calling the Javascript "getAttribute" function on the element, with the following exceptions:</p>
     <ul>
       <li>If, in the current rendering mode, the content attribute <code>name</code> reflects a boolean IDL attribute, as per <a href="http://www.whatwg.org/specs/web-apps/current-work/">the HTML specification</a>, the value MUST be the string 'true' if that IDL attribute's value is true or the null value if the IDL attribute's value is false.</li>
       <li>If the element is an OPTION element and <code>name</code> is "value" and there is no "value" attribute, then the text content of the OPTION element MUST be returned, in accordance with [[!HTML401]] spec, specifically the section on <a href="http://www.w3.org/TR/1999/REC-html401-19991224/interact/forms.html#adef-value-OPTION">pre-selected options</a>. The text content MUST be the result of calling the "getElementText" command on the OPTION element.</li>
@@ -1087,11 +1090,11 @@ var recovered = element.getAttribute('style');
 assertEquals(style, recovered);
 </pre>
           </li>
-          <li>Color property values MUST be standardized to rgba format, matching the regular expression: <code>rgba\(\d+, \d+, \d+, (1|0(\.\d+)?)\)</code>.</li>
+          <li>Color property values MUST be standardized to rgba format, matching the regular expression: <code>rgba\(\d+,\s*\d+,\s*\d+\s*(,\s*(1|0(\.\d+)?)))</code>.</li>
         </ul></li>
       <li>If the value is expected to be a URL (see the below table), return the property named <code>name</code>, i.e. a fully resolved URL:
         <strong>TODO: This doesn't feel like an exhaustive list</strong>
-        <table>
+        <table class="simple">
             <tr>
                 <th>Tag name</th>
                 <th>"name" value</th>
@@ -1107,7 +1110,7 @@ assertEquals(style, recovered);
         </table>
       </li>
       <li>If <code>name</code> is in the below table, and the above stages have not yielded a defined, non-null value, the value of the aliased attribute in the table below should be returned:
-      <table>
+      <table class="simple">
         <tr>
           <th>Original property name</th>
           <th>Aliased property name</th>
@@ -1124,7 +1127,7 @@ assertEquals(style, recovered);
     </ul>
     <p class="note">These aliases provide the commonly used names for element properties.</p>
 
-    <table>
+    <table class="simple">
       <tr>
         <td>Command Name</td>
         <td>getElementAttribute</td>
@@ -1141,14 +1144,14 @@ assertEquals(style, recovered);
       </tr>
       <tr>
           <td>Errors</td>
-          <td>StaleElementException If the element is no longer attached to the DOM.</td>
+          <td>StaleElementReference If the element is no longer attached to the DOM.</td>
       </tr>
     </table>
   </section>
   <section>
    <h2>Rendering Text</h2>
-   <p>All WebDriver implementations must support getting the <a
-     href="#determining-visibility">visible</a> text of a WebElement, with excess whitespace compressed.</p>
+   <p>All WebDriver implementations MUST support getting the <a
+     href="#determining-visibility">visible</a> text of a <code>WebElement</code>, with excess whitespace compressed.</p>
    
 <p>The following definitions are used in this section:
     <dl>
