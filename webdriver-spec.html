@@ -514,7 +514,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 <section>
 <h2>Navigation Commands</h2>
 
-<table>
+<table class="simple">
 	<tr>
 		<td>Command Name</td>
 		<td>get</td>
@@ -545,7 +545,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 <section>
 <h2>Invalid SSL Certificates</h2>
 
-<table>
+<table class="simple">
   <tr><td>Capability Name</td><td>Type</td></tr>
   <tr><td>secureSsl</td><td>boolean</td></tr>
 </table>
@@ -553,10 +553,10 @@ In addition, implementors MAY add additional page loading strategies.</p>
 
 <p>WebDriver implementations MUST support users accessing sites served via HTTPS. Access to those sites using self-signed or invalid certificates, and where the certificate does not match the serving domain MUST be the same as if the HTTPS was configured properly.</p>
 
-<p class="note">The reason for this is that implementations of this spec are often used for testing. It's a sorry fact that many QA and testers are asked to verify that apps work on sites that have insecure HTTPS configurations</p>
+<p class="note">The reason for this is that implementations of this spec are often used for testing. It's a sorry fact that many QA engineers and testers are asked to verify that apps work on sites that have insecure HTTPS configurations</p>
 </section>
 
-<p>The exception to requirement is if the <code>Capabilities</code> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY chose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. If this is the case, the <code>Capabilities</code> describing the session MUST also set the <code>secureSsl</code> capability to "true".
+<p>The exception to requirement is if the <code>Capabilities</code> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY choose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. Remote end implementations MUST return a <code>UnkownError</code> status in this case. <strong>TODO: specify a proper error code for this?</strong> If this is the case, the <code>Capabilities</code> describing the session MUST also set the <code>secureSsl</code> capability to "true".
 
 </section>
 
