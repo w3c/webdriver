@@ -1897,19 +1897,95 @@ assertEquals(style, recovered);
     </section>
 </section>
 <section>
-  <h2>Snapshots</h2>
-  <p></p>
-  <section>
-    <h2>Screen</h2>
-    <p></p>
-  </section>
+  <h2>Screenshots</h2>
+  <p>Screenshots are a powerful mechanism for providing information to users of WebDriver, particularly once a particular WebDriver instance has been disposed of. In different circumstances, users want different types of screenshot. Note that the WebDriver spec does not provide a mechanism for taking a screenshot of the entire screen.</p>
+
+  <p>In all cases, screenshots MUST be returned as lossless PNG images encoded using Base64. Local implementations MUST provide the user with access to the PNG images without requiring the user to decode the Base64. This access MUST be via at least one of a binary blob or a file.</p>
+
+  <p>All commands within this section are implemented using the "TakesScreenshot" interface:</p>
+  
+  <dl class="idl" title="interface TakesScreenshot">
+    <dt>string takeScreenshot()</dt>
+    <dd>Take a screenshot as determined by the CommandName and return a lossless PNG encoded using Base64.</dd>  
+  </dl>
+
   <section>
     <h2>Current Window</h2>
-    <p></p>
+    <table class="simple">
+      <tr><td>Capability Name</td><td>Type</td></tr>
+      <tr><td>takesScreenshot</td><td>boolean</td></tr>
+    </table>
+
+	<table class="simple">
+      <tr>
+	    <td>Command Name</td>
+	    <td>takesScreenshot</td>
+	  </tr>
+	  <tr>
+	    <td>Parameters</td>
+	    <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>Return Value</td>
+	    <td>{string} A Base64 encoded, lossless PNG of the current window.</td>
+	  </tr>
+	  <tr>
+	    <td>Errors</td>
+	      <td>
+		    WebDriverException if the screenshot cannot be taken.
+	      </td>
+	    </tr>
+	</table>
+
+    <p>If this capability is supported, local implementations MUST add the <code>TakesScreenshot</code> interface to the <code>WebDriver</code> interface.</p>
+
+    <p>This command will take a screenshot of the current window. Implementations of the remote end SHOULD capture the entire DOM, even if this would require a user to scroll the browser window. That is, the returned PNG SHOULD have the same width and height as returned by a call to <code>getSize</code> of the BODY element and MUST contain all visible content on the page, and this SHOULD be done without resizing the browser window. If the remote end is unable to capture the entire DOM, then the part of the DOM currently displayed in UI of the browser MUST be captured without additional chrome such as scrollbars and browser chrome.</p>
+
+    <div class="note">
+      <p>One way to think of capturing the entire DOM is that the user has an infinitely large monitor and has resized the window to allow all content to be visible. One of those monitors would be very cool.</p>
+    </div>
+
+    <p>Nested frames MUST be sized as if the user has resized the window to the dimensions of the PNG being returned. This often means that not all potentially visible content within the nested frames is captured.</p>
+
+    <p>Remote implementations MUST NOT attempt to track changes in window size as the screenshot is being taken. In particular this means that in the case of a page that makes use of "infinite scrolling" (where an AJAX call is used to populate additional content as the user scrolls down) or in some other way resizes content as the window size is changed only the content that was originally contained in the DOM when the command is executed will be captured.</p>
   </section>
+  
   <section>
     <h2>Element</h2>
-    <p></p>
+      <table class="simple">
+        <tr><td>Capability Name</td><td>Type</td></tr>
+        <tr><td>takesElementScreenshot</td><td>boolean</td></tr>
+      </table>
+
+  	<table class="simple">
+        <tr>
+  	    <td>Command Name</td>
+  	    <td>takesElementScreenshot</td>
+  	  </tr>
+  	  <tr>
+  	    <td>Parameters</td>
+  	    <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
+  	        "id" {string} The ID of the <code>WebElement</code> on which to operate.
+  	    </td>
+  	  </tr>
+  	  <tr>
+  	    <td>Return Value</td>
+  	    <td>{string} A Base64 encoded, lossless PNG of the area contained within the <code>WebElement</code>'s clientBoundingRect.</td>
+  	  </tr>
+  	  <tr>
+  	    <td>Errors</td>
+  	      <td>
+  		    WebDriverException if the screenshot cannot be taken.
+  	      </td>
+  	    </tr>
+  	</table>
+  	
+  	<p>If this capability is supported, local implementations MUST add the <code>TakesScreenshot</code> interface to the <code>WebElement</code> interface.</p>
+  	
+    <p>Remote implementations SHOULD take a screenshot of the area bounded by the clientBoundingRect of the DOM element represented by the <code>WebElement</code>, returning it as a Base64 encoded, lossless PNG. Local implementations MUST make the PNG available directly to the user as at least one of a binary blob or a file. If the remote implementation cannot capture the entire clientBoundingRect, they MUST scroll as much of the element into the current browser viewport as possible and capture the maximum visible area without additional browser chrome.</p>
+    
+    <p>If the <code>WebElement</code> represents a FRAME or IFRAME element, this is equivalent of taking a screenshot of the frame's BODY element.</p>
   </section>
 </section>
 <section>
