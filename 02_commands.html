@@ -44,7 +44,7 @@
     ordering of fields.</p>
     
     <div class="note">
-      <p>This requirement exists to allow for extension of the protocol, and to allow implementors to decorate Commands and Responses with additional information, perhaps giving context to a series of messages. or providing security information.</p>
+      <p>This requirement exists to allow for extension of the protocol, and to allow implementors to decorate Commands and Responses with additional information, perhaps giving context to a series of messages or providing security information.</p>
     </div>
   </section>
   
@@ -77,8 +77,7 @@
       <tr>
         <td>9</td>
         <td>UnknownCommand</td>
-        <td>The requested resource could not be found, or a request was received using an HTTP method that is not
-        supported by the mapped resource.</td>
+        <td>A command could not be executed because the remote end is not aware of it.</td>
       </tr>
       <tr>
         <td>10</td>
@@ -93,13 +92,12 @@
       <tr>
         <td>12</td>
         <td>InvalidElementState</td>
-        <td>An element command could not be completed because the element is in an invalid state (e.g. attempting to
-        click a disabled element).</td>
+        <td>An element command could not be completed because the element is in an invalid state (e.g. attempting to click a disabled element).</td>
       </tr>
       <tr>
         <td>13</td>
         <td>UnknownError</td>
-        <td>An unknown server-side error occurred while processing the command.</td>
+        <td>An unknown error occurred in the remote end while processing the command.</td>
       </tr>
       <tr>
         <td>15</td>
@@ -140,7 +138,7 @@
       <tr>
         <td>26</td>
         <td>UnexpectedAlertOpen</td>
-        <td>A modal dialog was open, blocking this operation</td>
+        <td>A modal dialog was open, blocking this operation.</td>
       </tr>
       <tr>
         <td>27</td>
@@ -174,16 +172,29 @@
       </tr>
       <tr>
         <td>33</td>
-        <td>SessionNotCreatedException</td>
+        <td>SessionNotCreated</td>
         <td>A new session could not be created.</td>
       </tr>
       <tr>
         <td>34</td>
         <td>MoveTargetOutOfBounds</td>
-        <td>The target for mouse interaction is not on the viewport and cannot be brought into the viewport.</td>
+        <td>The target for mouse interaction is not in the viewport and cannot be brought into the viewport.</td>
       </tr>
     </table>
 
     <p>Error codes less than 34 that are not listed in this table are obsolete and reserved. They MUST not be used.</p>
+    </section>
+    
+    <section>
+    <h2>Handling of Error Codes at the Local End</h2>
+    
+    <p>Error codes are returned from the remote end to the local end. The local end SHOULD convert these into a form appropriate for the implementation language. For example, in C the error codes might be returned "as is", whereas in Java various exceptions could be thrown.</p>
+    
+    <p>Local implementations written in languages that support exceptions SHOULD make use of an exception hierarchy rooted on a <code>WebDriverException</code> (or similarly named base exception class). Where references to <code>WebDriverException</code> are made in this specification, we are referring to this local end conversion of error codes to local end exceptions.</p>
+    
+    <p class="note">The reason for this is to allow users of the local end to easily handle the all expected failure modes of a local WebDriver implementation by catching the <code>WebDriverException</code>.</p>
+      
+     <p class="note">It is strongly recommended that the <code>WebDriverException</code> contain as much diagnostic information as possible, including version numbers and details about the remote end. This is because experience suggests that when reporting errors from tests using WebDriver, users will simply cut-and-paste a stack trace of an exception. Adding this information to the exception makes the task of debugging problems considerably easier.</p>
+    </div>
   </section>
 </section>
