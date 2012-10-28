@@ -582,9 +582,9 @@ In addition, implementors MAY add additional page loading strategies.</p>
   <section>
     <h2>Window Handles</h2>
 
-    <p>Each window has a "window handle" associated with it. This is an opaque string which MUST uniquely identify the window within the session. This MAY be a UUID. The "getWindowHandle" command can be used to obtain the window handle for the window that commands are currently acting upon:</p>
+    <p>Each window has a "window handle" associated with it. This is an opaque string which MUST uniquely identify the window within the session and MUST NOT be "current". This MAY be a UUID. The "getWindowHandle" command can be used to obtain the window handle for the window that commands are currently acting upon:</p>
 
-    <table>
+    <table class="simple">
       <tr>
         <td>Command Name</td>
         <td>getWindowHandle</td>
@@ -603,7 +603,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
   <section>
     <h2>Iterating Over Windows</h2>
 
-    <table>
+    <table class="simple">
       <tr>
         <td>Command Name</td>
         <td>getWindowHandles</td>
@@ -618,7 +618,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
     </table>
 
-    <p>This array of returned strings MUST contain a handle for every window associated with the browser session and no others. In addition, at the time of collecting the window handles the javascript expression "window.top.closed" MUST evaluate to false.</p>
+    <p>This array of returned strings MUST contain a handle for every window associated with the browser session and no others. For each returned window handle the javascript expression "window.top.closed" MUST evaluate to false at the time the command is being executed.</p>
 
     <p>The ordering of the keys is not defined, but SHOULD be determined by iterating over each top level browser window and returning the tabs within that window before iterating over the tabs of the next top level browser window. For example, in the diagram below, the window handles should be returned as the handles for: win1tab1, win1tab2, win2.</p>
 
@@ -628,7 +628,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
   <section>
     <h2>Closing Windows</h2>
 
-    <table>
+    <table class="simple">
       <tr>
         <td>Command Name</td>
         <td>close</td>
@@ -645,13 +645,13 @@ In addition, implementors MAY add additional page loading strategies.</p>
 
     <p>The close command closes the window that commands are currently being sent to. If this means that a call to get the list of window handles returns an empty list, then this close command MUST be the equivalent of calling "quit". In all other cases, control MUST be returned to the calling process once the window has been closed or an alert is displayed by the closing window.</p>
 
-    <p>Once the window has closed, future commands MUST return an error NoSuchWindowException until a new window is selected for receiving commands.</p>
+    <p>Once the window has closed, future commands MUST return a status code of <code>NoSuchWindow</code> until a new window is selected for receiving commands.</p>
   </section>
 
   <section>
     <h2>Resizing and Positioning Windows</h2>
 
-    <table>
+    <table class="simple">
       <tr>
         <td>Command Name</td>
         <td>setWindowSize</td>
@@ -670,9 +670,11 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Errors</td>
-        <td>UnsupportedOperationException if the window could not be resized.</td>
+        <td>UnsupportedOperation if the window could not be resized.</td>
       </tr>
+    </table>
 
+    <table class="simple">
       <tr>
         <td>Command Name</td>
         <td>getWindowSize</td>
@@ -690,7 +692,9 @@ In addition, implementors MAY add additional page loading strategies.</p>
           "height" {number} The height of the specified window in pixels.<br>
         </td>
       </tr>
+    </table>
 
+    <table class="simple">
       <tr>
         <td>Command Name</td>
         <td>maximizeWindow</td>
@@ -707,9 +711,11 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Errors</td>
-        <td>UnsupportedOperationException if the window could not be resized.</td>
+        <td>UnsupportedOperation if the window could not be resized.</td>
       </tr>
+    </table>
 
+    <table class="simple">
       <tr>
         <td>Command Name</td>
         <td>fullscreenWindow</td>
@@ -726,7 +732,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Errors</td>
-        <td>UnsupportedOperationException if the window could not be resized.</td>
+        <td>UnsupportedOperation if the window could not be resized.</td>
       </tr>
     </table>
 
@@ -734,11 +740,11 @@ In addition, implementors MAY add additional page loading strategies.</p>
 
     <p>The "width" and "height" values refer to the "window.outerheight" and "window.outerwidth" properties. For those browsers that do not support these properties, these represent the height and width of the whole browser window including window chrome and window resizing borders/handles.</p>
 
-    <p>After setWindowSize, the whole browser window MUST be left as if the restore button had been pressed, and MUST NOT be in the maximised state.</p>
+    <p>After setWindowSize, the browser window MUST NOT be in the maximised state.</p>
 
-    <p>After maximizeWindow, the whole browser window MUST be left as if the maximise button had been pressed; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
+    <p>After maximizeWindow, the browser window MUST be left as if the maximise button had been pressed; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
 
-    <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size), an UnsupportedOperationException MUST be thrown.</p>
+    <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size), an UnsupportedOperation status code MUST be returned.</p>
   </section>
 
   <section>
