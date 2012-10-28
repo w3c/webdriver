@@ -6,14 +6,16 @@
 <section>
 <h2>Default Content</h2>
 
-<p>WebDriver's <dfn>default context</dfn> is the equivalent of <code>window.top</code>.</p>
+<p>WebDriver's <dfn>default content</dfn> is the equivalent of <code>window.top</code>.</p>
+
+<p>When a WebDriver instance is started and a single browser window is opened, the default content of that window is automatically selected for receiving further commands. If more than one window is opened when the session starts, then the user MUST first select which window to act upon using the <code>switchToWindow</code> command. Until the user selects a window, all commands must return a status code of <code>NoSuchWindow</code>.</p>
 
 </section>
 
 <section>
 <h2>Switching Windows</h2>
 
-<table>
+<table class="simple">
 	<tr>
 		<td>Command Name</td>
 		<td>switchToWindow</td>
@@ -29,7 +31,7 @@
 	</tr>
 	<tr>
 	    <td>Errors</td>
-	    <td>NoSuchWindowException if no matching window can be found</td>
+	    <td>NoSuchWindow if no matching window can be found</td>
 	</tr>
 </table>
 
@@ -41,16 +43,14 @@
         <li>The "id" attribute of the window.</li>
     </ol>
 
-<p>If no windows match, then a "NoSuchWindowException" MUST be thrown, otherwise the "<a href="#default-content">default content</a>" of the first window to match will be selected for accepting commands.</p>
-
-<p>When a new browser session is started by WebDriver and only a single window is present then the default content of that window becomes the "current" window. When more than one window is opened, the "current" window is undefined. Any commands that are executed at this point that require a window MUST throw an exception (<strong>TODO: Which exception? Ideally the same as if a window had just been closed</strong>). The correct way for a user to recover from this situation is to obtain the list of window handles and to "switch to" one of these.</p>
+<p>If no windows match, then a "NoSuchWindow" status code MUST be returned, otherwise the "<a href="#default-content">default content</a>" of the first window to match will be selected for accepting commands.</p>
 
 </section>
 
 <section>
 <h2>Switching Frames</h2>
 
-<table>
+<table class="simple">
 	<tr>
 		<td>Command Name</td>
 		<td>switchToFrame</td>
@@ -66,7 +66,7 @@
 	</tr>
 	<tr>
 	    <td>Errors</td>
-	    <td>NoSuchFrameException if no matching frame can be found</td>
+	    <td>NoSuchFrame if no matching frame can be found</td>
 	</tr>
 </table>
 
@@ -78,18 +78,18 @@
     <li>If the "id" is a string:
         <ol>
             <li>If the JS expression "window.frames[id]" evaluated in the current context returns a window, where "id" is the value of the the "id" parameter, the current context is set to that.</li>
-            <li>Otherwise for each value of "window.frames" (referred to as "window"):
+            <li>Otherwise for each value of "window.frames" (referred to as <code>win</code>):
                 <ol>
-                    <li>If "window" has a "name" property or attribute equal to the "id" parameter, this becomes the current context.</li>
-                    <li>If "window" has an "id" property or attribute equal to the "id" parameter, this becomes the current context.</li>
+                    <li>If <code>win</code> has a "name" property or attribute equal to the "id" parameter, this becomes the current context.</li>
+                    <li>If <code>win</code> has an "id" property or attribute equal to the "id" parameter, this becomes the current context.</li>
                 </ol>
             </li>
         </ol>
     </li>
-    <li>If the "id" represents a WebElement, and the corresponding DOM element represents a FRAME or an IFRAME, and the WebElement is part of the current context, the "window" property of that DOM element becomes the current context.</li>
+    <li>If the "id" represents a <code>WebElement</code>, and the corresponding DOM element represents a FRAME or an IFRAME, and the WebElement is part of the current context, the "window" property of that DOM element becomes the current context.</li>
 </ol>
 
-<p>In all cases if no match is made a "NoSuchFrameException" MUST be thrown.</p>
+<p>In all cases if no match is made a "NoSuchFrame" status code MUST be returned.</p>
 
 <p>Frame switching MUST succeed even if doing so would cross a security origin, or javascript executing in window.top's context would otherwise not be able to access the frame being switched to.</p>
 
