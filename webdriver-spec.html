@@ -1391,10 +1391,10 @@ assertEquals(style, recovered);
   <p>This section describes the interaction with
   <a href='http://www.w3.org/TR/DOM-Level-2-HTML/html.html#ID-8747038'>cookies</a> 
   as described in Web DOM Core Specification ([[!DOM-LEVEL-2-CORE]]). When retrieving 
-  and setting a cookie it MUST be in the format of the <a href='#cookie'>Cookie JSON Object</a>.</p>
+  and setting a cookie it MUST be in the format of a <code>Cookie</code>.</p>
   <section>
   <p>Retrieving all cookies from the page:</p>
-  <table>
+  <table class="simple">
     <tr>
       <td>Command Name</td>
       <td>getCookies</td>
@@ -1406,9 +1406,12 @@ assertEquals(style, recovered);
     </tr>
     <tr>
       <td>Return Value</td>
-      <td>Array.&lt;string&gt; A list of cookies</td>
+      <td>Array.&lt;string&gt; A list of ordinary cookies that are currently visible on the page.</tt></td>
     </tr>
   </table>
+  
+  <p>Remote implementations MUST return all cookies that are available in <tt>document.cookie</tt> via Javascript. In addition, remote implementations SHOULD return any HTTP-Only cookies that are associated with the current page.
+  
   </section>
   <section>
   <p>Setting a cookie:</p>
@@ -1437,46 +1440,28 @@ assertEquals(style, recovered);
   </section>
 
   <section>
-    <a name='cookie'><h2>Cookie JSON Object</h2></a>
-    <p>The JSON object describing a cookie is as follows. When returning Cookie objects, 
-    the server SHOULD only omit an optional field if it is incapable of providing the information</p>
-    <table>
-      <tr>
-        <td>key</td>
-        <td>type</td>
-        <td>description</td>
-      </tr>
-      <tr>
-        <td>name</td>
-        <td>{string}</td>
-        <td>The name of the cookie</td>
-      </tr>
-      <tr>
-        <td>value</td>
-        <td>{string}</td>
-        <td>The cookie value</td>
-      </tr>
-      <tr>
-        <td>path</td>
-        <td>{string}</td>
-        <td>The cookie path</td>
-      </tr>
-      <tr>
-        <td>domain</td>
-        <td>{string}</td>
-        <td>The domain the cookie is visible too</td>
-      </tr>
-      <tr>
-        <td>secure</td>
-        <td>{boolean}</td>
-        <td>Whether the cookie is a secure cookie.</td>
-      </tr>
-      <tr>
-        <td>expiry</td>
-        <td>{number}</td>
-        <td>When the cookie expires, specified in seconds since midnight, January 1, 1970 UTC.</td>
-      </tr>
-    </table>
+    <h2>Cookie</h2>
+    <p>When returning Cookie objects, the server SHOULD only omit an optional field if it is incapable of providing the information</p>
+    
+    <dl class="idl" title="interface Cookie">
+      <dt>attribute string name</dt>
+      <dd>The name of the cookie. This MUST be set.</dd>
+      
+      <dt>attribute string value</dt>
+      <dd>The cookie value. This MUST be set.</dd>
+    
+      <dt>attribute string path</dt>
+      <dd>The cookie path. This SHOULD be set or MUST be the null value if unknown.</dd>
+      
+      <dt>attribute string domain</dt>
+      <dd>The domain the cookie is visible too. This SHOULD be set or MUST be the null value if unknown.</dd>
+      
+      <dt>attribute number expiry</dt>
+      <dd>When the cookie expires, specified in seconds since midnight, January 1, 1970 UTC. This SHOULD be set or MUST be -1 if unknown.</dd>
+      
+      <dt>attribute boolean httpOnly</dt>
+      <dd>True if this represents an HTTP-Only cookie, false otherwise.</dd>
+    </dl>
   </section>
 </section>
 <section>
