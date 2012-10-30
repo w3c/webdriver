@@ -37,6 +37,8 @@ In addition, implementors MAY add additional page loading strategies.</p>
 <section>
 <h2>Navigation Commands</h2>
 
+<p class="note">Conformance tests for this section can be found in the <a href="http://dvcs.w3.org/hg/webdriver-test">webdriver-test module</a> under the "navigation" folder.</p>
+
 <table class="simple">
 	<tr>
 		<td>Command Name</td>
@@ -60,7 +62,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 
 <ul>
     <li>HTTP redirects MUST be automatically followed without responding to the command.</li>
-    <li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met.</li>
+    <li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met. When the refresh period is 1 second or less and the page loading strategy is "normal" or "conservative" implementations MUST wait for the refresh to complete before responding.</li>
     <li>If any modal dialog box, such as those opened by on <code>window.onbeforeunload</code> or <code>window.alert</code>, is opened at any point in the page load, a response MUST be sent.</li>
     <li>If a 401 response is seen by the browser, a response MUST be sent. That is, if BASIC, DIGEST, NTLM or similar authentication is required, the page load is assumed to be complete. This does not include FORM-based authentication.</li>
 </ul>    
