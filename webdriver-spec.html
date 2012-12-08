@@ -388,7 +388,7 @@
       How the new session is created depends on the implementation of this specification. 
         <ul>
           <li>If any of the "requiredCapabilities" cannot be fulfilled by the new session, the remote end MUST quit the session and return the
-            <code>SessionNotCreatedException</code> error code. The sessionId of the Response object MUST be left as the default value unless the Command had the sessionId set, in which case that value MUST be used. The error message SHOULD list all unmet required capabilities though only the 
+            <code>SessionNotCreated</code> error code. The sessionId of the Response object MUST be left as the default value unless the Command had the sessionId set, in which case that value MUST be used. The error message SHOULD list all unmet required capabilities though only the 
             first unmet required capability MUST be given.</li>
           <li>If a capability is listed in both the requiredCapabilities and desiredCapabilities, the value in the requiredCapabilities MUST be used.</li>
           </ul>
@@ -397,7 +397,7 @@
       MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
       discarded in favour of the freshly generated sessionId. Because of this, it is
       recommended that sessionId generation be done on the remote end. If the sessionId has already been used, a Response MUST be sent with the status 
-      code set to <code>SessionNotCreatedException</code> and the value being an explanation that the sessionId has previously been used.</li>
+      code set to <code>SessionNotCreated</code> and the value being an explanation that the sessionId has previously been used.</li>
       <li>The remote end MUST create a new Response object, with the following fields MUST be set to: 
       <ul>
         <li>"sessionId": the <code>sessionId</code> associated with this session.</li>
@@ -786,7 +786,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	</tr>
 	<tr>
 	    <td>Errors</td>
-	    <td>NoSuchWindow if no matching window can be found</td>
+	    <td><code>NoSuchWindow</code> if no matching window can be found</td>
 	</tr>
 </table>
 
@@ -798,7 +798,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
         <li>The "id" attribute of the window.</li>
     </ol>
 
-<p>If no windows match, then a "NoSuchWindow" status code MUST be returned, otherwise the "<a href="#default-content">default content</a>" of the first window to match will be selected for accepting commands.</p>
+<p>If no windows match, then a "<code>NoSuchWindow</code>" status code MUST be returned, otherwise the "<a href="#default-content">default content</a>" of the first window to match will be selected for accepting commands.</p>
 
 </section>
 
@@ -821,7 +821,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	</tr>
 	<tr>
 	    <td>Errors</td>
-	    <td>NoSuchFrame if no matching frame can be found</td>
+	    <td><code>NoSuchFrame</code> if no matching frame can be found</td>
 	</tr>
 </table>
 
@@ -844,7 +844,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
     <li>If the "id" represents a <code>WebElement</code>, and the corresponding DOM element represents a FRAME or an IFRAME, and the WebElement is part of the current context, the "window" property of that DOM element becomes the current context.</li>
 </ol>
 
-<p>In all cases if no match is made a "NoSuchFrame" status code MUST be returned.</p>
+<p>In all cases if no match is made a "<code>NoSuchFrame</code>" status code MUST be returned.</p>
 
 <p>Frame switching MUST succeed even if doing so would cross a security origin, or javascript executing in window.top's context would otherwise not be able to access the frame being switched to.</p>
 
@@ -1270,7 +1270,7 @@ assertEquals(style, recovered);
       <td>Errors</td>
       <td>
           JavascriptError if the executing script threw an exception.<br />
-          StaleElementReferenceException if a WebElement referenced is no longer attached to the DOM.<br/>
+          StaleElementReference if a WebElement referenced is no longer attached to the DOM.<br/>
           UnknownError if an argument or the return value is of an unhandled type.
       </td>
     </tr>
@@ -1337,7 +1337,7 @@ assertEquals(style, recovered);
         <td>Errors</td>
         <td>
             JavascriptError if the executing script threw an exception.<br />
-            StaleElementReferenceException if a WebElement referenced is no longer attached to the DOM.<br/>
+            StaleElementReference if a WebElement referenced is no longer attached to the DOM.<br/>
             Timeout if the callback is not called within the time specified by the <a href="#timeouts">"script" timeout</a>.<br/>
             UnknownError if an argument or the return value is of an unhandled type.
         </td>
