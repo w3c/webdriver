@@ -397,7 +397,7 @@
       MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
       discarded in favour of the freshly generated sessionId. Because of this, it is
       recommended that sessionId generation be done on the remote end. If the sessionId has already been used, a Response MUST be sent with the status 
-      code set to <code>SessionNotCreatedException</code> and the value being an explanation that the sessionId has previously been used.</li>
+      code set to <code>SessionNotCreated</code> and the value being an explanation that the sessionId has previously been used.</li>
       <li>The remote end MUST create a new Response object, with the following fields MUST be set to: 
       <ul>
         <li>"sessionId": the <code>sessionId</code> associated with this session.</li>
@@ -485,20 +485,20 @@
 <dl>
   <dt>conservative</dt>
   <dd>The remote end MUST wait until all frames and iframes in the window currently be used to process commands
-  that contain an HTML document are at "<a href="http://dev.w3.org/html5/spec/single-page.html#current-document-readiness">document.readyState</a> == 'complete'" and
+  that contain an HTML document are at <a href="http://dev.w3.org/html5/spec/single-page.html#current-document-readiness">document.readyState</a> equals 'complete' and
   there are no outstanding HTTP requests, other than those caused by
   XMLHttpRequests. If a frame or iframe does not contain an HTML document, the remote
   end SHOULD wait until all HTTP traffic to that frame is complete.</dd>
 
   <dt>normal</dt>
   <dd>The remote end MUST wait until the frame currently handling commands reaches
-  "document.readyState == 'complete'" or there are no more outstanding
+  document.readyState equals 'complete' or there are no more outstanding
   network requests other than XMLHttpRequests.</dd>
 
   <dt>eager</dt>
   <dd>The remote end MUST wait until the frame currently handling commands reaches
-  "document.readyState == 'interactive' || document.readyState ==
-  'complete'" or there are no more outstanding network requests.</dd>
+  document.readyState equals 'interactive' or  document.readyState equals
+  'complete' or there are no more outstanding network requests.</dd>
   
   <dt>none</dt>
   <dd>The remote end does not do any checks to see if a page load is currently active.</dd>
