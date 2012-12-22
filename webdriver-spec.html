@@ -110,7 +110,7 @@
     <section>
       <h3>Conformance Classes</h3>
       
-      <p>This specification describes the conformance criteria for both local (relevant to creating bindings for languages) and remote end implementations (relevant to browser vendors and server implementors).</p>
+      <p>This specification describes the conformance criteria for both local (relevant to creating bindings for languages) and remote end implementations (relevant to browser vendors and server implementors). A final conformance class &mdash; intermediate node &mdash; is also specified. These represent those nodes situated between the local and remote ends.</p>
     </section>
   </section>
 </section>
@@ -1084,8 +1084,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
     </table>
   </section>
   <section>
-    <a name="get-property"></a>
-    <h2>Defining "getProperty"</h2>
+    <h2><a name="get-property"></a>Defining "getProperty"</h2>
 
     <p>Although this specification defines a mechanism for reading <a href="attributes-and-properties">attributes and properties</a> implementations of the remote end need an unambigious way of getting a particular property. In general this can be expressed with the Ecmascript:</p>
 
@@ -1100,8 +1099,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
     <!-- TODO: write a test for this particular case, as it currently does not work in IE 8 -->
   </section>
   <section>
-    <a name="attributes-and-properties"></a>
-    <h2>Reading Attributes and Properties</h2>
+    <h2><a name="attributes-and-properties"></a>Reading Attributes and Properties</h2>
     <p>Although the [[!HTML5]] spec is very clear about the difference between the properties and attributes of a DOM element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning either of the value of a DOM element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous. In this section, the "attribute" with name <code>name</code> shall refer to the result of calling the Javascript "getAttribute" function on the element, with the following exceptions:</p>
     <ul>
       <li>If, in the current rendering mode, the content attribute <code>name</code> reflects a boolean IDL attribute, as per <a href="http://www.whatwg.org/specs/web-apps/current-work/">the HTML specification</a>, the value MUST be the string 'true' if that IDL attribute's value is true or the null value if the IDL attribute's value is false.</li>
