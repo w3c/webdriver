@@ -401,13 +401,18 @@
       <li>The remote end MUST create a new Response object, with the following fields MUST be set to: 
       <ul>
         <li>"sessionId": the <code>sessionId</code> associated with this session.</li>
-        <li>"value": a Capabilities instance. The keys of this Capabilities instance MUST be the strings given in each of the supported capabilities as defined in the relevant sections of this specification. Supported functionality MUST be included in this Capabilities instance, while unsupported functionality MAY be omitted.</li>
+        <li><a name="create-session-value"></a>"value": a Capabilities instance. The keys of this Capabilities instance MUST be the strings given in each of the supported capabilities as defined in the relevant sections of this specification. Supported functionality MUST be included in this Capabilities instance, while unsupported functionality MAY be omitted.</li>
         <li>"status": the <code>SUCCESS</code> error code.</li>
       </ul></li>
       <li>The Response is returned to the local end.</li>
     </ol>
     <p>There is no requirement for the local end to validate that some or all of the fields sent on the Capabilities
     associated with the Command match those returned in the Response.</p>
+
+    <p>As stated, when returning the <a href="#create-session-value">value of the <code>Response</code></a>, the remote end MUST include the capability names and values of all supported capabilities from this specification. They MAY also include any additional capability names and values of supported capabilities implemented independently of this specification. Local ends MAY choose to ignore this additional information. Nodes intermediate between the local and remote ends MAY interpret the capabilities being returned.</p>
+
+    <p>If the <code>browserName</code> is given as a desired capability and omitted from the required capabilities, and the returned <code>browserName</code> value does not match the requested one, local ends SHOULD issue a warning to the user. How this warning is undefined, but one implementation could be a log message. In this particular case, local ends MAY chose to change the <code>Response</code>'s status code to <code>SessionNotCreated</code>, and modify the value to explain the cause, including the value originally returned as the <code>browserName</code> capability.</p>
+
     <section>
       <h3>Capability Names</h3>
       <p>The following keys SHOULD be used in the Capabilities instances.</p>
