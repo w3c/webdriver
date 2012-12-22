@@ -621,9 +621,11 @@ In addition, implementors MAY add additional page loading strategies.</p>
 
     <p>This array of returned strings MUST contain a handle for every window associated with the browser session and no others. For each returned window handle the javascript expression "window.top.closed" MUST evaluate to false at the time the command is being executed.</p>
 
-    <p>The ordering of the keys is not defined, but SHOULD be determined by iterating over each top level browser window and returning the tabs within that window before iterating over the tabs of the next top level browser window. For example, in the diagram below, the window handles should be returned as the handles for: win1tab1, win1tab2, win2.</p>
+    <p>The ordering of the array elements is not defined, but MAY be determined by iterating over each top level browser window and returning the tabs within that window before iterating over the tabs of the next top level browser window. For example, in the diagram below, the window handles should be returned as the handles for: win1tab1, win1tab2, win2.</p>
 
     <img src="example-windows.png" alt="Two top level windows. The first window has two tabs, lablled win1tab1 and win1tab2. The second window has only one tab labelled win2"/>
+
+    <p class="note">This implies that the correct way to determine whether or not a particular interaction with the browser opens a new window is done by obtaining the set of window handles before the interaction is performed and comparing with the set after the action is performed.</p>
   </section>
 
   <section>
@@ -737,15 +739,17 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
     </table>
 
-    <p>Each of these commands accept the window handles returned by "getWindowHandles" and "getWindowHandle". In addition, the window handle may be "current", in which case the window that commands are currently being handled by MUST be acted upon.</p>
+    <p>Each of these commands accept the window handles returned by "<code>getWindowHandles</code>" and "<code>getWindowHandle</code>". In addition, the window handle may be "current", in which case the window that commands are currently being handled by MUST be acted upon.</p>
 
-    <p>The "width" and "height" values refer to the "window.outerheight" and "window.outerwidth" properties. For those browsers that do not support these properties, these represent the height and width of the whole browser window including window chrome and window resizing borders/handles.</p>
+    <p>The "<code>width</code>" and "<code>height</code>" values refer to the "<code>window.outerheight</code>" and "<code>window.outerwidth</code>" properties. For those browsers that do not support these properties, these represent the height and width of the whole browser window including window chrome and window resizing borders/handles.</p>
 
-    <p>After setWindowSize, the browser window MUST NOT be in the maximised state.</p>
+    <p>After <code>setWindowSize</code>, the browser window MUST NOT be in the maximised state.</p>
 
-    <p>After maximizeWindow, the browser window MUST be left as if the maximise button had been pressed; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
+    <p>After  <code>maximizeWindow</code>, the browser window MUST be left as if the maximise button had been pressed; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
 
-    <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size), an UnsupportedOperation status code MUST be returned.</p>
+    <p>After <code>fullscreenWindow</code>, the browser window MUST be in full-screen mode. For those operating systems that support the concept, this MUST be equivalent to if the user requested the window be full screen. If the OS does not support the concept of full-screen, then this command is a synonym for "<code>maximizeWindow</code>".
+
+    <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an UnsupportedOperation status code MUST be returned.</p>
   </section>
 
   <section>
