@@ -44,8 +44,8 @@
     <p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
       <ol>
           <li id="is_selectable">If the item is not "selectable", the WebElement is not selected. A selectable element is either an OPTION element or an INPUT element of type "checkbox" or "radio".</li> 
-          <li>If the WebElement represents an INPUT element, call the "getProperty" method described above looking for the "checked" property. This indicates whether the element is selected.</li>
-          <li>Otherwise, call the "getProperty" method described above looking for the "selected" property. This indicates whether the element is selected.</li>
+          <li>If the WebElement represents an INPUT element, call the "<a href="#get-property"><code>getProperty</code></a>" method described above looking for the "checked" property. This indicates whether the element is selected.</li>
+          <li>Otherwise, call the "<a href="#get-property"><code>getProperty</code></a>" method described above looking for the "selected" property. This indicates whether the element is selected.</li>
       </ol>
     <table class="simple">
       <tr>
@@ -68,6 +68,23 @@
     </table>
   </section>
   <section>
+    <a name="get-property"></a>
+    <h2>Defining "getProperty"</h2>
+
+    <p>Although this specification defines a mechanism for reading <a href="attributes-and-properties">attributes and properties</a> implementations of the remote end need an unambigious way of getting a particular property. In general this can be expressed with the Ecmascript:</p>
+
+    <pre>
+      function getProperty(element, propertyName) {
+        return element[propertyName];
+      }
+    </pre>
+
+    <p>Where "<code>element</code>" refers to the DOM node and "<code>propertyName</code>" refers to the name of the property. This MUST be implemented as in the HTML 5 specification. Notably, when an OPTION's value attribute is not set, its value property should be its text content.</p>
+
+    <!-- TODO: write a test for this particular case, as it currently does not work in IE 8 -->
+  </section>
+  <section>
+    <a name="attributes-and-properties"></a>
     <h2>Reading Attributes and Properties</h2>
     <p>Although the [[!HTML5]] spec is very clear about the difference between the properties and attributes of a DOM element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning either of the value of a DOM element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous. In this section, the "attribute" with name <code>name</code> shall refer to the result of calling the Javascript "getAttribute" function on the element, with the following exceptions:</p>
     <ul>
