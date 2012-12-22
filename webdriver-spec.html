@@ -1004,6 +1004,12 @@ In addition, implementors MAY add additional page loading strategies.</p>
       <p>All WebDriver implementations MUST support finding elements by XPath 1.0 [[!XPATH]] with the <a href="http://dev.w3.org/html5/spec/Overview.html#interactions-with-xpath-and-xslt">edits from section 3.3</a> of the [[!HTML5]] specification made. If no native support is present in the browser, a pure JS implementation MAY be used. When called, the returned values MUST be equivalent of calling "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate">evaluate</a>" function from the DOM Level 3 XPath spec [[DOM-LEVEL-3-XPATH]] with the result type set to "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE">ORDERED_NODE_SNAPSHOT_TYPE</a> (7).</p>
     </section>
   </section>
+
+  <section>
+    <h2>The Shadow DOM</h2>
+
+    <p>TODO: describe how WebDriver remote ends interact with the shadow DOM.</p>
+  </section>
 </section>
 <section>
 <h2>Reading Element State</h2>
@@ -1447,7 +1453,7 @@ assertEquals(style, recovered);
     </tr>
   </table>
   
-  <p>Remote implementations MUST return all cookies that are available in <tt>document.cookie</tt> via Javascript. In addition, remote implementations SHOULD return any HTTP-Only cookies that are associated with the current page.
+  <p>Remote ends MUST return all cookies that are available in <tt>document.cookie</tt> via Javascript. In addition, remote ends SHOULD return any HTTP-Only cookies that are associated with the current page.
   
   </section>
   <section>
@@ -2057,7 +2063,7 @@ assertEquals(style, recovered);
 </section><section class='appendix'>
   <h2>Capabilities</h2>
 
-  <p>This section is non-normative</p>
+  <p>This section is non-normative.</p>
 
   <p>Capabilities are used by WebDriver implementations to enumerate the parts of this specification that they support. They are also used when establishing a new session to descrive the required or desired capabilities. This appendix collects the capabilities mentioned in this spec into one place.</p>
 
