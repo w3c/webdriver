@@ -6,15 +6,16 @@
 
   <section>
     <h3>Command</h3>
-    <p>A command represents a call to the remote end of the WebDriver API.</p>
-    <dl class="idl" title="interface Command">
-      <dt>attribute string name</dt>
-      <dd>The case-sensitive name of the command to execute. The default value is the null value.</dd>
-      <dt>attribute dictionary parameters</dt>
-      <dd>A map of the named parameters to an object representing its value. The default value is an empty array.</dd>
-      <dt>attribute string sessionId</dt>
-      <dd>A reference to the session to which this command is associated. The default value is the null value.</dd>
-    </dl>
+    
+<pre class="IDL">interface <dfn id="command" title="command">Command</dfn> {  
+  attribute string <code><a href="#command-name">name</a></code>;
+  attribute dictionary <code><a href="#command-parameters">parameters</a></code>;
+  attribute string <code><a href="#sessionid">sessionId</a></code>;
+};
+</pre>
+
+    <p>A command represents a call to a remote end to the <a href="#sessions">session</a> identified by the <code><a href="#sessionid">sessionId</a></code> attribute. By default, the <code><a href="#sessionid">sessionId</a></code> is null. The name of the command to execute is held in the <dfn id="command-name" title="command-name">name</dfn>, and this MUST be handled case-insensitively. It defaults to the null value. The <dfn id="command-parameters" title="command-name">parameters</dfn> attribute is a map of named parameters to objects representing the value of the parameter. The default value is an empty array and this field MUST NOT be null.</p>
+
   </section>
   <section>
     <h3>Response</h3>
