@@ -122,7 +122,7 @@ code a:visited, code a:link {
       
     </dl>
     
-    <p>There is no requirement that the local and remote ends be in different processes. The IDL given in this specification and summarized in Appendix XXXX SHOULD be used as the basis for any conforming local implementation.</p>
+    <p>There is no requirement that the local and remote ends be in different processes. The IDL given in this specification and summarized in Appendix XXXX SHOULD be used as the basis for any conforming local end implementation.</p>
   </section>
   
   <section>
@@ -467,8 +467,9 @@ code a:visited, code a:link {
           <li>UNIX</li>
           <li>WINDOWS</li>
         </ul>
-        <p>In addition "ANY" may be used to indicate the underlying OS is either unknown or does not matter.
-        Implementors MAY add additional platform names. Until these are standardized, these MUST follow the conventions outlined in <a href="#extending-the-protocol">extending the protocol</a> section with the exception that the vendor prefix MAY omit the leading "-" character.<p>
+        <p>In addition "ANY" may be used to indicate the underlying OS is either unknown or does not matter.</p>
+
+        <p>Implementors MAY add additional platform names. Until these are standardized, these MUST follow the conventions outlined in <a href="#extending-the-protocol">extending the protocol</a> section with the exception that the vendor prefix MAY omit the leading "-" character.<p>
 
         <p class="note">For example, Mozilla's Firefox OS could be described as either "-moz-firefoxos" or "moz-firefoxos". The latter makes it easier for local ends to specify an enum of supported platforms and is therefore recommended in this case.</p>
 
@@ -521,7 +522,7 @@ code a:visited, code a:link {
 <dl>
   <dt>conservative</dt>
   <dd>The remote end MUST wait until all frames and iframes in the window currently be used to process commands
-  that contain an HTML document are at "<a href="http://dev.w3.org/html5/spec/single-page.html#current-document-readiness">document.readyState</a> == 'complete'" and
+  that contain an HTML document are at <a href="http://dev.w3.org/html5/spec/single-page.html#current-document-readiness">document.readyState</a> equals 'complete' and
   there are no outstanding HTTP requests, other than those caused by
   XMLHttpRequests. If a frame or iframe does not contain an HTML document, the remote
   end SHOULD wait until all HTTP traffic to that frame is complete.</dd>
@@ -1051,6 +1052,8 @@ In addition, implementors MAY add additional page loading strategies.</p>
         <li>The element MUST have a height and width greater than 0px.</li>
         <li>The element MUST NOT be visible if that element, or any of its ancestors,
         is hidden or has a CSS display property that is none.</li>
+        <li>The element MUST NOT be visible if there is a <a href='http://www.w3.org/TR/css3-transforms/'>CSS3 Transform</a>
+        property that moves the element out of the viewport and can not be scrolled to.</li>
         <li>OPTIONs and OPTGROUP elements are treated as special cases, they are considered shown if and only if the enclosing select element is visible.</li>
         <li>MAP elements are shown if and only if the image it uses is visible. Areas within
         a map are shown if the enclosing MAP is visible.</li>
@@ -1482,7 +1485,7 @@ assertEquals(style, recovered);
     </tr>
   </table>
   
-  <p>Remote ends MUST return all cookies that are available in <tt>document.cookie</tt> via Javascript. In addition, remote ends SHOULD return any HTTP-Only cookies that are associated with the current page.
+  <p>Remote ends MUST return all cookies that are available in <tt>document.cookie</tt> via Javascript. In addition, remote ends SHOULD return any HTTP-Only cookies that are associated with the current page.</p>
   
   </section>
   <section>
@@ -1994,7 +1997,7 @@ assertEquals(style, recovered);
 	    </tr>
 	</table>
 
-    <p>If this capability is supported, local ends MUST add the <code>TakesScreenshot</code> interface to the <code>WebDriver</code> interface.</p>
+    <p>If this capability is supported, local end MUST add the <code>TakesScreenshot</code> interface to the <code>WebDriver</code> interface.</p>
 
     <p>This command will take a screenshot of the current window. Implementations of the remote end SHOULD capture the entire DOM, even if this would require a user to scroll the browser window. That is, the returned PNG SHOULD have the same width and height as returned by a call to <code>getSize</code> of the BODY element and MUST contain all visible content on the page, and this SHOULD be done without resizing the browser window. If the remote end is unable to capture the entire DOM, then the part of the DOM currently displayed in UI of the browser MUST be captured without additional chrome such as scrollbars and browser chrome.</p>
 
@@ -2037,7 +2040,7 @@ assertEquals(style, recovered);
   	    </tr>
   	</table>
   	
-  	<p>If this capability is supported, local ends MUST add the <code>TakesScreenshot</code> interface to the <code>WebElement</code> interface.</p>
+  	<p>If this capability is supported, local end MUST add the <code>TakesScreenshot</code> interface to the <code>WebElement</code> interface.</p>
   	
     <p>Remote ends SHOULD take a screenshot of the area bounded by the clientBoundingRect of the DOM element represented by the <code>WebElement</code>, returning it as a Base64 encoded, lossless PNG. Local ends MUST make the PNG available directly to the user as at least one of a binary blob or a file. If the remote end cannot capture the entire clientBoundingRect, they MUST scroll as much of the element into the current browser viewport as possible and capture the maximum visible area without additional browser chrome.</p>
     
@@ -2114,6 +2117,7 @@ assertEquals(style, recovered);
 
     <section class='appendix'>
       <h2>Thread Safety</h2>
+
       <p>There is no requirement for local or remote implementations to be thread safe. Local ends SHOULD support serialized access from multiple threads.</p>
     </section>
 
