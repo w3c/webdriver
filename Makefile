@@ -16,7 +16,7 @@ caps.fragment :
 		sort > $@
 
 85_capabilities.html : caps.fragment capabilities-*.html
-	$(CAT) capabilities-header.html $^ capabilities-footer.html > $@
+	$(CAT) capabilities-header.html caps.fragment capabilities-footer.html > $@
 
 clean :
 	$(RM) 85_capabilities.html
