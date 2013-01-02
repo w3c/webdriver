@@ -157,7 +157,7 @@ code a:visited, code a:link {
 };
 </pre>
 
-    <p>A command represents a call to a remote end to the <a href="#sessions">session</a> identified by the <code><a href="#sessionid">sessionId</a></code> attribute. By default, the <code><a href="#sessionid">sessionId</a></code> is null. The name of the command to execute is held in the <dfn id="command-name" title="command-name">name</dfn>, and this MUST be handled case-insensitively. It defaults to the null value. The <dfn id="command-parameters" title="command-name">parameters</dfn> attribute is a map of named parameters to objects representing the value of the parameter. The default value is an empty array and this field MUST NOT be null.</p>
+    <p>A command represents a call to a remote end to the <a href="#sessions">session</a> identified by the <code><a href="#sessionid">sessionId</a></code> attribute. By default, the <code><a href="#sessionid">sessionId</a></code> is null. The name of the command to execute is held in the <dfn id="command-name" title="command-name">name</dfn>, and this MUST be handled case-sensitively. It defaults to the null value. The <dfn id="command-parameters" title="command-name">parameters</dfn> attribute is a map of named parameters to objects representing the value of the parameter. The default value is an empty array and this field MUST NOT be null.</p>
 
   </section>
   <section>
@@ -440,7 +440,7 @@ code a:visited, code a:link {
 
     <p>As stated, when returning the <a href="#create-session-value">value of the <code>Response</code></a>, the remote end MUST include the capability names and values of all supported capabilities from this specification. They MAY also include any additional capability names and values of supported capabilities implemented independently of this specification. Local ends MAY choose to ignore this additional information. Nodes intermediate between the local and remote ends MAY interpret the capabilities being returned.</p>
 
-    <p>If the <code>browserName</code> is given as a desired capability and omitted from the required capabilities, and the returned <code>browserName</code> value does not match the requested one, local ends SHOULD issue a warning to the user. How this warning is undefined, but one implementation could be a log message. In this particular case, local ends MAY chose to change the <code>Response</code>'s status code to <code>SessionNotCreated</code>, and modify the value to explain the cause, including the value originally returned as the <code>browserName</code> capability.</p>
+    <p>If the <code>browserName</code> is given as a desired capability and omitted from the required capabilities, and the returned <code>browserName</code> value does not match the requested one, local ends SHOULD issue a warning to the user. How this warning is issued is undefined, but one implementation could be a log message. In this particular case, local ends MAY chose to change the <code>Response</code>'s status code to <code>SessionNotCreated</code>, and modify the value to explain the cause, including the value originally returned as the <code>browserName</code> capability.</p>
 
     <section>
       <h3>Capability Names</h3>
@@ -1090,9 +1090,9 @@ In addition, implementors MAY add additional page loading strategies.</p>
     <h2>Determining Whether a WebElement Is Selected</h2>
     <p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
       <ol>
-          <li id="is_selectable">If the item is not "selectable", the WebElement is not selected. A selectable element is either an OPTION element or an INPUT element of type "checkbox" or "radio".</li> 
-          <li>If the WebElement represents an INPUT element, call the "<a href="#get-property"><code>getProperty</code></a>" method described above looking for the "checked" property. This indicates whether the element is selected.</li>
-          <li>Otherwise, call the "<a href="#get-property"><code>getProperty</code></a>" method described above looking for the "selected" property. This indicates whether the element is selected.</li>
+          <li id="is_selectable">If the item is not "<code title="selectable">selectable</code>", the WebElement is not selected. A <dfn id="selectable" title="selectable">selectable</dfn> element is either an OPTION element or an INPUT element of type "<a href="http://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)">checkbox</a>" or "<a href="http://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)">radio</a>".</li> 
+          <li>If the DOM node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!HTML5]] determines whether the element is selected.</li>
+          <li>Otherwise, the value of the DOM node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!HTML5]].</li>
       </ol>
     <table class="simple">
       <tr>
@@ -1114,21 +1114,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
     </table>
   </section>
-  <section>
-    <h2><a name="get-property"></a>Defining "getProperty"</h2>
-
-    <p>Although this specification defines a mechanism for reading <a href="attributes-and-properties">attributes and properties</a> implementations of the remote end need an unambigious way of getting a particular property. In general this can be expressed with the Ecmascript:</p>
-
-    <pre>
-      function getProperty(element, propertyName) {
-        return element[propertyName];
-      }
-    </pre>
-
-    <p>Where "<code>element</code>" refers to the DOM node and "<code>propertyName</code>" refers to the name of the property. This MUST be implemented as in the HTML 5 specification. Notably, when an OPTION's value attribute is not set, its value property should be its text content.</p>
-
-    <!-- TODO: write a test for this particular case, as it currently does not work in IE 8 -->
-  </section>
+  
   <section>
     <h2><a name="attributes-and-properties"></a>Reading Attributes and Properties</h2>
     <p>Although the [[!HTML5]] spec is very clear about the difference between the properties and attributes of a DOM element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning either of the value of a DOM element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous. In this section, the "attribute" with name <code>name</code> shall refer to the result of calling the Javascript "getAttribute" function on the element, with the following exceptions:</p>
