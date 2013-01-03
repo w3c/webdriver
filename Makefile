@@ -23,14 +23,16 @@ clean :
 	$(RM) webdriver-spec.tmp
 	$(RM) caps.fragment
 	$(RM) WebDriver.html
+	$(RM) vnu.jar
 
 WebDriver.html : webdriver-spec.html
-	generate-full-html.py file:`pwd`/webdriver-spec.html > $@
+	generate-full-html.py "file:`pwd`/webdriver-spec.html" > $@
 
 vnu.jar :
 	curl -o $@ https://bitbucket.org/sideshowbarker/vnu/src/2759dcb15031a8931e99c46c7b7c3aacb7e155cb/vnu.jar?at=default
 
 validate : vnu.jar WebDriver.html
 	java -Dnu.validator.client.quiet=yes  -jar vnu.jar WebDriver.html
+	checklink -q -i -b WebDriver.html
 
-.PHONY : all clean
+.PHONY : all clean validate
