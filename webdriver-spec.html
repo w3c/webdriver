@@ -224,7 +224,7 @@ code a:visited, code a:link {
       </tr>
       <tr>
         <td>10</td>
-        <td>StaleElementReference</td>
+        <td><dfn id="stale-element-reference">StaleElementReference</dfn></td>
         <td>An element command failed because the referenced element is no longer attached to the DOM.</td>
       </tr>
       <tr>
@@ -986,7 +986,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       <p>Strategy name: id</p>
       <p>This strategy MUST be supported by all WebDriver implementations.</p>
       <p>The HTML5 specification ([[!HTML5]]) states that <a
-        href="http://www.w3.org/TR/html5/elements.html#the-id-attribute">element
+        href="http://www.w3.org/TR/html5/dom.html#the-id-attribute">element
         IDs must be unique within their home subtree</a>. Sadly, this uniqueness
       requirement is not always met. Consequently, this strategy is equally
       valid for finding a single element or groups of elements. In the case of
@@ -999,7 +999,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       <h2>Link Text</h2>
       <p>Strategy name: link text</p>
       <p>This strategy MUST be supported by all WebDriver implementations. </p>
-      <p>This strategy MUST return all <a href="http://www.w3.org/TR/html5/the-a-element.html#the-a-element">"a"</a> elements with visible text exactly and case sensitively equal to the term being searched for.</p>
+      <p>This strategy MUST return all <a href="http://www.w3.org/TR/html5/text-level-semantics.html#the-a-element">"a"</a> elements with visible text exactly and case sensitively equal to the term being searched for.</p>
       <div class="note">
 	    <p>This is equivalent to:</p>
 	    <pre>
@@ -1242,7 +1242,7 @@ assertEquals(style, recovered);
             </li>
         </ol>
     </li>
-    <li>The string MUST then have the white space normalised as defined in the [[!XPATH]] <a href='http://www.w4.org/TR/xpath/#function-normalize-space'>normalize-space function</a> which is then returned.</li>
+    <li>The string MUST then have the white space normalised as defined in the [[!XPATH]] <a href="http://www.w3.org/TR/xpath/#function-normalize-space">normalize-space function</a> which is then returned.</li>
 </ol>
 
 </section>
@@ -1288,7 +1288,7 @@ assertEquals(style, recovered);
         <li>a dictionary, then recursively apply this algorithm to each value in <code>args[index]</code> and assign the result to <code>args[index]</code>.</li>
         <li>a <a href="#elements">WebElement</a>, then:
             <ol>
-                <li>If the element's ID does not represent a DOMElement, or it represents a DOMElement that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <a href="#error-codes">StaleElementReference</a> error.</li>
+                <li>If the element's ID does not represent a DOMElement, or it represents a DOMElement that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#stale-element-reference">StaleElementReference</a></code> error.</li>
                 <li>Otherwise, let <code>args[index]</code> be the underlying DOMElement.</li>
             </ol>
          </li>
