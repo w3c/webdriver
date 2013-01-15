@@ -29,7 +29,7 @@
 
     <p>A Response represents the value returned from the remote end of the WebDriver API after executing a Command from the session identified by the <code><a href="#sessionid">sessionId</a></code> attribute. The default value for the <code><a href="#sessionid">sessionId</a></code> MUST be the <code><a href="#sessionid">sessionId</a></code> used in the <code><a href="#command">Command</a></code> that this is a response to, unless the <code><a href="#command">Command</a></code>'s <code><a href="#sessionid">sessionId</a></code> was the null value, in which case a unique <code><a href="#sessionid">sessionId</a></code> MUST be assigned (see newSession for how this is achieved).</p>
 
-    <p>Each Response has a <code><dfn id="response-status" title="response-status">status</dfn></code> that indicates the success or failure of the method. Anything other than "<code><a id="status-success">success</a></code>" indicates a failure. Each command lists the status strings it can return in the section of this specification in which it is defined, but the normative list of expected statuses is given below in the <a href="#error-codes">Error Codes</a> section. This list MAY be extended by implementors of the specification, provided they follow the guidelines about extending the specification.</p>
+    <p>Each Response has a <code><dfn id="response-status" title="response-status">status</dfn></code> that indicates the success or failure of the method. Anything other than "<code><a href="#status-success">success</a></code>" indicates a failure. Each command lists the status strings it can return in the section of this specification in which it is defined, but the normative list of expected statuses is given below in the <a href="#error-codes">Error Codes</a> section. This list MAY be extended by implementors of the specification, provided they follow the guidelines about extending the specification.</p>
 
     <p>The meat of the <code><a href="#response">Response</a></code> is in the <code><dfn id="response-value" title="response-value">value</dfn></code> attribute. It's type is determined by the <code><a href="#command">Command</a></code> that has been executed. In the specification, each command definition will make clear what the expected return type is. The default value is the null value. In the case where the status indicates failure, the value is commonly the error text explaining the cause of the problem.</p>
 
@@ -154,6 +154,10 @@
         <td>An unknown error occurred in the remote end while processing the command.</td>
       </tr>
       <tr>
+        <td><dfn id="status-unsupported-operation">unsupported operation</dfn></td>
+        <td>Indicates that a command that should have executed properly cannot be supported for some reason.</td>
+      </tr>
+      <tr>
         <td><dfn id="status-xpath-lookup-error">xpath lookup error</dfn></td>
         <td>An error occurred while searching for an element by XPath.</td>
       </tr>
@@ -163,7 +167,7 @@
     <section>
     <h2>Handling of Error Codes at the Local End</h2>
     
-    <p>Error codes are returned from the remote end to the local end. The local end SHOULD convert these into a form appropriate for the implementation language. For example, in C the error codes might be returned "as is", whereas in Java various exceptions could be thrown.</p>
+    <p>Error codes are returned from the remote end to the local end. The local end SHOULD convert these into a form appropriate for the implementation language. For example, in C the error codes might be returned "as is" or converted to constant values, whereas in Java various exceptions could be thrown.</p>
     
     <p>Local implementations written in languages that support exceptions SHOULD make use of an exception hierarchy rooted on a <code>WebDriverException</code> (or similarly named base exception class). Where references to <code>WebDriverException</code> are made in this specification, we are referring to this local end conversion of error codes to local end exceptions.</p>
     

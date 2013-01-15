@@ -79,7 +79,7 @@ code a:visited, code a:link {
 
 <p>The WebDriver API is defined by a set of interfaces to discover and manipulate DOM elements on a page, and to control the behaviour of the containing browser.</p>
 
-<p>This specification also includes a non-normative reference serialisation (to JSON) of the interface's invocations and responses that may be useful for browser vendors.</p>
+<p>This specification also includes a normative reference serialisation (to JSON over HTTP) of the interface's invocations and responses that are to be used by browser vendors to ensure interoperability.</p>
 </section>
 
 <section id="sotd">
@@ -174,7 +174,7 @@ code a:visited, code a:link {
 
     <p>A Response represents the value returned from the remote end of the WebDriver API after executing a Command from the session identified by the <code><a href="#sessionid">sessionId</a></code> attribute. The default value for the <code><a href="#sessionid">sessionId</a></code> MUST be the <code><a href="#sessionid">sessionId</a></code> used in the <code><a href="#command">Command</a></code> that this is a response to, unless the <code><a href="#command">Command</a></code>'s <code><a href="#sessionid">sessionId</a></code> was the null value, in which case a unique <code><a href="#sessionid">sessionId</a></code> MUST be assigned (see newSession for how this is achieved).</p>
 
-    <p>Each Response has a <code><dfn id="response-status" title="response-status">status</dfn></code> that indicates the success or failure of the method. Anything other than "<code><a id="status-success">success</a></code>" indicates a failure. Each command lists the status strings it can return in the section of this specification in which it is defined, but the normative list of expected statuses is given below in the <a href="#error-codes">Error Codes</a> section. This list MAY be extended by implementors of the specification, provided they follow the guidelines about extending the specification.</p>
+    <p>Each Response has a <code><dfn id="response-status" title="response-status">status</dfn></code> that indicates the success or failure of the method. Anything other than "<code><a href="#status-success">success</a></code>" indicates a failure. Each command lists the status strings it can return in the section of this specification in which it is defined, but the normative list of expected statuses is given below in the <a href="#error-codes">Error Codes</a> section. This list MAY be extended by implementors of the specification, provided they follow the guidelines about extending the specification.</p>
 
     <p>The meat of the <code><a href="#response">Response</a></code> is in the <code><dfn id="response-value" title="response-value">value</dfn></code> attribute. It's type is determined by the <code><a href="#command">Command</a></code> that has been executed. In the specification, each command definition will make clear what the expected return type is. The default value is the null value. In the case where the status indicates failure, the value is commonly the error text explaining the cause of the problem.</p>
 
@@ -299,6 +299,10 @@ code a:visited, code a:link {
         <td>An unknown error occurred in the remote end while processing the command.</td>
       </tr>
       <tr>
+        <td><dfn id="status-unsupported-operation">unsupported operation</dfn></td>
+        <td>Indicates that a command that should have executed properly cannot be supported for some reason.</td>
+      </tr>
+      <tr>
         <td><dfn id="status-xpath-lookup-error">xpath lookup error</dfn></td>
         <td>An error occurred while searching for an element by XPath.</td>
       </tr>
@@ -308,7 +312,7 @@ code a:visited, code a:link {
     <section>
     <h2>Handling of Error Codes at the Local End</h2>
     
-    <p>Error codes are returned from the remote end to the local end. The local end SHOULD convert these into a form appropriate for the implementation language. For example, in C the error codes might be returned "as is", whereas in Java various exceptions could be thrown.</p>
+    <p>Error codes are returned from the remote end to the local end. The local end SHOULD convert these into a form appropriate for the implementation language. For example, in C the error codes might be returned "as is" or converted to constant values, whereas in Java various exceptions could be thrown.</p>
     
     <p>Local implementations written in languages that support exceptions SHOULD make use of an exception hierarchy rooted on a <code>WebDriverException</code> (or similarly named base exception class). Where references to <code>WebDriverException</code> are made in this specification, we are referring to this local end conversion of error codes to local end exceptions.</p>
     
@@ -395,7 +399,7 @@ code a:visited, code a:link {
       How the new session is created depends on the implementation of this specification. 
         <ul>
           <li>If any of the "requiredCapabilities" cannot be fulfilled by the new session, the remote end MUST quit the session and return the
-            <code>SessionNotCreated</code> error code. The sessionId of the Response object MUST be left as the default value unless the Command had the sessionId set, in which case that value MUST be used. The error message SHOULD list all unmet required capabilities though only the 
+            <code><a href="#status-session-not-created">session not created</a></code> error code. The sessionId of the Response object MUST be left as the default value unless the Command had the sessionId set, in which case that value MUST be used. The error message SHOULD list all unmet required capabilities though only the 
             first unmet required capability MUST be given.</li>
           <li>If a capability is listed in both the requiredCapabilities and desiredCapabilities, the value in the requiredCapabilities MUST be used.</li>
           </ul>
@@ -404,12 +408,12 @@ code a:visited, code a:link {
       MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
       discarded in favour of the freshly generated sessionId. Because of this, it is
       recommended that sessionId generation be done on the remote end. If the sessionId has already been used, a Response MUST be sent with the status 
-      code set to <code>SessionNotCreated</code> and the value being an explanation that the sessionId has previously been used.</li>
+      code set to <code><a href="#status-session-not-created">session not created</a></code> and the value being an explanation that the sessionId has previously been used.</li>
       <li>The remote end MUST create a new Response object, with the following fields MUST be set to: 
       <ul>
         <li>"sessionId": the <code>sessionId</code> associated with this session.</li>
         <li><a name="create-session-value"></a>"value": a Capabilities instance. The keys of this Capabilities instance MUST be the strings given in each of the supported capabilities as defined in the relevant sections of this specification. Supported functionality MUST be included in this Capabilities instance, while unsupported functionality MAY be omitted.</li>
-        <li>"status": the <code>SUCCESS</code> error code.</li>
+        <li>"status": the <code><a href="#status-success">success</a></code> error code.</li>
       </ul></li>
       <li>The Response is returned to the local end.</li>
     </ol>
@@ -418,7 +422,7 @@ code a:visited, code a:link {
 
     <p>As stated, when returning the <a href="#create-session-value">value of the <code>Response</code></a>, the remote end MUST include the capability names and values of all supported capabilities from this specification. They MAY also include any additional capability names and values of supported capabilities implemented independently of this specification. Local ends MAY choose to ignore this additional information. Nodes intermediate between the local and remote ends MAY interpret the capabilities being returned.</p>
 
-    <p>If the <code>browserName</code> is given as a desired capability and omitted from the required capabilities, and the returned <code>browserName</code> value does not match the requested one, local ends SHOULD issue a warning to the user. How this warning is issued is undefined, but one implementation could be a log message. In this particular case, local ends MAY chose to change the <code>Response</code>'s status code to <code>SessionNotCreated</code>, and modify the value to explain the cause, including the value originally returned as the <code>browserName</code> capability.</p>
+    <p>If the <code>browserName</code> is given as a desired capability and omitted from the required capabilities, and the returned <code>browserName</code> value does not match the requested one, local ends SHOULD issue a warning to the user. How this warning is issued is undefined, but one implementation could be a log message. In this particular case, local ends MAY chose to change the <code>Response</code>'s status code to <code><a href="#status-session-not-created">session not created</a></code>, and modify the value to explain the cause, including the value originally returned as the <code>browserName</code> capability.</p>
 
     <section>
       <h3>Capability Names</h3>
@@ -460,14 +464,14 @@ code a:visited, code a:link {
       <p>The following status codes MUST be returned by the "newSession" command. Please consult the table in the
       "commands" section for numerical values:</p>
       <dl>
-        <dt>Success</dt>
+        <dt><code><a href="#status-success">success</a></code></dt>
         <dd>The session was successfully created. The "value" field of the Response MUST contain a Capabilities object
         describing the session.</dd>
-        <dt>Timeout</dt>
+        <dt><code><a href="#status-timeout">timeout</a></code></dt>
         <dd>The new session could not be created within the time allowed for command execution on the remote end. This
         time MAY be infinite (in which case this status won't be seen). The "value" field of the Response SHOULD contain a string explaining that a timeout has
         occurred, but it MAY be left as the null value or filled with the empty string.</dd>
-        <dt>UnknownError</dt>
+        <dt><code><a href="#status-unknown-error">unknown error</a></code></dt>
         <dd>An unhandled error of some sort has occurred. The "value" field of the Response SHOULD contain a more detailed
         description of the error as a string.</dd>
       </dl>
@@ -540,7 +544,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	</tr>
 	<tr>
 	    <td>Errors</td>
-	    <td>TimedOutException if the page load takes too long <a href="#timeouts">as specified by the timeouts</a>.</td>
+	    <td><code><a href="#status-timeout">timeout</a></code> if the page load takes too long <a href="#timeouts">as specified by the timeouts</a>.</td>
 	</tr>
 </table>
 
@@ -683,7 +687,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Errors</td>
-        <td>UnsupportedOperation if the window could not be resized.</td>
+        <td><code><a href="#status-unsupported-operation">unsupported operation</a></code> if the window could not be resized.</td>
       </tr>
     </table>
 
@@ -724,7 +728,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Errors</td>
-        <td>UnsupportedOperation if the window could not be resized.</td>
+        <td><code><a href="#status-unsupported-operation">unsupported operation</a></code> if the window could not be resized.</td>
       </tr>
     </table>
 
@@ -745,7 +749,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Errors</td>
-        <td>UnsupportedOperation if the window could not be resized.</td>
+        <td><code><a href="#status-unsupported-operation">unsupported operation</a></code> if the window could not be resized.</td>
       </tr>
     </table>
 
@@ -777,9 +781,9 @@ In addition, implementors MAY add additional page loading strategies.</p>
 <section>
 <h2>Default Content</h2>
 
-<p>WebDriver's <dfn>default content</dfn> is the equivalent of <code>window.top</code>.</p>
+<p>WebDriver's <dfn id="default-content">default content</dfn> is [[!HTML5]]'s <a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top level browsing context</a> for the window that is currently receiving WebDriver commands.</p>
 
-<p>When a WebDriver instance is started and a single browser window is opened, the default content of that window is automatically selected for receiving further commands. If more than one window is opened when the session starts, then the user MUST first select which window to act upon using the <code>switchToWindow</code> command. Until the user selects a window, all commands must return a status code of <code>NoSuchWindow</code>.</p>
+<p>When a WebDriver instance is started and a single browser window is opened, the default content of that window is automatically selected for receiving further commands. If more than one window is opened when the session starts, then the user MUST first select which window to act upon using the <code>switchToWindow</code> command. Until the user selects a window, all commands must return a status code of <code><a href="#status-no-such-window">no such window</a></code>.</p>
 
 </section>
 
@@ -802,7 +806,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	</tr>
 	<tr>
 	    <td>Errors</td>
-	    <td><code>NoSuchWindow</code> if no matching window can be found</td>
+	    <td><code><a href="#status-no-such-window">no such window</a></code> if no matching window can be found</td>
 	</tr>
 </table>
 
@@ -837,7 +841,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	</tr>
 	<tr>
 	    <td>Errors</td>
-	    <td><code>NoSuchFrame</code> if no matching frame can be found</td>
+	    <td><code><a href="#status-no-such-frame">no such frame</a></code> if no matching frame can be found</td>
 	</tr>
 </table>
 
@@ -860,7 +864,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
     <li>If the "id" represents a <code>WebElement</code>, and the corresponding DOM element represents a FRAME or an IFRAME, and the WebElement is part of the current context, the "window" property of that DOM element becomes the current context.</li>
 </ol>
 
-<p>In all cases if no match is made a "<code>NoSuchFrame</code>" status code MUST be returned.</p>
+<p>In all cases if no match is made a "<code><a href="#status-no-such-frame">no such frame</a></code>" status code MUST be returned.</p>
 
 <p>Frame switching MUST succeed even if doing so would cross a security origin, or javascript executing in window.top's context would otherwise not be able to access the frame being switched to.</p>
 
@@ -1059,7 +1063,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Errors</td>
-        <td>StaleElementReference if the element referenced is no longer attached to the DOM.</td>
+        <td><code><a href="#status-stale-element-reference">stale element reference</a></code> if the element referenced is no longer attached to the DOM.</td>
       </tr>
     </table>
   </section>
@@ -1088,7 +1092,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Errors</td>
-        <td>StaleElementReference if the element referenced is no longer attached to the DOM.</td>
+        <td><code><a href="#status-stale-element-reference">stale element reference</a></code> if the element referenced is no longer attached to the DOM.</td>
       </tr>
     </table>
   </section>
@@ -1164,7 +1168,7 @@ assertEquals(style, recovered);
       </tr>
       <tr>
           <td>Errors</td>
-          <td>StaleElementReference If the element is no longer attached to the DOM.</td>
+          <td><code><a href="#status-stale-element-reference">stale element reference</a></code> If the element is no longer attached to the DOM.</td>
       </tr>
     </table>
   </section>
@@ -1294,9 +1298,9 @@ assertEquals(style, recovered);
     <tr>
       <td>Errors</td>
       <td>
-          JavascriptError if the executing script threw an exception.<br />
-          StaleElementReference if a WebElement referenced is no longer attached to the DOM.<br/>
-          UnknownError if an argument or the return value is of an unhandled type.
+          <code><a href="#status-javascript-error">javascript error</a></code> if the executing script threw an exception.<br />
+          <code><a href="#status-stale-element-reference">stale element reference</a></code> if a WebElement referenced is no longer attached to the DOM.<br/>
+          <code><a href="#status-unknown-error">unknown error</a></code> if an argument or the return value is of an unhandled type.
       </td>
     </tr>
   </table>
@@ -1361,10 +1365,10 @@ assertEquals(style, recovered);
       <tr>
         <td>Errors</td>
         <td>
-            JavascriptError if the executing script threw an exception.<br />
-            StaleElementReference if a WebElement referenced is no longer attached to the DOM.<br/>
+            <code><a href="#status-javascript-error">javascript error</a></code> if the executing script threw an exception.<br />
+            <code><a href="#status-stale-element-reference">stale element reference</a></code> if a WebElement referenced is no longer attached to the DOM.<br/>
             Timeout if the callback is not called within the time specified by the <a href="#timeouts">"script" timeout</a>.<br/>
-            UnknownError if an argument or the return value is of an unhandled type.
+            <code><a href="#status-unknown-error">unknown error</a></code> if an argument or the return value is of an unhandled type.
         </td>
       </tr>
     </table>
@@ -1471,8 +1475,8 @@ assertEquals(style, recovered);
       </tr>
       <tr>
         <td>Throws</td>
-        <td>InvalidCookieDomain - If the cookie's domain is not visible from the current page.<br />
-            UnableToSetCookie - If attempting to set a cookie on a page that does not support cookies (e.g. pages with mime-type text/plain).
+        <td><code><a href="#status-invalid-cookie-domain">invalid cookie domain</a></code> - If the cookie's domain is not visible from the current page.<br />
+            <code><a href="#status-unable-to-set-cookie">unable to set cookie</a></code> - If attempting to set a cookie on a page that does not support cookies (e.g. pages with mime-type text/plain).
         </td>
       </tr>
     </table>
@@ -1640,9 +1644,9 @@ assertEquals(style, recovered);
       </ul>
       <p>The possible errors for this command:
       <ul>
-        <li>StaleElementReference if the given element is no longer attached to the DOM.</li>
-        <li>ElementNotVisible if the element is hidden and thus cannot be interacted with.</li>
-        <li>MoveTargetOutOfBounds if the element cannot be scrolled into view.</li>
+        <li><code><a href="#status-stale-element-reference">stale element reference</a></code> if the given element is no longer attached to the DOM.</li>
+        <li><code><a href="#status-element-not-visible">element not visible</a></code> if the element is hidden and thus cannot be interacted with.</li>
+        <li><code><a href="#status-move-target-out-of-bounds">move target out of bounds</a></code> if the element cannot be scrolled into view.</li>
       </ul>
       <p>This command MUST use either the mouse or touch mechanisms for
       emulating the user input. In the case where the browser being automated
@@ -1654,7 +1658,7 @@ assertEquals(style, recovered);
     <p class="note">As the goal is to emulate users as closely as possible, the
     implementation SHOULD NOT allow clicking on elements that are obscured by
     other elements. If the implementation forbids clicking on obscured elements,
-    an <code>ElementNotVisible</code> exception MUST be thrown and this SHOULD have an
+    an <code><a href="#status-element-not-visible">element not visible</a></code> response MUST be returned and this SHOULD have an
     explantory message explaining the reason. The implementation SHOULD try to
     scroll the element into view, but in case it is fully obscured, it SHOULD
     NOT be clickable.</p>
