@@ -159,23 +159,28 @@ code a:visited, code a:link {
 };
 </pre>
 
-    <p>A command represents a call to a remote end to the <a href="#sessions">session</a> identified by the <code><a href="#sessionid">sessionId</a></code> attribute. By default, the <code><a href="#sessionid">sessionId</a></code> is null. The name of the command to execute is held in the <dfn id="command-name" title="command-name">name</dfn>, and this MUST be handled case-sensitively. It defaults to the null value. The <dfn id="command-parameters" title="command-name">parameters</dfn> attribute is a map of named parameters to objects representing the value of the parameter. The default value is an empty array and this field MUST NOT be null.</p>
+    <p>A command represents a call to a remote end to the <a href="#sessions">session</a> identified by the <code><a href="#sessionid">sessionId</a></code> attribute. By default, the <code><a href="#sessionid">sessionId</a></code> is null. The only time the null value is a valid sessionId is before a call to newSession. The name of the command to execute is held in the <dfn id="command-name" title="command-name">name</dfn>, and this MUST be handled case-sensitively. It defaults to the null value. The <dfn id="command-parameters" title="command-name">parameters</dfn> attribute is a map of named parameters to objects representing the value of the parameter. The default value is an empty array and this field MUST NOT be null.</p>
 
   </section>
   <section>
     <h3>Response</h3>
-    <p>A response represents the value returned from the remote end of the WebDriver API.</p>
-    <dl class="idl" title="interface Response">
-      <dt>readonly attribute string sessionId</dt>
-      <dd>A reference to the session to which this command is associated. The default value is the null value.</dd>
-      <dt>readonly attribute integer status</dt>
-      <dd>The status code representing the success or failure of the method. Anything other than 0 indicates a failure
-      of some kind. The default value is 0.</dd>
-      <dt>readonly attribute object value</dt>
-      <dd>The return value of the method call. It's type is determined by the <code>Command</code> that has been executed. In the specification, each command definition will make clear what the expected return type is. The default value is the null value.</dd>
-    </dl>
 
-	<p>There is no requirement that implementations of Command and Response exhibit any behaviour: they MAY be simple data structures. Reading of values MUST be idempotent, and writing any particular value MUST NOT cause any other values on the Command or Response to change.</p>
+<pre class="IDL">interface <dfn id="response" title="response">Response</dfn> {
+  readonly attribute string <code><a href="#sessionid">sessionId</a></code>;
+  readonly attribute string <code><a href="#response-status">status</a></code>;
+  readonly attribute object <code><a href="#response-value">value</a></code>;
+};
+</pre>
+
+    <p>A Response represents the value returned from the remote end of the WebDriver API after executing a Command from the session identified by the <code><a href="#sessionid">sessionId</a></code> attribute. The default value for the <code><a href="#sessionid">sessionId</a></code> MUST be the <code><a href="#sessionid">sessionId</a></code> used in the <code><a href="#command">Command</a></code> that this is a response to, unless the <code><a href="#command">Command</a></code>'s <code><a href="#sessionid">sessionId</a></code> was the null value, in which case a unique <code><a href="#sessionid">sessionId</a></code> MUST be assigned (see newSession for how this is achieved).</p>
+
+    <p>Each Response has a <code><dfn id="response-status" title="response-status">status</dfn></code> that indicates the success or failure of the method. Anything other than "<code><a id="status-success">success</a></code>" indicates a failure. Each command lists the status strings it can return in the section of this specification in which it is defined, but the normative list of expected statuses is given below in the <a href="#error-codes">Error Codes</a> section. This list MAY be extended by implementors of the specification, provided they follow the guidelines about extending the specification.</p>
+
+    <p>The meat of the <code><a href="#response">Response</a></code> is in the <code><dfn id="response-value" title="response-value">value</dfn></code> attribute. It's type is determined by the <code><a href="#command">Command</a></code> that has been executed. In the specification, each command definition will make clear what the expected return type is. The default value is the null value. In the case where the status indicates failure, the value is commonly the error text explaining the cause of the problem.</p>
+
+    <p class="note">In the case where a failure is indicated and the language used for implementing the local end supports throwing exceptions, the value is often used as the exception's message.</p>
+
+    <p>There is no requirement that implementations of <code><a href="#command">Command</a></code> and <code><a href="#response">Response</a></code> exhibit any behaviour: they MAY be simple data structures. Reading of values MUST be idempotent, and writing any particular value MUST NOT cause any other values on the <code><a href="#command">Command</a></code> or <code><a href="#response">Response</a></code> to change.</p>
   </section>
   
   <section>
@@ -194,138 +199,110 @@ code a:visited, code a:link {
   <section>
     <h3>Error Codes</h3>
     <p>The WebDriver API indicates the success or failure of a command invocation via a status code on the 
-    <a>Response</a> object. The following values are used and have the following meanings.</p>
+    <code><a href="#response">Response</a></code> object. The following values are used and have the following meanings.</p>
     <!-- TODO: These values are derived from existing common usage. Do they need to be reconsidered? -->
     <table class="simple">
       <tr>
         <th>Status Code</th>
-        <th>Summary</th>
         <th>Detail</th>
       </tr>
       <tr>
-        <td>0</td>
-        <td>Success</td>
-        <td>The command executed successfully.</td>
-      </tr>
+        <td><dfn id="status-element-not-selectable">element not selectable</dfn></td>
+        <td>An attempt was made to select an element that cannot be selected.</td>
+      </tr>      
       <tr>
-        <td>7</td>
-        <td>NoSuchElement</td>
-        <td>An element could not be located on the page using the given search parameters.</td>
-      </tr>
-      <tr>
-        <td>8</td>
-        <td>NoSuchFrame</td>
-        <td>A request to switch to a frame could not be satisfied because the frame could not be found.</td>
-      </tr>
-      <tr>
-        <td>9</td>
-        <td>UnknownCommand</td>
-        <td>A command could not be executed because the remote end is not aware of it.</td>
-      </tr>
-      <tr>
-        <td>10</td>
-        <td><dfn id="stale-element-reference">StaleElementReference</dfn></td>
-        <td>An element command failed because the referenced element is no longer attached to the DOM.</td>
-      </tr>
-      <tr>
-        <td>11</td>
-        <td>ElementNotVisible</td>
+        <td><dfn id="status-element-not-visible">element not visible</dfn></td>
         <td>An element command could not be completed because the element is not visible on the page.</td>
       </tr>
       <tr>
-        <td>12</td>
-        <td>InvalidElementState</td>
-        <td>An element command could not be completed because the element is in an invalid state (e.g. attempting to click a disabled element).</td>
-      </tr>
-      <tr>
-        <td>13</td>
-        <td>UnknownError</td>
-        <td>An unknown error occurred in the remote end while processing the command.</td>
-      </tr>
-      <tr>
-        <td>15</td>
-        <td>ElementIsNotSelectable</td>
-        <td>An attempt was made to select an element that cannot be selected.</td>
-      </tr>
-      <tr>
-        <td>17</td>
-        <td>JavaScriptError</td>
-        <td>An error occurred while executing user supplied JavaScript.</td>
-      </tr>
-      <tr>
-        <td>19</td>
-        <td>XPathLookupError</td>
-        <td>An error occurred while searching for an element by XPath.</td>
-      </tr>
-      <tr>
-        <td>21</td>
-        <td>Timeout</td>
-        <td>An operation did not complete before its timeout expired.</td>
-      </tr>
-      <tr>
-        <td>23</td>
-        <td>NoSuchWindow</td>
-        <td>A request to switch to a different window could not be satisfied because the window could not be
-        found.</td>
-      </tr>
-      <tr>
-        <td>24</td>
-        <td>InvalidCookieDomain</td>
-        <td>An illegal attempt was made to set a cookie under a different domain than the current page.</td>
-      </tr>
-      <tr>
-        <td>25</td>
-        <td>UnableToSetCookie</td>
-        <td>A request to set a cookie's value could not be satisfied.</td>
-      </tr>
-      <tr>
-        <td>26</td>
-        <td>UnexpectedAlertOpen</td>
-        <td>A modal dialog was open, blocking this operation.</td>
-      </tr>
-      <tr>
-        <td>27</td>
-        <td>NoAlertOpenError</td>
-        <td>An attempt was made to operate on a modal dialog when one was not open.</td>
-      </tr>
-      <tr>
-        <td>28</td>
-        <td>ScriptTimeout</td>
-        <td>A script did not complete before its timeout expired.</td>
-      </tr>
-      <tr>
-        <td>29</td>
-        <td>InvalidElementCoordinates</td>
-        <td>The coordinates provided to an interactions operation are invalid.</td>
-      </tr>
-      <tr>
-        <td>30</td>
-        <td>IMENotAvailable</td>
-        <td>IME was not available.</td>
-      </tr>
-      <tr>
-        <td>31</td>
-        <td>IMEEngineActivationFailed</td>
+        <td><dfn id="status-ime-engine-activation-failed">ime engine activation failed</dfn></td>
         <td>An IME engine could not be started.</td>
       </tr>
       <tr>
-        <td>32</td>
-        <td>InvalidSelector</td>
+        <td><dfn id="status-ime-not-available">ime not available</dfn></td>
+        <td>IME was not available.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-invalid-cookie-domain">invalid cookie domain</dfn></td>
+        <td>An illegal attempt was made to set a cookie under a different domain than the current page.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-invalid-element-coordinates">invalid element coordinates</dfn></td>
+        <td>The coordinates provided to an interactions operation are invalid.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-invalid-element-state">invalid element state</dfn></td>
+        <td>An element command could not be completed because the element is in an invalid state (e.g. attempting to click a disabled element).</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-invalid-selector">invalid selector</dfn></td>
         <td>Argument was an invalid selector (e.g. XPath/CSS).</td>
       </tr>
       <tr>
-        <td>33</td>
-        <td>SessionNotCreated</td>
+        <td><dfn id="status-javascript-error">javascript error</dfn></td>
+        <td>An error occurred while executing user supplied JavaScript.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-move-target-out-of-bounds">move target out of bounds</dfn></td>
+        <td>The target for mouse interaction is not in the viewport and cannot be brought into the viewport.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-no-such-alert">no such alert</dfn></td>
+        <td>An attempt was made to operate on a modal dialog when one was not open.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-no-such-element">no such element</dfn></td>
+        <td>An element could not be located on the page using the given search parameters.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-no-such-frame">no such frame</dfn></td>
+        <td>A request to switch to a frame could not be satisfied because the frame could not be found.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-no-such-window">no such window</dfn></td>
+        <td>A request to switch to a different window could not be satisfied because the window could not be found.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-script-timeout">script timeout</dfn></td>
+        <td>A script did not complete before its timeout expired.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-session-not-created">session not created</dfn></td>
         <td>A new session could not be created.</td>
       </tr>
       <tr>
-        <td>34</td>
-        <td>MoveTargetOutOfBounds</td>
-        <td>The target for mouse interaction is not in the viewport and cannot be brought into the viewport.</td>
+        <td><dfn id="status-stale-element-reference">stale element reference</dfn></td>
+        <td>An element command failed because the referenced element is no longer attached to the DOM.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-success">success</dfn></td>
+        <td>The command executed successfully.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-timeout">timeout</dfn></td>
+        <td>An operation did not complete before its timeout expired.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-unable-to-set-cookie">unable to set cookie</dfn></td>
+        <td>A request to set a cookie's value could not be satisfied.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-unexpected-alert-open">unexpected alert open</dfn></td>
+        <td>A modal dialog was open, blocking this operation.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-unknown command">unknown command</dfn></td>
+        <td>A command could not be executed because the remote end is not aware of it.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-unknown-error">unknown error</dfn></td>
+        <td>An unknown error occurred in the remote end while processing the command.</td>
+      </tr>
+      <tr>
+        <td><dfn id="status-xpath-lookup-error">xpath lookup error</dfn></td>
+        <td>An error occurred while searching for an element by XPath.</td>
       </tr>
     </table>
-
-    <p>Error codes less than 34 that are not listed in this table are obsolete and reserved. They MUST not be used.</p>
     </section>
     
     <section>
@@ -1288,7 +1265,7 @@ assertEquals(style, recovered);
         <li>a dictionary, then recursively apply this algorithm to each value in <code>args[index]</code> and assign the result to <code>args[index]</code>.</li>
         <li>a <a href="#elements">WebElement</a>, then:
             <ol>
-                <li>If the element's ID does not represent a DOMElement, or it represents a DOMElement that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#stale-element-reference">StaleElementReference</a></code> error.</li>
+                <li>If the element's ID does not represent a DOMElement, or it represents a DOMElement that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">StaleElementReference</a></code> error.</li>
                 <li>Otherwise, let <code>args[index]</code> be the underlying DOMElement.</li>
             </ol>
          </li>
