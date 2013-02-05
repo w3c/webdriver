@@ -256,6 +256,10 @@ code a:visited, code a:link {
         <td>An attempt was made to operate on a modal dialog when one was not open.</td>
       </tr>
       <tr>
+        <td><dfn id="status-no-such-dom">no such dom</dfn></td>
+        <td>An attempt was made to switch to a hosted Shadow DOM that does not exist.</td>
+      </tr>
+      <tr>
         <td><dfn id="status-no-such-element">no such element</dfn></td>
         <td>An element could not be located on the page using the given search parameters.</td>
       </tr>
@@ -875,6 +879,46 @@ In addition, implementors MAY add additional page loading strategies.</p>
 
 </section>
 
+<section>
+	<h2>Switching to Hosted Shadow DOMs</h2>
+
+	<table class="simple">
+		<tr>
+			<th>Capability Name</th><th>Type</th>
+		</tr>
+		<tr>
+			<td><a name="capability-shadowDom"></a><span class="capability-shadowDom">shadowDom</span></td><td>boolean</td>
+		</tr>
+	</table>
+
+	<p>If a browser implements the Shadow DOM specification, it MUST support the ability to access shadow subtrees. This is done using the switchToSubTree command:</p>
+
+	<table class="simple">
+		<tr>
+			<td>Command Name</td>
+			<td>switchToSubTree</td>
+		</tr>
+		<tr>
+			<td>Parameters</td>
+			<td>"sessionId" {string} The key that identifies which session this request is for.<br>
+		    	"element" {!WebElement=} The shadow host.<br>
+				"index" {int} The index of the shadow subtree. Defaults to 0.</td>
+		</tr>
+		<tr>
+	    	<td>Return Value</td>
+	   		<td>None</td>
+		</tr>
+		<tr>
+	    	<td>Errors</td>
+	    	<td><code><a href="#status-no-such-dom">no such dom</a></code> if the element is not a shadow host, or if the indexed shadow subtree does not exist.</td>
+		</tr>
+	</table>
+
+<p>When executing this command, Shadow DOM subtrees are indexed in the order that they were added to the host. That is, the "oldest" subtree is at index 0, and the "youngest" subtree at the highest sequentially numbered index.</p>
+
+<p>Where the Shadow DOM is supported, all commands in WebDriver MUST operate on the currently selected Shadow DOM subtree unless the command itself declares otherwise.</p>
+</section>
+
 </section>
 <section>
   <!-- TODO(simon): identify a better location for this -->
@@ -1022,12 +1066,6 @@ In addition, implementors MAY add additional page loading strategies.</p>
       <p>Strategy name: xpath</p>
       <p>All WebDriver implementations MUST support finding elements by XPath 1.0 [[!XPATH]] with the <a href="http://dev.w3.org/html5/spec/Overview.html#interactions-with-xpath-and-xslt">edits from section 3.3</a> of the [[!HTML5]] specification made. If no native support is present in the browser, a pure JS implementation MAY be used. When called, the returned values MUST be equivalent of calling "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate">evaluate</a>" function from the DOM Level 3 XPath spec [[DOM-LEVEL-3-XPATH]] with the result type set to "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE">ORDERED_NODE_SNAPSHOT_TYPE</a> (7).</p>
     </section>
-  </section>
-
-  <section>
-    <h2>The Shadow DOM</h2>
-
-    <p>TODO: describe how WebDriver remote ends interact with the shadow DOM.</p>
   </section>
 </section>
 <section>
@@ -1197,7 +1235,7 @@ assertEquals(style, recovered);
         <dd>Horizontal whitespace characters are defined by the ECMAScript regular expression <code>[\x20\t\u2028\u2029]</code>.</dd>
     </dl>
 
-<p>The expected return value is roughly what a text-only browser would display. The algorithm for determining this text is as follows:</p>
+<p>The expected return value is roughly what a text-only browser would display. This means that on browsers that support the Shadow DOM, this algorithm MUST operate on the section of the rendered DOM underneath the DOM node represented by this WebElement. The algorithm for determining this text is as follows:</p>
 
 <p>Let <code>lines</code> equal an empty array. Then:
 <ol>  
@@ -2080,6 +2118,7 @@ assertEquals(style, recovered);
 <li><a href="#capability-platformName">platformName</a></li>
 <li><a href="#capability-platformVersion">platformVersion</a></li>
 <li><a href="#capability-secureSsl">secureSsl</a></li>
+<li><a href="#capability-shadowDom">shadowDom</a></li>
 <li><a href="#capability-takesElementScreenshot">takesElementScreenshot</a></li>
 <li><a href="#capability-takesScreenshot">takesScreenshot</a></li>
 </ul>
