@@ -4,7 +4,7 @@
   <section>
     <h2>Defining "window" and "frame"</h2>
 
-    <p>Within this specification, a window equates to anything that would be referred to as "window.top" in javascript. Put another way, within this spec browser tabs are counted as separate windows.</p>
+    <p>Within this specification, a window equates to [[!HTML5]]'s <a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top level browsing context</a>. Put another way, within this spec browser tabs are counted as separate windows.</p>
 
     <p><strong>TODO: define "frame"</strong></p>
   </section>
@@ -21,11 +21,11 @@
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.</td>
+        <td>None</td>
       </tr>
       <tr>
         <td>Return Value</td>
-        <td>{string} The opaque string which uniquely identifies this window within the session.</td>
+        <td>{DOMString} The opaque string which uniquely identifies this window within the session.</td>
       </tr>
     </table>
   </section>
@@ -40,15 +40,15 @@
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.</td>
+        <td>None</td>
       </tr>
       <tr>
         <td>Return Value</td>
-        <td>{Array.&lt;string&gt;} An array containing a window handle for every open window in this session.</td>
+        <td>{DOMString[]} An array containing a window handle for every open window in this session.</td>
       </tr>
     </table>
 
-    <p>This array of returned strings MUST contain a handle for every window associated with the browser session and no others. For each returned window handle the javascript expression "window.top.closed" MUST evaluate to false at the time the command is being executed.</p>
+    <p>This array of returned strings MUST contain a handle for every window associated with the browser session and no others. For each returned window handle the javascript expression "window.top.closed" (or equivalent) MUST evaluate to false at the time the command is being executed.</p>
 
     <p>The ordering of the array elements is not defined, but MAY be determined by iterating over each top level browser window and returning the tabs within that window before iterating over the tabs of the next top level browser window. For example, in the diagram below, the window handles should be returned as the handles for: win1tab1, win1tab2, win2.</p>
 
@@ -67,7 +67,7 @@
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.</td>
+        <td>None</td>
       </tr>
       <tr>
         <td>Return Value</td>
@@ -75,9 +75,9 @@
       </tr>
     </table>
 
-    <p>The close command closes the window that commands are currently being sent to. If this means that a call to get the list of window handles returns an empty list, then this close command MUST be the equivalent of calling "quit". In all other cases, control MUST be returned to the calling process once the window has been closed or an alert is displayed by the closing window.</p>
+    <p>The close command closes the window that commands are currently being sent to. If this means that a call to get the list of window handles would return an empty list, then this close command MUST be the equivalent of calling "quit". That is, if the final window of a session is closed, then the session quits.</p>
 
-    <p>Once the window has closed, future commands MUST return a status code of <code>NoSuchWindow</code> until a new window is selected for receiving commands.</p>
+    <p>Once the window has closed, future commands MUST return a status code of <code><a href="#status-no-such-window">no such window</a></code> until a new window is selected for receiving commands.</p>
   </section>
 
   <section>
@@ -90,8 +90,7 @@
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br />
-          "windowHandle" {string} The handle referring to the window to resize.<br/>
+        <td>"windowHandle" {DOMString} The handle referring to the window to resize.<br/>
           "width" {number} The new window width in pixels.<br />
           "height" {number} The new window height in pixels.
         </td>
@@ -113,8 +112,7 @@
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br>
-          "windowHandle" {string} The handle referring to the window to resize.
+        <td>"windowHandle" {DOMString} The handle referring to the window to resize.
         </td>
       </tr>
       <tr>
@@ -133,8 +131,7 @@
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br>
-          "windowHandle" {string} The handle referring to the window to resize.
+        <td>"windowHandle" {DOMString} The handle referring to the window to resize.
         </td>
       </tr>
       <tr>
@@ -154,8 +151,7 @@
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br>
-          "windowHandle" {string} The handle referring to the window to resize.
+        <td>"windowHandle" {DOMString} The handle referring to the window to resize.
         </td>
       </tr>
       <tr>
@@ -168,17 +164,17 @@
       </tr>
     </table>
 
-    <p>Each of these commands accept the window handles returned by "<code>getWindowHandles</code>" and "<code>getWindowHandle</code>". In addition, the window handle may be "current", in which case the window that commands are currently being handled by MUST be acted upon.</p>
+    <p>Each of these commands accept the window handles returned by "<code>getWindowHandles</code>" and "<code>getWindowHandle</code>". In addition, the window handle may be "<code>current</code>", in which case the window that commands are currently being handled by MUST be acted upon.</p>
 
-    <p>The "<code>width</code>" and "<code>height</code>" values refer to the "<code>window.outerheight</code>" and "<code>window.outerwidth</code>" properties. For those browsers that do not support these properties, these represent the height and width of the whole browser window including window chrome and window resizing borders/handles.</p>
+    <p>The "<code>width</code>" and "<code>height</code>" values refer to the javascript "<code>window.outerheight</code>" and "<code>window.outerwidth</code>" properties. For those browsers that do not support these properties, these represent the height and width of the whole browser window including window chrome and window resizing borders/handles.</p>
 
     <p>After <code>setWindowSize</code>, the browser window MUST NOT be in the maximised state.</p>
 
-    <p>After  <code>maximizeWindow</code>, the browser window MUST be left as if the maximise button had been pressed; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
+    <p>After  <code>maximizeWindow</code>, the browser window MUST be left as if the maximise button had been pressed if, and only if, the window manager of the OS supports this concept; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
 
     <p>After <code>fullscreenWindow</code>, the browser window MUST be in full-screen mode. For those operating systems that support the concept, this MUST be equivalent to if the user requested the window be full screen. If the OS does not support the concept of full-screen, then this command is a synonym for "<code>maximizeWindow</code>".
 
-    <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an UnsupportedOperation status code MUST be returned.</p>
+    <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
   </section>
 
   <section>

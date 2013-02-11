@@ -27,7 +27,7 @@
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"id" {string} The ID of the WebElement on which to operate.
+        <td>"id" {DOMString} The ID of the WebElement on which to operate.
         </td>
       </tr>
       <tr>
@@ -87,10 +87,9 @@ var recovered = element.getAttribute('style');
 assertEquals(style, recovered);
 </pre>
           </li>
-          <li>Color property values MUST be standardized to rgba format, matching the regular expression: <code>rgba\(\d+,\s*\d+,\s*\d+\s*(,\s*(1|0(\.\d+)?)))</code>.</li>
+          <li>Color property values MUST be standardized to rgba format, matching the regular expression: <code>rgba(\d+,\s*\d+,\s*\d+\s*(,\s*(1|0(\.\d+)?)))</code>.</li>
         </ul></li>
-      <li>If the value is expected to be a URL (see the below table), return the property named <code>name</code>, i.e. a fully resolved URL:
-        <strong>TODO: This doesn't feel like an exhaustive list</strong>
+      <li>If the value is expected to be a URL (see the below table), return the property named <code>name</code>, i.e. a fully resolved URL. A non-normative set of these properties is given below:
         <table class="simple">
             <tr>
                 <th>Tag name</th>
@@ -106,7 +105,7 @@ assertEquals(style, recovered);
             </tr>
         </table>
       </li>
-      <li>If <code>name</code> is in the below table, and the above stages have not yielded a defined, non-null value, the value of the aliased attribute in the table below should be returned:
+      <li>If <code>name</code> is in the below table, and the above stages have not yielded a defined, non-null value, the value of the aliased attribute in the table MUST be used as the argument to a recursive call to <code>getElementAttribute</code>:
       <table class="simple">
         <tr>
           <th>Original property name</th>
@@ -131,13 +130,12 @@ assertEquals(style, recovered);
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br>
-            "id" {string} The ID of the WebElement on which to operate.<br>
-            "name" {string} The name of the property of attribute to return.</td>
+        <td>"id" {DOMString} The ID of the WebElement on which to operate.<br>
+            "name" {DOMString} The name of the property of attribute to return.</td>
       </tr>
       <tr>
           <td>Return Value</td>
-          <td>{string|null} The value returned by the above algorithm, coerced to a nullable string, or null if no value is defined.</td>
+          <td>{DOMString|null} The value returned by the above algorithm, coerced to a nullable string, or null if no value is defined.</td>
       </tr>
       <tr>
           <td>Errors</td>

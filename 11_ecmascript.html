@@ -11,15 +11,15 @@
   </div>
   
   <p>If a browser supports JavaScript and JavaScript is enabled, it MUST set the "javascriptEnabled" capability to true, and it MUST support the execution of arbitrary JavaScript.</p>
-  <table>
-    <tr><td>Capability Name</td><td>Type</td></tr>
+  <table class="simple">
+    <tr><th>Capability Name</th><th>Type</th></tr>
     <tr><td><span class="capability-javascriptEnabled">javascriptEnabled</span></td><td>boolean</td></tr>
   </table>
   
 <section>
 <h2>Javascript Command Parameters</h2>
       
-<p> The <code>Argument</code> type is defined as being <code>{(number|boolean|DOMString|WebElement|dictionary|Array.&gt;Argument>)?}</code>
+<p> The <code>Argument</code> type is defined as being <code>{(number|boolean|DOMString|WebElement|dictionary|Argument[])?}</code>
       
 <dl class="idl" title="interface JavascriptCommandParameters">
     <dt>readonly attribute DOMString script</dt>
@@ -39,26 +39,25 @@
         <li>a dictionary, then recursively apply this algorithm to each value in <code>args[index]</code> and assign the result to <code>args[index]</code>.</li>
         <li>a <a href="#elements">WebElement</a>, then:
             <ol>
-                <li>If the element's ID does not represent a DOMElement, or it represents a DOMElement that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">StaleElementReference</a></code> error.</li>
+                <li>If the element's ID does not represent a DOMElement, or it represents a DOMElement that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error.</li>
                 <li>Otherwise, let <code>args[index]</code> be the underlying DOMElement.</li>
             </ol>
          </li>
-         <li>Otherwise WebDriver implementations MAY throw an UnknownError indicating the index of the unhandled parameter (<strong class="todo">TODO: Should a more specific error be thrown?</strong>) but SHOULD attempt to convert the value into a dictionary.</li>
+         <li>Otherwise WebDriver implementations MAY throw an <code><a href="#status-unknown-error">unknown error</a></code> indicating the index of the unhandled parameter but SHOULD attempt to convert the value into a dictionary.</li>
      </ol>
      
   <section>
   <h2>Synchronous Javascript Execution</h2>
   
-  <table>
+  <table class="simple">
     <tr>
       <td>Command Name</td>
       <td>executeScript</td>
     </tr>
     <tr>
       <td>Parameters</td>
-      <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-          "script" {string} The script to execute.<br/>
-          "args" {Array.&lt;Argument>} The script arguments.
+      <td>"script" {DOMString} The script to execute.<br/>
+          "args" {Argument[]} The script arguments.
       </td>
     </tr>
     <tr>
@@ -85,15 +84,15 @@
     <li>If step #5 threw, then:
       <ol>
         <li>Let <code>error</code> be the thrown value.
-        <li>Set the command's response <a href="#attributes-1">status</a> to JavascriptError.
-        <li>Set the command's response value to a dictionary, <code>dict</code>.
+        <li>Set the response's status <a href="#attributes-1">status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.
+        <li>Set the response value to a dictionary, <code>dict</code>.
         <li>If <code>error</code> is an Error, then set a "message" entry in <code>dict</code> whose value is the DOMString defined by <code>error.message</code>.
         <li>Otherwise, set a "message" entry in <code>dict</code> whose value is the DOMString representation of <code>error</code>.
       </ol>
     <li>Otherwise:
       <ol>
         <li>Let <code>result</code> be the value returned by the function in step #5.
-        <li>Set the command's response <a href="#attributes-1">status</a> to Success.
+        <li>Set the command's response <a href="#attributes-1">status</a> to <code><a href="#status-success">success</a></code>.
         <li>Let <code>value</code> be the result of the following algorithm:
           <ol>
             <li>If <code>result</code> is:
@@ -107,25 +106,24 @@
                 <li>an object, then return the dictionary created by recursively applying this algorithm to each property in <code>result</code>.
               </ol>
           </ol>
-          <li>Set the command's response value to <code>value</code>.</li>
+          <li>Set the response value to <code>value</code>.</li>
       </ol>
-      <li>Return the command response.</li>
+      <li>Return the response.</li>
   </ol>
   
   </section>
   <section>
     <h2>Asynchronous Javascript Execution</h2>
     
-    <table>
+    <table class="simple">
       <tr>
         <td>Command Name</td>
         <td>executeAsyncScript</td>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-            "script" {string} The script to execute.<br/>
-            "args" {Array.&lt;Argument>} The script arguments.
+        <td>"script" {DOMString} The script to execute.<br/>
+            "args" {Argument[]} The script arguments.
         </td>
       </tr>
       <tr>
@@ -157,16 +155,16 @@
         <li>If step #8 threw, then:
             <ol>
                 <li>Let <code>error</code> be the thrown value.</li>
-                <li>Set the command's response <a href="#attributes-1">status</a> to JavascriptError.</li>
-                <li>Set the command's response value to a dictionary, <code>dict</code>.</li>
+                <li>Set the response <a href="#attributes-1">status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.</li>
+                <li>Set the response value to a dictionary, <code>dict</code>.</li>
                 <li>If <code>error</code> is an Error, then set a "message" entry in <code>dict</code> whose value is the DOMString defined by <code>error.message</code>.</li>
                 <li>Otherwise, set a "message" entry in <code>dict</code> whose value is the DOMString representation of <code>error</code>.</li>
               </ol>
         </li>
         <li>Otherwise, the WebDriver implementation MUST wait for one of the following to occur:
             <ol>
-                <li>if the timer from step #7 fires, the WebDriver implementation MUST immediately set the command response status to Timeout and return.</li>
-                <li>if the <code>window</code> fires an <code>unload</code> event, the WebDriver implementation MUST immediately set the command response status to JavascriptError and return with the error message set to "Javascript execution context no longer exists.".</li>
+                <li>if the timer from step #7 fires, the WebDriver implementation MUST immediately set the response status to Timeout and return.</li>
+                <li>if the <code>window</code> fires an <code>unload</code> event, the WebDriver implementation MUST immediately set the response status to JavascriptError and return with the error message set to "Javascript execution context no longer exists.".</li>
                 <li>if the <code>callback</code> function is invoked, then:
                       <ol>
                         <li>Let <code>result</code> be the first argument passed to <code>callback</code>.</li>
@@ -189,7 +187,7 @@
                         <li>Set the command's response value to <code>value</code>.</li>
                       </ol>
                     </li>
-                    <li>Return the command response.</li>
+                    <li>Return the response.</li>
                   </ol>
               </li>
              </ol>

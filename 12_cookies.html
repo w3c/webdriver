@@ -13,12 +13,11 @@
     </tr>
     <tr>
       <td>Parameters</td>
-      <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-      </td>
+      <td>None</td>
     </tr>
     <tr>
       <td>Return Value</td>
-      <td>Array.&lt;string&gt; A list of ordinary cookies that are currently visible on the page.</td>
+      <td>{DOMString[]} A list of ordinary cookies that are currently visible on the page.</td>
     </tr>
   </table>
   
@@ -27,20 +26,19 @@
   </section>
   <section>
   <p>Setting a cookie:</p>
-  <table>
+  <table class="simple">
     <tr>
       <td>Command Name</td>
       <td>addCookie</td>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-            "cookie" {object} A <code>Cookie</code> defining the cookie to be added 
+        <td>"cookie" {object} A <code>Cookie</code> defining the cookie to be added.
         </td>
       </tr>
       <tr>
         <td>Return Value</td>
-        <td>Array.&lt;object&gt; A list of cookies in the <code>Cookie</code> format.</td>
+        <td>{object[]} A list of cookies in the <code>Cookie</code> format.</td>
       </tr>
       <tr>
         <td>Throws</td>
@@ -53,19 +51,19 @@
 
   <section>
     <h2>Cookie</h2>
-    <p>When returning Cookie objects, the server SHOULD only omit an optional field if it is incapable of providing the information</p>
+    <p>When returning Cookie objects, the server SHOULD include all optional fields it is incapable of providing the information for.</p>
     
     <dl class="idl" title="interface Cookie">
-      <dt>attribute string name</dt>
+      <dt>attribute DOMString name</dt>
       <dd>The name of the cookie. This MUST be set.</dd>
       
-      <dt>attribute string value</dt>
+      <dt>attribute DOMString value</dt>
       <dd>The cookie value. This MUST be set.</dd>
     
-      <dt>attribute string path</dt>
+      <dt>attribute DOMString path</dt>
       <dd>The cookie path. This SHOULD be set or MUST be the null value if unknown.</dd>
       
-      <dt>attribute string domain</dt>
+      <dt>attribute DOMString domain</dt>
       <dd>The domain the cookie is visible too. This SHOULD be set or MUST be the null value if unknown.</dd>
       
       <dt>attribute number expiry</dt>

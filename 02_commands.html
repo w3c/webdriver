@@ -2,36 +2,36 @@
   <h2>Commands and Responses</h2>
   <p>The communication between the remote and local ends is performed via Command and Response objects. How these are encoded and transmitted between the remote and local ends is left undefined.</p>
 
-	<p>Although the encoding and transport mechanism is left undefined in this specification, implementors of the remote end MUST provide an implementation suitable for acting as the server-side of the JSON and HTTP protocol defined in appendix XXXX. This MAY take the form of a standalone executable that translates the JSON over HTTP protocol to the encoding and transport mechanism used by the remote end.</p>
+	<p>Although the encoding and transport mechanism is left undefined in this specification, implementors of the remote end MUST provide an implementation suitable for acting as the server-side of the JSON and HTTP protocol defined in <a href="#mapping-to-http-and-json">Appendix F</a>. This MAY take the form of a standalone executable that translates the JSON over HTTP protocol to the encoding and transport mechanism used by the remote end.</p>
 
   <section>
     <h3>Command</h3>
     
 <pre class="IDL">interface <dfn id="command" title="command">Command</dfn> {  
-  attribute string <code><a href="#command-name">name</a></code>;
+  attribute DOMString <code><a href="#command-name">name</a></code>;
   attribute dictionary <code><a href="#command-parameters">parameters</a></code>;
-  attribute string <code><a href="#sessionid">sessionId</a></code>;
+  attribute DOMString <code><a href="#sessionid">sessionId</a></code>;
 };
 </pre>
 
-    <p>A command represents a call to a remote end to the <a href="#sessions">session</a> identified by the <code><a href="#sessionid">sessionId</a></code> attribute. By default, the <code><a href="#sessionid">sessionId</a></code> is null. The only time the null value is a valid sessionId is before a call to newSession. The name of the command to execute is held in the <dfn id="command-name" title="command-name">name</dfn>, and this MUST be handled case-sensitively. It defaults to the null value. The <dfn id="command-parameters" title="command-name">parameters</dfn> attribute is a map of named parameters to objects representing the value of the parameter. The default value is an empty array and this field MUST NOT be null.</p>
+    <p>A command represents a call to a remote end to the <a href="#sessions">session</a> identified by the <code><a href="#sessionid">sessionId</a></code> attribute. By default, the <code><a href="#sessionid">sessionId</a></code> is null. The only time the null value is a valid <code><a href="#sessionid">sessionId</a></code> is before a call to <code><a href="#creating-a-session">newSession</a></code>. The name of the command to execute is held in the <dfn id="command-name" title="command-name">name</dfn>, and this MUST be handled case-sensitively. It defaults to the null value. The <dfn id="command-parameters" title="command-name">parameters</dfn> attribute is a map of named parameters to objects representing the value of the parameter. The default value is an empty array and this field MUST NOT be null.</p>
 
   </section>
   <section>
     <h3>Response</h3>
 
 <pre class="IDL">interface <dfn id="response" title="response">Response</dfn> {
-  readonly attribute string <code><a href="#sessionid">sessionId</a></code>;
-  readonly attribute string <code><a href="#response-status">status</a></code>;
+  readonly attribute DOMString <code><a href="#sessionid">sessionId</a></code>;
+  readonly attribute DOMString <code><a href="#response-status">status</a></code>;
   readonly attribute object <code><a href="#response-value">value</a></code>;
 };
 </pre>
 
-    <p>A Response represents the value returned from the remote end of the WebDriver API after executing a Command from the session identified by the <code><a href="#sessionid">sessionId</a></code> attribute. The default value for the <code><a href="#sessionid">sessionId</a></code> MUST be the <code><a href="#sessionid">sessionId</a></code> used in the <code><a href="#command">Command</a></code> that this is a response to, unless the <code><a href="#command">Command</a></code>'s <code><a href="#sessionid">sessionId</a></code> was the null value, in which case a unique <code><a href="#sessionid">sessionId</a></code> MUST be assigned (see newSession for how this is achieved).</p>
+    <p>A Response represents the value returned from the remote end of the WebDriver API after executing a Command from the session identified by the <code><a href="#sessionid">sessionId</a></code> attribute. The default value for the <code><a href="#sessionid">sessionId</a></code> MUST be the <code><a href="#sessionid">sessionId</a></code> used in the <code><a href="#command">Command</a></code> that this is a response to, unless the <code><a href="#command">Command</a></code>'s <code><a href="#sessionid">sessionId</a></code> was the null value, in which case a unique <code><a href="#sessionid">sessionId</a></code> MUST be assigned (see <code><a href="#creating-a-session">newSession</a></code> for how this is achieved).</p>
 
-    <p>Each Response has a <code><dfn id="response-status" title="response-status">status</dfn></code> that indicates the success or failure of the method. Anything other than "<code><a href="#status-success">success</a></code>" indicates a failure. Each command lists the status strings it can return in the section of this specification in which it is defined, but the normative list of expected statuses is given below in the <a href="#error-codes">Error Codes</a> section. This list MAY be extended by implementors of the specification, provided they follow the guidelines about extending the specification.</p>
+    <p>Each Response has a <code><dfn id="response-status" title="response-status">status</dfn></code> that indicates the success or failure of the method. Anything other than "<code><a href="#status-success">success</a></code>" indicates a failure. Each command lists the status strings it can return in the section of this specification in which it is defined, but the normative list of expected statuses is given below in the <a href="#status-codes">Status Codes</a> section. This list MAY be extended by implementors of the specification, provided they follow the guidelines about <a href="#extending-the-protocol">extending the protocol</a>.</p>
 
-    <p>The meat of the <code><a href="#response">Response</a></code> is in the <code><dfn id="response-value" title="response-value">value</dfn></code> attribute. It's type is determined by the <code><a href="#command">Command</a></code> that has been executed. In the specification, each command definition will make clear what the expected return type is. The default value is the null value. In the case where the status indicates failure, the value is commonly the error text explaining the cause of the problem.</p>
+    <p>The meat of the <code><a href="#response">Response</a></code> is in the <code><dfn id="response-value" title="response-value">value</dfn></code> attribute. It's type is determined by the <code><a href="#command">Command</a></code> that has been executed. In this specification, each command definition will make clear what the expected return type is. The default value is the null value. In the case where the status indicates failure, the value is commonly the error text explaining the cause of the problem.</p>
 
     <p class="note">In the case where a failure is indicated and the language used for implementing the local end supports throwing exceptions, the value is often used as the exception's message.</p>
 
@@ -41,10 +41,7 @@
   <section>
     <h3>Processing Additional Fields on Commands and Responses</h3>
     
-    <p>Any Command or Response MAY contain additional fields than those listed
-    above. The content of fields MUST be maintained, unaltered by any
-    intermediate processing nodes. There is no requirement to maintain the
-    ordering of fields.</p>
+    <p>Any <code><a href="#command-1">Command</a></code> or <code><a href="#response">Response</a></code> MAY contain additional fields than those listed above. The content of fields MUST be maintained, unaltered by any <a href="#intermediate-node">intermediate nodes</a>. There is no requirement to maintain the ordering of fields.</p>
     
     <div class="note">
       <p>This requirement exists to allow for extension of the protocol, and to allow implementors to decorate Commands and Responses with additional information, perhaps giving context to a series of messages or providing security information.</p>
@@ -52,10 +49,9 @@
   </section>
   
   <section>
-    <h3>Error Codes</h3>
-    <p>The WebDriver API indicates the success or failure of a command invocation via a status code on the 
-    <code><a href="#response">Response</a></code> object. The following values are used and have the following meanings.</p>
-    <!-- TODO: These values are derived from existing common usage. Do they need to be reconsidered? -->
+    <h3>Status Codes</h3>
+    <p>The WebDriver API indicates the success or failure of a command invocation via <code><a href="#response-status">Response.status</a></code>. The following values are used and have the following meanings.</p>
+    
     <table class="simple">
       <tr>
         <th>Status Code</th>
@@ -87,7 +83,7 @@
       </tr>
       <tr>
         <td><dfn id="status-invalid-element-state">invalid element state</dfn></td>
-        <td>An element command could not be completed because the element is in an invalid state (e.g. attempting to click a disabled element).</td>
+        <td>An element command could not be completed because the element is in an invalid state (e.g. attempting to click an element that is no longer attached to the DOM).</td>
       </tr>
       <tr>
         <td><dfn id="status-invalid-selector">invalid selector</dfn></td>
@@ -99,7 +95,7 @@
       </tr>
       <tr>
         <td><dfn id="status-move-target-out-of-bounds">move target out of bounds</dfn></td>
-        <td>The target for mouse interaction is not in the viewport and cannot be brought into the viewport.</td>
+        <td>The target for mouse interaction is not in the browser's viewport and cannot be brought into that viewport.</td>
       </tr>
       <tr>
         <td><dfn id="status-no-such-alert">no such alert</dfn></td>
@@ -150,7 +146,7 @@
         <td>A modal dialog was open, blocking this operation.</td>
       </tr>
       <tr>
-        <td><dfn id="status-unknown command">unknown command</dfn></td>
+        <td><dfn id="status-unknown-command">unknown command</dfn></td>
         <td>A command could not be executed because the remote end is not aware of it.</td>
       </tr>
       <tr>
@@ -161,19 +157,15 @@
         <td><dfn id="status-unsupported-operation">unsupported operation</dfn></td>
         <td>Indicates that a command that should have executed properly cannot be supported for some reason.</td>
       </tr>
-      <tr>
-        <td><dfn id="status-xpath-lookup-error">xpath lookup error</dfn></td>
-        <td>An error occurred while searching for an element by XPath.</td>
-      </tr>
     </table>
     </section>
     
     <section>
-    <h2>Handling of Error Codes at the Local End</h2>
+    <h2>Handling of Status Codes at the Local End</h2>
     
-    <p>Error codes are returned from the remote end to the local end. The local end SHOULD convert these into a form appropriate for the implementation language. For example, in C the error codes might be returned "as is" or converted to constant values, whereas in Java various exceptions could be thrown.</p>
+    <p>Status codes are returned from the <a href="#remote-end">remote end</a> to the <a href="#local-end">local end</a>. The <a href="#local-end">local end</a> SHOULD convert these into a form appropriate for the implementation language. For example, in C the status codes might be converted to constant integer values, whereas in Java various exceptions could be thrown.</p>
     
-    <p>Local implementations written in languages that support exceptions SHOULD make use of an exception hierarchy rooted on a <code>WebDriverException</code> (or similarly named base exception class). Where references to <code>WebDriverException</code> are made in this specification, we are referring to this local end conversion of error codes to local end exceptions.</p>
+    <p>Implementations of the <a href="#local-end">local end</a> written in languages that support exceptions SHOULD make use of an exception hierarchy rooted on a <code>WebDriverException</code> (or similarly named base exception class). Where references to <code>WebDriverException</code> are made in this specification, we are referring to this local end conversion of status codes to local end exceptions.</p>
     
     <p class="note">The reason for this is to allow users of the local end to easily handle the all expected failure modes of a local WebDriver implementation by catching the <code>WebDriverException</code>.</p>
       

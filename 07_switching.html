@@ -8,7 +8,7 @@
 
 <p>WebDriver's <dfn id="default-content">default content</dfn> is [[!HTML5]]'s <a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top level browsing context</a> for the window that is currently receiving WebDriver commands.</p>
 
-<p>When a WebDriver instance is started and a single browser window is opened, the default content of that window is automatically selected for receiving further commands. If more than one window is opened when the session starts, then the user MUST first select which window to act upon using the <code>switchToWindow</code> command. Until the user selects a window, all commands must return a status code of <code><a href="#status-no-such-window">no such window</a></code>.</p>
+<p>When a WebDriver instance is started and a single browser window is opened, the <a href="#default-content">default content</a> of that window is automatically selected for receiving further commands. If more than one window is opened when the session starts, then the user MUST first select which window to act upon using the <code>switchToWindow</code> command. Until the user selects a window, all commands must return a status code of <code><a href="#status-no-such-window">no such window</a></code>.</p>
 
 </section>
 
@@ -22,8 +22,7 @@
 	</tr>
 	<tr>
 		<td>Parameters</td>
-		<td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-		    "name" {string} The identifier used for a window.</td>
+		<td>"name" {DOMString} The identifier used for a window.</td>
 	</tr>
 	<tr>
 	    <td>Return Value</td>
@@ -35,7 +34,7 @@
 	</tr>
 </table>
 
-<p>The "switchToWindow" command is used to select which window should currently be accepting commands. In order to determine which window should be used for accepting commands, the "switchToWindow" command MUST iterate over all windows. For each window, the following MUST be compared --- in this order --- with the "name" parameter:
+<p>The "switchToWindow" command is used to select which window MUST be used as the context for processing commands. In order to determine which window should be used for accepting commands, the "switchToWindow" command MUST iterate over all windows. For each window, the following MUST be compared &mdash; in this order &mdash; with the "name" parameter:
     
     <ol>
         <li>A window handle, obtained from "getWindowHandles" or "getWindowHandle".</li>
@@ -43,7 +42,7 @@
         <li>The "id" attribute of the window.</li>
     </ol>
 
-<p>If no windows match, then a "<code>NoSuchWindow</code>" status code MUST be returned, otherwise the "<a href="#default-content">default content</a>" of the first window to match will be selected for accepting commands.</p>
+<p>If no windows match, then a "<code><a href="#status-no-such-window">no such window</a></code>" status code MUST be returned, otherwise the "<a href="#default-content">default content</a>" of the first window to match will be selected for accepting commands.</p>
 
 </section>
 
@@ -57,8 +56,7 @@
 	</tr>
 	<tr>
 		<td>Parameters</td>
-		<td>"sessionId" {string} The key that identifies which session this request is for.<br>
-		    "id" {?(string|number|!WebElement=)} The identifier used for a window.</td>
+		<td>"id" {?(DOMString|number|!WebElement=)} The identifier used for a window.</td>
 	</tr>
 	<tr>
 	    <td>Return Value</td>
@@ -70,7 +68,7 @@
 	</tr>
 </table>
 
-<p>The "switchToFrame" command is used to select which frame within a window should be used for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "id" parameter can be one of a string, number of an element. WebDriver implementations MUST determine which frame to select using the following algorithm:
+<p>The "switchToFrame" command is used to select which frame within a window MUST be used as the context for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "<code>id</code>" parameter can be one of a string, number of an element. WebDriver implementations MUST determine which frame to select using the following algorithm:
 
 <ol>
     <li>If the "id" is a number the current context is set to the equivalent of the JS expression "window.frames[n]" where "n" is the number and "window" is the DOM window represented by the current context.</li>
@@ -91,7 +89,7 @@
 
 <p>In all cases if no match is made a "<code><a href="#status-no-such-frame">no such frame</a></code>" status code MUST be returned.</p>
 
-<p>Frame switching MUST succeed even if doing so would cross a security origin, or javascript executing in window.top's context would otherwise not be able to access the frame being switched to.</p>
+<p>If the indicated frame exists, frame switching MUST succeed even if doing so would violate the normal security constraints in place within the Javascript sandbox.</p>
 
 </section>
 
@@ -116,8 +114,7 @@
 		</tr>
 		<tr>
 			<td>Parameters</td>
-			<td>"sessionId" {string} The key that identifies which session this request is for.<br>
-		    	"element" {!WebElement=} The shadow host.<br>
+			<td>"element" {!WebElement=} The shadow host.<br>
 				"index" {int} The index of the shadow subtree. Defaults to 0.</td>
 		</tr>
 		<tr>

@@ -8,17 +8,24 @@
 <section>
 <h2 id="page-load-strategies">Page Load Strategies</h2>
 
+<table class="simple">
+  <tr>
+    <th>Capability Name</th><th>Type</th>
+  </tr>
+  <tr>
+    <td>pageLoadingStrategy</td><td>DOMString</td>
+  </tr>
+</table>
+
+<p>It is possible to request a particular strategy be used for detecting when the next command should be processed by a remote end implementation by modifying the page load strategy that is used. The following are the expected values that MAY be used when creating a new session:</p>
+
 <dl>
   <dt>conservative</dt>
-  <dd>The remote end MUST wait until all frames and iframes in the window currently be used to process commands
-  that contain an HTML document are at <a href="http://dev.w3.org/html5/spec/single-page.html#current-document-readiness">document.readyState</a> equals 'complete' and
-  there are no outstanding HTTP requests, other than those caused by
-  XMLHttpRequests. If a frame or iframe does not contain an HTML document, the remote
-  end SHOULD wait until all HTTP traffic to that frame is complete.</dd>
+  <dd>The remote end MUST wait until all frames and iframes in the window currently being used to process commands
+  that contain an HTML document are at <a href="http://dev.w3.org/html5/spec/single-page.html#current-document-readiness">document.readyState</a> equals 'complete' and there are no outstanding HTTP requests, other than those caused by XMLHttpRequests. If a frame or iframe does not contain an HTML document, the remote end SHOULD wait until all HTTP traffic to that frame is complete. Put in non-normative terms, this implies that the "onload" event has fired on every frame.</dd>
 
   <dt>normal</dt>
-  <dd>The remote end MUST wait until the "<code>document.readyState</code>" of the frame currently handling commands equals "<code>complete</code>", or there are no more outstanding
-  network requests other than XMLHttpRequests.</dd>
+  <dd>The remote end MUST wait until the "<code>document.readyState</code>" of the frame currently handling commands equals "<code>complete</code>", or there are no more outstanding network requests other than XMLHttpRequests.</dd>
 
   <dt>eager</dt>
   <dd>The remote end MUST wait until the "<code>document.readyState</code>" of frame currently handling equals "<code>interactive</code>" or "<code>complete</code>", or there are no more outstanding network requests.</dd>
@@ -43,7 +50,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	</tr>
 	<tr>
 		<td>Parameters</td>
-		<td>"url" {string} The URL to be navigated to.</td>
+		<td>"url" {DOMString} The URL to be navigated to.</td>
 	</tr>
 	<tr>
 	    <td>Return Value</td>
@@ -69,7 +76,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 
 <table class="simple">
   <tr><td>Capability Name</td><td>Type</td></tr>
-  <tr><td><span class="capability-secureSsl">secureSsl</span></td><td>boolean</td></tr>
+  <tr><td><span class="capability-securessl">secureSsl</span></td><td>boolean</td></tr>
 </table>
 
 
@@ -78,7 +85,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 <p class="note">The reason for this is that implementations of this spec are often used for testing. It's a sorry fact that many QA engineers and testers are asked to verify that apps work on sites that have insecure HTTPS configurations</p>
 </section>
 
-<p>The exception to requirement is if the <code>Capabilities</code> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY choose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. Remote end implementations MUST return a <code>UnkownError</code> status in this case. <strong>TODO: specify a proper error code for this?</strong> If this is the case, the <code>Capabilities</code> describing the session MUST also set the <code>secureSsl</code> capability to "true".
+<p>The exception to requirement is if the <code><a href="#capabilities">Capabilities</a></code> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY choose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. Remote end implementations MUST return an <code><a href="#status-unknown-error">unknown error</a></code> status in this case. If this is the case, the <code><a href="#capabilities">Capabilities</a></code> describing the session MUST also set the <code>secureSsl</code> capability to "true".
 
 </section>
 
@@ -87,6 +94,6 @@ In addition, implementors MAY add additional page loading strategies.</p>
 
 <p>Commands MUST only be processed when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that page loading is complete.</p>
 
-<p>If a remote end receives a new <code>Command</code> for a session while still waiting to finish an existing <code>Command</code> for that session it MAY choose to queue the command for execution as soon as possible, it MAY throw a <code>WebDriverException</code> or it may leave the remote end in an inconsistent state. Because of this, local ends SHOULD NOT attempt to send a new <code>Command</code> to a session until the previous <code>Command</code> has returned.</p>
+<p>If a remote end receives a new <code>Command</code> for a session while still waiting to finish an existing <code>Command</code> for that session it MAY choose to queue the command for execution as soon as possible, it MAY throw a <code>WebDriverException</code> or it MAY leave the remote end in an inconsistent state. Because of this, local ends SHOULD NOT attempt to send a new <code>Command</code> to a session until the previous <code>Command</code> has returned.</p>
 </section>
 </section>

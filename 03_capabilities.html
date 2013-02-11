@@ -1,28 +1,22 @@
 <section>
   <h2>Browser Capabilities</h2>
-  <p>Different browsers support different levels of various specifications. For example, some support SVG or the CSS
-  Selector API, but only browsers that implement HTML5 will support LocalStorage. The WebDriver API provides
-  a mechanism to query the supported capabilities of a browser. Each broad area of functionality
-  within the WebDriver API has an associated capability string. Whether a particular capability MUST or MAY
-  be supported &mdash; as well as fallback mechanisms for handling those cases
-  where a capability is not supported &mdash; is
-  discussed where the capability string is defined.</p>
+  <p>Different browsers support different levels of various specifications. For example, some support SVG or the [[!SELECTORS-API]], but only browsers that implement [[!WEBSTORAGE]] will support <a href="http://www.w3.org/TR/2009/WD-webstorage-20090910/#the-localstorage-attribute">LocalStorage</a>. The WebDriver API provides a mechanism to query the supported capabilities of a browser. Each broad area of functionality within the WebDriver API has an associated capability string. Whether a particular capability MUST or MAY be supported &mdash; as well as fallback mechanisms for handling those cases where a capability is not supported &mdash; is discussed where the capability string is defined.</p>
   
   <section>
     <h3>Capabilities</h3>
   <dl class="idl" title="interface Capabilities">
     <dt>readonly attribute dictionary capabilities</dt>
     <dd>The underlying collection of capabilities, represented as a dictionary mapping strings to values which may be
-    of type <code>boolean</code>, <code>numerical</code> or <code>string</code>. The default value is an empty dictionary.</dd>
-    <dt>boolean has(string capabilityName)</dt>
+    of type <code>boolean</code>, <code>numerical</code> or <code>DOMString</code>. The default value is an empty dictionary.</dd>
+    <dt>boolean has(DOMString capabilityName)</dt>
     <dd>Queries the underlying <code>capabilities</code> to see whether the
     value is set. This MUST return true if the capabilities contain a key with
     the given <code>capabilityName</code> and the value of that key is defined.
     If the value is a boolean, this function MUST return that boolean value. If
     the value is <code>null</code>, an empty string or a 0 then this method MUST return
     false.</dd>
-    <dt>(string or boolean or number)? get(string capabilityName)</dt>
-    <dd>Get the value of the key matching capabilityName in the underlying <code>capabilities</code> or <code>null</code>if no value is defined.</dd>
+    <dt>(DOMString or boolean or number)? get(DOMString capabilityName)</dt>
+    <dd>Get the value of the key matching capabilityName in the underlying <code>capabilities</code> or <code>null</code> if no value is defined.</dd>
   </dl>
   <p>A <code>Capabilities</code> instance MUST be immutable. If a mutable <code>Capabilities</code> instance is required, then the <code>MutableCapabilities</code> MUST be used instead.</p>
 
@@ -31,8 +25,8 @@
 <section>
   <h3>MutableCapabilities</h3>
   <dl class="idl" title="interface MutableCapabilities : Capabilities">
-    <dt>void set(string capabilityName, (string or boolean or number)? value)</dt>
-    <dd>Set the value of the given <code>capabilityName</code>to the given <code>value</code>. If the value is not a boolean, numerical type, a string or the null value a <code>WebDriverException</code> SHOULD be thrown.</dd>
+    <dt>void set(DOMString capabilityName, (DOMString or boolean or number)? value)</dt>
+    <dd>Set the value of the given <code>capabilityName</code> to the given <code>value</code>. If the value is not a boolean, numerical type, a DOMString or the null value a <code>WebDriverException</code> SHOULD be thrown.</dd>
   </dl>
 
   <p>In the case where the local and remote end are in the same process, it SHOULD be acceptable to use other types with the <code>set</code> method. If this is allowed, the value MUST be serialized to one of the acceptable types (boolean, numerical type, a string or the null value) before being sent out of process (such as transmitting from the local to the remote end). If this serialization is not possible, a <code>WebDriverException</code> MUST be thrown.</p>

@@ -80,9 +80,9 @@ code a:visited, code a:link {
   <body>
 
 <section id="abstract">
-<p>This specification defines the WebDriver API, a platform and language-neutral interface that allows programs or scripts to introspect into, and control the behaviour of, a web browser. The WebDriver API is primarily intended to allow developers to write tests that automate a browser from a separate controlling process, but may also be implemented in such a way as to allow in-browser scripts to control a &mdash; possibly separate &mdash; browser.</p>
+<p>This specification defines the WebDriver API, a platform and language-neutral interface and associated wire protocol that allows programs or scripts to introspect into, and control the behaviour of, a web browser. The WebDriver API is primarily intended to allow developers to write tests that automate a browser from a separate controlling process, but may also be implemented in such a way as to allow in-browser scripts to control a &mdash; possibly separate &mdash; browser.</p>
 
-<p>The WebDriver API is defined by a set of interfaces to discover and manipulate DOM elements on a page, and to control the behaviour of the containing browser.</p>
+<p>The WebDriver API is defined by a wire protocol and a set of interfaces to discover and manipulate DOM elements on a page, and to control the behaviour of the containing browser.</p>
 
 <p>This specification also includes a normative reference serialisation (to JSON over HTTP) of the interface's invocations and responses that are to be used by browser vendors to ensure interoperability.</p>
 </section>
@@ -114,14 +114,14 @@ code a:visited, code a:link {
     
     <p>The WebDriver API can be thought of as a client/server process. However, implementation details can mean that this terminology becomes confusing. For this reason, the two sides of the API are called the "local" and the "remote" ends.</p>
     <dl>
-      <dt>Local</dt>
-      <dd>The user-facing API. Command objects are sent and Response objects are
+      <dt><dfn id="local-end">Local</dfn></dt>
+      <dd>The user-facing API. <code><a href="#command-1">Command</a></code> objects are sent and <code><a href="#response">Response</a></code> objects are
       consumed by the local end of the WebDriver API. It can be thought of as
       being "local" to the user of the API.</dd>
       
-      <dt>Remote</dt>
-      <dd>The implementation of the user-facing API. Command objects are
-      consumed and Response objects are sent by the remote end of the WebDriver
+      <dt><dfn id="remote-end">Remote</dfn></dt>
+      <dd>The implementation of the user-facing API. <code><a href="#command-1">Command</a></code> objects are
+      consumed and <code><a href="#response">Response</a></code> objects are sent by the remote end of the WebDriver
       API. The implementation of the remote end may be on a machine remote from
       the user of the local end.</dd>
       
@@ -144,7 +144,7 @@ code a:visited, code a:link {
     <section>
       <h3>Conformance Classes</h3>
       
-      <p>This specification describes the conformance criteria for both local (relevant to creating bindings for languages) and remote end implementations (relevant to browser vendors and server implementors). A final conformance class &mdash; intermediate node &mdash; is also specified. These represent those nodes situated between the local and remote ends.</p>
+      <p>This specification describes the conformance criteria for both local (relevant to creating bindings for languages) and remote end implementations (relevant to browser vendors and server implementors). A final conformance class &mdash; <dfn id="intermediate-node">intermediate node</dfn> &mdash; is also specified. These represent those nodes situated between the local and remote ends.</p>
     </section>
   </section>
 </section>
@@ -152,36 +152,36 @@ code a:visited, code a:link {
   <h2>Commands and Responses</h2>
   <p>The communication between the remote and local ends is performed via Command and Response objects. How these are encoded and transmitted between the remote and local ends is left undefined.</p>
 
-	<p>Although the encoding and transport mechanism is left undefined in this specification, implementors of the remote end MUST provide an implementation suitable for acting as the server-side of the JSON and HTTP protocol defined in appendix XXXX. This MAY take the form of a standalone executable that translates the JSON over HTTP protocol to the encoding and transport mechanism used by the remote end.</p>
+	<p>Although the encoding and transport mechanism is left undefined in this specification, implementors of the remote end MUST provide an implementation suitable for acting as the server-side of the JSON and HTTP protocol defined in <a href="#mapping-to-http-and-json">Appendix F</a>. This MAY take the form of a standalone executable that translates the JSON over HTTP protocol to the encoding and transport mechanism used by the remote end.</p>
 
   <section>
     <h3>Command</h3>
     
 <pre class="IDL">interface <dfn id="command" title="command">Command</dfn> {  
-  attribute string <code><a href="#command-name">name</a></code>;
+  attribute DOMString <code><a href="#command-name">name</a></code>;
   attribute dictionary <code><a href="#command-parameters">parameters</a></code>;
-  attribute string <code><a href="#sessionid">sessionId</a></code>;
+  attribute DOMString <code><a href="#sessionid">sessionId</a></code>;
 };
 </pre>
 
-    <p>A command represents a call to a remote end to the <a href="#sessions">session</a> identified by the <code><a href="#sessionid">sessionId</a></code> attribute. By default, the <code><a href="#sessionid">sessionId</a></code> is null. The only time the null value is a valid sessionId is before a call to newSession. The name of the command to execute is held in the <dfn id="command-name" title="command-name">name</dfn>, and this MUST be handled case-sensitively. It defaults to the null value. The <dfn id="command-parameters" title="command-name">parameters</dfn> attribute is a map of named parameters to objects representing the value of the parameter. The default value is an empty array and this field MUST NOT be null.</p>
+    <p>A command represents a call to a remote end to the <a href="#sessions">session</a> identified by the <code><a href="#sessionid">sessionId</a></code> attribute. By default, the <code><a href="#sessionid">sessionId</a></code> is null. The only time the null value is a valid <code><a href="#sessionid">sessionId</a></code> is before a call to <code><a href="#creating-a-session">newSession</a></code>. The name of the command to execute is held in the <dfn id="command-name" title="command-name">name</dfn>, and this MUST be handled case-sensitively. It defaults to the null value. The <dfn id="command-parameters" title="command-name">parameters</dfn> attribute is a map of named parameters to objects representing the value of the parameter. The default value is an empty array and this field MUST NOT be null.</p>
 
   </section>
   <section>
     <h3>Response</h3>
 
 <pre class="IDL">interface <dfn id="response" title="response">Response</dfn> {
-  readonly attribute string <code><a href="#sessionid">sessionId</a></code>;
-  readonly attribute string <code><a href="#response-status">status</a></code>;
+  readonly attribute DOMString <code><a href="#sessionid">sessionId</a></code>;
+  readonly attribute DOMString <code><a href="#response-status">status</a></code>;
   readonly attribute object <code><a href="#response-value">value</a></code>;
 };
 </pre>
 
-    <p>A Response represents the value returned from the remote end of the WebDriver API after executing a Command from the session identified by the <code><a href="#sessionid">sessionId</a></code> attribute. The default value for the <code><a href="#sessionid">sessionId</a></code> MUST be the <code><a href="#sessionid">sessionId</a></code> used in the <code><a href="#command">Command</a></code> that this is a response to, unless the <code><a href="#command">Command</a></code>'s <code><a href="#sessionid">sessionId</a></code> was the null value, in which case a unique <code><a href="#sessionid">sessionId</a></code> MUST be assigned (see newSession for how this is achieved).</p>
+    <p>A Response represents the value returned from the remote end of the WebDriver API after executing a Command from the session identified by the <code><a href="#sessionid">sessionId</a></code> attribute. The default value for the <code><a href="#sessionid">sessionId</a></code> MUST be the <code><a href="#sessionid">sessionId</a></code> used in the <code><a href="#command">Command</a></code> that this is a response to, unless the <code><a href="#command">Command</a></code>'s <code><a href="#sessionid">sessionId</a></code> was the null value, in which case a unique <code><a href="#sessionid">sessionId</a></code> MUST be assigned (see <code><a href="#creating-a-session">newSession</a></code> for how this is achieved).</p>
 
-    <p>Each Response has a <code><dfn id="response-status" title="response-status">status</dfn></code> that indicates the success or failure of the method. Anything other than "<code><a href="#status-success">success</a></code>" indicates a failure. Each command lists the status strings it can return in the section of this specification in which it is defined, but the normative list of expected statuses is given below in the <a href="#error-codes">Error Codes</a> section. This list MAY be extended by implementors of the specification, provided they follow the guidelines about extending the specification.</p>
+    <p>Each Response has a <code><dfn id="response-status" title="response-status">status</dfn></code> that indicates the success or failure of the method. Anything other than "<code><a href="#status-success">success</a></code>" indicates a failure. Each command lists the status strings it can return in the section of this specification in which it is defined, but the normative list of expected statuses is given below in the <a href="#status-codes">Status Codes</a> section. This list MAY be extended by implementors of the specification, provided they follow the guidelines about <a href="#extending-the-protocol">extending the protocol</a>.</p>
 
-    <p>The meat of the <code><a href="#response">Response</a></code> is in the <code><dfn id="response-value" title="response-value">value</dfn></code> attribute. It's type is determined by the <code><a href="#command">Command</a></code> that has been executed. In the specification, each command definition will make clear what the expected return type is. The default value is the null value. In the case where the status indicates failure, the value is commonly the error text explaining the cause of the problem.</p>
+    <p>The meat of the <code><a href="#response">Response</a></code> is in the <code><dfn id="response-value" title="response-value">value</dfn></code> attribute. It's type is determined by the <code><a href="#command">Command</a></code> that has been executed. In this specification, each command definition will make clear what the expected return type is. The default value is the null value. In the case where the status indicates failure, the value is commonly the error text explaining the cause of the problem.</p>
 
     <p class="note">In the case where a failure is indicated and the language used for implementing the local end supports throwing exceptions, the value is often used as the exception's message.</p>
 
@@ -191,10 +191,7 @@ code a:visited, code a:link {
   <section>
     <h3>Processing Additional Fields on Commands and Responses</h3>
     
-    <p>Any Command or Response MAY contain additional fields than those listed
-    above. The content of fields MUST be maintained, unaltered by any
-    intermediate processing nodes. There is no requirement to maintain the
-    ordering of fields.</p>
+    <p>Any <code><a href="#command-1">Command</a></code> or <code><a href="#response">Response</a></code> MAY contain additional fields than those listed above. The content of fields MUST be maintained, unaltered by any <a href="#intermediate-node">intermediate nodes</a>. There is no requirement to maintain the ordering of fields.</p>
     
     <div class="note">
       <p>This requirement exists to allow for extension of the protocol, and to allow implementors to decorate Commands and Responses with additional information, perhaps giving context to a series of messages or providing security information.</p>
@@ -202,10 +199,9 @@ code a:visited, code a:link {
   </section>
   
   <section>
-    <h3>Error Codes</h3>
-    <p>The WebDriver API indicates the success or failure of a command invocation via a status code on the 
-    <code><a href="#response">Response</a></code> object. The following values are used and have the following meanings.</p>
-    <!-- TODO: These values are derived from existing common usage. Do they need to be reconsidered? -->
+    <h3>Status Codes</h3>
+    <p>The WebDriver API indicates the success or failure of a command invocation via <code><a href="#response-status">Response.status</a></code>. The following values are used and have the following meanings.</p>
+    
     <table class="simple">
       <tr>
         <th>Status Code</th>
@@ -237,7 +233,7 @@ code a:visited, code a:link {
       </tr>
       <tr>
         <td><dfn id="status-invalid-element-state">invalid element state</dfn></td>
-        <td>An element command could not be completed because the element is in an invalid state (e.g. attempting to click a disabled element).</td>
+        <td>An element command could not be completed because the element is in an invalid state (e.g. attempting to click an element that is no longer attached to the DOM).</td>
       </tr>
       <tr>
         <td><dfn id="status-invalid-selector">invalid selector</dfn></td>
@@ -249,7 +245,7 @@ code a:visited, code a:link {
       </tr>
       <tr>
         <td><dfn id="status-move-target-out-of-bounds">move target out of bounds</dfn></td>
-        <td>The target for mouse interaction is not in the viewport and cannot be brought into the viewport.</td>
+        <td>The target for mouse interaction is not in the browser's viewport and cannot be brought into that viewport.</td>
       </tr>
       <tr>
         <td><dfn id="status-no-such-alert">no such alert</dfn></td>
@@ -300,7 +296,7 @@ code a:visited, code a:link {
         <td>A modal dialog was open, blocking this operation.</td>
       </tr>
       <tr>
-        <td><dfn id="status-unknown command">unknown command</dfn></td>
+        <td><dfn id="status-unknown-command">unknown command</dfn></td>
         <td>A command could not be executed because the remote end is not aware of it.</td>
       </tr>
       <tr>
@@ -311,19 +307,15 @@ code a:visited, code a:link {
         <td><dfn id="status-unsupported-operation">unsupported operation</dfn></td>
         <td>Indicates that a command that should have executed properly cannot be supported for some reason.</td>
       </tr>
-      <tr>
-        <td><dfn id="status-xpath-lookup-error">xpath lookup error</dfn></td>
-        <td>An error occurred while searching for an element by XPath.</td>
-      </tr>
     </table>
     </section>
     
     <section>
-    <h2>Handling of Error Codes at the Local End</h2>
+    <h2>Handling of Status Codes at the Local End</h2>
     
-    <p>Error codes are returned from the remote end to the local end. The local end SHOULD convert these into a form appropriate for the implementation language. For example, in C the error codes might be returned "as is" or converted to constant values, whereas in Java various exceptions could be thrown.</p>
+    <p>Status codes are returned from the <a href="#remote-end">remote end</a> to the <a href="#local-end">local end</a>. The <a href="#local-end">local end</a> SHOULD convert these into a form appropriate for the implementation language. For example, in C the status codes might be converted to constant integer values, whereas in Java various exceptions could be thrown.</p>
     
-    <p>Local implementations written in languages that support exceptions SHOULD make use of an exception hierarchy rooted on a <code>WebDriverException</code> (or similarly named base exception class). Where references to <code>WebDriverException</code> are made in this specification, we are referring to this local end conversion of error codes to local end exceptions.</p>
+    <p>Implementations of the <a href="#local-end">local end</a> written in languages that support exceptions SHOULD make use of an exception hierarchy rooted on a <code>WebDriverException</code> (or similarly named base exception class). Where references to <code>WebDriverException</code> are made in this specification, we are referring to this local end conversion of status codes to local end exceptions.</p>
     
     <p class="note">The reason for this is to allow users of the local end to easily handle the all expected failure modes of a local WebDriver implementation by catching the <code>WebDriverException</code>.</p>
       
@@ -332,29 +324,23 @@ code a:visited, code a:link {
 </section>
 <section>
   <h2>Browser Capabilities</h2>
-  <p>Different browsers support different levels of various specifications. For example, some support SVG or the CSS
-  Selector API, but only browsers that implement HTML5 will support LocalStorage. The WebDriver API provides
-  a mechanism to query the supported capabilities of a browser. Each broad area of functionality
-  within the WebDriver API has an associated capability string. Whether a particular capability MUST or MAY
-  be supported &mdash; as well as fallback mechanisms for handling those cases
-  where a capability is not supported &mdash; is
-  discussed where the capability string is defined.</p>
+  <p>Different browsers support different levels of various specifications. For example, some support SVG or the [[!SELECTORS-API]], but only browsers that implement [[!WEBSTORAGE]] will support <a href="http://www.w3.org/TR/2009/WD-webstorage-20090910/#the-localstorage-attribute">LocalStorage</a>. The WebDriver API provides a mechanism to query the supported capabilities of a browser. Each broad area of functionality within the WebDriver API has an associated capability string. Whether a particular capability MUST or MAY be supported &mdash; as well as fallback mechanisms for handling those cases where a capability is not supported &mdash; is discussed where the capability string is defined.</p>
   
   <section>
     <h3>Capabilities</h3>
   <dl class="idl" title="interface Capabilities">
     <dt>readonly attribute dictionary capabilities</dt>
     <dd>The underlying collection of capabilities, represented as a dictionary mapping strings to values which may be
-    of type <code>boolean</code>, <code>numerical</code> or <code>string</code>. The default value is an empty dictionary.</dd>
-    <dt>boolean has(string capabilityName)</dt>
+    of type <code>boolean</code>, <code>numerical</code> or <code>DOMString</code>. The default value is an empty dictionary.</dd>
+    <dt>boolean has(DOMString capabilityName)</dt>
     <dd>Queries the underlying <code>capabilities</code> to see whether the
     value is set. This MUST return true if the capabilities contain a key with
     the given <code>capabilityName</code> and the value of that key is defined.
     If the value is a boolean, this function MUST return that boolean value. If
     the value is <code>null</code>, an empty string or a 0 then this method MUST return
     false.</dd>
-    <dt>(string or boolean or number)? get(string capabilityName)</dt>
-    <dd>Get the value of the key matching capabilityName in the underlying <code>capabilities</code> or <code>null</code>if no value is defined.</dd>
+    <dt>(DOMString or boolean or number)? get(DOMString capabilityName)</dt>
+    <dd>Get the value of the key matching capabilityName in the underlying <code>capabilities</code> or <code>null</code> if no value is defined.</dd>
   </dl>
   <p>A <code>Capabilities</code> instance MUST be immutable. If a mutable <code>Capabilities</code> instance is required, then the <code>MutableCapabilities</code> MUST be used instead.</p>
 
@@ -363,8 +349,8 @@ code a:visited, code a:link {
 <section>
   <h3>MutableCapabilities</h3>
   <dl class="idl" title="interface MutableCapabilities : Capabilities">
-    <dt>void set(string capabilityName, (string or boolean or number)? value)</dt>
-    <dd>Set the value of the given <code>capabilityName</code>to the given <code>value</code>. If the value is not a boolean, numerical type, a string or the null value a <code>WebDriverException</code> SHOULD be thrown.</dd>
+    <dt>void set(DOMString capabilityName, (DOMString or boolean or number)? value)</dt>
+    <dd>Set the value of the given <code>capabilityName</code> to the given <code>value</code>. If the value is not a boolean, numerical type, a DOMString or the null value a <code>WebDriverException</code> SHOULD be thrown.</dd>
   </dl>
 
   <p>In the case where the local and remote end are in the same process, it SHOULD be acceptable to use other types with the <code>set</code> method. If this is allowed, the value MUST be serialized to one of the acceptable types (boolean, numerical type, a string or the null value) before being sent out of process (such as transmitting from the local to the remote end). If this serialization is not possible, a <code>WebDriverException</code> MUST be thrown.</p>
@@ -388,37 +374,36 @@ code a:visited, code a:link {
 <section>
   <h2>Sessions</h2>
   <p>Non-normative summary: A session is equivalent to a single instantiation of a particular browser, including all
-  child windows. The WebDriver API gives each session an opaque string that can be used to differentiate one
+  child windows. The WebDriver API gives each session a unique ID stored as an opaque string that can be used to differentiate one
   session from another, allowing multiple browsers to be controlled on the same machine if needed, and allowing
-  sessions to be routed via a multiplexer. This ID is sent with every <a>Command</a> and returned with every 
-  <a>Response</a> and is stored on the <dfn id="sessionid" title="sessionid">sessionId</dfn> field.</p>
+  sessions to be routed via a multiplexer. This ID is sent with every <code><a href="#command-1">Command</a></code> and returned with every 
+  <code><a href="#response">Response</a></code> and is stored on the <dfn id="sessionid" title="sessionid">sessionId</dfn> field.</p>
   <section>
     <h3>Creating a Session</h3>
-    <p>The process for successfully creating a session MUST be.</p>
+    <p>The process for successfully creating a session MUST be:</p>
     <ol>
-      <li>The local end creates a new Capabilities or MutableCapabilities instance describing the desired capabilities
+      <li>The local end creates a new <code><a href="#capabilities">Capabilities</a></code> or <code><a href="#mutablecapabilities">MutableCapabilities</a></code> instance describing the desired capabilities
       for the session. The Capabilities object MUST be defined but MAY be empty.</li>
-      <li>The local end MUST create a new Command with the "name" being "newSession" and the "parameters" containing an
+      <li>The local end MUST create a new <code><a href="#command-1">Command</a></code> with the "name" being "newSession" and the "parameters" containing an
       entry named "desiredCapabilities" with the value set to the Capabilities instance from the previous step. An optional
       "requiredCapabilities" entry MAY also be created and populated with a Capabilities instance. The "sessionId" fields
       SHOULD be left empty.</li>
-      <li>The Command is transmitted to the remote end.</li>
+      <li>The <code><a href="#command-1">Command</a></code> is transmitted to the remote end.</li>
       <li>The remote end MUST examine the "requiredCapabilities" parameter if specified, SHOULD examine the "desiredCapabilities" parameter, and MUST create a new session matching as many of the Capabilities as
       possible.
       How the new session is created depends on the implementation of this specification. 
         <ul>
           <li>If any of the "requiredCapabilities" cannot be fulfilled by the new session, the remote end MUST quit the session and return the
-            <code><a href="#status-session-not-created">session not created</a></code> error code. The sessionId of the Response object MUST be left as the default value unless the Command had the sessionId set, in which case that value MUST be used. The error message SHOULD list all unmet required capabilities though only the 
-            first unmet required capability MUST be given.</li>
+            <code><a href="#status-session-not-created">session not created</a></code> error code. The sessionId of the Response object MUST be left as the default value unless the Command had the sessionId set, in which case that value MUST be used. The error message SHOULD list all unmet required capabilities though only a single required capability MUST be given.</li>
           <li>If a capability is listed in both the requiredCapabilities and desiredCapabilities, the value in the requiredCapabilities MUST be used.</li>
           </ul>
       </li>
-      <li>The session MUST be assigned a sessionId which MUST be unique for each session (a UUID is recommended). Generating the sessionId
+      <li>The session MUST be assigned a <code><a href="#sessionid">sessionId</a></code> which MUST be unique for each session (a UUID SHOULD be used). Generating the sessionId
       MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
       discarded in favour of the freshly generated sessionId. Because of this, it is
       recommended that sessionId generation be done on the remote end. If the sessionId has already been used, a Response MUST be sent with the status 
       code set to <code><a href="#status-session-not-created">session not created</a></code> and the value being an explanation that the sessionId has previously been used.</li>
-      <li>The remote end MUST create a new Response object, with the following fields MUST be set to: 
+      <li>The remote end MUST create a new <code><a href="#response">Response</a></code> object, with the following fields MUST be set to: 
       <ul>
         <li>"sessionId": the <code>sessionId</code> associated with this session.</li>
         <li><a name="create-session-value"></a>"value": a Capabilities instance. The keys of this Capabilities instance MUST be the strings given in each of the supported capabilities as defined in the relevant sections of this specification. Supported functionality MUST be included in this Capabilities instance, while unsupported functionality MAY be omitted.</li>
@@ -426,16 +411,15 @@ code a:visited, code a:link {
       </ul></li>
       <li>The Response is returned to the local end.</li>
     </ol>
-    <p>There is no requirement for the local end to validate that some or all of the fields sent on the Capabilities
-    associated with the Command match those returned in the Response.</p>
+    <p>There is no requirement for the local end to validate that some or all of the fields sent on the <code><a href="#capabilities">Capabilities</a></code> associated with the <code><a href="#command-1">Command</a></code> match those returned in the <code><a href="#response">Response</a></code>.</p>
 
-    <p>As stated, when returning the <a href="#create-session-value">value of the <code>Response</code></a>, the remote end MUST include the capability names and values of all supported capabilities from this specification. They MAY also include any additional capability names and values of supported capabilities implemented independently of this specification. Local ends MAY choose to ignore this additional information. Nodes intermediate between the local and remote ends MAY interpret the capabilities being returned.</p>
+    <p>As stated, when returning the <a href="#create-session-value">value of the <code><a href="#response">Response</a></code>, the remote end MUST include the capability names and values of all supported capabilities from this specification. They MAY also include any additional capability names and values of supported capabilities implemented independently of this specification. Local ends MAY choose to ignore this additional information. <a href="#intermediate-node">Intermediate nodes</a> between the local and remote ends MAY interpret the capabilities being returned.</p>
 
-    <p>If the <code>browserName</code> is given as a desired capability and omitted from the required capabilities, and the returned <code>browserName</code> value does not match the requested one, local ends SHOULD issue a warning to the user. How this warning is issued is undefined, but one implementation could be a log message. In this particular case, local ends MAY chose to change the <code>Response</code>'s status code to <code><a href="#status-session-not-created">session not created</a></code>, and modify the value to explain the cause, including the value originally returned as the <code>browserName</code> capability.</p>
+    <p>If the <code>browserName</code> is given as a desired capability and omitted from the required capabilities, and the returned <code>browserName</code> value does not match the requested one, local ends SHOULD issue a warning to the user. How this warning is issued is undefined, but one implementation could be a log message. In this particular case, local ends MAY chose to change the <code>Response</code>'s status code to <code><a href="#status-session-not-created">session not created</a></code>, and modify the value to explain the cause, including the value originally returned as the <code>browserName</code> capability. If this is done, the local end MUST ensure that the remote end quits the session.</p>
 
     <section>
       <h3>Capability Names</h3>
-      <p>The following keys SHOULD be used in the Capabilities instances.</p>
+      <p>The following keys SHOULD be used in the Capabilities instances. They all default to the null string.</p>
       <dl>
         <dt><a name="capability-browserName"></a><span class="capability-browserName">browserName</span></dt>
         <dd>The name of the desired browser as a string.</dd>
@@ -458,11 +442,11 @@ code a:visited, code a:link {
           <li>UNIX</li>
           <li>WINDOWS</li>
         </ul>
-        <p>In addition "ANY" may be used to indicate the underlying OS is either unknown or does not matter.</p>
+        <p>In addition "ANY" MAY be used to indicate the underlying OS is either unknown or does not matter.</p>
 
-        <p>Implementors MAY add additional platform names. Until these are standardized, these MUST follow the conventions outlined in <a href="#extending-the-protocol">extending the protocol</a> section with the exception that the vendor prefix MAY omit the leading "-" character.<p>
+        <p>Implementors MAY add additional platform names. Until these are standardized, these MUST follow the conventions outlined in <a href="#extending-the-protocol">extending the protocol</a> section with the exception that the vendor prefix SHOULD omit the leading "-" character.<p>
 
-        <p class="note">For example, Mozilla's Firefox OS could be described as either "-moz-firefoxos" or "moz-firefoxos". The latter makes it easier for local ends to specify an enum of supported platforms and is therefore recommended in this case.</p>
+        <p class="note">For example, Mozilla's Firefox OS could be described as either "-MOZ-FIREFOXOS" or "MOZ-FIREFOX". The latter makes it easier for local ends to specify an enum of supported platforms and is therefore recommended in this case.</p>
 
         <!-- TODO: Add section on comparing platforms -->
 
@@ -470,12 +454,10 @@ code a:visited, code a:link {
     </section>
     <section>
       <h3>Error Handling</h3>
-      <p>The following status codes MUST be returned by the "newSession" command. Please consult the table in the
-      "commands" section for numerical values:</p>
+      <p>The following status codes MUST be returned by the "newSession" command:</p>
       <dl>
         <dt><code><a href="#status-success">success</a></code></dt>
-        <dd>The session was successfully created. The "value" field of the Response MUST contain a Capabilities object
-        describing the session.</dd>
+        <dd>The session was successfully created. The "value" field of the <code><a href="#response">Response</a></code> MUST contain a <code><a href="#capabilities">Capabilities</a></code> object describing the session.</dd>
         <dt><code><a href="#status-timeout">timeout</a></code></dt>
         <dd>The new session could not be created within the time allowed for command execution on the remote end. This
         time MAY be infinite (in which case this status won't be seen). The "value" field of the Response SHOULD contain a string explaining that a timeout has
@@ -510,17 +492,24 @@ code a:visited, code a:link {
 <section>
 <h2 id="page-load-strategies">Page Load Strategies</h2>
 
+<table class="simple">
+  <tr>
+    <th>Capability Name</th><th>Type</th>
+  </tr>
+  <tr>
+    <td>pageLoadingStrategy</td><td>DOMString</td>
+  </tr>
+</table>
+
+<p>It is possible to request a particular strategy be used for detecting when the next command should be processed by a remote end implementation by modifying the page load strategy that is used. The following are the expected values that MAY be used when creating a new session:</p>
+
 <dl>
   <dt>conservative</dt>
-  <dd>The remote end MUST wait until all frames and iframes in the window currently be used to process commands
-  that contain an HTML document are at <a href="http://dev.w3.org/html5/spec/single-page.html#current-document-readiness">document.readyState</a> equals 'complete' and
-  there are no outstanding HTTP requests, other than those caused by
-  XMLHttpRequests. If a frame or iframe does not contain an HTML document, the remote
-  end SHOULD wait until all HTTP traffic to that frame is complete.</dd>
+  <dd>The remote end MUST wait until all frames and iframes in the window currently being used to process commands
+  that contain an HTML document are at <a href="http://dev.w3.org/html5/spec/single-page.html#current-document-readiness">document.readyState</a> equals 'complete' and there are no outstanding HTTP requests, other than those caused by XMLHttpRequests. If a frame or iframe does not contain an HTML document, the remote end SHOULD wait until all HTTP traffic to that frame is complete. Put in non-normative terms, this implies that the "onload" event has fired on every frame.</dd>
 
   <dt>normal</dt>
-  <dd>The remote end MUST wait until the "<code>document.readyState</code>" of the frame currently handling commands equals "<code>complete</code>", or there are no more outstanding
-  network requests other than XMLHttpRequests.</dd>
+  <dd>The remote end MUST wait until the "<code>document.readyState</code>" of the frame currently handling commands equals "<code>complete</code>", or there are no more outstanding network requests other than XMLHttpRequests.</dd>
 
   <dt>eager</dt>
   <dd>The remote end MUST wait until the "<code>document.readyState</code>" of frame currently handling equals "<code>interactive</code>" or "<code>complete</code>", or there are no more outstanding network requests.</dd>
@@ -545,7 +534,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	</tr>
 	<tr>
 		<td>Parameters</td>
-		<td>"url" {string} The URL to be navigated to.</td>
+		<td>"url" {DOMString} The URL to be navigated to.</td>
 	</tr>
 	<tr>
 	    <td>Return Value</td>
@@ -571,7 +560,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 
 <table class="simple">
   <tr><td>Capability Name</td><td>Type</td></tr>
-  <tr><td><a name="capability-secureSsl"></a><span class="capability-secureSsl">secureSsl</span></td><td>boolean</td></tr>
+  <tr><td><a name="capability-securessl"></a><span class="capability-securessl">secureSsl</span></td><td>boolean</td></tr>
 </table>
 
 
@@ -580,7 +569,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 <p class="note">The reason for this is that implementations of this spec are often used for testing. It's a sorry fact that many QA engineers and testers are asked to verify that apps work on sites that have insecure HTTPS configurations</p>
 </section>
 
-<p>The exception to requirement is if the <code>Capabilities</code> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY choose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. Remote end implementations MUST return a <code>UnkownError</code> status in this case. <strong>TODO: specify a proper error code for this?</strong> If this is the case, the <code>Capabilities</code> describing the session MUST also set the <code>secureSsl</code> capability to "true".
+<p>The exception to requirement is if the <code><a href="#capabilities">Capabilities</a></code> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY choose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. Remote end implementations MUST return an <code><a href="#status-unknown-error">unknown error</a></code> status in this case. If this is the case, the <code><a href="#capabilities">Capabilities</a></code> describing the session MUST also set the <code>secureSsl</code> capability to "true".
 
 </section>
 
@@ -589,7 +578,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 
 <p>Commands MUST only be processed when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that page loading is complete.</p>
 
-<p>If a remote end receives a new <code>Command</code> for a session while still waiting to finish an existing <code>Command</code> for that session it MAY choose to queue the command for execution as soon as possible, it MAY throw a <code>WebDriverException</code> or it may leave the remote end in an inconsistent state. Because of this, local ends SHOULD NOT attempt to send a new <code>Command</code> to a session until the previous <code>Command</code> has returned.</p>
+<p>If a remote end receives a new <code>Command</code> for a session while still waiting to finish an existing <code>Command</code> for that session it MAY choose to queue the command for execution as soon as possible, it MAY throw a <code>WebDriverException</code> or it MAY leave the remote end in an inconsistent state. Because of this, local ends SHOULD NOT attempt to send a new <code>Command</code> to a session until the previous <code>Command</code> has returned.</p>
 </section>
 </section>
 <section>
@@ -598,7 +587,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
   <section>
     <h2>Defining "window" and "frame"</h2>
 
-    <p>Within this specification, a window equates to anything that would be referred to as "window.top" in javascript. Put another way, within this spec browser tabs are counted as separate windows.</p>
+    <p>Within this specification, a window equates to [[!HTML5]]'s <a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top level browsing context</a>. Put another way, within this spec browser tabs are counted as separate windows.</p>
 
     <p><strong>TODO: define "frame"</strong></p>
   </section>
@@ -615,11 +604,11 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.</td>
+        <td>None</td>
       </tr>
       <tr>
         <td>Return Value</td>
-        <td>{string} The opaque string which uniquely identifies this window within the session.</td>
+        <td>{DOMString} The opaque string which uniquely identifies this window within the session.</td>
       </tr>
     </table>
   </section>
@@ -634,15 +623,15 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.</td>
+        <td>None</td>
       </tr>
       <tr>
         <td>Return Value</td>
-        <td>{Array.&lt;string&gt;} An array containing a window handle for every open window in this session.</td>
+        <td>{DOMString[]} An array containing a window handle for every open window in this session.</td>
       </tr>
     </table>
 
-    <p>This array of returned strings MUST contain a handle for every window associated with the browser session and no others. For each returned window handle the javascript expression "window.top.closed" MUST evaluate to false at the time the command is being executed.</p>
+    <p>This array of returned strings MUST contain a handle for every window associated with the browser session and no others. For each returned window handle the javascript expression "window.top.closed" (or equivalent) MUST evaluate to false at the time the command is being executed.</p>
 
     <p>The ordering of the array elements is not defined, but MAY be determined by iterating over each top level browser window and returning the tabs within that window before iterating over the tabs of the next top level browser window. For example, in the diagram below, the window handles should be returned as the handles for: win1tab1, win1tab2, win2.</p>
 
@@ -661,7 +650,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.</td>
+        <td>None</td>
       </tr>
       <tr>
         <td>Return Value</td>
@@ -669,9 +658,9 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
     </table>
 
-    <p>The close command closes the window that commands are currently being sent to. If this means that a call to get the list of window handles returns an empty list, then this close command MUST be the equivalent of calling "quit". In all other cases, control MUST be returned to the calling process once the window has been closed or an alert is displayed by the closing window.</p>
+    <p>The close command closes the window that commands are currently being sent to. If this means that a call to get the list of window handles would return an empty list, then this close command MUST be the equivalent of calling "quit". That is, if the final window of a session is closed, then the session quits.</p>
 
-    <p>Once the window has closed, future commands MUST return a status code of <code>NoSuchWindow</code> until a new window is selected for receiving commands.</p>
+    <p>Once the window has closed, future commands MUST return a status code of <code><a href="#status-no-such-window">no such window</a></code> until a new window is selected for receiving commands.</p>
   </section>
 
   <section>
@@ -684,8 +673,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br />
-          "windowHandle" {string} The handle referring to the window to resize.<br/>
+        <td>"windowHandle" {DOMString} The handle referring to the window to resize.<br/>
           "width" {number} The new window width in pixels.<br />
           "height" {number} The new window height in pixels.
         </td>
@@ -707,8 +695,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br>
-          "windowHandle" {string} The handle referring to the window to resize.
+        <td>"windowHandle" {DOMString} The handle referring to the window to resize.
         </td>
       </tr>
       <tr>
@@ -727,8 +714,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br>
-          "windowHandle" {string} The handle referring to the window to resize.
+        <td>"windowHandle" {DOMString} The handle referring to the window to resize.
         </td>
       </tr>
       <tr>
@@ -748,8 +734,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br>
-          "windowHandle" {string} The handle referring to the window to resize.
+        <td>"windowHandle" {DOMString} The handle referring to the window to resize.
         </td>
       </tr>
       <tr>
@@ -762,17 +747,17 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
     </table>
 
-    <p>Each of these commands accept the window handles returned by "<code>getWindowHandles</code>" and "<code>getWindowHandle</code>". In addition, the window handle may be "current", in which case the window that commands are currently being handled by MUST be acted upon.</p>
+    <p>Each of these commands accept the window handles returned by "<code>getWindowHandles</code>" and "<code>getWindowHandle</code>". In addition, the window handle may be "<code>current</code>", in which case the window that commands are currently being handled by MUST be acted upon.</p>
 
-    <p>The "<code>width</code>" and "<code>height</code>" values refer to the "<code>window.outerheight</code>" and "<code>window.outerwidth</code>" properties. For those browsers that do not support these properties, these represent the height and width of the whole browser window including window chrome and window resizing borders/handles.</p>
+    <p>The "<code>width</code>" and "<code>height</code>" values refer to the javascript "<code>window.outerheight</code>" and "<code>window.outerwidth</code>" properties. For those browsers that do not support these properties, these represent the height and width of the whole browser window including window chrome and window resizing borders/handles.</p>
 
     <p>After <code>setWindowSize</code>, the browser window MUST NOT be in the maximised state.</p>
 
-    <p>After  <code>maximizeWindow</code>, the browser window MUST be left as if the maximise button had been pressed; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
+    <p>After  <code>maximizeWindow</code>, the browser window MUST be left as if the maximise button had been pressed if, and only if, the window manager of the OS supports this concept; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
 
     <p>After <code>fullscreenWindow</code>, the browser window MUST be in full-screen mode. For those operating systems that support the concept, this MUST be equivalent to if the user requested the window be full screen. If the OS does not support the concept of full-screen, then this command is a synonym for "<code>maximizeWindow</code>".
 
-    <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an UnsupportedOperation status code MUST be returned.</p>
+    <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
   </section>
 
   <section>
@@ -792,7 +777,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 
 <p>WebDriver's <dfn id="default-content">default content</dfn> is [[!HTML5]]'s <a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top level browsing context</a> for the window that is currently receiving WebDriver commands.</p>
 
-<p>When a WebDriver instance is started and a single browser window is opened, the default content of that window is automatically selected for receiving further commands. If more than one window is opened when the session starts, then the user MUST first select which window to act upon using the <code>switchToWindow</code> command. Until the user selects a window, all commands must return a status code of <code><a href="#status-no-such-window">no such window</a></code>.</p>
+<p>When a WebDriver instance is started and a single browser window is opened, the <a href="#default-content">default content</a> of that window is automatically selected for receiving further commands. If more than one window is opened when the session starts, then the user MUST first select which window to act upon using the <code>switchToWindow</code> command. Until the user selects a window, all commands must return a status code of <code><a href="#status-no-such-window">no such window</a></code>.</p>
 
 </section>
 
@@ -806,8 +791,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	</tr>
 	<tr>
 		<td>Parameters</td>
-		<td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-		    "name" {string} The identifier used for a window.</td>
+		<td>"name" {DOMString} The identifier used for a window.</td>
 	</tr>
 	<tr>
 	    <td>Return Value</td>
@@ -819,7 +803,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	</tr>
 </table>
 
-<p>The "switchToWindow" command is used to select which window should currently be accepting commands. In order to determine which window should be used for accepting commands, the "switchToWindow" command MUST iterate over all windows. For each window, the following MUST be compared --- in this order --- with the "name" parameter:
+<p>The "switchToWindow" command is used to select which window MUST be used as the context for processing commands. In order to determine which window should be used for accepting commands, the "switchToWindow" command MUST iterate over all windows. For each window, the following MUST be compared &mdash; in this order &mdash; with the "name" parameter:
     
     <ol>
         <li>A window handle, obtained from "getWindowHandles" or "getWindowHandle".</li>
@@ -827,7 +811,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
         <li>The "id" attribute of the window.</li>
     </ol>
 
-<p>If no windows match, then a "<code>NoSuchWindow</code>" status code MUST be returned, otherwise the "<a href="#default-content">default content</a>" of the first window to match will be selected for accepting commands.</p>
+<p>If no windows match, then a "<code><a href="#status-no-such-window">no such window</a></code>" status code MUST be returned, otherwise the "<a href="#default-content">default content</a>" of the first window to match will be selected for accepting commands.</p>
 
 </section>
 
@@ -841,8 +825,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	</tr>
 	<tr>
 		<td>Parameters</td>
-		<td>"sessionId" {string} The key that identifies which session this request is for.<br>
-		    "id" {?(string|number|!WebElement=)} The identifier used for a window.</td>
+		<td>"id" {?(DOMString|number|!WebElement=)} The identifier used for a window.</td>
 	</tr>
 	<tr>
 	    <td>Return Value</td>
@@ -854,7 +837,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 	</tr>
 </table>
 
-<p>The "switchToFrame" command is used to select which frame within a window should be used for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "id" parameter can be one of a string, number of an element. WebDriver implementations MUST determine which frame to select using the following algorithm:
+<p>The "switchToFrame" command is used to select which frame within a window MUST be used as the context for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "<code>id</code>" parameter can be one of a string, number of an element. WebDriver implementations MUST determine which frame to select using the following algorithm:
 
 <ol>
     <li>If the "id" is a number the current context is set to the equivalent of the JS expression "window.frames[n]" where "n" is the number and "window" is the DOM window represented by the current context.</li>
@@ -875,7 +858,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 
 <p>In all cases if no match is made a "<code><a href="#status-no-such-frame">no such frame</a></code>" status code MUST be returned.</p>
 
-<p>Frame switching MUST succeed even if doing so would cross a security origin, or javascript executing in window.top's context would otherwise not be able to access the frame being switched to.</p>
+<p>If the indicated frame exists, frame switching MUST succeed even if doing so would violate the normal security constraints in place within the Javascript sandbox.</p>
 
 </section>
 
@@ -900,8 +883,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 		</tr>
 		<tr>
 			<td>Parameters</td>
-			<td>"sessionId" {string} The key that identifies which session this request is for.<br>
-		    	"element" {!WebElement=} The shadow host.<br>
+			<td>"element" {!WebElement=} The shadow host.<br>
 				"index" {int} The index of the shadow subtree. Defaults to 0.</td>
 		</tr>
 		<tr>
@@ -925,7 +907,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
   <h2>Running Without Window Focus</h2>
   <p>All browsers must comply with the <a
     href="http://www.w3.org/TR/html5/editing.html#focus">focus</a> section of
-  the [[!HTML5]] spec. In particular, the requirement that the element within a top-level browsing
+  the [[!HTML5]] spec. In particular, the requirement that the active element within a top-level browsing
   context be independent of whether or not the top-level browsing context itself
   has system focus MUST be followed.</p>
 
@@ -1005,7 +987,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       <p>If a browser supports the 
       <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a> ([[!SELECTORS-API]]) it MUST support locating elements by
       CSS Selector. If the browser does not support the browser CSS Selector spec it MAY choose to implement locating
-      by this mechanism. If the browser can support locating elements by CSS Selector, it MUST set the "cssSelector" capability to boolean true when responding to the <a href="#creating-a-session">"newSession" command</a>. Elements MUST be returned in the same order as if "<code>querySelectorAll</code>" had been called with the <code>Locator</code>s <code>value</code>. Compound selectors are allowed.</p>
+      by this mechanism. If the browser can support locating elements by CSS Selector, it MUST set the "cssSelector" capability to boolean true when responding to the <a href="#creating-a-session">"newSession" command</a>. Elements MUST be returned in the same order as if "<code>querySelectorAll</code>" had been called with the <code>Locator</code>'s <code>value</code>. Compound selectors are allowed.</p>
     </section>
     <section>
       <h2>ECMAScript</h2>
@@ -1097,7 +1079,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"id" {string} The ID of the WebElement on which to operate.
+        <td>"id" {DOMString} The ID of the WebElement on which to operate.
         </td>
       </tr>
       <tr>
@@ -1157,10 +1139,9 @@ var recovered = element.getAttribute('style');
 assertEquals(style, recovered);
 </pre>
           </li>
-          <li>Color property values MUST be standardized to rgba format, matching the regular expression: <code>rgba\(\d+,\s*\d+,\s*\d+\s*(,\s*(1|0(\.\d+)?)))</code>.</li>
+          <li>Color property values MUST be standardized to rgba format, matching the regular expression: <code>rgba(\d+,\s*\d+,\s*\d+\s*(,\s*(1|0(\.\d+)?)))</code>.</li>
         </ul></li>
-      <li>If the value is expected to be a URL (see the below table), return the property named <code>name</code>, i.e. a fully resolved URL:
-        <strong>TODO: This doesn't feel like an exhaustive list</strong>
+      <li>If the value is expected to be a URL (see the below table), return the property named <code>name</code>, i.e. a fully resolved URL. A non-normative set of these properties is given below:
         <table class="simple">
             <tr>
                 <th>Tag name</th>
@@ -1176,7 +1157,7 @@ assertEquals(style, recovered);
             </tr>
         </table>
       </li>
-      <li>If <code>name</code> is in the below table, and the above stages have not yielded a defined, non-null value, the value of the aliased attribute in the table below should be returned:
+      <li>If <code>name</code> is in the below table, and the above stages have not yielded a defined, non-null value, the value of the aliased attribute in the table MUST be used as the argument to a recursive call to <code>getElementAttribute</code>:
       <table class="simple">
         <tr>
           <th>Original property name</th>
@@ -1201,13 +1182,12 @@ assertEquals(style, recovered);
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br>
-            "id" {string} The ID of the WebElement on which to operate.<br>
-            "name" {string} The name of the property of attribute to return.</td>
+        <td>"id" {DOMString} The ID of the WebElement on which to operate.<br>
+            "name" {DOMString} The name of the property of attribute to return.</td>
       </tr>
       <tr>
           <td>Return Value</td>
-          <td>{string|null} The value returned by the above algorithm, coerced to a nullable string, or null if no value is defined.</td>
+          <td>{DOMString|null} The value returned by the above algorithm, coerced to a nullable string, or null if no value is defined.</td>
       </tr>
       <tr>
           <td>Errors</td>
@@ -1284,15 +1264,15 @@ assertEquals(style, recovered);
   </div>
   
   <p>If a browser supports JavaScript and JavaScript is enabled, it MUST set the "javascriptEnabled" capability to true, and it MUST support the execution of arbitrary JavaScript.</p>
-  <table>
-    <tr><td>Capability Name</td><td>Type</td></tr>
+  <table class="simple">
+    <tr><th>Capability Name</th><th>Type</th></tr>
     <tr><td><a name="capability-javascriptEnabled"></a><span class="capability-javascriptEnabled">javascriptEnabled</span></td><td>boolean</td></tr>
   </table>
   
 <section>
 <h2>Javascript Command Parameters</h2>
       
-<p> The <code>Argument</code> type is defined as being <code>{(number|boolean|DOMString|WebElement|dictionary|Array.&gt;Argument>)?}</code>
+<p> The <code>Argument</code> type is defined as being <code>{(number|boolean|DOMString|WebElement|dictionary|Argument[])?}</code>
       
 <dl class="idl" title="interface JavascriptCommandParameters">
     <dt>readonly attribute DOMString script</dt>
@@ -1312,26 +1292,25 @@ assertEquals(style, recovered);
         <li>a dictionary, then recursively apply this algorithm to each value in <code>args[index]</code> and assign the result to <code>args[index]</code>.</li>
         <li>a <a href="#elements">WebElement</a>, then:
             <ol>
-                <li>If the element's ID does not represent a DOMElement, or it represents a DOMElement that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">StaleElementReference</a></code> error.</li>
+                <li>If the element's ID does not represent a DOMElement, or it represents a DOMElement that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error.</li>
                 <li>Otherwise, let <code>args[index]</code> be the underlying DOMElement.</li>
             </ol>
          </li>
-         <li>Otherwise WebDriver implementations MAY throw an UnknownError indicating the index of the unhandled parameter (<strong class="todo">TODO: Should a more specific error be thrown?</strong>) but SHOULD attempt to convert the value into a dictionary.</li>
+         <li>Otherwise WebDriver implementations MAY throw an <code><a href="#status-unknown-error">unknown error</a></code> indicating the index of the unhandled parameter but SHOULD attempt to convert the value into a dictionary.</li>
      </ol>
      
   <section>
   <h2>Synchronous Javascript Execution</h2>
   
-  <table>
+  <table class="simple">
     <tr>
       <td>Command Name</td>
       <td>executeScript</td>
     </tr>
     <tr>
       <td>Parameters</td>
-      <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-          "script" {string} The script to execute.<br/>
-          "args" {Array.&lt;Argument>} The script arguments.
+      <td>"script" {DOMString} The script to execute.<br/>
+          "args" {Argument[]} The script arguments.
       </td>
     </tr>
     <tr>
@@ -1358,15 +1337,15 @@ assertEquals(style, recovered);
     <li>If step #5 threw, then:
       <ol>
         <li>Let <code>error</code> be the thrown value.
-        <li>Set the command's response <a href="#attributes-1">status</a> to JavascriptError.
-        <li>Set the command's response value to a dictionary, <code>dict</code>.
+        <li>Set the response's status <a href="#attributes-1">status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.
+        <li>Set the response value to a dictionary, <code>dict</code>.
         <li>If <code>error</code> is an Error, then set a "message" entry in <code>dict</code> whose value is the DOMString defined by <code>error.message</code>.
         <li>Otherwise, set a "message" entry in <code>dict</code> whose value is the DOMString representation of <code>error</code>.
       </ol>
     <li>Otherwise:
       <ol>
         <li>Let <code>result</code> be the value returned by the function in step #5.
-        <li>Set the command's response <a href="#attributes-1">status</a> to Success.
+        <li>Set the command's response <a href="#attributes-1">status</a> to <code><a href="#status-success">success</a></code>.
         <li>Let <code>value</code> be the result of the following algorithm:
           <ol>
             <li>If <code>result</code> is:
@@ -1380,25 +1359,24 @@ assertEquals(style, recovered);
                 <li>an object, then return the dictionary created by recursively applying this algorithm to each property in <code>result</code>.
               </ol>
           </ol>
-          <li>Set the command's response value to <code>value</code>.</li>
+          <li>Set the response value to <code>value</code>.</li>
       </ol>
-      <li>Return the command response.</li>
+      <li>Return the response.</li>
   </ol>
   
   </section>
   <section>
     <h2>Asynchronous Javascript Execution</h2>
     
-    <table>
+    <table class="simple">
       <tr>
         <td>Command Name</td>
         <td>executeAsyncScript</td>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-            "script" {string} The script to execute.<br/>
-            "args" {Array.&lt;Argument>} The script arguments.
+        <td>"script" {DOMString} The script to execute.<br/>
+            "args" {Argument[]} The script arguments.
         </td>
       </tr>
       <tr>
@@ -1430,16 +1408,16 @@ assertEquals(style, recovered);
         <li>If step #8 threw, then:
             <ol>
                 <li>Let <code>error</code> be the thrown value.</li>
-                <li>Set the command's response <a href="#attributes-1">status</a> to JavascriptError.</li>
-                <li>Set the command's response value to a dictionary, <code>dict</code>.</li>
+                <li>Set the response <a href="#attributes-1">status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.</li>
+                <li>Set the response value to a dictionary, <code>dict</code>.</li>
                 <li>If <code>error</code> is an Error, then set a "message" entry in <code>dict</code> whose value is the DOMString defined by <code>error.message</code>.</li>
                 <li>Otherwise, set a "message" entry in <code>dict</code> whose value is the DOMString representation of <code>error</code>.</li>
               </ol>
         </li>
         <li>Otherwise, the WebDriver implementation MUST wait for one of the following to occur:
             <ol>
-                <li>if the timer from step #7 fires, the WebDriver implementation MUST immediately set the command response status to Timeout and return.</li>
-                <li>if the <code>window</code> fires an <code>unload</code> event, the WebDriver implementation MUST immediately set the command response status to JavascriptError and return with the error message set to "Javascript execution context no longer exists.".</li>
+                <li>if the timer from step #7 fires, the WebDriver implementation MUST immediately set the response status to Timeout and return.</li>
+                <li>if the <code>window</code> fires an <code>unload</code> event, the WebDriver implementation MUST immediately set the response status to JavascriptError and return with the error message set to "Javascript execution context no longer exists.".</li>
                 <li>if the <code>callback</code> function is invoked, then:
                       <ol>
                         <li>Let <code>result</code> be the first argument passed to <code>callback</code>.</li>
@@ -1462,7 +1440,7 @@ assertEquals(style, recovered);
                         <li>Set the command's response value to <code>value</code>.</li>
                       </ol>
                     </li>
-                    <li>Return the command response.</li>
+                    <li>Return the response.</li>
                   </ol>
               </li>
              </ol>
@@ -1487,12 +1465,11 @@ assertEquals(style, recovered);
     </tr>
     <tr>
       <td>Parameters</td>
-      <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-      </td>
+      <td>None</td>
     </tr>
     <tr>
       <td>Return Value</td>
-      <td>Array.&lt;string&gt; A list of ordinary cookies that are currently visible on the page.</td>
+      <td>{DOMString[]} A list of ordinary cookies that are currently visible on the page.</td>
     </tr>
   </table>
   
@@ -1501,20 +1478,19 @@ assertEquals(style, recovered);
   </section>
   <section>
   <p>Setting a cookie:</p>
-  <table>
+  <table class="simple">
     <tr>
       <td>Command Name</td>
       <td>addCookie</td>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-            "cookie" {object} A <code>Cookie</code> defining the cookie to be added 
+        <td>"cookie" {object} A <code>Cookie</code> defining the cookie to be added.
         </td>
       </tr>
       <tr>
         <td>Return Value</td>
-        <td>Array.&lt;object&gt; A list of cookies in the <code>Cookie</code> format.</td>
+        <td>{object[]} A list of cookies in the <code>Cookie</code> format.</td>
       </tr>
       <tr>
         <td>Throws</td>
@@ -1527,19 +1503,19 @@ assertEquals(style, recovered);
 
   <section>
     <h2>Cookie</h2>
-    <p>When returning Cookie objects, the server SHOULD only omit an optional field if it is incapable of providing the information</p>
+    <p>When returning Cookie objects, the server SHOULD include all optional fields it is incapable of providing the information for.</p>
     
     <dl class="idl" title="interface Cookie">
-      <dt>attribute string name</dt>
+      <dt>attribute DOMString name</dt>
       <dd>The name of the cookie. This MUST be set.</dd>
       
-      <dt>attribute string value</dt>
+      <dt>attribute DOMString value</dt>
       <dd>The cookie value. This MUST be set.</dd>
     
-      <dt>attribute string path</dt>
+      <dt>attribute DOMString path</dt>
       <dd>The cookie path. This SHOULD be set or MUST be the null value if unknown.</dd>
       
-      <dt>attribute string domain</dt>
+      <dt>attribute DOMString domain</dt>
       <dd>The domain the cookie is visible too. This SHOULD be set or MUST be the null value if unknown.</dd>
       
       <dt>attribute number expiry</dt>
@@ -1556,15 +1532,14 @@ assertEquals(style, recovered);
   <section>
     <p>The "timeouts" command is used to set the value of a timeout that a command can execute
      for.</p> 
-    <table>
+    <table class="simple">
       <tr>
         <td>Command Name</td>
         <td>timeouts</td>
       </tr>
       <tr>
         <td>Parameters</td>
-        <td>"sessionId" {string} The key that identifies which session this request is for.<br>
-            "type" {string} The type of operation to set the timeout for. Valid values are: "implicit", "page load", "script"<br>
+        <td>"type" {DOMString} The type of operation to set the timeout for. Valid values are: "implicit", "page load", "script"<br>
             "ms" - {number} The amount of time, in milliseconds, that time-limited commands are permitted to run.
         </td>
       </tr>
@@ -1580,7 +1555,7 @@ assertEquals(style, recovered);
     <ul>
       <li>implicit - Set the amount of time the driver should wait when searching for elements. When searching for a single element, the driver should poll the page until an element is found or the timeout expires, whichever occurs first. When searching for multiple elements, the driver should poll the page until at least one element is found or the timeout expires, at which point it should return an empty list.<br>
       If this command is never sent, the driver MUST default to an implicit wait of 0ms.</li>
-      <li>page load -<strong>TODO(David, Simon)  fill me in</strong> </li>
+      <li>page load - Set the amount of time the driver should wait before returning when the <a href="#page-load-strategies-1">page load stratgey</a> is not "<code>none</code>". If this limit is exceeded, the <code>get()</code> command MUST return a "<code><a href="#status-timeout">timeout</a></code>" response status.</li>
       <li>script - Set the amount of time the driver should wait when scripts are loading on to the page. </li>
     </ul>
   </section>
@@ -1618,21 +1593,18 @@ assertEquals(style, recovered);
       <h2>Low Level Commands</h2>
       <p>The low level commands provide a mechanism for precisely stating how a user can interact with the browser. 
 
-    <p>User input SHOULD be emulated natively, with the input events
-    being indistinguishable from those generated by a real user
+    <p>Input events generated by the WebDriver API User SHOULD indistinguishable from those generated by a real user
     interacting with the browser. It is therefore recommended that
     input events SHOULD NOT be generated at the DOM level using the
     "<a href="http://www.w3.org/TR/dom/#dom-document-createevent">createEvent</a>"
-    API from [[!DOM4]] or similar. Instead, emulated input events
-    SHOULD originate from the browser's own event queue. This is the
-    order of preference for methods to emulate user input:</p>
+    API from [[!DOM4]] or similar. The order of preference for methods to implement WebDriver's emulatation of user input is:</p>
 
-    <ul>
+    <ol>
       <li>Injection into the browser's event queue.</li>
       <li>Sending OS-specific input messages to the browser's window. This has the disadvantage that the browser being automated may not be properly isolated from a user accidentally modifying input device state.</li>
       <li>Use of Javascript to inject events at the DOM level.</li>
-      <li>Use of the accessibility API. The disadvantage of this method is that the browser's window must be focused. As a result, multiple tests cannot run in parallel.</li>
-    </ul>
+      <li>Use of an OS-level accessibility API. The disadvantage of this method is that the browser's window must be focused. As a result, multiple tests cannot run in parallel.</li>
+    </ol>
 
       <p>TODO: Describe the commands for basic control of keyboard and mouse.</p>
       <section>
@@ -1682,7 +1654,7 @@ assertEquals(style, recovered);
         <li>Clicking directly on an OPTION element (without clicking on the
         parent SELECT element previously) MUST open a selection menu, as if the
         SELECT option was clicked first, then click on the OPTION before finally
-        closing the SELECT element's menu. The the SELECT menu MUST be closed
+        closing the SELECT element's menu. The SELECT menu MUST be closed
         once the action is complete.</li>
       </ul>
       <p>The possible errors for this command:
@@ -1723,9 +1695,8 @@ assertEquals(style, recovered);
     element MUST be attempted if the element does not currently have the focus. This is the case if one of the following
     holds:
     <ul>
-      <li>The element is not <code>document.activeElement</code></li>
-      <li>The owner document of the element to be interacted with is not the
-      focused document.</li>
+      <li>The element is not already the document's active element.</li>
+      <li>The owner document of the element to be interacted with is not the focused document.</li>
     </ul>
     <p>In case focusing is needed, the implementation MUST follow the <a href="http://dev.w3.org/html5/spec/editing.html#focus-management"><b>focusing steps</b></a> as described in the focus management section of the [[!HTML5]] spec. The focus MUST NOT leave the element at the end of the interaction, other than as a result of the interaction itself (i.e. when the tab key is sent).
     </p>
@@ -1982,23 +1953,22 @@ assertEquals(style, recovered);
   <section>
     <h2>Current Window</h2>
     <table class="simple">
-      <tr><td>Capability Name</td><td>Type</td></tr>
+      <tr><th>Capability Name</th><th>Type</th></tr>
       <tr><td><a name="capability-takesScreenshot"></a><span class="capability-takesScreenshot">takesScreenshot</span></td><td>boolean</td></tr>
     </table>
 
 	<table class="simple">
-      <tr>
+    <tr>
 	    <td>Command Name</td>
 	    <td>screenshot</td>
 	  </tr>
 	  <tr>
 	    <td>Parameters</td>
-	    <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-	    </td>
+	    <td>None</td>
 	  </tr>
 	  <tr>
 	    <td>Return Value</td>
-	    <td>{string} A Base64 encoded, lossless PNG of the current window.</td>
+	    <td>{DOMString} A Base64 encoded, lossless PNG of the current window.</td>
 	  </tr>
 	  <tr>
 	    <td>Errors</td>
@@ -2024,7 +1994,7 @@ assertEquals(style, recovered);
   <section>
     <h2>Element</h2>
       <table class="simple">
-        <tr><td>Capability Name</td><td>Type</td></tr>
+        <tr><th>Capability Name</th><th>Type</th></tr>
         <tr><td><a name="capability-takesElementScreenshot"></a><span class="capability-takesElementScreenshot">takesElementScreenshot</span></td><td>boolean</td></tr>
       </table>
 
@@ -2035,13 +2005,12 @@ assertEquals(style, recovered);
   	  </tr>
   	  <tr>
   	    <td>Parameters</td>
-  	    <td>"sessionId" {string} The key that identifies which session this request is for.<br/>
-  	        "id" {string} The ID of the <code>WebElement</code> on which to operate.
+  	    <td>"id" {DOMString} The ID of the <code>WebElement</code> on which to operate.
   	    </td>
   	  </tr>
   	  <tr>
   	    <td>Return Value</td>
-  	    <td>{string} A Base64 encoded, lossless PNG of the area contained within the <code>WebElement</code>'s clientBoundingRect.</td>
+  	    <td>{DOMString} A Base64 encoded, lossless PNG of the area contained within the <code>WebElement</code>'s clientBoundingRect.</td>
   	  </tr>
   	  <tr>
   	    <td>Errors</td>
@@ -2117,7 +2086,7 @@ assertEquals(style, recovered);
 <li><a href="#capability-javascriptEnabled">javascriptEnabled</a></li>
 <li><a href="#capability-platformName">platformName</a></li>
 <li><a href="#capability-platformVersion">platformVersion</a></li>
-<li><a href="#capability-secureSsl">secureSsl</a></li>
+<li><a href="#capability-securessl">secureSsl</a></li>
 <li><a href="#capability-shadowDom">shadowDom</a></li>
 <li><a href="#capability-takesElementScreenshot">takesElementScreenshot</a></li>
 <li><a href="#capability-takesScreenshot">takesScreenshot</a></li>
