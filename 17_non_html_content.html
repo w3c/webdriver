@@ -1,7 +1,26 @@
 <section>
   <h2>Handling non-HTML Content</h2>
-  <p>There is no requirement that WebDriver implementations handle non-HTML content. The remainder of this section is non-normative.</p>
-  
+  <p>Non-HTML content MUST be treated in the same manner as HTML if the Non-HTML if the browser 
+    creates a DOM object for the content of the document. If a DOM Object is not created then 
+    how it handled SHOULD be non-normative</p>
+
+  <section>
+    <h2>XML</h2>
+    <p>This section describes XML documents as described in XML //TODO(David) add cite. For XHTML documents the remote end should treat them as HTML documents 
+    and not have the caveats, below, applied.</p>
+      <p>Since Browsers create a DOM object for XML pages it is expected that we can interogate 
+      them as a normal HTML document however the following differences should be noted:</p>
+      <ul>
+        <li>Visibility Checks MAY be skipped since XML nodes can not be hidden and <code>isDisplayed</code> MUST return true<li>
+        <li>Getting computed styles of elements MUST return an empty string</li>
+        <li>Position and Size of element MUST return null for elements in the map returned</li>
+        <li>Attempts to clear the node MUST return an exception (//TODO(David) Add details of exception thrown</li>
+        <li>Attempts to send keys to a node MUST return an exception (//TODO(David) Add details of exception thrown</li>
+        <li><code>isEnabled</code> MUST return false</li>
+        <li><code>isSelected</code> MUST return false</li>
+        <li><code>submit</code> MUST return an exception (//TODO(David) Add details of exception thrown</li>
+      </ul>
+  </section>
   <section>
     <h2>SVG</h2>
     
