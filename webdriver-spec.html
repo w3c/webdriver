@@ -506,7 +506,7 @@ code a:visited, code a:link {
 <dl>
   <dt>conservative</dt>
   <dd>The remote end MUST wait until all frames and iframes in the window currently being used to process commands
-  that contain an HTML document are at <a href="http://dev.w3.org/html5/spec/single-page.html#current-document-readiness">document.readyState</a> equals 'complete' and there are no outstanding HTTP requests, other than those caused by XMLHttpRequests. If a frame or iframe does not contain an HTML document, the remote end SHOULD wait until all HTTP traffic to that frame is complete. Put in non-normative terms, this implies that the "onload" event has fired on every frame.</dd>
+  that contain an HTML document are at <a href="http://dev.w3.org/html5/spec/single-page.html#current-document-readiness">document.readyState</a> equals 'complete' and there are no outstanding HTTP requests, other than those caused by XMLHttpRequests. If a frame or iframe does not contain an HTML document, the remote end SHOULD wait until all HTTP traffic to that frame is complete. Put in non-normative terms, this implies that the <code>onload</code> event has fired on every frame.</dd>
 
   <dt>normal</dt>
   <dd>The remote end MUST wait until the "<code>document.readyState</code>" of the frame currently handling commands equals "<code>complete</code>", or there are no more outstanding network requests other than XMLHttpRequests.</dd>
@@ -1769,7 +1769,7 @@ assertEquals(style, recovered);
       <ol>
         <li>If the Shift key is not pressed:
         <ol>
-          <li>Generate a sequence of key-down, key-press and key-up events with
+          <li>Generate a sequence of <code>keydown</code>, <code>keypress</code> and <code>keyup</code> events with
           <var>key</var> as
           the character to emulate</li>
         </ol>
@@ -1778,7 +1778,7 @@ assertEquals(style, recovered);
         <ol>
           <li>let <var>uppercaseKey</var> be the upper-case character matching
           <var>key</var></li>
-          <li>Generate a sequence of key-down, key-press and key-up events with
+          <li>Generate a sequence of <code>keydown</code>, <code>keypress</code> and <code>keyup</code> events with
           <var>uppercaseKey</var> as the character to emulate</li>
         </ol>
         </li>
@@ -1788,16 +1788,16 @@ assertEquals(style, recovered);
       <ol>
         <li>If the Shift key is not pressed:
         <ol>
-          <li>Generate a key-down event of the Shift key.
-          <li>Generate a sequence of key-down, key-press and key-up events with
+          <li>Generate a <code>keydown</code> event of the Shift key.
+          <li>Generate a sequence of <code>keydown</code>, <code>keypress</code> and <code>keyup</code> events with
           <var>key</var> as
           the character to emulate</li>
-          <li>Generate a key-up event of the Shift key.
+          <li>Generate a <code>keyup</code> event of the Shift key.
         </ol>
         </li>
         <li>else (The Shift key is pressed)
         <ol>
-          <li>Generate a sequence of key-down, key-press and key-up events with
+          <li>Generate a sequence of <code>keydown</code>, <code>keypress</code> and <code>keyup</code> events with
           <var>key</var> as the character to emulate</li>
         </ol>
         </li>
@@ -1808,10 +1808,10 @@ assertEquals(style, recovered);
         <li>let <var>modifier</var> be the modifier key represented by
         <var>key</var></li>
         <li>If <var>modifier</var> is currently held down:
-        <ol><li>Generate a key-up event of <var>modifier</var></li></ol>
+        <ol><li>Generate a <code>keyup</code> event of <var>modifier</var></li></ol>
         </li>
         <li>Else:
-        <ol><li>Generate a key-down event of <var>modifier</var></li></ol>
+        <ol><li>Generate a <code>keydown</code> event of <var>modifier</var></li></ol>
         </li>
         <li>Maintain this key state and use it to modify the input until it is
         pressed again.</li>
@@ -1819,7 +1819,7 @@ assertEquals(style, recovered);
       </li>
       <li>Else if <var>key</var> represents the NULL key:
       <ol>
-        <li>Generate key-up events of all modifier keys currently held
+        <li>Generate <code>keyup</code> events of all modifier keys currently held
         down.</li>
         <li>All modifier keys are now assumed to be released.</li>
       </ol>
@@ -1827,7 +1827,7 @@ assertEquals(style, recovered);
       <li>Else if <var>key</var> represents a special key:
       <ol>
         <li>Translate <var>key</var> to the special key it represents</li>
-        <li>Generate a sequence of key-down, key-press and key-up events for the special key.</li>
+        <li>Generate a sequence of <code>keydown</code>, <code>keypress</code> and <code>keyup</code> events for the special key.</li>
       </ol>
       </li>
     </ol>
@@ -1839,21 +1839,21 @@ assertEquals(style, recovered);
       <li>For uppercase letters and symbols that require the Shift key to be
       pressed, there are two options:
       <ul>
-        <li>A single Shift key-down event is generated before the entire
+        <li>A single Shift <code>keydown</code> event is generated before the entire
         sequence of uppercase letters.</li>
-        <li>Before each such letter or symbol, a Shift key-down event is
-        generated. After each letter or symbol, a Shift key-up event is
+        <li>Before each such letter or symbol, a Shift <code>keydown</code> event is
+        generated. After each letter or symbol, a Shift <code>keyup</code> event is
         generated.</li>
       </ul></li>
       <li>A user-specified Shift press implies capitalization of all following
       characters.</li>
       <li>If a user-specified Shift press precedes uppercase letters and
-      symbols, a second Shift key-down event MUST NOT be generated. In that
-      case, a Shift key-up event MUST NOT be generated implicitly by the
+      symbols, a second Shift <code>keydown</code> event MUST NOT be generated. In that
+      case, a Shift <code>keyup</code> event MUST NOT be generated implicitly by the
       implementation.</li>
       <li>The <var>NULL</var> key releases all currently held down modifier keys.</li>
       <li>The state of all modifier keys must be reset at the end of each
-      <code>sendKeys</code> call and the appropriate key-up events
+      <code>sendKeys</code> call and the appropriate <code>keyup</code> events
       generated</li>
     </ul>
     <p> <!-- Algorithm paragraph --></p>
