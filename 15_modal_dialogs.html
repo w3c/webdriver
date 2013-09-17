@@ -1,14 +1,112 @@
 <section>
-  <h2>Modal Dialogs</h2>
-    <p>This entire section should be considered non-normative</p>
-    <p>The remote end MUST fail fast if any command is received while a modal
-      dialog is open, unless that command handles the dialog.</p>
+  <h2>Modals</h2>
+    This section describes how modal dialogs should be handled using the WebDriver API.
     <section>
-      <h2>window.alert, prompt and confirm</h2>
-      <p></p>
+      <h2>window.alert, window.prompt and window.confirm</h2>
+      <p>When the remote end is has a modal dialog such as those produced from <code>window.alert</code>, 
+      <code>window.prompt</code> and <code>window.confirm</code> it should allow the interrogation of the 
+      dialogues as using the following interface.</p>
+      
+      <table class="simple">
+        <tr>
+          <td>Command</td>
+          <td>dismiss()</td>
+        </tr>
+        <tr>
+          <td>Parameters</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>Return Value</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>Errors</td>
+          <td><code><a href="#status-no-such-alert">no such alert error</a></code> if no alert is present.</td>
+        </tr>
+      </table>
+      <p>This will dismiss the modal. If the modal is an alert, this MUST be equivalent to calling <code>accept()</code> on the dialog
+      <table class='simple'>
+        <tr>
+          <td>Command</td>
+          <td>accept()</td>
+        </tr>
+        <tr>
+          <td>Parameters</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>Return Value</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>Errors</td>
+          <td><code><a href="#status-no-such-alert">no such alert error</a></code> if no alert is present.</td>
+        </tr>
+      </table>
+      <p>This will accept the modal
+      <table class='simple'>
+        <tr>
+          <td>Command</td>
+          <td>getText()</td>
+        </tr>
+        <tr>
+          <td>Parameters</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>Return Value</td>
+          <td>DOMString</td>
+        </tr>
+        <tr>
+          <td>Errors</td>
+          <td><code><a href="#status-no-such-alert">no such alert error</a></code> if no alert is present.</td>
+        </tr>
+      </table>
+      <p>This will return the text that is currently in the modal.
+      <table class='simple'>
+        <tr>
+          <td>Command</td>
+          <td>sendKeys()</td>
+        </tr>
+        <tr>
+          <td>Parameters</td>
+          <td>DOMString keysToSend</td>
+        </tr>
+        <tr>
+          <td>Return Value</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>Errors</td>
+          <td><code><a href='#status-element-not-visible'>element not visible error</a></code> if the modal
+           has no means for text input<br>
+          <code><a href="#status-no-such-alert">no such alert error</a></code> if no alert is present.</td>
+
+        </tr>
+      </table>
+      <p>This MUST act in the same manner as in
+        <a href='#widl-WebElement-sendKeys-void-stringArray-keysToSend'>sendKeys</a> to an element.
+        If the modal has no means for text input it should throw a <code><a href='#status-element-not-visible'>Element not visible error</a></code>
+      <p>If a modal dialog is created from a <code>onbeforeunload</code> event the remote end MUST handle the 
+        dialog by either using <code>accept</code> or <code>dismiss</code>. These calls should either come from 
+        the local end or should be handled as an unexpected modal dialog as described below.
+      <p>The remote end SHOULD have a mechanism to allow unexpected modal dialogs to be closed
+      to prevent the remote end from becoming unusable. The default for this should be dismiss.
+      The local end SHOULD allow a capability to be set that allows the default value to be 
+      overridden with accept. The local end SHOULD also allow setting the default behaviour 
+      to wait for a command to handle the modal. If the next command does not interact with the modal
+      it MUST return a <code><a href='#status-unexpected-alert-open'>Unexpected alert open</a></code> error to 
+      the local end.
     </section>
     <section>
       <h2>Modal Windows</h2>
-      <p></p>
+      <p>If a browser supports Modal Windows, as created by <code>document.showModalDialog()</code>,
+        it MUST support handling of Modal Windows via the WebDriver API. Model Windows can then be 
+        <a href='#iterating-over-windows'>iterated</a> over in the same approach as normal windows.</p>
+      <p>If <code>close()</code> is called from the client end to the parent window that has modal 
+      windows open then the remote end SHOULD iterate over modal dialogs closing them 
+      before it closes the remaining windows so that it does not block the 
+      future commands to the remote end</p>
     </section>
 </section>
