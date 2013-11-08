@@ -21,6 +21,17 @@
     <p class="note">
       Essentially, this attempts to model whether or not a user of the browser could possibly find a way to view the <code>WebElement</code> without resizing the browser window.
     </p>
+    <div class="note">
+      <p>
+      The common usage pattern for <code>isDisplayed</code> is typically something similar to (in python):</p>
+      <pre>
+        element = driver.find_element(by = TAG_NAME, value= = "button")
+        if (element.is_displayed):
+            element.click()
+        else
+            # So other deep magic of the unseen ages.
+      </pre>
+  </div>
     <table class="simple">
       <tr>
         <td>Command Name</td>
@@ -40,6 +51,12 @@
         <td><code><a href="#status-stale-element-reference">stale element reference</a></code> if the element referenced is no longer attached to the DOM.</td>
       </tr>
     </table>
+    <p>
+      If <code>isDisplayed</code> returns true, then the element MUST also be <a href="#interactable-elements">interable</a> should it meet the other criteria for being interactable. If any part of the BODY can be brought into the current viewport, this MUST return true.
+    </p>
+    <div class="note">
+      <p>This implies that <code>isDisplayed</code> MUST return true if the centre of the element could be brought into the viewport. The exception to this would be the BODY element, which is generally assumed to always be visible by users of the WebDriver spec. It is possible to interact with elements which may not have the centre point brought into the viewport by using the <a href="#low-level-commands">low level commands</a>. This means that if any part of the element could be brought into the viewport by user action and its position could be used by low-level commands then a WebDriver implementation MAY return true.</p>
+    </div>
   </section>
   
   <section>
