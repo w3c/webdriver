@@ -71,6 +71,74 @@ In addition, implementors MAY add additional page loading strategies.</p>
     <li>If a 401 response is seen by the browser, a response MUST be sent. That is, if BASIC, DIGEST, NTLM or similar authentication is required, the page load is assumed to be complete. This does not include FORM-based authentication.</li>
 </ul>    
 
+<table class="simple">
+  <tr>
+    <td>Command Name</td>
+    <td>goBack</td>
+  </tr>
+  <tr>
+    <td>Parameters</td>
+    <td>None</td>
+  </tr>
+  <tr>
+      <td>Return Value</td>
+      <td>None</td>
+  </tr>
+  <tr>
+      <td>Errors</td>
+      <td><code><a href="#status-timeout">timeout</a></code> if the page load takes too long <a href="#timeouts">as specified by the timeouts</a>.<br />
+      <code><a href="#no-such-window">no such window</a></code> if the window currently receiving commands is no longer open.</td>
+  </tr>
+</table>
+
+<p>The "goBack" command is equivalent to a user hitting the "back" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of -1 (as defined in [[!HTML5]]). If a user calls "<code>goBack</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
+</p>
+
+<table class="simple">
+  <tr>
+    <td>Command Name</td>
+    <td>goForward</td>
+  </tr>
+  <tr>
+    <td>Parameters</td>
+    <td>None</td>
+  </tr>
+  <tr>
+      <td>Return Value</td>
+      <td>None</td>
+  </tr>
+  <tr>
+      <td>Errors</td>
+      <td><code><a href="#status-timeout">timeout</a></code> if the page load takes too long <a href="#timeouts">as specified by the timeouts</a>.<br />
+      <code><a href="#no-such-window">no such window</a></code> if the window currently receiving commands is no longer open.</td>
+  </tr>
+</table>
+
+<p>The "goForward" command is equivalent to a user hitting the "forward" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of +1 (as defined in [[!HTML5]]). If a user calls "<code>goForward</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
+</p>
+
+<table class="simple">
+  <tr>
+    <td>Command Name</td>
+    <td>refresh</td>
+  </tr>
+  <tr>
+    <td>Parameters</td>
+    <td>None</td>
+  </tr>
+  <tr>
+      <td>Return Value</td>
+      <td>None</td>
+  </tr>
+  <tr>
+      <td>Errors</td>
+      <td><code><a href="#status-timeout">timeout</a></code> if the page reload takes too long <a href="#timeouts">as specified by the timeouts</a>.<br />
+      <code><a href="#no-such-window">no such window</a></code> if the window currently receiving commands is no longer open.</td>
+  </tr>
+</table>
+
+<p>"refresh" emulates the user hitting the "refresh" or "reload" button in their browser, causing the current page to be reloaded.</p>
+
 <section>
 <h2>Invalid SSL Certificates</h2>
 
