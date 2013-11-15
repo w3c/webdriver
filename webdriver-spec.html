@@ -164,7 +164,7 @@ code a:visited, code a:link {
 };
 </pre>
 
-    <p>A command represents a call to a remote end to the <a href="#sessions">session</a> identified by the <code><a href="#sessionid">sessionId</a></code> attribute. By default, the <code><a href="#sessionid">sessionId</a></code> is null. The only time the null value is a valid <code><a href="#sessionid">sessionId</a></code> is before a call to <code><a href="#creating-a-session">newSession</a></code>. The name of the command to execute is held in the <dfn id="command-name" title="command-name">name</dfn>, and this MUST be handled case-sensitively. It defaults to the null value. The <dfn id="command-parameters" title="command-name">parameters</dfn> attribute is a map of named parameters to objects representing the value of the parameter. The default value is an empty array and this field MUST NOT be null.</p>
+    <p>A command represents a call to a remote end to the <a href="#sessions">session</a> identified by the <code><a href="#sessionid">sessionId</a></code> attribute. By default, the <code><a href="#sessionid">sessionId</a></code> is null. The only time the null value is a valid <code><a href="#sessionid">sessionId</a></code> is before a call to <code><a href="#creating-a-session">newSession</a></code>. The name of the command to execute is held in the <dfn id="command-name" title="command-name">name</dfn>, and this MUST be handled case-sensitively. It defaults to the null value. The <dfn id="command-parameters" title="command-parameters">parameters</dfn> attribute is a map of named parameters to objects representing the value of the parameter. The default value is an empty array and this field MUST NOT be null.</p>
 
   </section>
   <section>
@@ -406,7 +406,7 @@ code a:visited, code a:link {
       <li>The remote end MUST create a new <code><a href="#response">Response</a></code> object, with the following fields MUST be set to: 
       <ul>
         <li>"sessionId": the <code>sessionId</code> associated with this session.</li>
-        <li><a name="create-session-value"></a>"value": a Capabilities instance. The keys of this Capabilities instance MUST be the strings given in each of the supported capabilities as defined in the relevant sections of this specification. Supported functionality MUST be included in this Capabilities instance, while unsupported functionality MAY be omitted.</li>
+        <li name="create-session-value">"value": a Capabilities instance. The keys of this Capabilities instance MUST be the strings given in each of the supported capabilities as defined in the relevant sections of this specification. Supported functionality MUST be included in this Capabilities instance, while unsupported functionality MAY be omitted.</li>
         <li>"status": the <code><a href="#status-success">success</a></code> error code.</li>
       </ul></li>
       <li>The Response is returned to the local end.</li>
@@ -421,13 +421,13 @@ code a:visited, code a:link {
       <h3>Capability Names</h3>
       <p>The following keys SHOULD be used in the Capabilities instances. They all default to the null string.</p>
       <dl>
-        <dt><a name="capability-browserName"></a><span class="capability-browserName">browserName</span></dt>
+        <dt><span id="capability-browserName">browserName</span></dt>
         <dd>The name of the desired browser as a string.</dd>
-        <dt><a name="capability-browserVersion"></a><span class="capability-browserVersion">browserVersion</span></dt>
+        <dt><span id="capability-browserVersion">browserVersion</span></dt>
         <dd>The version number of the browser, given as a string.</dd>
-        <dt><a name="capability-platformName"></a><span class="capability-platformName">platformName</span></dt>
+        <dt><span id="capability-platformName">platformName</span></dt>
         <dd>The OS that the browser is running on, matching any of the platform names given below.</dd>
-        <dt><a name="capability-platformVersion"></a><span class="capability-platformVersion">platformVersion</span></dt>
+        <dt><span id="capability-platformVersion">platformVersion</span></dt>
         <dd>The version of the OS that the browser is running on as a string.</dd>
       </dl>
 
@@ -628,7 +628,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
 
 <table class="simple">
   <tr><td>Capability Name</td><td>Type</td></tr>
-  <tr><td><a name="capability-securessl"></a><span class="capability-securessl">secureSsl</span></td><td>boolean</td></tr>
+  <tr><td><span id="capability-securessl">secureSsl</span></td><td>boolean</td></tr>
 </table>
 
 <p>WebDriver implementations MUST support users accessing sites served via HTTPS. Access to those sites using self-signed or invalid certificates, and where the certificate does not match the serving domain MUST be the same as if the HTTPS was configured properly.</p>
@@ -689,7 +689,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
   </section>
 
   <section>
-    <h2><a name="iterating-over-windows"></a>Iterating Over Windows</h2>
+    <h2 name="iterating-over-windows">Iterating Over Windows</h2>
 
     <table class="simple">
       <tr>
@@ -1050,7 +1050,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
           <th>Type</th>
         </tr>
         <tr>
-          <td><a name="capability-cssSelectors"></a><span class="capability-cssSelectors">cssSelectors</span></td>
+          <td><span id="capability-cssSelectors">cssSelectors</span></td>
           <td>boolean</td>
         </tr>
       </table>
@@ -1212,7 +1212,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
   </section>
   
   <section>
-    <h2><a name="attributes-and-properties"></a>Reading Attributes and Properties</h2>
+    <h2 name="attributes-and-properties">Reading Attributes and Properties</h2>
 
     <table class="simple">
       <tr>
@@ -1378,7 +1378,7 @@ assertEquals(style, recovered);
   <p>If a browser supports JavaScript and JavaScript is enabled, it MUST set the "javascriptEnabled" capability to true, and it MUST support the execution of arbitrary JavaScript.</p>
   <table class="simple">
     <tr><th>Capability Name</th><th>Type</th></tr>
-    <tr><td><a name="capability-javascriptEnabled"></a><span class="capability-javascriptEnabled">javascriptEnabled</span></td><td>boolean</td></tr>
+    <tr><td><span name="capability-javascriptEnabled">javascriptEnabled</span></td><td>boolean</td></tr>
   </table>
   
 <section>
@@ -2166,7 +2166,7 @@ assertEquals(style, recovered);
     <h2>Current Window</h2>
     <table class="simple">
       <tr><th>Capability Name</th><th>Type</th></tr>
-      <tr><td><a name="capability-takesScreenshot"></a><span class="capability-takesScreenshot">takesScreenshot</span></td><td>boolean</td></tr>
+      <tr><td><span id="capability-takesScreenshot">takesScreenshot</span></td><td>boolean</td></tr>
     </table>
 
 	<table class="simple">
@@ -2207,7 +2207,7 @@ assertEquals(style, recovered);
     <h2>Element</h2>
       <table class="simple">
         <tr><th>Capability Name</th><th>Type</th></tr>
-        <tr><td><a name="capability-takesElementScreenshot"></a><span class="capability-takesElementScreenshot">takesElementScreenshot</span></td><td>boolean</td></tr>
+        <tr><td><span id="capability-takesElementScreenshot">takesElementScreenshot</span></td><td>boolean</td></tr>
       </table>
 
   	<table class="simple">
