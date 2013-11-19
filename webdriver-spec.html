@@ -1110,7 +1110,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       The common usage pattern for <code>isDisplayed</code> is typically something similar to (in python):</p>
       <pre>
         element = driver.find_element(by = TAG_NAME, value= = "button")
-        if (element.is_displayed):
+        if element.is_displayed():
             element.click()
         else
             # So other deep magic of the unseen ages.
@@ -1136,7 +1136,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
     </table>
     <p>
-      If <code>isDisplayed</code> returns true, then the element MUST also be <a href="#interactable-elements">interable</a> should it meet the other criteria for being interactable. If any part of the BODY can be brought into the current viewport, this MUST return true.
+      If <code>isDisplayed</code> returns true, then the element MUST also be <a href="#interactable-elements">interactable</a> should it meet the other criteria for being interactable. If any part of the BODY can be brought into the current viewport, this MUST return true.
     </p>
     <div class="note">
       <p>This implies that <code>isDisplayed</code> MUST return true if the centre of the element could be brought into the viewport. The exception to this would be the BODY element, which is generally assumed to always be visible by users of the WebDriver spec. It is possible to interact with elements which may not have the centre point brought into the viewport by using the <a href="#low-level-commands">low level commands</a>. This means that if any part of the element could be brought into the viewport by user action and its position could be used by low-level commands then a WebDriver implementation MAY return true.</p>
@@ -1407,7 +1407,7 @@ assertEquals(style, recovered);
     <li>Let <code>fn</code> be the Function object created by executing <code>new Function(script);</code>
     <li>Let <code>args</code> be the JavaScript array created by the pre-processing algorithm defined <a href="#JS-args-preprocess">above</a>.
     <li>Invoke <code>fn.apply(window, args);</code>
-    <li>If step #5 threw, then:
+    <li>If the previous step errors then:
       <ol>
         <li>Let <code>error</code> be the thrown value.
         <li>Set the response's status <a href="#attributes-1">status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.
@@ -1427,7 +1427,7 @@ assertEquals(style, recovered);
                 <li>a number, boolean, or DOMString, return <code>result</code>.
                 <li>a DOMElement, then return the corresponding WebElement for that DOMElement.
                 <!-- Should there be a recursion limit? -->
-                <li>an array or NodeList, then return the result of recursively applying this algorithm to <code>result</code>.
+                <li>a <code>Sequence &lt;Node&gt; nodes</code>, then return the result of recursively applying this algorithm to <code>result</code>.
                 <!-- Should there be a limit? -->
                 <li>an object, then return the dictionary created by recursively applying this algorithm to each property in <code>result</code>.
               </ol>
@@ -1461,7 +1461,7 @@ assertEquals(style, recovered);
         <td>
             <code><a href="#status-javascript-error">javascript error</a></code> if the executing script threw an exception.<br />
             <code><a href="#status-stale-element-reference">stale element reference</a></code> if a WebElement referenced is no longer attached to the DOM.<br/>
-            Timeout if the callback is not called within the time specified by the <a href="#timeouts">"script" timeout</a>.<br/>
+            <code><a href="#status-timeout">Timeout</a></code> if the callback is not called within the time specified by the <a href="#timeouts">"script" timeout</a>.<br/>
             <code><a href="#status-unknown-error">unknown error</a></code> if an argument or the return value is of an unhandled type.
         </td>
       </tr>
@@ -1478,7 +1478,7 @@ assertEquals(style, recovered);
         <li>Let <code>callback</code> be a Function object pushed to the end of <code>args</code>.</li>
         <li>Register a one-shot timer on <code>window</code> set to fire <code>timeout</code> milliseconds in the future.</li>
         <li>Invoke <code>fn.apply(window, args);</code></li>
-        <li>If step #8 threw, then:
+        <li>If the previous step errors then:
             <ol>
                 <li>Let <code>error</code> be the thrown value.</li>
                 <li>Set the response <a href="#attributes-1">status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.</li>
@@ -1489,7 +1489,9 @@ assertEquals(style, recovered);
         </li>
         <li>Otherwise, the WebDriver implementation MUST wait for one of the following to occur:
             <ol>
-                <li>if the timer from step #7 fires, the WebDriver implementation MUST immediately set the response status to Timeout and return.</li>
+              <li>if the one-shot timer that was set on the <code>window</code> fires
+              , the WebDriver implementation MUST immediately set the response status
+              to <code><a href='#status-timeout'>timeout</a></code> and return.</li>
                 <li>if the <code>window</code> fires an <code>unload</code> event, the WebDriver implementation MUST immediately set the response status to JavascriptError and return with the error message set to "Javascript execution context no longer exists.".</li>
                 <li>if the <code>callback</code> function is invoked, then:
                       <ol>
@@ -1503,7 +1505,7 @@ assertEquals(style, recovered);
                                 <li>a number, boolean, or DOMString, return <code>result</code>.</li>
                                 <li>a DOMElement, then return the corresponding WebElement for that DOMElement.</li>
                                 <!-- Should there be a recursion limit? -->
-                                <li>an array or NodeList, then return the result of recursively applying this algorithm to <code>result</code>. WebDriver implementations SHOULD limit the recursion depth.</li>
+                                <li>a <code>Sequence &lt;Node&gt; Nodes</code>, then return the result by recursively applying this algorithm to <code>result</code>. WebDriver implementations SHOULD limit the recursion depth.</li>
                                 <!-- Should there be a limit? -->
                                 <li>an object, then return the dictionary created by recursively applying this algorithm to each property in <code>result</code>.</li>
                               </ol>
