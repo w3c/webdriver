@@ -93,43 +93,4 @@
 
 </section>
 
-<section>
-	<h2>Switching to Hosted Shadow DOMs</h2>
-
-	<table class="simple">
-		<tr>
-			<th>Capability Name</th><th>Type</th>
-		</tr>
-		<tr>
-			<td><span class="capability-shadowDom">shadowDom</span></td><td>boolean</td>
-		</tr>
-	</table>
-
-	<p>If a browser implements the Shadow DOM specification, it MUST support the ability to access shadow subtrees. This is done using the switchToSubTree command:</p>
-
-	<table class="simple">
-		<tr>
-			<td>Command Name</td>
-			<td>switchToSubTree</td>
-		</tr>
-		<tr>
-			<td>Parameters</td>
-			<td>"element" {!WebElement=} The shadow host.<br>
-				"index" {int} The index of the shadow subtree. Defaults to 0.</td>
-		</tr>
-		<tr>
-	    	<td>Return Value</td>
-	   		<td>None</td>
-		</tr>
-		<tr>
-	    	<td>Errors</td>
-	    	<td><code><a href="#status-no-such-dom">no such dom</a></code> if the element is not a shadow host, or if the indexed shadow subtree does not exist.</td>
-		</tr>
-	</table>
-
-<p>When executing this command, Shadow DOM subtrees are indexed in the order that they were added to the host. That is, the "oldest" subtree is at index 0, and the "youngest" subtree at the highest sequentially numbered index.</p>
-
-<p>Where the Shadow DOM is supported, all commands in WebDriver MUST operate on the currently selected Shadow DOM subtree unless the command itself declares otherwise.</p>
-</section>
-
 </section>
