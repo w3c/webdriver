@@ -1085,21 +1085,21 @@ In addition, implementors MAY add additional page loading strategies.</p>
 <section>
 <h2>Reading Element State</h2>
   <section>
-    <h2>Determining Visibility</h2>
-      <p>The following steps MUST be used to determine if an element is visible to a user. This specification refers to this as the element being "shown".</p>
+    <h2 id='determining-if-displayed'>Determining if an element is displayed</h2>
+      <p>The following steps MUST be used to determine if an element is displayed to a user. This specification refers to this as the element being "shown".</p>
       <ul>
-        <li>The element MUST have a height and width greater than 0px unless the 
+        <li>The element MUST have a height and width greater than 0px unless the
         element is a text node or if it has a child with a positive height and width.</li>
-        <li>The element MUST NOT be visible if that element, or any of its ancestors,
+        <li>The element MUST NOT be displayed if that element, or any of its ancestors,
         is hidden or has <code>display:none</code> in its computed CSS style.</li>
-        <li>The element MUST NOT be visible if there is a <a href='http://www.w3.org/TR/css3-transforms/'>CSS3 Transform</a>
-        property that moves the element out of the viewport and can not be scrolled to.</li>
-        <li>OPTIONs and OPTGROUP elements are treated as special cases, they are considered shown if and only if the enclosing select element is visible.</li>
-        <li>MAP elements are shown if and only if the image it uses is visible. Areas within
-        a map are shown if the enclosing MAP is visible.</li>
-        <li>Any INPUT elements of "type=hidden" are not visible</li>
-        <li>Any NOSCRIPT elements MUST NOT be visible if Javascript is enabled.</li>
-        <li>The element MUST NOT be visible if any ancestor of the element  has a fixed size, and has the CSS style with one of the following "overflow:hidden", "overflow-x:hidden" or "overflow-y:hidden", and the element's location as determined by <a href="http://www.w3.org/TR/cssom-view/#dom-range-getclientrects">getClientRects</a> is not within the fixed size of the parent.</li>
+        <li>The element MUST NOT be displayed if there is a [[!css3-2d-transforms]] or [[!css3-3d-transforms]]
+        property that gives a negative x or y to the canvas. The User Agent MUST NOT allow negative scrolling.</li>
+        <li>OPTIONs and OPTGROUP elements are treated as special cases, they are considered shown if and only if the enclosing select element is displayed.</li>
+        <li>MAP elements are shown if and only if the image it uses is displayed. Areas within
+        a map are shown if the enclosing MAP is displayed.</li>
+        <li>Any INPUT elements of "type=hidden" are not displayed</li>
+        <li>Any NOSCRIPT elements MUST NOT be displayed if Javascript is enabled.</li>
+        <li>The element MUST NOT be displayed if any ancestor of the element  has a fixed size, and has the CSS style with one of the following <code>overflow:hidden</code>, <code>overflow-x:hidden</code> or <code>overflow-y:hidden</code>, and the element's location as determined by <code><a href="http://www.w3.org/TR/cssom-view/#dom-range-getclientrects">getClientRects</a></code> is not within the fixed size of the parent.</li>
       </ul>
 
     <p class="note">
@@ -1139,15 +1139,15 @@ In addition, implementors MAY add additional page loading strategies.</p>
       If <code>isDisplayed</code> returns true, then the element MUST also be <a href="#interactable-elements">interactable</a> should it meet the other criteria for being interactable. If any part of the BODY can be brought into the current viewport, this MUST return true.
     </p>
     <div class="note">
-      <p>This implies that <code>isDisplayed</code> MUST return true if the centre of the element could be brought into the viewport. The exception to this would be the BODY element, which is generally assumed to always be visible by users of the WebDriver spec. It is possible to interact with elements which may not have the centre point brought into the viewport by using the <a href="#low-level-commands">low level commands</a>. This means that if any part of the element could be brought into the viewport by user action and its position could be used by low-level commands then a WebDriver implementation MAY return true.</p>
+      <p>This implies that <code>isDisplayed</code> MUST return true if the centre of the element could be brought into the viewport. The exception to this would be the BODY element, which is generally assumed to always be displayed by users of the WebDriver spec. It is possible to interact with elements which may not have the centre point brought into the viewport by using the <a href="#low-level-commands">low level commands</a>. This means that if any part of the element could be brought into the viewport by user action and its position could be used by low-level commands then a WebDriver implementation MAY return true.</p>
     </div>
   </section>
-  
+
   <section>
     <h2>Determining Whether a WebElement Is Selected</h2>
     <p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
       <ol>
-          <li id="is_selectable">If the item is not "<code title="selectable">selectable</code>", the WebElement is not selected. A <dfn id="selectable" title="selectable">selectable</dfn> element is either an OPTION element or an INPUT element of type "<a href="http://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)">checkbox</a>" or "<a href="http://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)">radio</a>".</li> 
+          <li id="is_selectable">If the item is not "<code title="selectable">selectable</code>", the WebElement is not selected. A <dfn id="selectable" title="selectable">selectable</dfn> element is either an OPTION element or an INPUT element of type "<a href="http://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)">checkbox</a>" or "<a href="http://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)">radio</a>".</li>
           <li>If the DOM node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!HTML5]] determines whether the element is selected.</li>
           <li>Otherwise, the value of the DOM node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!HTML5]].</li>
       </ol>
@@ -1171,7 +1171,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
       </tr>
     </table>
   </section>
-  
+
   <section>
     <h2 name="attributes-and-properties">Reading Attributes and Properties</h2>
 
@@ -1198,7 +1198,7 @@ In addition, implementors MAY add additional page loading strategies.</p>
     <p>Although the [[!HTML5]] spec is very clear about the difference between the properties and attributes of a DOM element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning either of the value of a DOM element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
 
     <p>The algorithm to implement this MUST be (where <code>name</code> refers to the <code>name</code> parameter of the <code>getElementAttribute</code> command):</p>
-    
+
     <ol>
       <li>If <code>name</code> case insensitively matches "style", the value returned MUST be <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM-VIEW]] spec. Notably, css property names MUST be cased the same as specified in in section 6.5.1 of the [[!CSSOM-VIEW]] spec.
         <ul>
@@ -1270,19 +1270,19 @@ assertEquals(style, recovered);
   <section>
    <h2>Rendering Text</h2>
    <p>All WebDriver implementations MUST support getting the <a
-     href="#determining-visibility">visible</a> text of a <code>WebElement</code>, with excess whitespace compressed.</p>
-   
+     href="#determining-if-displayed">displayed</a> text of a <code>WebElement</code>, with excess whitespace compressed.</p>
+
 <p>The following definitions are used in this section:
     <dl>
         <dt id="text.whitespace">Whitespace</dt>
         <dd>Any text that matches the ECMAScript regular expression class <code>\s</code>.
-        
+
         <dt id="text.whitespace-nbsp">Whitespace excluding non-breaking spaces</dt>
         <dd>Any text that matches the ECMAScript regular expression <code>[^\S\xa0]</code>
-            
+
         <dt id="text.blocklevel">Block level element</dt>
         <dd>A block-level element is one which is not a table cell, and whose effective CSS display style is not in the set ['inline', 'inline-block', 'inline-table', 'none', 'table-cell', 'table-column', 'table-column-group']</dd>
-        
+
         <dt id="text.horizontal">Horizontal whitespace characters</dt>
         <dd>Horizontal whitespace characters are defined by the ECMAScript regular expression <code>[\x20\t\u2028\u2029]</code>.</dd>
     </dl>
@@ -1296,7 +1296,7 @@ assertEquals(style, recovered);
         <ol>
             <li>Get whitespace, text-transform, and then, if <code>child</code> is:
                 <ul>
-                    <li>a node which is not <a href="#determining-visibility">visible</a>, do nothing</li>
+                    <li>a node which is not <a href="#determining-if-displayed">displayed</a>, do nothing</li>
                     <li>a [[!DOM4]] <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text">text node</a> let <code>text</code> equal the <code>nodeValue</code> property of <code>child</code>. Then:
                         <ol>
                             <li>Remove any zero-width spaces (\u200b), form feeds (\f) or vertical tab feeds (\v) from <code>text</code>.</li>
@@ -1307,7 +1307,7 @@ assertEquals(style, recovered);
                             <li>Append <code>text</code> to <code>last(lines)</code> in-place</li>
                         </ol>
                     </li>
-                    <li>an element which is <a href="#determining-visibility">visible</a>. If the element is a:
+                    <li>an element which is <a href="#determining-if-displayed">displayed</a>. If the element is a:
                         <ul>
                             <li>BR element: Push '' to <code>lines</code> and continue</li>
                             <li><a href="#text.blocklevel">Block-level</a> element and if <code>last(lines)</code> is not '', push '' to <code>lines</code>.</li>
@@ -1650,7 +1650,7 @@ assertEquals(style, recovered);
     <h2 id="interactable">Interactable elements</h2>
     <p>Some input actions require the element to be interactable. The following conditions must be met for the element to be considered interactable:
     <ul>
-      <li>The element MUST be visible, as defined in <a href="#determining-visibility">section 10.1</a>.</li>
+      <li>The element MUST be visible, as defined in <a href="#determining-if-displayed">section 10.1</a>.</li>
       <li>The element MUST NOT be disabled. "Disabled" is defined as:
       <ul>
         <li>If the current document is being processed as an HTML 4 document, the element MUST be considered disabled if it does not support
@@ -1720,11 +1720,11 @@ assertEquals(style, recovered);
       (according to the [[!CSS21]] spec), the implementation SHOULD bring the
       element into view first. The implementation MAY invoke scrollIntoView on
       the underlying DOM Element. The element MUST be visible, as defined in <a
-        href="#determining-visibility">section 10.1</a>. See the note below for when the element is obscured by another element.
+        href="#determining-if-displayed">section 10.1</a>. See the note below for when the element is obscured by another element.
       Exceptions:
       <ul>
         <li>Links (A elements): Clicking happens in the middle of the first
-        <a href="#determining-visibility">visible</a> bounding client rectangle. This is to overcome overflowing links where the middle of the bounding client rectangle does not actually fall on a clickable part of the link.</li>
+        <a href="#determining-if-displayed">displayed</a> bounding client rectangle. This is to overcome overflowing links where the middle of the bounding client rectangle does not actually fall on a clickable part of the link.</li>
         <li>SELECT elements without the &quot;multiple&quot; attribute set.
         Clicking on the select element SHOULD open the drop down menu. The next
         click, on any element, MUST close this menu.</li>
