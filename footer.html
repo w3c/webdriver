@@ -13,7 +13,47 @@
       <h2>Logging</h2>
       <p></p>
     </section>
-    
+    <section class='appendix'>
+      <h2>Security and Privacy</h2>
+      <p>The following section is non-normative.</p>
+      <section>
+        <h3>Privacy</h3>
+        <p>The local end SHOULD create a new profile when creating a new session. 
+          If a new profile can be created it MUST NOT copy the profile in use and 
+          MUST create a fresh profile. By creating a new profile the user agent will
+           prevent any unexpected behaviour when the remote end is accessing content.</p>
+      </section>
+      <section>
+        <h3>Security</h3>
+        <p>The remote end SHOULD have a specific command line argument when starting
+          the browser up if it is connecting to a browser
+          (e.g. firefox.exe --webdriver ) and SHOULD have user agent configuration
+           preference that is tested when the user agent starts up
+        <p>When the local end creates a new session the remote end MUST limit 
+        connections to <code>127.0.0.1</code> IPV4 address or <code>::1</code> 
+        IPV6 address. This will prevent new sessions being created without having
+        a specific proxy installed on the remote end.</p>
+        <div class='note'>
+          <p>Some devices will require the device to be placed into a 'developer' mode. 
+          This allows unix sockets to be forwarded on to the device while the device is
+          connected to a host. An example of this is if the local end needed to go through
+           a remote debugger protocol.</p>
+        </div>
+        <p>If any of these fail then a 
+        <code><a href="#status-session-not-created">session not created</a></code> 
+        error MUST be thrown when the local end tries to create a new session.
+      </section>
+      <section>
+        <h3>Fingerprinting</h3>
+        <p>The following will allow web sites to know that the user interacting 
+        with the content is not a real user. This can be used to prevent denial 
+        of service attacks.
+        <p>When the user agent has started up it MUST add a read only property
+        to <code>window.navigator.webdriver</code>. The value should be set to 
+        <code>true</code> when WebDriver is active. When WebDriver is not active
+        then the value is equal to <code>false</code>.
+      </section>
+    </section>
     <section class='appendix'>
       <h2>Mapping to HTTP and JSON</h2>
       <p></p>
