@@ -1,167 +1,167 @@
 <section>
-<h2>Navigation</h2>
+  <h2>Navigation</h2>
   
-<p>Almost all usages of the WebDriver API begin by navigating to a particular URL. This section not only describes the commands used for navigation, but also describes when commands must be processed.</p>
+  <p>Almost all usages of the WebDriver API begin by navigating to a particular URL. This section not only describes the commands used for navigation, but also describes when commands must be processed.</p>
 
-<p>All WebDriver implementations MUST support navigating between different HTTP domains and between HTTPS and HTTP domains if the underlying browser supports this.</p>
+  <p>All WebDriver implementations MUST support navigating between different HTTP domains and between HTTPS and HTTP domains if the underlying browser supports this.</p>
 
-<section>
-<h2 id="page-load-strategies">Page Load Strategies</h2>
+  <section>
+    <h2 id="page-load-strategies">Page Load Strategies</h2>
 
-<table class="simple">
-  <tr>
-    <th>Capability Name</th><th>Type</th>
-  </tr>
-  <tr>
-    <td>pageLoadingStrategy</td><td>DOMString</td>
-  </tr>
-</table>
+    <table class="simple">
+      <tr>
+        <th>Capability Name</th><th>Type</th>
+      </tr>
+      <tr>
+        <td>pageLoadingStrategy</td><td>DOMString</td>
+      </tr>
+    </table>
 
-<p>It is possible to request a particular strategy be used for detecting when the next command should be processed by a remote end implementation by modifying the page load strategy that is used. The following are the expected values that MAY be used when creating a new session:</p>
+    <p>It is possible to request a particular strategy be used for detecting when the next command should be processed by a remote end implementation by modifying the page load strategy that is used. The following are the expected values that MAY be used when creating a new session:</p>
 
-<dl>
-  <dt>conservative</dt>
-  <dd>The remote end MUST wait until all frames and iframes in the window currently being used to process commands
-  that contain an HTML document are at <a href="http://dev.w3.org/html5/spec/single-page.html#current-document-readiness">document.readyState</a> equals 'complete' and there are no outstanding HTTP requests, other than those caused by XMLHttpRequests. If a frame or iframe does not contain an HTML document, the remote end SHOULD wait until all HTTP traffic to that frame is complete. Put in non-normative terms, this implies that the <code>onload</code> event has fired on every frame.</dd>
+    <dl>
+      <dt>conservative</dt>
+      <dd>The remote end MUST wait until all frames and iframes in the window currently being used to process commands
+      that contain an HTML document are at <a href="http://dev.w3.org/html5/spec/single-page.html#current-document-readiness">document.readyState</a> equals 'complete' and there are no outstanding HTTP requests, other than those caused by XMLHttpRequests. If a frame or iframe does not contain an HTML document, the remote end SHOULD wait until all HTTP traffic to that frame is complete. Put in non-normative terms, this implies that the <code>onload</code> event has fired on every frame.</dd>
 
-  <dt>normal</dt>
-  <dd>The remote end MUST wait until the "<code>document.readyState</code>" of the frame currently handling commands equals "<code>complete</code>", or there are no more outstanding network requests other than XMLHttpRequests.</dd>
+      <dt>normal</dt>
+      <dd>The remote end MUST wait until the "<code>document.readyState</code>" of the frame currently handling commands equals "<code>complete</code>", or there are no more outstanding network requests other than XMLHttpRequests.</dd>
 
-  <dt>eager</dt>
-  <dd>The remote end MUST wait until the "<code>document.readyState</code>" of frame currently handling equals "<code>interactive</code>" or "<code>complete</code>", or there are no more outstanding network requests.</dd>
-  
-  <dt>none</dt>
-  <dd>The remote end does not do any checks to see if a page load is currently active.</dd>
-</dl>
+      <dt>eager</dt>
+      <dd>The remote end MUST wait until the "<code>document.readyState</code>" of frame currently handling equals "<code>interactive</code>" or "<code>complete</code>", or there are no more outstanding network requests.</dd>
+      
+      <dt>none</dt>
+      <dd>The remote end does not do any checks to see if a page load is currently active.</dd>
+    </dl>
 
-<p>All WebDriver implementations MUST support the <code>normal</code> and <code>eager</code> modes and SHOULD support the <code>conservative</code> and <code>none</code> modes. If no page loading strategy is chosen, then <code>normal</code> MUST be the default.
-In addition, implementors MAY add additional page loading strategies.</p>
-</section>
+    <p>All WebDriver implementations MUST support the <code>normal</code> and <code>eager</code> modes and SHOULD support the <code>conservative</code> and <code>none</code> modes. If no page loading strategy is chosen, then <code>normal</code> MUST be the default.
+    In addition, implementors MAY add additional page loading strategies.</p>
+  </section>
 
-<section>
-<h2>Navigation Commands</h2>
+  <section>
+    <h2>Navigation Commands</h2>
 
-<p class="note">Conformance tests for this section can be found in the <a href="http://dvcs.w3.org/hg/webdriver-test">webdriver-test module</a> under the "navigation" folder.</p>
+    <p class="note">Conformance tests for this section can be found in the <a href="http://dvcs.w3.org/hg/webdriver-test">webdriver-test module</a> under the "navigation" folder.</p>
 
-<table class="simple">
-	<tr>
-		<td>Command Name</td>
-		<td>get</td>
-	</tr>
-	<tr>
-		<td>Parameters</td>
-		<td>"url" {DOMString} The URL to be navigated to.</td>
-	</tr>
-	<tr>
-	    <td>Return Value</td>
-	    <td>None</td>
-	</tr>
-	<tr>
-	    <td>Errors</td>
-	    <td><code><a href="#status-timeout">timeout</a></code> if the page load takes too long <a href="#timeouts">as specified by the timeouts</a>.</td>
-	</tr>
-</table>
+    <table class="simple">
+    	<tr>
+    		<td>Command Name</td>
+    		<td>get</td>
+    	</tr>
+    	<tr>
+    		<td>Parameters</td>
+    		<td>"url" {DOMString} The URL to be navigated to.</td>
+    	</tr>
+    	<tr>
+    	    <td>Return Value</td>
+    	    <td>None</td>
+    	</tr>
+    	<tr>
+    	    <td>Errors</td>
+    	    <td><code><a href="#status-timeout">timeout</a></code> if the page load takes too long <a href="#timeouts">as specified by the timeouts</a>.</td>
+    	</tr>
+    </table>
 
-<p>The "get" command is used to cause the browser to navigate to a new location, and is named after the HTTP verb. From a user's point of view, this is as if they have entered the "url" into the URL bar. When the command returns is based on the <a href="#page-load-strategies">page load strategy</a> that the user has selected with the following exceptions when the strategy is not "none":
+    <p>The "get" command is used to cause the browser to navigate to a new location, and is named after the HTTP verb. From a user's point of view, this is as if they have entered the "url" into the URL bar. When the command returns is based on the <a href="#page-load-strategies">page load strategy</a> that the user has selected with the following exceptions when the strategy is not "none":
 
-<ul>
-    <li>HTTP redirects MUST be automatically followed without responding to the command.</li>
-    <li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met. When the refresh period is 1 second or less and the page loading strategy is "normal" or "conservative" implementations MUST wait for the refresh to complete before responding.</li>
-    <li>If any modal dialog box, such as those opened by on <code>window.onbeforeunload</code> or <code>window.alert</code>, is opened at any point in the page load, a response MUST be sent.</li>
-    <li>If a 401 response is seen by the browser, a response MUST be sent. That is, if BASIC, DIGEST, NTLM or similar authentication is required, the page load is assumed to be complete. This does not include FORM-based authentication.</li>
-</ul>    
+    <ul>
+        <li>HTTP redirects MUST be automatically followed without responding to the command.</li>
+        <li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met. When the refresh period is 1 second or less and the page loading strategy is "normal" or "conservative" implementations MUST wait for the refresh to complete before responding.</li>
+        <li>If any modal dialog box, such as those opened by on <code>window.onbeforeunload</code> or <code>window.alert</code>, is opened at any point in the page load, a response MUST be sent.</li>
+        <li>If a 401 response is seen by the browser, a response MUST be sent. That is, if BASIC, DIGEST, NTLM or similar authentication is required, the page load is assumed to be complete. This does not include FORM-based authentication.</li>
+    </ul>
 
-<table class="simple">
-  <tr>
-    <td>Command Name</td>
-    <td>goBack</td>
-  </tr>
-  <tr>
-    <td>Parameters</td>
-    <td>None</td>
-  </tr>
-  <tr>
-      <td>Return Value</td>
-      <td>None</td>
-  </tr>
-  <tr>
-      <td>Errors</td>
-      <td><code><a href="#status-timeout">timeout</a></code> if the page load takes too long <a href="#timeouts">as specified by the timeouts</a>.<br />
-      <code><a href="#no-such-window">no such window</a></code> if the window currently receiving commands is no longer open.</td>
-  </tr>
-</table>
+    <table class="simple">
+      <tr>
+        <td>Command Name</td>
+        <td>goBack</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>None</td>
+      </tr>
+      <tr>
+          <td>Return Value</td>
+          <td>None</td>
+      </tr>
+      <tr>
+          <td>Errors</td>
+          <td><code><a href="#status-timeout">timeout</a></code> if the page load takes too long <a href="#timeouts">as specified by the timeouts</a>.<br />
+          <code><a href="#no-such-window">no such window</a></code> if the window currently receiving commands is no longer open.</td>
+      </tr>
+    </table>
 
-<p>The "goBack" command is equivalent to a user hitting the "back" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of -1</a> (as defined in [[!HTML5]]). If a user calls "<code>goBack</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
-</p>
+    <p>The "goBack" command is equivalent to a user hitting the "back" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of -1</a> (as defined in [[!HTML5]]). If a user calls "<code>goBack</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
+    </p>
 
-<table class="simple">
-  <tr>
-    <td>Command Name</td>
-    <td>goForward</td>
-  </tr>
-  <tr>
-    <td>Parameters</td>
-    <td>None</td>
-  </tr>
-  <tr>
-      <td>Return Value</td>
-      <td>None</td>
-  </tr>
-  <tr>
-      <td>Errors</td>
-      <td><code><a href="#status-timeout">timeout</a></code> if the page load takes too long <a href="#timeouts">as specified by the timeouts</a>.<br />
-      <code><a href="#no-such-window">no such window</a></code> if the window currently receiving commands is no longer open.</td>
-  </tr>
-</table>
+    <table class="simple">
+      <tr>
+        <td>Command Name</td>
+        <td>goForward</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>None</td>
+      </tr>
+      <tr>
+          <td>Return Value</td>
+          <td>None</td>
+      </tr>
+      <tr>
+          <td>Errors</td>
+          <td><code><a href="#status-timeout">timeout</a></code> if the page load takes too long <a href="#timeouts">as specified by the timeouts</a>.<br />
+          <code><a href="#no-such-window">no such window</a></code> if the window currently receiving commands is no longer open.</td>
+      </tr>
+    </table>
 
-<p>The "goForward" command is equivalent to a user hitting the "forward" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of +1</a> (as defined in [[!HTML5]]). If a user calls "<code>goForward</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
-</p>
+    <p>The "goForward" command is equivalent to a user hitting the "forward" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of +1</a> (as defined in [[!HTML5]]). If a user calls "<code>goForward</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
+    </p>
 
-<table class="simple">
-  <tr>
-    <td>Command Name</td>
-    <td>refresh</td>
-  </tr>
-  <tr>
-    <td>Parameters</td>
-    <td>None</td>
-  </tr>
-  <tr>
-      <td>Return Value</td>
-      <td>None</td>
-  </tr>
-  <tr>
-      <td>Errors</td>
-      <td><code><a href="#status-timeout">timeout</a></code> if the page reload takes too long <a href="#timeouts">as specified by the timeouts</a>.<br />
-      <code><a href="#no-such-window">no such window</a></code> if the window currently receiving commands is no longer open.</td>
-  </tr>
-</table>
+    <table class="simple">
+      <tr>
+        <td>Command Name</td>
+        <td>refresh</td>
+      </tr>
+      <tr>
+        <td>Parameters</td>
+        <td>None</td>
+      </tr>
+      <tr>
+          <td>Return Value</td>
+          <td>None</td>
+      </tr>
+      <tr>
+          <td>Errors</td>
+          <td><code><a href="#status-timeout">timeout</a></code> if the page reload takes too long <a href="#timeouts">as specified by the timeouts</a>.<br />
+          <code><a href="#no-such-window">no such window</a></code> if the window currently receiving commands is no longer open.</td>
+      </tr>
+    </table>
 
-<p>"refresh" emulates the user hitting the "refresh" or "reload" button in their browser, causing the current page to be reloaded.</p>
+    <p>"refresh" emulates the user hitting the "refresh" or "reload" button in their browser, causing the current page to be reloaded.</p>
 
-<section>
-<h2>Invalid SSL Certificates</h2>
+    <section>
+      <h2>Invalid SSL Certificates</h2>
 
-<table class="simple">
-  <tr><td>Capability Name</td><td>Type</td></tr>
-  <tr><td><span id="capability-securessl">secureSsl</span></td><td>boolean</td></tr>
-</table>
+      <table class="simple">
+        <tr><td>Capability Name</td><td>Type</td></tr>
+        <tr><td><span id="capability-securessl">secureSsl</span></td><td>boolean</td></tr>
+      </table>
 
-<p>WebDriver implementations MUST support users accessing sites served via HTTPS. Access to those sites using self-signed or invalid certificates, and where the certificate does not match the serving domain MUST be the same as if the HTTPS was configured properly.</p>
+      <p>WebDriver implementations MUST support users accessing sites served via HTTPS. Access to those sites using self-signed or invalid certificates, and where the certificate does not match the serving domain MUST be the same as if the HTTPS was configured properly.</p>
 
-<p class="note">The reason for this is that implementations of this spec are often used for testing. It's a sorry fact that many QA engineers and testers are asked to verify that apps work on sites that have insecure HTTPS configurations</p>
+      <p class="note">The reason for this is that implementations of this spec are often used for testing. It's a sorry fact that many QA engineers and testers are asked to verify that apps work on sites that have insecure HTTPS configurations</p>
 
 
-<p>The exception to requirement is if the <code><a href="#capabilities">Capabilities</a></code> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY choose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. Remote end implementations MUST return an <code><a href="#status-unknown-error">unknown error</a></code> status in this case. If this is the case, the <code><a href="#capabilities">Capabilities</a></code> describing the session MUST also set the <code>secureSsl</code> capability to "true".</p>
-</section>  
+      <p>The exception to requirement is if the <code><a href="#capabilities">Capabilities</a></code> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY choose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. Remote end implementations MUST return an <code><a href="#status-unknown-error">unknown error</a></code> status in this case. If this is the case, the <code><a href="#capabilities">Capabilities</a></code> describing the session MUST also set the <code>secureSsl</code> capability to "true".</p>
+    </section>  
 
-</section>
+  </section>
 
-<section>
-<h3>Detecting When to Handle Commands</h3>
+  <section>
+    <h3>Detecting When to Handle Commands</h3>
 
-<p>Commands MUST only be processed when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that page loading is complete.</p>
+    <p>Commands MUST only be processed when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that page loading is complete.</p>
 
-<p>If a remote end receives a new <code>Command</code> for a session while still waiting to finish an existing <code>Command</code> for that session it MAY choose to queue the command for execution as soon as possible, it MAY throw a <code>WebDriverException</code> or it MAY leave the remote end in an inconsistent state. Because of this, local ends SHOULD NOT attempt to send a new <code>Command</code> to a session until the previous <code>Command</code> has returned.</p>
-</section>
+    <p>If a remote end receives a new <code>Command</code> for a session while still waiting to finish an existing <code>Command</code> for that session it MAY choose to queue the command for execution as soon as possible, it MAY throw a <code>WebDriverException</code> or it MAY leave the remote end in an inconsistent state. Because of this, local ends SHOULD NOT attempt to send a new <code>Command</code> to a session until the previous <code>Command</code> has returned.</p>
+  </section>
 </section>
