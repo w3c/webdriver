@@ -140,6 +140,36 @@
     <p>"refresh" emulates the user hitting the "refresh" or "reload" button in their browser, causing the current page to be reloaded.</p>
 
     <section>
+      <h2>Getting Current URL</h2>
+      <p>WebDriver implementations MUST allow the users to be able to get the
+        current URL. In the case of a <a href='http://www.w3.org/TR/html5/browsers.html#nested-browsing-context'>Nested Browsing Context</a> WebDriver should return the [[HTML5]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>.
+        The returned value should be the equivalent to returning <code>document.location.href</code> for the [[HTML5]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>. 
+
+      <table class="simple">
+        <tr>
+          <td>Command Name</td>
+          <td>getCurrentUrl</td>
+        </tr>
+        <tr>
+          <td>Parameters</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>
+            Return Value
+          </td>
+          <td>
+            {DOMString} The URL of the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Errors</td>
+          <td><code><a href="#no-such-window">no such window</a></code> if the window currently receiving commands is no longer open.</td>
+        </tr>
+      </table>
+    </section>
+
+    <section>
       <h2>Invalid SSL Certificates</h2>
 
       <table class="simple">
