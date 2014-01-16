@@ -5,10 +5,19 @@
   <p>In all cases, screenshots MUST be returned as lossless PNG images encoded using Base64. Local ends MUST provide the user with access to the PNG images without requiring the user to decode the Base64. This access MUST be via at least one of a binary blob or a file.</p>
 
   <p>All commands within this section are implemented using the "TakesScreenshot" interface:</p>
-  
+
   <dl class="idl" title="interface TakesScreenshot">
-    <dt>string takeScreenshot()</dt>
-    <dd>Take a screenshot as determined by the CommandName and return a lossless PNG encoded using Base64.</dd>  
+    <dt>DOMString takeScreenshot()</dt>
+    <dd>Take a screenshot as determined by the CommandName and return a lossless PNG encoded using Base64.
+      <p>The possible errors for this command:
+      <ul>
+        <li><code><a href="#unknown-error">unknown error</a></code> if the if the screenshot cannot be taken.</li>
+      </ul>
+      <dl class='parameters'>
+        <dt>optional WebElement? element</dt>
+        <dd>The ID of the WebElement on which to operate. If this argument is not populated or <code>null</code></dd>
+      </dl>
+    </dd>
   </dl>
 
   <section>
@@ -17,27 +26,6 @@
       <tr><th>Capability Name</th><th>Type</th></tr>
       <tr><td><span id="capability-takesScreenshot">takesScreenshot</span></td><td>boolean</td></tr>
     </table>
-
-	<table class="simple">
-    <tr>
-	    <td>Command Name</td>
-	    <td>screenshot</td>
-	  </tr>
-	  <tr>
-	    <td>Parameters</td>
-	    <td>None</td>
-	  </tr>
-	  <tr>
-	    <td>Return Value</td>
-	    <td>{DOMString} A Base64 encoded, lossless PNG of the current window.</td>
-	  </tr>
-	  <tr>
-	    <td>Errors</td>
-	      <td>
-		    WebDriverException if the screenshot cannot be taken.
-	      </td>
-	    </tr>
-	</table>
 
     <p>If this capability is supported, local end MUST add the <code>TakesScreenshot</code> interface to the <code>WebDriver</code> interface.</p>
 
@@ -51,7 +39,6 @@
 
     <p>Remote ends MUST NOT attempt to track changes in window size as the screenshot is being taken. In particular this means that in the case of a page that makes use of "infinite scrolling" (where an AJAX call is used to populate additional content as the user scrolls down) or in some other way resizes content as the window size is changed only the content that was originally contained in the DOM when the command is executed will be captured.</p>
   </section>
-  
   <section>
     <h2>Element</h2>
       <table class="simple">
@@ -59,32 +46,8 @@
         <tr><td><span id="capability-takesElementScreenshot">takesElementScreenshot</span></td><td>boolean</td></tr>
       </table>
 
-  	<table class="simple">
-        <tr>
-  	    <td>Command Name</td>
-  	    <td>takesElementScreenshot</td>
-  	  </tr>
-  	  <tr>
-  	    <td>Parameters</td>
-  	    <td>"id" {DOMString} The ID of the <code>WebElement</code> on which to operate.
-  	    </td>
-  	  </tr>
-  	  <tr>
-  	    <td>Return Value</td>
-  	    <td>{DOMString} A Base64 encoded, lossless PNG of the area contained within the <code>WebElement</code>'s clientBoundingRect.</td>
-  	  </tr>
-  	  <tr>
-  	    <td>Errors</td>
-  	      <td>
-  		    WebDriverException if the screenshot cannot be taken.
-  	      </td>
-  	    </tr>
-  	</table>
-  	
   	<p>If this capability is supported, local end MUST add the <code>TakesScreenshot</code> interface to the <code>WebElement</code> interface.</p>
-  	
     <p>Remote ends SHOULD take a screenshot of the area bounded by the clientBoundingRect of the DOM element represented by the <code>WebElement</code>, returning it as a Base64 encoded, lossless PNG. Local ends MUST make the PNG available directly to the user as at least one of a binary blob or a file. If the remote end cannot capture the entire clientBoundingRect, they MUST scroll as much of the element into the current browser viewport as possible and capture the maximum visible area without additional browser chrome.</p>
-    
     <p>If the <code>WebElement</code> represents a FRAME or IFRAME element, this is equivalent of taking a screenshot of the frame's BODY element.</p>
   </section>
 </section>
