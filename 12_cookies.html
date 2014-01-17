@@ -7,72 +7,47 @@
   and setting a cookie it MUST be in the format of a <code>Cookie</code>.</p>
 
   <section>
-  <p>Retrieving all cookies from the page:</p>
-  <table class="simple">
-    <tr>
-      <td>Command Name</td>
-      <td>getCookies</td>
-    </tr>
-    <tr>
-      <td>Parameters</td>
-      <td>None</td>
-    </tr>
-    <tr>
-      <td>Return Value</td>
-      <td>{DOMString[]} A list of ordinary cookies that are currently visible on the page.</td>
-    </tr>
-  </table>
-  
-  <p>Remote ends MUST return all cookies that are available in <code>document.cookie</code> via Javascript. In addition, remote ends SHOULD return any HTTP-Only cookies that are associated with the current page.</p>
-  
-  </section>
-  <section>
-  <p>Setting a cookie:</p>
-  <table class="simple">
-    <tr>
-      <td>Command Name</td>
-      <td>addCookie</td>
-      </tr>
-      <tr>
-        <td>Parameters</td>
-        <td>"cookie" {object} A <code>Cookie</code> defining the cookie to be added.
-        </td>
-      </tr>
-      <tr>
-        <td>Return Value</td>
-        <td>{object[]} A list of cookies in the <code>Cookie</code> format.</td>
-      </tr>
-      <tr>
-        <td>Throws</td>
-        <td><code><a href="#status-invalid-cookie-domain">invalid cookie domain</a></code> - If the cookie's domain is not visible from the current page.<br />
-            <code><a href="#status-unable-to-set-cookie">unable to set cookie</a></code> - If attempting to set a cookie on a page that does not support cookies (e.g. pages with mime-type text/plain).
-        </td>
-      </tr>
-    </table>
-  </section>
-
-  <section>
     <h2>Cookie</h2>
     <p>When returning Cookie objects, the server SHOULD include all optional fields it is capable of providing the information for.</p>
     
     <dl class="idl" title="interface Cookie">
       <dt>attribute DOMString name</dt>
       <dd>The name of the cookie. This MUST be set.</dd>
-      
       <dt>attribute DOMString value</dt>
       <dd>The cookie value. This MUST be set.</dd>
-    
       <dt>attribute DOMString path</dt>
       <dd>The cookie path. This SHOULD be set or MUST be the null value if unknown.</dd>
-      
       <dt>attribute DOMString domain</dt>
       <dd>The domain the cookie is visible too. This SHOULD be set or MUST be the null value if unknown.</dd>
-      
       <dt>attribute number expiry</dt>
       <dd>When the cookie expires, specified in seconds since midnight, January 1, 1970 UTC. This SHOULD be set or MUST be -1 if unknown.</dd>
-      
       <dt>attribute boolean httpOnly</dt>
       <dd>True if this represents an HTTP-Only cookie, false otherwise. If this value is missing, local ends MUST interpret this as being false.</dd>
+      <dt>sequence&lt;Cookie> getCookie()</dt>
+      <dd>Remote ends MUST return all cookies that are available in document.cookie via Javascript. In addition, remote ends SHOULD return any HTTP-Only cookies that are associated with the current page.
+        Possible errors that can be returned:
+        <ul>
+          <li><code><a href="#status-invalid-cookie-domain">invalid cookie domain</a></code> - If the cookie's domain is not visible from the current page.<br />
+        </ul>
+        <dl class='parameters'>
+          <dt>optional DOMString? name</dt>
+          <dd>The name (e.g. <code>name=</code>) of the cookie that needs to be returned.</dd>
+        </dl>
+      </dd>
+      <dt>void addCookie()</dt>
+      <dd>Set a cookie. If the cookie path is not specified, it should be set to "/". Likewise, if the domain is omitted, it should default to the current page's domain.
+        Possible errors that can be returned:
+        <ul>
+          <li><code><a href="#status-invalid-cookie-domain">invalid cookie domain</a></code> - If the cookie's domain is not visible from the current page.<br />
+          <li><a href='#status-unable-to-set-cookie'>unable to set cookie</a> If attempting to set a cookie on a page that does not support cookies (e.g. pages with mime-type text/plain)
+        </ul>
+        <dl>
+          <dt>Cookie cookie</dt>
+          <dd>
+            A <code>Cookie</code> defining the cookie to be added. If the cookie exists already on the page update it with the relevant details.
+            If a cookie is to be deleted set the expiration date in the past.
+          </dd>
+        </dl>
     </dl>
   </section>
 </section>
