@@ -3,32 +3,23 @@
   <p>This section describes how timeouts and implicit waits are handled within WebDriver</p>
   <section>
     <p>The "timeouts" command is used to set the value of a timeout that a command can execute
-     for.</p> 
-    <table class="simple">
-      <tr>
-        <td>Command Name</td>
-        <td>timeouts</td>
-      </tr>
-      <tr>
-        <td>Parameters</td>
-        <td>"type" {DOMString} The type of operation to set the timeout for. Valid values are: "implicit", "page load", "script"<br>
-            "ms" - {number} The amount of time, in milliseconds, that time-limited commands are permitted to run.
-        </td>
-      </tr>
-      <tr>
-        <td>Return Value</td>
-        <td>None</td>
-      </tr>
-      <tr>
-        <td>Errors</td>
-        <td>None</td>
-      </tr>
-    </table>
-    <ul>
-      <li>implicit - Set the amount of time the driver should wait when searching for elements. When searching for a single element, the driver should poll the page until an element is found or the timeout expires, whichever occurs first. When searching for multiple elements, the driver should poll the page until at least one element is found or the timeout expires, at which point it should return an empty list.<br>
-      If this command is never sent, the driver MUST default to an implicit wait of 0ms.</li>
-      <li>page load - Set the amount of time the driver should wait before returning when the <a href="#page-load-strategies-1">page load stratgey</a> is not "<code>none</code>". If this limit is exceeded, the <code>get()</code> command MUST return a "<code><a href="#status-timeout">timeout</a></code>" response status.</li>
-      <li>script - Set the amount of time the driver should wait when scripts are loading on to the page. </li>
-    </ul>
+     for.</p>
+     <dl class='idl' title='interface Timouts'>
+       <dt>void timeouts()</dt>
+       <dd>
+        <ul>
+          <li>implicit - Set the amount of time the driver should wait when searching for elements. When searching for a single element, the driver should poll the page until an element is found or the timeout expires, whichever occurs first. When searching for multiple elements, the driver should poll the page until at least one element is found or the timeout expires, at which point it should return an empty list.<br>
+          If this command is never sent, the driver MUST default to an implicit wait of 0ms.</li>
+          <li>page load - Set the amount of time the driver should wait before returning when the <a href="#page-load-strategies-1">page load stratgey</a> is not "<code>none</code>". If this limit is exceeded, the <code>get()</code> command MUST return a "<code><a href="#status-timeout">timeout</a></code>" response status.</li>
+          <li>script - Set the amount of time the driver should wait when scripts are loading on to the page. </li>
+        </ul>
+        <dl class='parameters'>
+          <dt>DOMString type</dt>
+          <dd>The type of operation to set the timeout for. Valid values are: "implicit", "page load", "script"</dd>
+          <dt>number ms</dt>
+          <dd>The amount of time, in milliseconds, that time-limited commands are permitted to run.</dd>
+        </dl>
+      </dd>
+    </dl>
   </section>
 </section>
