@@ -1139,31 +1139,21 @@ code a:visited, code a:link {
             # So other deep magic of the unseen ages.
       </pre>
   </div>
-    <table class="simple">
-      <tr>
-        <td>Command Name</td>
-        <td>isDisplayed</td>
-      </tr>
-      <tr>
-        <td>Parameters</td>
-        <td>"id" {DOMString} The ID of the WebElement on which to operate.
-        </td>
-      </tr>
-      <tr>
-        <td>Return Value</td>
-        <td>{boolean} Whether the element is shown.</td>
-      </tr>
-      <tr>
-        <td>Errors</td>
-        <td><code><a href="#status-stale-element-reference">stale element reference</a></code> if the element referenced is no longer attached to the DOM.</td>
-      </tr>
-    </table>
-    <p>
-      If <code>isDisplayed</code> returns true, then the element MUST also be <a href="#interactable-elements">interactable</a> should it meet the other criteria for being interactable. If any part of the BODY can be brought into the current viewport, this MUST return true.
-    </p>
-    <div class="note">
-      <p>This implies that <code>isDisplayed</code> MUST return true if the centre of the element could be brought into the viewport. The exception to this would be the BODY element, which is generally assumed to always be displayed by users of the WebDriver spec. It is possible to interact with elements which may not have the centre point brought into the viewport by using the <a href="#low-level-commands">low level commands</a>. This means that if any part of the element could be brought into the viewport by user action and its position could be used by low-level commands then a WebDriver implementation MAY return true.</p>
-    </div>
+    <dl class='idl' title='partial interface WebElement'>
+      <dt>boolean isDisplayed()</dt>
+      <dd>If <code>isDisplayed</code> returns true, then the element MUST also be
+        <a href="#interactable-elements">interactable</a> should it meet the other criteria for being interactable. If any part of the BODY can be brought into the current viewport, this MUST return true.
+        <div class="note">
+          <p>This implies that <code>isDisplayed</code> MUST return true if the centre of the element could be brought into the viewport. The exception to this would be the BODY element, which is generally assumed to always be displayed by users of the WebDriver spec. It is possible to interact with elements which may not have the centre point brought into the viewport by using the <a href="#low-level-commands">low level commands</a>. This means that if any part of the element could be brought into the viewport by user action and its position could be used by low-level commands then a WebDriver implementation MAY return true.</p>
+        </div>
+        <dl class='parameters'>
+          <dt>DOMString id</dt>
+          <dd>The ID of the WebElement. If the element is no longer attached to the document then a
+            <code><a href="#status-stale-element-reference">stale element reference</a></code>
+            MUST be raised.</dd>
+        </dl>
+      </dd>
+    </dl>
   </section>
 
   <section>
@@ -1174,121 +1164,108 @@ code a:visited, code a:link {
           <li>If the DOM node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!HTML5]] determines whether the element is selected.</li>
           <li>Otherwise, the value of the DOM node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!HTML5]].</li>
       </ol>
-    <table class="simple">
-      <tr>
-        <td>Command Name</td>
-        <td>isSelected</td>
-      </tr>
-      <tr>
-        <td>Parameters</td>
-        <td>"id" {string} The ID of the WebElement on which to operate.
-        </td>
-      </tr>
-      <tr>
-        <td>Return Value</td>
-        <td>{boolean} Whether the element is selected, according to the above algorithm.</td>
-      </tr>
-      <tr>
-        <td>Errors</td>
-        <td><code><a href="#status-stale-element-reference">stale element reference</a></code> if the element referenced is no longer attached to the DOM.</td>
-      </tr>
-    </table>
+    <dl class='idl' title='partial interface WebElement'>
+      <dt>boolean isSelected()</dt>
+      <dd><p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
+        <ol>
+          <li id="is_selectable">If the item is not "<code title="selectable">selectable</code>", the WebElement is not selected. A <dfn id="selectable" title="selectable">selectable</dfn> element is either an OPTION element or an INPUT element of type "<a href="http://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)">checkbox</a>" or "<a href="http://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)">radio</a>".</li>
+          <li>If the DOM node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!HTML5]] determines whether the element is selected.</li>
+          <li>Otherwise, the value of the DOM node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!HTML5]].</li>
+        </ol>
+        <dl class='parameters'>
+          <dt>DOMString id</dt>
+          <dd>The ID of the WebElement. If the element is no longer attached to the document then a
+            <code><a href="#status-stale-element-reference">stale element reference</a></code>
+            MUST be raised.</dd>
+        </dl>
+      </dd>
+    </dl>
   </section>
 
   <section>
     <h2 name="attributes-and-properties">Reading Attributes and Properties</h2>
-
-    <table class="simple">
-      <tr>
-        <td>Command Name</td>
-        <td>getElementAttribute</td>
-      </tr>
-      <tr>
-        <td>Parameters</td>
-        <td>"id" {DOMString} The ID of the WebElement on which to operate.<br>
-            "name" {DOMString} The name of the property of attribute to return.</td>
-      </tr>
-      <tr>
-          <td>Return Value</td>
-          <td>{DOMString|null} The value returned by the above algorithm, coerced to a nullable string, or null if no value is defined.</td>
-      </tr>
-      <tr>
-          <td>Errors</td>
-          <td><code><a href="#status-stale-element-reference">stale element reference</a></code> If the element is no longer attached to the DOM.</td>
-      </tr>
-    </table>
-
     <p>Although the [[!HTML5]] spec is very clear about the difference between the properties and attributes of a DOM element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning either of the value of a DOM element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
+    <dl class='idl' title='interface WebElement'>
+      <dt>DOMString getElementAttribute()</dt>
+      <dd>
+        <p>The algorithm to implement this MUST be (where <code>name</code> refers to the <code>name</code> parameter of the <code>getElementAttribute</code> command):</p>
 
-    <p>The algorithm to implement this MUST be (where <code>name</code> refers to the <code>name</code> parameter of the <code>getElementAttribute</code> command):</p>
-
-    <ol>
-      <li>If <code>name</code> case insensitively matches "style", the value returned MUST be <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM-VIEW]] spec. Notably, css property names MUST be cased the same as specified in in section 6.5.1 of the [[!CSSOM-VIEW]] spec.
-        <ul>
-          <li>It SHOULD be equivalent to obtaining the "cssText" property, with the additional constraint that the same value MUST be returned after a round trip through "executeScript". That is, the following pseudo-code MUST be true (where "driver" is a WebDriver instance, and "element" is a WebElement):
+        <ol>
+          <li>If <code>name</code> case insensitively matches "style", the value returned MUST be <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM-VIEW]] spec. Notably, css property names MUST be cased the same as specified in in section 6.5.1 of the [[!CSSOM-VIEW]] spec.
+            <ul>
+              <li>It SHOULD be equivalent to obtaining the "cssText" property, with the additional constraint that the same value MUST be returned after a round trip through "executeScript". That is, the following pseudo-code MUST be true (where "driver" is a WebDriver instance, and "element" is a WebElement):
 <pre class="code">
 var style = element.getAttribute('style');
 driver.executeScript('arguments[0].style = arguments[1]', element, style);
 var recovered = element.getAttribute('style');
 assertEquals(style, recovered);
 </pre>
+              </li>
+              <li>Color property values MUST be standardized to rgba format, matching the regular expression: <code>rgba(\d+,\s*\d+,\s*\d+\s*(,\s*(1|0(\.\d+)?)))</code>.</li>
+            </ul>
           </li>
-          <li>Color property values MUST be standardized to rgba format, matching the regular expression: <code>rgba(\d+,\s*\d+,\s*\d+\s*(,\s*(1|0(\.\d+)?)))</code>.</li>
-        </ul></li>
-      <li>If the result of a Javascript call to "<code><a href="https://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html/#dom-element-hasattribute">hasAttribute(name)</a></code>" (as defined in [[!DOM4]]) returns true:
-        <ol>
-          <li>Store the result of the Javascript call to "<code><a href="https://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html/#dom-element-getattribute">getAttribute(name)</a></code>" in <code>result</code></li>
-          <li>If the attribute <code>name</code> is defined as a <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/#boolean-attribute">boolean attribute</a>, the string 'true' MUST be returned if <code>result</code> is true, or null otherwise</li>
-          <li>Otherwise, fall through to the <a href="#attribute-final-step">final step</a> in this algorithm.</li>
-        </ol>
-      </li>
-      <li>If the element is an OPTION element and <code>name</code> case insensitively matches "value":
-        <ol>
-          <li>If a Javascript call to <code>hasAttribute(name)</code> returns true, then the result of a Javascript call to <code>getAttribute(name)</code> MUST be returned.</li>
-          <li>Otherwise, the text content of the OPTION, as returned by a call to <code><a href="#getelementtext">getElementText</a></code>, MUST be returned.</li>
-        </ol>
-      </li>
-      <li>If the element is <a href="#is_selectable">selectable</a> and <code>name</code> case insensitively matches "selected", and the element in an INPUT element of type "checkbox" or "radio", the string "true" MUST be returned if the element is <a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checked</a> or null otherwise.</li>
-      <li>If the value is expected to be a URL, return the property named <code>name</code>, i.e. a fully resolved URL. A non-normative set of these properties is given below:
-        <table class="simple">
-            <tr>
+          <li>If the result of a Javascript call to "<code><a href="https://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html/#dom-element-hasattribute">hasAttribute(name)</a></code>" (as defined in [[!DOM4]]) returns true:
+            <ol>
+              <li>Store the result of the Javascript call to "<code><a href="https://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html/#dom-element-getattribute">getAttribute(name)</a></code>" in <code>result</code></li>
+              <li>If the attribute <code>name</code> is defined as a <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/#boolean-attribute">boolean attribute</a>, the string 'true' MUST be returned if <code>result</code> is true, or null otherwise</li>
+              <li>Otherwise, fall through to the <a href="#attribute-final-step">final step</a> in this algorithm.</li>
+            </ol>
+          </li>
+          <li>If the element is an OPTION element and <code>name</code> case insensitively matches "value":
+            <ol>
+              <li>If a Javascript call to <code>hasAttribute(name)</code> returns true, then the result of a Javascript call to <code>getAttribute(name)</code> MUST be returned.</li>
+              <li>Otherwise, the text content of the OPTION, as returned by a call to <code><a href="#getelementtext">getElementText</a></code>, MUST be returned.</li>
+            </ol>
+          </li>
+          <li>If the element is <a href="#is_selectable">selectable</a> and <code>name</code> case insensitively matches "selected", and the element in an INPUT element of type "checkbox" or "radio", the string "true" MUST be returned if the element is <a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checked</a> or null otherwise.</li>
+          <li>If the value is expected to be a URL, return the property named <code>name</code>, i.e. a fully resolved URL. A non-normative set of these properties is given below:
+            <table class="simple">
+              <tr>
                 <th>Tag name</th>
                 <th>"name" value</th>
-            </tr>
-            <tr>
+              </tr>
+              <tr>
                 <td>A</td>
                 <td>href</td>
-            </tr>
-            <tr>
+              </tr>
+              <tr>
                 <td>IMG</td>
                 <td>src</td>
-            </tr>
-        </table>
-      </li>
-      <li>If <code>name</code> is in the table below, and the above stages have not yielded a defined, non-null value, the value of the aliased attribute in the table MUST be used as the argument to a recursive call to <code>getElementAttribute</code> and the result returned. This is to allow for common mis-captitalizations:
-        <table class="simple">
-          <tr>
-            <th>Original property name</th>
-            <th>Aliased property name</th>
-          </tr>
-          <tr>
-            <td>class</td>
-            <td>className</td>
-          </tr>
-          <tr>
-            <td>readonly</td>
-            <td>readOnly</td>
-          </tr>
-        </table>
-      </li>
-      <li id="attribute-final-step">Finally, attempt the following steps in order, ceasing when one returns a value:
-        <ol>
-          <li>Attempt to determine the property of the element with the given <code>name</code>. If this is defined and is not an object, then the named property of the object coerced to a string MUST be returned.</li>
-          <li> If a Javascript call to "<code>hasAttribute(name)</code>" returns "true", the result of a Javascript call to "<code>getAttribute(name)</code>" MUST be returned.</li>
-          <li>The null value MUST be returned.</li>
+              </tr>
+            </table>
+          </li>
+          <li>If <code>name</code> is in the table below, and the above stages have not yielded a defined, non-null value, the value of the aliased attribute in the table MUST be used as the argument to a recursive call to <code>getElementAttribute</code> and the result returned. This is to allow for common mis-captitalizations:
+            <table class="simple">
+              <tr>
+                <th>Original property name</th>
+                <th>Aliased property name</th>
+              </tr>
+              <tr>
+                <td>class</td>
+                <td>className</td>
+              </tr>
+              <tr>
+                <td>readonly</td>
+                <td>readOnly</td>
+              </tr>
+            </table>
+          </li>
+          <li id="attribute-final-step">Finally, attempt the following steps in order, ceasing when one returns a value:
+            <ol>
+              <li>Attempt to determine the property of the element with the given <code>name</code>. If this is defined and is not an object, then the named property of the object coerced to a string MUST be returned.</li>
+              <li> If a Javascript call to "<code>hasAttribute(name)</code>" returns "true", the result of a Javascript call to "<code>getAttribute(name)</code>" MUST be returned.</li>
+              <li>The null value MUST be returned.</li>
+            </ol>
+          </li>
         </ol>
-      </li>
-    </ol>
+        <dl class='parameters'>
+          <dt>DOMString id</dt>
+          <dd>The ID of the WebElement on which to operate.</dd>
+          <dt>DOMString name</dt>
+          <dd>The name of the property or attribute to return.</dd>
+        </dl>
+      </dd>
+    </dl>
   </section>
   <section>
    <h2>Rendering Text</h2>
