@@ -6,88 +6,32 @@
       <p>When the remote end is has a modal dialog such as those produced from <code>window.alert</code>, 
       <code>window.prompt</code> and <code>window.confirm</code> it should allow the interrogation of the 
       dialogues as using the following interface.</p>
-      
-      <table class="simple">
-        <tr>
-          <td>Command</td>
-          <td>dismiss()</td>
-        </tr>
-        <tr>
-          <td>Parameters</td>
-          <td>None</td>
-        </tr>
-        <tr>
-          <td>Return Value</td>
-          <td>None</td>
-        </tr>
-        <tr>
-          <td>Errors</td>
-          <td><code><a href="#status-no-such-alert">no such alert error</a></code> if no alert is present.</td>
-        </tr>
-      </table>
-      <p>This will dismiss the modal. If the modal is an alert, this MUST be equivalent to calling <code>accept()</code> on the dialog
-      <table class='simple'>
-        <tr>
-          <td>Command</td>
-          <td>accept()</td>
-        </tr>
-        <tr>
-          <td>Parameters</td>
-          <td>None</td>
-        </tr>
-        <tr>
-          <td>Return Value</td>
-          <td>None</td>
-        </tr>
-        <tr>
-          <td>Errors</td>
-          <td><code><a href="#status-no-such-alert">no such alert error</a></code> if no alert is present.</td>
-        </tr>
-      </table>
-      <p>This will accept the modal
-      <table class='simple'>
-        <tr>
-          <td>Command</td>
-          <td>getText()</td>
-        </tr>
-        <tr>
-          <td>Parameters</td>
-          <td>None</td>
-        </tr>
-        <tr>
-          <td>Return Value</td>
-          <td>DOMString</td>
-        </tr>
-        <tr>
-          <td>Errors</td>
-          <td><code><a href="#status-no-such-alert">no such alert error</a></code> if no alert is present.</td>
-        </tr>
-      </table>
-      <p>This will return the text that is currently in the modal.
-      <table class='simple'>
-        <tr>
-          <td>Command</td>
-          <td>sendKeys()</td>
-        </tr>
-        <tr>
-          <td>Parameters</td>
-          <td>DOMString keysToSend</td>
-        </tr>
-        <tr>
-          <td>Return Value</td>
-          <td>None</td>
-        </tr>
-        <tr>
-          <td>Errors</td>
-          <td><code><a href='#status-element-not-visible'>element not visible error</a></code> if the modal
-           has no means for text input<br>
-          <code><a href="#status-no-such-alert">no such alert error</a></code> if no alert is present.</td>
-
-        </tr>
-      </table>
-      <p>This MUST act in the same manner as in
-        <a href='#widl-WebElement-sendKeys-void-stringArray-keysToSend'>sendKeys</a> to an element.
-        If the modal has no means for text input it should throw a <code><a href='#status-element-not-visible'>Element not visible error</a></code>
+      <dl class="idl" title="interface Alerts">
+        <dt>void dismiss()</dt>
+        <dd>This will dismiss the modal. If the modal is an alert, this MUST be 
+          equivalent to calling <code>accept()</code> on the dialog. If no alert
+           is present a <code><a href="#status-no-such-alert">no such alert error</a>
+         </code> MUST be raised.</dd>
+        <dt>void accept()</dt>
+        <dd>This will accept the modal. If the modal is from a <code>window.prompt</code>
+         it is the equivalent of clicking the OK button. If no modal is present then a
+          <code><a href="#status-no-such-alert">no such alert error</a></code>
+           MUST be raised.</dd>
+        <dt>DOMString getText()</dt>
+        <dd>This will return the text that is currently in the modal.</dd>
+        <dt>void sendKeys()</dt>
+        <dd>This MUST act in the same manner as in
+          <a href='#widl-WebElement-sendKeys-void-stringArray-keysToSend'>sendKeys</a> to an element.
+          If the modal has no means for text input it should throw a <code><a href='#status-element-not-visible'>
+          Element not visible error</a></code>. If no modal is present then a <a href="#status-no-such-alert">
+          no such alert error</a></code> MUST be raised.
+          <dl class='parameters'>
+            <dt>DOMString keysToSend</dt>
+            <dd>Keys to send to the modal. If the modal has no means of acceptiing text input
+             it MUST raise a <code><a href='#status-element-not-visible'>element not visible error</a></code></dd>
+          </dl>
+        </dd>
+      </dl>
       <p>If a modal dialog is created from a <code>onbeforeunload</code> event the remote end MUST handle the 
         dialog by either using <code>accept</code> or <code>dismiss</code>. These calls should either come from 
         the local end or should be handled as an unexpected modal dialog as described below.
