@@ -484,7 +484,6 @@ code a:visited, code a:link {
 </section>
 <section>
   <h2>Navigation</h2>
-  
   <p>Almost all usages of the WebDriver API begin by navigating to a particular URL. This section not only describes the commands used for navigation, but also describes when commands must be processed.</p>
 
   <p>All WebDriver implementations MUST support navigating between different HTTP domains and between HTTPS and HTTP domains if the underlying browser supports this.</p>
@@ -503,7 +502,7 @@ code a:visited, code a:link {
 
     <p>It is possible to request a particular strategy be used for detecting when the next command should be processed by a remote end implementation by modifying the page load strategy that is used. The following are the expected values that MAY be used when creating a new session:</p>
 
-    <dl>
+    <dl title='enum PageLoadingStrategy' class='idl'>
       <dt>conservative</dt>
       <dd>The remote end MUST wait until all frames and iframes in the window currently being used to process commands
       that contain an HTML document are at <a href="http://dev.w3.org/html5/spec/single-page.html#current-document-readiness">document.readyState</a> equals 'complete' and there are no outstanding HTTP requests, other than those caused by XMLHttpRequests. If a frame or iframe does not contain an HTML document, the remote end SHOULD wait until all HTTP traffic to that frame is complete. Put in non-normative terms, this implies that the <code>onload</code> event has fired on every frame.</dd>
@@ -513,7 +512,6 @@ code a:visited, code a:link {
 
       <dt>eager</dt>
       <dd>The remote end MUST wait until the "<code>document.readyState</code>" of frame currently handling equals "<code>interactive</code>" or "<code>complete</code>", or there are no more outstanding network requests.</dd>
-      
       <dt>none</dt>
       <dd>The remote end does not do any checks to see if a page load is currently active.</dd>
     </dl>
@@ -527,131 +525,53 @@ code a:visited, code a:link {
 
     <p class="note">Conformance tests for this section can be found in the <a href="http://dvcs.w3.org/hg/webdriver-test">webdriver-test module</a> under the "navigation" folder.</p>
 
-    <table class="simple">
-    	<tr>
-    		<td>Command Name</td>
-    		<td>get</td>
-    	</tr>
-    	<tr>
-    		<td>Parameters</td>
-    		<td>"url" {DOMString} The URL to be navigated to.</td>
-    	</tr>
-    	<tr>
-    	    <td>Return Value</td>
-    	    <td>None</td>
-    	</tr>
-    	<tr>
-    	    <td>Errors</td>
-    	    <td><code><a href="#status-timeout">timeout</a></code> if the page load takes too long <a href="#timeouts">as specified by the timeouts</a>.</td>
-    	</tr>
-    </table>
+    <dl class='idl' title='interface WebDriver'>
+      <!-- get() -->
+      <dt>void get()</dt>
+      <dd>
+        <p>The "get" command is used to cause the browser to navigate to a new location, and is named after the HTTP verb. From a user's point of view, this is as if they have entered the "url" into the URL bar. When the command returns is based on the <a href="#page-load-strategies">page load strategy</a> that the user has selected with the following exceptions when the strategy is not "none":
 
-    <p>The "get" command is used to cause the browser to navigate to a new location, and is named after the HTTP verb. From a user's point of view, this is as if they have entered the "url" into the URL bar. When the command returns is based on the <a href="#page-load-strategies">page load strategy</a> that the user has selected with the following exceptions when the strategy is not "none":
+        <ul>
+          <li>HTTP redirects MUST be automatically followed without responding to the command.</li>
+          <li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met. When the refresh period is 1 second or less and the page loading strategy is "normal" or "conservative" implementations MUST wait for the refresh to complete before responding.</li>
+          <li>If any modal dialog box, such as those opened by on <code>window.onbeforeunload</code> or <code>window.alert</code>, is opened at any point in the page load, a response MUST be sent.</li>
+          <li>If a 401 response is seen by the browser, a response MUST be sent. That is, if BASIC, DIGEST, NTLM or similar authentication is required, the page load is assumed to be complete. This does not include FORM-based authentication.</li>
+        </ul>
+        <dl class='parameters'>
+          <dt>DOMString url</dt>
+          <dd>URL that the browser will navigate to</dd>
+        </dl>
+      </dd>
 
-    <ul>
-        <li>HTTP redirects MUST be automatically followed without responding to the command.</li>
-        <li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met. When the refresh period is 1 second or less and the page loading strategy is "normal" or "conservative" implementations MUST wait for the refresh to complete before responding.</li>
-        <li>If any modal dialog box, such as those opened by on <code>window.onbeforeunload</code> or <code>window.alert</code>, is opened at any point in the page load, a response MUST be sent.</li>
-        <li>If a 401 response is seen by the browser, a response MUST be sent. That is, if BASIC, DIGEST, NTLM or similar authentication is required, the page load is assumed to be complete. This does not include FORM-based authentication.</li>
-    </ul>
+      <!-- getCurrentUrl() -->
+      <dt>DOMString getCurrentUrl()</dt>
+      <dd>
+        <p>WebDriver implementations MUST allow the users to be able to get the
+          current URL. In the case of a <a href='http://www.w3.org/TR/html5/browsers.html#nested-browsing-context'>Nested Browsing Context</a> WebDriver should return the [[HTML5]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>.
+          The returned value should be the equivalent to returning <code>document.location.href</code> for the [[HTML5]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>. 
+        <p>If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> MUST be raised.
+      </dd>
 
-    <table class="simple">
-      <tr>
-        <td>Command Name</td>
-        <td>goBack</td>
-      </tr>
-      <tr>
-        <td>Parameters</td>
-        <td>None</td>
-      </tr>
-      <tr>
-          <td>Return Value</td>
-          <td>None</td>
-      </tr>
-      <tr>
-          <td>Errors</td>
-          <td><code><a href="#status-timeout">timeout</a></code> if the page load takes too long <a href="#timeouts">as specified by the timeouts</a>.<br />
-          <code><a href="#no-such-window">no such window</a></code> if the window currently receiving commands is no longer open.</td>
-      </tr>
-    </table>
+      <!-- goBack() -->
+      <dt>void goBack()</dt>
+      <dd>
+        <p>The "goBack" command is equivalent to a user hitting the "back" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of -1</a> (as defined in [[!HTML5]]). If a user calls "<code>goBack</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
+        </p>
+        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> MUST be raised. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> MUST be raised.
+      </dd>
+      <dt>void goForward()</dt>
+      <dd>
+        <p>The "goForward" command is equivalent to a user hitting the "forward" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of +1</a> (as defined in [[!HTML5]]). If a user calls "<code>goForward</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
+        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> MUST be raised. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> MUST be raised
+      </dd>
 
-    <p>The "goBack" command is equivalent to a user hitting the "back" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of -1</a> (as defined in [[!HTML5]]). If a user calls "<code>goBack</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
-    </p>
-
-    <table class="simple">
-      <tr>
-        <td>Command Name</td>
-        <td>goForward</td>
-      </tr>
-      <tr>
-        <td>Parameters</td>
-        <td>None</td>
-      </tr>
-      <tr>
-          <td>Return Value</td>
-          <td>None</td>
-      </tr>
-      <tr>
-          <td>Errors</td>
-          <td><code><a href="#status-timeout">timeout</a></code> if the page load takes too long <a href="#timeouts">as specified by the timeouts</a>.<br />
-          <code><a href="#no-such-window">no such window</a></code> if the window currently receiving commands is no longer open.</td>
-      </tr>
-    </table>
-
-    <p>The "goForward" command is equivalent to a user hitting the "forward" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of +1</a> (as defined in [[!HTML5]]). If a user calls "<code>goForward</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
-    </p>
-
-    <table class="simple">
-      <tr>
-        <td>Command Name</td>
-        <td>refresh</td>
-      </tr>
-      <tr>
-        <td>Parameters</td>
-        <td>None</td>
-      </tr>
-      <tr>
-          <td>Return Value</td>
-          <td>None</td>
-      </tr>
-      <tr>
-          <td>Errors</td>
-          <td><code><a href="#status-timeout">timeout</a></code> if the page reload takes too long <a href="#timeouts">as specified by the timeouts</a>.<br />
-          <code><a href="#no-such-window">no such window</a></code> if the window currently receiving commands is no longer open.</td>
-      </tr>
-    </table>
-
-    <p>"refresh" emulates the user hitting the "refresh" or "reload" button in their browser, causing the current page to be reloaded.</p>
-
-    <section>
-      <h2>Getting Current URL</h2>
-      <p>WebDriver implementations MUST allow the users to be able to get the
-        current URL. In the case of a <a href='http://www.w3.org/TR/html5/browsers.html#nested-browsing-context'>Nested Browsing Context</a> WebDriver should return the [[HTML5]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>.
-        The returned value should be the equivalent to returning <code>document.location.href</code> for the [[HTML5]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>. 
-
-      <table class="simple">
-        <tr>
-          <td>Command Name</td>
-          <td>getCurrentUrl</td>
-        </tr>
-        <tr>
-          <td>Parameters</td>
-          <td>None</td>
-        </tr>
-        <tr>
-          <td>
-            Return Value
-          </td>
-          <td>
-            {DOMString} The URL of the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>
-          </td>
-        </tr>
-        <tr>
-          <td>Errors</td>
-          <td><code><a href="#no-such-window">no such window</a></code> if the window currently receiving commands is no longer open.</td>
-        </tr>
-      </table>
-    </section>
+      <!-- refresh() -->
+      <dt>void refresh()</dt>
+      <dd>
+        <p>"refresh" emulates the user hitting the "refresh" or "reload" button in their browser, causing the current page to be reloaded.</p>
+        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> MUST be raised. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> MUST be raised
+      </dd>x
+    </dl>
 
     <section>
       <h2>Invalid SSL Certificates</h2>
