@@ -1181,114 +1181,78 @@ assertEquals(style, recovered);
          </li>
          <li>Otherwise WebDriver implementations MAY throw an <code><a href="#status-unknown-error">unknown error</a></code> indicating the index of the unhandled parameter but SHOULD attempt to convert the value into a dictionary.</li>
      </ol>
-     
   <section>
   <h2>Synchronous Javascript Execution</h2>
-  
-  <table class="simple">
-    <tr>
-      <td>Command Name</td>
-      <td>executeScript</td>
-    </tr>
-    <tr>
-      <td>Parameters</td>
-      <td>"script" {DOMString} The script to execute.<br/>
-          "args" {Argument[]} The script arguments.
-      </td>
-    </tr>
-    <tr>
-      <td>Return Value</td>
-      <td>{Argument} The value returned by the script, or null.</td>
-    </tr>
-    <tr>
-      <td>Errors</td>
-      <td>
-          <code><a href="#status-javascript-error">javascript error</a></code> if the executing script threw an exception.<br />
-          <code><a href="#status-stale-element-reference">stale element reference</a></code> if a WebElement referenced is no longer attached to the DOM.<br/>
-          <code><a href="#status-unknown-error">unknown error</a></code> if an argument or the return value is of an unhandled type.
-      </td>
-    </tr>
-  </table>
-  
-  <p>When executing JavaScript, the WebDriver implementations MUST use the following algorithm:
-  <ol>
-    <li>Let <code>window</code> be the <a href="http://www.w3.org/TR/Window/">Window</a> object for WebDriver's current <a href="#where-commands-are-handled">command context</a>.
-    <li>Let <code>script</code> be the DOMString from the command's <code>script</code> parameter.
-    <li>Let <code>fn</code> be the Function object created by executing <code>new Function(script);</code>
-    <li>Let <code>args</code> be the JavaScript array created by the pre-processing algorithm defined <a href="#JS-args-preprocess">above</a>.
-    <li>Invoke <code>fn.apply(window, args);</code>
-    <li>If the previous step errors then:
+  <dl class='idl' title='partial interface JavaScriptExecutor'>
+    <dt>Argument? executeScript()</dt>
+    <dd>
+      <dl class='parameters'>
+          <dt> DOMString script</dt>
+          <dd>The script to execute.</dd>
+          <dt>sequence&lt;Argument> args</dt>
+          <dd>The script arguments.</dd>
+      </dl>
+      <p>When executing JavaScript, the WebDriver implementations MUST use the following algorithm:
       <ol>
-        <li>Let <code>error</code> be the thrown value.
-        <li>Set the response's status <a href="#attributes-1">status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.
-        <li>Set the response value to a dictionary, <code>dict</code>.
-        <li>If <code>error</code> is an Error, then set a "message" entry in <code>dict</code> whose value is the DOMString defined by <code>error.message</code>.
-        <li>Otherwise, set a "message" entry in <code>dict</code> whose value is the DOMString representation of <code>error</code>.
-      </ol>
-    <li>Otherwise:
-      <ol>
-        <li>Let <code>result</code> be the value returned by the function in step #5.
-        <li>Set the command's response <a href="#attributes-1">status</a> to <code><a href="#status-success">success</a></code>.
-        <li>Let <code>value</code> be the result of the following algorithm:
+        <li>Let <code>window</code> be the <a href="http://www.w3.org/TR/Window/">Window</a> object for WebDriver's current <a href="#where-commands-are-handled">command context</a>.
+        <li>Let <code>script</code> be the DOMString from the command's <code>script</code> parameter.
+        <li>Let <code>fn</code> be the Function object created by executing <code>new Function(script);</code>
+        <li>Let <code>args</code> be the JavaScript array created by the pre-processing algorithm defined <a href="#JS-args-preprocess">above</a>.
+        <li>Invoke <code>fn.apply(window, args);</code>
+        <li>If the previous step errors then:
           <ol>
-            <li>If <code>result</code> is:
-              <ol>
-                <li><code>undefined</code> or <code>null</code>, return <code> null</code>.
-                <li>a number, boolean, or DOMString, return <code>result</code>.
-                <li>a DOMElement, then return the corresponding WebElement for that DOMElement.
-                <!-- Should there be a recursion limit? -->
-                <li>a <code>Sequence &lt;Node&gt; nodes</code>, then return the result of recursively applying this algorithm to <code>result</code>.
-                <!-- Should there be a limit? -->
-                <li>an object, then return the dictionary created by recursively applying this algorithm to each property in <code>result</code>.
-              </ol>
+            <li>Let <code>error</code> be the thrown value.
+            <li>Set the response's status <a href="#attributes-1">status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.
+            <li>Set the response value to a dictionary, <code>dict</code>.
+            <li>If <code>error</code> is an Error, then set a "message" entry in <code>dict</code> whose value is the DOMString defined by <code>error.message</code>.
+            <li>Otherwise, set a "message" entry in <code>dict</code> whose value is the DOMString representation of <code>error</code>.
           </ol>
-          <li>Set the response value to <code>value</code>.</li>
+        <li>Otherwise:
+          <ol>
+            <li>Let <code>result</code> be the value returned by the function in step #5.
+            <li>Set the command's response <a href="#attributes-1">status</a> to <code><a href="#status-success">success</a></code>.
+            <li>Let <code>value</code> be the result of the following algorithm:
+              <ol>
+                <li>If <code>result</code> is:
+                  <ol>
+                    <li><code>undefined</code> or <code>null</code>, return <code> null</code>.
+                    <li>a number, boolean, or DOMString, return <code>result</code>.
+                    <li>a DOMElement, then return the corresponding WebElement for that DOMElement.
+                    <!-- Should there be a recursion limit? -->
+                    <li>a <code>Sequence &lt;Node&gt; nodes</code>, then return the result of recursively applying this algorithm to <code>result</code>.
+                    <!-- Should there be a limit? -->
+                    <li>an object, then return the dictionary created by recursively applying this algorithm to each property in <code>result</code>.
+                  </ol>
+              </ol>
+              <li>Set the response value to <code>value</code>.</li>
+          </ol>
+          <li>Return the response.</li>
       </ol>
-      <li>Return the response.</li>
-  </ol>
-  
+    </dd>
+  </dl>
   </section>
   <section>
     <h2>Asynchronous Javascript Execution</h2>
-    
-    <table class="simple">
-      <tr>
-        <td>Command Name</td>
-        <td>executeAsyncScript</td>
-      </tr>
-      <tr>
-        <td>Parameters</td>
-        <td>"script" {DOMString} The script to execute.<br/>
-            "args" {Argument[]} The script arguments.
-        </td>
-      </tr>
-      <tr>
-        <td>Return Value</td>
-        <td>{Argument} The value returned by the script, or null.</td>
-      </tr>
-      <tr>
-        <td>Errors</td>
-        <td>
-            <code><a href="#status-javascript-error">javascript error</a></code> if the executing script threw an exception.<br />
-            <code><a href="#status-stale-element-reference">stale element reference</a></code> if a WebElement referenced is no longer attached to the DOM.<br/>
-            <code><a href="#status-timeout">Timeout</a></code> if the callback is not called within the time specified by the <a href="#timeouts">"script" timeout</a>.<br/>
-            <code><a href="#status-unknown-error">unknown error</a></code> if an argument or the return value is of an unhandled type.
-        </td>
-      </tr>
-    </table>
-    
-    
-    <p>When executing asynchronous JavaScript, the WebDriver implementation MUST use the following algorithm:
-      <ol>
-        <li>Let <code>timeout</code> be the value of the last "script" <a href="#timeouts">timeout command</a>, or 0 if no such commands have been received.</li>
-        <li>Let <code>window</code> be the <a href="http://www.w3.org/TR/Window/">Window</a> object for WebDriver's current <a href="#where-commands-are-handled">command context</a>.</li>
-        <li>Let <code>script</code> be the DOMString from the command's <code>script</code> parameter.</li>
-        <li>Let <code>fn</code> be the Function object created by executing <code>new Function(script);</code></li>
-        <li>Let <code>args</code> be the JavaScript array created by the pre-processing algorithm defined <a href="#JS-args-preprocess">above</a>.</li>
-        <li>Let <code>callback</code> be a Function object pushed to the end of <code>args</code>.</li>
-        <li>Register a one-shot timer on <code>window</code> set to fire <code>timeout</code> milliseconds in the future.</li>
-        <li>Invoke <code>fn.apply(window, args);</code></li>
-        <li>If the previous step errors then:
+    <dl class='idl' title='partial interface JavaScriptExecutor'>
+      <dt>Argument? executeAsyncScript()</dt>
+      <dd>
+        <dl class='parameters'>
+            <dt> DOMString script</dt>
+            <dd>The script to execute.</dd>
+            <dt>sequence&lt;Argument> args</dt>
+            <dd>The script arguments.</dd>
+        </dl>
+        <p>When executing asynchronous JavaScript, the WebDriver implementation MUST use the following algorithm:
+        <ol>
+          <li>Let <code>timeout</code> be the value of the last "script" <a href="#timeouts">timeout command</a>, or 0 if no such commands have been received.</li>
+          <li>Let <code>window</code> be the <a href="http://www.w3.org/TR/Window/">Window</a> object for WebDriver's current <a href="#where-commands-are-handled">command context</a>.</li>
+          <li>Let <code>script</code> be the DOMString from the command's <code>script</code> parameter.</li>
+          <li>Let <code>fn</code> be the Function object created by executing <code>new Function(script);</code></li>
+          <li>Let <code>args</code> be the JavaScript array created by the pre-processing algorithm defined <a href="#JS-args-preprocess">above</a>.</li>
+          <li>Let <code>callback</code> be a Function object pushed to the end of <code>args</code>.</li>
+          <li>Register a one-shot timer on <code>window</code> set to fire <code>timeout</code> milliseconds in the future.</li>
+          <li>Invoke <code>fn.apply(window, args);</code></li>
+          <li>If the previous step errors then:
             <ol>
                 <li>Let <code>error</code> be the thrown value.</li>
                 <li>Set the response <a href="#attributes-1">status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.</li>
@@ -1296,8 +1260,8 @@ assertEquals(style, recovered);
                 <li>If <code>error</code> is an Error, then set a "message" entry in <code>dict</code> whose value is the DOMString defined by <code>error.message</code>.</li>
                 <li>Otherwise, set a "message" entry in <code>dict</code> whose value is the DOMString representation of <code>error</code>.</li>
               </ol>
-        </li>
-        <li>Otherwise, the WebDriver implementation MUST wait for one of the following to occur:
+          </li>
+          <li>Otherwise, the WebDriver implementation MUST wait for one of the following to occur:
             <ol>
               <li>if the one-shot timer that was set on the <code>window</code> fires
               , the WebDriver implementation MUST immediately set the response status
@@ -1329,7 +1293,9 @@ assertEquals(style, recovered);
                   </ol>
               </li>
              </ol>
-  </section>
+           </dd>
+    </dl>
+    </section>
   <section>
     <h2>Reporting Errors</h2>
     <p></p>
