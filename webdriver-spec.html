@@ -1312,20 +1312,21 @@ assertEquals(style, recovered);
   <section>
     <h2>Cookie</h2>
     <p>When returning Cookie objects, the server SHOULD include all optional fields it is capable of providing the information for.</p>
-    
-    <dl class="idl" title="interface Cookie">
-      <dt>attribute DOMString name</dt>
+    <dl class="idl" title='dictionary Cookie'>
+      <dt>DOMString name</dt>
       <dd>The name of the cookie. This MUST be set.</dd>
-      <dt>attribute DOMString value</dt>
+      <dt>DOMString value</dt>
       <dd>The cookie value. This MUST be set.</dd>
-      <dt>attribute DOMString path</dt>
+      <dt>DOMString path</dt>
       <dd>The cookie path. This SHOULD be set or MUST be the null value if unknown.</dd>
-      <dt>attribute DOMString domain</dt>
+      <dt>DOMString domain</dt>
       <dd>The domain the cookie is visible too. This SHOULD be set or MUST be the null value if unknown.</dd>
-      <dt>attribute number expiry</dt>
+      <dt>number expiry</dt>
       <dd>When the cookie expires, specified in seconds since midnight, January 1, 1970 UTC. This SHOULD be set or MUST be -1 if unknown.</dd>
-      <dt>attribute boolean httpOnly</dt>
+      <dt>boolean httpOnly</dt>
       <dd>True if this represents an HTTP-Only cookie, false otherwise. If this value is missing, local ends MUST interpret this as being false.</dd>
+    </dl>
+    <dl class="idl" title="interface Options">
       <dt>sequence&lt;Cookie> getCookie()</dt>
       <dd>Remote ends MUST return all cookies that are available in document.cookie via Javascript. In addition, remote ends SHOULD return any HTTP-Only cookies that are associated with the current page.
         Possible errors that can be returned:
