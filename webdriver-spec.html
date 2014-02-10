@@ -1204,15 +1204,15 @@ assertEquals(style, recovered);
                   <li>If the previous step errors then:
                   <ol>
                     <li>Let <code>error</code> be the thrown value.
-                    <li>Set the response's status <a href="#attributes-1">status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.
-                    <li>Set the response value to a dictionary, <code>dict</code>.
+                    <li>Set the <a>response</a> <a href="href=#response-status">status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.
+                    <li>Set the <a>response</a> value to a dictionary, <code>dict</code>.
                     <li>If <code>error</code> is an Error, then set a "message" entry in <code>dict</code> whose value is the DOMString defined by <code>error.message</code>.
                     <li>Otherwise, set a "message" entry in <code>dict</code> whose value is the DOMString representation of <code>error</code>.
                   </ol>
                   <li>Otherwise:
                   <ol>
                     <li>Let <code>result</code> be the value returned by the function in step #5.
-                    <li>Set the command's response <a href="#attributes-1">status</a> to <code><a href="#status-success">success</a></code>.
+                    <li>Set the command's <a>response</a> <a href='#response-status'>status</a> to <code><a href="#status-success">success</a></code>.
                     <li>Let <code>value</code> be the result of the following algorithm:
                   <ol>
                     <li>If <code>result</code> is:
@@ -1226,9 +1226,9 @@ assertEquals(style, recovered);
                       <li>an object, then return the dictionary created by recursively applying this algorithm to each property in <code>result</code>.
                     </ol>
                   </ol>
-                  <li>Set the response value to <code>value</code>.</li>
+                  <li>Set the <a>response</a> value to <code>value</code>.</li>
                 </ol>
-                <li>Return the response.</li>
+                <li>Return the <a>response</a>.</li>
               </ol>
             </dd>
           </dl>
@@ -1257,8 +1257,8 @@ assertEquals(style, recovered);
                   <li>If the previous step errors then:
                     <ol>
                       <li>Let <code>error</code> be the thrown value.</li>
-                      <li>Set the response <a href="#attributes-1">status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.</li>
-                      <li>Set the response value to a dictionary, <code>dict</code>.</li>
+                      <li>Set the <a>response</a> <a href='#response-status'>status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.</li>
+                      <li>Set the <a>response</a> value to a dictionary, <code>dict</code>.</li>
                       <li>If <code>error</code> is an Error, then set a "message" entry in <code>dict</code> whose value is the DOMString defined by <code>error.message</code>.</li>
                       <li>Otherwise, set a "message" entry in <code>dict</code> whose value is the DOMString representation of <code>error</code>.</li>
                     </ol>
@@ -1266,13 +1266,13 @@ assertEquals(style, recovered);
                   <li>Otherwise, the WebDriver implementation MUST wait for one of the following to occur:
                     <ol>
                       <li>if the one-shot timer that was set on the <code>window</code> fires
-                        , the WebDriver implementation MUST immediately set the response status
+                        , the WebDriver implementation MUST immediately set the <a>response</a> <a href='#response-status'>status</a>
                         to <code><a href='#status-timeout'>timeout</a></code> and return.</li>
-                        <li>if the <code>window</code> fires an <code>unload</code> event, the WebDriver implementation MUST immediately set the response status to JavascriptError and return with the error message set to "Javascript execution context no longer exists.".</li>
+                        <li>if the <code>window</code> fires an <code>unload</code> event, the WebDriver implementation MUST immediately set the <a>response</a> <a href='#response-status'>status</a> to JavascriptError and return with the error message set to "Javascript execution context no longer exists.".</li>
                         <li>if the <code>callback</code> function is invoked, then:
                           <ol>
                             <li>Let <code>result</code> be the first argument passed to <code>callback</code>.</li>
-                            <li>Set the command's response <a href="#attributes-1">status</a> to Success.</li>
+                            <li>Set the command's <a>response</a> <a href='#response-status'>status</a> to Success.</li>
                             <li>Let <code>value</code> be the result of the following algorithm:
                               <ol>
                                 <li>If <code>result</code> is:
@@ -1281,17 +1281,17 @@ assertEquals(style, recovered);
                                     <li>a number, boolean, or DOMString, return <code>result</code>.</li>
                                     <li>a DOMElement, then return the corresponding WebElement for that DOMElement.</li>
                                     <!-- Should there be a recursion limit? -->
-                                    <li>a <code>Sequence &lt;Node&gt; Nodes</code>, then return the result by recursively applying this algorithm to <code>result</code>. WebDriver implementations SHOULD limit the recursion depth.</li>
+                                    <li>a <code>Sequence &lt;Node> Nodes</code>, then return the result by recursively applying this algorithm to <code>result</code>. WebDriver implementations SHOULD limit the recursion depth.</li>
                                     <!-- Should there be a limit? -->
                                     <li>an object, then return the dictionary created by recursively applying this algorithm to each property in <code>result</code>.</li>
                                   </ol>
                                 </li>
                               </ol>
                             </li>
-                            <li>Set the command's response value to <code>value</code>.</li>
+                            <li>Set the command's <a>response</a> value to <code>value</code>.</li>
                           </ol>
                         </li>
-                        <li>Return the response.</li>
+                        <li>Return the <a>response</a>.</li>
                       </ol>
                     </li>
                   </ol>
