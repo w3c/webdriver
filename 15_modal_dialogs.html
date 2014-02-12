@@ -4,12 +4,12 @@
     <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "modals" folder.</p>
     <section>
       <h2>window.alert, window.prompt and window.confirm</h2>
-      <p>When the remote end is has a modal dialog such as those produced from <code>window.alert</code>, 
-      <code>window.prompt</code> and <code>window.confirm</code> it should allow the interrogation of the 
+      <p>When the remote end is has a modal dialog such as those produced from <code>window.alert</code>,
+      <code>window.prompt</code> and <code>window.confirm</code> it should allow the interrogation of the
       dialogues as using the following interface.</p>
       <dl class="idl" title="interface Alerts">
         <dt>void dismiss()</dt>
-        <dd>This will dismiss the modal. If the modal is an alert, this MUST be 
+        <dd>This will dismiss the modal. If the modal is an alert, this MUST be
           equivalent to calling <code>accept()</code> on the dialog. If no alert
            is present a <code><a href="#status-no-such-alert">no such alert error</a>
          </code> MUST be raised.</dd>
@@ -33,25 +33,25 @@
           </dl>
         </dd>
       </dl>
-      <p>If a modal dialog is created from a <code>onbeforeunload</code> event the remote end MUST handle the 
-        dialog by either using <code>accept</code> or <code>dismiss</code>. These calls should either come from 
+      <p>If a modal dialog is created from a <code>onbeforeunload</code> event the remote end MUST handle the
+        dialog by either using <code>accept</code> or <code>dismiss</code>. These calls should either come from
         the local end or should be handled as an unexpected modal dialog as described below.
       <p>The remote end SHOULD have a mechanism to allow unexpected modal dialogs to be closed
       to prevent the remote end from becoming unusable. The default for this should be dismiss.
-      The local end SHOULD allow a capability to be set that allows the default value to be 
-      overridden with accept. The local end SHOULD also allow setting the default behaviour 
+      The local end SHOULD allow a capability to be set that allows the default value to be
+      overridden with accept. The local end SHOULD also allow setting the default behaviour
       to wait for a command to handle the modal. If the next command does not interact with the modal
-      it MUST return a <code><a href='#status-unexpected-alert-open'>Unexpected alert open</a></code> error to 
+      it MUST return a <code><a href='#status-unexpected-alert-open'>Unexpected alert open</a></code> error to
       the local end.
     </section>
     <section>
       <h2>Modal Windows</h2>
       <p>If a browser supports Modal Windows, as created by <code>document.showModalDialog()</code>,
-        it MUST support handling of Modal Windows via the WebDriver API. Model Windows can then be 
+        it MUST support handling of Modal Windows via the WebDriver API. Model Windows can then be
         <a href='#iterating-over-windows'>iterated</a> over in the same approach as normal windows.</p>
-      <p>If <code>close()</code> is called from the client end to the parent window that has modal 
-      windows open then the remote end SHOULD iterate over modal dialogs closing them 
-      before it closes the remaining windows so that it does not block the 
+      <p>If <code>close()</code> is called from the client end to the parent window that has modal
+      windows open then the remote end SHOULD iterate over modal dialogs closing them
+      before it closes the remaining windows so that it does not block the
       future commands to the remote end</p>
     </section>
 </section>

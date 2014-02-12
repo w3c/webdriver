@@ -64,7 +64,7 @@
       <dd>
         <p>WebDriver implementations MUST allow the users to be able to get the
           current URL. In the case of a <a href='http://www.w3.org/TR/html5/browsers.html#nested-browsing-context'>Nested Browsing Context</a> WebDriver should return the [[HTML5]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>.
-          The returned value should be the equivalent to returning <code>document.location.href</code> for the [[HTML5]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>. 
+          The returned value should be the equivalent to returning <code>document.location.href</code> for the [[HTML5]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>.
         <p>If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> MUST be raised.
       </dd>
 
@@ -103,15 +103,15 @@
 
 
       <p>The exception to requirement is if the <code><a href="#capabilities">Capabilities</a></code> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY choose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. Remote end implementations MUST return an <code><a href="#status-unknown-error">unknown error</a></code> status in this case. If this is the case, the <code><a href="#capabilities">Capabilities</a></code> describing the session MUST also set the <code>secureSsl</code> capability to "true".</p>
-    </section>  
+    </section>
 
   </section>
 
   <section>
     <h3>Detecting When to Handle Commands</h3>
 
-    <p>Commands MUST only be processed when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that page loading is complete.</p>
+    <p><a>Command</a>s MUST only be processed when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that page loading is complete.</p>
 
-    <p>If a remote end receives a new <code>Command</code> for a session while still waiting to finish an existing <code>Command</code> for that session it MAY choose to queue the command for execution as soon as possible, it MAY throw a <code>WebDriverException</code> or it MAY leave the remote end in an inconsistent state. Because of this, local ends SHOULD NOT attempt to send a new <code>Command</code> to a session until the previous <code>Command</code> has returned.</p>
+    <p>If a remote end receives a new <a>Command</a> for a session while still waiting to finish an existing <a>Command</a> for that session it MAY choose to queue the command for execution as soon as possible, it MAY throw a <code>WebDriverException</code> or it MAY leave the remote end in an inconsistent state. Because of this, local ends SHOULD NOT attempt to send a new <a>Command</a> to a session until the previous <a>Command</a> has returned.</p>
   </section>
 </section>

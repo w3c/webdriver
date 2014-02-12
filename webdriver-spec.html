@@ -156,8 +156,8 @@ code a:visited, code a:link {
 
   <section>
     <h3>Command</h3>
-    
-<pre class="IDL">interface <dfn id="command" title="command">Command</dfn> {  
+
+<pre class="IDL">interface <dfn id="command" title="command">Command</dfn> {
   attribute DOMString <code><a href="#command-name">name</a></code>;
   attribute object <code><a href="#command-parameters">parameters</a></code>;
   attribute DOMString <code><a href="#sessionid">sessionId</a></code>;
@@ -177,31 +177,31 @@ code a:visited, code a:link {
 };
 </pre>
 
-    <p>A Response represents the value returned from the remote end of the WebDriver API after executing a Command from the session identified by the <code><a href="#sessionid">sessionId</a></code> attribute. The default value for the <code><a href="#sessionid">sessionId</a></code> MUST be the <code><a href="#sessionid">sessionId</a></code> used in the <code><a href="#command">Command</a></code> that this is a response to, unless the <code><a href="#command">Command</a></code>'s <code><a href="#sessionid">sessionId</a></code> was the null value, in which case a unique <code><a href="#sessionid">sessionId</a></code> MUST be assigned (see <code><a href="#creating-a-session">newSession</a></code> for how this is achieved).</p>
+    <p>A Response represents the value returned from the remote end of the WebDriver API after executing a Command from the session identified by the <code><a href="#sessionid">sessionId</a></code> attribute. The default value for the <code><a href="#sessionid">sessionId</a></code> MUST be the <code><a href="#sessionid">sessionId</a></code> used in the <a>command</a></code> that this is a response to, unless the <a>command</a>'s <code><a href="#sessionid">sessionId</a></code> was the null value, in which case a unique <code><a href="#sessionid">sessionId</a></code> MUST be assigned (see <code><a href="#creating-a-session">newSession</a></code> for how this is achieved).</p>
 
     <p>Each Response has a <code><dfn id="response-status" title="response-status">status</dfn></code> that indicates the success or failure of the method. Anything other than "<code><a href="#status-success">success</a></code>" indicates a failure. Each command lists the status strings it can return in the section of this specification in which it is defined, but the normative list of expected statuses is given below in the <a href="#status-codes">Status Codes</a> section. This list MAY be extended by implementors of the specification, provided they follow the guidelines about <a href="#extending-the-protocol">extending the protocol</a>.</p>
 
-    <p>The meat of the <code><a href="#response">Response</a></code> is in the <code><dfn id="response-value" title="response-value">value</dfn></code> attribute. It's type is determined by the <code><a href="#command">Command</a></code> that has been executed. In this specification, each command definition will make clear what the expected return type is. The default value is the null value. In the case where the status indicates failure, the value is commonly the error text explaining the cause of the problem.</p>
+    <p>The meat of the <code><a href="#response">Response</a></code> is in the <code><dfn id="response-value" title="response-value">value</dfn></code> attribute. It's type is determined by the <a>command</a></code> that has been executed. In this specification, each command definition will make clear what the expected return type is. The default value is the null value. In the case where the status indicates failure, the value is commonly the error text explaining the cause of the problem.</p>
 
     <p class="note">In the case where a failure is indicated and the language used for implementing the local end supports throwing exceptions, the value is often used as the exception's message.</p>
 
-    <p>There is no requirement that implementations of <code><a href="#command">Command</a></code> and <code><a href="#response">Response</a></code> exhibit any behaviour: they MAY be simple data structures. Reading of values MUST be idempotent, and writing any particular value MUST NOT cause any other values on the <code><a href="#command">Command</a></code> or <code><a href="#response">Response</a></code> to change.</p>
+    <p>There is no requirement that implementations of <a>command</a> and <code><a href="#response">Response</a></code> exhibit any behaviour: they MAY be simple data structures. Reading of values MUST be idempotent, and writing any particular value MUST NOT cause any other values on the <a>command</a> or <code><a href="#response">Response</a></code> to change.</p>
   </section>
-  
+
   <section>
     <h3>Processing Additional Fields on Commands and Responses</h3>
-    
-    <p>Any <code><a href="#command-1">Command</a></code> or <code><a href="#response">Response</a></code> MAY contain additional fields than those listed above. The content of fields MUST be maintained, unaltered by any <a href="#intermediate-node">intermediate nodes</a>. There is no requirement to maintain the ordering of fields.</p>
-    
+
+    <p>Any <a>command</a> or <code><a href="#response">Response</a></code> MAY contain additional fields than those listed above. The content of fields MUST be maintained, unaltered by any <a href="#intermediate-node">intermediate nodes</a>. There is no requirement to maintain the ordering of fields.</p>
+
     <div class="note">
       <p>This requirement exists to allow for extension of the protocol, and to allow implementors to decorate Commands and Responses with additional information, perhaps giving context to a series of messages or providing security information.</p>
     </div>
   </section>
-  
+
   <section>
     <h3>Status Codes</h3>
     <p>The WebDriver API indicates the success or failure of a command invocation via <code><a href="#response-status">Response.status</a></code>. The following values are used and have the following meanings.</p>
-    
+
     <table class="simple">
       <tr>
         <th>Status Code</th>
@@ -210,7 +210,7 @@ code a:visited, code a:link {
       <tr>
         <td><dfn id="status-element-not-selectable">element not selectable</dfn></td>
         <td>An attempt was made to select an element that cannot be selected.</td>
-      </tr>      
+      </tr>
       <tr>
         <td><dfn id="status-element-not-visible">element not visible</dfn></td>
         <td>An element command could not be completed because the element is not visible on the page.</td>
@@ -309,23 +309,23 @@ code a:visited, code a:link {
       </tr>
     </table>
     </section>
-    
+
     <section>
     <h2>Handling of Status Codes at the Local End</h2>
-    
+
     <p>Status codes are returned from the <a href="#remote-end">remote end</a> to the <a href="#local-end">local end</a>. The <a href="#local-end">local end</a> SHOULD convert these into a form appropriate for the implementation language. For example, in C the status codes might be converted to constant integer values, whereas in Java various exceptions could be thrown.</p>
-    
+
     <p>Implementations of the <a href="#local-end">local end</a> written in languages that support exceptions SHOULD make use of an exception hierarchy rooted on a <code>WebDriverException</code> (or similarly named base exception class). Where references to <code>WebDriverException</code> are made in this specification, we are referring to this local end conversion of status codes to local end exceptions.</p>
-    
+
     <p class="note">The reason for this is to allow users of the local end to easily handle the all expected failure modes of a local WebDriver implementation by catching the <code>WebDriverException</code>.</p>
-      
+
      <p class="note">It is strongly recommended that the <code>WebDriverException</code> contain as much diagnostic information as possible, including version numbers and details about the remote end. This is because experience suggests that when reporting errors from tests using WebDriver, users will simply cut-and-paste a stack trace of an exception. Adding this information to the exception makes the task of debugging problems considerably easier.</p>
   </section>
 </section>
 <section>
   <h2>Browser Capabilities</h2>
   <p>Different browsers support different levels of various specifications. For example, some support SVG or the [[!SELECTORS-API]], but only browsers that implement [[!WEBSTORAGE]] will support <a href="http://www.w3.org/TR/2009/WD-webstorage-20090910/#the-localstorage-attribute">LocalStorage</a>. The WebDriver API provides a mechanism to query the supported capabilities of a browser. Each broad area of functionality within the WebDriver API has an associated capability string. Whether a particular capability MUST or MAY be supported &mdash; as well as fallback mechanisms for handling those cases where a capability is not supported &mdash; is discussed where the capability string is defined.</p>
-  
+
   <section>
     <h3>Capabilities</h3>
   <dl class="idl" title="interface Capabilities">
@@ -384,7 +384,7 @@ code a:visited, code a:link {
     <ol>
       <li>The local end creates a new <code><a href="#capabilities">Capabilities</a></code> or <code><a href="#mutablecapabilities">MutableCapabilities</a></code> instance describing the desired capabilities
       for the session. The Capabilities object MUST be defined but MAY be empty.</li>
-      <li>The local end MUST create a new <code><a href="#command-1">Command</a></code> with the "name" being "newSession" and the "parameters" containing an
+      <li>The local end MUST create a new <code><a>Command</a></code> with the "name" being "newSession" and the "parameters" containing an
       entry named "desiredCapabilities" with the value set to the Capabilities instance from the previous step. An optional
       "requiredCapabilities" entry MAY also be created and populated with a Capabilities instance. The "sessionId" fields
       SHOULD be left empty.</li>
@@ -399,7 +399,7 @@ code a:visited, code a:link {
           </ul>
       </li>
       <li>The session MUST be assigned a <code><a href="#sessionid">sessionId</a></code> which MUST be unique for each session (a UUID SHOULD be used). Generating the sessionId
-      MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
+      MAY occur before the session is created. If the <a>Command</a> object had the "sessionId" field set, this MAY be
       discarded in favour of the freshly generated sessionId. Because of this, it is
       recommended that sessionId generation be done on the remote end. If the sessionId has already been used, a <a>Response</a> MUST be sent with the status
       code set to <code><a href="#status-session-not-created">session not created</a></code> and the value being an explanation that the sessionId has previously been used.</li>
@@ -411,7 +411,7 @@ code a:visited, code a:link {
       </ul></li>
       <li>The <a>Response</a> is returned to the local end.</li>
     </ol>
-    <p>There is no requirement for the local end to validate that some or all of the fields sent on the <code><a href="#capabilities">Capabilities</a></code> associated with the <code><a href="#command-1">Command</a></code> match those returned in the <code><a>Response</a></code>.</p>
+    <p>There is no requirement for the local end to validate that some or all of the fields sent on the <code><a href="#capabilities">Capabilities</a></code> associated with the <a>Command</a> match those returned in the <code><a>Response</a></code>.</p>
 
     <p>As stated, when returning the <a href="#create-session-value">value of the <code><a>Response</a></code>, the remote end MUST include the capability names and values of all supported capabilities from this specification. They MAY also include any additional capability names and values of supported capabilities implemented independently of this specification. Local ends MAY choose to ignore this additional information. <a href="#intermediate-node">Intermediate nodes</a> between the local and remote ends MAY interpret the capabilities being returned.</p>
 
@@ -548,7 +548,7 @@ code a:visited, code a:link {
       <dd>
         <p>WebDriver implementations MUST allow the users to be able to get the
           current URL. In the case of a <a href='http://www.w3.org/TR/html5/browsers.html#nested-browsing-context'>Nested Browsing Context</a> WebDriver should return the [[HTML5]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>.
-          The returned value should be the equivalent to returning <code>document.location.href</code> for the [[HTML5]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>. 
+          The returned value should be the equivalent to returning <code>document.location.href</code> for the [[HTML5]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>.
         <p>If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> MUST be raised.
       </dd>
 
@@ -587,16 +587,16 @@ code a:visited, code a:link {
 
 
       <p>The exception to requirement is if the <code><a href="#capabilities">Capabilities</a></code> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY choose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. Remote end implementations MUST return an <code><a href="#status-unknown-error">unknown error</a></code> status in this case. If this is the case, the <code><a href="#capabilities">Capabilities</a></code> describing the session MUST also set the <code>secureSsl</code> capability to "true".</p>
-    </section>  
+    </section>
 
   </section>
 
   <section>
     <h3>Detecting When to Handle Commands</h3>
 
-    <p>Commands MUST only be processed when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that page loading is complete.</p>
+    <p><a>Command</a>s MUST only be processed when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that page loading is complete.</p>
 
-    <p>If a remote end receives a new <code>Command</code> for a session while still waiting to finish an existing <code>Command</code> for that session it MAY choose to queue the command for execution as soon as possible, it MAY throw a <code>WebDriverException</code> or it MAY leave the remote end in an inconsistent state. Because of this, local ends SHOULD NOT attempt to send a new <code>Command</code> to a session until the previous <code>Command</code> has returned.</p>
+    <p>If a remote end receives a new <a>Command</a> for a session while still waiting to finish an existing <a>Command</a> for that session it MAY choose to queue the command for execution as soon as possible, it MAY throw a <code>WebDriverException</code> or it MAY leave the remote end in an inconsistent state. Because of this, local ends SHOULD NOT attempt to send a new <a>Command</a> to a session until the previous <a>Command</a> has returned.</p>
   </section>
 </section>
 <section>
@@ -639,7 +639,7 @@ code a:visited, code a:link {
     <dl class='idl' title='partial interface WebDriver'>
       <dt>void close()</dt>
       <dd>
-        <p>The close command closes the window that commands are currently being sent to. If this means that a call to get the list of window handles would return an empty list, then this close command MUST be the equivalent of calling "quit". That is, if the final window of a session is closed, then the session quits.</p>
+        <p>The close command closes the window that <a>Command</a>s are currently being sent to. If this means that a call to get the list of window handles would return an empty list, then this close command MUST be the equivalent of calling "quit". That is, if the final window of a session is closed, then the session quits.</p>
 
         <p>Once the window has closed, future commands MUST return a status code of <code><a href="#status-no-such-window">no such window</a></code> until a new window is selected for receiving commands.</p>
       </dd>
@@ -784,11 +784,11 @@ code a:visited, code a:link {
 <section>
   <h2>Elements</h2>
   <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "element_location" folder.</p>
-  <p>One of the key abstractions of the WebDriver API is the 
-  <a>WebElement</a> interface. Each instance of this interface represents an 
+  <p>One of the key abstractions of the WebDriver API is the
+  <a>WebElement</a> interface. Each instance of this interface represents an
   <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-element">Element</a> as defined in the
   [[!DOM4]] specification. Because the WebDriver API is designed to allow users to interact with apps as if
-  they were actual users, the capabilities offered by the 
+  they were actual users, the capabilities offered by the
   <code>WebElement</code> interface are somewhat different from those offered by the DOM Element interface.</p>
 
   <p>Each WebElement instance must have an ID, which is distinct from the value
@@ -807,13 +807,13 @@ code a:visited, code a:link {
   </dl>
 
   <p>This section of the specification covers finding elements. Later sections deal with querying and interacting with
-  these located elements. The primary interface used by the WebDriver API for locating elements is the 
+  these located elements. The primary interface used by the WebDriver API for locating elements is the
   <code>SearchContext</code>.</p>
   <section>
     <h2>Lists of WebElements</h2>
-    
+
     <p>The primary grouping of <a>WebElement</a> instances is an <code>array</code> of <a>WebElement</a> instances</p>
-    
+
     <p>A reference to an WebElement is obtained via a SearchContext. The key
     interfaces are:</p>
   </section>
@@ -851,7 +851,7 @@ code a:visited, code a:link {
         </tr>
       </table>
       <p>Strategy name: css selector</p>
-      <p>If a browser supports the 
+      <p>If a browser supports the
       <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a> ([[!SELECTORS-API]]) it MUST support locating elements by
       CSS Selector. If the browser does not support the browser CSS Selector spec it MAY choose to implement locating
       by this mechanism. If the browser can support locating elements by CSS Selector, it MUST set the "cssSelector" capability to boolean true when responding to the <a href="#creating-a-session">"newSession" command</a>. Elements MUST be returned in the same order as if "<code>querySelectorAll</code>" had been called with the <code>Locator</code>'s <code>value</code>. Compound selectors are allowed.</p>
@@ -1751,12 +1751,12 @@ assertEquals(style, recovered);
     <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "modals" folder.</p>
     <section>
       <h2>window.alert, window.prompt and window.confirm</h2>
-      <p>When the remote end is has a modal dialog such as those produced from <code>window.alert</code>, 
-      <code>window.prompt</code> and <code>window.confirm</code> it should allow the interrogation of the 
+      <p>When the remote end is has a modal dialog such as those produced from <code>window.alert</code>,
+      <code>window.prompt</code> and <code>window.confirm</code> it should allow the interrogation of the
       dialogues as using the following interface.</p>
       <dl class="idl" title="interface Alerts">
         <dt>void dismiss()</dt>
-        <dd>This will dismiss the modal. If the modal is an alert, this MUST be 
+        <dd>This will dismiss the modal. If the modal is an alert, this MUST be
           equivalent to calling <code>accept()</code> on the dialog. If no alert
            is present a <code><a href="#status-no-such-alert">no such alert error</a>
          </code> MUST be raised.</dd>
@@ -1780,25 +1780,25 @@ assertEquals(style, recovered);
           </dl>
         </dd>
       </dl>
-      <p>If a modal dialog is created from a <code>onbeforeunload</code> event the remote end MUST handle the 
-        dialog by either using <code>accept</code> or <code>dismiss</code>. These calls should either come from 
+      <p>If a modal dialog is created from a <code>onbeforeunload</code> event the remote end MUST handle the
+        dialog by either using <code>accept</code> or <code>dismiss</code>. These calls should either come from
         the local end or should be handled as an unexpected modal dialog as described below.
       <p>The remote end SHOULD have a mechanism to allow unexpected modal dialogs to be closed
       to prevent the remote end from becoming unusable. The default for this should be dismiss.
-      The local end SHOULD allow a capability to be set that allows the default value to be 
-      overridden with accept. The local end SHOULD also allow setting the default behaviour 
+      The local end SHOULD allow a capability to be set that allows the default value to be
+      overridden with accept. The local end SHOULD also allow setting the default behaviour
       to wait for a command to handle the modal. If the next command does not interact with the modal
-      it MUST return a <code><a href='#status-unexpected-alert-open'>Unexpected alert open</a></code> error to 
+      it MUST return a <code><a href='#status-unexpected-alert-open'>Unexpected alert open</a></code> error to
       the local end.
     </section>
     <section>
       <h2>Modal Windows</h2>
       <p>If a browser supports Modal Windows, as created by <code>document.showModalDialog()</code>,
-        it MUST support handling of Modal Windows via the WebDriver API. Model Windows can then be 
+        it MUST support handling of Modal Windows via the WebDriver API. Model Windows can then be
         <a href='#iterating-over-windows'>iterated</a> over in the same approach as normal windows.</p>
-      <p>If <code>close()</code> is called from the client end to the parent window that has modal 
-      windows open then the remote end SHOULD iterate over modal dialogs closing them 
-      before it closes the remaining windows so that it does not block the 
+      <p>If <code>close()</code> is called from the client end to the parent window that has modal
+      windows open then the remote end SHOULD iterate over modal dialogs closing them
+      before it closes the remaining windows so that it does not block the
       future commands to the remote end</p>
     </section>
 </section>
@@ -1857,15 +1857,15 @@ assertEquals(style, recovered);
 </section>
 <section>
   <h2>Handling non-HTML Content</h2>
-  <p>Non-HTML content MUST be treated in the same manner as HTML if the Non-HTML if the browser 
-    creates a DOM object for the content of the document. If a DOM Object is not created then 
+  <p>Non-HTML content MUST be treated in the same manner as HTML if the Non-HTML if the browser
+    creates a DOM object for the content of the document. If a DOM Object is not created then
     how it handled SHOULD be non-normative</p>
 
   <section>
     <h2>XML</h2>
-    <p>This section describes XML documents as described in [[XML10]]. For XHTML documents the remote end should treat them as HTML documents 
+    <p>This section describes XML documents as described in [[XML10]]. For XHTML documents the remote end should treat them as HTML documents
     and not have the caveats, below, applied.</p>
-      <p>Since Browsers create a DOM object for XML pages it is expected that we can interogate 
+      <p>Since Browsers create a DOM object for XML pages it is expected that we can interogate
       them as a normal HTML document however the following differences should be noted:</p>
       <ul>
         <li>Visibility Checks MAY be skipped since XML nodes can not be hidden and <code>isDisplayed</code> MUST return true<li>
@@ -1881,16 +1881,16 @@ assertEquals(style, recovered);
   <section>
     <h2>SVG</h2>
     <p>This section described SVG documents in a browser as described by [[SVG2]].
-    Since browsers create a DOM tree for SVG documents it is expected that WebDriver 
+    Since browsers create a DOM tree for SVG documents it is expected that WebDriver
     can interrogate the DOM as a normal HTML document.
     </p>
   </section>
-  
+
   <section>
     <h2>Working with Accessibility APIs</h2>
-    
+
     <p>Many accessibility APIs represent the UI as a series of nested nodes. It is possible to map these nodes to <code>WebElement</code> instances. In order to function properly, it is likely that additional element locating strategies will be required.</p>
-    
+
     <p class="note">This is one way in which it might be possible to test mobile applications that marry a native wrapper around a series of HTML views.</p>
   </section>
 </section>
@@ -1905,7 +1905,7 @@ assertEquals(style, recovered);
       </pre>
       <p>For example: "<code>-o-open-bookmark</code>" or "<code>-moz-install-extension</code>".</p>
       <p>It is guaranteed that no command name in this or future versions of the WebDriver specification will be prefixed with a leading dash.</p>
-      
+
       <div class="note">
         It is suggested that vendors use the same vendor identifier as in [[!CSS21]] (notably, section <a href="http://www.w3.org/TR/CSS21/syndata.html#vendor-keywords">4.1.2.2</a>)
       </div>

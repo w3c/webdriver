@@ -11,7 +11,7 @@
     <ol>
       <li>The local end creates a new <code><a href="#capabilities">Capabilities</a></code> or <code><a href="#mutablecapabilities">MutableCapabilities</a></code> instance describing the desired capabilities
       for the session. The Capabilities object MUST be defined but MAY be empty.</li>
-      <li>The local end MUST create a new <code><a href="#command-1">Command</a></code> with the "name" being "newSession" and the "parameters" containing an
+      <li>The local end MUST create a new <code><a>Command</a></code> with the "name" being "newSession" and the "parameters" containing an
       entry named "desiredCapabilities" with the value set to the Capabilities instance from the previous step. An optional
       "requiredCapabilities" entry MAY also be created and populated with a Capabilities instance. The "sessionId" fields
       SHOULD be left empty.</li>
@@ -26,7 +26,7 @@
           </ul>
       </li>
       <li>The session MUST be assigned a <code><a href="#sessionid">sessionId</a></code> which MUST be unique for each session (a UUID SHOULD be used). Generating the sessionId
-      MAY occur before the session is created. If the Command object had the "sessionId" field set, this MAY be
+      MAY occur before the session is created. If the <a>Command</a> object had the "sessionId" field set, this MAY be
       discarded in favour of the freshly generated sessionId. Because of this, it is
       recommended that sessionId generation be done on the remote end. If the sessionId has already been used, a <a>Response</a> MUST be sent with the status
       code set to <code><a href="#status-session-not-created">session not created</a></code> and the value being an explanation that the sessionId has previously been used.</li>
@@ -38,7 +38,7 @@
       </ul></li>
       <li>The <a>Response</a> is returned to the local end.</li>
     </ol>
-    <p>There is no requirement for the local end to validate that some or all of the fields sent on the <code><a href="#capabilities">Capabilities</a></code> associated with the <code><a href="#command-1">Command</a></code> match those returned in the <code><a>Response</a></code>.</p>
+    <p>There is no requirement for the local end to validate that some or all of the fields sent on the <code><a href="#capabilities">Capabilities</a></code> associated with the <a>Command</a> match those returned in the <code><a>Response</a></code>.</p>
 
     <p>As stated, when returning the <a href="#create-session-value">value of the <code><a>Response</a></code>, the remote end MUST include the capability names and values of all supported capabilities from this specification. They MAY also include any additional capability names and values of supported capabilities implemented independently of this specification. Local ends MAY choose to ignore this additional information. <a href="#intermediate-node">Intermediate nodes</a> between the local and remote ends MAY interpret the capabilities being returned.</p>
 

@@ -6,8 +6,8 @@
 
   <section>
     <h3>Command</h3>
-    
-<pre class="IDL">interface <dfn id="command" title="command">Command</dfn> {  
+
+<pre class="IDL">interface <dfn id="command" title="command">Command</dfn> {
   attribute DOMString <code><a href="#command-name">name</a></code>;
   attribute object <code><a href="#command-parameters">parameters</a></code>;
   attribute DOMString <code><a href="#sessionid">sessionId</a></code>;
@@ -27,31 +27,31 @@
 };
 </pre>
 
-    <p>A Response represents the value returned from the remote end of the WebDriver API after executing a Command from the session identified by the <code><a href="#sessionid">sessionId</a></code> attribute. The default value for the <code><a href="#sessionid">sessionId</a></code> MUST be the <code><a href="#sessionid">sessionId</a></code> used in the <code><a href="#command">Command</a></code> that this is a response to, unless the <code><a href="#command">Command</a></code>'s <code><a href="#sessionid">sessionId</a></code> was the null value, in which case a unique <code><a href="#sessionid">sessionId</a></code> MUST be assigned (see <code><a href="#creating-a-session">newSession</a></code> for how this is achieved).</p>
+    <p>A Response represents the value returned from the remote end of the WebDriver API after executing a Command from the session identified by the <code><a href="#sessionid">sessionId</a></code> attribute. The default value for the <code><a href="#sessionid">sessionId</a></code> MUST be the <code><a href="#sessionid">sessionId</a></code> used in the <a>command</a></code> that this is a response to, unless the <a>command</a>'s <code><a href="#sessionid">sessionId</a></code> was the null value, in which case a unique <code><a href="#sessionid">sessionId</a></code> MUST be assigned (see <code><a href="#creating-a-session">newSession</a></code> for how this is achieved).</p>
 
     <p>Each Response has a <code><dfn id="response-status" title="response-status">status</dfn></code> that indicates the success or failure of the method. Anything other than "<code><a href="#status-success">success</a></code>" indicates a failure. Each command lists the status strings it can return in the section of this specification in which it is defined, but the normative list of expected statuses is given below in the <a href="#status-codes">Status Codes</a> section. This list MAY be extended by implementors of the specification, provided they follow the guidelines about <a href="#extending-the-protocol">extending the protocol</a>.</p>
 
-    <p>The meat of the <code><a href="#response">Response</a></code> is in the <code><dfn id="response-value" title="response-value">value</dfn></code> attribute. It's type is determined by the <code><a href="#command">Command</a></code> that has been executed. In this specification, each command definition will make clear what the expected return type is. The default value is the null value. In the case where the status indicates failure, the value is commonly the error text explaining the cause of the problem.</p>
+    <p>The meat of the <code><a href="#response">Response</a></code> is in the <code><dfn id="response-value" title="response-value">value</dfn></code> attribute. It's type is determined by the <a>command</a></code> that has been executed. In this specification, each command definition will make clear what the expected return type is. The default value is the null value. In the case where the status indicates failure, the value is commonly the error text explaining the cause of the problem.</p>
 
     <p class="note">In the case where a failure is indicated and the language used for implementing the local end supports throwing exceptions, the value is often used as the exception's message.</p>
 
-    <p>There is no requirement that implementations of <code><a href="#command">Command</a></code> and <code><a href="#response">Response</a></code> exhibit any behaviour: they MAY be simple data structures. Reading of values MUST be idempotent, and writing any particular value MUST NOT cause any other values on the <code><a href="#command">Command</a></code> or <code><a href="#response">Response</a></code> to change.</p>
+    <p>There is no requirement that implementations of <a>command</a> and <code><a href="#response">Response</a></code> exhibit any behaviour: they MAY be simple data structures. Reading of values MUST be idempotent, and writing any particular value MUST NOT cause any other values on the <a>command</a> or <code><a href="#response">Response</a></code> to change.</p>
   </section>
-  
+
   <section>
     <h3>Processing Additional Fields on Commands and Responses</h3>
-    
-    <p>Any <code><a href="#command-1">Command</a></code> or <code><a href="#response">Response</a></code> MAY contain additional fields than those listed above. The content of fields MUST be maintained, unaltered by any <a href="#intermediate-node">intermediate nodes</a>. There is no requirement to maintain the ordering of fields.</p>
-    
+
+    <p>Any <a>command</a> or <code><a href="#response">Response</a></code> MAY contain additional fields than those listed above. The content of fields MUST be maintained, unaltered by any <a href="#intermediate-node">intermediate nodes</a>. There is no requirement to maintain the ordering of fields.</p>
+
     <div class="note">
       <p>This requirement exists to allow for extension of the protocol, and to allow implementors to decorate Commands and Responses with additional information, perhaps giving context to a series of messages or providing security information.</p>
     </div>
   </section>
-  
+
   <section>
     <h3>Status Codes</h3>
     <p>The WebDriver API indicates the success or failure of a command invocation via <code><a href="#response-status">Response.status</a></code>. The following values are used and have the following meanings.</p>
-    
+
     <table class="simple">
       <tr>
         <th>Status Code</th>
@@ -60,7 +60,7 @@
       <tr>
         <td><dfn id="status-element-not-selectable">element not selectable</dfn></td>
         <td>An attempt was made to select an element that cannot be selected.</td>
-      </tr>      
+      </tr>
       <tr>
         <td><dfn id="status-element-not-visible">element not visible</dfn></td>
         <td>An element command could not be completed because the element is not visible on the page.</td>
@@ -159,16 +159,16 @@
       </tr>
     </table>
     </section>
-    
+
     <section>
     <h2>Handling of Status Codes at the Local End</h2>
-    
+
     <p>Status codes are returned from the <a href="#remote-end">remote end</a> to the <a href="#local-end">local end</a>. The <a href="#local-end">local end</a> SHOULD convert these into a form appropriate for the implementation language. For example, in C the status codes might be converted to constant integer values, whereas in Java various exceptions could be thrown.</p>
-    
+
     <p>Implementations of the <a href="#local-end">local end</a> written in languages that support exceptions SHOULD make use of an exception hierarchy rooted on a <code>WebDriverException</code> (or similarly named base exception class). Where references to <code>WebDriverException</code> are made in this specification, we are referring to this local end conversion of status codes to local end exceptions.</p>
-    
+
     <p class="note">The reason for this is to allow users of the local end to easily handle the all expected failure modes of a local WebDriver implementation by catching the <code>WebDriverException</code>.</p>
-      
+
      <p class="note">It is strongly recommended that the <code>WebDriverException</code> contain as much diagnostic information as possible, including version numbers and details about the remote end. This is because experience suggests that when reporting errors from tests using WebDriver, users will simply cut-and-paste a stack trace of an exception. Adding this information to the exception makes the task of debugging problems considerably easier.</p>
   </section>
 </section>
