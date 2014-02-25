@@ -4,7 +4,7 @@ RM = rm -f
 
 UNAME = $(shell uname -s)
 ifeq ($(UNAME),Linux)
-SYSTEM_BROWSER := x-www-browser
+SYSTEM_BROWSER := xdg-open
 else
 SYSTEM_BROWSER := open
 endif
