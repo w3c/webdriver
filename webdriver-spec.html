@@ -613,6 +613,18 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
       <!-- getCurrentUrl() -->
       <dt>DOMString getCurrentUrl()</dt>
       <dd>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>GET</td>
+            <td>/session/{sessionId}/url</td>
+            <td></td>
+          </tr>
+        </table>
         <p>WebDriver implementations MUST allow the users to be able to get the
           current URL. In the case of a <a href='http://www.w3.org/TR/html5/browsers.html#nested-browsing-context'>Nested Browsing Context</a> WebDriver should return the [[HTML5]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>.
           The returned value should be the equivalent to returning <code>document.location.href</code> for the [[HTML5]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>.
@@ -622,12 +634,36 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
       <!-- goBack() -->
       <dt>void goBack()</dt>
       <dd>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td>/session/{sessionId}/back</td>
+            <td></td>
+          </tr>
+        </table>
         <p>The "goBack" command is equivalent to a user hitting the "back" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of -1</a> (as defined in [[!HTML5]]). If a user calls "<code>goBack</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
         </p>
         <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> MUST be raised. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> MUST be raised.
       </dd>
       <dt>void goForward()</dt>
       <dd>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td>/session/{sessionId}/forward</td>
+            <td></td>
+          </tr>
+        </table>
         <p>The "goForward" command is equivalent to a user hitting the "forward" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of +1</a> (as defined in [[!HTML5]]). If a user calls "<code>goForward</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
         <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> MUST be raised. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> MUST be raised
       </dd>
@@ -635,9 +671,21 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
       <!-- refresh() -->
       <dt>void refresh()</dt>
       <dd>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td>/session/{sessionId}/refresh</td>
+            <td></td>
+          </tr>
+        </table>
         <p>"refresh" emulates the user hitting the "refresh" or "reload" button in their browser, causing the current page to be reloaded.</p>
-        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> MUST be raised. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> MUST be raised
-      </dd>x
+        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> MUST be raised. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> MUST be raised.
+      </dd>
     </dl>
 
     <section>
