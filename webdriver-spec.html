@@ -155,8 +155,6 @@ code a:visited, code a:link {
   <h2>Commands and Responses</h2>
   <p>The communication between the remote and local ends is performed via Command and Response objects. How these are encoded and transmitted between the remote and local ends is left undefined.</p>
 
-	<p>Although the encoding and transport mechanism is left undefined in this specification, implementors of the remote end MUST provide an implementation suitable for acting as the server-side of the JSON and HTTP protocol defined in <a href="#mapping-to-http-and-json">Appendix F</a>. This MAY take the form of a standalone executable that translates the JSON over HTTP protocol to the encoding and transport mechanism used by the remote end.</p>
-
   <section>
     <h3>Command</h3>
 
@@ -324,6 +322,60 @@ code a:visited, code a:link {
 
      <p class="note">It is strongly recommended that the <code>WebDriverException</code> contain as much diagnostic information as possible, including version numbers and details about the remote end. This is because experience suggests that when reporting errors from tests using WebDriver, users will simply cut-and-paste a stack trace of an exception. Adding this information to the exception makes the task of debugging problems considerably easier.</p>
   </section>
+  
+<section>
+<h3>The JSON Wire Protocol</h3>
+
+<p>Although the encoding and transport mechanism is left undefined in this specification, implementors of the remote end MUST provide an implementation suitable for acting as the server-side of the JSON and HTTP protocol (the "JSON Wire Protocol") defined in this specification and summarized non-normatively in <a href="#mapping-to-http-and-json">Appendix F</a>. This MAY take the form of a standalone executable that translates the JSON over HTTP protocol to the encoding and transport mechanism used by the remote end.</p>
+
+<p>When describing the URL to use for each <code>Command</code> this specification will use URI paths encoded using the scheme described in [[!RFC6570]]. The following substitutions are commonly made:</p>
+  
+<dl>
+  <dt>{sessionId}</dt>
+  <dd>The <code>sessionId</code> of the selected session.</dd>
+    
+  <dt>{id}</dt>
+  <dd>The <code>id</code> of the <code>WebElement</code> instance being referred to</dd>
+</dl>
+
+<p>The URLs given in this specification MUST have the same path prefix. Implementations are free to redirect those as necessary.</p>
+
+<p class="note">The reason for doing this is to reduce the complexity of local-end implementations. They need only append the path to a base URL in order to create a working implementation.</p>
+
+<section>
+<h3>JSON Encoding of Commands</h3>
+
+A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped to the following JSON structure:
+
+<!-- TODO: Is there an approved standard way of unambiguously defining JSON structures? That the W3C allows us to use in specs -->
+<pre>
+  {
+    "sessionId" : "string value",
+    "name" : "string value",
+    "parameters" : {}
+  }
+</pre>
+
+<p>The "<code>parameters</code>" fields depends on the "<code>name</code>" of the <code>Command</code>, and will be documented by the definition of each <code>Command</code> in this specification.
+
+<h3>JSON Encoding of Responses</h3>
+
+<p>A <code>Response</code> instance MUST be encoded using UTF-8 and MUST be mapped to the following JSON structure:
+
+<pre>
+  {
+    "sessionId" : "string value",
+    "status": "string value",
+    "value" : {}
+  }
+</pre>
+
+<p>The value of the "<code>value</code>" field will be defined beside each <code>Command</code> in this specification.
+
+</section>
+
+</section>
+  
 </section>
 <section>
   <h2>Browser Capabilities</h2>
@@ -532,6 +584,18 @@ code a:visited, code a:link {
       <!-- get() -->
       <dt>void get()</dt>
       <dd>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td>/session/&gt;sessionId&lt;/url</td>
+            <td></td>
+          </tr>
+        </table>
         <p>The "get" command is used to cause the browser to navigate to a new location, and is named after the HTTP verb. From a user's point of view, this is as if they have entered the "url" into the URL bar. When the command returns is based on the <a href="#page-load-strategies">page load strategy</a> that the user has selected with the following exceptions when the strategy is not "none":
 
         <ul>
