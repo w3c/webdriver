@@ -850,32 +850,49 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
     <dl class='idl' title='partial interface WebDriver'>
       <dt>void switchToFrame()</dt>
       <dd>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td>/session/{sessionId}/frame</td>
+            <td></td>
+          </tr>
+        </table>
         <dl class='parameters'>
-          <dt>WebElement or DOMString or number? id</dt>
+          <dt><a>WebElement</a> or number? id</dt>
           <dd>The identifier used for a frame.</dd>
         </dl>
-        <p>The "switchToFrame" command is used to select which frame within a window MUST be used as the context for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "<code>id</code>" parameter can be one of a string, number of an element. WebDriver implementations MUST determine which frame to select using the following algorithm:
+        <p>The "switchToFrame" command is used to select which frame within a window MUST be used as the context for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "<code>id</code>" parameter can be a number or a <a>WebElement</a>. WebDriver implementations MUST determine which frame to select using the following algorithm:
 
         <ol>
           <li>If the "id" is a number the current context is set to the equivalent of the JS expression "window.frames[n]" where "n" is the number and "window" is the DOM window represented by the current context.</li>
           <li>If the "id" is null, the current context is set to the default context.</li>
-          <li>If the "id" is a string:
-            <ol>
-              <li>If the JS expression "window.frames[id]" evaluated in the current context returns a window, where "id" is the value of the the "id" parameter, the current context is set to that.</li>
-              <li>Otherwise for each value of "window.frames" (referred to as <code>win</code>):
-                <ol>
-                  <li>If <code>win</code> has a "name" property or attribute equal to the "id" parameter, this becomes the current context.</li>
-                  <li>If <code>win</code> has an "id" property or attribute equal to the "id" parameter, this becomes the current context.</li>
-                </ol>
-              </li>
-            </ol>
-          </li>
-          <li>If the "id" represents a <code>WebElement</code>, and the corresponding DOM element represents a FRAME or an IFRAME, and the WebElement is part of the current context, the "window" property of that DOM element becomes the current context.</li>
+          <li>If the "id" represents a <a>WebElement</a>, and the corresponding DOM element represents a FRAME or an IFRAME, and the <a>WebElement</a> is part of the current context, the "window" property of that DOM element becomes the current context.</li>
         </ol>
 
         <p>In all cases if no match is made a "<code><a href="#status-no-such-frame">no such frame</a></code>" status code MUST be returned.</p>
 
         <p>If the indicated frame exists, frame switching MUST succeed even if doing so would violate the normal security constraints in place within the Javascript sandbox.</p></dd>
+      <dt>void switchToParentFrame()</dt>
+      <dd>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td>/session/{sessionId}/frame/parent</td>
+            <td></td>
+          </tr>
+        </table>
+        <p>The "switchToParentFrame" command MUST set the context of future commands to the <code>window.parent</code>. If the current context is the [[!HTML5]]'s <a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top level browsing context</a>, the context remains unchanged.</p>
+      </dd>
     </dl>
   </section>
 </section>
@@ -2355,8 +2372,8 @@ assertEquals(style, recovered);
       <p>The following section is non-normative.</p>
       <section>
         <h3>Privacy</h3>
-        <p>The local end SHOULD create a new profile when creating a new session. 
-          If a new profile can be created it MUST NOT copy the profile in use and 
+        <p>The local end SHOULD create a new profile when creating a new session.
+          If a new profile can be created it MUST NOT copy the profile in use and
           MUST create a fresh profile. By creating a new profile the user agent will
            prevent any unexpected behaviour when the remote end is accessing content.</p>
       </section>
@@ -2366,27 +2383,27 @@ assertEquals(style, recovered);
           the browser up if it is connecting to a browser
           (e.g. firefox.exe --webdriver ) and SHOULD have user agent configuration
            preference that is tested when the user agent starts up
-        <p>When the local end creates a new session the remote end MUST limit 
-        connections to <code>127.0.0.1</code> IPV4 address or <code>::1</code> 
+        <p>When the local end creates a new session the remote end MUST limit
+        connections to <code>127.0.0.1</code> IPV4 address or <code>::1</code>
         IPV6 address. This will prevent new sessions being created without having
         a specific proxy installed on the remote end.</p>
         <div class='note'>
-          <p>Some devices will require the device to be placed into a 'developer' mode. 
+          <p>Some devices will require the device to be placed into a 'developer' mode.
           This allows unix sockets to be forwarded on to the device while the device is
           connected to a host. An example of this is if the local end needed to go through
            a remote debugger protocol.</p>
         </div>
-        <p>If any of these fail then a 
-        <code><a href="#status-session-not-created">session not created</a></code> 
+        <p>If any of these fail then a
+        <code><a href="#status-session-not-created">session not created</a></code>
         error MUST be thrown when the local end tries to create a new session.
       </section>
       <section>
         <h3>Fingerprinting</h3>
-        <p>The following will allow web sites to know that the user interacting 
-        with the content is not a real user. This can be used to prevent denial 
+        <p>The following will allow web sites to know that the user interacting
+        with the content is not a real user. This can be used to prevent denial
         of service attacks.
         <p>When the user agent has started up it MUST add a read only property
-        to <code>window.navigator.webdriver</code>. The value should be set to 
+        to <code>window.navigator.webdriver</code>. The value should be set to
         <code>true</code> when WebDriver is active. When WebDriver is not active
         then the value is equal to <code>false</code>.
       </section>
@@ -2403,7 +2420,7 @@ assertEquals(style, recovered);
         easier with his cool tool. Thanks to Jason Leyba, Malcolm Rowe
         and Ross Patterson for proof reading and suggesting areas for
         improvement. Thanks to Jason Leyba, Eran Messeri, Daniel
-        Wagner-Hall and Malini Das for contributing sections to this document. Also
+        Wagner-Hall, Malini Das and Luke Inman-Semerau for contributing sections to this document. Also
         thanks to the following people for their contribution of
         patches and test cases:
         <ul>
@@ -2417,15 +2434,15 @@ assertEquals(style, recovered);
         creating anchors to things that don't exist.</p>
         <ul>
           <li id="idl-def-void">idl-def-void</li>
-          <li id="idl-def-stringbooleannumber">idl-def-stringbooleannumber</li> 
-          <li id="idl-def-boolean">idl-def-boolean</li>          
-          <li id="idl-def-number">idl-def-number</li>        
-          <li id="idl-def-object">idl-def-object</li>     
-          <li id="idl-def-DOMString">idl-def-DOMString</li>  
-          <li id="idl-def-dictionary">idl-def-dictionary</li>    
-          <li id="idl-def-integer">idl-def-integer</li>    
-          <li id="idl-def-string">idl-def-string</li>  
-          <li id="idl-def-Argument">idl-def-Argument</li> 
+          <li id="idl-def-stringbooleannumber">idl-def-stringbooleannumber</li>
+          <li id="idl-def-boolean">idl-def-boolean</li>
+          <li id="idl-def-number">idl-def-number</li>
+          <li id="idl-def-object">idl-def-object</li>
+          <li id="idl-def-DOMString">idl-def-DOMString</li>
+          <li id="idl-def-dictionary">idl-def-dictionary</li>
+          <li id="idl-def-integer">idl-def-integer</li>
+          <li id="idl-def-string">idl-def-string</li>
+          <li id="idl-def-Argument">idl-def-Argument</li>
         </ul>
       </div>
   </body>

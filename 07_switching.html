@@ -40,32 +40,49 @@
     <dl class='idl' title='partial interface WebDriver'>
       <dt>void switchToFrame()</dt>
       <dd>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td>/session/{sessionId}/frame</td>
+            <td></td>
+          </tr>
+        </table>
         <dl class='parameters'>
-          <dt>WebElement or DOMString or number? id</dt>
+          <dt><a>WebElement</a> or number? id</dt>
           <dd>The identifier used for a frame.</dd>
         </dl>
-        <p>The "switchToFrame" command is used to select which frame within a window MUST be used as the context for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "<code>id</code>" parameter can be one of a string, number of an element. WebDriver implementations MUST determine which frame to select using the following algorithm:
+        <p>The "switchToFrame" command is used to select which frame within a window MUST be used as the context for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "<code>id</code>" parameter can be a number or a <a>WebElement</a>. WebDriver implementations MUST determine which frame to select using the following algorithm:
 
         <ol>
           <li>If the "id" is a number the current context is set to the equivalent of the JS expression "window.frames[n]" where "n" is the number and "window" is the DOM window represented by the current context.</li>
           <li>If the "id" is null, the current context is set to the default context.</li>
-          <li>If the "id" is a string:
-            <ol>
-              <li>If the JS expression "window.frames[id]" evaluated in the current context returns a window, where "id" is the value of the the "id" parameter, the current context is set to that.</li>
-              <li>Otherwise for each value of "window.frames" (referred to as <code>win</code>):
-                <ol>
-                  <li>If <code>win</code> has a "name" property or attribute equal to the "id" parameter, this becomes the current context.</li>
-                  <li>If <code>win</code> has an "id" property or attribute equal to the "id" parameter, this becomes the current context.</li>
-                </ol>
-              </li>
-            </ol>
-          </li>
-          <li>If the "id" represents a <code>WebElement</code>, and the corresponding DOM element represents a FRAME or an IFRAME, and the WebElement is part of the current context, the "window" property of that DOM element becomes the current context.</li>
+          <li>If the "id" represents a <a>WebElement</a>, and the corresponding DOM element represents a FRAME or an IFRAME, and the <a>WebElement</a> is part of the current context, the "window" property of that DOM element becomes the current context.</li>
         </ol>
 
         <p>In all cases if no match is made a "<code><a href="#status-no-such-frame">no such frame</a></code>" status code MUST be returned.</p>
 
         <p>If the indicated frame exists, frame switching MUST succeed even if doing so would violate the normal security constraints in place within the Javascript sandbox.</p></dd>
+      <dt>void switchToParentFrame()</dt>
+      <dd>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td>/session/{sessionId}/frame/parent</td>
+            <td></td>
+          </tr>
+        </table>
+        <p>The "switchToParentFrame" command MUST set the context of future commands to the <code>window.parent</code>. If the current context is the [[!HTML5]]'s <a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top level browsing context</a>, the context remains unchanged.</p>
+      </dd>
     </dl>
   </section>
 </section>
