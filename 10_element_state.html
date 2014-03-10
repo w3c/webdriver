@@ -88,10 +88,10 @@
           <li>If <code>name</code> case insensitively matches "style", the value returned MUST be <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM-VIEW]] spec. Notably, css property names MUST be cased the same as specified in in section 6.5.1 of the [[!CSSOM-VIEW]] spec.
             <ul>
               <li>It SHOULD be equivalent to obtaining the "cssText" property, with the additional constraint that the same value MUST be returned after a round trip through "executeScript". That is, the following pseudo-code MUST be true (where "driver" is a WebDriver instance, and "element" is a WebElement):
-<pre class="code">
-var style = element.getAttribute('style');
-driver.executeScript('arguments[0].style = arguments[1]', element, style);
-var recovered = element.getAttribute('style');
+<pre class="example highlight">
+style = element.get_attribute('style');
+self.driver.execute_script('arguments[0].style = arguments[1]', element, style);
+var recovered = element.get_attribute('style');
 assertEquals(style, recovered);
 </pre>
               </li>
