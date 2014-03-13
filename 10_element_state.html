@@ -7,7 +7,7 @@
       <ul>
         <li>The BODY element MUST be displayed irrespective of any CSS style</li>
         <li>The element MUST have a height and width greater than 0px unless the
-        element is a text node or if it has a child with a positive height and width.</li>
+        element is a text node or if it has a descendent with a positive height and width.</li>
         <li>The element MUST NOT be displayed if that element, or any of its ancestors,
         is hidden or has <code>display:none</code> in its computed CSS style.</li>
         <li>The element MUST NOT be displayed if there is a [[!css3-2d-transforms]] or [[!css3-3d-transforms]]
@@ -187,12 +187,12 @@ assertEquals(style, recovered);
 <p>Let <code>lines</code> equal an empty array. Then:
 <ol>
     <li>if the element is in the <code>head</code> element of the document, return an empty string otherwise carry on with the algorithm below.</li>
-    <li><span id="text.1">For</span> each <code>child</code> of node, at time of execution, in order:
+    <li><span id="text.1">For</span> each descendent of node, at time of execution, in order:
         <ol>
-            <li>Get whitespace, text-transform, and then, if <code>child</code> is:
+            <li>Get whitespace, text-transform, and then, if descendent is:
                 <ul>
                     <li>a node which is not <a href="#determining-if-displayed">displayed</a>, do nothing</li>
-                    <li>a [[!DOM4]] <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text">text node</a> let <code>text</code> equal the <code>nodeValue</code> property of <code>child</code>. Then:
+                    <li>a [[!DOM4]] <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text">text node</a> let <code>text</code> equal the <code>nodeValue</code> property of descendent. Then:
                         <ol>
                             <li>Remove any zero-width spaces (\u200b), form feeds (\f) or vertical tab feeds (\v) from <code>text</code>.</li>
                             <li>Canonicalize any recognized single newline sequence in <code>text</code> to a single newline (greedily matching <code>(\r\n|\r|\n)</code> to a single \n)</li>
@@ -207,7 +207,7 @@ assertEquals(style, recovered);
                             <li>BR element: Push '' to <code>lines</code> and continue</li>
                             <li><a href="#text.blocklevel">Block-level</a> element and if <code>last(lines)</code> is not '', push '' to <code>lines</code>.</li>
                         </ul>
-                    And then recurse depth-first to <a href="#text.1">step 1</a> at the beginning of the algorithm with <code>child</code> set to the current element</li>
+                    And then recurse depth-first to <a href="#text.1">step 1</a> at the beginning of the algorithm with descendent set to the current element</li>
                     <li>If element is a TD element, or the effective CSS display style is 'table-cell', and last(lines) is not '', and <code>last(lines)</code> does not end with whitespace append a single space character to <code>last(lines)</code> [Note: Most innerText implementations append a \t here]</li>
                     <li>If element is a block-level element: push '' to <code>lines</code></li>
                 </ul>
