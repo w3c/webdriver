@@ -55,16 +55,16 @@
     <p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
       <ol>
           <li id="is_selectable">If the item is not "<code title="selectable">selectable</code>", the WebElement is not selected. A <dfn id="selectable" title="selectable">selectable</dfn> element is either an OPTION element or an INPUT element of type "<a href="http://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)">checkbox</a>" or "<a href="http://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)">radio</a>".</li>
-          <li>If the DOM node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!HTML51]] determines whether the element is selected.</li>
-          <li>Otherwise, the value of the DOM node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!HTML51]].</li>
+          <li>If the Document node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!HTML51]] determines whether the element is selected.</li>
+          <li>Otherwise, the value of the Document node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!HTML51]].</li>
       </ol>
     <dl class='idl' title='partial interface WebElement'>
       <dt>boolean isSelected()</dt>
       <dd><p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
         <ol>
           <li id="is_selectable">If the item is not "<code title="selectable">selectable</code>", the WebElement is not selected. A <dfn id="selectable" title="selectable">selectable</dfn> element is either an OPTION element or an INPUT element of type "<a href="http://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)">checkbox</a>" or "<a href="http://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)">radio</a>".</li>
-          <li>If the DOM node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!HTML51]] determines whether the element is selected.</li>
-          <li>Otherwise, the value of the DOM node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!HTML51]].</li>
+          <li>If the Document node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!HTML51]] determines whether the element is selected.</li>
+          <li>Otherwise, the value of the Document node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!HTML51]].</li>
         </ol>
         <dl class='parameters'>
           <dt>DOMString id</dt>
@@ -78,7 +78,7 @@
 
   <section>
     <h2 name="attributes-and-properties">Reading Attributes and Properties</h2>
-    <p>Although the [[!HTML51]] spec is very clear about the difference between the properties and attributes of a DOM element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning either of the value of a DOM element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
+    <p>Although the [[!HTML51]] spec is very clear about the difference between the properties and attributes of a Document element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning either of the value of a Document element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
     <dl class='idl' title='interface WebElement'>
       <dt>DOMString getElementAttribute()</dt>
       <dd>
@@ -181,7 +181,7 @@ assertEquals(style, recovered);
         <dd>Horizontal whitespace characters are defined by the ECMAScript regular expression <code>[\x20\t\u2028\u2029]</code>.</dd>
     </dl>
 
-<p>The expected return value is roughly what a text-only browser would display. This means that on browsers that support the Shadow DOM, this algorithm MUST operate on the section of the rendered DOM underneath the DOM node represented by this WebElement. The algorithm for determining this text is as follows:</p>
+<p>The expected return value is roughly what a text-only browser would display. The algorithm for determining this text is as follows:</p>
 
 <p>Let <code>lines</code> equal an empty array. Then:
 <ol>

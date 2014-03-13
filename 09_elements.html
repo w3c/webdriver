@@ -6,12 +6,12 @@
   <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-element">Element</a> as defined in the
   [[!DOM4]] specification. Because the WebDriver API is designed to allow users to interact with apps as if
   they were actual users, the capabilities offered by the
-  <code>WebElement</code> interface are somewhat different from those offered by the DOM Element interface.</p>
+  <code>WebElement</code> interface are somewhat different from those offered by the Document Element interface.</p>
 
   <p>Each WebElement instance must have an ID, which is distinct from the value
-  of the DOM Element's "id" property. The ID for every WebElement representing the same
-  underlying DOM Element MUST be the same. The IDs used to refer to different
-  underlying DOM Elements MUST be unique within the session over the entire duration of the session.</p>
+  of the Document Element's "id" property. The ID for every WebElement representing the same
+  underlying Document Element MUST be the same. The IDs used to refer to different
+  underlying Document Elements MUST be unique within the session over the entire duration of the session.</p>
 
   <div class="note">
     <p>This requirement around WebElement IDs allows for efficient equality
@@ -78,7 +78,7 @@
       valid for finding a single element or groups of elements. In the case of
       finding a single WebElement, this MUST be functionally identical to a call
       to "<a href="http://www.w3.org/TR/2012/WD-dom-20120105/#dom-document-getelementbyid">document.getElementById()</a>"
-      from the Web DOM Core specification ([[!DOM4]]). When finding multiple
+      from the [[!DOM4]]. When finding multiple
       elements, this is equivalent to an CSS query of "<code>#value</code>" where "value" is the ID being searched for with all "'" characters being properly escaped..</p>
     </section>
     <section>
@@ -120,7 +120,7 @@
     <section>
       <h2>XPath</h2>
       <p>Strategy name: xpath</p>
-      <p>All WebDriver implementations MUST support finding elements by XPath 1.0 [[!XPATH]] with the <a href="http://dev.w3.org/html5/spec/Overview.html#interactions-with-xpath-and-xslt">edits from section 3.3</a> of the [[!HTML51]] specification made. If no native support is present in the browser, a pure JS implementation MAY be used. When called, the returned values MUST be equivalent of calling "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate">evaluate</a>" function from the DOM Level 3 XPath spec [[DOM-LEVEL-3-XPATH]] with the result type set to "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE">ORDERED_NODE_SNAPSHOT_TYPE</a> (7).</p>
+      <p>All WebDriver implementations MUST support finding elements by XPath 1.0 [[!XPATH]] with the <a href="http://dev.w3.org/html5/spec/Overview.html#interactions-with-xpath-and-xslt">edits from section 3.3</a> of the [[!HTML51]] specification made. If no native support is present in the browser, a pure JS implementation MAY be used. When called, the returned values MUST be equivalent of calling "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate">evaluate</a>" function from [[DOM-LEVEL-3-XPATH]] with the result type set to "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE">ORDERED_NODE_SNAPSHOT_TYPE</a> (7).</p>
     </section>
   </section>
 </section>

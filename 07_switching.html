@@ -59,9 +59,9 @@
         <p>The "switchToFrame" command is used to select which frame within a window MUST be used as the context for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "<code>id</code>" parameter can be a number or a <a>WebElement</a>. WebDriver implementations MUST determine which frame to select using the following algorithm:
 
         <ol>
-          <li>If the "id" is a number the current context is set to the equivalent of the JS expression "window.frames[n]" where "n" is the number and "window" is the DOM window represented by the current context.</li>
+          <li>If the "id" is a number the current context is set to the equivalent of the JS expression "window.frames[n]" where "n" is the number and "window" is the Document window represented by the current context.</li>
           <li>If the "id" is null, the current context is set to the default context.</li>
-          <li>If the "id" represents a <a>WebElement</a>, and the corresponding DOM element represents a FRAME or an IFRAME, and the <a>WebElement</a> is part of the current context, the "window" property of that DOM element becomes the current context.</li>
+          <li>If the "id" represents a <a>WebElement</a>, and the corresponding Document element represents a FRAME or an IFRAME, and the <a>WebElement</a> is part of the current context, the "window" property of that Document element becomes the current context.</li>
         </ol>
 
         <p>In all cases if no match is made a "<code><a href="#status-no-such-frame">no such frame</a></code>" status code MUST be returned.</p>
