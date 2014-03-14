@@ -13,7 +13,7 @@
 
     <section>
       <h2>Javascript Command Parameters</h2>
-      <div class='idl' title='typedef number or boolean or DOMString or WebElement or Object or sequence<Argument> Argument'></div>
+      <div class='idl' title='typedef long or boolean or DOMString or WebElement or Object or sequence<Argument> Argument'></div>
 
       <dl class="idl" title="interface JavascriptCommandParameters">
         <dt>readonly attribute DOMString script</dt>
@@ -28,7 +28,7 @@
 
       <p id="JS-args-preprocess">For each index, <code>index</code> in <code>args</code>, if <code>args[index]</code> is...
         <ol>
-          <li>a number, boolean, DOMString, or <code>null</code>, then let <code>args[index] = args[index]</code>.</li>
+          <li>a long, boolean, DOMString, or <code>null</code>, then let <code>args[index] = args[index]</code>.</li>
           <li>an array, then recursively apply this algorithm to <code>args[index]</code> and assign the result to <code>args[index]</code>.</li>
           <li>a dictionary, then recursively apply this algorithm to each value in <code>args[index]</code> and assign the result to <code>args[index]</code>.</li>
           <li>a <a href="#elements">WebElement</a>, then:
@@ -74,7 +74,7 @@
                     <li>If <code>result</code> is:
                     <ol>
                       <li><code>undefined</code> or <code>null</code>, return <code> null</code>.
-                      <li>a number, boolean, or DOMString, return <code>result</code>.
+                      <li>a long, boolean, or DOMString, return <code>result</code>.
                       <li>a Document Element, then return the corresponding WebElement for that Document Element.
                       <!-- Should there be a recursion limit? -->
                       <li>a <code>Sequence &lt;Node&gt; nodes</code>, then return the result of recursively applying this algorithm to <code>result</code>.
@@ -134,7 +134,7 @@
                                 <li>If <code>result</code> is:
                                   <ol>
                                     <li><code>undefined</code> or <code>null</code>, return <code> null</code>.</li>
-                                    <li>a number, boolean, or DOMString, return <code>result</code>.</li>
+                                    <li>a long, boolean, or DOMString, return <code>result</code>.</li>
                                     <li>a Document Element, then return the corresponding WebElement for that Document Element.</li>
                                     <!-- Should there be a recursion limit? -->
                                     <li>a <code>Sequence &lt;Node> Nodes</code>, then return the result by recursively applying this algorithm to <code>result</code>. WebDriver implementations SHOULD limit the recursion depth.</li>
