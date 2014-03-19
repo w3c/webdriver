@@ -1282,8 +1282,8 @@ assertEquals(style, recovered);
       <p id="JS-args-preprocess">For each index, <code>index</code> in <code>args</code>, if <code>args[index]</code> is...
         <ol>
           <li>a long, boolean, DOMString, or <code>null</code>, then let <code>args[index] = args[index]</code>.</li>
-          <li>an array, then recursively apply this algorithm to <code>args[index]</code> and assign the result to <code>args[index]</code>.</li>
-          <li>a dictionary, then recursively apply this algorithm to each value in <code>args[index]</code> and assign the result to <code>args[index]</code>.</li>
+          <li>a sequence, then recursively apply this algorithm to <code>args[index]</code> and assign the result to <code>args[index]</code>.</li>
+          <li>an object, then recursively apply this algorithm to each value in <code>args[index]</code> and assign the result to <code>args[index]</code>.</li>
           <li>a <a href="#elements">WebElement</a>, then:
             <ol>
               <li>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error.</li>
@@ -1300,7 +1300,7 @@ assertEquals(style, recovered);
               <dl class='parameters'>
                 <dt> DOMString script</dt>
                 <dd>The script to execute.</dd>
-                <dt>sequence&lt;Argument> args</dt>
+                <dt>sequence&lt;Argument>? args</dt>
                 <dd>The script arguments.</dd>
               </dl>
               <p>When executing JavaScript, the WebDriver implementations MUST use the following algorithm:
@@ -1308,7 +1308,7 @@ assertEquals(style, recovered);
                   <li>Let <code>window</code> be the <a href="http://www.w3.org/TR/Window/">Window</a> object for WebDriver's current <a href="#where-commands-are-handled">command context</a>.
                   <li>Let <code>script</code> be the DOMString from the command's <code>script</code> parameter.
                   <li>Let <code>fn</code> be the Function object created by executing <code>new Function(script);</code>
-                  <li>Let <code>args</code> be the JavaScript array created by the pre-processing algorithm defined <a href="#JS-args-preprocess">above</a>.
+                  <li>Let <code>args</code> be the sequence created by the pre-processing algorithm defined <a href="#JS-args-preprocess">above</a>.
                   <li>Invoke <code>fn.apply(window, args);</code>
                   <li>If the previous step errors then:
                   <ol>
@@ -1350,7 +1350,7 @@ assertEquals(style, recovered);
               <dl class='parameters'>
                 <dt> DOMString script</dt>
                 <dd>The script to execute.</dd>
-                <dt>sequence&lt;Argument> args</dt>
+                <dt>sequence&lt;Argument>? args</dt>
                 <dd>The script arguments.</dd>
               </dl>
               <p>When executing asynchronous JavaScript, the WebDriver implementation MUST use the following algorithm:
@@ -1359,7 +1359,7 @@ assertEquals(style, recovered);
                   <li>Let <code>window</code> be the <a href="http://www.w3.org/TR/Window/">Window</a> object for WebDriver's current <a href="#where-commands-are-handled">command context</a>.</li>
                   <li>Let <code>script</code> be the DOMString from the command's <code>script</code> parameter.</li>
                   <li>Let <code>fn</code> be the Function object created by executing <code>new Function(script);</code></li>
-                  <li>Let <code>args</code> be the JavaScript array created by the pre-processing algorithm defined <a href="#JS-args-preprocess">above</a>.</li>
+                  <li>Let <code>args</code> be the sequence created by the pre-processing algorithm defined <a href="#JS-args-preprocess">above</a>.</li>
                   <li>Let <code>callback</code> be a Function object pushed to the end of <code>args</code>.</li>
                   <li>Register a one-shot timer on <code>window</code> set to fire <code>timeout</code> milliseconds in the future.</li>
                   <li>Invoke <code>fn.apply(window, args);</code></li>
@@ -1431,9 +1431,9 @@ assertEquals(style, recovered);
       <dt>DOMString path</dt>
       <dd>The cookie path. This SHOULD be set or MUST be the null value if unknown.</dd>
       <dt>DOMString domain</dt>
-      <dd>The domain the cookie is visible too. This SHOULD be set or MUST be the null value if unknown.</dd>
+      <dd>The domain the cookie is visible to. This SHOULD be set or MUST be the null value if unknown.</dd>
       <dt>Date expiry</dt>
-      <dd>When the cookie expires, specified in seconds since midnight, January 1, 1970 UTC. This SHOULD be set or MUST be -1 if unknown.</dd>
+      <dd>When the cookie expires, specified in milliseconds since midnight, January 1, 1970 UTC. This SHOULD be set or MUST be null if unknown.</dd>
       <dt>boolean httpOnly</dt>
       <dd>True if this represents an HTTP-Only cookie, false otherwise. If this value is missing, local ends MUST interpret this as being false.</dd>
     </dl>
