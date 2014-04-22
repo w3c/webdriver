@@ -1038,7 +1038,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
       <p>The following steps MUST be used to determine if an element is displayed to a user. This specification refers to this as the element being "shown".</p>
       <ul>
         <li>The BODY element MUST be displayed irrespective of any CSS style</li>
-        <li>The element MUST have a <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a> height and a <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a> width greater than 0px, as returned by <code>element.<a href='http://dev.w3.org/csswg/cssom-view/#dom-element-getboundingclientrect'>getBoundingClientRect()</a></code> unless the
+        <li>The element MUST have a <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a> height and a <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a> width greater than 0px, as returned by <code>element.<a href='http://dev.w3.org/csswg/cssom-view/#dom-element-getboundingclientrect'>getBoundingClientRect()</a></code> , unless the
         element has a descendent with a positive height and width.</li>
         <li>If element is a [[!DOM4]] <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text">
           text node</a> then it MUST be visible.</li>
@@ -1114,7 +1114,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
   <section>
     <h2 name="attributes-and-properties">Reading Attributes and Properties</h2>
     <p>Although the [[!html51]] spec is very clear about the difference between the properties and attributes of a Document element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning either of the value of a Document element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
-    <dl class='idl' title='interface WebElement'>
+    <dl class='idl' title='partial interface WebElement'>
       <dt>DOMString getElementAttribute()</dt>
       <dd>
         <p>The algorithm to implement this MUST be (where <code>name</code> refers to the <code>name</code> parameter of the <code>getElementAttribute</code> command):</p>
