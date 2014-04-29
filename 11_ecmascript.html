@@ -13,7 +13,7 @@
 
     <section>
       <h2>Javascript Command Parameters</h2>
-      <div class='idl' title='typedef long or boolean or DOMString or WebElement or Object or sequence<Argument> Argument'></div>
+      <div class='idl' title='typedef (long or boolean or DOMString or WebElement or Object or sequence<Argument>)? Argument'></div>
 
       <dl class="idl" title="interface JavascriptCommandParameters">
         <dt>readonly attribute DOMString script</dt>
@@ -37,7 +37,7 @@
               <li>Otherwise, let <code>args[index]</code> be the underlying Document Element.</li>
             </ol>
           </li>
-          <li>Otherwise WebDriver implementations MAY throw an <code><a href="#status-unknown-error">unknown error</a></code> indicating the index of the unhandled parameter but SHOULD attempt to convert the value into a dictionary.</li>
+          <li>Otherwise WebDriver implementations MAY throw an <code><a href="#status-unknown-error">unknown error</a></code> indicating the index of the unhandled parameter but SHOULD attempt to convert the value into a <code>object</code>.</li>
         </ol>
         <section>
           <h2>Synchronous Javascript Execution</h2>
@@ -61,7 +61,7 @@
                   <ol>
                     <li>Let <code>error</code> be the thrown value.
                     <li>Set the <a>response</a> <a href="href=#response-status">status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.
-                    <li>Set the <a>response</a> <a href="#response-value">value</a> to a dictionary, <code>dict</code>.
+                    <li>Set the <a>response</a> <a href="#response-value">value</a> to a <code>object</code>, <code>dict</code>.
                     <li>If <code>error</code> is an Error, then set a "message" entry in <code>dict</code> whose value is the DOMString defined by <code>error.message</code>.
                     <li>Otherwise, set a "message" entry in <code>dict</code> whose value is the DOMString representation of <code>error</code>.
                   </ol>
@@ -79,7 +79,7 @@
                       <!-- Should there be a recursion limit? -->
                       <li>a <code>Sequence &lt;Node&gt; nodes</code>, then return the result of recursively applying this algorithm to <code>result</code>.
                       <!-- Should there be a limit? -->
-                      <li>an object, then return the dictionary created by recursively applying this algorithm to each property in <code>result</code>.
+                      <li>an object, then return the <code>object</code> created by recursively applying this algorithm to each property in <code>result</code>.
                     </ol>
                   </ol>
                   <li>Set the <a>response</a> <a href="#response-value">value</a> to <code>value</code>.</li>
@@ -114,7 +114,7 @@
                     <ol>
                       <li>Let <code>error</code> be the thrown value.</li>
                       <li>Set the <a>response</a> <a href='#response-status'>status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.</li>
-                      <li>Set the <a>response</a> <a href="#response-value">value</a> to a dictionary, <code>dict</code>.</li>
+                      <li>Set the <a>response</a> <a href="#response-value">value</a> to a <code>object</code>, <code>dict</code>.</li>
                       <li>If <code>error</code> is an Error, then set a "message" entry in <code>dict</code> whose value is the DOMString defined by <code>error.message</code>.</li>
                       <li>Otherwise, set a "message" entry in <code>dict</code> whose value is the DOMString representation of <code>error</code>.</li>
                     </ol>
@@ -139,7 +139,7 @@
                                     <!-- Should there be a recursion limit? -->
                                     <li>a <code>Sequence &lt;Node> Nodes</code>, then return the result by recursively applying this algorithm to <code>result</code>. WebDriver implementations SHOULD limit the recursion depth.</li>
                                     <!-- Should there be a limit? -->
-                                    <li>an object, then return the dictionary created by recursively applying this algorithm to each property in <code>result</code>.</li>
+                                    <li>an object, then return the <code>object</code> created by recursively applying this algorithm to each property in <code>result</code>.</li>
                                   </ol>
                                 </li>
                               </ol>
