@@ -1095,12 +1095,6 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
 
   <section>
     <h2>Determining Whether a WebElement Is Selected</h2>
-    <p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
-      <ol>
-          <li id="is_selectable">If the item is not "<code title="selectable">selectable</code>", the WebElement is not selected. A <dfn id="selectable" title="selectable">selectable</dfn> element is either an OPTION element or an INPUT element of type "<a href="http://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)">checkbox</a>" or "<a href="http://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)">radio</a>".</li>
-          <li>If the Document node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!html51]] determines whether the element is selected.</li>
-          <li>Otherwise, the value of the Document node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!html51]].</li>
-      </ol>
     <dl class='idl' title='partial interface WebElement'>
       <dt>boolean isSelected()</dt>
       <dd><p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
