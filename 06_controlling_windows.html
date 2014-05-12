@@ -57,32 +57,32 @@
     <dl class='idl' title='partial interface WebDriver'>
       <!-- setWindowSize() -->
       <dt>void setWindowSize()</dt>
-      <dd>Resizes the Browser window to have the <code>height</code> and <code>width</code> passed in as parameters.
+      <dd>Resizes the Browser window currently in focus to have the <code>height</code> and <code>width</code> passed in as parameters.
         <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
         <p>After <code>setWindowSize</code>, the browser window MUST NOT be in the maximised state.</p>
         <dl class='parameters'>
-          <dt>unsigned short width</dt>
-          <dd>The "width" value refer to the javascript "window.outerwidth" property. For those browsers that do not support these properties, these represent the width of the whole browser window including window chrome and window resizing borders/handles.</dd>
-          <dt>unsigned short height</dt>
-          <dd>The "height" value refer to the javascript "window.outerheight" property. For those browsers that do not support these properties, these represent the height of the whole browser window including window chrome and window resizing borders/handles.</dd>
+          <dt>unsigned double width</dt>
+          <dd>The "width" value refer to the javascript <code>window.outerwidth</code> property. For those browsers that do not support these properties, these represent the width of the whole browser window including window chrome and window resizing borders/handles.</dd>
+          <dt>unsigned double height</dt>
+          <dd>The "height" value refer to the javascript <code>window.outerheight</code> property. For those browsers that do not support these properties, these represent the height of the whole browser window including window chrome and window resizing borders/handles.</dd>
         </dl>
       </dd>
 
       <!-- getWindowSize() -->
       <dt>WindowSize getWindowSize()</dt>
-      <dd>Return a <code>WindowSize</code> dictionary containing the hieght and width of the window in pixels</dd>
+      <dd>Return a <a>WindowSize</a> object containing the <a href='#widl-WindowSize-height'>height</a> and <a href='#widl-WindowSize-width'>width</a> of the browser window currently in focus in pixels</dd>
 
       <!-- maximizeWindow() -->
       <dt>void maximizeWindow()</dt>
       <dd>
-        <p>After  <code>maximizeWindow</code>, the browser window MUST be left as if the maximise button had been pressed if, and only if, the window manager of the OS supports this concept; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
+        <p>After  <code>maximizeWindow</code>, the browser window currently in focus MUST be left as if the maximise button had been pressed if, and only if, the window manager of the OS supports this concept; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
         <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
       </dd>
 
       <!-- fullscreenWindow -->
       <dt>void fullscreenWindow()</dt>
       <dd>
-        <p>After <code>fullscreenWindow</code>, the browser window MUST be in full-screen mode. For those operating systems that support the concept, this MUST be equivalent to if the user requested the window be full screen. If the OS does not support the concept of full-screen, then this command is a synonym for "<code>maximizeWindow</code>".
+        <p>After <code>fullscreenWindow</code>, the browser window currently in focus MUST be in full-screen mode. For those operating systems that support the concept, this MUST be equivalent to if the user requested the window be full screen. If the OS does not support the concept of full-screen, then this command is a synonym for "<code>maximizeWindow</code>".
 
         <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
       </dd>
