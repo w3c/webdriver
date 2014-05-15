@@ -9,14 +9,14 @@
     <h3>Creating a Session</h3>
     <p>The process for successfully creating a session MUST be:</p>
     <ol>
-      <li>The local end creates a new <code><a href="#capabilities">Capabilities</a></code> or <code><a href="#mutablecapabilities">MutableCapabilities</a></code> instance describing the desired capabilities
-      for the session. The Capabilities object MUST be defined but MAY be empty.</li>
-      <li>The local end MUST create a new <code><a>Command</a></code> with the "name" being "newSession" and the "parameters" containing an
-      entry named "desiredCapabilities" with the value set to the Capabilities instance from the previous step. An optional
-      "requiredCapabilities" entry MAY also be created and populated with a Capabilities instance. The "sessionId" fields
+      <li>The local end creates a new <a>Capabilities</a> instance describing the desired capabilities
+      for the session. The <a>Capabilities</a> object MUST be defined but MAY be empty.</li>
+      <li>The local end MUST create a new <a>Command</a> with the "name" being "newSession" and the "parameters" containing an
+      entry named "desiredCapabilities" with the value set to the <a>Capabilities</a> instance from the previous step. An optional
+      "requiredCapabilities" entry MAY also be created and populated with a <a>Capabilities</a> instance. The "sessionId" fields
       SHOULD be left empty.</li>
-      <li>The <code><a href="#command-1">Command</a></code> is transmitted to the remote end.</li>
-      <li>The remote end MUST examine the "requiredCapabilities" parameter if specified, SHOULD examine the "desiredCapabilities" parameter, and MUST create a new session matching as many of the Capabilities as
+      <li>The <a>Command</a> is transmitted to the remote end.</li>
+      <li>The remote end MUST examine the "requiredCapabilities" parameter if specified, SHOULD examine the "desiredCapabilities" parameter, and MUST create a new session matching as many of the <a>Capabilities</a> as
       possible.
       How the new session is created depends on the implementation of this specification.
         <ul>
@@ -33,20 +33,20 @@
       <li>The remote end MUST create a new <code><a>Response</a></code> object, with the following fields MUST be set to:
       <ul>
         <li>"sessionId": the <code>sessionId</code> associated with this session.</li>
-        <li name="create-session-value">"value": a Capabilities instance. The keys of this Capabilities instance MUST be the strings given in each of the supported capabilities as defined in the relevant sections of this specification. Supported functionality MUST be included in this Capabilities instance, while unsupported functionality MAY be omitted.</li>
+        <li name="create-session-value">"value": a <a>Capabilities</a> instance. The keys of this <a>Capabilities</a> instance MUST be the strings given in each of the supported <a>Capabilities</a> as defined in the relevant sections of this specification. Supported functionality MUST be included in this <a>Capabilities</a> instance, while unsupported functionality MAY be omitted.</li>
         <li>"status": the <code><a href="#status-success">success</a></code> error code.</li>
       </ul></li>
       <li>The <a>Response</a> is returned to the local end.</li>
     </ol>
-    <p>There is no requirement for the local end to validate that some or all of the fields sent on the <code><a href="#capabilities">Capabilities</a></code> associated with the <a>Command</a> match those returned in the <code><a>Response</a></code>.</p>
+    <p>There is no requirement for the local end to validate that some or all of the fields sent on the <a>Capabilities</a> associated with the <a>Command</a> match those returned in the <a>Response</a>.</p>
 
-    <p>As stated, when returning the <a href="#create-session-value">value of the <code><a>Response</a></code>, the remote end MUST include the capability names and values of all supported capabilities from this specification. They MAY also include any additional capability names and values of supported capabilities implemented independently of this specification. Local ends MAY choose to ignore this additional information. <a href="#intermediate-node">Intermediate nodes</a> between the local and remote ends MAY interpret the capabilities being returned.</p>
+    <p>As stated, when returning the <a href="#create-session-value">value of the <a>Response</a>, the remote end MUST include the capability names and values of all supported <a>Capabilities</a> from this specification. They MAY also include any additional capability names and values of supported <a>Capabilities</a> implemented independently of this specification. Local ends MAY choose to ignore this additional information. <a href="#intermediate-node">Intermediate nodes</a> between the local and remote ends MAY interpret the <a>Capabilities</a> being returned.</p>
 
     <p>If the <code>browserName</code> is given as a desired capability and omitted from the required capabilities, and the returned <code>browserName</code> value does not match the requested one, local ends SHOULD issue a warning to the user. How this warning is issued is undefined, but one implementation could be a log message. In this particular case, local ends MAY chose to change the <code><a>Response</a></code>'s status code to <code><a href="#status-session-not-created">session not created</a></code>, and modify the value to explain the cause, including the value originally returned as the <code>browserName</code> capability. If this is done, the local end MUST ensure that the remote end quits the session.</p>
 
     <section>
       <h3>Capability Names</h3>
-      <p>The following keys SHOULD be used in the Capabilities instances. They all default to the null string.</p>
+      <p>The following keys SHOULD be used in the <a>Capabilities</a> instances. They all default to the null string.</p>
       <dl>
         <dt><span id="capability-browserName">browserName</span></dt>
         <dd>The name of the desired browser as a string.</dd>
@@ -84,7 +84,7 @@
       <p>The following status codes MUST be returned by the "newSession" command:</p>
       <dl>
         <dt><code><a href="#status-success">success</a></code></dt>
-        <dd>The session was successfully created. The "value" field of the <code><a>Response</a></code> MUST contain a <code><a href="#capabilities">Capabilities</a></code> object describing the session.</dd>
+        <dd>The session was successfully created. The "value" field of the <code><a>Response</a></code> MUST contain a <a>Capabilities</a> object describing the session.</dd>
         <dt><code><a href="#status-timeout">timeout</a></code></dt>
         <dd>The new session could not be created within the time allowed for command execution on the remote end. This
         time MAY be infinite (in which case this status won't be seen). The "value" field of the <a>Response</a> SHOULD contain a string explaining that a timeout has
@@ -97,7 +97,7 @@
     <section>
       <h3>Remote End Matching of Capabilities</h3>
       <p>This section is non-normative.</p>
-      <p>The suggested order for comparing keys in the Capabilities instance when creating a session is:</p>
+      <p>The suggested order for comparing keys in the <a>Capabilities</a> instance when creating a session is:</p>
       <ol>
         <li>browserName</li>
         <li>browserVersion</li>
