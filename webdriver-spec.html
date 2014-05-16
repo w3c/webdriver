@@ -1022,8 +1022,12 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
       <p>The following steps MUST be used to determine if an element is displayed to a user. This specification refers to this as the element being "shown".</p>
       <ul>
         <li>The BODY element MUST be displayed irrespective of any CSS style</li>
-        <li>The element MUST have a <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a> height and a <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a> width greater than 0px, as returned by <code>element.<a href='http://dev.w3.org/csswg/cssom-view/#dom-element-getboundingclientrect'>getBoundingClientRect()</a></code> , unless the
-        element has a descendent with a positive height and width.</li>
+        <li>If element or at least one of its descendents have both
+        <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a>
+        height and a <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a>
+        width greater than 0px, as returned by <code>element.
+        <a href='http://dev.w3.org/csswg/cssom-view/#dom-element-getboundingclientrect'>getBoundingClientRect()</a>
+        </code>then it MUST be displayed.</li>
         <li>If element is a [[!DOM4]] <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text">
           text node</a> then it MUST be visible.</li>
         <li>The element MUST NOT be displayed if that element, or any of its ancestors,
