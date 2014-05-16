@@ -1019,26 +1019,26 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
 <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "element_state" folder.</p>
   <section>
     <h2 id='determining-if-displayed'>Determining if an element is displayed</h2>
-      <p>The following steps MUST be used to determine if an element is displayed to a user. This specification refers to this as the element being "shown".</p>
+      <p>The following steps MUST be used to determine if an element is displayed to a user.</p>
       <ul>
         <li>The BODY element MUST be displayed irrespective of any CSS style</li>
-        <li>If element or at least one of its descendents have both
-        <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a>
-        height and a <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a>
-        width greater than 0px, as returned by <code>element.
-        <a href='http://dev.w3.org/csswg/cssom-view/#dom-element-getboundingclientrect'>getBoundingClientRect()</a>
-        </code>then it MUST be displayed.</li>
-        <li>If element is a [[!DOM4]] <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text">
-          text node</a> then it MUST be visible.</li>
-        <li>The element MUST NOT be displayed if that element, or any of its ancestors,
-        has a <a href='http://www.w3.org/TR/html5/editing.html#the-hidden-attribute'>hidden attribute</a> or has <code>display:none</code> in its computed CSS style.</li>
-        <li>The element MUST NOT be displayed if there is a [[!css3-2d-transforms]] or [[!css3-3d-transforms]]
-        property that gives a negative x or y to the canvas. The User Agent MUST NOT allow negative scrolling.</li>
-        <li>OPTIONs and OPTGROUP elements are treated as special cases, they are considered shown if and only if the enclosing select element is displayed.</li>
-        <li>MAP elements are shown if and only if the image it uses is displayed. Areas within
-        a map are shown if the enclosing MAP is displayed.</li>
-        <li>Any INPUT elements of "type=hidden" are not displayed</li>
+        <li>Any INPUT elements of "type=hidden" MUST NOT be displayed.</li>
         <li>Any NOSCRIPT elements MUST NOT be displayed.</li>
+        <li>OPTIONs and OPTGROUP elements MUST be displayed if and only if the enclosing select element is displayed.</li>
+        <li>MAP elements are displayed if and only if the image it uses is displayed. Areas within
+          a map are displayed if the enclosing MAP is displayed.</li>
+        <li>If element is a [[!DOM4]] <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text">
+          text node</a> then it MUST be displayed.</li>
+        <li>The element MUST NOT be displayed if there is a [[!css3-2d-transforms]] or [[!css3-3d-transforms]]
+          property that gives a negative x or y to the canvas. The User Agent MUST NOT allow negative scrolling.</li>
+        <li>The element MUST NOT be displayed if that element, or any of its ancestors,
+          has a <a href='http://www.w3.org/TR/html5/editing.html#the-hidden-attribute'>hidden attribute</a>
+          or has <code>display:none</code> in its computed CSS style.</li>
+        <li>If element or at least one of its descendents have both
+          <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a>
+          height and a <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a>
+          width greater than 0px, as returned by <code>element.<a href='http://dev.w3.org/csswg/cssom-view/#dom-element-getboundingclientrect'>getBoundingClientRect()</a>
+          </code>then it MUST be displayed.</li>
         <li>The element MUST NOT be displayed if any ancestor of the element  has a fixed size, and has the CSS style with one of the following <code>overflow:hidden</code>, <code>overflow-x:hidden</code> or <code>overflow-y:hidden</code>, and the element's location as determined by <code><a href="http://www.w3.org/TR/cssom-view/#dom-range-getclientrects">getClientRects</a></code> is not within the fixed size of the parent.</li>
       </ul>
 
