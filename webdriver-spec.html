@@ -664,7 +664,29 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
           </tr>
         </table>
         <p>"refresh" emulates the user hitting the "refresh" or "reload" button in their browser, causing the current page to be reloaded.</p>
-        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised.
+      </dd>
+
+      <!-- getTitle() -->
+      <dt>DOMString getTitle()</dt>
+      <dd>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td>/session/{sessionId}/title</td>
+            <td></td>
+          </tr>
+        </table>
+        <p>
+          The "getTitle" command MUST return the contents of the <code>&lt;title&gt;</code> element like it would for <code>document.title</code>. In the case of a <a href='http://www.w3.org/TR/html5/browsers.html#nested-browsing-context'>Nested Browsing Context</a> WebDriver MUST return the [[html51]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>.
+
+          If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+        </p>
       </dd>
     </dl>
 
