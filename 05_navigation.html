@@ -61,6 +61,9 @@
           <li>If any modal dialog box, such as those opened by on <code>window.onbeforeunload</code> or <code>window.alert</code>, is opened at any point in the page load, a response MUST be sent.</li>
           <li>If a 401 response is seen by the browser, a response MUST be sent. That is, if BASIC, DIGEST, NTLM or similar authentication is required, the page load is assumed to be complete. This does not include FORM-based authentication.</li>
         </ul>
+
+        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+
         <dl class='parameters'>
           <dt>DOMString url</dt>
           <dd>URL that the browser will navigate to</dd>
@@ -105,7 +108,7 @@
         </table>
         <p>The "goBack" command is equivalent to a user hitting the "back" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of -1</a> (as defined in [[!html51]]). If a user calls "<code>goBack</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
         </p>
-        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> MUST be raised. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> MUST be raised.
+        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
       <dt>void goForward()</dt>
       <dd>
@@ -122,7 +125,7 @@
           </tr>
         </table>
         <p>The "goForward" command is equivalent to a user hitting the "forward" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of +1</a> (as defined in [[!html51]]). If a user calls "<code>goForward</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
-        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> MUST be raised. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> MUST be raised
+        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
 
       <!-- refresh() -->
@@ -141,7 +144,7 @@
           </tr>
         </table>
         <p>"refresh" emulates the user hitting the "refresh" or "reload" button in their browser, causing the current page to be reloaded.</p>
-        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> MUST be raised. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> MUST be raised.
+        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
     </dl>
 
