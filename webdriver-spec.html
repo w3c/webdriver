@@ -1245,6 +1245,31 @@ assertEquals(style, recovered);
     </dl>
   </section>
   <section>
+    <h2>Getting the value of a CSS Property</h2>
+    <dl class='idl' title='partial interface WebElement'>
+      <dt>DOMString getCssValue()</dt>
+      <dd><p>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td>/session/{sessionId}/element/{id}/css/{propertyName}</td>
+            <td></td>
+          </tr>
+        </table>
+        <p>The "getCssValue" command will return the a <code>DOMString</code> of the value of the property passed. It MUST return the value of <a href="http://dev.w3.org/csswg/cssom/#dom-cssstyledeclaration-getpropertyvalue"><code>getPropertyValue(propertyName)</code></a> returned from calling <a href='http://dev.w3.org/csswg/cssom/#dom-window-getcomputedstyle'><code>window.getComputedStyle(element)</code></a>. If the property is not present othen return an empty string.
+        <dl class='parameters'>
+          <dt>DOMString propertyName</dt>
+          <dd>The name of the property whose value will be returned</dd>
+        </dl>
+        </dd>
+    </dl>
+  </section>
+  <section>
     <h2>Location of the Element</h2>
     <dl class='idl' title='dictionary Location'>
       <dt>double x</dt>
