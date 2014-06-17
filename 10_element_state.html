@@ -42,7 +42,21 @@
   </div>
     <dl class='idl' title='partial interface WebElement'>
       <dt>boolean isDisplayed()</dt>
-      <dd>If <code>isDisplayed</code> returns true, then the element MUST also be
+      <dd><p>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td>/session/{sessionId}/element/{id}/displayed</td>
+            <td></td>
+          </tr>
+        </table>
+
+        <p>If <code>isDisplayed</code> returns true, then the element MUST also be
         <a href="#interactable-elements">interactable</a> should it meet the other criteria for being interactable. If any part of the BODY can be brought into the current viewport, this MUST return true.
         <div class="note">
           <p>This implies that <code>isDisplayed</code> MUST return true if the centre of the element could be brought into the viewport. The exception to this would be the BODY element, which is generally assumed to always be displayed by users of the WebDriver spec. It is possible to interact with elements which may not have the centre point brought into the viewport by using the <a href="#low-level-commands">low level commands</a>. This means that if any part of the element could be brought into the viewport by user action and its position could be used by low-level commands then a WebDriver implementation MAY return true.</p>
@@ -61,7 +75,21 @@
     <h2>Determining Whether a WebElement Is Selected</h2>
     <dl class='idl' title='partial interface WebElement'>
       <dt>boolean isSelected()</dt>
-      <dd><p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
+      <dd><p>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td>/session/{sessionId}/element/{id}/selected</td>
+            <td></td>
+          </tr>
+        </table>
+
+        <p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
         <ol>
           <li id="is_selectable">If the item is not "<code title="selectable">selectable</code>", the WebElement is not selected. A <dfn id="selectable" title="selectable">selectable</dfn> element is either an OPTION element or an INPUT element of type "<a href="http://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)">checkbox</a>" or "<a href="http://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)">radio</a>".</li>
           <li>If the Document node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!html51]] determines whether the element is selected.</li>
@@ -82,7 +110,20 @@
     <p>Although the [[!html51]] spec is very clear about the difference between the properties and attributes of a Document element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning either of the value of a Document element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
     <dl class='idl' title='partial interface WebElement'>
       <dt>DOMString getElementAttribute()</dt>
-      <dd>
+      <dd><p>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td>/session/{sessionId}/element/{id}/attribute/{name}</td>
+            <td></td>
+          </tr>
+        </table>
+
         <p>The algorithm to implement this MUST be (where <code>name</code> refers to the <code>name</code> parameter of the <code>getElementAttribute</code> command):</p>
 
         <ol>
@@ -172,7 +213,21 @@ assertEquals(style, recovered);
     </dl>
     <dl class='idl' title='partial interface WebDriver'>
       <dt>Location getElementLocation()</dt>
-      <dd>The "getElementLocation" command MUST return the <a>Location</a> of the
+      <dd><p>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td>/session/{sessionId}/element/{id}/location</td>
+            <td></td>
+          </tr>
+        </table>
+
+       <p>The "getElementLocation" command MUST return the <a>Location</a> of the
        element where x and y represent the top left coordinates of the element
        relative to top left of the document. The point (0, 0) refers to the top-left
        corner of the document.</dd>
@@ -185,7 +240,20 @@ assertEquals(style, recovered);
 
   <dl class='idl' title='partial interface WebElement'>
     <dt>DOMString getElementText()</dt>
-    <dd> <p>The following definitions are used in this section:
+    <dd><p>
+      <table class="simple jsoncommand">
+        <tr>
+          <th>HTTP Method</th>
+          <th>Path Template</th>
+          <th>Notes</th>
+        </tr>
+        <tr>
+          <td>POST</td>
+          <td>/session/{sessionId}/element/{id}/text</td>
+          <td></td>
+        </tr>
+      </table>
+      <p>The following definitions are used in this section:
     <dl>
         <dt id="text.whitespace">Whitespace</dt>
         <dd>Any text that matches the ECMAScript regular expression class <code>\s</code>.
