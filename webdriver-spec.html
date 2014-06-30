@@ -394,7 +394,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
       of type <code>boolean</code>, <code>double</code> or <code>DOMString</code>. The default value is an empty dictionary.</dd>
       <dt>boolean has(DOMString capabilityName)</dt>
       <dd>Queries the underlying <code>capabilities</code> to see whether the
-      value is set. This must return true if the capabilities contain a key with the given <code>capabilityName</code> and the value of that key is either the boolean True or a non-empty DOMString or a long that is not 0. Otherwise it must return false</dd>
+      value is set. This MUST return true if the capabilities contain a key with the given <code>capabilityName</code> and the value of that key is either the boolean True or a non-empty DOMString or a long that is not 0. Otherwise it MUST return false</dd>
       <dt>(DOMString or boolean or long)? get(DOMString capabilityName)</dt>
       <dd>Get the value of the key matching capabilityName in the underlying <code>capabilities</code> or <code>null</code> if no value is  defined.</dd>
     </dl>
@@ -1552,7 +1552,7 @@ assertEquals(style, recovered);
       <dt>DOMString domain</dt>
       <dd>The domain the cookie is visible to. This SHOULD be set or MUST be the null value if unknown.</dd>
       <dt>Date expiry</dt>
-      <dd>When the cookie expires, specified in milliseconds since midnight, January 1, 1970 UTC. This SHOULD be set or MUST be null if unknown.</dd>
+      <dd>When the cookie expires, specified in milliseconds since midnight, January 1, 1970 UTC using the format described in [[!RFC1123]]. This SHOULD be set or MUST be null if unknown.</dd>
       <dt>Date maxAge</dt>
       <dd>The value of the Max-Age attribute to set the cookie’s expiration as an interval of seconds in the future</dd>
       <dt>boolean secure</dt>
@@ -2369,7 +2369,7 @@ assertEquals(style, recovered);
     <h2>Element</h2>
       <table class="simple">
         <tr><th>Capability Name</th><th>Type</th></tr>
-        <tr><td><span id="capability-takeElementScreenshot">takeElementScreenshot</span></td><td>boolean</td></tr>
+        <tr><td><span id="capability-takesElementScreenshot">takesElementScreenshot</span></td><td>boolean</td></tr>
       </table>
 
   	<p>If this capability is supported, local end MUST add the <code>TakesScreenshot</code> interface to the <code>WebElement</code> interface.</p>
@@ -2457,7 +2457,7 @@ assertEquals(style, recovered);
 <li><a href="#capability-platformName">platformName</a></li>
 <li><a href="#capability-platformVersion">platformVersion</a></li>
 <li><a href="#capability-securessl">secureSsl</a></li>
-<li><a href="#capability-takeElementScreenshot">takeElementScreenshot</a></li>
+<li><a href="#capability-takesElementScreenshot">takesElementScreenshot</a></li>
 <li><a href="#capability-takesScreenshot">takesScreenshot</a></li>
 <li><a href="#capability-touchEnabled">touchEnabled</a></li>
 </ul>
