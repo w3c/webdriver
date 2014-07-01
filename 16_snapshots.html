@@ -8,20 +8,22 @@
 
   <dl class="idl" title="interface TakesScreenshot">
     <dt>DOMString takeScreenshot()</dt>
-    <dd>Take a screenshot as determined by the CommandName and return a lossless PNG encoded using Base64.
+    <dd>Take a screenshot and return a lossless PNG encoded using Base64. If
+      <code>element</code> is not populated or is <code>null</code> then the User Agent MUST return the screenshot of the current state of the document at the top level browsing context.
       <p>The possible errors for this command:
       <ul>
         <li><code><a href="#unknown-error">unknown error</a></code> if the if the screenshot cannot be taken.</li>
       </ul>
       <dl class='parameters'>
         <dt>optional WebElement? element</dt>
-        <dd>The ID of the WebElement on which to operate. If this argument is not populated or <code>null</code></dd>
+        <dd>The <a>WebElement</a> on which to operate. If <code>element</code> is not populated or is <code>null</code>
+          then the User Agent MUST return the screenshot of the current state of the document at the top level browsing context.</dd>
       </dl>
     </dd>
   </dl>
 
   <section>
-    <h2>Current Window</h2>
+    <h2>Current Top Level Browsing Context</h2>
     <table class="simple">
       <tr><th>Capability Name</th><th>Type</th></tr>
       <tr><td><span id="capability-takesScreenshot">takesScreenshot</span></td><td>boolean</td></tr>
@@ -29,7 +31,7 @@
 
     <p>If this capability is supported, local end MUST add the <code>TakesScreenshot</code> interface to the <code>WebDriver</code> interface.</p>
 
-    <p>This command will take a screenshot of the current window. Implementations of the remote end SHOULD capture the entire Document, even if this would require a user to scroll the browser window. That is, the returned PNG SHOULD have the same width and height as returned by a call to <code>getSize</code> of the BODY element and MUST contain all visible content on the page, and this SHOULD be done without resizing the browser window. If the remote end is unable to capture the entire Document, then the part of the Document currently displayed in UI of the browser MUST be captured without additional chrome such as scrollbars and browser chrome.</p>
+    <p>This command will take a screenshot of the return the screenshot of the current state of the document at the top level browsing context. Implementations of the remote end SHOULD capture the entire document, even if this would require a user to scroll the browser window. That is, the returned PNG SHOULD have the same width and height as returned by a call to <code>getSize</code> of the BODY element and MUST contain all visible content on the page, and this SHOULD be done without resizing the browser window. If the remote end is unable to capture the entire Document, then the part of the Document currently displayed in UI of the browser MUST be captured without additional chrome such as scrollbars and browser chrome.</p>
 
     <div class="note">
       <p>One way to think of capturing the entire Document is that the user has an infinitely large monitor and has resized the window to allow all content to be visible. One of those monitors would be very cool.</p>
