@@ -1039,44 +1039,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
 <h2>Reading Element State</h2>
 <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "element_state" folder.</p>
   <section>
-    <h2 id='determining-if-displayed'>Determining if an element is displayed</h2>
-      <p>The following steps MUST be used to determine if an element is displayed to a user.</p>
-      <ul>
-        <li>The BODY element MUST be displayed irrespective of any CSS style</li>
-        <li>Any INPUT elements of "type=hidden" MUST NOT be displayed.</li>
-        <li>Any NOSCRIPT elements MUST NOT be displayed.</li>
-        <li>OPTIONs and OPTGROUP elements MUST be displayed if and only if the enclosing select element is displayed.</li>
-        <li>MAP elements are displayed if and only if the image it uses is displayed. Areas within
-          a map are displayed if the enclosing MAP is displayed.</li>
-        <li>If element is a [[!DOM4]] <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text">
-          text node</a> then it MUST be displayed.</li>
-        <li>The element MUST NOT be displayed if there is a [[!css3-2d-transforms]] or [[!css3-3d-transforms]]
-          property that gives a negative x or y to the canvas. The User Agent MUST NOT allow negative scrolling.</li>
-        <li>The element MUST NOT be displayed if that element, or any of its ancestors,
-          has a <a href='http://www.w3.org/TR/html5/editing.html#the-hidden-attribute'>hidden attribute</a>
-          or has <code>display:none</code> in its computed CSS style.</li>
-        <li>If element or at least one of its descendents have both
-          <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a>
-          height and a <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a>
-          width greater than 0px, as returned by <code>element.<a href='http://dev.w3.org/csswg/cssom-view/#dom-element-getboundingclientrect'>getBoundingClientRect()</a>
-          </code>then it MUST be displayed.</li>
-        <li>The element MUST NOT be displayed if any ancestor of the element  has a fixed size, and has the CSS style with one of the following <code>overflow:hidden</code>, <code>overflow-x:hidden</code> or <code>overflow-y:hidden</code>, and the element's location as determined by <code><a href="http://www.w3.org/TR/cssom-view/#dom-range-getclientrects">getClientRects</a></code> is not within the fixed size of the parent.</li>
-      </ul>
 
-    <p class="note">
-      Essentially, this attempts to model whether or not a user of the browser could possibly find a way to view the <code>WebElement</code> without resizing the browser window.
-    </p>
-    <div class="note">
-      <p>
-      The common usage pattern for <code>isDisplayed</code> is typically something similar to (in python):</p>
-      <pre>
-        element = driver.find_element(by = TAG_NAME, value= = "button")
-        if element.is_displayed():
-            element.click()
-        else
-            # So other deep magic of the unseen ages.
-      </pre>
-  </div>
     <dl class='idl' title='partial interface WebElement'>
       <dt>boolean isDisplayed()</dt>
       <dd><p>
@@ -1092,7 +1055,44 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
             <td></td>
           </tr>
         </table>
+          <h2 id='determining-if-displayed'>Determining if an element is displayed</h2>
+            <p>The following steps MUST be used to determine if an element is displayed to a user.</p>
+            <ul>
+              <li>The BODY element MUST be displayed irrespective of any CSS style</li>
+              <li>Any INPUT elements of "type=hidden" MUST NOT be displayed.</li>
+              <li>Any NOSCRIPT elements MUST NOT be displayed.</li>
+              <li>OPTIONs and OPTGROUP elements MUST be displayed if and only if the enclosing select element is displayed.</li>
+              <li>MAP elements are displayed if and only if the image it uses is displayed. Areas within
+                a map are displayed if the enclosing MAP is displayed.</li>
+              <li>If element is a [[!DOM4]] <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text">
+                text node</a> then it MUST be displayed.</li>
+              <li>The element MUST NOT be displayed if there is a [[!css3-2d-transforms]] or [[!css3-3d-transforms]]
+                property that gives a negative x or y to the canvas. The User Agent MUST NOT allow negative scrolling.</li>
+              <li>The element MUST NOT be displayed if that element, or any of its ancestors,
+                has a <a href='http://www.w3.org/TR/html5/editing.html#the-hidden-attribute'>hidden attribute</a>
+                or has <code>display:none</code> in its computed CSS style.</li>
+              <li>If element or at least one of its descendents have both
+                <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a>
+                height and a <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a>
+                width greater than 0px, as returned by <code>element.<a href='http://dev.w3.org/csswg/cssom-view/#dom-element-getboundingclientrect'>getBoundingClientRect()</a>
+                </code>then it MUST be displayed.</li>
+              <li>The element MUST NOT be displayed if any ancestor of the element  has a fixed size, and has the CSS style with one of the following <code>overflow:hidden</code>, <code>overflow-x:hidden</code> or <code>overflow-y:hidden</code>, and the element's location as determined by <code><a href="http://www.w3.org/TR/cssom-view/#dom-range-getclientrects">getClientRects</a></code> is not within the fixed size of the parent.</li>
+            </ul>
 
+          <p class="note">
+            Essentially, this attempts to model whether or not a user of the browser could possibly find a way to view the <code>WebElement</code> without resizing the browser window.
+          </p>
+          <div class="note">
+            <p>
+            The common usage pattern for <code>isDisplayed</code> is typically something similar to (in python):</p>
+            <pre>
+              element = driver.find_element(by = TAG_NAME, value= = "button")
+              if element.is_displayed():
+                  element.click()
+              else
+                  # So other deep magic of the unseen ages.
+            </pre>
+        </div>
         <p>If <code>isDisplayed</code> returns true, then the element MUST also be
         <a href="#interactable-elements">interactable</a> should it meet the other criteria for being interactable. If any part of the BODY can be brought into the current viewport, this MUST return true.
         <div class="note">
@@ -1105,12 +1105,6 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
             MUST be raised.</dd>
         </dl>
       </dd>
-    </dl>
-  </section>
-
-  <section>
-    <h2>Determining Whether a WebElement Is Selected</h2>
-    <dl class='idl' title='partial interface WebElement'>
       <dt>boolean isSelected()</dt>
       <dd><p>
         <table class="simple jsoncommand">
@@ -1139,110 +1133,99 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
             MUST be raised.</dd>
         </dl>
       </dd>
-    </dl>
-  </section>
+            <dt>DOMString getElementAttribute()</dt>
+            <dd><p>
+              <table class="simple jsoncommand">
+                <tr>
+                  <th>HTTP Method</th>
+                  <th>Path Template</th>
+                  <th>Notes</th>
+                </tr>
+                <tr>
+                  <td>POST</td>
+                  <td>/session/{sessionId}/element/{id}/attribute/{name}</td>
+                  <td></td>
+                </tr>
+              </table>
+              <p>Although the [[!html51]] spec is very clear about the difference between the properties and attributes of a Document element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning either of the value of a Document element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
 
-  <section>
-    <h2 name="attributes-and-properties">Reading Attributes and Properties</h2>
-    <p>Although the [[!html51]] spec is very clear about the difference between the properties and attributes of a Document element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning either of the value of a Document element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
-    <dl class='idl' title='partial interface WebElement'>
-      <dt>DOMString getElementAttribute()</dt>
-      <dd><p>
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-            <th>Notes</th>
-          </tr>
-          <tr>
-            <td>POST</td>
-            <td>/session/{sessionId}/element/{id}/attribute/{name}</td>
-            <td></td>
-          </tr>
-        </table>
+              <p>The algorithm to implement this MUST be (where <code>name</code> refers to the <code>name</code> parameter of the <code>getElementAttribute</code> command):</p>
 
-        <p>The algorithm to implement this MUST be (where <code>name</code> refers to the <code>name</code> parameter of the <code>getElementAttribute</code> command):</p>
-
-        <ol>
-          <li>If <code>name</code> case insensitively matches "style", the value returned MUST be <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM-VIEW]] spec. Notably, css property names MUST be cased the same as specified in in section 6.5.1 of the [[!CSSOM-VIEW]] spec.
-            <ul>
-              <li>It SHOULD be equivalent to obtaining the "cssText" property, with the additional constraint that the same value MUST be returned after a round trip through "executeScript". That is, the following pseudo-code MUST be true (where "driver" is a WebDriver instance, and "element" is a WebElement):
-<pre class="example highlight">
-style = element.get_attribute('style');
-self.driver.execute_script('arguments[0].style = arguments[1]', element, style);
-var recovered = element.get_attribute('style');
-assertEquals(style, recovered);
-</pre>
-              </li>
-              <li>Color property values MUST be standardized to <a href='http://www.w3.org/TR/css3-color/#rgba-color'>RGBA color format</a> as described in [[!css3-color]]. If a user agent does not support RGBA then it MUST return a value as 1 for opacity.</li>
-            </ul>
-          </li>
-          <li>If the result of a Javascript call to "<code><a href="https://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html/#dom-element-hasattribute">hasAttribute(name)</a></code>" (as defined in [[!DOM4]]) returns true:
-            <ol>
-              <li>Store the result of the Javascript call to "<code><a href="https://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html/#dom-element-getattribute">getAttribute(name)</a></code>" in <code>result</code></li>
-              <li>If the attribute <code>name</code> is defined as a <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/#boolean-attribute">boolean attribute</a>, the string 'true' MUST be returned if <code>result</code> is true, or null otherwise</li>
-              <li>Otherwise, fall through to the <a href="#attribute-final-step">final step</a> in this algorithm.</li>
-            </ol>
-          </li>
-          <li>If the element is an OPTION element and <code>name</code> case insensitively matches "value":
-            <ol>
-              <li>If a Javascript call to <code>hasAttribute(name)</code> returns true, then the result of a Javascript call to <code>getAttribute(name)</code> MUST be returned.</li>
-              <li>Otherwise, the text content of the OPTION, as returned by a call to <code><a href="#widl-WebElement-getElementText-DOMString">getElementText</a></code>, MUST be returned.</li>
-            </ol>
-          </li>
-          <li>If the element is <a href="#is_selectable">selectable</a> and <code>name</code> case insensitively matches "selected", and the element in an INPUT element of type "checkbox" or "radio", the string "true" MUST be returned if the element is <a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checked</a> or null otherwise.</li>
-          <li>If the value is expected to be a URL, return the property named <code>name</code>, i.e. a fully resolved URL. A non-normative set of these properties is given below:
-            <table class="simple">
-              <tr>
-                <th>Tag name</th>
-                <th>"name" value</th>
-              </tr>
-              <tr>
-                <td>A</td>
-                <td>href</td>
-              </tr>
-              <tr>
-                <td>IMG</td>
-                <td>src</td>
-              </tr>
-            </table>
-          </li>
-          <li>If <code>name</code> is in the table below, and the above stages have not yielded a defined, non-null value, the value of the aliased attribute in the table MUST be used as the argument to a recursive call to <code>getElementAttribute</code> and the result returned. This is to allow for common mis-captitalizations:
-            <table class="simple">
-              <tr>
-                <th>Original property name</th>
-                <th>Aliased property name</th>
-              </tr>
-              <tr>
-                <td>class</td>
-                <td>className</td>
-              </tr>
-              <tr>
-                <td>readonly</td>
-                <td>readOnly</td>
-              </tr>
-            </table>
-          </li>
-          <li id="attribute-final-step">Finally, attempt the following steps in order, ceasing when one returns a value:
-            <ol>
-              <li>Attempt to determine the property of the element with the given <code>name</code>. If this is defined and is not an object, then the named property of the object coerced to a string MUST be returned.</li>
-              <li> If a Javascript call to "<code>hasAttribute(name)</code>" returns "true", the result of a Javascript call to "<code>getAttribute(name)</code>" MUST be returned.</li>
-              <li>The null value MUST be returned.</li>
-            </ol>
-          </li>
-        </ol>
-        <dl class='parameters'>
-          <dt>DOMString id</dt>
-          <dd>The ID of the WebElement on which to operate.</dd>
-          <dt>DOMString name</dt>
-          <dd>The name of the property or attribute to return.</dd>
-        </dl>
-      </dd>
-    </dl>
-  </section>
-  <section>
-    <h2>Getting the value of a CSS Property</h2>
-    <dl class='idl' title='partial interface WebElement'>
+              <ol>
+                <li>If <code>name</code> case insensitively matches "style", the value returned MUST be <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM-VIEW]] spec. Notably, css property names MUST be cased the same as specified in in section 6.5.1 of the [[!CSSOM-VIEW]] spec.
+                  <ul>
+                    <li>It SHOULD be equivalent to obtaining the "cssText" property, with the additional constraint that the same value MUST be returned after a round trip through "executeScript". That is, the following pseudo-code MUST be true (where "driver" is a WebDriver instance, and "element" is a WebElement):
+      <pre class="example highlight">
+      style = element.get_attribute('style');
+      self.driver.execute_script('arguments[0].style = arguments[1]', element, style);
+      var recovered = element.get_attribute('style');
+      assertEquals(style, recovered);
+      </pre>
+                    </li>
+                    <li>Color property values MUST be standardized to <a href='http://www.w3.org/TR/css3-color/#rgba-color'>RGBA color format</a> as described in [[!css3-color]]. If a user agent does not support RGBA then it MUST return a value as 1 for opacity.</li>
+                  </ul>
+                </li>
+                <li>If the result of a Javascript call to "<code><a href="https://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html/#dom-element-hasattribute">hasAttribute(name)</a></code>" (as defined in [[!DOM4]]) returns true:
+                  <ol>
+                    <li>Store the result of the Javascript call to "<code><a href="https://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html/#dom-element-getattribute">getAttribute(name)</a></code>" in <code>result</code></li>
+                    <li>If the attribute <code>name</code> is defined as a <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/#boolean-attribute">boolean attribute</a>, the string 'true' MUST be returned if <code>result</code> is true, or null otherwise</li>
+                    <li>Otherwise, fall through to the <a href="#attribute-final-step">final step</a> in this algorithm.</li>
+                  </ol>
+                </li>
+                <li>If the element is an OPTION element and <code>name</code> case insensitively matches "value":
+                  <ol>
+                    <li>If a Javascript call to <code>hasAttribute(name)</code> returns true, then the result of a Javascript call to <code>getAttribute(name)</code> MUST be returned.</li>
+                    <li>Otherwise, the text content of the OPTION, as returned by a call to <code><a href="#widl-WebElement-getElementText-DOMString">getElementText</a></code>, MUST be returned.</li>
+                  </ol>
+                </li>
+                <li>If the element is <a href="#is_selectable">selectable</a> and <code>name</code> case insensitively matches "selected", and the element in an INPUT element of type "checkbox" or "radio", the string "true" MUST be returned if the element is <a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checked</a> or null otherwise.</li>
+                <li>If the value is expected to be a URL, return the property named <code>name</code>, i.e. a fully resolved URL. A non-normative set of these properties is given below:
+                  <table class="simple">
+                    <tr>
+                      <th>Tag name</th>
+                      <th>"name" value</th>
+                    </tr>
+                    <tr>
+                      <td>A</td>
+                      <td>href</td>
+                    </tr>
+                    <tr>
+                      <td>IMG</td>
+                      <td>src</td>
+                    </tr>
+                  </table>
+                </li>
+                <li>If <code>name</code> is in the table below, and the above stages have not yielded a defined, non-null value, the value of the aliased attribute in the table MUST be used as the argument to a recursive call to <code>getElementAttribute</code> and the result returned. This is to allow for common mis-captitalizations:
+                  <table class="simple">
+                    <tr>
+                      <th>Original property name</th>
+                      <th>Aliased property name</th>
+                    </tr>
+                    <tr>
+                      <td>class</td>
+                      <td>className</td>
+                    </tr>
+                    <tr>
+                      <td>readonly</td>
+                      <td>readOnly</td>
+                    </tr>
+                  </table>
+                </li>
+                <li id="attribute-final-step">Finally, attempt the following steps in order, ceasing when one returns a value:
+                  <ol>
+                    <li>Attempt to determine the property of the element with the given <code>name</code>. If this is defined and is not an object, then the named property of the object coerced to a string MUST be returned.</li>
+                    <li> If a Javascript call to "<code>hasAttribute(name)</code>" returns "true", the result of a Javascript call to "<code>getAttribute(name)</code>" MUST be returned.</li>
+                    <li>The null value MUST be returned.</li>
+                  </ol>
+                </li>
+              </ol>
+              <dl class='parameters'>
+                <dt>DOMString id</dt>
+                <dd>The ID of the WebElement on which to operate.</dd>
+                <dt>DOMString name</dt>
+                <dd>The name of the property or attribute to return.</dd>
+              </dl>
+            </dd>
       <dt>DOMString getCssValue()</dt>
       <dd><p>
         <table class="simple jsoncommand">
@@ -1262,9 +1245,10 @@ assertEquals(style, recovered);
           <dt>DOMString propertyName</dt>
           <dd>The name of the property whose value will be returned</dd>
         </dl>
-        </dd>
+      </dd>
     </dl>
   </section>
+
   <section>
     <h2>Location of the Element</h2>
     <dl class='idl' title='dictionary Location'>
@@ -1295,80 +1279,6 @@ assertEquals(style, recovered);
        corner of the document.</dd>
     </dl>
   </section>
-  <section>
-   <h2>Rendering Text</h2>
-   <p>All WebDriver implementations MUST support getting the <a
-     href="#determining-if-displayed">displayed</a> text of a <code>WebElement</code>, with excess whitespace compressed.</p>
-
-  <dl class='idl' title='partial interface WebElement'>
-    <dt>DOMString getElementText()</dt>
-    <dd><p>
-      <table class="simple jsoncommand">
-        <tr>
-          <th>HTTP Method</th>
-          <th>Path Template</th>
-          <th>Notes</th>
-        </tr>
-        <tr>
-          <td>POST</td>
-          <td>/session/{sessionId}/element/{id}/text</td>
-          <td></td>
-        </tr>
-      </table>
-      <p>The following definitions are used in this section:
-    <dl>
-        <dt id="text.whitespace">Whitespace</dt>
-        <dd>Any text that matches the ECMAScript regular expression class <code>\s</code>.
-
-        <dt id="text.whitespace-nbsp">Whitespace excluding non-breaking spaces</dt>
-        <dd>Any text that matches the ECMAScript regular expression <code>[^\S\xa0]</code>
-
-        <dt id="text.blocklevel">Block level element</dt>
-        <dd>A block-level element is one which is not a table cell, and whose effective CSS display style is not in the set ['inline', 'inline-block', 'inline-table', 'none', 'table-cell', 'table-column', 'table-column-group']</dd>
-
-        <dt id="text.horizontal">Horizontal whitespace characters</dt>
-        <dd>Horizontal whitespace characters are defined by the ECMAScript regular expression <code>[\x20\t\u2028\u2029]</code>.</dd>
-    </dl>
-
-<p>The expected return value is roughly what a text-only browser would display. The algorithm for determining this text is as follows:</p>
-
-<p>Let <code>lines</code> equal an empty array. Then:
-<ol>
-    <li>if the element is in the <code>head</code> element of the document, return an empty string otherwise carry on with the algorithm below.</li>
-    <li><span id="text.1">For</span> each descendent of node, at time of execution, in order:
-        <ol>
-            <li>Get whitespace, text-transform, and then, if descendent is:
-                <ul>
-                    <li>a node which is not <a href="#determining-if-displayed">displayed</a>, do nothing</li>
-                    <li>a [[!DOM4]] <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text">text node</a> let <code>text</code> equal the <code>nodeValue</code> property of descendent. Then:
-                        <ol>
-                            <li>Remove any zero-width spaces (\u200b), form feeds (\f) or vertical tab feeds (\v) from <code>text</code>.</li>
-                            <li>Canonicalize any recognized single newline sequence in <code>text</code> to a single newline (greedily matching <code>(\r\n|\r|\n)</code> to a single \n)</li>
-                            <li>If the parent's effective CSS whitespace style is 'normal' or 'nowrap' replace each newline (\n) in <code>text</code> with a single space character (\x20). If the parent's effective CSS whitespace style is 'pre' or 'pre-wrap' replace each <a href="#text.horizontal">horizontal whitespace character</a> with a non-breaking space character (\xa0). Otherwise replace each sequence of <a href="#text.horizontal">horizontal whitespace characters</a> except non-breaking spaces (\xa0) with a single space character</li>
-                            <li>Apply the parent's effective CSS text-transform style as per the <a href="http://www.w3.org/TR/CSS21/text.html#propdef-text-transform">CSS 2.1 specification</a> ([[!CSS21]])</li>
-                            <li>If <code>last(lines)</code> ends with a space character and <code>text</code> starts with a space character, trim the first character of <code>text</code>.</li>
-                            <li>Append <code>text</code> to <code>last(lines)</code> in-place</li>
-                        </ol>
-                    </li>
-                    <li>an element which is <a href="#determining-if-displayed">displayed</a>. If the element is a:
-                        <ul>
-                            <li>BR element: Push '' to <code>lines</code> and continue</li>
-                            <li><a href="#text.blocklevel">Block-level</a> element and if <code>last(lines)</code> is not '', push '' to <code>lines</code>.</li>
-                        </ul>
-                    And then recurse depth-first to <a href="#text.1">step 1</a> at the beginning of the algorithm with descendent set to the current element</li>
-                    <li>If element is a TD element, or the effective CSS display style is 'table-cell', and last(lines) is not '', and <code>last(lines)</code> does not end with whitespace append a single space character to <code>last(lines)</code> [Note: Most innerText implementations append a \t here]</li>
-                    <li>If element is a block-level element: push '' to <code>lines</code></li>
-                </ul>
-            </li>
-        </ol>
-    </li>
-    <li>The string MUST then have the white space normalised as defined in the [[!XPATH]] <a href="http://www.w3.org/TR/xpath/#function-normalize-space">normalize-space function</a> which is then returned.</li>
-</ol></dd>
-  </dl>
-
-
-
-</section>
 </section>
 <section>
   <h2>Executing Javascript</h2>
