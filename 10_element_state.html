@@ -195,6 +195,69 @@
           <dd>The name of the property whose value will be returned</dd>
         </dl>
       </dd>
+      <dt>DOMString getElementText()</dt>
+          <dd><p>
+            <table class="simple jsoncommand">
+              <tr>
+                <th>HTTP Method</th>
+                <th>Path Template</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <td>POST</td>
+                <td>/session/{sessionId}/element/{id}/text</td>
+                <td></td>
+              </tr>
+            </table>
+            <p>The following definitions are used in this section:
+          <dl>
+              <dt id="text.whitespace">Whitespace</dt>
+              <dd>Any text that matches the ECMAScript regular expression class <code>\s</code>.
+
+              <dt id="text.whitespace-nbsp">Whitespace excluding non-breaking spaces</dt>
+              <dd>Any text that matches the ECMAScript regular expression <code>[^\S\xa0]</code>
+
+              <dt id="text.blocklevel">Block level element</dt>
+              <dd>A block-level element is one which is not a table cell, and whose effective CSS display style is not in the set ['inline', 'inline-block', 'inline-table', 'none', 'table-cell', 'table-column', 'table-column-group']</dd>
+
+              <dt id="text.horizontal">Horizontal whitespace characters</dt>
+              <dd>Horizontal whitespace characters are defined by the ECMAScript regular expression <code>[\x20\t\u2028\u2029]</code>.</dd>
+             </dl>
+
+         <p>The expected return value is roughly what a text-only browser would display. The algorithm for determining this text is as follows:</p>
+
+         <p>Let <code>lines</code> equal an empty array. Then:
+         <ol>
+            <li>if the element is in the <code>head</code> element of the document, return an empty string otherwise carry on with the algorithm below.</li>
+             <li><span id="text.1">For</span> each descendent of node, at time of execution, in order:
+                 <ol>
+                     <li>Get whitespace, text-transform, and then, if descendent is:
+                         <ul>
+                             <li>a node which is not <a href="#determining-if-displayed">displayed</a>, do nothing</li>
+                             <li>a [[!DOM4]] <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text">text node</a> let <code>text</code> equal the <code>nodeValue</code> property of descendent. Then:
+                                 <ol>
+                                     <li>Remove any zero-width spaces (\u200b), form feeds (\f) or vertical tab feeds (\v) from <code>text</code>.</li>
+                                     <li>Canonicalize any recognized single newline sequence in <code>text</code> to a single newline (greedily matching <code>(\r\n|\r|\n)</code> to a single \n)</li>
+                                     <li>If the parent's effective CSS whitespace style is 'normal' or 'nowrap' replace each newline (\n) in <code>text</code> with a single space character (\x20). If the parent's effective CSS whitespace style is 'pre' or 'pre-wrap' replace each <a href="#text.horizontal">horizontal whitespace character</a> with a non-breaking space character (\xa0). Otherwise replace each sequence of <a href="#text.horizontal">horizontal whitespace characters</a> except non-breaking spaces (\xa0) with a single space character</li>
+                                     <li>Apply the parent's effective CSS text-transform style as per the <a href="http://www.w3.org/TR/CSS21/text.html#propdef-text-transform">CSS 2.1 specification</a> ([[!CSS21]])</li>
+                                     <li>If <code>last(lines)</code> ends with a space character and <code>text</code> starts with a space character, trim the first character of <code>text</code>.</li>
+                                     <li>Append <code>text</code> to <code>last(lines)</code> in-place</li>
+                                 </ol>
+                             </li>
+                             <li>an element which is <a href="#determining-if-displayed">displayed</a>. If the element is a:
+                                 <ul>
+                                     <li>BR element: Push '' to <code>lines</code> and continue</li>
+                                     <li><a href="#text.blocklevel">Block-level</a> element and if <code>last(lines)</code> is not '', push '' to <code>lines</code>.</li>
+                                 </ul>
+                             And then recurse depth-first to <a href="#text.1">step 1</a> at the beginning of the algorithm with descendent set to the current element</li>
+                             <li>If element is a TD element, or the effective CSS display style is 'table-cell', and last(lines) is not '', and <code>last(lines)</code> does not end with whitespace append a single space character to <code>last(lines)</code> [Note: Most innerText implementations append a \t here]</li>
+                             <li>If element is a block-level element: push '' to <code>lines</code></li>
+                         </ul>
+                     </li>
+                 </ol>
+             </li>
+             <li>The string MUST then have the white space normalised as defined in the [[!XPATH]] <a href="http://www.w3.org/TR/xpath/#function-normalize-space">normalize-space function</a> which is then returned.</li>
+         </ol></dd>
     </dl>
   </section>
 
