@@ -13,7 +13,19 @@
     <h2>Window Handles</h2>
     <dl class='idl' title='partial interface WebDriver'>
       <dt>DOMString getWindowHandle()</dt>
-      <dd>
+      <dd><p>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>GET</td>
+            <td>/session/{sessionId}/window_handle</td>
+            <td></td>
+          </tr>
+        </table>
         <p>Each window has a "window handle" associated with it. This is an opaque string which MUST uniquely identify the window within the session and MUST NOT be "current". This MAY be a UUID. The "getWindowHandle" command can be used to obtain the window handle for the window that commands are currently acting upon.</p>
       </dd>
     </dl>
@@ -23,7 +35,21 @@
     <h2 name="iterating-over-windows">Iterating Over Windows</h2>
     <dl class='idl' title='partial interface WebDriver'>
       <dt>sequence&lt;DOMString> getWindowHandles()</dt>
-      <dd> <p>This array of returned strings MUST contain a handle for every window associated with the browser session and no others. For each returned window handle the javascript expression "window.top.closed" (or equivalent) MUST evaluate to false at the time the command is being executed.</p>
+      <dd>
+      <p>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>GET</td>
+            <td>/session/{sessionId}/window_handles</td>
+            <td></td>
+          </tr>
+        </table>
+        <p>This array of returned strings MUST contain a handle for every window associated with the browser session and no others. For each returned window handle the javascript expression "window.top.closed" (or equivalent) MUST evaluate to false at the time the command is being executed.</p>
 
     <p>The ordering of the array elements is not defined, but MAY be determined by iterating over each top level browser window and returning the tabs within that window before iterating over the tabs of the next top level browser window. For example, in the diagram below, the window handles should be returned as the handles for: win1tab1, win1tab2, win2.</p>
 
@@ -38,6 +64,20 @@
     <dl class='idl' title='partial interface WebDriver'>
       <dt>void close()</dt>
       <dd>
+        <p>
+          <table class="simple jsoncommand">
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>DELETE</td>
+              <td>/session/{sessionId}/window_handle</td>
+              <td></td>
+            </tr>
+          </table>
+
         <p>The close command closes the window that <a>Command</a>s are currently being sent to. If this means that a call to get the list of window handles would return an empty list, then this close command MUST be the equivalent of calling "quit". That is, if the final window of a session is closed, then the session quits.</p>
 
         <p>Once the window has closed, future commands MUST return a status code of <code><a href="#status-no-such-window">no such window</a></code> until a new window is selected for receiving commands.</p>
@@ -57,7 +97,22 @@
     <dl class='idl' title='partial interface WebDriver'>
       <!-- setWindowSize() -->
       <dt>void setWindowSize()</dt>
-      <dd>Resizes the Browser window currently in focus to have the <code>height</code> and <code>width</code> passed in as parameters.
+      <dd>
+        <p>
+          <table class="simple jsoncommand">
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>POST</td>
+              <td>/session/{sessionId}/window/{windowHandle}/size</td>
+              <td></td>
+            </tr>
+          </table>
+        <p>
+        Resizes the Browser window currently in focus to have the <code>height</code> and <code>width</code> passed in as parameters.
         <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
         <p>After <code>setWindowSize</code>, the browser window MUST NOT be in the maximised state.</p>
         <dl class='parameters'>
@@ -70,11 +125,39 @@
 
       <!-- getWindowSize() -->
       <dt>WindowSize getWindowSize()</dt>
-      <dd>Return a <a>WindowSize</a> object containing the <a href='#widl-WindowSize-height'>height</a> and <a href='#widl-WindowSize-width'>width</a> of the browser window currently in focus in pixels</dd>
+      <dd>
+        <p>
+          <table class="simple jsoncommand">
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td>/session/{sessionId}/window/{windowHandle}/size</td>
+              <td></td>
+            </tr>
+          </table>
+        <p>
+        Return a <a>WindowSize</a> object containing the <a href='#widl-WindowSize-height'>height</a> and <a href='#widl-WindowSize-width'>width</a> of the browser window currently in focus in pixels</dd>
 
       <!-- maximizeWindow() -->
       <dt>void maximizeWindow()</dt>
       <dd>
+        <p>
+          <table class="simple jsoncommand">
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td>/session/{sessionId}/window/{windowHandle}/maximise</td>
+              <td></td>
+            </tr>
+          </table>
         <p>After  <code>maximizeWindow</code>, the browser window currently in focus MUST be left as if the maximise button had been pressed if, and only if, the window manager of the OS supports this concept; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
         <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
       </dd>
