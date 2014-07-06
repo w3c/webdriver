@@ -1686,7 +1686,21 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
     </dl>
     <dl class="idl" title="interface Options">
       <dt>sequence&lt;Cookie> getCookie()</dt>
-      <dd>Remote ends MUST return all cookies that are available in document.cookie via Javascript. In addition, remote ends SHOULD return any HTTP-Only cookies that are associated with the current page.
+      <dd>
+        <p>
+          <table class="simple jsoncommand">
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td>/session/{sessionId}/cookie</td>
+              <td></td>
+            </tr>
+          </table>
+          <p>Remote ends MUST return all cookies that are available in document.cookie via Javascript. In addition, remote ends SHOULD return any HTTP-Only cookies that are associated with the current page.
         Possible errors that can be returned:
         <ul>
           <li><code><a href="#status-invalid-cookie-domain">invalid cookie domain</a></code> - If the cookie's domain is not visible from the current page.<br />
@@ -1697,7 +1711,21 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
         </dl>
       </dd>
       <dt>void addCookie()</dt>
-      <dd>Set a cookie. If the cookie path is not specified, it should be set to "/". Likewise, if the domain is omitted, it should default to the current page's domain.
+      <dd>
+        <p>
+          <table class="simple jsoncommand">
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>POST</td>
+              <td>/session/{sessionId}/cookie</td>
+              <td></td>
+            </tr>
+          </table>
+          <p>Set a cookie. If the cookie path is not specified, it should be set to "/". Likewise, if the domain is omitted, it should default to the current page's domain.
         Possible errors that can be returned:
         <ul>
           <li><code><a href="#status-invalid-cookie-domain">invalid cookie domain</a></code> - If the cookie's domain is not visible from the current page.<br />
