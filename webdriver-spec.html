@@ -1132,17 +1132,15 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
 <h2>Reading Element State</h2>
 <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "element_state" folder.</p>
   <section>
-    <dl class='idl' title='dictionary Location'>
+    <dl class='idl' title='dictionary ElementRect'>
       <dt>double x</dt>
       <dd>The x coordinate for the top left of the element</dd>
       <dt>double y</dt>
       <dd>The y coordinate for the top left of the element</dd>
-    </dl>
-    <dl class='idl' title='dictionary ElementSize'>
       <dt>double height</dt>
-      <dd>Height of the element in Pixels</dd>
+      <dd>Height of the element in CSS Pixels</dd>
       <dt>double width</dt>
-      <dd>Width of the element in Pixels</dd>
+      <dd>Width of the element in CSS Pixels</dd>
     </dl>
     <dl class='idl' title='partial interface WebElement'>
       <dt>boolean isDisplayed()</dt>
@@ -1419,7 +1417,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
             that is the <a href='http://www.w3.org/TR/DOM-Level-3-Core/glossary.html#dt-qualifiedname'>
             qualified name</a> of the element.
        </dd>
-       <dt>Location getElementLocation()</dt>
+       <dt>ElementRect getElementRect()</dt>
        <dd><p>
          <table class="simple jsoncommand">
            <tr>
@@ -1429,34 +1427,16 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
            </tr>
            <tr>
              <td>POST</td>
-             <td>/session/{sessionId}/element/{id}/location</td>
+             <td>/session/{sessionId}/element/{id}/rect</td>
              <td></td>
            </tr>
          </table>
 
-        <p>The "getElementLocation" command MUST return the <a>Location</a> of the
+        <p>The "getElementRect" command MUST return the <a>ElementRect</a> of the
         element where x and y represent the top left coordinates of the element
-        relative to top left of the document. The point (0, 0) refers to the top-left
-        corner of the document.</dd>
-        <dt>ElementSize getElementSize()</dt>
-      <dd>
-        <p>
-          <table class="simple jsoncommand">
-            <tr>
-              <th>HTTP Method</th>
-              <th>Path Template</th>
-              <th>Notes</th>
-            </tr>
-            <tr>
-              <td>POST</td>
-              <td>/session/{sessionId}/element/{id}/size</td>
-              <td></td>
-            </tr>
-          </table>
-          <p>The "getElementSize" command will return a <a>ElementSize</a> dictionary
-            that contains the height and the width of the <a href='http://dev.w3.org/fxtf/geometry/#dom-domrect'>DOMRect</a>
-            of the element.
-      </dd>
+        relative to top left of the document. The height and the width of the
+        <a href='http://dev.w3.org/fxtf/geometry/#dom-domrect'>DOMRect</a>
+        of the element. The point (0, 0) refers to the top-left corner of the document.</dd>
     </dl>
   </section>
 </section>
