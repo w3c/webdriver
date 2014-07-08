@@ -19,7 +19,7 @@
       <dt>void switchToWindow()</dt>
       <dd>
         <dl class='parameters'>
-          <dt>DOMString name</dt>
+          <dt>DOMString handle</dt>
           <dd>The identifier used for a window</dd>
         </dl>
         <p>
@@ -36,12 +36,7 @@
             </tr>
           </table>
           <p>
-        <p>The "switchToWindow" command is used to select which window MUST be used as the context for processing commands. In order to determine which window should be used for accepting commands, the "switchToWindow" command MUST iterate over all windows. For each window, the following MUST be compared &mdash; in this order &mdash; with the "name" parameter:
-
-        <ol>
-          <li>A window handle, obtained from "getWindowHandles" or "getWindowHandle".</li>
-          <li>The window name, as defined when the window was opened (the value of "window.name")</li>
-        </ol>
+        <p>The "switchToWindow" command is used to select which window MUST be used as the context for processing commands. In order to determine which window should be used for accepting commands, the "switchToWindow" command MUST iterate over all windows comparing the window handle.
 
         <p>If no windows match, then a "<code><a href="#status-no-such-window">no such window</a></code>" status code MUST be returned, otherwise the "<a href="#default-content">default content</a>" of the first window to match will be selected for accepting commands.</p>
       </dd>
