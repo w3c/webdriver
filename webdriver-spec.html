@@ -2400,21 +2400,88 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
       <code>window.prompt</code> and <code>window.confirm</code> it should allow the interrogation of the
       dialogues as using the following interface.</p>
       <dl class="idl" title="interface Alerts">
+        <!-- dismiss() -->
         <dt>void dismiss()</dt>
-        <dd>This will dismiss the modal. If the modal is an alert, this MUST be
+        <dd>
+          <p>
+            <table class="simple jsoncommand">
+              <tr>
+                <th>HTTP Method</th>
+                <th>Path Template</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <td>POST</td>
+                <td>/session/{sessionId}/dismiss_alert</td>
+                <td></td>
+              </tr>
+            </table>
+          <p>
+          This will dismiss the modal. If the modal is an alert, this MUST be
           equivalent to calling <code>accept()</code> on the dialog. If no alert
            is present a <code><a href="#status-no-such-alert">no such alert error</a>
          </code> MUST be raised.</dd>
+
+        <!-- accept() -->
         <dt>void accept()</dt>
-        <dd>This will accept the modal. If the modal is from a <code>window.prompt</code>
+        <dd>
+          <p>
+            <table class="simple jsoncommand">
+              <tr>
+                <th>HTTP Method</th>
+                <th>Path Template</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <td>POST</td>
+                <td>/session/{sessionId}/accept_alert</td>
+                <td></td>
+              </tr>
+            </table>
+          <p>
+          This will accept the modal. If the modal is from a <code>window.prompt</code>
          it is the equivalent of clicking the OK button. If no modal is present then a
           <code><a href="#status-no-such-alert">no such alert error</a></code>
            MUST be raised.</dd>
+
+        <!-- getText() -->
         <dt>DOMString getText()</dt>
-        <dd>This will return the message shown in the modal. If no modal is present then a <code><a href="#status-no-such-alert">
+        <dd>
+          <p>
+            <table class="simple jsoncommand">
+              <tr>
+                <th>HTTP Method</th>
+                <th>Path Template</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <td>GET</td>
+                <td>/session/{sessionId}/alert_text</td>
+                <td></td>
+              </tr>
+            </table>
+          <p>
+          This will return the message shown in the modal. If no modal is present then a <code><a href="#status-no-such-alert">
           no such alert error</a></code> MUST be raised.</dd>
+
+        <!-- sendKeys() -->
         <dt>void sendKeys()</dt>
-        <dd>This MUST act in the same manner as in
+        <dd>
+          <p>
+            <table class="simple jsoncommand">
+              <tr>
+                <th>HTTP Method</th>
+                <th>Path Template</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <td>POST</td>
+                <td>/session/{sessionId}/alert_text</td>
+                <td></td>
+              </tr>
+            </table>
+          <p>
+          This MUST act in the same manner as in
           <a href='#widl-WebElement-sendKeys-void-stringArray-keysToSend'>sendKeys</a> to an element.
           If the modal has no means for text input it should throw a <code><a href='#status-element-not-visible'>
           Element not visible error</a></code>. If no modal is present then a <a href="#status-no-such-alert">
