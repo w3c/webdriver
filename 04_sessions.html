@@ -7,11 +7,23 @@
   <code><a>Response</a></code> and is stored on the <dfn id="sessionid" title="sessionid">sessionId</dfn> field.</p>
   <section>
     <h3>Creating a Session</h3>
+    <p><table class="simple jsoncommand">
+      <tr>
+        <th>HTTP Method</th>
+        <th>Path Template</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>POST</td>
+        <td>/session</td>
+        <td></td>
+      </tr>
+    </table>
     <p>The process for successfully creating a session MUST be:</p>
     <ol>
       <li>The local end creates a new <a>Capabilities</a> instance describing the desired capabilities
       for the session. The <a>Capabilities</a> object MUST be defined but MAY be empty.</li>
-      <li>The local end MUST create a new <a>Command</a> with the "name" being "newSession" and the "parameters" containing an
+      <li>The local end MUST create a new <a>Command</a> with the "parameters" containing an
       entry named "desiredCapabilities" with the value set to the <a>Capabilities</a> instance from the previous step. An optional
       "requiredCapabilities" entry MAY also be created and populated with a <a>Capabilities</a> instance. The "sessionId" fields
       SHOULD be left empty.</li>
