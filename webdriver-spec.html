@@ -545,15 +545,12 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
     <p>It is possible to request a particular strategy be used for detecting when the next command should be processed by a remote end implementation by modifying the page load strategy that is used. The following are the expected values that MAY be used when creating a new session:</p>
 
     <dl title='partial interface WebDriver' class='idl'>
-      <dt>const DOMString CONSERVATIVE = 'conservative'</dt>
-      <dd>The remote end MUST wait until all frames and iframes in the window currently being used to process commands
-      that contain an HTML document are at <a href="http://dev.w3.org/html5/spec/single-page.html#current-document-readiness">document.readyState</a> equals 'complete' and there are no outstanding HTTP requests, other than those caused by XMLHttpRequests. If a frame or iframe does not contain an HTML document, the remote end SHOULD wait until all HTTP traffic to that frame is complete. Put in non-normative terms, this implies that the <code>onload</code> event has fired on every frame.</dd>
-
       <dt>const DOMString NORMAL = 'normal'</dt>
       <dd>The remote end MUST wait until the "<code>document.readyState</code>" of the frame currently handling commands equals "<code>complete</code>", or there are no more outstanding network requests other than XMLHttpRequests.</dd>
 
       <dt>const DOMString EAGER = 'eager'</dt>
       <dd>The remote end MUST wait until the "<code>document.readyState</code>" of frame currently handling equals "<code>interactive</code>" or "<code>complete</code>", or there are no more outstanding network requests.</dd>
+
       <dt>const DOMString NONE = 'none'</dt>
       <dd>The remote end does not do any checks to see if a page load is currently active.</dd>
     </dl>
