@@ -552,7 +552,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
       <dd>The remote end MUST wait until the "<code>document.readyState</code>" of frame currently handling equals "<code>interactive</code>" or "<code>complete</code>", or there are no more outstanding network requests.</dd>
 
       <dt>const DOMString NONE = 'none'</dt>
-      <dd>The remote end does not do any checks to see if a page load is currently active.</dd>
+      <dd>The remote end MUST not do any checks against "<code>document.readyState</code>".</dd>
     </dl>
 
     <p>All WebDriver implementations MUST support the <code>normal</code> and <code>eager</code> modes and SHOULD support the <code>conservative</code> and <code>none</code> modes. If no page loading strategy is chosen, then <code>normal</code> MUST be the default.
@@ -1190,6 +1190,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
         <div class="note">
           <p>This implies that <code>isDisplayed</code> MUST return true if the centre of the element could be brought into the viewport. The exception to this would be the BODY element, which is generally assumed to always be displayed by users of the WebDriver spec. It is possible to interact with elements which may not have the centre point brought into the viewport by using the <a href="#low-level-commands">low level commands</a>. This means that if any part of the element could be brought into the viewport by user action and its position could be used by low-level commands then a WebDriver implementation MAY return true.</p>
         </div>
+        <p>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
       <dt>boolean isSelected()</dt>
       <dd><p>
@@ -1212,6 +1213,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
           <li>If the Document node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!html51]] determines whether the element is selected.</li>
           <li>Otherwise, the value of the Document node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!html51]].</li>
         </ol>
+        <p>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
             <dt>DOMString getElementAttribute()</dt>
             <dd><p>
@@ -1303,6 +1305,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
                 <dt>DOMString name</dt>
                 <dd>The name of the property or attribute to return.</dd>
               </dl>
+              <p>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
             </dd>
       <dt>DOMString getCssValue()</dt>
       <dd><p>
@@ -1323,6 +1326,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
           <dt>DOMString propertyName</dt>
           <dd>The name of the property whose value will be returned</dd>
         </dl>
+        <p>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
       <dt>DOMString getElementText()</dt>
           <dd><p>
@@ -1387,6 +1391,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
              </li>
              <li>The string MUST then have the white space normalised as defined in the [[!XPATH]] <a href="http://www.w3.org/TR/xpath/#function-normalize-space">normalize-space function</a> which is then returned.</li>
          </ol>
+         <p>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
        </dd>
        <dt>DOMString getElementTagName()</dt>
        <dd>
@@ -1406,6 +1411,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
            <p>The "getElementTagName" command will return a <code>DOMString</code>
             that is the <a href='http://www.w3.org/TR/DOM-Level-3-Core/glossary.html#dt-qualifiedname'>
             qualified name</a> of the element.
+          <p>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
        </dd>
        <dt>ElementRect getElementRect()</dt>
        <dd><p>
@@ -1430,6 +1436,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
         of the <a>WebElement</a>.
           </ul>
          <p>The point (0, 0) refers to the top left corner of the document.
+          <p>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
       <dt>boolean isEnabled()</dt>
       <dd>
