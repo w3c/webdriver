@@ -2709,64 +2709,49 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
 <li><a href="#capability-takesScreenshot">takesScreenshot</a></li>
 <li><a href="#capability-touchEnabled">touchEnabled</a></li>
 </ul>
+</section><section class='appendix'>
+  <h2>Command Format</h2>
+  <p>This is essentially the content at the start of the json wire protocol</p>
+  <ul>  </ul>
+</section><section class='appendix'>
+  <h2>Thread Safety</h2>
+
+  <p>There is no requirement for local or remote implementations to be thread safe. Local ends SHOULD support serialized access from multiple threads.</p>
+</section><section class='appendix'>
+    <h2>Mapping to HTTP and JSON</h2>
+    <p>
+        <ul><li>/session/{sessionId}/accept_alert</li>
+<li>/session/{sessionId}/alert_text</li>
+<li>/session/{sessionId}/back</li>
+<li>/session/{sessionId}/cookie</li>
+<li>/session/{sessionId}/dismiss_alert</li>
+<li>/session/{sessionId}/element/{id}/attribute/{name}</li>
+<li>/session/{sessionId}/element/{id}/css/{propertyName}</li>
+<li>/session/{sessionId}/element/{id}/displayed</li>
+<li>/session/{sessionId}/element/{id}/enabled</li>
+<li>/session/{sessionId}/element/{id}/name</li>
+<li>/session/{sessionId}/element/{id}/rect</li>
+<li>/session/{sessionId}/element/{id}/selected</li>
+<li>/session/{sessionId}/element/{id}/text</li>
+<li>/session/{sessionId}/execute</li>
+<li>/session/{sessionId}/execute_async</li>
+<li>/session/{sessionId}/forward</li>
+<li>/session/{sessionId}/frame/parent</li>
+<li>/session/{sessionId}/frame</li>
+<li>/session/{sessionId}/refresh</li>
+<li>/session/{sessionId}/screenshot</li>
+<li>/session/{sessionId}/timeouts</li>
+<li>/session/{sessionId}/title</li>
+<li>/session/{sessionId}/url</li>
+<li>/session/{sessionId}/window/{windowHandle}/maximize</li>
+<li>/session/{sessionId}/window/{windowHandle}/size</li>
+<li>/session/{sessionId}/window</li>
+<li>/session/{sessionId}/window_handle</li>
+<li>/session/{sessionId}/window_handles</li>
+<li>/session</li>
+    </ul>
+  </p>
 </section>    <section class='appendix'>
-      <h2>Command Format</h2>
-      <p>This is essentially the content at the start of the json wire protocol</p>
-    </section>
-
-    <section class='appendix'>
-      <h2>Thread Safety</h2>
-
-      <p>There is no requirement for local or remote implementations to be thread safe. Local ends SHOULD support serialized access from multiple threads.</p>
-    </section>
-
-    <section class='appendix'>
-      <h2>Security and Privacy</h2>
-      <p>The following section is non-normative.</p>
-      <section>
-        <h3>Privacy</h3>
-        <p>The local end SHOULD create a new profile when creating a new session.
-          If a new profile can be created it MUST NOT copy the profile in use and
-          MUST create a fresh profile. By creating a new profile the user agent will
-           prevent any unexpected behaviour when the remote end is accessing content.</p>
-      </section>
-      <section>
-        <h3>Security</h3>
-        <p>The remote end SHOULD have a specific command line argument when starting
-          the browser up if it is connecting to a browser
-          (e.g. firefox.exe --webdriver ) and SHOULD have user agent configuration
-           preference that is tested when the user agent starts up
-        <p>When the local end creates a new session the remote end SHOULD limit
-        connections to <code>127.0.0.1</code> IPV4 address or <code>::1</code>
-        IPV6 address. This will prevent new sessions being created without having
-        a specific proxy installed on the remote end.</p>
-        <div class='note'>
-          <p>Some devices will require the device to be placed into a 'developer' mode.
-          This allows unix sockets to be forwarded on to the device while the device is
-          connected to a host. An example of this is if the local end needed to go through
-           a remote debugger protocol.</p>
-        </div>
-        <p>If any of these fail then a
-        <code><a href="#status-session-not-created">session not created</a></code>
-        error MUST be thrown when the local end tries to create a new session.
-      </section>
-      <section>
-        <h3>Fingerprinting</h3>
-        <p>The following will allow web sites to know that the user interacting
-        with the content is not a real user. This can be used to prevent denial
-        of service attacks.
-        <p>When the user agent creates a new session it MUST add a read only property
-        to <code>window.navigator.webdriver</code>. The value should be set to
-        <code>true</code> when WebDriver has an active session. When WebDriver does not have
-        an active session then the value is equal to <code>false</code> or the property is removed.
-      </section>
-    </section>
-    <section class='appendix'>
-      <h2>Mapping to HTTP and JSON</h2>
-      <p></p>
-    </section>
-
-    <section class='appendix'>
       <h2>Acknowledgements</h2>
       <p>
         Many thanks to Robin Berjon for making our lives so much

@@ -14,8 +14,8 @@ BROWSER := firefox
 
 all : webdriver-spec.html
 
-webdriver-spec.html : capabilities.html footer.html *_*.html
-	$(CAT) *_*.html capabilities.html footer.html > webdriver-spec.tmp
+webdriver-spec.html : capabilities.html command.html mapping.html security.html footer.html *_*.html
+	$(CAT) *_*.html capabilities.html command.html threadsafety.html mapping.html footer.html > webdriver-spec.tmp
 	$(CAT) webdriver-spec.tmp | \
 		sed -Ee 's/(<span class="(capability-[a-zA-Z]+).*">.*<\/span>)/<a name="\2"><\/a>\1/g' > $@
 
@@ -25,13 +25,27 @@ caps.fragment : *_*.html
 		sed -Ee 's/.*(capability-[a-zA-Z]+).*">([a-zA-Z]+).*/<li><a href="#\1">\2<\/a><\/li>/g' | \
 		sort > $@
 
+jsoncommand.fragment : *_*.html
+	$(GREP) "td" *_*.html | \
+		$(GREP) "/session" | \
+		sed -Ee "s/(.*<td>(\/session.*)<\/td>)/<li>\2<\/li>/g" | \
+		sort -u > $@
+
+mapping.html : jsoncommand.fragment
+	$(CAT) appendix-mapping-header.html jsoncommand.fragment appendix-mapping-footer.html > $@
+
+command.html :
+	$(CAT) appendix-commandformat-header.html appendix-commandformat-footer.html > $@
+
 capabilities.html : caps.fragment capabilities-*.html
 	$(CAT) capabilities-header.html caps.fragment capabilities-footer.html > $@
 
 clean :
 	$(RM) capabilities.html
+	$(RM) mapping.html
 	$(RM) webdriver-spec.tmp
 	$(RM) caps.fragment
+	$(RM) jsoncommand.fragment
 	$(RM) WebDriver.html
 	$(RM) vnu.jar
 
