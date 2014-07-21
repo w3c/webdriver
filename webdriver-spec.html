@@ -1731,12 +1731,19 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
               <td></td>
             </tr>
           </table>
-          <p>Set a cookie. If the cookie path is not specified, it should be set to "/". Likewise, if the domain is omitted, it should default to the current page's domain.
-        Possible errors that can be returned:
-        <ul>
-          <li><code><a href="#status-invalid-cookie-domain">invalid cookie domain</a></code> - If the cookie's domain is not visible from the current page.<br />
-          <li><code><a href='#status-unable-to-set-cookie'>unable to set cookie</a></code> If attempting to set a cookie on a page that does not support cookies (e.g. pages with mime-type text/plain)
-        </ul>
+          <p>A command named "addCookie" MUST follow:
+          <ol>
+            <li>If the parameters object does not contain an element that can be coverted to
+              <code><a>Cookie</a></code> return a <code><a href='#status-unable-to-set-cookie'>unable to set cookie</a></code> error.</li>
+            <li>If <code><a href='#widl-WebDriver-get-void-DOMString-url'>get()</a></code> has not been called return a
+              <code><a href="#status-invalid-cookie-domain">invalid cookie domain</a></code> error.</li>
+            <li>If <a>Cookie</a> does not have a path specified use <code>/</code></li>
+            <li>If <a>Cookie</a> does not have a domain default to the pages current domain.</li>
+            <li>If <a>Cookie</a> has the <code><a href='#widl-Cookie-expiry'>expiry</a></code> date set in the past the <a>Cookie</a>
+              MUST be deleted.
+            <li>Set the <a>Cookie</a> in the UA. If there is an error during this step
+              <code><a>Cookie</a></code> return a <code><a href='#status-unable-to-set-cookie'>unable to set cookie</a></code> error.</li>
+          </ol>
         <dl class='parameters'>
           <dt>Cookie cookie</dt>
           <dd>
