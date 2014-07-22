@@ -15,7 +15,7 @@ BROWSER := firefox
 all : webdriver-spec.html
 
 webdriver-spec.html : capabilities.html command.html mapping.html security.html footer.html *_*.html
-	$(CAT) *_*.html capabilities.html command.html threadsafety.html mapping.html footer.html > webdriver-spec.tmp
+	$(CAT) *_*.html capabilities.html command.html threadsafety.html security.html mapping.html footer.html > webdriver-spec.tmp
 	$(CAT) webdriver-spec.tmp | \
 		sed -Ee 's/(<span class="(capability-[a-zA-Z]+).*">.*<\/span>)/<a name="\2"><\/a>\1/g' > $@
 
