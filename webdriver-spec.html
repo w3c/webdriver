@@ -492,7 +492,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
 
         <p>Implementors MAY add additional platform names. Until these are standardized, these MUST follow the conventions outlined in <a href="#extending-the-protocol">extending the protocol</a> section with the exception that the vendor prefix SHOULD omit the leading "-" character.<p>
 
-        <p class="note">For example, Mozilla's Firefox OS could be described as either "-MOZ-FIREFOXOS" or "MOZ-FIREFOX". The latter makes it easier for local ends to specify an enum of supported platforms and is therefore recommended in this case.</p>
+        <p class="note">For example, Mozilla's Firefox OS could be described as either "-MOZ-FIREFOXOS". The latter makes it easier for local ends to specify an enum of supported platforms and is therefore recommended in this case.</p>
 
         <!-- TODO: Add section on comparing platforms -->
 
@@ -837,8 +837,8 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
             </tr>
           </table>
         <p>
-        Resizes the Browser window currently receiving commands to have the <code>height</code> and <code>width</code> passed in as <a href='#command-parameters'>parameters</a>.
-        <p>If the user agent can not resize the browser window so that matches the <code>height</code> and <code>width</code>(e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
+        Resizes the Browser window currently in focus to have the <code>height</code> and <code>width</code> passed in as parameters.
+        <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
         <p>After <code>setWindowSize</code>, the browser window MUST NOT be in the maximised state.</p>
         <dl class='parameters'>
           <dt>unsigned double width</dt>
