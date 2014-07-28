@@ -23,7 +23,7 @@
           </tr>
           <tr>
             <td>GET</td>
-            <td id='get-id-displayed'>/session/{sessionId}/element/{id}/displayed</td>
+            <td id='get-id-displayed'>/session/{sessionId}/element/{ELEMENT}/displayed</td>
             <td></td>
           </tr>
         </table>
@@ -70,7 +70,7 @@
         <div class="note">
           <p>This implies that <code>isDisplayed</code> MUST return true if the centre of the element could be brought into the viewport. The exception to this would be the BODY element, which is generally assumed to always be displayed by users of the WebDriver spec. It is possible to interact with elements which may not have the centre point brought into the viewport by using the <a href="#low-level-commands">low level commands</a>. This means that if any part of the element could be brought into the viewport by user action and its position could be used by low-level commands then a WebDriver implementation MAY return true.</p>
         </div>
-        <p>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+        <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
       <dt>boolean isSelected()</dt>
       <dd><p>
@@ -82,7 +82,7 @@
           </tr>
           <tr>
             <td>GET</td>
-            <td id='get-id-selected'>/session/{sessionId}/element/{id}/selected</td>
+            <td id='get-id-selected'>/session/{sessionId}/element/{ELEMENT}/selected</td>
             <td></td>
           </tr>
         </table>
@@ -93,7 +93,7 @@
           <li>If the Document node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!html51]] determines whether the element is selected.</li>
           <li>Otherwise, the value of the Document node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!html51]].</li>
         </ol>
-        <p>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+        <p>If <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
             <dt>DOMString getElementAttribute()</dt>
             <dd><p>
@@ -105,7 +105,7 @@
                 </tr>
                 <tr>
                   <td>GET</td>
-                  <td id='get-id-attribute'>/session/{sessionId}/element/{id}/attribute/{name}</td>
+                  <td id='get-id-attribute'>/session/{sessionId}/element/{ELEMENT}/attribute/{name}</td>
                   <td></td>
                 </tr>
               </table>
@@ -185,7 +185,7 @@
                 <dt>DOMString name</dt>
                 <dd>The name of the property or attribute to return.</dd>
               </dl>
-              <p>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+              <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
             </dd>
       <dt>DOMString getCssValue()</dt>
       <dd><p>
@@ -197,7 +197,7 @@
           </tr>
           <tr>
             <td>GET</td>
-            <td id='get-id-css-property'>/session/{sessionId}/element/{id}/css/{propertyName}</td>
+            <td id='get-id-css-property'>/session/{sessionId}/element/{ELEMENT}/css/{propertyName}</td>
             <td></td>
           </tr>
         </table>
@@ -206,7 +206,7 @@
           <dt>DOMString propertyName</dt>
           <dd>The name of the property whose value will be returned</dd>
         </dl>
-        <p>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+        <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
       <dt>DOMString getElementText()</dt>
           <dd><p>
@@ -218,7 +218,7 @@
               </tr>
               <tr>
                 <td>GET</td>
-                <td id='get-id-text'>/session/{sessionId}/element/{id}/text</td>
+                <td id='get-id-text'>/session/{sessionId}/element/{ELEMENT}/text</td>
                 <td></td>
               </tr>
             </table>
@@ -271,7 +271,7 @@
              </li>
              <li>The string MUST then have the white space normalised as defined in the [[!XPATH]] <a href="http://www.w3.org/TR/xpath/#function-normalize-space">normalize-space function</a> which is then returned.</li>
          </ol>
-         <p>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+         <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
        </dd>
        <dt>DOMString getElementTagName()</dt>
        <dd>
@@ -284,14 +284,14 @@
              </tr>
              <tr>
                <td>GET</td>
-               <td id='get-id-displayed'>/session/{sessionId}/element/{id}/name</td>
+               <td id='get-id-displayed'>/session/{sessionId}/element/{ELEMENT}/name</td>
                <td></td>
              </tr>
            </table>
            <p>The "getElementTagName" command will return a <code>DOMString</code>
             that is the <a href='http://www.w3.org/TR/DOM-Level-3-Core/glossary.html#dt-qualifiedname'>
             qualified name</a> of the element.
-          <p>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+          <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
        </dd>
        <dt>ElementRect getElementRect()</dt>
        <dd><p>
@@ -303,7 +303,7 @@
            </tr>
            <tr>
              <td>GET</td>
-             <td id='get-id-rect'>/session/{sessionId}/element/{id}/rect</td>
+             <td id='get-id-rect'>/session/{sessionId}/element/{ELEMENT}/rect</td>
              <td></td>
            </tr>
          </table>
@@ -316,7 +316,7 @@
         of the <a>WebElement</a>.
           </ul>
          <p>The point (0, 0) refers to the top left corner of the document.
-          <p>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+          <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
       <dt>boolean isEnabled()</dt>
       <dd>
@@ -329,7 +329,7 @@
              </tr>
              <tr>
                <td>GET</td>
-               <td id='get-id-enabled'>/session/{sessionId}/element/{id}/enabled</td>
+               <td id='get-id-enabled'>/session/{sessionId}/element/{ELEMENT}/enabled</td>
                <td></td>
              </tr>
            </table>
@@ -340,7 +340,7 @@
             <li>A <a>WebElement</a> has a <code>disabled</code> <a href="http://www.w3.org/html/wg/drafts/html/master/infrastructure.html#boolean-attribute">boolean attribute</a> as described in <a href='http://www.w3.org/html/wg/drafts/html/master/disabled-elements.html#disabled-elements'>disabled elements</a> of [[!html51]]</li>
           </ul>
 
-        <p>If the element's ID does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+        <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
     </dl>
   </section>
