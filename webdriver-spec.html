@@ -975,7 +975,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
         <ol>
           <li>If the "id" is a unsigned short the current context is set to the equivalent of the JS expression "window.frames[id]" where "id" is the number and "window" is the Document window represented by the current context.</li>
           <li>If the "id" is null, the current context is set to the <a href='#default-content'>default content</a>.</li>
-          <li>If the "id" represents a <a>WebElement</a>, and the corresponding Document element represents a FRAME or an IFRAME, and the <a>WebElement</a> is part of the current context, the "window" property of that Document element becomes the current context.</li>
+          <li>If the "id" represents a <a>WebElement</a>, and the corresponding <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> represents a FRAME or an IFRAME, and the <a>WebElement</a> is part of the current context, the "window" property of that <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> becomes the current context.</li>
         </ol>
 
         <p>In all cases if no match is made a "<code><a href="#status-no-such-frame">no such frame</a></code>" status code MUST be returned.</p>
@@ -1021,12 +1021,12 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
   <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-element">Element</a> as defined in the
   [[!DOM4]] specification. Because the WebDriver API is designed to allow users to interact with apps as if
   they were actual users, the capabilities offered by the
-  <code>WebElement</code> interface are somewhat different from those offered by the Document Element interface.</p>
+  <code>WebElement</code> interface are somewhat different from those offered by the <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> interface.</p>
 
   <p>Each WebElement instance must have an identifier, which is distinct from the value
-  of the Document Element's "id" property. The identifier for every WebElement representing the same
-  underlying Document Element MUST be the same. The identifiers used to refer to different
-  underlying Document Elements MUST be unique within the session over the entire duration of the session.</p>
+  of the <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> "id" property. The identifier for every WebElement representing the same
+  underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> MUST be the same. The identifiers used to refer to different
+  underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>s MUST be unique within the session over the entire duration of the session.</p>
 
   <div class="note">
     <p>This requirement around WebElement identifiers allows for efficient equality
@@ -1196,7 +1196,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
         <div class="note">
           <p>This implies that <code>isDisplayed</code> MUST return true if the centre of the element could be brought into the viewport. The exception to this would be the BODY element, which is generally assumed to always be displayed by users of the WebDriver spec. It is possible to interact with elements which may not have the centre point brought into the viewport by using the <a href="#low-level-commands">low level commands</a>. This means that if any part of the element could be brought into the viewport by user action and its position could be used by low-level commands then a WebDriver implementation MAY return true.</p>
         </div>
-        <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+        <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
       <dt>boolean isSelected()</dt>
       <dd><p>
@@ -1219,7 +1219,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
           <li>If the Document node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!html51]] determines whether the element is selected.</li>
           <li>Otherwise, the value of the Document node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!html51]].</li>
         </ol>
-        <p>If <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+        <p>If <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
             <dt>DOMString getElementAttribute()</dt>
             <dd><p>
@@ -1235,7 +1235,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
                   <td></td>
                 </tr>
               </table>
-              <p>Although the [[!html51]] spec is very clear about the difference between the properties and attributes of a Document element, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning either of the value of a Document element's property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
+              <p>Although the [[!html51]] spec is very clear about the difference between the properties and attributes of a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, users are frequently confused between the two. Because of this, the WebDriver API offers a single command ("getElementAttribute") which covers the case of returning either of the value of a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
 
               <p>The algorithm to implement this MUST be (where <code>name</code> refers to the <code>name</code> parameter of the <code>getElementAttribute</code> command):</p>
 
@@ -1311,7 +1311,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
                 <dt>DOMString name</dt>
                 <dd>The name of the property or attribute to return.</dd>
               </dl>
-              <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+              <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
             </dd>
       <dt>DOMString getCssValue()</dt>
       <dd><p>
@@ -1332,7 +1332,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
           <dt>DOMString propertyName</dt>
           <dd>The name of the property whose value will be returned</dd>
         </dl>
-        <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+        <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
       <dt>DOMString getElementText()</dt>
           <dd><p>
@@ -1397,7 +1397,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
              </li>
              <li>The string MUST then have the white space normalised as defined in the [[!XPATH]] <a href="http://www.w3.org/TR/xpath/#function-normalize-space">normalize-space function</a> which is then returned.</li>
          </ol>
-         <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+         <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
        </dd>
        <dt>DOMString getElementTagName()</dt>
        <dd>
@@ -1417,7 +1417,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
            <p>The "getElementTagName" command will return a <code>DOMString</code>
             that is the <a href='http://www.w3.org/TR/DOM-Level-3-Core/glossary.html#dt-qualifiedname'>
             qualified name</a> of the element.
-          <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+          <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
        </dd>
        <dt>ElementRect getElementRect()</dt>
        <dd><p>
@@ -1442,7 +1442,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
         of the <a>WebElement</a>.
           </ul>
          <p>The point (0, 0) refers to the top left corner of the document.
-          <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+          <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
       <dt>boolean isEnabled()</dt>
       <dd>
@@ -1466,7 +1466,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
             <li>A <a>WebElement</a> has a <code>disabled</code> <a href="http://www.w3.org/html/wg/drafts/html/master/infrastructure.html#boolean-attribute">boolean attribute</a> as described in <a href='http://www.w3.org/html/wg/drafts/html/master/disabled-elements.html#disabled-elements'>disabled elements</a> of [[!html51]]</li>
           </ul>
 
-        <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+        <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the window currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </dd>
     </dl>
   </section>
@@ -1506,8 +1506,8 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
           <li>an object, then recursively apply this algorithm to each value in <code>args[index]</code> and assign the result to <code>args[index]</code>.</li>
           <li>a <a href="#elements">WebElement</a>, then:
             <ol>
-              <li>If <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error.</li>
-              <li>Otherwise, let <code>args[index]</code> be the underlying Document Element.</li>
+              <li>If <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error.</li>
+              <li>Otherwise, let <code>args[index]</code> be the underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>.</li>
             </ol>
           </li>
           <li>Otherwise WebDriver implementations MAY throw an <code><a href="#status-unknown-error">unknown error</a></code> indicating the index of the unhandled parameter but SHOULD attempt to convert the value into a <code>object</code>.</li>
@@ -1562,7 +1562,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
                     <ol>
                       <li><code>undefined</code> or <code>null</code>, return <code> null</code>.
                       <li>a long, boolean, or DOMString, return <code>result</code>.
-                      <li>a Document Element, then return the corresponding WebElement for that Document Element.
+                      <li>a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, then return the corresponding WebElement for that <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>.
                       <!-- Should there be a recursion limit? -->
                       <li>a <code>Sequence &lt;Node&gt; nodes</code>, then return the result of recursively applying this algorithm to <code>result</code>.
                       <!-- Should there be a limit? -->
@@ -1636,7 +1636,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
                                   <ol>
                                     <li><code>undefined</code> or <code>null</code>, return <code> null</code>.</li>
                                     <li>a long, boolean, or DOMString, return <code>result</code>.</li>
-                                    <li>a Document Element, then return the corresponding WebElement for that Document Element.</li>
+                                    <li>a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, then return the corresponding WebElement for that <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>.</li>
                                     <!-- Should there be a recursion limit? -->
                                     <li>a <code>Sequence &lt;Node> Nodes</code>, then return the result by recursively applying this algorithm to <code>result</code>. WebDriver implementations SHOULD limit the recursion depth.</li>
                                     <!-- Should there be a limit? -->

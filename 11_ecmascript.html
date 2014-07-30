@@ -33,8 +33,8 @@
           <li>an object, then recursively apply this algorithm to each value in <code>args[index]</code> and assign the result to <code>args[index]</code>.</li>
           <li>a <a href="#elements">WebElement</a>, then:
             <ol>
-              <li>If <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a Document Element, or it represents a Document Element that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error.</li>
-              <li>Otherwise, let <code>args[index]</code> be the underlying Document Element.</li>
+              <li>If <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error.</li>
+              <li>Otherwise, let <code>args[index]</code> be the underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>.</li>
             </ol>
           </li>
           <li>Otherwise WebDriver implementations MAY throw an <code><a href="#status-unknown-error">unknown error</a></code> indicating the index of the unhandled parameter but SHOULD attempt to convert the value into a <code>object</code>.</li>
@@ -89,7 +89,7 @@
                     <ol>
                       <li><code>undefined</code> or <code>null</code>, return <code> null</code>.
                       <li>a long, boolean, or DOMString, return <code>result</code>.
-                      <li>a Document Element, then return the corresponding WebElement for that Document Element.
+                      <li>a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, then return the corresponding WebElement for that <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>.
                       <!-- Should there be a recursion limit? -->
                       <li>a <code>Sequence &lt;Node&gt; nodes</code>, then return the result of recursively applying this algorithm to <code>result</code>.
                       <!-- Should there be a limit? -->
@@ -163,7 +163,7 @@
                                   <ol>
                                     <li><code>undefined</code> or <code>null</code>, return <code> null</code>.</li>
                                     <li>a long, boolean, or DOMString, return <code>result</code>.</li>
-                                    <li>a Document Element, then return the corresponding WebElement for that Document Element.</li>
+                                    <li>a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, then return the corresponding WebElement for that <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>.</li>
                                     <!-- Should there be a recursion limit? -->
                                     <li>a <code>Sequence &lt;Node> Nodes</code>, then return the result by recursively applying this algorithm to <code>result</code>. WebDriver implementations SHOULD limit the recursion depth.</li>
                                     <!-- Should there be a limit? -->
