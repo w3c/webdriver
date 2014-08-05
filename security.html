@@ -14,10 +14,13 @@
       the browser up if it is connecting to a browser
       (e.g. firefox.exe --webdriver ) and SHOULD have user agent configuration
        preference that is tested when the user agent starts up
-    <p>When the local end creates a new session the remote end SHOULD limit
-    connections to <code>127.0.0.1</code> IPV4 address or <code>::1</code>
-    IPV6 address. This will prevent new sessions being created without having
-    a specific proxy installed on the remote end.</p>
+    <p>When the remote end starts up, it MUST include a flag or setting to limit
+      the IP addesses allowed to connect and create sessions. 
+      The default value for this setting SHOULD limit connections to be from
+      <code>127.0.0.1</code> IPV4 address or <code>::1</code> IPV6 address.
+      This will prevent arbitrary machines from connecting and creating WebDriver
+      sessions unless specifically configured to allow them, while still supporting
+      use-cases where the local end runs on a different machine from the remote end.</p>
     <div class='note'>
       <p>Some devices will require the device to be placed into a 'developer' mode.
       This allows unix sockets to be forwarded on to the device while the device is
