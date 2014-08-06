@@ -4,7 +4,7 @@
   child windows. The WebDriver API gives each session a unique ID stored as an opaque string that can be used to differentiate one
   session from another, allowing multiple browsers to be controlled on the same machine if needed, and allowing
   sessions to be routed via a multiplexer. This ID is sent with every <code><a>Command</a></code> and returned with every
-  <code><a>Response</a></code> and is stored on the <dfn id="sessionid" title="sessionid">sessionId</dfn> field.</p>
+  <code><a>Response</a></code> and is stored on the <dfn id='#sessionId' title="sessionid">sessionId</dfn> field.</p>
   <section>
     <h3>Creating a Session</h3>
     <p><table class="simple jsoncommand">
@@ -19,6 +19,10 @@
         <td></td>
       </tr>
     </table>
+    <p><dl class='idl' title='partial interface WebDriver'>
+      <dt>attribute DOMString sessionId </dt>
+      <dd>An opaque string that relates to the <a href='#sessionId'>sessionId</a>.</dd>
+    </dl>
     <p>The process for successfully creating a session MUST be:</p>
     <ol>
       <li>The local end creates a new <a>Capabilities</a> instance describing the desired capabilities
@@ -119,5 +123,26 @@
       <p>For all comparisons, if the key is missing (as determined by a call to Capability.has() returning "false"), that particular criteria shall not factor into the
       comparison.</p>
     </section>
+  </section>
+  <section>
+    <h3>Removing a Session</h3>
+    <p><table class="simple jsoncommand">
+      <tr>
+        <th>HTTP Method</th>
+        <th>Path Template</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>DELETE</td>
+        <td id='delete-session'>/session/{sessionId}</td>
+        <td></td>
+      </tr>
+    </table>
+    <p>When removing the session the User Agent MUST do the following
+      <ol>
+        <li>If the <a href='#sessionid'>sessionId</a> does not exist an <code><a href="#status-unsupported-operation">unsupported operation</a></code> will be returned.</li>
+        <li>close all windows that have the <a href='#sessionid'>sessionId</a> associated with it.</li>
+        <li>set <a href='#widl-WebDriver-sessionId'><code>sessionId</code></a> to null.
+      </ol>
   </section>
 </section>

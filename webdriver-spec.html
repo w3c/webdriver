@@ -411,7 +411,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
   child windows. The WebDriver API gives each session a unique ID stored as an opaque string that can be used to differentiate one
   session from another, allowing multiple browsers to be controlled on the same machine if needed, and allowing
   sessions to be routed via a multiplexer. This ID is sent with every <code><a>Command</a></code> and returned with every
-  <code><a>Response</a></code> and is stored on the <dfn id="sessionid" title="sessionid">sessionId</dfn> field.</p>
+  <code><a>Response</a></code> and is stored on the <dfn id='#sessionId' title="sessionid">sessionId</dfn> field.</p>
   <section>
     <h3>Creating a Session</h3>
     <p><table class="simple jsoncommand">
@@ -426,6 +426,10 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
         <td></td>
       </tr>
     </table>
+    <p><dl class='idl' title='partial interface WebDriver'>
+      <dt>attribute DOMString sessionId </dt>
+      <dd>An opaque string that relates to the <a href='#sessionId'>sessionId</a>.</dd>
+    </dl>
     <p>The process for successfully creating a session MUST be:</p>
     <ol>
       <li>The local end creates a new <a>Capabilities</a> instance describing the desired capabilities
@@ -526,6 +530,27 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
       <p>For all comparisons, if the key is missing (as determined by a call to Capability.has() returning "false"), that particular criteria shall not factor into the
       comparison.</p>
     </section>
+  </section>
+  <section>
+    <h3>Removing a Session</h3>
+    <p><table class="simple jsoncommand">
+      <tr>
+        <th>HTTP Method</th>
+        <th>Path Template</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>DELETE</td>
+        <td id='delete-session'>/session/{sessionId}</td>
+        <td></td>
+      </tr>
+    </table>
+    <p>When removing the session the User Agent MUST do the following
+      <ol>
+        <li>If the <a href='#sessionid'>sessionId</a> does not exist an <code><a href="#status-unsupported-operation">unsupported operation</a></code> will be returned.</li>
+        <li>close all windows that have the <a href='#sessionid'>sessionId</a> associated with it.</li>
+        <li>set <a href='#widl-WebDriver-sessionId'><code>sessionId</code></a> to null.
+      </ol>
   </section>
 </section>
 <section>
@@ -803,7 +828,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
             </tr>
           </table>
 
-        <p>The close command closes the window that <a>Command</a>s are currently being sent to. If this means that a call to get the list of window handles would return an empty list, then this close command MUST be the equivalent of calling "quit". That is, if the final window of a session is closed, then the session quits.</p>
+        <p>The close command closes the window that <a>Command</a>s are currently being sent to. If this means that a call to get the list of window handles would return an empty list, then this close command MUST  <a href='removing-a-session'>remove the session</a>. That is, if the final window of a session is closed, then the session quits.</p>
 
         <p>Once the window has closed, future commands MUST return a status code of <code><a href="#status-no-such-window">no such window</a></code> until a new window is selected for receiving commands.</p>
       </dd>
@@ -2763,6 +2788,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
     <h2>Mapping to HTTP and JSON</h2>
     <p>
         <ul><li><a href="#post-session">/session</a></li>
+<li><a href="#delete-session">/session/{sessionId}</a></li>
 <li><a href="#post-url">/session/{sessionId}/url</a></li>
 <li><a href="#get-url">/session/{sessionId}/url</a></li>
 <li><a href="#post-back">/session/{sessionId}/back</a></li>
