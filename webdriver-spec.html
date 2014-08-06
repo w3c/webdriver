@@ -922,9 +922,9 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
       <!-- fullscreenWindow -->
       <dt>void fullscreenWindow()</dt>
       <dd>
-        <p>After <code>fullscreenWindow</code>, the browser window currently in focus MUST be in full-screen mode. For those operating systems that support the concept, this MUST be equivalent to if the user requested the window be full screen. If the OS does not support the concept of full-screen, then this command is a synonym for "<code>maximizeWindow</code>".
+        <p>After <code>fullscreenWindow</code>, the browser window currently in focus MUST be in full-screen mode. For those operating systems that support the concept, this MUST be equivalent to if the user requested the window be full screen.</p>
 
-        <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
+        <p>If the browser or OS does not support switching to full-screen mode, an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
       </dd>
     </dl>
   </section>
@@ -2242,7 +2242,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
         <dl class="idl" title="partial interface WebElement">
           <dt>void clear()</dt>
           <dd>Clears the value of the element.</dd>
-          <dt>void sendKeys(string[] keysToSend)</dt>
+          <dt>void sendKeys(string keysToSend)</dt>
           <dd>Sends a sequence of keyboard events representing the keys in the keysToSend parameter.
             <p>Caret positioning: If focusing was needed, after following the focusing steps, the caret MUST be positioned at the end of the text currently in the element. At the end of the interaction, the caret MUST be positioned at the end of the typed text sequence, unless the keys sent position it otherwise (e.g. using the LEFT key).</p>
             <p>There are four different types of keys that are emulated:
@@ -2760,10 +2760,13 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
       the browser up if it is connecting to a browser
       (e.g. firefox.exe --webdriver ) and SHOULD have user agent configuration
        preference that is tested when the user agent starts up
-    <p>When the local end creates a new session the remote end SHOULD limit
-    connections to <code>127.0.0.1</code> IPV4 address or <code>::1</code>
-    IPV6 address. This will prevent new sessions being created without having
-    a specific proxy installed on the remote end.</p>
+    <p>When the remote end starts up, it MUST include a flag or setting to limit
+      the IP addesses allowed to connect and create sessions. 
+      The default value for this setting SHOULD limit connections to be from
+      <code>127.0.0.1</code> IPV4 address or <code>::1</code> IPV6 address.
+      This will prevent arbitrary machines from connecting and creating WebDriver
+      sessions unless specifically configured to allow them, while still supporting
+      use-cases where the local end runs on a different machine from the remote end.</p>
     <div class='note'>
       <p>Some devices will require the device to be placed into a 'developer' mode.
       This allows unix sockets to be forwarded on to the device while the device is
@@ -2784,7 +2787,8 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
     <code>true</code> when WebDriver has an active session. When WebDriver does not have
     an active session then the value is equal to <code>false</code> or the property is removed.
   </section>
-</section><section class='appendix'>
+</section>
+<section class='appendix'>
     <h2>Mapping to HTTP and JSON</h2>
     <p>
         <ul><li><a href="#post-session">/session</a></li>
