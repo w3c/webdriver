@@ -1,14 +1,14 @@
 <section>
   <h2>Where Commands Are Handled</h2>
 
-  <p>Web applications can be composed of multiple windows and/or frames. For a normal user, the context in which an operation is performed is obvious: it's the window or frame that currently has OS focus and which has just received user input. The WebDriver API does not follow this convention. There is an expectation that many browsers using the WebDriver API may be used at the same time on the same machine. This section describes how WebDriver tracks which window or frame is currently the context in which commands are being executed.</p>
+  <p>Web applications can be composed of multiple <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> and/or frames. For a normal user, the context in which an operation is performed is obvious: it's the window or frame that currently has OS focus and which has just received user input. The WebDriver API does not follow this convention. There is an expectation that many browsers using the WebDriver API may be used at the same time on the same machine. This section describes how WebDriver tracks which window or frame is currently the context in which commands are being executed.</p>
 
   <section>
     <h2>Default Content</h2>
 
     <p>WebDriver's <dfn id="default-content">default content</dfn> is [[!html51]]'s <a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top level browsing context</a> that is currently receiving WebDriver commands.</p>
 
-    <p>When a WebDriver instance is started and a single browser window is opened, the <a href="#default-content">default content</a> of that window is automatically selected for receiving further commands. If more than one window is opened when the session starts, then the user MUST first select which window to act upon using the <code>switchToWindow</code> command. Until the user selects a window, all commands must return a status code of <code><a href="#status-no-such-window">no such window</a></code>.</p>
+    <p>When a WebDriver instance is started and a single OS window is opened, the <a href="#default-content">default content</a> of that OS window is automatically selected for receiving further commands. If more than one OS window or multiple <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing contexts</a> are opened when the session starts, then the user MUST first select which <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> to act upon using the <code>switchToWindow</code> command. Until the user selects a <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a>, all commands must return a status code of <code><a href="#status-no-such-window">no such window</a></code>.</p>
 
   </section>
 
@@ -20,7 +20,7 @@
       <dd>
         <dl class='parameters'>
           <dt>DOMString handle</dt>
-          <dd>The identifier used for a window</dd>
+          <dd>The identifier used for a <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a></dd>
         </dl>
         <p>
           <table class="simple jsoncommand">
@@ -36,9 +36,9 @@
             </tr>
           </table>
           <p>
-        <p>The "switchToWindow" command is used to select which window MUST be used as the context for processing commands. In order to determine which window should be used for accepting commands, the "switchToWindow" command MUST iterate over all windows comparing the window handle.
+        <p>The "switchToWindow" command is used to select which <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> MUST be used as the context for processing commands. In order to determine which <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> should be used for accepting commands, the "switchToWindow" command MUST iterate over all <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> comparing the window handle.
 
-        <p>If no windows match, then a "<code><a href="#status-no-such-window">no such window</a></code>" status code MUST be returned, otherwise the "<a href="#default-content">default content</a>" of the first window to match will be selected for accepting commands.</p>
+        <p>If no <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing contexts</a> match, then a "<code><a href="#status-no-such-window">no such window</a></code>" status code MUST be returned, otherwise the "<a href="#default-content">default content</a>" of the first match will be selected for accepting commands.</p>
       </dd>
     </dl>
   </section>
@@ -64,7 +64,7 @@
           <dt><a>WebElement</a> or unsigned short? id</dt>
           <dd>The identifier used for a frame.</dd>
         </dl>
-        <p>The "switchToFrame" command is used to select which frame within a window MUST be used as the context for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "<code>id</code>" parameter can be an unsigned short or a <a>WebElement</a>. WebDriver implementations MUST determine which frame to select using the following algorithm:
+        <p>The "switchToFrame" command is used to select which frame which is a child of the<a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> MUST be used as the context for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "<code>id</code>" parameter can be an unsigned short or a <a>WebElement</a>. WebDriver implementations MUST determine which frame to select using the following algorithm:
 
         <ol>
           <li>If the "id" is a unsigned short the current context is set to the equivalent of the JS expression "window.frames[id]" where "id" is the number and "window" is the Document window represented by the current context.</li>

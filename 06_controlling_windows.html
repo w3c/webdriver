@@ -2,11 +2,13 @@
   <h2>Controlling Windows</h2>
 
   <section>
-    <h2>Defining "window" and "frame"</h2>
+    <h2>Definitions</h2>
 
     <p>Within this specification, a window equates to [[!html51]]'s <a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top level browsing context</a>. Put another way, within this spec browser tabs are counted as separate windows.</p>
 
     <p><strong>TODO: define "frame"</strong></p>
+
+
   </section>
 
   <section>
@@ -26,13 +28,13 @@
             <td></td>
           </tr>
         </table>
-        <p>Each window has a "window handle" associated with it. This is an opaque string which MUST uniquely identify the window within the session and MUST NOT be "current". This MAY be a UUID. The "getWindowHandle" command can be used to obtain the window handle for the window that commands are currently acting upon.</p>
+        <p>Each <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> has a "window handle" associated with it. This is an opaque string which MUST uniquely identify the window within the session and MUST NOT be "current". This MAY be a UUID. The "getWindowHandle" command can be used to obtain the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> handle for the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> that commands are currently acting upon.</p>
       </dd>
     </dl>
   </section>
 
   <section>
-    <h2 name="iterating-over-windows">Iterating Over Windows</h2>
+    <h2 name="iterating-over-windows">Iterating Over <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a></h2>
     <dl class='idl' title='partial interface WebDriver'>
       <dt>sequence&lt;DOMString> getWindowHandles()</dt>
       <dd>
@@ -49,9 +51,9 @@
             <td></td>
           </tr>
         </table>
-        <p>This array of returned strings MUST contain a handle for every window associated with the browser session and no others. For each returned window handle the javascript expression "window.top.closed" (or equivalent) MUST evaluate to false at the time the command is being executed.</p>
+        <p>This array of returned strings MUST contain a handle for every <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> associated with the browser session and no others. For each returned window handle the javascript expression "window.top.closed" (or equivalent) MUST evaluate to false at the time the command is being executed.</p>
 
-    <p>The ordering of the array elements is not defined, but MAY be determined by iterating over each top level browser window and returning the tabs within that window before iterating over the tabs of the next top level browser window. For example, in the diagram below, the window handles should be returned as the handles for: win1tab1, win1tab2, win2.</p>
+    <p>The ordering of the sequence is not defined, but MAY be determined by iterating over each OS Window and returning the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> items within that OS window before iterating over the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing contexts</a> of the next OS window. For example, in the diagram below, the window handles should be returned as the handles for: win1tab1, win1tab2, win2.</p>
 
     <img src="example-windows.png" alt="Two top level windows. The first window has two tabs, lablled win1tab1 and win1tab2. The second window has only one tab labelled win2"/>
 
@@ -78,21 +80,21 @@
             </tr>
           </table>
 
-        <p>The close command closes the window that <a>Command</a>s are currently being sent to. If this means that a call to get the list of window handles would return an empty list, then this close command MUST  <a href='removing-a-session'>remove the session</a>.</p>
+        <p>The close command closes the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> that <a>Command</a>s are currently being sent to. If this means that a call to get the list of window handles would return an empty list, then this close command MUST  <a href='removing-a-session'>remove the session</a>.</p>
 
-        <p>Once the window has closed, future commands MUST return a status code of <code><a href="#status-no-such-window">no such window</a></code> until a new window is selected for receiving commands.</p>
+        <p>Once the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> has closed, future commands MUST return a status code of <code><a href="#status-no-such-window">no such window</a></code> until a new <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> is selected for receiving commands.</p>
       </dd>
     </dl>
   </section>
 
   <section>
     <h2>Resizing and Positioning Windows</h2>
-    <p>All commands MUST be handled by the window that ultimately owns the current context.</p>
+    <p>All commands MUST be handled by the OS window that ultimately owns the current context.</p>
     <dl class='idl' title='dictionary WindowSize'>
       <dt>double height</dt>
-      <dd>The height of the window in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>.
+      <dd>The height of the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>.
       <dt>double width</dt>
-      <dd>The width of the window in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>.
+      <dd>The width of the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>.
     </dl>
     <dl class='idl' title='partial interface WebDriver'>
       <!-- setWindowSize() -->
@@ -112,14 +114,14 @@
             </tr>
           </table>
         <p>
-        Resizes the Browser window currently in focus to have the <code>height</code> and <code>width</code> passed in as parameters.
-        <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
+        Resizes the OS window currently receiving commands to have the <code>height</code> and <code>width</code> passed in as parameters.
+        <p>If a request is made to resize a OS window to a size which cannot be performed (e.g. the browser has a minimum, or fixed OS window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
         <p>After <code>setWindowSize</code>, the browser window MUST NOT be in the maximised state.</p>
         <dl class='parameters'>
           <dt>unsigned double width</dt>
-          <dd>The "width" value refer to the javascript <code>window.outerwidth</code> property. For those browsers that do not support this property, it represents the width of the whole browser window including window chrome and window resizing borders/handles.</dd>
+          <dd>The "width" value refer to the javascript <code>window.outerwidth</code> property. If the User Agent does not support this property, it represents the width of the whole OS window including window chrome and window resizing borders/handles.</li></dd>
           <dt>unsigned double height</dt>
-          <dd>The "height" value refer to the javascript <code>window.outerheight</code> property. For those browsers that do not support this property, it represents the height of the whole browser window including window chrome and window resizing borders/handles.</dd>
+          <dd>The "height" value refer to the javascript <code>window.outerheight</code> property. If the User Agent does not support this property, it represents the width of the whole OS window including window chrome and window resizing borders/handles.</li></dd>
         </dl>
       </dd>
 
@@ -143,8 +145,8 @@
           A command named "getWindowSize()":
         <ol>
           <li>Create a <a>WindowSize</a> dictionary containing the <code><a href='#widl-WindowSize-height'>height</a></code> and <code><a href='#widl-WindowSize-width'>width</a></code> keys.
-          <li>Populate <code><a href='#widl-WindowSize-width'>width</a></code> with the value of <code>window.outerwidth</code> property of the browser window currently in focus in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a>. If the User Agent does not support this property, it represents the width of the whole browser window including window chrome and window resizing borders/handles.</li>
-          <li>Populate <code><a href='#widl-WindowSize-height'>height</a></code> with the value of <code>window.outerheight</code> property of the browser window currently in focus in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a>. If the User Agent does not support this property, it represents the height of the whole browser window including window chrome and window resizing borders/handles.</li>
+          <li>Populate <code><a href='#widl-WindowSize-width'>width</a></code> with the value of <code>window.outerwidth</code> property of the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a>. If the User Agent does not support this property, it represents the width of the whole OS window including window chrome and window resizing borders/handles.</li>
+          <li>Populate <code><a href='#widl-WindowSize-height'>height</a></code> with the value of <code>window.outerheight</code> property of the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a>. If the User Agent does not support this property, it represents the width of the whole OS window including window chrome and window resizing borders/handles.</li>
           <li>Return <a>WindowSize</a></li>
         </ol>
       </dd>
@@ -165,16 +167,16 @@
               <td></td>
             </tr>
           </table>
-        <p>After  <code>maximizeWindow</code>, the browser window currently in focus MUST be left as if the maximise button had been pressed if, and only if, the window manager of the OS supports this concept; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
+        <p>After  <code>maximizeWindow</code>, the OS window currently receving commands MUST be left as if the maximise button had been pressed if, and only if, the window manager of the OS supports this concept; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
         <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
       </dd>
 
       <!-- fullscreenWindow -->
       <dt>void fullscreenWindow()</dt>
       <dd>
-        <p>After <code>fullscreenWindow</code>, the browser window currently in focus MUST be in full-screen mode. For those operating systems that support the concept, this MUST be equivalent to if the user requested the window be full screen.</p>
+        <p>After <code>fullscreenWindow</code>, the OS window currently receiving commands MUST be in full-screen mode. For those operating systems that support the concept, this MUST be equivalent to if the user requested the OS window be full screen.</p>
 
-        <p>If the browser or OS does not support switching to full-screen mode, an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
+        <p>If the User Agent or OS does not support switching to full-screen mode, an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
       </dd>
     </dl>
   </section>
