@@ -427,8 +427,13 @@
         <dl class="idl" title="partial interface WebElement">
           <dt>void clear()</dt>
           <dd>Clears the value of the element.</dd>
-          <dt>void sendKeys(string keysToSend)</dt>
-          <dd>Sends a sequence of keyboard events representing the keys in the keysToSend parameter.
+          <dt>void sendKeys()</dt>
+          <dd>
+            <dl class='parameters'>
+              <dt>DOMString value</dt>
+              <dd>The characters that will be typed in the <a>WebElement</a></dd>
+            </dl>
+            <p>Sends a sequence of keyboard events representing the keys in the value parameter.
             <p>Caret positioning: If focusing was needed, after following the focusing steps, the caret MUST be positioned at the end of the text currently in the element. At the end of the interaction, the caret MUST be positioned at the end of the typed text sequence, unless the keys sent position it otherwise (e.g. using the LEFT key).</p>
             <p>There are four different types of keys that are emulated:
             <ul>
@@ -463,7 +468,7 @@
         The implementation MAY use the following algorithm to generate the events.
         If the implementation is using a different algorithm, it MUST adhere to the
         requirements listed below.
-        <p>For each key, <var>key</var> in <var>keysToSend</var>, do
+        <p>For each key, <var>key</var> in <var>value</var>, do
         <ol>
           <li>If <var>key</var> is a lower-case symbol:
           <ol>
@@ -561,7 +566,7 @@
     </ul>
     <p> <!-- Algorithm paragraph --></p>
     <h3>Character types</h3>
-    <p>The <var>keysToSend</var> parameter contains a mix of printable
+    <p>The <var>value</var> parameter contains a mix of printable
     characters and pressable keys that aren't text. Pressable keys that aren't
     text are stored in the Unicode PUA (Private Use Area) code points,
     0xE000-0xF8FF. The following table describes the mapping between PUA and
