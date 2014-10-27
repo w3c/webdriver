@@ -37,7 +37,12 @@
         <ol>
           <li>TODO: Add way to decode</li>
           <li>Let capabilities be an object that is equal to <a href='#command-parameters'>parameters</a> object on <a>Command</a>.</li>
-          <li>Iterate over capabilities and compare it against keys in User Agents <a>Capabilities</a> object. If the values the remote end has does not match what was sent from the local end the remote end MUST quit and return <code><a href="#status-session-not-created">session not created</a></code> error code.
+          <li>Iterate over capabilities and compare it against keys in User Agents <a>Capabilities</a> object.
+            <ul>
+              <li>If the values the remote end has does not match what was sent from the local end the remote end MUST quit and return <code><a href="#status-session-not-created">session not created</a></code> error code.</li>
+              <li>If the remote end matches any of the capabilities, and will be passing the capabilities over to another remote end, the matched capability must be removed from the <a>Capabilities</a> object before passing them on.
+              </li>
+            </ul>
           <div class='note'>
             <p>The suggested order for comparing keys in the <a>Capabilities</a> instance when creating a session is:</p>
             <ol>
