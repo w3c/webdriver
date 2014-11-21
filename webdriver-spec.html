@@ -1226,7 +1226,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
 
         <p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
         <ol>
-          <li id="is_selectable">If the item is not "<code title="selectable">selectable</code>", the WebElement is not selected. A <dfn id="selectable" title="selectable">selectable</dfn> element is either an OPTION element or an INPUT element of type "<a href="http://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)">checkbox</a>" or "<a href="http://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)">radio</a>".</li>
+          <li id="is_selectable">If the item is not "<code title='selectable'>selectable</code>", the WebElement is not selected. A <dfn id="selectable" title="selectable">selectable</dfn> element is either an OPTION element or an INPUT element of type "<a href="http://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)">checkbox</a>" or "<a href="http://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)">radio</a>".</li>
           <li>If the Document node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!html51]] determines whether the element is selected.</li>
           <li>Otherwise, the value of the Document node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!html51]].</li>
         </ol>
@@ -1260,7 +1260,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
                   <ol>
                     <li>If "<var>name</var>" case insensitively matches "<code>style</code>", then store the value of the computed value of the <code>style</code> property of <var>element</var>, <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM-VIEW]] spec, as <var>result</var>. Notably, CSS property names must be cased as specified in in section 6.5.1 of the [[!CSSOM-VIEW]] spec. In addition, color property values must be standardized to <a href='http://www.w3.org/TR/css3-color/#rgba-color'>RGBA color format</a> as described in [[!css3-color]]. If a user agent does not support RGBA then it MUST return a value as 1 for opacity.</li>
 
-                    <li>If "<var>name</var>" case insensitively matches "selected" or "checked", and the element is <a href="#is_selectable"><dfn>selectable</dfn></a>:
+                    <li>If "<var>name</var>" case insensitively matches "selected" or "checked", and the element is <a href="#is_selectable">selectable</a>:
                       <ol>
                         <li>If the element supports neither a <a href="http://www.w3.org/TR/html51/forms.html#concept-option-selectedness">selectedness</a> or <a href="http://www.w3.org/TR/html51/forms.html#concept-fe-checked">checkedness</a> check, then store null as <var>result</var>.</li>
                         <li>For an <code>option</code> element, store the element's <a href="http://www.w3.org/TR/html51/forms.html#concept-option-selectedness">selectedness</a> as <var>result</var>.</li>
@@ -1281,7 +1281,7 @@ A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped t
                     <li>if <var>result</var> is null or undefined, set <var>result</var> to be null.</li>
                     <li>In all other cases, ceorce <var>result</var> to a DOMString.</li>
                   </ol>
-                </li>           
+                </li>
               </ol>
               <dl class='parameters'>
                 <dt>DOMString name</dt>
