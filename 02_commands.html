@@ -1,54 +1,91 @@
 <section>
-  <h2>Commands and Responses</h2>
-  <p>The communication between the remote and local ends is performed via Command and Response objects. How these are encoded and transmitted between the remote and local ends is left undefined.</p>
-
+  <h2>Communication between the local end and the remote end</h2>
   <section>
-    <h3>Command</h3>
+    <h3>The JSON Wire Protocol</h3>
+    <p>When the Local End and the Remote End communicate with each other they MUST do so via HTTP. When describing the URL to use for each <code>Command</code> this specification will use URI paths encoded using the scheme described in [[!URI-TEMPLATE]]. The following substitutions are commonly made:</p>
 
-<pre class="IDL">interface <dfn id="command" title="command">Command</dfn> {
-  attribute DOMString? <code><a href="#command-name">name</a></code>;
-  attribute object <code><a href="#command-parameters">parameters</a></code>;
-  attribute DOMString? <code><a href="#sessionid">sessionId</a></code>;
-};
-</pre>
+      <dl>
+        <dt>{sessionId}</dt>
+        <dd>The <code>sessionId</code> of the selected session.</dd>
 
-    <p>A command represents a call to a remote end to the <a href="#sessions">session</a> identified by the <code><a href="#sessionid">sessionId</a></code> attribute. By default, the <code><a href="#sessionid">sessionId</a></code> is null. The only time the null value is a valid <code><a href="#sessionid">sessionId</a></code> is before a call to <code><a href="#creating-a-session">newSession</a></code>. The name of the command to execute is held in the <dfn id="command-name" title="command-name">name</dfn>, and this MUST be handled case-sensitively. It defaults to the null value. The <dfn id="command-parameters" title="command-parameters">parameters</dfn> attribute is a map of named parameters to objects representing the value of the parameter. The default value is an empty array and this field MUST NOT be null.</p>
+        <dt>{ELEMENT}</dt>
+        <dd>The unique identifier of the <code>WebElement</code> instance being referred to</dd>
+      </dl>
 
+    <p>The URLs given in this specification MUST have the same path prefix. Implementations are free to redirect those as necessary.</p>
+
+    <p class="note">The reason for doing this is to reduce the complexity of local-end implementations. They need only append the path to a base URL in order to create a working implementation.</p>
+
+    <section>
+      <h3>Handling HTTP requests and responses between the Remote End and Local End</h3>
+      <p>When communicating between the local end and the remote end the following algorithm needs to be followed.</p>
+      <ol>
+        <li><a href="#receiving-http-requests">Receive HTTP request from the local end</a></li>
+        <li><a href="#calling-webdriver-commands">Call the WebDriver command</a></li>
+        <li><a href="#returning-http-response">Returning HTTP response to the local end</a></li>
+      </ol>
+
+      <h4 id='receiving-http-requests'>Receiving HTTP requests from the local end</h4>
+      <p>When handling requests from the local end to the remote end we must do the following first and then follow the steps :
+      <ol>
+        <li>Let <var>sessionid</var> be the value in the {sessionId} section in the [[!URI-TEMPLATE]]</li>
+        <li>if {ELEMENT} section in the [[!URI-TEMPLATE]] is populated let <var>element</var> be equal to the {ELEMENT} section</li>
+        <li>If the HTTP request is a POST let <var>parameters</var> contain the
+          <a href='http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.2'>parsed JSON</a>
+         in the payload body of the request. Below is an example of the JSON.
+          <pre>
+        {
+          "parameters" : {}
+        }
+          </pre>
+          If <var>parameters</var> does not <a href='http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.2'>parse into JSON</a> return a HTTP response with status code 500 and the payload body containing details of the parsing error if available.
+        </li>
+      </ol>
+
+      <h4 id='calling-webdriver-commands'>Call the WebDriver command</h4>
+      <p>When the HTTP request has been parsed a call to the underlying WebDriver Command using the following algorithm:</p>
+      <ol>
+        <li>Let <var>command</var> be the command that has the corresponding URI as described throughout this document</li>
+        <li>Let <var>result</var> be an object that contains the following:</li>
+          <ul>
+            <li>Let <var>status</var> contain the error status if a command has failed.</li>
+            <li>Let <var>value</var> contain any return values from the command.
+                The contents are described in the methods throughout this document. If <var>status</var>
+                is not empty <var>value</var> will contain the error message describing why there was a failure.</li>
+          </ul>
+      </ol>
+
+      <h4 id='returning-http-response'>Returning a HTTP response to the local end</h4>
+      <p>when the command has completed encode the result using the following algorithm:</p>
+
+      <ol>
+        <li>Set the HTTP response status code to 200 unless described differently in the commands below</li>
+        <li>Let <var>sessionId</var> be the unique identifier for the current session</li>
+        <li>Add the contents of <var>result</var> to an object could be <a href='http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.3'>stringified in to JSON</a>
+        <li>Let the payload body of the response be the <a href='http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.3'>stringified JSON</a>
+          object that contains the <var>sessionId</var>, the <var>status</var> and <var>value</var>.
+          Below is an example of the JSON.
+          <pre>
+        {
+          "sessionId" : "string value",
+          "status": "string value",
+          "value" : {}
+        }
+          </pre>
+        </li>
+        <li>Set HTTP headers for the follow keys and their values.
+          <ul>
+            <li><code>cache-control: no-cache</code></li>
+            <li><code>content-type: application/json</code></li>
+          </ul>
+        </li>
+        <li>Return HTTP response to the Local End</li>
+      </ol>
+    </section>
   </section>
-  <section>
-    <h3>Response</h3>
-
-<pre class="IDL">interface <dfn id="response" title="response">Response</dfn> {
-  readonly attribute DOMString <code><a href="#sessionid">sessionId</a></code>;
-  readonly attribute DOMString <code><a href="#response-status">status</a></code>;
-  readonly attribute object? <code><a href="#response-value">value</a></code>;
-};
-</pre>
-
-    <p>A Response represents the value returned from the remote end of the WebDriver API after executing a Command from the session identified by the <code><a href="#sessionid">sessionId</a></code> attribute. The default value for the <code><a href="#sessionid">sessionId</a></code> MUST be the <code><a href="#sessionid">sessionId</a></code> used in the <a>command</a></code> that this is a response to, unless the <a>command</a>'s <code><a href="#sessionid">sessionId</a></code> was the null value, in which case a unique <code><a href="#sessionid">sessionId</a></code> MUST be assigned (see <code><a href="#creating-a-session">newSession</a></code> for how this is achieved).</p>
-
-    <p>Each Response has a <code><dfn id="response-status" title="response-status">status</dfn></code> that indicates the success or failure of the method. Anything other than "<code><a href="#status-success">success</a></code>" indicates a failure. Each command lists the status strings it can return in the section of this specification in which it is defined, but the normative list of expected statuses is given below in the <a href="#status-codes">Status Codes</a> section. This list MAY be extended by implementors of the specification, provided they follow the guidelines about <a href="#extending-the-protocol">extending the protocol</a>.</p>
-
-    <p>The meat of the <code><a href="#response">Response</a></code> is in the <code><dfn id="response-value" title="response-value">value</dfn></code> attribute. It's type is determined by the <a>command</a></code> that has been executed. In this specification, each command definition will make clear what the expected return type is. The default value is the null value. In the case where the status indicates failure, the value is commonly the error text explaining the cause of the problem.</p>
-
-    <p class="note">In the case where a failure is indicated and the language used for implementing the local end supports throwing exceptions, the value is often used as the exception's message.</p>
-
-    <p>There is no requirement that implementations of <a>command</a> and <code><a href="#response">Response</a></code> exhibit any behaviour: they MAY be simple data structures. Reading of values MUST be idempotent, and writing any particular value MUST NOT cause any other values on the <a>command</a> or <code><a href="#response">Response</a></code> to change.</p>
-  </section>
-
-  <section>
-    <h3>Processing Additional Fields on Commands and Responses</h3>
-
-    <p>Any <a>command</a> or <code><a href="#response">Response</a></code> MAY contain additional fields than those listed above. The content of fields MUST be maintained, unaltered by any <a href="#intermediate-node">intermediate nodes</a>. There is no requirement to maintain the ordering of fields.</p>
-
-    <div class="note">
-      <p>This requirement exists to allow for extension of the protocol, and to allow implementors to decorate Commands and Responses with additional information, perhaps giving context to a series of messages or providing security information.</p>
-    </div>
-  </section>
-
   <section>
     <h3>Status Codes</h3>
-    <p>The WebDriver API indicates the success or failure of a command invocation via <code><a href="#response-status">Response.status</a></code>. The following values are used and have the following meanings.</p>
+    <p>The WebDriver API indicates the success or failure of a command invocation via <var>status</var>. The following values are used and have the following meanings.</p>
 
     <table class="simple">
       <tr>
@@ -153,9 +190,9 @@
         <td>Indicates that a command that should have executed properly cannot be supported for some reason.</td>
       </tr>
     </table>
-    </section>
+  </section>
 
-    <section>
+  <section>
     <h2>Handling of Status Codes at the Local End</h2>
 
     <p>Status codes are returned from the <a href="#remote-end">remote end</a> to the <a href="#local-end">local end</a>. The <a href="#local-end">local end</a> SHOULD convert these into a form appropriate for the implementation language. For example, in C the status codes might be converted to constant integer values, whereas in Java various exceptions could be thrown.</p>
@@ -166,58 +203,5 @@
 
      <p class="note">It is strongly recommended that the <code>WebDriverException</code> contain as much diagnostic information as possible, including version numbers and details about the remote end. This is because experience suggests that when reporting errors from tests using WebDriver, users will simply cut-and-paste a stack trace of an exception. Adding this information to the exception makes the task of debugging problems considerably easier.</p>
   </section>
-
-<section>
-<h3>The JSON Wire Protocol</h3>
-
-<p>Although the encoding and transport mechanism is left undefined in this specification, implementors of the remote end MUST provide an implementation suitable for acting as the server-side of the JSON and HTTP protocol (the "JSON Wire Protocol") defined in this specification and summarized non-normatively in an <a href="#mapping-to-http-and-json">Appendix</a>. This MAY take the form of a standalone executable that translates the JSON over HTTP protocol to the encoding and transport mechanism used by the remote end.</p>
-
-<p>When describing the URL to use for each <code>Command</code> this specification will use URI paths encoded using the scheme described in [[!URI-TEMPLATE]]. The following substitutions are commonly made:</p>
-
-<dl>
-  <dt>{sessionId}</dt>
-  <dd>The <code>sessionId</code> of the selected session.</dd>
-
-  <dt>{ELEMENT}</dt>
-  <dd>The <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> of the <code>WebElement</code> instance being referred to</dd>
-</dl>
-
-<p>The URLs given in this specification MUST have the same path prefix. Implementations are free to redirect those as necessary.</p>
-
-<p class="note">The reason for doing this is to reduce the complexity of local-end implementations. They need only append the path to a base URL in order to create a working implementation.</p>
-
-<section>
-<h3>JSON Encoding of Commands</h3>
-
-A <code>Command</code> instance MUST be encoded using UTF-8 and MUST be mapped to the following JSON structure:
-
-<!-- TODO: Is there an approved standard way of unambiguously defining JSON structures? That the W3C allows us to use in specs -->
-<pre>
-  {
-    "sessionId" : "string value",
-    "name" : "string value",
-    "parameters" : {}
-  }
-</pre>
-
-<p>The "<code>parameters</code>" fields depends on the "<code>name</code>" of the <code>Command</code>, and will be documented by the definition of each <code>Command</code> in this specification.
-
-<h3>JSON Encoding of Responses</h3>
-
-<p>A <code>Response</code> instance MUST be encoded using UTF-8 and MUST be mapped to the following JSON structure:
-
-<pre>
-  {
-    "sessionId" : "string value",
-    "status": "string value",
-    "value" : {}
-  }
-</pre>
-
-<p>The value of the "<code>value</code>" field will be defined beside each <code>Command</code> in this specification.
-
-</section>
-
-</section>
 
 </section>
