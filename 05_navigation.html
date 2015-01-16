@@ -188,8 +188,8 @@
   <section>
     <h3>Detecting When to Handle Commands</h3>
 
-    <p><a>Command</a>s MUST only be processed when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that page loading is complete.</p>
+    <p>Commands MUST only be processed when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that page loading is complete.</p>
 
-    <p>If a remote end receives a new <a>Command</a> for a session while still waiting to finish an existing <a>Command</a> for that session it MAY choose to queue the command for execution as soon as possible, it MAY throw a <code>WebDriverException</code> or it MAY leave the remote end in an inconsistent state. Because of this, local ends SHOULD NOT attempt to send a new <a>Command</a> to a session until the previous <a>Command</a> has returned.</p>
+    <p>Commands SHOULD be handled in a synchronous fashion. Requests should be received and then a response sent when the Command has completed.</p>
   </section>
 </section>
