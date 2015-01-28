@@ -184,8 +184,8 @@ code a:visited, code a:link {
       <p>When handling requests from the local end to the remote end we must do the following first and then follow the steps :
       <ol>
         <li>Let <var>sessionid</var> be the value in the {sessionId} section in the [[!URI-TEMPLATE]]</li>
-        <li>if {ELEMENT} section in the [[!URI-TEMPLATE]] is populated let <var>element</var> be equal to the {ELEMENT} section</li>
-        <li>If the HTTP request is a POST let <var>parameters</var> contain the
+        <li>if {ELEMENT} section in the [[!URI-TEMPLATE]] is populated let <var id='uri-template-element'>element</var> be equal to the {ELEMENT} section</li>
+        <li>If the HTTP request is a POST let <var id='uri-template-parameters'>parameters</var> contain the
           <a href='http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.2'>parsed JSON</a>
          in the payload body of the request. Below is an example of the JSON.
           <pre>
@@ -537,16 +537,14 @@ code a:visited, code a:link {
 
     <p>It is possible to request a particular strategy be used for detecting when the next command should be processed by a remote end implementation by modifying the page load strategy that is used. The following are the expected values that MAY be used when creating a new session:</p>
 
-    <dl title='partial interface WebDriver' class='idl'>
-      <dt>const DOMString NORMAL = 'normal'</dt>
-      <dd>The remote end MUST wait until the "<code>document.readyState</code>" of the frame currently handling commands equals "<code>complete</code>", or there are no more outstanding network requests other than XMLHttpRequests.</dd>
+    <h4>'normal'</h4>
+    <p>The remote end MUST wait until the "<code>document.readyState</code>" of the frame currently handling commands equals "<code>complete</code>", or there are no more outstanding network requests other than XMLHttpRequests.</p>
 
-      <dt>const DOMString EAGER = 'eager'</dt>
-      <dd>The remote end MUST wait until the "<code>document.readyState</code>" of frame currently handling equals "<code>interactive</code>" or "<code>complete</code>", or there are no more outstanding network requests.</dd>
+    <h3>'eager'</h3>
+    <p>The remote end MUST wait until the "<code>document.readyState</code>" of frame currently handling equals "<code>interactive</code>" or "<code>complete</code>", or there are no more outstanding network requests.</p>
 
-      <dt>const DOMString NONE = 'none'</dt>
-      <dd>The remote end MUST not do any checks against "<code>document.readyState</code>".</dd>
-    </dl>
+    <h3>'none'</h3>
+    <p>The remote end MUST not do any checks against "<code>document.readyState</code>".</p>
 
     <p>All WebDriver implementations MUST support the <code>normal</code> and <code>eager</code> modes and SHOULD support the <code>conservative</code> and <code>none</code> modes. If no page loading strategy is chosen, then <code>normal</code> MUST be the default.
     In addition, implementors MAY add additional page loading strategies.</p>
@@ -557,10 +555,8 @@ code a:visited, code a:link {
 
     <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "navigation" folder.</p>
 
-    <dl class='idl' title='partial interface WebDriver'>
-      <!-- get() -->
-      <dt>void get()</dt>
-      <dd>
+      <section>
+        <h3>get()</h3>
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -583,16 +579,19 @@ code a:visited, code a:link {
         </ul>
 
         <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-
-        <dl class='parameters'>
-          <dt>DOMString url</dt>
-          <dd>URL that the browser will navigate to</dd>
-        </dl>
-      </dd>
-
+        <p>Example of how the HTTP request payload body would look</p>
+        <pre>
+          {
+            "parameters": {
+              "url": "URL that the browser will navigate to",
+            }
+          }
+        </pre>
+      </section>
       <!-- getCurrentUrl() -->
-      <dt>DOMString getCurrentUrl()</dt>
-      <dd>
+      <section>
+        <h3>getCurrentUrl()</h3>
+
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -609,11 +608,11 @@ code a:visited, code a:link {
           current URL. In the case of a <a href='http://www.w3.org/TR/html5/browsers.html#nested-browsing-context'>Nested Browsing Context</a> WebDriver MUST return the URL of the [[html51]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a>.
           It is the equivalent to returning <code>document.location.href</code> for the [[html51]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a>.
         <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
-
+      </section>
       <!-- goBack() -->
-      <dt>void goBack()</dt>
-      <dd>
+      <section>
+        <h3>goBack()</h3>
+
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -629,9 +628,10 @@ code a:visited, code a:link {
         <p>The "goBack" command is equivalent to a user hitting the "back" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of -1</a> (as defined in [[!html51]]). If a user calls "<code>goBack</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
         </p>
         <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
-      <dt>void goForward()</dt>
-      <dd>
+      </section>
+      <section>
+        <h3>goForward()</h3>
+
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -646,11 +646,11 @@ code a:visited, code a:link {
         </table>
         <p>The "goForward" command is equivalent to a user hitting the "forward" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of +1</a> (as defined in [[!html51]]). If a user calls "<code>goForward</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
         <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
+      </section>
+      <section>
+       <!-- refresh() -->
+        <h3>refresh()</h3>
 
-      <!-- refresh() -->
-      <dt>void refresh()</dt>
-      <dd>
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -665,11 +665,11 @@ code a:visited, code a:link {
         </table>
         <p>"refresh" emulates the user hitting the "refresh" or "reload" button in their browser, causing the current page to be reloaded.</p>
         <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
+      </section>
+      <section>
+        <!-- getTitle() -->
+        <h3>getTitle()</h3>
 
-      <!-- getTitle() -->
-      <dt>DOMString getTitle()</dt>
-      <dd>
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -687,8 +687,8 @@ code a:visited, code a:link {
 
           <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
         </p>
-      </dd>
-    </dl>
+      </section>
+  </section>
 
     <section>
       <h2>Invalid SSL Certificates</h2>
@@ -705,15 +705,13 @@ code a:visited, code a:link {
 
       <p>The exception to requirement is if the <a>Capabilities</a> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY choose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. Remote end implementations MUST return an <code><a href="#status-unknown-error">unknown error</a></code> status in this case. If this is the case, the <a>Capabilities</a> describing the session MUST also set the <code>secureSsl</code> capability to "true".</p>
     </section>
+    <section>
+      <h3>Detecting When to Handle Commands</h3>
 
-  </section>
+      <p>Commands MUST only be processed when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that page loading is complete.</p>
 
-  <section>
-    <h3>Detecting When to Handle Commands</h3>
-
-    <p>Commands MUST only be processed when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that page loading is complete.</p>
-
-    <p>Commands SHOULD be handled in a synchronous fashion. Requests should be received and then a response sent when the Command has completed.</p>
+      <p>Commands SHOULD be handled in a synchronous fashion. Requests should be received and then a response sent when the Command has completed.</p>
+    </section>
   </section>
 </section>
 <section>
@@ -731,9 +729,9 @@ code a:visited, code a:link {
 
   <section>
     <h2>Window Handles</h2>
-    <dl class='idl' title='partial interface WebDriver'>
-      <dt>DOMString getWindowHandle()</dt>
-      <dd><p>
+    <section>
+      <h3>getWindowHandle()</h3>
+      <p>
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -747,15 +745,15 @@ code a:visited, code a:link {
           </tr>
         </table>
         <p>Each <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> has a <a href='#window-handle'>window handle</a>. The "getWindowHandle" command can be used to obtain the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> handle for the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> that commands are currently acting upon.</p>
-      </dd>
-    </dl>
+
+    </section>
   </section>
 
   <section>
     <h2 name="iterating-over-windows">Iterating Over <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a></h2>
-    <dl class='idl' title='partial interface WebDriver'>
-      <dt>sequence&lt;DOMString> getWindowHandles()</dt>
-      <dd>
+    <section>
+      <h3>getWindowHandles()</h3>
+
       <p>
         <table class="simple jsoncommand">
           <tr>
@@ -775,15 +773,14 @@ code a:visited, code a:link {
 
     <img src="example-windows.png" alt="Two top level windows. The first window has two tabs, lablled win1tab1 and win1tab2. The second window has only one tab labelled win2"/>
 
-    <p class="note">This implies that the correct way to determine whether or not a particular interaction with the browser opens a new window is done by obtaining the set of <a href='#window-handle'>window handle</a> before the interaction is performed and comparing with the set after the action is performed.</p></dd>
-    </dl>
+    <p class="note">This implies that the correct way to determine whether or not a particular interaction with the browser opens a new window is done by obtaining the set of <a href='#window-handle'>window handle</a> before the interaction is performed and comparing with the set after the action is performed.</p>
+    </section>
   </section>
 
   <section>
     <h2>Closing Windows</h2>
-    <dl class='idl' title='partial interface WebDriver'>
-      <dt>void close()</dt>
-      <dd>
+    <section>
+      <h3>close()</h3>
         <p>
           <table class="simple jsoncommand">
             <tr>
@@ -801,8 +798,8 @@ code a:visited, code a:link {
         <p>The close command closes the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> that Commands are currently being sent to. If this means that a call to get the list of <a href='#window-handle'>window handle</a>s would return an empty list, then this close command MUST  <a href='removing-a-session'>remove the session</a>.</p>
 
         <p>Once the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> has closed, future commands MUST return a status code of <code><a href="#status-no-such-window">no such window</a></code> until a new <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> is selected for receiving commands.</p>
-      </dd>
-    </dl>
+
+    </section>
   </section>
 
   <section>
@@ -814,10 +811,9 @@ code a:visited, code a:link {
       <dt>double width</dt>
       <dd>The width of the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>.
     </dl>
-    <dl class='idl' title='partial interface WebDriver'>
+    <section>
       <!-- setWindowSize() -->
-      <dt>void setWindowSize()</dt>
-      <dd>
+      <h3>setWindowSize()</h3>
         <p>
           <table class="simple jsoncommand">
             <tr>
@@ -840,12 +836,11 @@ code a:visited, code a:link {
           <dd>The "width" value refer to the javascript <code>window.outerwidth</code> property. If the User Agent does not support this property, it represents the width of the whole OS window including window chrome and window resizing borders/handles.</li></dd>
           <dt>unsigned double height</dt>
           <dd>The "height" value refer to the javascript <code>window.outerheight</code> property. If the User Agent does not support this property, it represents the width of the whole OS window including window chrome and window resizing borders/handles.</li></dd>
-        </dl>
-      </dd>
 
+      </section>
+      <section>
       <!-- getWindowSize() -->
-      <dt>WindowSize getWindowSize()</dt>
-      <dd>
+      <h3>getWindowSize()</h3>
         <p>
           <table class="simple jsoncommand">
             <tr>
@@ -867,11 +862,11 @@ code a:visited, code a:link {
           <li>Populate <code><a href='#widl-WindowSize-height'>height</a></code> with the value of <code>window.outerheight</code> property of the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a>. If the User Agent does not support this property, it represents the width of the whole OS window including window chrome and window resizing borders/handles.</li>
           <li>Return <a>WindowSize</a></li>
         </ol>
-      </dd>
+      </section>
 
+      <section>
       <!-- maximizeWindow() -->
-      <dt>void maximizeWindow()</dt>
-      <dd>
+      <h3>maximizeWindow()</h3>
         <p>
           <table class="simple jsoncommand">
             <tr>
@@ -887,20 +882,18 @@ code a:visited, code a:link {
           </table>
         <p>After  <code>maximizeWindow</code>, the OS window currently receving commands MUST be left as if the maximise button had been pressed if, and only if, the window manager of the OS supports this concept; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
         <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
-      </dd>
-
+      </section>
+      <section>
       <!-- fullscreenWindow -->
-      <dt>void fullscreenWindow()</dt>
-      <dd>
+      <h3>fullscreenWindow()</h3>
         <p>After <code>fullscreenWindow</code>, the OS window currently receiving commands MUST be in full-screen mode. For those operating systems that support the concept, this MUST be equivalent to if the user requested the OS window be full screen.</p>
 
         <p>If the User Agent or OS does not support switching to full-screen mode, an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
-      </dd>
-    </dl>
+    </section>
   </section>
 </section>
 <section>
-  <h2>Where Commands Are Handled</h2>
+  <h2>Context of Commands</h2>
 
   <p>Web applications can be composed of multiple <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> and/or frames. For a normal user, the context in which an operation is performed is obvious: it's the window or frame that currently has OS focus and which has just received user input. The WebDriver API does not follow this convention. There is an expectation that many browsers using the WebDriver API may be used at the same time on the same machine. This section describes how WebDriver tracks which window or frame is currently the context in which commands are being executed.</p>
 
@@ -916,9 +909,8 @@ code a:visited, code a:link {
   <section>
     <h2>Switching Windows</h2>
 
-    <dl class='idl' title='partial interface WebDriver'>
-      <dt>void switchToWindow()</dt>
-      <dd>
+    <section>
+      <h3>switchToWindow()</h3>
         <dl class='parameters'>
           <dt>DOMString handle</dt>
           <dd>The identifier used for a <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a></dd>
@@ -932,7 +924,7 @@ code a:visited, code a:link {
             </tr>
             <tr>
               <td>POST</td>
-              <td id='get-window'>/session/{sessionId}/window</td>
+              <td id='post-window'>/session/{sessionId}/window</td>
               <td></td>
             </tr>
           </table>
@@ -940,15 +932,14 @@ code a:visited, code a:link {
         <p>The "switchToWindow" command is used to select which <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> MUST be used as the context for processing commands. In order to determine which <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> should be used for accepting commands, the "switchToWindow" command MUST iterate over all <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> comparing the window handle.
 
         <p>If no <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing contexts</a> match, then a "<code><a href="#status-no-such-window">no such window</a></code>" status code MUST be returned, otherwise the "<a href="#default-content">default content</a>" of the first match will be selected for accepting commands.</p>
-      </dd>
-    </dl>
+
+    </section>
   </section>
 
   <section>
     <h2>Switching Frames</h2>
-    <dl class='idl' title='partial interface WebDriver'>
-      <dt>void switchToFrame()</dt>
-      <dd>
+    <section>
+      <h3>switchToFrame()</h3>
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -975,9 +966,11 @@ code a:visited, code a:link {
 
         <p>In all cases if no match is made a "<code><a href="#status-no-such-frame">no such frame</a></code>" status code MUST be returned.</p>
 
-        <p>If the indicated frame exists, frame switching MUST succeed even if doing so would violate the normal security constraints in place within the Javascript sandbox.</p></dd>
-      <dt>void switchToParentFrame()</dt>
-      <dd>
+        <p>If the indicated frame exists, frame switching MUST succeed even if doing so would violate the normal security constraints in place within the Javascript sandbox.</p>
+      </section>
+      <section>
+      <h3>switchToParentFrame()</h3>
+
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -991,8 +984,8 @@ code a:visited, code a:link {
           </tr>
         </table>
         <p>The "switchToParentFrame" command MUST set the context of future commands to the <code>window.parent</code>. If the current context is the [[!html51]]'s <a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top level browsing context</a>, the context remains unchanged.</p>
-      </dd>
-    </dl>
+      </section>
+    </section>
   </section>
 </section>
 <section>
@@ -1011,57 +1004,208 @@ code a:visited, code a:link {
 <section>
   <h2>Elements</h2>
   <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "element_location" folder.</p>
-  <p>One of the key abstractions of the WebDriver API is the
-  <a>WebElement</a> interface. Each instance of this interface represents an
+  <p>One of the key abstractions of the WebDriver API is the concept of a
+  <a>WebElement</a>. A <dfn>WebElement</dfn> represents an
   <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-element">Element</a> as defined in the
-  [[!DOM4]] specification. Because the WebDriver API is designed to allow users to interact with apps as if
+  [[!DOM4]] specification. When communicating between the remote end and the local end this SHOULD be a UUID.
+  Because the WebDriver API is designed to allow users to interact with apps as if
   they were actual users, the capabilities offered by the
-  <code>WebElement</code> interface are somewhat different from those offered by the <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> interface.</p>
+  <a>WebElement</a> interface are somewhat different from those offered by the
+  <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> interface.</p>
 
-  <p>Each WebElement instance must have an identifier, which is distinct from the value
+  <p>Each <a>WebElement</a> instance must have an identifier, which is distinct from the value
   of the <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> "id" property. The identifier for every WebElement representing the same
   underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> MUST be the same. The identifiers used to refer to different
-  underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>s MUST be unique within the session over the entire duration of the session.</p>
+  underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>s MUST be unique within the session over the entire duration of the session.
+  </p>
 
   <div class="note">
-    <p>This requirement around WebElement identifiers allows for efficient equality
+    <p>This requirement around <a>WebElement</a> identifiers allows for efficient equality
     checks when the WebDriver API is being used out of process.</p>
   </div>
 
-  <dl class="idl" title="interface WebElement">
-    <dt>readonly attribute DOMString ELEMENT</dt>
-    <dd>The WebDriver identifier of this particular element. This SHOULD be a UUID.</dd>
-  </dl>
 
-  <p>This section of the specification covers finding elements. Later sections deal with querying and interacting with
-  these located elements. The primary interface used by the WebDriver API for locating elements is the
-  <a>SearchContext</a>.</p>
   <section>
-
-    <p>The primary grouping of <a>WebElement</a> instances is a <code>sequence</code> of <a>WebElement</a> instances</p>
-
-    <p>A reference to an WebElement is obtained via a SearchContext. The key
-    interfaces are:</p>
+    <h2>Finding Elements in a document</h2>
+    <p>When the <a href='#findelement'>findElement()</a> or <a href='#findelements'>findElements()</a> WebDriver Command is called the
+      following must be <var>parameters</var> after the local end has made a request to the remote end:</p>
+    <ol>
+      <li>let <var>using</var> contain the <a href='#element-location-strategies'>Element Location Strategy</a>.
+        If it is not a valid stategy:
+        <ul>
+          <li>Set the HTTP Response status code to 500</li>
+          <li>Let <var>status</var> be equal to <a href='#status-invalid-selector'>Invalid Selector</a></li>
+          <li>Let <var>value</var> to a stating that the strategy is invalid. It may return a list of valid search strategies.</li>
+        </ul>
+      </li>
+      <li>let <var>value</var> contain a string that will be passed to the <a href='#element-location-strategies'>Element Location Strategy</a> call.
+        If <var>value</var> is an empty string or null:
+        <ul>
+          <li>Set the HTTP Response status code to 500</li>
+          <li>Let <var>status</var> be equal to <a href='#status-invalid-selector'>Invalid Selector</a></li>
+          <li>Let <var>value</var> to a stating that the strategy is invalid. It may return a list of valid search strategies.</li>
+        </ul>
+      </li>
+      <li>Call the relevant <a href='#element-location-strategies'>Element Location Strategy</a> and return what is described in
+        <a href='#findelement'>findElement()</a> or <a href='#findelements'>findElements()</a> WebDriver Command described below.</li>
+    </ol>
+    <section>
+    <h3>findElements()</h3>
+      <p>When there is a need to find multiple elements on a document that we can return to the local end we use the following algorithm:
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td id='post-elements'>/session/{sessionId}/elements</td>
+            <td></td>
+          </tr>
+        </table>
+        <ol>
+          <li>Let <var>result</var> be equal to an empty list</li>
+          <li>Let <var>queryResult</var> be an array returned from <a href='#element-location-strategies'>Element Location Strategy</a></li>
+          <li>Repeat for every value in <var>queryResult</var> if not an empty set else return <var>result</var>
+              <ol>
+                <li>Let <var>id</var> be the unique identifier for the element as described above</li>
+                <li>Append <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code> to <var>result</var></li>
+              </ol>
+          </li>
+          <li>return <var>result</var>.</li>
+        </ol>
+      </p>
+      <p>
+        When there is a need to search from an element to find the next <a>WebElement</a>s we use the following algorithm:
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td id='post-elements-from-element'>/session/{sessionId}/element/{ELEMENT}/elements</td>
+            <td></td>
+          </tr>
+        </table>
+        <ol>
+          <li>Let <var>result</var> be equal to an empty list.</li>
+          <li>Let <var><a href="#uri-template-element">element</a></var> be the start node for the query in the <a href='#element-location-strategies'>Element Location Strategy</a></li>
+          <li>Let <var>queryResult</var> be an array returned from <a href='#element-location-strategies'>Element Location Strategy</a></li>
+          <li>Repeat for every value in <var>queryResult</var> if not an empty set else return <var>result</var>
+              <ol>
+                <li>Let <var>id</var> be the unique identifier for the element as described above</li>
+                <li>Append <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code> to <var>result</var></li>
+              </ol>
+          </li>
+          <li>return <var>result</var></li>
+        </ol>
+      </p>
+    </section>
+    <section>
+    <h3>findElement()</h3>
+      <p>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td id='post-element'>/session/{sessionId}/element</td>
+            <td></td>
+          </tr>
+        </table>
+        <ol>
+          <li>Let <var>id</var> be an identifier for a DOMElement returned from <a href='#element-location-strategies'>Element Location Strategy</a>.
+            If an array is returned the first element in the array MUST be used.
+            <p>If <var>id</var> is empty:
+              <ul>
+                <li>Let the HTTP response status code be 501</li>
+                <li>let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
+                <li>let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+              </ul>
+            </p>
+            <p>If an error is returned from <a href='#element-location-strategies'>Element Location Strategy</a> do the following.(todo describe how the error is returned)
+              <ul>
+                <li>Let the HTTP response status code be 501</li>
+                <li>let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
+                <li>let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+              </ul>
+            </p>
+          </li>
+          <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
+          <li>return <var>result</var></li>
+        </ol>
+      </p>
+      <p>
+        When searching from an element from another element the following algorithm should be used:
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td id='post-element-from-element'>/session/{sessionId}/element/{ELEMENT}/element</td>
+            <td></td>
+          </tr>
+        </table>
+        <ol>
+          <li>Let <var><a href="#uri-template-element">element</a></var> be the start node for the query in the <a href='#element-location-strategies'>Element Location Strategy</a></li>
+          <li>Let <var>id</var> be an identifier for a DOMElement returned from <a href='#element-location-strategies'>Element Location Strategy</a>.
+            If an array is returned the first element in the array MUST be used.
+            <p>If <var>id</var> is empty:
+              <ul>
+                <li>Let the HTTP response status code be 501</li>
+                <li>let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
+                <li>let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+              </ul>
+            </p>
+            <p>If an error is returned from <a href='#element-location-strategies'>Element Location Strategy</a> do the following.(todo describe how the error is returned)
+              <ul>
+                <li>Let the HTTP response status code be 501</li>
+                <li>let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
+                <li>let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+              </ul>
+            </p>
+          </li>
+          <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
+          <li>return <var>result</var></li>
+        </ol>
+      </p>
+    </section>
+    <section>
+      <h3>getActiveElement()</h3>
+        <p>To get the currently active element on the document do the following algorithm:
+          <table class="simple jsoncommand">
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>POST</td>
+              <td id='post-active-elements'>/session/{sessionId}/element/active</td>
+              <td></td>
+            </tr>
+          </table>
+          <ol>
+            <li>Let <var>element</var> be a DOMElement that is returned from calling <code>document.activeElement</code></li>
+            <li>Let <var>id</var> be the unique identifier for <var>element</var>. If <var>element</var> does not have one then one should be generated and stored</li>
+            <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
+            <li>return <var>result</var></li>
+          </ol>
+        </p>
+    </section>
   </section>
-  <section>
-    <dl class="idl" title="interface Locator">
-      <dt>readonly attribute DOMString using</dt>
-      <dd>The name of the strategy that should be used to locate elements. The default value is the null value</dd>
-      <dt>readonly attribute DOMString value</dt>
-      <dd>The value to pass to the element finding strategy. The default value is the null value.</dd>
-    </dl>
-  </section>
-  <section>
-    <dl class="idl" title="interface SearchContext">
-      <dt>WebElement[] findElements(in Locator locator)</dt>
-      <dd></dd>
-      <dt>WebElement findElement(in Locator locator)</dt>
-      <dd></dd>
-    </dl>
-  </section>
 
   <section>
-    <h2>Element Location Strategies</h2>
+    <h2 id="element-location-strategies">Element Location Strategies</h2>
 
     <p>All element location strategies MUST return elements in the order in which they appear in the current document.</p>
     <section>
@@ -1122,22 +1266,26 @@ code a:visited, code a:link {
   </section>
 </section>
 <section>
-<h2>Reading Element State</h2>
-<p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "element_state" folder.</p>
-  <section>
-    <dl class='idl' title='dictionary ElementRect'>
-      <dt>double x</dt>
-      <dd>The x coordinate for the top left of the element</dd>
-      <dt>double y</dt>
-      <dd>The y coordinate for the top left of the element</dd>
-      <dt>double height</dt>
-      <dd>Height of the element in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>
-      <dt>double width</dt>
-      <dd>Width of the element in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>
-    </dl>
-    <dl class='idl' title='partial interface WebElement'>
-      <dt>boolean isDisplayed()</dt>
-      <dd><p>
+  <h2>Element State</h2>
+    <section>
+      <h2>Reading current element state from the document</h2>
+      <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "element_state" folder.</p>
+
+          <p>When we are returning an <a>ElementRect</a> to the local end it will need to be serialised</p>
+          <dl class='idl' title='dictionary ElementRect'>
+            <dt>double x</dt>
+            <dd>The x coordinate for the top left of the element</dd>
+            <dt>double y</dt>
+            <dd>The y coordinate for the top left of the element</dd>
+            <dt>double height</dt>
+            <dd>Height of the element in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>
+            <dt>double width</dt>
+            <dd>Width of the element in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>
+          </dl>
+    <section>
+      <!-- isDisplayed() -->
+      <h3>isDisplayed()</h3>
+      <p>
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -1194,109 +1342,117 @@ code a:visited, code a:link {
           <p>This implies that <code>isDisplayed</code> MUST return true if the centre of the element could be brought into the viewport. The exception to this would be the BODY element, which is generally assumed to always be displayed by users of the WebDriver spec. It is possible to interact with elements which may not have the centre point brought into the viewport by using the <a href="#low-level-commands">low level commands</a>. This means that if any part of the element could be brought into the viewport by user action and its position could be used by low-level commands then a WebDriver implementation MAY return true.</p>
         </div>
         <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
-      <dt>boolean isSelected()</dt>
-      <dd><p>
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-            <th>Notes</th>
-          </tr>
-          <tr>
-            <td>GET</td>
-            <td id='get-id-selected'>/session/{sessionId}/element/{ELEMENT}/selected</td>
-            <td></td>
-          </tr>
-        </table>
+      </section>
+      <section>
+        <!-- isSelected -->
+        <h3>isSelected()</h3>
+        <p>
+          <table class="simple jsoncommand">
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td id='get-id-selected'>/session/{sessionId}/element/{ELEMENT}/selected</td>
+              <td></td>
+            </tr>
+          </table>
 
-        <p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
-        <ol>
-          <li id="is_selectable">If the item is not "<code title='selectable'>selectable</code>", the WebElement is not selected. A <dfn id="selectable" title="selectable">selectable</dfn> element is either an OPTION element or an INPUT element of type "<a href="http://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)">checkbox</a>" or "<a href="http://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)">radio</a>".</li>
-          <li>If the Document node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!html51]] determines whether the element is selected.</li>
-          <li>Otherwise, the value of the Document node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!html51]].</li>
-        </ol>
-        <p>If <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
-            <dt>DOMString getElementAttribute()</dt>
-            <dd><p>
-              <table class="simple jsoncommand">
-                <tr>
-                  <th>HTTP Method</th>
-                  <th>Path Template</th>
-                  <th>Notes</th>
-                </tr>
-                <tr>
-                  <td>GET</td>
-                  <td id='get-id-attribute'>/session/{sessionId}/element/{ELEMENT}/attribute/{name}</td>
-                  <td></td>
-                </tr>
-              </table>
-              <div class="note">
-              <p>Although the [[!html51]] spec is very clear about the difference between the properties and attributes of a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, users are frequently confused between the two. Because of thisend point which covers the case of returning either of the value of a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
+          <p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
+          <ol>
+            <li id="is_selectable">If the item is not "<code title='selectable'>selectable</code>", the WebElement is not selected. A <dfn id="selectable" title="selectable">selectable</dfn> element is either an OPTION element or an INPUT element of type "<a href="http://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)">checkbox</a>" or "<a href="http://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)">radio</a>".</li>
+            <li>If the Document node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!html51]] determines whether the element is selected.</li>
+            <li>Otherwise, the value of the Document node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!html51]].</li>
+          </ol>
+          <p>If <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+      </section>
+      <section>
+        <!-- getElementAttribute() -->
+        <h3>getElementAttribute()</h3>
+        <p>
+          <table class="simple jsoncommand">
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td id='get-id-attribute'>/session/{sessionId}/element/{ELEMENT}/attribute/{name}</td>
+              <td></td>
+            </tr>
+          </table>
+          <div class="note">
+          <p>Although the [[!html51]] spec is very clear about the difference between the properties and attributes of a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, users are frequently confused between the two. Because of thisend point which covers the case of returning either of the value of a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
 
-              <p>The end result of this algorithm are values that can be passed to other commands within this specification. Notably, this means that URLs that are returned can be passed to <a href="#widl-WebDriver-get-void-DOMString-url">get</a> and the expected URL will be navigated to.</p>
-              </div>
+          <p>The end result of this algorithm are values that can be passed to other commands within this specification. Notably, this means that URLs that are returned can be passed to <a href="#widl-WebDriver-get-void-DOMString-url">get</a> and the expected URL will be navigated to.</p>
+          </div>
 
-              <p>To determine the <var>value</var> of the response, the following steps must be taken where <var>name</var> is the <code>name</code> property on the <code>parameters</code> dictionary in Command, and <var>element</var> is the <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> modeled by the <code>ELEMENT</code> parameter.:
+          <p>To determine the <var>value</var> of the response, the following steps must be taken where <var>name</var> is the <code>name</code> property on the <code>parameters</code> dictionary in Command, and <var>element</var> is the <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> modeled by the <code>ELEMENT</code> parameter.:
+          <ol>
+            <li>Initially set <var>result</var> to null.
+            <li>Handle special-cases:
               <ol>
-                <li>Initially set <var>result</var> to null.
-                <li>Handle special-cases:
-                  <ol>
-                    <li>If "<var>name</var>" case insensitively matches "<code>style</code>", then store the value of the computed value of the <code>style</code> property of <var>element</var>, <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM-VIEW]] spec, as <var>result</var>. Notably, CSS property names must be cased as specified in in section 6.5.1 of the [[!CSSOM-VIEW]] spec. In addition, color property values must be standardized to <a href='http://www.w3.org/TR/css3-color/#rgba-color'>RGBA color format</a> as described in [[!css3-color]]. If a user agent does not support RGBA then it MUST return a value as 1 for opacity.</li>
+                <li>If "<var>name</var>" case insensitively matches "<code>style</code>", then store the value of the computed value of the <code>style</code> property of <var>element</var>, <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM-VIEW]] spec, as <var>result</var>. Notably, CSS property names must be cased as specified in in section 6.5.1 of the [[!CSSOM-VIEW]] spec. In addition, color property values must be standardized to <a href='http://www.w3.org/TR/css3-color/#rgba-color'>RGBA color format</a> as described in [[!css3-color]]. If a user agent does not support RGBA then it MUST return a value as 1 for opacity.</li>
 
-                    <li>If "<var>name</var>" case insensitively matches "selected" or "checked", and the element is <a href="#is_selectable">selectable</a>:
-                      <ol>
-                        <li>If the element supports neither a <a href="http://www.w3.org/TR/html51/forms.html#concept-option-selectedness">selectedness</a> or <a href="http://www.w3.org/TR/html51/forms.html#concept-fe-checked">checkedness</a> check, then store null as <var>result</var>.</li>
-                        <li>For an <code>option</code> element, store the element's <a href="http://www.w3.org/TR/html51/forms.html#concept-option-selectedness">selectedness</a> as <var>result</var>.</li>
-                        <li>In all other cases, store the element's <a href="http://www.w3.org/TR/html51/forms.html#concept-fe-checked">checkedness</a> as <var>result</var>.</li>
-                      </ol>
-                    </li>
-                    <li>If any of the above steps have been executed, go to the <a href="#attribute-result-coercion">result coercion</a> step of this algorithm.
+                <li>If "<var>name</var>" case insensitively matches "selected" or "checked", and the element is <a href="#is_selectable">selectable</a>:
+                  <ol>
+                    <li>If the element supports neither a <a href="http://www.w3.org/TR/html51/forms.html#concept-option-selectedness">selectedness</a> or <a href="http://www.w3.org/TR/html51/forms.html#concept-fe-checked">checkedness</a> check, then store null as <var>result</var>.</li>
+                    <li>For an <code>option</code> element, store the element's <a href="http://www.w3.org/TR/html51/forms.html#concept-option-selectedness">selectedness</a> as <var>result</var>.</li>
+                    <li>In all other cases, store the element's <a href="http://www.w3.org/TR/html51/forms.html#concept-fe-checked">checkedness</a> as <var>result</var>.</li>
                   </ol>
                 </li>
-
-                <li>Obtain the property indexed by "<var>name</var>" from the element and store this as <var>result</var>. If <var>name</var> case insensitively matches "class" set <var>result</var> to be <var>element</var>'s <code>className</code> property. Similarly, if <var>name</var> case insensitively matches "readonly", set <var>result</var> to be the <var>element</var>'s <code>readOnly</code> property.</li>
-
-                <li>If <var>result</var> is null or undefined, or if it is an object, set the value of <var>result</var> to be the <code>value</code> of the Attr node obtained by calling <code>getAttributeNode</code> on <var>element</var> iff that Attr is <code>specified</code>. That is, <var>result</var> is the equivalent of executing the following Ecmascript: <code>var attr = element.getAttributeNode(name); var result = (attr &amp;&amp; attr.specified) ? attr.value : null;</code></li>
-
-                <li name="attribute-result-coercion">Coerce the return value to a DOMString:
-                  <ol>
-                    <li>If <var>result</var> is a boolean value, use the value "true" if <var>result</var> is true, or null otherwise.</li>
-                    <li>if <var>result</var> is null or undefined, set <var>result</var> to be null.</li>
-                    <li>In all other cases, coerce <var>result</var> to a DOMString.</li>
-                  </ol>
-                </li>
+                <li>If any of the above steps have been executed, go to the <a href="#attribute-result-coercion">result coercion</a> step of this algorithm.
               </ol>
-              <dl class='parameters'>
-                <dt>DOMString name</dt>
-                <dd>The name of the property or attribute to return.</dd>
-              </dl>
-              <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-            </dd>
-      <dt>DOMString getCssValue()</dt>
-      <dd><p>
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-            <th>Notes</th>
-          </tr>
-          <tr>
-            <td>GET</td>
-            <td id='get-id-css-property'>/session/{sessionId}/element/{ELEMENT}/css/{propertyName}</td>
-            <td></td>
-          </tr>
-        </table>
-        <p>The "getCssValue" command will return a <code>DOMString</code> of the value of the property passed. It MUST return the value of <a href="http://dev.w3.org/csswg/cssom/#dom-cssstyledeclaration-getpropertyvalue"><code>getPropertyValue(propertyName)</code></a> returned from calling <a href='http://dev.w3.org/csswg/cssom/#dom-window-getcomputedstyle'><code>window.getComputedStyle(element)</code></a>. Color property values MUST be standardized to <a href='http://www.w3.org/TR/css3-color/#rgba-color'>RGBA color format</a> as described in [[!css3-color]]. If a user agent does not support RGBA then it MUST return a value as 1 for opacity. If the property is not present then return an empty string.
-        <dl class='parameters'>
-          <dt>DOMString propertyName</dt>
-          <dd>The name of the property whose value will be returned</dd>
-        </dl>
-        <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
-      <dt>DOMString getElementText()</dt>
-          <dd><p>
+            </li>
+
+            <li>Obtain the property indexed by "<var>name</var>" from the element and store this as <var>result</var>. If <var>name</var> case insensitively matches "class" set <var>result</var> to be <var>element</var>'s <code>className</code> property. Similarly, if <var>name</var> case insensitively matches "readonly", set <var>result</var> to be the <var>element</var>'s <code>readOnly</code> property.</li>
+
+            <li>If <var>result</var> is null or undefined, or if it is an object, set the value of <var>result</var> to be the <code>value</code> of the Attr node obtained by calling <code>getAttributeNode</code> on <var>element</var> iff that Attr is <code>specified</code>. That is, <var>result</var> is the equivalent of executing the following Ecmascript: <code>var attr = element.getAttributeNode(name); var result = (attr &amp;&amp; attr.specified) ? attr.value : null;</code></li>
+
+            <li name="attribute-result-coercion">Coerce the return value to a DOMString:
+              <ol>
+                <li>If <var>result</var> is a boolean value, use the value "true" if <var>result</var> is true, or null otherwise.</li>
+                <li>if <var>result</var> is null or undefined, set <var>result</var> to be null.</li>
+                <li>In all other cases, coerce <var>result</var> to a DOMString.</li>
+              </ol>
+            </li>
+          </ol>
+          <dl class='parameters'>
+            <dt>DOMString name</dt>
+            <dd>The name of the property or attribute to return.</dd>
+          </dl>
+          <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+      </section>
+      <section>
+        <!-- getCssValue() -->
+        <h3>getCssValue()</h3>
+        <p>
+          <table class="simple jsoncommand">
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td id='get-id-css-property'>/session/{sessionId}/element/{ELEMENT}/css/{propertyName}</td>
+              <td></td>
+            </tr>
+          </table>
+          <p>The "getCssValue" command will return a <code>DOMString</code> of the value of the property passed. It MUST return the value of <a href="http://dev.w3.org/csswg/cssom/#dom-cssstyledeclaration-getpropertyvalue"><code>getPropertyValue(propertyName)</code></a> returned from calling <a href='http://dev.w3.org/csswg/cssom/#dom-window-getcomputedstyle'><code>window.getComputedStyle(element)</code></a>. Color property values MUST be standardized to <a href='http://www.w3.org/TR/css3-color/#rgba-color'>RGBA color format</a> as described in [[!css3-color]]. If a user agent does not support RGBA then it MUST return a value as 1 for opacity. If the property is not present then return an empty string.
+          <dl class='parameters'>
+            <dt>DOMString propertyName</dt>
+            <dd>The name of the property whose value will be returned</dd>
+          </dl>
+          <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+      </section>
+      <section>
+        <!-- getElementText() -->
+        <h3>getElementText()</h3>
+          <p>
             <table class="simple jsoncommand">
               <tr>
                 <th>HTTP Method</th>
@@ -1359,10 +1515,11 @@ code a:visited, code a:link {
              <li>The string MUST then have the white space normalised as defined in the [[!XPATH]] <a href="http://www.w3.org/TR/xpath/#function-normalize-space">normalize-space function</a> which is then returned.</li>
          </ol>
          <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-       </dd>
-       <dt>DOMString getElementTagName()</dt>
-       <dd>
-         <p>
+       </section>
+       <section>
+        <!-- getElementTagName() -->
+        <h3>getElementTagName()</h3>
+        <p>
            <table class="simple jsoncommand">
              <tr>
                <th>HTTP Method</th>
@@ -1379,9 +1536,10 @@ code a:visited, code a:link {
             that is the <a href='http://www.w3.org/TR/DOM-Level-3-Core/glossary.html#dt-qualifiedname'>
             qualified name</a> of the element.
           <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-       </dd>
-       <dt>ElementRect getElementRect()</dt>
-       <dd><p>
+       </section>
+       <section>
+        <h3>ElementRect getElementRect()</h3>
+        <p>
          <table class="simple jsoncommand">
            <tr>
              <th>HTTP Method</th>
@@ -1404,9 +1562,9 @@ code a:visited, code a:link {
           </ul>
          <p>The point (0, 0) refers to the top left corner of the document.
           <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
-      <dt>boolean isEnabled()</dt>
-      <dd>
+      </section>
+      <section>
+        <h3>isEnabled()</h3>
         <p>
            <table class="simple jsoncommand">
              <tr>
@@ -1428,8 +1586,8 @@ code a:visited, code a:link {
           </ul>
 
         <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
-    </dl>
+      </section>
+    </section>
   </section>
 </section>
 <section>
@@ -1447,15 +1605,15 @@ code a:visited, code a:link {
 
     <section>
       <h2>Javascript Command Parameters</h2>
-      <div class='idl' title='typedef (long or boolean or DOMString or WebElement or Object or sequence<Argument>)? Argument'></div>
 
-      <dl class="idl" title="interface JavascriptCommandParameters">
-        <dt>readonly attribute DOMString script</dt>
-        <dd>The JavaScript to execute, in the form of a Function body.</dd>
+      <p>When calling <a href="#sync-js-execution">Synchronous JavaScript Execution</a> or calling <a href="async-js-execution">Asynchronous JavaScript Execution</a> we need to extract
+        the following from <var><a href="#uri-template-parameters">parameters</a></var> into <dfn>JavaScript Command Parameters</dfn>:</p>
 
-        <dt>readonly attribute sequence&lt;Argument> args</dt>
-        <dd>The parameters to the function defined by <code>script</code>.</dd>
-      </dl>
+        <ul>
+          <li>let <var>script</var> be the JavaScript to execute, in the form of a Function body.</li>
+          <li>let <var>args</var> be an array that are used as the parameters to the function defined by <var>script</var>.
+            The <var>args</var> can contain the numbers, booleans, a WebElement, objects or arrays</li>
+        </ul>
     </section>
 
     <p>When executing Javascript, it MUST be possible to reference the <code>args</code> parameter using the function's <code>arguments</code> object. The arguments MUST be in the same order as defined in <code>args</code>. Each WebDriver implementation MUST preprocess the values in <code>args</code> using the following algorithm:
@@ -1474,9 +1632,10 @@ code a:visited, code a:link {
           <li>Otherwise WebDriver implementations MAY throw an <code><a href="#status-unknown-error">unknown error</a></code> indicating the index of the unhandled parameter but SHOULD attempt to convert the value into a <code>object</code>.</li>
         </ol>
         <section>
-          <h2>Synchronous Javascript Execution</h2>
-          <dl class='idl' title='partial interface JavaScriptExecutor'>
-            <dt>Argument? executeScript()</dt>
+          <h2 id="sync-js-execution">Synchronous Javascript Execution</h2>
+          <section>
+            <!-- executeScript() -->
+            <h3>executeScript()</h3>
             <dd>
               <dl class='parameters'>
                 <dt> DOMString script</dt>
@@ -1534,14 +1693,13 @@ code a:visited, code a:link {
                 </ol>
                 <li>Return the response.</li>
               </ol>
-            </dd>
-          </dl>
+            </section>
         </section>
         <section>
           <h2>Asynchronous Javascript Execution</h2>
-          <dl class='idl' title='partial interface JavaScriptExecutor'>
-            <dt>Argument? executeAsyncScript()</dt>
-            <dd>
+          <section>
+            <h3 id="async-js-execution">executeAsyncScript()</h3>
+
               <dl class='parameters'>
                 <dt> DOMString script</dt>
                 <dd>The script to execute.</dd>
@@ -1613,8 +1771,7 @@ code a:visited, code a:link {
                       </ol>
                     </li>
                   </ol>
-                </dd>
-              </dl>
+                </section>
         </section>
         <section>
           <h2>Reporting Errors</h2>
@@ -1650,9 +1807,9 @@ code a:visited, code a:link {
       <dt>boolean httpOnly</dt>
       <dd>True if this represents an HTTP-Only cookie, false otherwise. If this attribute is missing, local ends MUST interpret this as being false.</dd>
     </dl>
-    <dl class="idl" title="interface Options">
-      <dt>sequence&lt;Cookie> getCookie()</dt>
-      <dd>
+    <section>
+      <!-- getCookie() -->
+      <h3>getCookie()</h3>
         <p>
           <table class="simple jsoncommand">
             <tr>
@@ -1675,9 +1832,9 @@ code a:visited, code a:link {
           <dt>optional DOMString? name</dt>
           <dd>The name (e.g. <code>name=</code>) of the cookie that needs to be returned.</dd>
         </dl>
-      </dd>
-      <dt>void addCookie()</dt>
-      <dd>
+      </section>
+      <section>
+      <h3>addCookie()</h3>
         <p>
           <table class="simple jsoncommand">
             <tr>
@@ -1707,18 +1864,18 @@ code a:visited, code a:link {
             described in <a href='http://tools.ietf.org/html/rfc6265#section-5.3'>Storage Model</a> in [[!RFC6265]].
           </dd>
         </dl>
-    </dl>
+    </section>
   </section>
 </section>
 <section>
   <h2 id="timeouts">Timeouts</h2>
   <p>This section describes how timeouts and implicit waits are handled within WebDriver</p>
   <section>
+    <h2>Setting Timeouts</h2>
     <p>The "timeouts" command is used to set the value of a timeout that a command can execute
      for.</p>
-     <dl class='idl' title='partial interface Options'>
-       <dt>void setTimeouts()</dt>
-       <dd>
+      <section>
+       <h3>setTimeouts()</h3>
         <p>
           <table class="simple jsoncommand">
             <tr>
@@ -1739,14 +1896,18 @@ code a:visited, code a:link {
           <li>page load - Set the amount of time the driver should wait before returning when the <a href="#page-load-strategies-1">page load stratgey</a> is not "<code>none</code>". If this limit is exceeded, the <code>get()</code> command MUST return a "<code><a href="#status-timeout">timeout</a></code>" response status.</li>
           <li>script - Set the amount of time the driver should wait after calling <a href='#widl-JavaScriptExecutor-executeAsyncScript-Argument-DOMString-script-sequence-Argument--args'><code>executeAsyncScript</code></a> for the callback to have executed before returning a <code><a href="#status-timeout">timeout</a></code> Response.</li>
         </ul>
-        <dl class='parameters'>
-          <dt>DOMString type</dt>
-          <dd>The type of operation to set the timeout for. Valid values are: "implicit", "page load", "script"</dd>
-          <dt>unsigned short ms</dt>
-          <dd>The amount of time, in milliseconds, that time-limited commands are permitted to run.</dd>
-        </dl>
-      </dd>
-    </dl>
+        The parameters will have the following keys in the object:
+        <ul>
+          <li>Let <var>type</var> contain the type of timeout for specified operations. Valid values are: "implicit", "page load", "script". If invalid values are passed in:
+            <ul>
+              <li>Set the HTTP Response status code to 500</li>
+              <li>Let <var>status</var> be equal to <a href='#status-invalid-selector'>Invalid Selector</a></li>
+              <li>Let <var>value</var> to a stating that the strategy is invalid. It may return a list of valid search strategies.</li>
+            </ul>
+          </li>
+          <li>let <var>ms</var> contain the amount of time, in milliseconds, that time-limited commands are permitted to run.</li>
+        </ul>
+    </section>
   </section>
 </section>
 <section>
@@ -2122,9 +2283,22 @@ code a:visited, code a:link {
 
         <section>
           <h2 id='high-level-click'>Clicking</a></h2>
-          <dl class="idl" title="partial interface WebElement">
-            <dt>void click()</dt>
-            <dd>Click in the middle of the <a>WebElement</a> instance. The middle of the element is defined as the middle of the box returned by
+          <section>
+            <!-- click() -->
+            <h3>click()</h3>
+            <table class="simple jsoncommand">
+              <tr>
+                <th>HTTP Method</th>
+                <th>Path Template</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <td>POST</td>
+                <td id='post-element-click'>/session/{sessionId}/element/{id}/click</td>
+                <td></td>
+              </tr>
+            </table>
+            <p>Click in the middle of the <a>WebElement</a> instance. The middle of the element is defined as the middle of the box returned by
             calling <code><a
               href="http://www.w3.org/TR/cssom-view/#the-getclientrects()-and-getboundingclientrect()-methods">getBoundingClientRect</a></code>
             on the underlying document Element, according to the [[!CSSOM-VIEW]] spec. If
@@ -2167,6 +2341,7 @@ code a:visited, code a:link {
             explantory message explaining the reason. The implementation SHOULD try to
             scroll the element into view, but in case it is fully obscured, it SHOULD
             NOT be clickable.<!--TODO: add details of interactable'--></p>
+          </section>
         </section>
         <section>
           <h2>Touch</h2>
@@ -2178,10 +2353,22 @@ code a:visited, code a:link {
           </table>
           <br>
           <br>
-          <dl class='idl' title='partial interface WebElement'>
+          <section>
             <!-- Tap -->
-            <dt>void tap ()</dt>
-            <dd>Tap in the middle of the <a>WebElement</a>. The middle of the element is defined as the middle of the box returned by
+            <h3>void tap ()</h3>
+            <table class="simple jsoncommand">
+              <tr>
+                <th>HTTP Method</th>
+                <th>Path Template</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <td>POST</td>
+                <td id='post-element-tap'>/session/{sessionId}/element/{id}/tap</td>
+                <td></td>
+              </tr>
+            </table>
+            <p>Tap in the middle of the <a>WebElement</a>. The middle of the element is defined as the middle of the box returned by
               calling <code><a
                 href="http://www.w3.org/TR/cssom-view/#the-getclientrects()-and-getboundingclientrect()-methods">getBoundingClientRect</a></code>
               on the underlying document Element, according to the [[!CSSOM-VIEW]] spec. If
@@ -2208,8 +2395,7 @@ code a:visited, code a:link {
                 <li><code><a href="#status-stale-element-reference">stale element reference</a></code> if the given element is no longer in the <a href="http://dom.spec.whatwg.org/#in-a-document">document</a>.</li>
                 <li><code><a href="#status-move-target-out-of-bounds">move target out of bounds</a></code> if the element cannot be scrolled into view.</li>
               </ul>
-            </dd>
-          </dl>
+            </section>
         </section>
       <section>
         <h2 id='typing_keys'>Typing keys</h2>
@@ -2233,15 +2419,41 @@ code a:visited, code a:link {
         </ul>
         <p>In case focusing is needed, the implementation MUST follow the <a href="http://dev.w3.org/html5/spec/editing.html#focus-management"><b>focusing steps</b></a> as described in the focus management section of the [[!html51]] spec. The focus MUST NOT leave the element at the end of the interaction, other than as a result of the interaction itself (i.e. when the tab key is sent).
         </p>
-        <dl class="idl" title="partial interface WebElement">
-          <dt>void clear()</dt>
-          <dd>Clears the value of the element.</dd>
-          <dt>void sendKeys()</dt>
-          <dd>
-            <dl class='parameters'>
-              <dt>DOMString value</dt>
-              <dd>The characters that will be typed in the <a>WebElement</a></dd>
-            </dl>
+        <section>
+          <h3>clear()</h3>
+          <p>Clear a TEXTAREA or text INPUT element's value.
+            <table class="simple jsoncommand">
+              <tr>
+                <th>HTTP Method</th>
+                <th>Path Template</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <td>POST</td>
+                <td id='post-element-clear'>/session/{sessionId}/element/{id}/clear</td>
+                <td></td>
+              </tr>
+            </table>
+          </p>
+        </section>
+        <section>
+          <!-- sendKeys() -->
+          <h3>sendKeys()</h3>
+          <p>
+            <table class="simple jsoncommand">
+              <tr>
+                <th>HTTP Method</th>
+                <th>Path Template</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <td>POST</td>
+                <td id='post-element-value'>/session/{sessionId}/element/{id}/value</td>
+                <td></td>
+              </tr>
+            </table>
+            <p> Let <var>value</var> be an array of characters that will be typed into a <a>WebElement</a>
+
             <p>Sends a sequence of keyboard events representing the keys in the value parameter.
             <p>Caret positioning: If focusing was needed, after following the focusing steps, the caret MUST be positioned at the end of the text currently in the element. At the end of the interaction, the caret MUST be positioned at the end of the typed text sequence, unless the keys sent position it otherwise (e.g. using the LEFT key).</p>
             <p>There are four different types of keys that are emulated:
@@ -2250,8 +2462,9 @@ code a:visited, code a:link {
               <li>Uppercase letters and symbols requiring the SHIFT key for typing.</li>
               <li>Modifier keys</li>
               <li>Special keys</li>
-            </ul>The rest of this section details the values used to represent the different keys, as well as the expected behaviour for each key type.</dd>
-        </dl>
+            </ul>
+            The rest of this section details the values used to represent the different keys, as well as the expected behaviour for each key type.
+        </section>
         <p>When emulating user input, the implementation MUST generate
         the same sequence of events that would have been produced if a real user was
         sitting in front of the keyboard and typing the sequence of characters. In
@@ -2454,6 +2667,7 @@ code a:visited, code a:link {
     <h3>Internationalized input</h3>
     <p>Non-latin symbols: TBD</p>
     <p>Complex scripts using Input Method Editor (IME): TBD</p>
+  </section> <!-- sendkeys end -->
     </section> <!-- typing -->
   </section>
   </section>
@@ -2468,10 +2682,9 @@ code a:visited, code a:link {
       <p>When the remote end is has a modal dialog such as those produced from <code>window.alert</code>,
       <code>window.prompt</code> and <code>window.confirm</code> it should allow the interrogation of the
       dialogues as using the following interface.</p>
-      <dl class="idl" title="interface Alerts">
+      <section>
         <!-- dismiss() -->
-        <dt>void dismiss()</dt>
-        <dd>
+        <h3>dismiss()</h3>
           <p>
             <table class="simple jsoncommand">
               <tr>
@@ -2489,11 +2702,11 @@ code a:visited, code a:link {
           This will dismiss the modal. If the modal is an alert, this MUST be
           equivalent to calling <code>accept()</code> on the dialog. If no alert
            is present a <code><a href="#status-no-such-alert">no such alert error</a>
-         </code> MUST be raised.</dd>
-
+         </code> MUST be raised.
+      </section>
+      <section>
         <!-- accept() -->
-        <dt>void accept()</dt>
-        <dd>
+        <h3>accept()</h3>
           <p>
             <table class="simple jsoncommand">
               <tr>
@@ -2511,11 +2724,11 @@ code a:visited, code a:link {
           This will accept the modal. If the modal is from a <code>window.prompt</code>
          it is the equivalent of clicking the OK button. If no modal is present then a
           <code><a href="#status-no-such-alert">no such alert error</a></code>
-           MUST be raised.</dd>
-
+           MUST be raised.
+      </section>
+      <section>
         <!-- getText() -->
-        <dt>DOMString getText()</dt>
-        <dd>
+        <h3>getText()</h3>
           <p>
             <table class="simple jsoncommand">
               <tr>
@@ -2531,11 +2744,11 @@ code a:visited, code a:link {
             </table>
           <p>
           This will return the message shown in the modal. If no modal is present then a <code><a href="#status-no-such-alert">
-          no such alert error</a></code> MUST be raised.</dd>
-
+          no such alert error</a></code> MUST be raised.
+      </section>
+      <section>
         <!-- sendKeys() -->
-        <dt>void sendKeys()</dt>
-        <dd>
+        <h3>sendKeys()</h3>
           <p>
             <table class="simple jsoncommand">
               <tr>
@@ -2555,13 +2768,8 @@ code a:visited, code a:link {
           If the modal has no means for text input it should throw a <code><a href='#status-element-not-visible'>
           Element not visible error</a></code>. If no modal is present then a <a href="#status-no-such-alert">
           no such alert error</a></code> MUST be raised.
-          <dl class='parameters'>
-            <dt>DOMString keysToSend</dt>
-            <dd>Keys to send to the modal. If the modal has no means of acceptiing text input
-             it MUST raise a <code><a href='#status-element-not-visible'>element not visible error</a></code></dd>
-          </dl>
-        </dd>
-      </dl>
+          <p> Let <var>value</var> be an array of characters that will be typed into a <a>WebElement</a>. If the modal has no means of acceptiing text input
+             it MUST raise a <code><a href='#status-element-not-visible'>element not visible error</a></code>
       <p>If a modal dialog is created from a <code>onbeforeunload</code> event the remote end MUST handle the
         dialog by either using <code>accept</code> or <code>dismiss</code>. These calls should either come from
         the local end or should be handled as an unexpected modal dialog as described below.
@@ -2572,6 +2780,7 @@ code a:visited, code a:link {
       to wait for a command to handle the modal. If the next command does not interact with the modal
       it MUST return a <code><a href='#status-unexpected-alert-open'>Unexpected alert open</a></code> error to
       the local end.
+      </section>
     </section>
     <section>
       <h2>Modal dialogs</h2>
@@ -2592,9 +2801,8 @@ code a:visited, code a:link {
 
   <p>All commands within this section are implemented using the "TakesScreenshot" interface:</p>
 
-  <dl class="idl" title="interface TakesScreenshot">
-    <dt>DOMString takeScreenshot()</dt>
-    <dd>
+  <section>
+    <h3>takeScreenshot()</h3>
       <p>
         <table class="simple jsoncommand">
           <tr>
@@ -2615,13 +2823,14 @@ code a:visited, code a:link {
       <ul>
         <li><code><a href="#unknown-error">unknown error</a></code> if the if the screenshot cannot be taken.</li>
       </ul>
+      <p>Leaving below until <a href='https://www.w3.org/Bugs/Public/show_bug.cgi?id=27920'>Bug 27920</a> has a consensus</p>
       <dl class='parameters'>
         <dt>optional WebElement? element</dt>
         <dd>The <a>WebElement</a> on which to operate. If <code>element</code> is not populated or is <code>null</code>
           then the User Agent MUST return the screenshot of the current state of the document at the top level browsing context.</dd>
       </dl>
     </dd>
-  </dl>
+  </section>
 
   <section>
     <h2>Current Top Level Browsing Context</h2>
@@ -2806,9 +3015,14 @@ code a:visited, code a:link {
 <li><a href="#post-window_handle-size">/session/{sessionId}/window/size</a></li>
 <li><a href="#get-window_handle-size">/session/{sessionId}/window/size</a></li>
 <li><a href="#get-window_handle-maximize">/session/{sessionId}/window/maximize</a></li>
-<li><a href="#get-window">/session/{sessionId}/window</a></li>
+<li><a href="#post-window">/session/{sessionId}/window</a></li>
 <li><a href="#post-frame">/session/{sessionId}/frame</a></li>
 <li><a href="#post-frame-parent">/session/{sessionId}/frame/parent</a></li>
+<li><a href="#post-elements">/session/{sessionId}/elements</a></li>
+<li><a href="#post-elements-from-element">/session/{sessionId}/element/{ELEMENT}/elements</a></li>
+<li><a href="#post-element">/session/{sessionId}/element</a></li>
+<li><a href="#post-element-from-element">/session/{sessionId}/element/{ELEMENT}/element</a></li>
+<li><a href="#post-active-elements">/session/{sessionId}/element/active</a></li>
 <li><a href="#get-id-displayed">/session/{sessionId}/element/{ELEMENT}/displayed</a></li>
 <li><a href="#get-id-selected">/session/{sessionId}/element/{ELEMENT}/selected</a></li>
 <li><a href="#get-id-attribute">/session/{sessionId}/element/{ELEMENT}/attribute/{name}</a></li>
@@ -2824,6 +3038,10 @@ code a:visited, code a:link {
 <li><a href="#post-timeouts">/session/{sessionId}/timeouts</a></li>
 14_user_input.html:              <td>/session/{sessionId}/actions</td>
 14_user_input.html:              <td>/session/{sessionId}/actions</td>
+<li><a href="#post-element-click">/session/{sessionId}/element/{id}/click</a></li>
+<li><a href="#post-element-tap">/session/{sessionId}/element/{id}/tap</a></li>
+<li><a href="#post-element-clear">/session/{sessionId}/element/{id}/clear</a></li>
+<li><a href="#post-element-value">/session/{sessionId}/element/{id}/value</a></li>
 <li><a href="#post-alert-dismiss">/session/{sessionId}/dismiss_alert</a></li>
 <li><a href="#post-alert-accept">/session/{sessionId}/accept_alert</a></li>
 <li><a href="#get-alert-text">/session/{sessionId}/alert_text</a></li>
