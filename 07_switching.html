@@ -1,5 +1,5 @@
 <section>
-  <h2>Where Commands Are Handled</h2>
+  <h2>Context of Commands</h2>
 
   <p>Web applications can be composed of multiple <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> and/or frames. For a normal user, the context in which an operation is performed is obvious: it's the window or frame that currently has OS focus and which has just received user input. The WebDriver API does not follow this convention. There is an expectation that many browsers using the WebDriver API may be used at the same time on the same machine. This section describes how WebDriver tracks which window or frame is currently the context in which commands are being executed.</p>
 
@@ -15,9 +15,8 @@
   <section>
     <h2>Switching Windows</h2>
 
-    <dl class='idl' title='partial interface WebDriver'>
-      <dt>void switchToWindow()</dt>
-      <dd>
+    <section>
+      <h3>switchToWindow()</h3>
         <dl class='parameters'>
           <dt>DOMString handle</dt>
           <dd>The identifier used for a <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a></dd>
@@ -31,7 +30,7 @@
             </tr>
             <tr>
               <td>POST</td>
-              <td id='get-window'>/session/{sessionId}/window</td>
+              <td id='post-window'>/session/{sessionId}/window</td>
               <td></td>
             </tr>
           </table>
@@ -39,15 +38,14 @@
         <p>The "switchToWindow" command is used to select which <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> MUST be used as the context for processing commands. In order to determine which <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> should be used for accepting commands, the "switchToWindow" command MUST iterate over all <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> comparing the window handle.
 
         <p>If no <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing contexts</a> match, then a "<code><a href="#status-no-such-window">no such window</a></code>" status code MUST be returned, otherwise the "<a href="#default-content">default content</a>" of the first match will be selected for accepting commands.</p>
-      </dd>
-    </dl>
+
+    </section>
   </section>
 
   <section>
     <h2>Switching Frames</h2>
-    <dl class='idl' title='partial interface WebDriver'>
-      <dt>void switchToFrame()</dt>
-      <dd>
+    <section>
+      <h3>switchToFrame()</h3>
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -74,9 +72,11 @@
 
         <p>In all cases if no match is made a "<code><a href="#status-no-such-frame">no such frame</a></code>" status code MUST be returned.</p>
 
-        <p>If the indicated frame exists, frame switching MUST succeed even if doing so would violate the normal security constraints in place within the Javascript sandbox.</p></dd>
-      <dt>void switchToParentFrame()</dt>
-      <dd>
+        <p>If the indicated frame exists, frame switching MUST succeed even if doing so would violate the normal security constraints in place within the Javascript sandbox.</p>
+      </section>
+      <section>
+      <h3>switchToParentFrame()</h3>
+
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -90,7 +90,7 @@
           </tr>
         </table>
         <p>The "switchToParentFrame" command MUST set the context of future commands to the <code>window.parent</code>. If the current context is the [[!html51]]'s <a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top level browsing context</a>, the context remains unchanged.</p>
-      </dd>
-    </dl>
+      </section>
+    </section>
   </section>
 </section>

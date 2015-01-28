@@ -1,20 +1,24 @@
 <section>
-<h2>Reading Element State</h2>
-<p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "element_state" folder.</p>
-  <section>
-    <dl class='idl' title='dictionary ElementRect'>
-      <dt>double x</dt>
-      <dd>The x coordinate for the top left of the element</dd>
-      <dt>double y</dt>
-      <dd>The y coordinate for the top left of the element</dd>
-      <dt>double height</dt>
-      <dd>Height of the element in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>
-      <dt>double width</dt>
-      <dd>Width of the element in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>
-    </dl>
-    <dl class='idl' title='partial interface WebElement'>
-      <dt>boolean isDisplayed()</dt>
-      <dd><p>
+  <h2>Element State</h2>
+    <section>
+      <h2>Reading current element state from the document</h2>
+      <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "element_state" folder.</p>
+
+          <p>When we are returning an <a>ElementRect</a> to the local end it will need to be serialised</p>
+          <dl class='idl' title='dictionary ElementRect'>
+            <dt>double x</dt>
+            <dd>The x coordinate for the top left of the element</dd>
+            <dt>double y</dt>
+            <dd>The y coordinate for the top left of the element</dd>
+            <dt>double height</dt>
+            <dd>Height of the element in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>
+            <dt>double width</dt>
+            <dd>Width of the element in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>
+          </dl>
+    <section>
+      <!-- isDisplayed() -->
+      <h3>isDisplayed()</h3>
+      <p>
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -71,109 +75,117 @@
           <p>This implies that <code>isDisplayed</code> MUST return true if the centre of the element could be brought into the viewport. The exception to this would be the BODY element, which is generally assumed to always be displayed by users of the WebDriver spec. It is possible to interact with elements which may not have the centre point brought into the viewport by using the <a href="#low-level-commands">low level commands</a>. This means that if any part of the element could be brought into the viewport by user action and its position could be used by low-level commands then a WebDriver implementation MAY return true.</p>
         </div>
         <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
-      <dt>boolean isSelected()</dt>
-      <dd><p>
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-            <th>Notes</th>
-          </tr>
-          <tr>
-            <td>GET</td>
-            <td id='get-id-selected'>/session/{sessionId}/element/{ELEMENT}/selected</td>
-            <td></td>
-          </tr>
-        </table>
+      </section>
+      <section>
+        <!-- isSelected -->
+        <h3>isSelected()</h3>
+        <p>
+          <table class="simple jsoncommand">
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td id='get-id-selected'>/session/{sessionId}/element/{ELEMENT}/selected</td>
+              <td></td>
+            </tr>
+          </table>
 
-        <p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
-        <ol>
-          <li id="is_selectable">If the item is not "<code title='selectable'>selectable</code>", the WebElement is not selected. A <dfn id="selectable" title="selectable">selectable</dfn> element is either an OPTION element or an INPUT element of type "<a href="http://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)">checkbox</a>" or "<a href="http://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)">radio</a>".</li>
-          <li>If the Document node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!html51]] determines whether the element is selected.</li>
-          <li>Otherwise, the value of the Document node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!html51]].</li>
-        </ol>
-        <p>If <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
-            <dt>DOMString getElementAttribute()</dt>
-            <dd><p>
-              <table class="simple jsoncommand">
-                <tr>
-                  <th>HTTP Method</th>
-                  <th>Path Template</th>
-                  <th>Notes</th>
-                </tr>
-                <tr>
-                  <td>GET</td>
-                  <td id='get-id-attribute'>/session/{sessionId}/element/{ELEMENT}/attribute/{name}</td>
-                  <td></td>
-                </tr>
-              </table>
-              <div class="note">
-              <p>Although the [[!html51]] spec is very clear about the difference between the properties and attributes of a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, users are frequently confused between the two. Because of thisend point which covers the case of returning either of the value of a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
+          <p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
+          <ol>
+            <li id="is_selectable">If the item is not "<code title='selectable'>selectable</code>", the WebElement is not selected. A <dfn id="selectable" title="selectable">selectable</dfn> element is either an OPTION element or an INPUT element of type "<a href="http://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)">checkbox</a>" or "<a href="http://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)">radio</a>".</li>
+            <li>If the Document node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!html51]] determines whether the element is selected.</li>
+            <li>Otherwise, the value of the Document node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!html51]].</li>
+          </ol>
+          <p>If <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+      </section>
+      <section>
+        <!-- getElementAttribute() -->
+        <h3>getElementAttribute()</h3>
+        <p>
+          <table class="simple jsoncommand">
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td id='get-id-attribute'>/session/{sessionId}/element/{ELEMENT}/attribute/{name}</td>
+              <td></td>
+            </tr>
+          </table>
+          <div class="note">
+          <p>Although the [[!html51]] spec is very clear about the difference between the properties and attributes of a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, users are frequently confused between the two. Because of thisend point which covers the case of returning either of the value of a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
 
-              <p>The end result of this algorithm are values that can be passed to other commands within this specification. Notably, this means that URLs that are returned can be passed to <a href="#widl-WebDriver-get-void-DOMString-url">get</a> and the expected URL will be navigated to.</p>
-              </div>
+          <p>The end result of this algorithm are values that can be passed to other commands within this specification. Notably, this means that URLs that are returned can be passed to <a href="#widl-WebDriver-get-void-DOMString-url">get</a> and the expected URL will be navigated to.</p>
+          </div>
 
-              <p>To determine the <var>value</var> of the response, the following steps must be taken where <var>name</var> is the <code>name</code> property on the <code>parameters</code> dictionary in Command, and <var>element</var> is the <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> modeled by the <code>ELEMENT</code> parameter.:
+          <p>To determine the <var>value</var> of the response, the following steps must be taken where <var>name</var> is the <code>name</code> property on the <code>parameters</code> dictionary in Command, and <var>element</var> is the <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> modeled by the <code>ELEMENT</code> parameter.:
+          <ol>
+            <li>Initially set <var>result</var> to null.
+            <li>Handle special-cases:
               <ol>
-                <li>Initially set <var>result</var> to null.
-                <li>Handle special-cases:
-                  <ol>
-                    <li>If "<var>name</var>" case insensitively matches "<code>style</code>", then store the value of the computed value of the <code>style</code> property of <var>element</var>, <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM-VIEW]] spec, as <var>result</var>. Notably, CSS property names must be cased as specified in in section 6.5.1 of the [[!CSSOM-VIEW]] spec. In addition, color property values must be standardized to <a href='http://www.w3.org/TR/css3-color/#rgba-color'>RGBA color format</a> as described in [[!css3-color]]. If a user agent does not support RGBA then it MUST return a value as 1 for opacity.</li>
+                <li>If "<var>name</var>" case insensitively matches "<code>style</code>", then store the value of the computed value of the <code>style</code> property of <var>element</var>, <a href="http://dev.w3.org/csswg/cssom/#serialize-a-css-rule">serialized as defined</a> in the [[!CSSOM-VIEW]] spec, as <var>result</var>. Notably, CSS property names must be cased as specified in in section 6.5.1 of the [[!CSSOM-VIEW]] spec. In addition, color property values must be standardized to <a href='http://www.w3.org/TR/css3-color/#rgba-color'>RGBA color format</a> as described in [[!css3-color]]. If a user agent does not support RGBA then it MUST return a value as 1 for opacity.</li>
 
-                    <li>If "<var>name</var>" case insensitively matches "selected" or "checked", and the element is <a href="#is_selectable">selectable</a>:
-                      <ol>
-                        <li>If the element supports neither a <a href="http://www.w3.org/TR/html51/forms.html#concept-option-selectedness">selectedness</a> or <a href="http://www.w3.org/TR/html51/forms.html#concept-fe-checked">checkedness</a> check, then store null as <var>result</var>.</li>
-                        <li>For an <code>option</code> element, store the element's <a href="http://www.w3.org/TR/html51/forms.html#concept-option-selectedness">selectedness</a> as <var>result</var>.</li>
-                        <li>In all other cases, store the element's <a href="http://www.w3.org/TR/html51/forms.html#concept-fe-checked">checkedness</a> as <var>result</var>.</li>
-                      </ol>
-                    </li>
-                    <li>If any of the above steps have been executed, go to the <a href="#attribute-result-coercion">result coercion</a> step of this algorithm.
+                <li>If "<var>name</var>" case insensitively matches "selected" or "checked", and the element is <a href="#is_selectable">selectable</a>:
+                  <ol>
+                    <li>If the element supports neither a <a href="http://www.w3.org/TR/html51/forms.html#concept-option-selectedness">selectedness</a> or <a href="http://www.w3.org/TR/html51/forms.html#concept-fe-checked">checkedness</a> check, then store null as <var>result</var>.</li>
+                    <li>For an <code>option</code> element, store the element's <a href="http://www.w3.org/TR/html51/forms.html#concept-option-selectedness">selectedness</a> as <var>result</var>.</li>
+                    <li>In all other cases, store the element's <a href="http://www.w3.org/TR/html51/forms.html#concept-fe-checked">checkedness</a> as <var>result</var>.</li>
                   </ol>
                 </li>
-
-                <li>Obtain the property indexed by "<var>name</var>" from the element and store this as <var>result</var>. If <var>name</var> case insensitively matches "class" set <var>result</var> to be <var>element</var>'s <code>className</code> property. Similarly, if <var>name</var> case insensitively matches "readonly", set <var>result</var> to be the <var>element</var>'s <code>readOnly</code> property.</li>
-
-                <li>If <var>result</var> is null or undefined, or if it is an object, set the value of <var>result</var> to be the <code>value</code> of the Attr node obtained by calling <code>getAttributeNode</code> on <var>element</var> iff that Attr is <code>specified</code>. That is, <var>result</var> is the equivalent of executing the following Ecmascript: <code>var attr = element.getAttributeNode(name); var result = (attr &amp;&amp; attr.specified) ? attr.value : null;</code></li>
-
-                <li name="attribute-result-coercion">Coerce the return value to a DOMString:
-                  <ol>
-                    <li>If <var>result</var> is a boolean value, use the value "true" if <var>result</var> is true, or null otherwise.</li>
-                    <li>if <var>result</var> is null or undefined, set <var>result</var> to be null.</li>
-                    <li>In all other cases, coerce <var>result</var> to a DOMString.</li>
-                  </ol>
-                </li>
+                <li>If any of the above steps have been executed, go to the <a href="#attribute-result-coercion">result coercion</a> step of this algorithm.
               </ol>
-              <dl class='parameters'>
-                <dt>DOMString name</dt>
-                <dd>The name of the property or attribute to return.</dd>
-              </dl>
-              <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-            </dd>
-      <dt>DOMString getCssValue()</dt>
-      <dd><p>
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-            <th>Notes</th>
-          </tr>
-          <tr>
-            <td>GET</td>
-            <td id='get-id-css-property'>/session/{sessionId}/element/{ELEMENT}/css/{propertyName}</td>
-            <td></td>
-          </tr>
-        </table>
-        <p>The "getCssValue" command will return a <code>DOMString</code> of the value of the property passed. It MUST return the value of <a href="http://dev.w3.org/csswg/cssom/#dom-cssstyledeclaration-getpropertyvalue"><code>getPropertyValue(propertyName)</code></a> returned from calling <a href='http://dev.w3.org/csswg/cssom/#dom-window-getcomputedstyle'><code>window.getComputedStyle(element)</code></a>. Color property values MUST be standardized to <a href='http://www.w3.org/TR/css3-color/#rgba-color'>RGBA color format</a> as described in [[!css3-color]]. If a user agent does not support RGBA then it MUST return a value as 1 for opacity. If the property is not present then return an empty string.
-        <dl class='parameters'>
-          <dt>DOMString propertyName</dt>
-          <dd>The name of the property whose value will be returned</dd>
-        </dl>
-        <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
-      <dt>DOMString getElementText()</dt>
-          <dd><p>
+            </li>
+
+            <li>Obtain the property indexed by "<var>name</var>" from the element and store this as <var>result</var>. If <var>name</var> case insensitively matches "class" set <var>result</var> to be <var>element</var>'s <code>className</code> property. Similarly, if <var>name</var> case insensitively matches "readonly", set <var>result</var> to be the <var>element</var>'s <code>readOnly</code> property.</li>
+
+            <li>If <var>result</var> is null or undefined, or if it is an object, set the value of <var>result</var> to be the <code>value</code> of the Attr node obtained by calling <code>getAttributeNode</code> on <var>element</var> iff that Attr is <code>specified</code>. That is, <var>result</var> is the equivalent of executing the following Ecmascript: <code>var attr = element.getAttributeNode(name); var result = (attr &amp;&amp; attr.specified) ? attr.value : null;</code></li>
+
+            <li name="attribute-result-coercion">Coerce the return value to a DOMString:
+              <ol>
+                <li>If <var>result</var> is a boolean value, use the value "true" if <var>result</var> is true, or null otherwise.</li>
+                <li>if <var>result</var> is null or undefined, set <var>result</var> to be null.</li>
+                <li>In all other cases, coerce <var>result</var> to a DOMString.</li>
+              </ol>
+            </li>
+          </ol>
+          <dl class='parameters'>
+            <dt>DOMString name</dt>
+            <dd>The name of the property or attribute to return.</dd>
+          </dl>
+          <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+      </section>
+      <section>
+        <!-- getCssValue() -->
+        <h3>getCssValue()</h3>
+        <p>
+          <table class="simple jsoncommand">
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td id='get-id-css-property'>/session/{sessionId}/element/{ELEMENT}/css/{propertyName}</td>
+              <td></td>
+            </tr>
+          </table>
+          <p>The "getCssValue" command will return a <code>DOMString</code> of the value of the property passed. It MUST return the value of <a href="http://dev.w3.org/csswg/cssom/#dom-cssstyledeclaration-getpropertyvalue"><code>getPropertyValue(propertyName)</code></a> returned from calling <a href='http://dev.w3.org/csswg/cssom/#dom-window-getcomputedstyle'><code>window.getComputedStyle(element)</code></a>. Color property values MUST be standardized to <a href='http://www.w3.org/TR/css3-color/#rgba-color'>RGBA color format</a> as described in [[!css3-color]]. If a user agent does not support RGBA then it MUST return a value as 1 for opacity. If the property is not present then return an empty string.
+          <dl class='parameters'>
+            <dt>DOMString propertyName</dt>
+            <dd>The name of the property whose value will be returned</dd>
+          </dl>
+          <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+      </section>
+      <section>
+        <!-- getElementText() -->
+        <h3>getElementText()</h3>
+          <p>
             <table class="simple jsoncommand">
               <tr>
                 <th>HTTP Method</th>
@@ -236,10 +248,11 @@
              <li>The string MUST then have the white space normalised as defined in the [[!XPATH]] <a href="http://www.w3.org/TR/xpath/#function-normalize-space">normalize-space function</a> which is then returned.</li>
          </ol>
          <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-       </dd>
-       <dt>DOMString getElementTagName()</dt>
-       <dd>
-         <p>
+       </section>
+       <section>
+        <!-- getElementTagName() -->
+        <h3>getElementTagName()</h3>
+        <p>
            <table class="simple jsoncommand">
              <tr>
                <th>HTTP Method</th>
@@ -256,9 +269,10 @@
             that is the <a href='http://www.w3.org/TR/DOM-Level-3-Core/glossary.html#dt-qualifiedname'>
             qualified name</a> of the element.
           <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-       </dd>
-       <dt>ElementRect getElementRect()</dt>
-       <dd><p>
+       </section>
+       <section>
+        <h3>ElementRect getElementRect()</h3>
+        <p>
          <table class="simple jsoncommand">
            <tr>
              <th>HTTP Method</th>
@@ -281,9 +295,9 @@
           </ul>
          <p>The point (0, 0) refers to the top left corner of the document.
           <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
-      <dt>boolean isEnabled()</dt>
-      <dd>
+      </section>
+      <section>
+        <h3>isEnabled()</h3>
         <p>
            <table class="simple jsoncommand">
              <tr>
@@ -305,7 +319,7 @@
           </ul>
 
         <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
-    </dl>
+      </section>
+    </section>
   </section>
 </section>

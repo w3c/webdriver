@@ -14,16 +14,14 @@
 
     <p>It is possible to request a particular strategy be used for detecting when the next command should be processed by a remote end implementation by modifying the page load strategy that is used. The following are the expected values that MAY be used when creating a new session:</p>
 
-    <dl title='partial interface WebDriver' class='idl'>
-      <dt>const DOMString NORMAL = 'normal'</dt>
-      <dd>The remote end MUST wait until the "<code>document.readyState</code>" of the frame currently handling commands equals "<code>complete</code>", or there are no more outstanding network requests other than XMLHttpRequests.</dd>
+    <h4>'normal'</h4>
+    <p>The remote end MUST wait until the "<code>document.readyState</code>" of the frame currently handling commands equals "<code>complete</code>", or there are no more outstanding network requests other than XMLHttpRequests.</p>
 
-      <dt>const DOMString EAGER = 'eager'</dt>
-      <dd>The remote end MUST wait until the "<code>document.readyState</code>" of frame currently handling equals "<code>interactive</code>" or "<code>complete</code>", or there are no more outstanding network requests.</dd>
+    <h3>'eager'</h3>
+    <p>The remote end MUST wait until the "<code>document.readyState</code>" of frame currently handling equals "<code>interactive</code>" or "<code>complete</code>", or there are no more outstanding network requests.</p>
 
-      <dt>const DOMString NONE = 'none'</dt>
-      <dd>The remote end MUST not do any checks against "<code>document.readyState</code>".</dd>
-    </dl>
+    <h3>'none'</h3>
+    <p>The remote end MUST not do any checks against "<code>document.readyState</code>".</p>
 
     <p>All WebDriver implementations MUST support the <code>normal</code> and <code>eager</code> modes and SHOULD support the <code>conservative</code> and <code>none</code> modes. If no page loading strategy is chosen, then <code>normal</code> MUST be the default.
     In addition, implementors MAY add additional page loading strategies.</p>
@@ -34,10 +32,8 @@
 
     <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "navigation" folder.</p>
 
-    <dl class='idl' title='partial interface WebDriver'>
-      <!-- get() -->
-      <dt>void get()</dt>
-      <dd>
+      <section>
+        <h3>get()</h3>
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -60,16 +56,19 @@
         </ul>
 
         <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-
-        <dl class='parameters'>
-          <dt>DOMString url</dt>
-          <dd>URL that the browser will navigate to</dd>
-        </dl>
-      </dd>
-
+        <p>Example of how the HTTP request payload body would look</p>
+        <pre>
+          {
+            "parameters": {
+              "url": "URL that the browser will navigate to",
+            }
+          }
+        </pre>
+      </section>
       <!-- getCurrentUrl() -->
-      <dt>DOMString getCurrentUrl()</dt>
-      <dd>
+      <section>
+        <h3>getCurrentUrl()</h3>
+
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -86,11 +85,11 @@
           current URL. In the case of a <a href='http://www.w3.org/TR/html5/browsers.html#nested-browsing-context'>Nested Browsing Context</a> WebDriver MUST return the URL of the [[html51]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a>.
           It is the equivalent to returning <code>document.location.href</code> for the [[html51]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a>.
         <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
-
+      </section>
       <!-- goBack() -->
-      <dt>void goBack()</dt>
-      <dd>
+      <section>
+        <h3>goBack()</h3>
+
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -106,9 +105,10 @@
         <p>The "goBack" command is equivalent to a user hitting the "back" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of -1</a> (as defined in [[!html51]]). If a user calls "<code>goBack</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
         </p>
         <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
-      <dt>void goForward()</dt>
-      <dd>
+      </section>
+      <section>
+        <h3>goForward()</h3>
+
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -123,11 +123,11 @@
         </table>
         <p>The "goForward" command is equivalent to a user hitting the "forward" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of +1</a> (as defined in [[!html51]]). If a user calls "<code>goForward</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
         <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
+      </section>
+      <section>
+       <!-- refresh() -->
+        <h3>refresh()</h3>
 
-      <!-- refresh() -->
-      <dt>void refresh()</dt>
-      <dd>
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -142,11 +142,11 @@
         </table>
         <p>"refresh" emulates the user hitting the "refresh" or "reload" button in their browser, causing the current page to be reloaded.</p>
         <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </dd>
+      </section>
+      <section>
+        <!-- getTitle() -->
+        <h3>getTitle()</h3>
 
-      <!-- getTitle() -->
-      <dt>DOMString getTitle()</dt>
-      <dd>
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -164,8 +164,8 @@
 
           <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
         </p>
-      </dd>
-    </dl>
+      </section>
+  </section>
 
     <section>
       <h2>Invalid SSL Certificates</h2>
@@ -182,14 +182,12 @@
 
       <p>The exception to requirement is if the <a>Capabilities</a> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY choose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. Remote end implementations MUST return an <code><a href="#status-unknown-error">unknown error</a></code> status in this case. If this is the case, the <a>Capabilities</a> describing the session MUST also set the <code>secureSsl</code> capability to "true".</p>
     </section>
+    <section>
+      <h3>Detecting When to Handle Commands</h3>
 
-  </section>
+      <p>Commands MUST only be processed when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that page loading is complete.</p>
 
-  <section>
-    <h3>Detecting When to Handle Commands</h3>
-
-    <p>Commands MUST only be processed when the <span id="page-loading-strategies">page loading strategy</span> being used indicates that page loading is complete.</p>
-
-    <p>Commands SHOULD be handled in a synchronous fashion. Requests should be received and then a response sent when the Command has completed.</p>
+      <p>Commands SHOULD be handled in a synchronous fashion. Requests should be received and then a response sent when the Command has completed.</p>
+    </section>
   </section>
 </section>

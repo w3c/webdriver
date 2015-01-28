@@ -13,15 +13,15 @@
 
     <section>
       <h2>Javascript Command Parameters</h2>
-      <div class='idl' title='typedef (long or boolean or DOMString or WebElement or Object or sequence<Argument>)? Argument'></div>
 
-      <dl class="idl" title="interface JavascriptCommandParameters">
-        <dt>readonly attribute DOMString script</dt>
-        <dd>The JavaScript to execute, in the form of a Function body.</dd>
+      <p>When calling <a href="#sync-js-execution">Synchronous JavaScript Execution</a> or calling <a href="async-js-execution">Asynchronous JavaScript Execution</a> we need to extract
+        the following from <var><a href="#uri-template-parameters">parameters</a></var> into <dfn>JavaScript Command Parameters</dfn>:</p>
 
-        <dt>readonly attribute sequence&lt;Argument> args</dt>
-        <dd>The parameters to the function defined by <code>script</code>.</dd>
-      </dl>
+        <ul>
+          <li>let <var>script</var> be the JavaScript to execute, in the form of a Function body.</li>
+          <li>let <var>args</var> be an array that are used as the parameters to the function defined by <var>script</var>.
+            The <var>args</var> can contain the numbers, booleans, a WebElement, objects or arrays</li>
+        </ul>
     </section>
 
     <p>When executing Javascript, it MUST be possible to reference the <code>args</code> parameter using the function's <code>arguments</code> object. The arguments MUST be in the same order as defined in <code>args</code>. Each WebDriver implementation MUST preprocess the values in <code>args</code> using the following algorithm:
@@ -40,9 +40,10 @@
           <li>Otherwise WebDriver implementations MAY throw an <code><a href="#status-unknown-error">unknown error</a></code> indicating the index of the unhandled parameter but SHOULD attempt to convert the value into a <code>object</code>.</li>
         </ol>
         <section>
-          <h2>Synchronous Javascript Execution</h2>
-          <dl class='idl' title='partial interface JavaScriptExecutor'>
-            <dt>Argument? executeScript()</dt>
+          <h2 id="sync-js-execution">Synchronous Javascript Execution</h2>
+          <section>
+            <!-- executeScript() -->
+            <h3>executeScript()</h3>
             <dd>
               <dl class='parameters'>
                 <dt> DOMString script</dt>
@@ -100,14 +101,13 @@
                 </ol>
                 <li>Return the response.</li>
               </ol>
-            </dd>
-          </dl>
+            </section>
         </section>
         <section>
           <h2>Asynchronous Javascript Execution</h2>
-          <dl class='idl' title='partial interface JavaScriptExecutor'>
-            <dt>Argument? executeAsyncScript()</dt>
-            <dd>
+          <section>
+            <h3 id="async-js-execution">executeAsyncScript()</h3>
+
               <dl class='parameters'>
                 <dt> DOMString script</dt>
                 <dd>The script to execute.</dd>
@@ -179,8 +179,7 @@
                       </ol>
                     </li>
                   </ol>
-                </dd>
-              </dl>
+                </section>
         </section>
         <section>
           <h2>Reporting Errors</h2>

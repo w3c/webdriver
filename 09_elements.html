@@ -1,57 +1,208 @@
 <section>
   <h2>Elements</h2>
   <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "element_location" folder.</p>
-  <p>One of the key abstractions of the WebDriver API is the
-  <a>WebElement</a> interface. Each instance of this interface represents an
+  <p>One of the key abstractions of the WebDriver API is the concept of a
+  <a>WebElement</a>. A <dfn>WebElement</dfn> represents an
   <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-element">Element</a> as defined in the
-  [[!DOM4]] specification. Because the WebDriver API is designed to allow users to interact with apps as if
+  [[!DOM4]] specification. When communicating between the remote end and the local end this SHOULD be a UUID.
+  Because the WebDriver API is designed to allow users to interact with apps as if
   they were actual users, the capabilities offered by the
-  <code>WebElement</code> interface are somewhat different from those offered by the <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> interface.</p>
+  <a>WebElement</a> interface are somewhat different from those offered by the
+  <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> interface.</p>
 
-  <p>Each WebElement instance must have an identifier, which is distinct from the value
+  <p>Each <a>WebElement</a> instance must have an identifier, which is distinct from the value
   of the <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> "id" property. The identifier for every WebElement representing the same
   underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> MUST be the same. The identifiers used to refer to different
-  underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>s MUST be unique within the session over the entire duration of the session.</p>
+  underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>s MUST be unique within the session over the entire duration of the session.
+  </p>
 
   <div class="note">
-    <p>This requirement around WebElement identifiers allows for efficient equality
+    <p>This requirement around <a>WebElement</a> identifiers allows for efficient equality
     checks when the WebDriver API is being used out of process.</p>
   </div>
 
-  <dl class="idl" title="interface WebElement">
-    <dt>readonly attribute DOMString ELEMENT</dt>
-    <dd>The WebDriver identifier of this particular element. This SHOULD be a UUID.</dd>
-  </dl>
 
-  <p>This section of the specification covers finding elements. Later sections deal with querying and interacting with
-  these located elements. The primary interface used by the WebDriver API for locating elements is the
-  <a>SearchContext</a>.</p>
   <section>
-
-    <p>The primary grouping of <a>WebElement</a> instances is a <code>sequence</code> of <a>WebElement</a> instances</p>
-
-    <p>A reference to an WebElement is obtained via a SearchContext. The key
-    interfaces are:</p>
+    <h2>Finding Elements in a document</h2>
+    <p>When the <a href='#findelement'>findElement()</a> or <a href='#findelements'>findElements()</a> WebDriver Command is called the
+      following must be <var>parameters</var> after the local end has made a request to the remote end:</p>
+    <ol>
+      <li>let <var>using</var> contain the <a href='#element-location-strategies'>Element Location Strategy</a>.
+        If it is not a valid stategy:
+        <ul>
+          <li>Set the HTTP Response status code to 500</li>
+          <li>Let <var>status</var> be equal to <a href='#status-invalid-selector'>Invalid Selector</a></li>
+          <li>Let <var>value</var> to a stating that the strategy is invalid. It may return a list of valid search strategies.</li>
+        </ul>
+      </li>
+      <li>let <var>value</var> contain a string that will be passed to the <a href='#element-location-strategies'>Element Location Strategy</a> call.
+        If <var>value</var> is an empty string or null:
+        <ul>
+          <li>Set the HTTP Response status code to 500</li>
+          <li>Let <var>status</var> be equal to <a href='#status-invalid-selector'>Invalid Selector</a></li>
+          <li>Let <var>value</var> to a stating that the strategy is invalid. It may return a list of valid search strategies.</li>
+        </ul>
+      </li>
+      <li>Call the relevant <a href='#element-location-strategies'>Element Location Strategy</a> and return what is described in
+        <a href='#findelement'>findElement()</a> or <a href='#findelements'>findElements()</a> WebDriver Command described below.</li>
+    </ol>
+    <section>
+    <h3>findElements()</h3>
+      <p>When there is a need to find multiple elements on a document that we can return to the local end we use the following algorithm:
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td id='post-elements'>/session/{sessionId}/elements</td>
+            <td></td>
+          </tr>
+        </table>
+        <ol>
+          <li>Let <var>result</var> be equal to an empty list</li>
+          <li>Let <var>queryResult</var> be an array returned from <a href='#element-location-strategies'>Element Location Strategy</a></li>
+          <li>Repeat for every value in <var>queryResult</var> if not an empty set else return <var>result</var>
+              <ol>
+                <li>Let <var>id</var> be the unique identifier for the element as described above</li>
+                <li>Append <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code> to <var>result</var></li>
+              </ol>
+          </li>
+          <li>return <var>result</var>.</li>
+        </ol>
+      </p>
+      <p>
+        When there is a need to search from an element to find the next <a>WebElement</a>s we use the following algorithm:
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td id='post-elements-from-element'>/session/{sessionId}/element/{ELEMENT}/elements</td>
+            <td></td>
+          </tr>
+        </table>
+        <ol>
+          <li>Let <var>result</var> be equal to an empty list.</li>
+          <li>Let <var><a href="#uri-template-element">element</a></var> be the start node for the query in the <a href='#element-location-strategies'>Element Location Strategy</a></li>
+          <li>Let <var>queryResult</var> be an array returned from <a href='#element-location-strategies'>Element Location Strategy</a></li>
+          <li>Repeat for every value in <var>queryResult</var> if not an empty set else return <var>result</var>
+              <ol>
+                <li>Let <var>id</var> be the unique identifier for the element as described above</li>
+                <li>Append <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code> to <var>result</var></li>
+              </ol>
+          </li>
+          <li>return <var>result</var></li>
+        </ol>
+      </p>
+    </section>
+    <section>
+    <h3>findElement()</h3>
+      <p>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td id='post-element'>/session/{sessionId}/element</td>
+            <td></td>
+          </tr>
+        </table>
+        <ol>
+          <li>Let <var>id</var> be an identifier for a DOMElement returned from <a href='#element-location-strategies'>Element Location Strategy</a>.
+            If an array is returned the first element in the array MUST be used.
+            <p>If <var>id</var> is empty:
+              <ul>
+                <li>Let the HTTP response status code be 501</li>
+                <li>let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
+                <li>let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+              </ul>
+            </p>
+            <p>If an error is returned from <a href='#element-location-strategies'>Element Location Strategy</a> do the following.(todo describe how the error is returned)
+              <ul>
+                <li>Let the HTTP response status code be 501</li>
+                <li>let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
+                <li>let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+              </ul>
+            </p>
+          </li>
+          <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
+          <li>return <var>result</var></li>
+        </ol>
+      </p>
+      <p>
+        When searching from an element from another element the following algorithm should be used:
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>POST</td>
+            <td id='post-element-from-element'>/session/{sessionId}/element/{ELEMENT}/element</td>
+            <td></td>
+          </tr>
+        </table>
+        <ol>
+          <li>Let <var><a href="#uri-template-element">element</a></var> be the start node for the query in the <a href='#element-location-strategies'>Element Location Strategy</a></li>
+          <li>Let <var>id</var> be an identifier for a DOMElement returned from <a href='#element-location-strategies'>Element Location Strategy</a>.
+            If an array is returned the first element in the array MUST be used.
+            <p>If <var>id</var> is empty:
+              <ul>
+                <li>Let the HTTP response status code be 501</li>
+                <li>let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
+                <li>let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+              </ul>
+            </p>
+            <p>If an error is returned from <a href='#element-location-strategies'>Element Location Strategy</a> do the following.(todo describe how the error is returned)
+              <ul>
+                <li>Let the HTTP response status code be 501</li>
+                <li>let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
+                <li>let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+              </ul>
+            </p>
+          </li>
+          <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
+          <li>return <var>result</var></li>
+        </ol>
+      </p>
+    </section>
+    <section>
+      <h3>getActiveElement()</h3>
+        <p>To get the currently active element on the document do the following algorithm:
+          <table class="simple jsoncommand">
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>POST</td>
+              <td id='post-active-elements'>/session/{sessionId}/element/active</td>
+              <td></td>
+            </tr>
+          </table>
+          <ol>
+            <li>Let <var>element</var> be a DOMElement that is returned from calling <code>document.activeElement</code></li>
+            <li>Let <var>id</var> be the unique identifier for <var>element</var>. If <var>element</var> does not have one then one should be generated and stored</li>
+            <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
+            <li>return <var>result</var></li>
+          </ol>
+        </p>
+    </section>
   </section>
-  <section>
-    <dl class="idl" title="interface Locator">
-      <dt>readonly attribute DOMString using</dt>
-      <dd>The name of the strategy that should be used to locate elements. The default value is the null value</dd>
-      <dt>readonly attribute DOMString value</dt>
-      <dd>The value to pass to the element finding strategy. The default value is the null value.</dd>
-    </dl>
-  </section>
-  <section>
-    <dl class="idl" title="interface SearchContext">
-      <dt>WebElement[] findElements(in Locator locator)</dt>
-      <dd></dd>
-      <dt>WebElement findElement(in Locator locator)</dt>
-      <dd></dd>
-    </dl>
-  </section>
 
   <section>
-    <h2>Element Location Strategies</h2>
+    <h2 id="element-location-strategies">Element Location Strategies</h2>
 
     <p>All element location strategies MUST return elements in the order in which they appear in the current document.</p>
     <section>

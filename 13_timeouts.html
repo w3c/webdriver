@@ -2,11 +2,11 @@
   <h2 id="timeouts">Timeouts</h2>
   <p>This section describes how timeouts and implicit waits are handled within WebDriver</p>
   <section>
+    <h2>Setting Timeouts</h2>
     <p>The "timeouts" command is used to set the value of a timeout that a command can execute
      for.</p>
-     <dl class='idl' title='partial interface Options'>
-       <dt>void setTimeouts()</dt>
-       <dd>
+      <section>
+       <h3>setTimeouts()</h3>
         <p>
           <table class="simple jsoncommand">
             <tr>
@@ -27,13 +27,17 @@
           <li>page load - Set the amount of time the driver should wait before returning when the <a href="#page-load-strategies-1">page load stratgey</a> is not "<code>none</code>". If this limit is exceeded, the <code>get()</code> command MUST return a "<code><a href="#status-timeout">timeout</a></code>" response status.</li>
           <li>script - Set the amount of time the driver should wait after calling <a href='#widl-JavaScriptExecutor-executeAsyncScript-Argument-DOMString-script-sequence-Argument--args'><code>executeAsyncScript</code></a> for the callback to have executed before returning a <code><a href="#status-timeout">timeout</a></code> Response.</li>
         </ul>
-        <dl class='parameters'>
-          <dt>DOMString type</dt>
-          <dd>The type of operation to set the timeout for. Valid values are: "implicit", "page load", "script"</dd>
-          <dt>unsigned short ms</dt>
-          <dd>The amount of time, in milliseconds, that time-limited commands are permitted to run.</dd>
-        </dl>
-      </dd>
-    </dl>
+        The parameters will have the following keys in the object:
+        <ul>
+          <li>Let <var>type</var> contain the type of timeout for specified operations. Valid values are: "implicit", "page load", "script". If invalid values are passed in:
+            <ul>
+              <li>Set the HTTP Response status code to 500</li>
+              <li>Let <var>status</var> be equal to <a href='#status-invalid-selector'>Invalid Selector</a></li>
+              <li>Let <var>value</var> to a stating that the strategy is invalid. It may return a list of valid search strategies.</li>
+            </ul>
+          </li>
+          <li>let <var>ms</var> contain the amount of time, in milliseconds, that time-limited commands are permitted to run.</li>
+        </ul>
+    </section>
   </section>
 </section>

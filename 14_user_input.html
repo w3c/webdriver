@@ -371,9 +371,22 @@
 
         <section>
           <h2 id='high-level-click'>Clicking</a></h2>
-          <dl class="idl" title="partial interface WebElement">
-            <dt>void click()</dt>
-            <dd>Click in the middle of the <a>WebElement</a> instance. The middle of the element is defined as the middle of the box returned by
+          <section>
+            <!-- click() -->
+            <h3>click()</h3>
+            <table class="simple jsoncommand">
+              <tr>
+                <th>HTTP Method</th>
+                <th>Path Template</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <td>POST</td>
+                <td id='post-element-click'>/session/{sessionId}/element/{id}/click</td>
+                <td></td>
+              </tr>
+            </table>
+            <p>Click in the middle of the <a>WebElement</a> instance. The middle of the element is defined as the middle of the box returned by
             calling <code><a
               href="http://www.w3.org/TR/cssom-view/#the-getclientrects()-and-getboundingclientrect()-methods">getBoundingClientRect</a></code>
             on the underlying document Element, according to the [[!CSSOM-VIEW]] spec. If
@@ -416,6 +429,7 @@
             explantory message explaining the reason. The implementation SHOULD try to
             scroll the element into view, but in case it is fully obscured, it SHOULD
             NOT be clickable.<!--TODO: add details of interactable'--></p>
+          </section>
         </section>
         <section>
           <h2>Touch</h2>
@@ -427,10 +441,22 @@
           </table>
           <br>
           <br>
-          <dl class='idl' title='partial interface WebElement'>
+          <section>
             <!-- Tap -->
-            <dt>void tap ()</dt>
-            <dd>Tap in the middle of the <a>WebElement</a>. The middle of the element is defined as the middle of the box returned by
+            <h3>void tap ()</h3>
+            <table class="simple jsoncommand">
+              <tr>
+                <th>HTTP Method</th>
+                <th>Path Template</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <td>POST</td>
+                <td id='post-element-tap'>/session/{sessionId}/element/{id}/tap</td>
+                <td></td>
+              </tr>
+            </table>
+            <p>Tap in the middle of the <a>WebElement</a>. The middle of the element is defined as the middle of the box returned by
               calling <code><a
                 href="http://www.w3.org/TR/cssom-view/#the-getclientrects()-and-getboundingclientrect()-methods">getBoundingClientRect</a></code>
               on the underlying document Element, according to the [[!CSSOM-VIEW]] spec. If
@@ -457,8 +483,7 @@
                 <li><code><a href="#status-stale-element-reference">stale element reference</a></code> if the given element is no longer in the <a href="http://dom.spec.whatwg.org/#in-a-document">document</a>.</li>
                 <li><code><a href="#status-move-target-out-of-bounds">move target out of bounds</a></code> if the element cannot be scrolled into view.</li>
               </ul>
-            </dd>
-          </dl>
+            </section>
         </section>
       <section>
         <h2 id='typing_keys'>Typing keys</h2>
@@ -482,15 +507,41 @@
         </ul>
         <p>In case focusing is needed, the implementation MUST follow the <a href="http://dev.w3.org/html5/spec/editing.html#focus-management"><b>focusing steps</b></a> as described in the focus management section of the [[!html51]] spec. The focus MUST NOT leave the element at the end of the interaction, other than as a result of the interaction itself (i.e. when the tab key is sent).
         </p>
-        <dl class="idl" title="partial interface WebElement">
-          <dt>void clear()</dt>
-          <dd>Clears the value of the element.</dd>
-          <dt>void sendKeys()</dt>
-          <dd>
-            <dl class='parameters'>
-              <dt>DOMString value</dt>
-              <dd>The characters that will be typed in the <a>WebElement</a></dd>
-            </dl>
+        <section>
+          <h3>clear()</h3>
+          <p>Clear a TEXTAREA or text INPUT element's value.
+            <table class="simple jsoncommand">
+              <tr>
+                <th>HTTP Method</th>
+                <th>Path Template</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <td>POST</td>
+                <td id='post-element-clear'>/session/{sessionId}/element/{id}/clear</td>
+                <td></td>
+              </tr>
+            </table>
+          </p>
+        </section>
+        <section>
+          <!-- sendKeys() -->
+          <h3>sendKeys()</h3>
+          <p>
+            <table class="simple jsoncommand">
+              <tr>
+                <th>HTTP Method</th>
+                <th>Path Template</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <td>POST</td>
+                <td id='post-element-value'>/session/{sessionId}/element/{id}/value</td>
+                <td></td>
+              </tr>
+            </table>
+            <p> Let <var>value</var> be an array of characters that will be typed into a <a>WebElement</a>
+
             <p>Sends a sequence of keyboard events representing the keys in the value parameter.
             <p>Caret positioning: If focusing was needed, after following the focusing steps, the caret MUST be positioned at the end of the text currently in the element. At the end of the interaction, the caret MUST be positioned at the end of the typed text sequence, unless the keys sent position it otherwise (e.g. using the LEFT key).</p>
             <p>There are four different types of keys that are emulated:
@@ -499,8 +550,9 @@
               <li>Uppercase letters and symbols requiring the SHIFT key for typing.</li>
               <li>Modifier keys</li>
               <li>Special keys</li>
-            </ul>The rest of this section details the values used to represent the different keys, as well as the expected behaviour for each key type.</dd>
-        </dl>
+            </ul>
+            The rest of this section details the values used to represent the different keys, as well as the expected behaviour for each key type.
+        </section>
         <p>When emulating user input, the implementation MUST generate
         the same sequence of events that would have been produced if a real user was
         sitting in front of the keyboard and typing the sequence of characters. In
@@ -703,6 +755,7 @@
     <h3>Internationalized input</h3>
     <p>Non-latin symbols: TBD</p>
     <p>Complex scripts using Input Method Editor (IME): TBD</p>
+  </section> <!-- sendkeys end -->
     </section> <!-- typing -->
   </section>
   </section>
