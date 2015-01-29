@@ -30,15 +30,10 @@
       <ol>
         <li>Let <var>sessionid</var> be the value in the {sessionId} section in the [[!URI-TEMPLATE]]</li>
         <li>if {ELEMENT} section in the [[!URI-TEMPLATE]] is populated let <var id='uri-template-element'>element</var> be equal to the {ELEMENT} section</li>
-        <li>If the HTTP request is a POST let <var id='uri-template-parameters'>parameters</var> contain the
+        <li>If the HTTP request is a POST let <var id='post-payload'>payload body</var> contain the
           <a href='http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.2'>parsed JSON</a>
-         in the payload body of the request. Below is an example of the JSON.
-          <pre>
-        {
-          "parameters" : {}
-        }
-          </pre>
-          If <var>parameters</var> does not <a href='http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.2'>parse into JSON</a> return a HTTP response with status code 500 and the payload body containing details of the parsing error if available.
+         in the payload body of the request.
+          If <var>payload body</var> does not <a href='http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.2'>parse into JSON</a> return a HTTP response with status code 500 and the payload body containing details of the parsing error if available.
         </li>
       </ol>
 
