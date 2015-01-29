@@ -58,15 +58,34 @@
         <li>Let <var>sessionId</var> be the unique identifier for the current session</li>
         <li>Add the contents of <var>result</var> to an object could be <a href='http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.3'>stringified in to JSON</a>
         <li>Let the payload body of the response be the <a href='http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.3'>stringified JSON</a>
-          object that contains the <var>sessionId</var>, the <var>status</var> and <var>value</var>.
-          Below is an example of the JSON.
-          <pre>
-        {
-          "sessionId" : "string value",
-          "status": "string value",
-          "value" : {}
-        }
-          </pre>
+          object.
+          <ol>
+            <li>If <a href="#newsession">newSession()</a> is called then the response payload body would look like the following
+              <pre>
+                {
+                  "sessionId" : "string value",
+                  "value" : capabilities-object,
+                }.
+              </pre>
+            </li>
+            <li>
+              If the WebDriver Command has to return data it should be the whole of the response payload body and look like the following
+              <pre>
+                {
+                  "value": "data from WebDriver Commands"
+                }
+              </pre>
+            </li>
+            <li>
+              If the WebDriver Command results in an error then the response payload body would look like the following
+              <pre>
+                {
+                  "status": "string value",
+                  "value" : "string message"
+                }
+              </pre>
+            </li>
+          </ol>
         </li>
         <li>Set HTTP headers for the follow keys and their values.
           <ul>
