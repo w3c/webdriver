@@ -204,7 +204,7 @@ code a:visited, code a:link {
         <li>Let <var>result</var> be an object that contains the following:</li>
           <ul>
             <li>Let <var>status</var> contain the error status if a command has failed.</li>
-            <li>Let <var>value</var> contain any return values from the command.
+            <li>Let <var id='return-value'>value</var> contain any return values from the command.
                 The contents are described in the methods throughout this document. If <var>status</var>
                 is not empty <var>value</var> will contain the error message describing why there was a failure.</li>
           </ul>
@@ -2859,8 +2859,29 @@ code a:visited, code a:link {
       </table>
 
   	<p>If this capability is supported, local end MUST add the <code>TakesScreenshot</code> interface to the <code>WebElement</code> interface.</p>
-    <p>Remote ends SHOULD take a screenshot of the area bounded by the clientBoundingRect of the Document element represented by the <code>WebElement</code>, returning it as a Base64 encoded, lossless PNG. Local ends MUST make the PNG available directly to the user as at least one of a binary blob or a file. If the remote end cannot capture the entire clientBoundingRect, they MUST scroll as much of the element into the current browser viewport as possible and capture the maximum visible area without additional browser chrome.</p>
-    <p>If the <code>WebElement</code> represents a FRAME or IFRAME element, this is equivalent of taking a screenshot of the frame's BODY element.</p>
+    <table class="simple jsoncommand">
+      <tr>
+        <th>HTTP Method</th>
+        <th>Path Template</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>GET</td>
+        <td id='get-screenshot'>/session/{sessionId}/screenshot/{ELEMENT}</td>
+        <td></td>
+      </tr>
+    </table>
+    <p>
+      <ul>
+        <li>Let <var>element</var> be the value from <var><a href="#uri-template-element">element</a></var> from the URI-Template</li>
+        <li>Let <var>screenshot</var> be a be a Base64 encoded, lossless PNG representation of area bounded by the clientBoundingRect of the DOMElement.
+          <ol>
+            <li>If the element is not in the current viewport, the DOMElement must be scrolled into view.</li>
+            <li><If the <code>WebElement</code> represents a FRAME or IFRAME element, this is equivalent of taking a screenshot of the frame's BODY elemen</li>
+          </ol>
+        </li>
+        <li>Return <var>screenshot</var> to the local end.</li>
+      </ul>
   </section>
 </section>
 <section>
@@ -3047,6 +3068,7 @@ code a:visited, code a:link {
 <li><a href="#get-alert-text">/session/{sessionId}/alert_text</a></li>
 <li><a href="#post-alert-text">/session/{sessionId}/alert_text</a></li>
 <li><a href="#get-screenshot">/session/{sessionId}/screenshot</a></li>
+<li><a href="#get-screenshot">/session/{sessionId}/screenshot/{ELEMENT}</a></li>
     </ul>
   </p>
 </section>    <section class='appendix'>
