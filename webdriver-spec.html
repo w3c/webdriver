@@ -213,15 +213,34 @@ code a:visited, code a:link {
         <li>Let <var>sessionId</var> be the unique identifier for the current session</li>
         <li>Add the contents of <var>result</var> to an object could be <a href='http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.3'>stringified in to JSON</a>
         <li>Let the payload body of the response be the <a href='http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.3'>stringified JSON</a>
-          object that contains the <var>sessionId</var>, the <var>status</var> and <var>value</var>.
-          Below is an example of the JSON.
-          <pre>
-        {
-          "sessionId" : "string value",
-          "status": "string value",
-          "value" : {}
-        }
-          </pre>
+          object.
+          <ol>
+            <li>If <a href="#newsession">newSession()</a> is called then the response payload body would look like the following
+              <pre>
+                {
+                  "sessionId" : "string value",
+                  "value" : capabilities-object,
+                }.
+              </pre>
+            </li>
+            <li>
+              If the WebDriver Command has to return data it should be the whole of the response payload body and look like the following
+              <pre>
+                {
+                  "value": "data from WebDriver Commands"
+                }
+              </pre>
+            </li>
+            <li>
+              If the WebDriver Command results in an error then the response payload body would look like the following
+              <pre>
+                {
+                  "status": "string value",
+                  "value" : "string message"
+                }
+              </pre>
+            </li>
+          </ol>
         </li>
         <li>Set HTTP headers for the follow keys and their values.
           <ul>
@@ -383,7 +402,7 @@ code a:visited, code a:link {
   session from another, allowing multiple browsers to be controlled on the same machine if needed, and allowing
   sessions to be routed via a multiplexer. The session id is stored in the <dfn id='#sessionId' title="sessionid">sessionId</dfn> field.</p>
   <section>
-    <h3>Creating a Session</h3>
+    <h3>newSession()</h3>
     <p><table class="simple jsoncommand">
       <tr>
         <th>HTTP Method</th>
@@ -1209,7 +1228,7 @@ code a:visited, code a:link {
       <p>If a browser supports the
       <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a> ([[!SELECTORS-API]]) it MUST support locating elements by
       CSS Selector. If the browser does not support the browser CSS Selector spec it MAY choose to implement locating
-      by this mechanism. If the browser can support locating elements by CSS Selector, it MUST set the "cssSelector" capability to boolean true when responding to the <a href="#creating-a-session">"newSession" command</a>. Elements MUST be returned in the same order as if "<code>querySelectorAll</code>" had been called with the <code>Locator</code>'s <code>value</code>. Compound selectors are allowed.</p>
+      by this mechanism. If the browser can support locating elements by CSS Selector, it MUST set the "cssSelector" capability to boolean true when responding to the <a href="#newsession">newSession()</a>. Elements MUST be returned in the same order as if "<code>querySelectorAll</code>" had been called with the <code>Locator</code>'s <code>value</code>. Compound selectors are allowed.</p>
       </section>
       <section>
     </section>
