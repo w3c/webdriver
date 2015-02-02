@@ -10,7 +10,7 @@
   <a>WebElement</a> interface are somewhat different from those offered by the
   <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> interface.</p>
 
-  <p>Each <a>WebElement</a> instance must have an identifier, which is distinct from the value
+  <p id='webelement-unique-identifier'>Each <a>WebElement</a> instance must have a unique identifier, which is distinct from the value
   of the <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> "id" property. The identifier for every WebElement representing the same
   underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> MUST be the same. The identifiers used to refer to different
   underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>s MUST be unique within the session over the entire duration of the session.
@@ -66,7 +66,7 @@
           <li>Let <var>queryResult</var> be a NodeList returned from <a href='#element-location-strategies'>Element Location Strategy</a></li>
           <li>Repeat for every value in <var>queryResult</var> if not an empty set else return <var>result</var>
               <ol>
-                <li>Let <var>id</var> be the unique identifier for the element as described above</li>
+                <li>Let <var>id</var> be the <a href='#webelement-unique-identifier'>unique identifier</a> for the DOMElement.</li>
                 <li>Append <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code> to <var>result</var></li>
               </ol>
           </li>
@@ -93,7 +93,7 @@
           <li>Let <var>queryResult</var> be a NodeList returned from <a href='#element-location-strategies'>Element Location Strategy</a></li>
           <li>Repeat for every value in <var>queryResult</var> if not an empty set else return <var>result</var>
               <ol>
-                <li>Let <var>id</var> be the unique identifier for the element as described above</li>
+                <li>Let <var>id</var> be the <a href='#webelement-unique-identifier'>unique identifier</a> for the DOMElement.</li>
                 <li>Append <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code> to <var>result</var></li>
               </ol>
           </li>
@@ -154,8 +154,8 @@
         </table>
         <ol>
           <li>Let <var><a href="#uri-template-element">element</a></var> be the start node for the query in the <a href='#element-location-strategies'>Element Location Strategy</a></li>
-          <li>Let <var>id</var> be an identifier for a DOMElement returned from <a href='#element-location-strategies'>Element Location Strategy</a>.
-            If a NodeList is returned, the first element in the NodeList MUST be used.
+          <li>Let <var>id</var> be a <a href='#webelement-unique-identifier'>unique identifier</a> for the DOMElement returned from <a href='#element-location-strategies'>Element Location Strategy</a>.
+            If a NodeList is returned, the first DOMElement in the NodeList MUST be used.
             <p>If <var>id</var> is empty:
               <ul>
                 <li>Let the HTTP response status code be 501</li>
@@ -193,7 +193,7 @@
           </table>
           <ol>
             <li>Let <var>element</var> be a DOMElement that is returned from calling <code>document.activeElement</code></li>
-            <li>Let <var>id</var> be the unique identifier for <var>element</var>. If <var>element</var> does not have one then one should be generated and stored</li>
+            <li>Let <var>id</var> be the <a href='#webelement-unique-identifier'>unique identifier</a> for the DOMElement which represents <var>element</var>. If <var>element</var> does not have a <a href='#webelement-unique-identifier'>unique identifier</a> then one should be generated and stored.</li>
             <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
             <li>return <var>result</var></li>
           </ol>
