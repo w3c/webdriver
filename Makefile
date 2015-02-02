@@ -25,7 +25,7 @@ caps.fragment: *_*.html
 jsoncommand.fragment: *_*.html
 	grep "td" *_*.html | \
 		grep "/session" | \
-		sed -Ee "s/(.*<td id='(.*)'>(\/session.*)<\/td>)/<li><a href=\"#\2\">\3<\/a><\/li>/g" > $@
+		sed -Ee "s/(.*<td id='((post|get|delete)-.*)'>(\/session.*)<\/td>)/<li><a href=\"#\2\">\3 - \4<\/a><\/li>/g" > $@
 
 mapping.html: jsoncommand.fragment
 	cat appendix-mapping-header.html jsoncommand.fragment appendix-mapping-footer.html > $@
