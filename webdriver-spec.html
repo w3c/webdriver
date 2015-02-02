@@ -2208,9 +2208,7 @@ code a:visited, code a:link {
             Parallel actions are those that have more than one action acting simultaneously on the browser. An example of this is using multiple fingers to operate on a tablet screen at the same time.
             <br>
             <br>
-            <b>NOTE: I'm using 'batches' as 'tick' sounds odd in this context</b>
-            <br>
-            Dispatching a parallel action also uses the <a href="#actions-endpoint">actions endpoint</a>. In order to send a parallel action, append multiple dictionaries to the list of dictionary objects. Each dictionary will hold all the actions from one input source. The list of actions each dictionary contains will be executed together in batches, by stepping through each input source's action list in order and executing each step simultaneously.
+            Dispatching a parallel action also uses the <a href="#actions-endpoint">actions endpoint</a>. In order to send a parallel action, append multiple dictionaries to the list of dictionary objects. Each dictionary will hold all the actions from one input source. The list of actions each dictionary contains will be executed together in ticks, by stepping through each input source's action list in order and executing each step simultaneously.
             <br>
             <br>
             The best way to understand this is through an example. Imagine we have two fingers acting on a touchscreen. One finger will press down on element1 at the same moment that another finger presses down on element2. Once these actions are done, the first finger will wait 5 seconds while the other finger moves to element3. Then both fingers release from the touchscreen.
@@ -2297,25 +2295,25 @@ code a:visited, code a:link {
             <img src="svgs/note4actions.svg">
             <br>
             <br>
-            Specific timing for the actions can also be expressed. The "pause" action can be used to either a) indicate a specific amount of time an input source must wait, or b) can be used to signify that the current input source must wait until all other actions in the batch are completed. For the former case, the current batch being executed must wait for the longest pause to complete. For example, in this diagram:
+            Specific timing for the actions can also be expressed. The "pause" action can be used to either a) indicate a specific amount of time an input source must wait, or b) can be used to signify that the current input source must wait until all other actions in the tick are completed. For the former case, the current tick being executed must wait for the longest pause to complete. For example, in this diagram:
             <br>
             <br>
             <img src="svgs/note2actions.svg">
             <br>
             <br>
-            The remote end will dispatch the pointerDown actions in the first batch. In the second batch, since source 1 declares a pause of 5 seconds, the remote end will dispatch the pointerUp event for source 2, and will wait 5 seconds before moving on to executing the third batch.
+            The remote end will dispatch the pointerDown actions in the first tick. In the second tick, since source 1 declares a pause of 5 seconds, the remote end will dispatch the pointerUp event for source 2, and will wait 5 seconds before moving on to executing the third tick.
             <br>
             <br>
-            In the event that one batch contains multiple pause durations, the remote end will wait the maximum duration before moving on to executing the next batch.
+            In the event that one tick contains multiple pause durations, the remote end will wait the maximum duration before moving on to executing the next tick.
             <br>
             <br>
-            As noted before, "pause" can be used to signify inaction during a batch. If "pause" is declared without a time period, then the input source will not have any actions executed in the containing batch. As an example:
+            As noted before, "pause" can be used to signify inaction during a tick. If "pause" is declared without a time period, then the input source will not have any actions executed in the containing tick. As an example:
             <br>
             <br>
             <img src="svgs/note3actions.svg">
             <br>
             <br>
-            During batch 2, source 1 will have its pointerMove action dispatched, while source 2 will do nothing.
+            During tick 2, source 1 will have its pointerMove action dispatched, while source 2 will do nothing.
          </section>
       </section> <!-- low-level wire protocol commands -->
 
