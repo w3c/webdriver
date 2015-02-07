@@ -374,33 +374,21 @@ code a:visited, code a:link {
   </section>
 
 </section>
-<section>
-  <h2>Browser Capabilities</h2>
-  <p>Different browsers support different levels of various specifications. For example, some support SVG or the [[!SELECTORS-API]], but only browsers that implement [[WEBSTORAGE]] will support <a href="http://www.w3.org/TR/2009/WD-webstorage-20090910/#the-localstorage-attribute">LocalStorage</a>. The WebDriver API provides a mechanism to query the supported capabilities of a browser. Each broad area of functionality within the WebDriver API has an associated capability string. Whether a particular capability MUST or MAY be supported &mdash; as well as fallback mechanisms for handling those cases where a capability is not supported &mdash; is discussed where the capability string is defined.</p>
-
-  <section>
-    <h3>Capabilities</h3>
-    <dl class="idl" title="interface Capabilities">
-      <dt>readonly attribute dictionary capabilities</dt>
-      <dd>The underlying collection of capabilities, represented as a dictionary mapping strings to values which may be
-      of type <code>boolean</code>, <code>double</code> or <code>DOMString</code>. The default value is an empty dictionary.</dd>
-      <dt>boolean has(DOMString capabilityName)</dt>
-      <dd>Queries the underlying <code>capabilities</code> to see whether the
-      value is set. This MUST return true if the capabilities contain a key with the given <code>capabilityName</code> and the value of that key is either the boolean True or a non-empty DOMString or a long that is not 0. Otherwise it MUST return false</dd>
-      <dt>(DOMString or boolean or long)? get(DOMString capabilityName)</dt>
-      <dd>Get the value of the key matching capabilityName in the underlying <code>capabilities</code> or <code>null</code> if no value is  defined.</dd>
-    </dl>
-    <p>A <code>Capabilities</code> instance MUST be immutable.
-
-    <p class="note">The "has" method is designed to provide a quick boolean check on whether or not a particular capability is set and can be used in an "if" statement in many languages. The "get" method returns the exact value. In the case of boolean values, this will be the same result as if "truthy" values are used (that is: <code>get('falseValue')</code> and <code>get('unsetValue')</code> are both false).</p>
-  </section>
-</section>
-<section>
+<!-- Section removed as it was describing specific local end implementations --><section>
   <h2>Sessions</h2>
   <p>Non-normative summary: A session is equivalent to a single instantiation of a particular browser, including all
   child windows. The WebDriver API gives each session a unique ID stored as an opaque string that can be used to differentiate one
   session from another, allowing multiple browsers to be controlled on the same machine if needed, and allowing
-  sessions to be routed via a multiplexer. The session id is stored in the <dfn id='#sessionId' title="sessionid">sessionId</dfn> field.</p>
+  sessions to be routed via a multiplexer. </p>
+  <p>The following definitions relate to this section:</p>
+  <ul>
+    <li>The session id is stored in the <dfn id='#sessionId' title="sessionid">sessionId</dfn> field.</li>
+    <li>The <dfn id='capabilities'>Capabilities</dfn> object described throughout the specification is
+        the underlying collection of capabilities that a User Agent handle, represented as a dictionary
+        mapping strings to values that can be serialised
+              The default value is an empty dictionary.
+    </li>
+  </ul>
   <section>
     <h3>newSession()</h3>
     <p><table class="simple jsoncommand">
