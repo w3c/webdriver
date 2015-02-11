@@ -196,13 +196,39 @@ code a:visited, code a:link {
       <p>When the HTTP request has been parsed a call to the underlying WebDriver Command using the following algorithm:</p>
       <ol>
         <li>Let <var>command</var> be the command that has the corresponding URI as described throughout this document</li>
-        <li>Let <var>result</var> be an object that contains the following:</li>
+        <li>Let <var>response</var> be an initially empty object with the following fields:</li>
           <ul>
-            <li>Let <var>status</var> contain the error status if a command has failed.</li>
-            <li>Let <var id='return-value'>value</var> contain any return values from the command.
-                The contents are described in the methods throughout this document. If <var>status</var>
-                is not empty <var>value</var> will contain the error message describing why there was a failure.</li>
+            <li><var>status</var>, initially set to <a>success</a>.
+            <li><var>value</var>, initially set to null.
           </ul>
+        <li>If the <a>session</a>'s <a>alive flag</a> is not set
+         and the <a>session</a>'s <a>session ID</a> is not null, run these substeps:
+          <ul>
+            <li>Set <var>response</var>'s <var>status</var> field to <a>session expired</a>.
+            <li>Return <var>response</var>.
+          </ul>
+        <li>Else if the <a>session</a>'s <a>session ID</a> is null
+         and <var>command</var> is not <a href=#newsession>new session</a>, run these substeps:
+          <ul>
+            <li>Set <var>response</var>'s <var>status</var> field to <a>invalid sessionid</a>.
+            <li>Return <var>response</var>.
+          </ul>
+        <li>Else if <var>session ID</var> is not equal to the <a>session</a>'s <var>session ID</var>,
+         run these substeps:
+          <ul>
+            <li>Set <var>response</var>'s <var>status</var> field to <a>invalid sessionid</a>.
+            <li>Return <var>response</var>.
+          </ul>
+        <li>If evaluating <var>command</var> yielded an error:
+          <ul>
+            <li>Set <var>response</var>'s <var>status</var> to
+             the appropriate status code corresponding to the error,
+             or <a>unknown error</a>.
+            <li>Return <var>response</var>.
+           </ul>
+        <li>Let <var>response</var>'s <var>value</var> be the return value
+         from the evaluated <var>command</var>.
+        <li>Return <var>response</var>.
       </ol>
 
       <h4 id='returning-http-response'>Returning a HTTP response to the local end</h4>
@@ -323,6 +349,9 @@ code a:visited, code a:link {
         <td>A script did not complete before its timeout expired.</td>
       </tr>
       <tr>
+        <td><dfn>session expired</dfn></td>
+        <td>The session is no longer alive, and no new commands may be issued to it.</td>
+      <tr>
         <td><dfn id="status-session-not-created">session not created</dfn></td>
         <td>A new session could not be created.</td>
       </tr>
@@ -375,20 +404,51 @@ code a:visited, code a:link {
 
 </section>
 <!-- Section removed as it was describing specific local end implementations --><section>
-  <h2>Sessions</h2>
-  <p>Non-normative summary: A session is equivalent to a single instantiation of a particular browser, including all
-  child windows. The WebDriver API gives each session a unique ID stored as an opaque string that can be used to differentiate one
-  session from another, allowing multiple browsers to be controlled on the same machine if needed, and allowing
-  sessions to be routed via a multiplexer. </p>
-  <p>The following definitions relate to this section:</p>
-  <ul>
-    <li>The session id is stored in the <dfn id='#sessionId' title="sessionid">sessionId</dfn> field.</li>
-    <li>The <dfn id='capabilities'>Capabilities</dfn> object described throughout the specification is
-        the underlying collection of capabilities that a User Agent handle, represented as a dictionary
-        mapping strings to values that can be serialised
-              The default value is an empty dictionary.
-    </li>
-  </ul>
+
+<h2>Sessions</h2>
+
+<p>Non-normative summary:
+ A session is equivalent to a single instantiation of a particular user agent,
+ including all its child browsers.
+ WebDriver gives each session a unique <a>session ID</a>
+ that can be used to differentiate one session from another,
+ allowing multiple user agents to be controlled on the same machine if needed,
+ and allowing sessions to be routed via a multiplexer.
+
+<p>A WebDriver <dfn>session</dfn> is
+ an interactive remote control interface to a user agent,
+ that facilitates communication between
+ the <a>remote end</a> and <a rel="local end">local ends</a>.
+
+<p>The <a>session</a> is set up at the invocation of
+ a <a href=#newsession>new session</a>,
+ and torn down at some later point;
+ either explicitly by invoking <a href=#>quit</a>,
+ or implicitly when <a href=#close>close</a> is called at the last remaining
+ <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top level browsing context</a>.
+
+<p>A <a>session</a> is required to communicate over the WebDriver protocol,
+ with the exception of when creating a <a href=#newsession>new session</a>.
+ Maintaining session continuity between requests to the <a>remote end</a>
+ requires passing a <a>session ID</a>.
+
+<p>A <a>session</a> has an associated <dfn>alive flag</dfn>
+ that signifies that the session has not yet been torn down.
+ Unless stated otherwise it is unset.
+
+<p>A <a>session</a> has an associated <dfn>session ID</dfn> (a <a>UUID</a>)
+ used to differentiate one session from another.
+ Unless stated otherwise it is null.
+
+<p>A <a>session</a> has an associated <dfn>session capabilities</dfn>
+ object (a <a>capabilities</a> object)
+ describing the functionality provided by this <a>session</a>.
+ Unless stated otherwise it is null.
+
+<p>A <a>session</a> has an associated <dfn>current browsing context</dfn>
+ (a reference to <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top level browsing context</a>) that indicates what <a>browsing context</a>
+ commands are executed against.
+
   <section>
     <h3>newSession()</h3>
     <p><table class="simple jsoncommand">
