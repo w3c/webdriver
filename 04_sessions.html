@@ -21,10 +21,9 @@
  must have at most one <a>active session</a> at a given time.
 <!-- Is this actually a requirement? -->
 
-<!--
- TODO(jgraham): Need to explain that there must be
- a relationship between the current session
- and the browser state.
+<!-- TODO(jgraham):
+ Need to explain that there must be a relationship
+ between the current session and the browser state.
 -->
 
 <p>The <a>session</a> is set up at the invocation of
@@ -40,6 +39,17 @@
 <p>A <a>remote end</a> has an associated <a>current session</a>
  that is the <a rel="active session">session that is active</a>
  for the duration of a <a>command</a>.
+
+<p>A <a>remote end</a> has an associated
+ <dfn>maximum active sessions</dfn> (an integer)
+ that defines the number of current <a rel="active session">active sessions</a>
+ that are supported.
+ This may be "unlimited" for <a rel="intermediary node">intermediary nodes</a>,
+ but must be exactly one for a <a>final remote end</a>.
+<!-- TODO(ato):
+ "final remote end" isn't great terminology,
+ but I mean the ultimate, non-intermediary driver implementation.
+-->
 
 <p>A <a>session</a> has an associated <dfn>session ID</dfn> (a <a>UUID</a>)
  used to uniquely identify this session.
