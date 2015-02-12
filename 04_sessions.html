@@ -8,7 +8,12 @@
  WebDriver gives each session a unique <a>session ID</a>
  that can be used to differentiate one session from another,
  allowing multiple user agents to be controlled on the same machine if needed,
- and allowing sessions to be routed via a multiplexer.
+ and allowing sessions to be routed via a multiplexer
+ (known as an <a>intermediary node</a>).
+
+<p class=note>This requires the <a>remote end</a> to maintain global state of
+ <a rel="list of active sessions">current active sessions</a>,
+ as well as the <a>current session</a> that only lasts for the duration of that session.
 
 <p>A WebDriver <dfn>session</dfn> represents
  the connection between a local end and a specific remote end.
@@ -63,12 +68,6 @@
 <p>A <a>session</a> has an associated <dfn>page loading strategy</dfn>,
  which is one of <i>none</i>, <i>normal</i>, <i>conservative</i>, and <i>eager</i>.
  Unless stated otherwise, it is <i>normal</i>.
-
-<p class=note>The concept of sessions
- allows global state in the <a>remote end</a>
- that lasts for the duration of a session.
- The ability to have multiple sessions in a specific remote end
- allows multiplexing <a rel="intermediary node">intermediaries</a>.
 
 <p><em>Non-normative:</em>
  A <a>session</a> is started when <a href=#newsession>new session</a> is invoked.
