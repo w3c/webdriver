@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var form = document.body.appendChild(document.createElement('form'));
     form.style.cssText = 'position: fixed;width: 10em;top: 1em;right: 2em;font-family: Tahoma,sans-serif;font-size: 65%;opacity: .8;text-align: right;';
     
-    form.action = 'http://www.w3.org/Bugs/Public/enter_bug.cgi';
+    form.action = 'https://www.w3.org/Bugs/Public/enter_bug.cgi';
     form.target = '_blank';
     form.textContent = 'Select text and ';
 
