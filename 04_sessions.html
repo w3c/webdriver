@@ -18,7 +18,7 @@
 
 <!--
  TODO(jgraham): Need to explain that there must be
- a relationship between teh current session
+ a relationship between the current session
  and the browser state.
 -->
 
@@ -29,13 +29,16 @@
  or implicitly when <a href=#close>close</a> is called at the last remaining
  <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top level browsing context</a>.
 
+<p>Each <a>remote end</a> has an associated <dfn>list of active sessions</dfn>,
+ which is a list of all <a rel="session">sessions</a> that are currently started.
+
+<p>The <a>remote end</a> has an associated <a>current session</a> (a <a>UUID</a>)
+ that is the <a rel="active session">session that is active</a>
+ for the duration of a <a>command</a>.
+
 <p>A <a>session</a> has an associated <dfn>session ID</dfn> (a <a>UUID</a>)
  used to uniquely identify thi session.
  Unless stated otherwise it is null.
-
-<p>A <a>session</a> has an associated <dfn>alive flag</dfn>
- that signifies that the session has not yet been torn down.
- Unless stated otherwise it is unset.
 
 <p>A <a>session</a> has an associated <dfn>session capabilities</dfn>
  object (a <a>capabilities</a> object)
@@ -51,15 +54,6 @@
 
 <p>A <a>session</a> has an associated <dfn>page loading timeout</dfn> (an integer)
  that specifies a time in milliseconds to wait for the page loading to complete.
-
-<p>A <a>session</a> has an associated <dfn>known sessions</dfn>
- (a sequence of <a>UUID</a>'s) that list
- <a rel="active session">sessions that are active</a> in a <a>remote end</a>.
-
-<p>A <a>current session</a> (a <a>UUID</a>)
- is the <a rel="active session">session that is active</a>
- for the duration of a <a>command</a>.
-<!-- TODO: Doesn't define what "active" means -->
 
 <p class=note>The concept of sessions
  makes it possible to implement <a>intermediary notes</a>

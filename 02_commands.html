@@ -46,20 +46,14 @@
             <li><var>status</var>, initially set to <a>success</a>.
             <li><var>value</var>, initially set to null.
           </ul>
-        <li>If the <a>session</a>'s <a>alive flag</a> is not set
-         and the <a>session</a>'s <a>session ID</a> is not null, run these substeps:
-          <ul>
-            <li>Set <var>response</var>'s <var>status</var> field to <a>session expired</a>.
-            <li>Return <var>response</var>.
-          </ul>
-        <li>Else if the <a>session</a>'s <a>session ID</a> is null
+        <li>If the <a>active session</a> is null
          and <var>command</var> is not <a href=#newsession>new session</a>, run these substeps:
           <ul>
             <li>Set <var>response</var>'s <var>status</var> field to <a>invalid sessionid</a>.
             <li>Return <var>response</var>.
           </ul>
-        <li>Else if <var>session ID</var> is not equal to the <a>session</a>'s <var>session ID</var>,
-         run these substeps:
+        <li>Else if the <var>session ID</var> is not equal
+         to the <a>active session</a>'s <a>session ID</a>, run these substeps:
           <ul>
             <li>Set <var>response</var>'s <var>status</var> field to <a>invalid sessionid</a>.
             <li>Return <var>response</var>.
@@ -188,10 +182,6 @@
       <tr>
         <td><dfn id="status-no-such-window">no such window</dfn></td>
         <td>A request to switch to a different window could not be satisfied because the window could not be found.</td>
-      </tr>
-      <tr>
-        <td><dfn id="status-script-timeout">script timeout</dfn></td>
-        <td>A script did not complete before its timeout expired.</td>
       </tr>
       <tr>
         <td><dfn>session expired</dfn></td>
