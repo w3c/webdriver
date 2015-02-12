@@ -339,8 +339,9 @@ code a:visited, code a:link {
         <td>A request to switch to a different window could not be satisfied because the window could not be found.</td>
       </tr>
       <tr>
-        <td><dfn>session expired</dfn></td>
-        <td>The session is no longer alive, and no new commands may be issued to it.</td>
+        <td><dfn id="status-script-timeout">script timeout</dfn></td>
+        <td>A script did not complete before its timeout expired.</td>
+      </tr>
       <tr>
         <td><dfn id="status-session-not-created">session not created</dfn></td>
         <td>A new session could not be created.</td>
@@ -397,7 +398,7 @@ code a:visited, code a:link {
 
 <h2>Sessions</h2>
 
-<p>Non-normative summary:
+<p><em>Non-normative summary:</em>
  A session is equivalent to a single instantiation of a particular user agent,
  including all its child browsers.
  WebDriver gives each session a unique <a>session ID</a>
@@ -427,7 +428,7 @@ code a:visited, code a:link {
 <p>Each <a>remote end</a> has an associated <dfn>list of active sessions</dfn>,
  which is a list of all <a rel="session">sessions</a> that are currently started.
 
-<p>The <a>remote end</a> has an associated <a>current session</a> (a <a>UUID</a>)
+<p>The <a>remote end</a> has an associated <a>current session</a>
  that is the <a rel="active session">session that is active</a>
  for the duration of a <a>command</a>.
 
@@ -451,11 +452,13 @@ code a:visited, code a:link {
  that specifies a time in milliseconds to wait for the page loading to complete.
 
 <p class=note>The concept of sessions
- makes it possible to implement <a>intermediary notes</a>
- that handle requests from multiple clients simultaneously.
+ allows global state in the <a>remote end</a>
+ that lasts for the duration of a session.
+ The ability to have multiple sessions in a specific remote end
+ allows multiplexing <a rel="intermediary node">intermediaries</a>.
 
-<p>A <a>session</a> is started when
- <a href=#newsession>new session</a> is invoked.
+<p><em>Non-normative:</em>
+ A <a>session</a> is started when <a href=#newsession>new session</a> is invoked.
  It is an error to send any commands before starting a session,
  or to continue to send commands after the session has been.
  Maintaining session continuity between requests to the <a>remote end</a>
