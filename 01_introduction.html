@@ -44,13 +44,19 @@
     <p>The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in the normative parts of this document are to be interpreted as described in [[!RFC2119]]. The key word "OPTIONALLY" in the normative parts of this document is to be interpreted with the same normative meaning as "MAY" and "OPTIONAL".</p>
 
     <p>Conformance requirements phrased as algorithms or specific steps may be implemented in any manner, so long as the end result is equivalent.</p>
+  </section>
 
-    <p>The IDL fragments in this specification must be interpreted as required for conforming IDL fragments, as described in the Web IDL specification [[!WEBIDL]].</p>
+  <section>
+    <h3>Conformance Classes</h3>
 
-    <section>
-      <h3>Conformance Classes</h3>
-
-      <p>This specification describes the conformance criteria for both local (relevant to creating bindings for languages) and remote end implementations (relevant to browser vendors and server implementors). A final conformance class &mdash; <dfn id="intermediate-node">intermediate node</dfn> &mdash; is also specified. These represent those nodes situated between the local and remote ends.</p>
-    </section>
+    <p>This specification defines three broad conformance classes:</p>
+    <dl>
+      <dt><dfn>Local End</dfn>
+      <dd>This represents the client side of the protocol, which is usually in the form of language-specific libraries providing an API on top of the WebDriver protocol. This specification does not place any restrictions on the details of those libraries above the level of the wire protocol. <!-- TODO: define the requirements on the local end somewhere -->
+      <dt><dfn>Remote End</dfn>
+      <dd>This is the server side of the protocol, which is usually implemented by a web browser or similar user agent. Defining the behaviour of the remote end in response to the WebDriver protocol forms the largest part of this specification.
+      <dt><dfn>Intermediary Node</dfn>
+      <dd>Intermediary nodes are those that act as proxies, implementing both the client and server sides of the protocol. Intermediary nodes must be black-box indistinguishable from <a>remot ends</a> from the point of view of <a>local end</a> and so are bound by the requirements on <a>remote ends</a> in terms of the wire protocol. However they are not expected to implement <a>commands</a> directly.
+    </dl>
   </section>
 </section>

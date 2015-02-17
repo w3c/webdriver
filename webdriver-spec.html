@@ -148,14 +148,20 @@ code a:visited, code a:link {
     <p>The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in the normative parts of this document are to be interpreted as described in [[!RFC2119]]. The key word "OPTIONALLY" in the normative parts of this document is to be interpreted with the same normative meaning as "MAY" and "OPTIONAL".</p>
 
     <p>Conformance requirements phrased as algorithms or specific steps may be implemented in any manner, so long as the end result is equivalent.</p>
+  </section>
 
-    <p>The IDL fragments in this specification must be interpreted as required for conforming IDL fragments, as described in the Web IDL specification [[!WEBIDL]].</p>
+  <section>
+    <h3>Conformance Classes</h3>
 
-    <section>
-      <h3>Conformance Classes</h3>
-
-      <p>This specification describes the conformance criteria for both local (relevant to creating bindings for languages) and remote end implementations (relevant to browser vendors and server implementors). A final conformance class &mdash; <dfn id="intermediate-node">intermediate node</dfn> &mdash; is also specified. These represent those nodes situated between the local and remote ends.</p>
-    </section>
+    <p>This specification defines three broad conformance classes:</p>
+    <dl>
+      <dt><dfn>Local End</dfn>
+      <dd>This represents the client side of the protocol, which is usually in the form of language-specific libraries providing an API on top of the WebDriver protocol. This specification does not place any restrictions on the details of those libraries above the level of the wire protocol. <!-- TODO: define the requirements on the local end somewhere -->
+      <dt><dfn>Remote End</dfn>
+      <dd>This is the server side of the protocol, which is usually implemented by a web browser or similar user agent. Defining the behaviour of the remote end in response to the WebDriver protocol forms the largest part of this specification.
+      <dt><dfn>Intermediary Node</dfn>
+      <dd>Intermediary nodes are those that act as proxies, implementing both the client and server sides of the protocol. Intermediary nodes must be black-box indistinguishable from <a>remot ends</a> from the point of view of <a>local end</a> and so are bound by the requirements on <a>remote ends</a> in terms of the wire protocol. However they are not expected to implement <a>commands</a> directly.
+    </dl>
   </section>
 </section>
 <section>
@@ -169,6 +175,12 @@ code a:visited, code a:link {
     <h4>Algorithms</h4>
     <p>Various parts of this specification are written in terms of step-by-step algorithms. The details of these algorithms do not have any normative significance; implementations are free to adopt any implementation strategy that produces equivalent output to the specification. In particular algorithms in this document are optimised for readability rather than performance.</p>
     <p>Where algorithms that return values are fallible, they are written in terms of returning either <dfn>success</dfn> or <dfn>error</dfn>. A <a>success</a> value has an associated <var>data</var> field which encapsulates the value returned, whereas an <a>error</a> response has an associated <a>error code</a>.</p>
+  </section>
+
+  <section>
+    <h3>Commands</h3>
+    <p>The WebDriver protocol is organised into commands. Each HTTP request with a method and template defined in this specification represents a single command and therefore each command produces a single HTTP response. In response to a command, a <a>remote end</a> will run a series of actions against the remote browser.</p>
+    <p>Each command defined in this sepcification has an associated list of <dfn>remote end steps</dfn>. This provides the sequence of actions that a remote end takes when it recieves a particular command.</p>
   </section>
 
   <section>
@@ -212,7 +224,7 @@ code a:visited, code a:link {
         <p>Otherwise, let <var>parameters</var> be null</p>
       </li>
 
-      <li><p>Let <var>response data</var> be a <a>command response</a> object obtained by running the steps defined by <var>command</var> with arguments <var>element id</var> and <var>parameters</var>.</p></li>
+      <li><p>Let <var>response data</var> be a <a>command response</a> object obtained by running running the <a>remote end steps</a> for <var>command</var> with arguments <var>element id</var> and <var>parameters</var>.</p></li>
 
       <li><p>If <var>response data</var> is an <a>error</a>, <a>send an error</a> with <a>error code</a> equal to <var>response data</var>'s <a>error code<a>.</p>
 
@@ -254,8 +266,6 @@ code a:visited, code a:link {
 
   <section>
     <h3>Routing Requests</h3>
-
-    <!-- TODO: define what a command is -->
 
     <p><dfn>Request routing</dfn> is the process of going from a HTTP request to the series of steps needed to implement the <a>command</a> represented by that request.</p>
 
@@ -925,70 +935,74 @@ code a:visited, code a:link {
 </section>
 <section>
   <h2>Navigation</h2>
-  <p>Almost all usages of the WebDriver API begin by navigating to a particular URL. This section not only describes the commands used for navigation, but also describes when commands must be processed.</p>
-
-  <p>All WebDriver implementations MUST support navigating between different HTTP domains and between HTTPS and HTTP domains if the underlying browser supports this.</p>
+  <section>
+    <h3>Introduction</h3>
+    <p>Almost all usages of the WebDriver API begin by navigating to a particular URL. This section not only describes the commands used for navigation, but also describes when commands must be processed.</p>
+  </section>
 
   <section>
-    <h2 id="page-load-strategies">Page Load Strategies</h2>
+    <h3 id="page-load-strategies">The Page Load Strategy</h3>
 
-    <table class="simple">
-      <tr><td>Capability Name</td><td>Type</td></tr>
-      <tr><td><span id="capability-pageLoadingStrategy">pageLoadingStrategy</span></td><td>DOMString</td></tr>
-    </table>
+    <p><a>Local ends</a> may choose at what point during the page load cycle the remote end returns a response to navigation commands by requesting a particular <dfn>page load strategy</dfn> when creating a <a>new session</a>. The available page load strategies are:
 
-    <p>It is possible to request a particular strategy be used for detecting when the next command should be processed by a remote end implementation by modifying the page load strategy that is used. The following are the expected values that MAY be used when creating a new session:</p>
+    <dl>
+      <dt><dfn>normal</dfn></dt>
+      <dd><p>The response is sent when the <code>document.readyState</code> of the frame currently handling commands equals <code>complete</code>.</p>
 
-    <h4>'normal'</h4>
-    <p>The remote end MUST wait until the "<code>document.readyState</code>" of the frame currently handling commands equals "<code>complete</code>", or there are no more outstanding network requests other than XMLHttpRequests.</p>
+      <dt><dfn>eager</dfn></dt>
+      <dd><p>The response is sent when the <code>document.readyState</code> of frame currently handling reaches <code>interactive</code> or <code>complete</code>.</p>
 
-    <h3>'eager'</h3>
-    <p>The remote end MUST wait until the "<code>document.readyState</code>" of frame currently handling equals "<code>interactive</code>" or "<code>complete</code>", or there are no more outstanding network requests.</p>
+      <dt><dfn>none</dfn></dd>
+      <dd><p>The response is sent immediately after initiating the navigation.</p>
+    </dl>
 
-    <h3>'none'</h3>
-    <p>The remote end MUST not do any checks against "<code>document.readyState</code>".</p>
-
-    <p>All WebDriver implementations MUST support the <code>normal</code> and <code>eager</code> modes and SHOULD support the <code>none</code> mode. If no page loading strategy is chosen, then <code>normal</code> MUST be the default.
+    <!-- Todo: most of this should be elsewhere -->
+    <p>All WebDriver implementations MUST support the <a>normal</a> and <a>eager</a> modes and SHOULD support the <a>none</a> mode. If no page loading strategy is chosen, then <a>normal</a> MUST be the default.
     In addition, implementors MAY add additional page loading strategies.</p>
   </section>
 
   <section>
-    <h2>Navigation Commands</h2>
+    <h3>get</h3>
+    <table class="simple jsoncommand">
+      <tr>
+        <th>HTTP Method</th>
+        <th>Path Template</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>POST</td>
+        <td id='post-url'>/session/{sessionId}/url</td>
+        <td></td>
+      </tr>
+    </table>
+    <p>The <dfn>get</dfn> command is used to cause the browser to navigate to a new location. From a user's point of view, it is as if they have entered the "url" into the URL bar.</p>
 
-    <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "navigation" folder.</p>
-
-      <section>
-        <h3>get()</h3>
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-            <th>Notes</th>
-          </tr>
-          <tr>
-            <td>POST</td>
-            <td id='post-url'>/session/{sessionId}/url</td>
-            <td></td>
-          </tr>
-        </table>
-        <p>The "get" command is used to cause the browser to navigate to a new location, and is named after the HTTP verb. From a user's point of view, this is as if they have entered the "url" into the URL bar. When the command returns is based on the <a href="#page-load-strategies">page load strategy</a> that the user has selected with the following exceptions when the strategy is not "none":
-
-        <ul>
-          <li>HTTP redirects MUST be automatically followed without responding to the command.</li>
-          <li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met. When the refresh period is 1 second or less and the page loading strategy is "normal" implementations MUST wait for the refresh to complete before responding.</li>
-          <li>If any modal dialog box, such as those opened by on <code>window.onbeforeunload</code> or <code>window.alert</code>, is opened at any point in the page load, a response MUST be sent.</li>
-          <li>If a 401 response is seen by the browser, a response MUST be sent. That is, if BASIC, DIGEST, NTLM or similar authentication is required, the page load is assumed to be complete. This does not include FORM-based authentication.</li>
-        </ul>
-
-        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-        <p>Example of how the HTTP request payload body would look</p>
-        <pre>
+    <aside class="example">
+        <p>To navigate the current browsing context of the session with id <code>1</code> to <code>http://example.com/</code>, the local end would send a <code>POST</code> to <code>/session/1/url</code> with body:</p>
+        <pre class="highlight">
           {
-            "parameters": {
-              "url": "URL that the browser will navigate to",
-            }
+              "url": "http://example.com",
           }
         </pre>
+    </aside>
+
+    <p>The <a>remote end steps</a> for the <a>get</a> command are:</p>
+    <ol>
+      <li><p>If the <a>current browsing context</a> is no longer open, return an error with code <a>no such window</a>.</p></li>
+      <li><p>Let <var>url</var> be the result of <a>getting a property</a> named "url" from the <var>parameters</var> argument.</p></li>
+      <li><p>If <var>url</var> is undefined, return an <a>error</a> with code <a>invalid argument</a></p></li>
+      <li><p><a href="">Navigate</a> the <a>current browsing context</a>'s to <var>url</var>. If this navigation results in a HTTP 401 response, the <a>remote end</a> must proceed with the steps below, irrespective of how the authentication challenge is handled.</p></li>
+      <li><p>If the <a>current session</a>'s <a>page load strategy</a> is <a>none</a> jump to the next step in this overall set of steps. Otherwise:</p>
+        <ol>
+          <li><p>Let <var>readiness target</var> be <code>"interactive"</code> if the <a>current session</a>'s <a>page load strategy is <a>eager</a>, or <code>"complete"</code> if it is <a>normal</a>.</p></li>
+          <li><p>Wait for the <a href="">current document readiness</a> to reach <var>readiness target</var>, or for the <a>current session</a>'s <a>load timeout</a> milliseconds to pass, whichever occurs sooner.</p></li>
+          <li><p>If the previous step completed by the <a>load timeout</a> being reached, and the browser is not currently displaying an alert<!-- perhaps? Not sure if this is what the spec is trying to say -->, return an <a>error</a> with code <a>timeout</a>.</p></li>
+        </ol>
+      <li><p>Return <a>success</a> with data null</p></li>
+    </ol>
+        <!-- TODO: Figure out if next paragraph is actually required -->
+          <!--li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met. When the refresh period is 1 second or less and the page loading strategy is "normal" or "conservative" implementations MUST wait for the refresh to complete before responding.</li-->
+
       </section>
       <!-- getCurrentUrl() -->
       <section>
@@ -3381,7 +3395,6 @@ code a:visited, code a:link {
 <ul>
 <li><a href="#capability-browserName">browserName</a></li>
 <li><a href="#capability-browserVersion">browserVersion</a></li>
-<li><a href="#capability-pageLoadingStrategy">pageLoadingStrategy</a></li>
 <li><a href="#capability-platformName">platformName</a></li>
 <li><a href="#capability-platformVersion">platformVersion</a></li>
 <li><a href="#capability-securessl">secureSsl</a></li>
