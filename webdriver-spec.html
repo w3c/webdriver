@@ -168,7 +168,7 @@ code a:visited, code a:link {
 
   <section>
     <h3>Processing Model</h3>
-    <p>The <a>remote end</a> acts as a HTTP server reading requests from the client and writing responses, typically over TCP socket. For the purposes of this specification we model the data transmission between a particular <a>local end</a> and <a>remote end</a> with a <dfn>connection</dfn> object to which the <a>remote end</a> may <dfn>write bytes</dfn> and <dfn>read bytes</dfn>. However the exact details of how this connection works and how it is established are out of scope.</p>
+    <p>The <a>remote end</a> acts as a HTTP server reading requests from the client and writing responses, typically over TCP socket. For the purposes of this specification we model the data transmission between a particular <a>local end</a> and <a>remote end</a> with a <dfn>connection</dfn> to which the <a>remote end</a> may <dfn>write bytes</dfn> and <dfn>read bytes</dfn>. However the exact details of how this <a>connection</a> works and how it is established are out of scope.</p>
 
     <p>After such a <a>connection</a> has been established, a remote end MUST run the following steps:</p>
 
@@ -181,15 +181,15 @@ code a:visited, code a:link {
 
       <li><p>Let <var>request match</var> be the result of <a>matching a request</a> with <var>request</var>'s <a href="https://fetch.spec.whatwg.org/#concept-request-method" class="externalRef">method</a> and <a href="https://fetch.spec.whatwg.org/#concept-request-url" class="externalRef">url</a> as arguments.</p></li>
 
-      <li><p>If <var>request match</var> is of type <a>error</a>, <a>return an error</a> with <var>request match</var>'s <a>error code</a> and jump to step 1.</p>
+      <li><p>If <var>request match</var> is of type <a>error</a>, <a>send an error</a> with <var>request match</var>'s <a>error code</a> and jump to step 1.</p>
 
         <p>Otherwise, let <var>command</var>, <var>session id</var> and <var>element id</var> be <var>request match</var>'s data.</p></li>
 
       <li><p>If <var>command</var> is not <a>new session</a>:</p>
         <ol>
-          <li><p>If <var>session id</var> is not equal to the <a>id</a> of any session in the <a>list of active sessions</a>, <a>return an error</a> with <a>error code</a> <a>invalid session id</a>, then jump to step 1.</p>
+          <li><p>If <var>session id</var> is not equal to the <a title="session id">id</a> of any session in the <a>list of active sessions</a>, <a>send an error</a> with <a>error code</a> <a>invalid session id</a>, then jump to step 1 in this overall algorithm.</p>
 
-          <p>Otherwise, let the <a>current session</a> be the session with <a>id</a> <var>session id</var></p>
+          <p>Otherwise, let the <a>current session</a> be the session with <a title="session id">id</a> <var>session id</var>.</p>
           </li>
         </ol>
       </li>
@@ -197,21 +197,38 @@ code a:visited, code a:link {
       <li><p>If <var>request</var>'s <a href="https://fetch.spec.whatwg.org/#concept-request-method" class="externalRef">method</a> is POST:</p>
         <ol>
 
-          <li><p>Let <var>success</var> and <var>parameters</var> be the result of <a>parsing as JSON</a> with <var>request</var>'s <a href="https://fetch.spec.whatwg.org/#concept-request-body" class="externalRef">body</a> as the argument.</p></li>
+          <li><p>Let <var>parse result</var> be the result of <a>parsing as JSON</a> with <var>request</var>'s <a href="https://fetch.spec.whatwg.org/#concept-request-body" class="externalRef">body</a> as the argument.</p></li>
 
-          <li><p>If <var>success</var> is false, or <var>success</var> is true and <var>parameters</var> is not an Object object, <a>return an error</a> with status <a>error code</a> <a>invalid argument</a> and jump back to step 1 in this overall algorithm.</p></li>
+          <li><p>If <var>parse result</a> is an <a>error</a> or if it is a <a>success</a> but its associated data is not an Object object, <a>send an error</a> with status <a>error code</a> <a>invalid argument</a> and jump back to step 1 in this overall algorithm.</p>
+             <p>Otherwise, let <var>parameters</var> be<var>parse result</var>'s data.</p>
+          </li>
         </ol>
 
         <p>Otherwise, let <var>parameters</var> be null</p>
       </li>
 
-      <li><p>Let <var>response data</var> be a <a>command response</a> object obtained by running running the steps defined by <var>command</var> with arguments <var>element id</var> and <var>parameters</var>.</p></li>
+      <li><p>Let <var>response data</var> be a <a>command response</a> object obtained by running the steps defined by <var>command</var> with arguments <var>element id</var> and <var>parameters</var>.</p></li>
 
-      <li><p>If <var>response data</var> is an <a>error</a>, <a>return an error</a> with <a>error code</a> equal to <var>response data</var>'s <a>error code<a>.</p>
+      <li><p>If <var>response data</var> is an <a>error</a>, <a>send an error</a> with <a>error code</a> equal to <var>response data</var>'s <a>error code<a>.</p>
 
         <p>Otherwise <a>send a response</a> with status 200 and <var>response data</var>'s data.</p></li>
 
-      <li><p>Jump to step 1</p></li>
+      <li><p>Jump to step 1.</p></li>
+    </ol>
+
+    <p>When required to <dfn>send an error</dfn>, with <var>error code</var>, a remote end must run the following steps:</p>
+
+    <ol>
+      <li><p>Let <var>http status</var> and <var>name</var> be the <a>error response data</a> for <var>error code</var>.</p></li>
+      <li><p>Let <var>data</var> be a <a>new JSON Object</a>.</p>
+
+      <li><p>Let <var>message</var> be an implementation-defined string containing a human-readable description of the reason for the error.</p></li>
+
+        <!-- TODO: really need a better way of constructing JSON literals -->
+      <li><p><a>Set the properties</a> of <var>data</var> with values ("error", <var>name</var>), ("message", <var>message</var>).</p></li>
+
+      <li><a>Send a response</a> with <var>status</var> and <var>data</var> as arguments.</li>
+
     </ol>
 
     <p>When required to <dfn>send a response</dfn>, with arguments <var>status</var> and <var>data</var>, a remote end must run the following steps:</p>
@@ -222,22 +239,9 @@ code a:visited, code a:link {
       <li><p>Set <var>response</var>'s <a href="https://fetch.spec.whatwg.org/#concept-response-status" class="externalRef">status</a> to <var>status</var>, and <a href="https://fetch.spec.whatwg.org/#concept-response-status-message" class="externalRef">status message</a> to the string corresponding to the description of <var>status</var> in the <a href="http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml" class="externalRef">status code registry</a>.</p></li>
       <li><p>If <var>data</var> is not null, let <var>response</var>'s <a href="https://fetch.spec.whatwg.org/#concept-response-body" class="externalRef">body</a> be the result of <a>serializing as JSON</a> with <var>data</var> as the argument.</p></li>
 
-      <li><p>Serialize <var>response</var> according to the rules in [[!RFC7230]] and write the resulting bytes to the <a>connection</a></p></li>
+      <li><p>Let <var>response bytes</var> be the byte sequence resulting from serializing <var>response</var> according to the rules in [[!RFC7230]].</p></li>
 
-    </ol>
-
-    <p>When required to <dfn>return an error</dfn>, with <var>error code</var>, run the following steps:</p>
-
-    <ol>
-      <li><p>Let <var>http status</var> and <var>name</a> be the <a>error response data</a> for <var>error code</var></p></li>
-      <li><p>Let <var>data</var> be a <a>new JSON Object</a>.</p>
-
-      <li><p>Let <var>message</var> be an implementation-defined string containing a human-readable description of the reason for the error.</p></li>
-
-        <!-- TODO: really need a better way of constructing JSON literals -->
-      <li><p><a>Set the properties</a> of <var>object</var> with values ("error", <var>name</var>), ("message", <var>message</var>).</p></li>
-
-      <li><a>Send a response</a> with status <var>status</var> and data <var>data</var></li>
+      <li><p><a title="write bytes">Write</a> <var>response bytes</var> to the <a>connection</a></p></li>
 
     </ol>
 
@@ -248,9 +252,9 @@ code a:visited, code a:link {
 
     <!-- TODO: define what a command is -->
 
-    <p>Request routing is the process of going from a HTTP request to the series of steps needed to implement the <a>command</a> represented by that request.</p>
+    <p><dfn>Request routing</dfn> is the process of going from a HTTP request to the series of steps needed to implement the <a>command</a> represented by that request.</p>
 
-    <p>A <a>remote end</a> may have a <dfn>url prefix</dfn>, which is a base url that is appended to the start of all WebDriver URLs. By default this is the empty string.</p>
+    <p>A <a>remote end</a> has an associated <dfn>URL prefix</dfn>, which is used as a prefix on all WebDriver-defined URLs on that remote end. This must either be the empty string, or an <a href="https://url.spec.whatwg.org/#concept-absolute-path-relative-url" class="externalRef">absolute path relative url</a>.</p>
 
     <aside class="note">
       <p>For example a remote end wishing to run alongside other services on <code>example.com</code> might set its <a>url prefix</a> to <code>/wd</code> so that a <a>new session</a> command would be invoked by sending a POST request to <code>/wd/session</code> rather than <code>/session</code>.</p>
@@ -263,7 +267,7 @@ code a:visited, code a:link {
 
    <li><p>Remove each entry in <var>endpoints</var> for which the concatenation of the <a>url prefix</a> and the production in the "url" column does not match <a>url</a> according to the rules in [[!URI-Template]].</p></li>
 
-      <li><p>If there are no entries in <var>endpoints</var>, return an <a>error</a> with code <a>unknown command</a></p></li>
+      <li><p>If there are no entries in <var>endpoints</var>, return an <a>error</a> with code <a>unknown command</a>.</p></li>
 
       <li><p>Remove each entry in <var>endpoints</var> for which the "method" column is not an exact case-sensitive match for <var>method</var>.</p></li>
 
@@ -278,9 +282,9 @@ code a:visited, code a:link {
 
       <li><p>If the match in step 2 populated a template variable called "elementId", let <var>element id</var> be the value it was populated with. Otherwise let <var>element id</var> be null.</p></li>
 
-      <li><p>Let <var>command</var> by the command represented by the "command" column of <var>entry</var></p></li>
+      <li><p>Let <var>command</var> be the command represented by the "command" column of <var>entry</var>.</p></li>
 
-      <li><p>Return <a>success</a> with data <var>session id</var>, <var>element id</var> and <var>command</var></li>
+      <li><p>Return <a>success</a> with data <var>session id</var>, <var>element id</var> and <var>command</var>.</li>
 
     </ol>
 
@@ -288,7 +292,7 @@ code a:visited, code a:link {
 
   <section>
     <h3>List of endpoints</h3>
-    <p>The following <dfn>table of endpoints</dfn> lists the method, url and command for each WebDriver command.</p>
+    <p>The following <dfn>table of endpoints</dfn> lists the method, URL and command for each WebDriver command.</p>
 
     <table class="simple">
       <tr>
@@ -514,7 +518,7 @@ code a:visited, code a:link {
     <p>Errors are represented in the WebDriver protocol with a HTTP response with a HTTP status in the 4xx or 5xx range and a JSON body containing details of the error. This JSON body has two fields; <code>error</code>, containing a string indicating the error type and <code>error</code> containing an implementation-defined string containing a human readable description of the kind of error that occured.</p>
 
     <aside class="example">
-      <p>A <code>DELETE</code> request to <code>/session/1234</code>, where <code>1234</code> is not the id of a currently active session would return a HTTP <code>404</code> response with a body of the form:</p>
+      <p>A <code>DELETE</code> request to <code>/session/1234</code>, where <code>1234</code> is not the id of a <a title="current active session">currently active session</a> would return a HTTP <code>404</code> response with a body of the form:</p>
         <pre class="highlight">
 {
   "status": "invalid session id",
@@ -522,7 +526,7 @@ code a:visited, code a:link {
 }</pre>
     </aside>
 
-    <p>The following table lists each <dfn>error code</dfn>, its associated HTTP status, JSON status values, and gives a non-normative description of the error. The <dfn>error response data</dfn> for a particular <a>error code</a> is the values of the HTTP Status and JSON Status columns for the row corresponding to that <a>error code</a>.</p>
+    <p>The following table lists each <dfn>error code</dfn>, its associated HTTP status, JSON status value, and gives a non-normative description of the error. The <dfn>error response data</dfn> for a particular <a>error code</a> is the values of the HTTP Status and JSON Status columns for the row corresponding to that <a>error code</a>.</p>
 
     <table class="simple">
       <tr>
@@ -571,7 +575,7 @@ code a:visited, code a:link {
         <td><dfn>invalid selector</dfn></td>
         <td>400</td>
         <td><code>invalid selector</code></td>
-        <td>Argument was an invalid selector (e.g. XPath/CSS).</td>
+        <td>Argument was an invalid selector.</td>
       </tr>
       <tr>
         <td><dfn>invalid session id</dfn></td>
