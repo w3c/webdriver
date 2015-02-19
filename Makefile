@@ -4,7 +4,6 @@ SRC = \
 	command.html \
 	threadsafety.html \
 	security.html \
-	mapping.html \
 	footer.html
 
 all: webdriver-spec.html
@@ -20,14 +19,6 @@ caps.fragment: *_*.html
 		sed -Ee 's/.*(capability-[a-zA-Z]+).*">([a-zA-Z]+).*/<li><a href="#\1">\2<\/a><\/li>/g' | \
 		sort > $@
 
-jsoncommand.fragment: *_*.html
-	grep "td" *_*.html | \
-		grep "/session" | \
-		sed -Ee "s/(.*<td id='((post|get|delete)-.*)'>(\/session.*)<\/td>)/<li><a href=\"#\2\">\3 - \4<\/a><\/li>/g" > $@
-
-mapping.html: jsoncommand.fragment
-	cat appendix-mapping-header.html jsoncommand.fragment appendix-mapping-footer.html > $@
-
 command.html:
 	cat appendix-commandformat-header.html appendix-commandformat-footer.html > $@
 
@@ -37,7 +28,6 @@ capabilities.html: caps.fragment capabilities-*.html
 clean:
 	rm -f capabilities.html
 	rm -f command.html
-	rm -f mapping.html
 	rm -f webdriver-spec.tmp
 	rm -f caps.fragment
 	rm -f jsoncommand.fragment
