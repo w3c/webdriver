@@ -1,5 +1,3 @@
-ROOT := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-
 SRC = \
 	*_*.html \
 	capabilities.html \
@@ -43,17 +41,8 @@ clean:
 	rm -f webdriver-spec.tmp
 	rm -f caps.fragment
 	rm -f jsoncommand.fragment
-	rm -f WebDriver.html
-	rm -f vnu.jar
 
-WebDriver.html: webdriver-spec.html
-	./dump-source $(BROWSER) "file:/$(ROOT)/webdriver-spec.html" > $@
-
-vnu.jar:
-	curl -o $@ "https://bitbucket.org/sideshowbarker/vnu/raw/2759dcb15031a8931e99c46c7b7c3aacb7e155cb/vnu.jar"
-
-validate: vnu.jar WebDriver.html
-	java -Dnu.validator.client.quiet=yes  -jar vnu.jar WebDriver.html
-	checklink -q -i -b WebDriver.html
+validate: webdriver-spec.html
+	curl -s -F laxtype=yes -F parser=html5 -F level=error -F out=gnu -F doc=@$< https://validator.nu
 
 .PHONY: all clean validate
