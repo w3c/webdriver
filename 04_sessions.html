@@ -1,18 +1,91 @@
 <section>
-  <h2>Sessions</h2>
-  <p>Non-normative summary: A session is equivalent to a single instantiation of a particular browser, including all
-  child windows. The WebDriver API gives each session a unique ID stored as an opaque string that can be used to differentiate one
-  session from another, allowing multiple browsers to be controlled on the same machine if needed, and allowing
-  sessions to be routed via a multiplexer. </p>
-  <p>The following definitions relate to this section:</p>
-  <ul>
-    <li>The session id is stored in the <dfn id='#sessionId' title="sessionid">sessionId</dfn> field.</li>
-    <li>The <dfn id='capabilities'>Capabilities</dfn> object described throughout the specification is
-        the underlying collection of capabilities that a User Agent handle, represented as a dictionary
-        mapping strings to values that can be serialised
-              The default value is an empty dictionary.
-    </li>
-  </ul>
+
+<h2>Sessions</h2>
+
+<p><em>Non-normative summary:</em>
+ A session is equivalent to a single instantiation of a particular user agent,
+ including all its child browsers.
+ WebDriver gives each session a unique <a>session ID</a>
+ that can be used to differentiate one session from another,
+ allowing multiple user agents to be controlled on the same machine if needed,
+ and allowing sessions to be routed via a multiplexer
+ (known as an <a>intermediary node</a>).
+
+<p class=note>This requires the <a>remote end</a> to maintain global state of
+ <a rel="list of active sessions">current active sessions</a>,
+ as well as the <a>current session</a> that only lasts for the duration of that session.
+
+<p>A WebDriver <dfn>session</dfn> represents
+ the connection between a local end and a specific remote end.
+ A remote end that is not an <a>intermediary node</a>
+ must have at most one <a>active session</a> at a given time.
+<!-- Is this actually a requirement? -->
+
+<!-- TODO(jgraham):
+ Need to explain that there must be a relationship
+ between the current session and the browser state.
+-->
+
+<p>The <a>session</a> is set up at the invocation of
+ a <a href=#newsession>new session</a>,
+ and torn down at some later point;
+ either explicitly by invoking <a href=#>quit</a>,
+ or implicitly when <a href=#close>close</a> is called at the last remaining
+ <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top level browsing context</a>.
+
+<p>A <a>remote end</a> has an associated <dfn>list of active sessions</dfn>,
+ which is a list of all <a rel="session">sessions</a> that are currently started.
+
+<p>A <a>remote end</a> has an associated <a>current session</a>
+ that is the <a rel="active session">session that is active</a>
+ for the duration of a <a>command</a>.
+
+<p>A <a>remote end</a> has an associated
+ <dfn>maximum active sessions</dfn> (an integer)
+ that defines the number of current <a rel="active session">active sessions</a>
+ that are supported.
+ This may be "unlimited" for <a rel="intermediary node">intermediary nodes</a>,
+ but must be exactly one for a <a>final remote end</a>.
+<!-- TODO(ato):
+ "final remote end" isn't great terminology,
+ but I mean the ultimate, non-intermediary driver implementation.
+-->
+
+<p>A <a>session</a> has an associated <dfn>session ID</dfn> (a <a>UUID</a>)
+ used to uniquely identify this session.
+ Unless stated otherwise it is null.
+
+<p>A <a>session</a> has an associated <dfn>active browsing context</dfn>
+ (a reference to <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top level browsing context</a>) that indicates what <a>browsing context</a>
+ commands are executed against.
+
+<!-- TODO(ato): https://www.w3.org/Bugs/Public/show_bug.cgi?id=28005 -->
+<p>A <a>session</a> has an associated <dfn>script timeout</dfn>
+ that specifies a time to wait for scripts to run.
+ Unless stated otherwise it is 30,000 milliseconds (30 seconds).
+
+<!-- TODO(ato): https://www.w3.org/Bugs/Public/show_bug.cgi?id=28004 -->
+<p>A <a>session</a> has an associated <dfn>page load timeout</dfn>
+ that specifies a time to wait for the page loading to complete.
+ Unless stated otherwise it is 300,000 milliseconds (five minutes).
+
+<p>A <a>session</a> has an associated <dfn>implicit wait timeout</dfn>
+ that specifies a time to wait for the <a>implicit element location strategy</a>
+ when locating elements using <a href=#findelement>find element</a>
+ and <a href=#findelements>find elements</a>.
+ Unless stated otherwise it is zero milliseconds.
+
+<p>A <a>session</a> has an associated <dfn>page loading strategy</dfn>,
+ which is one of <i>none</i>, <i>normal</i>, and <i>eager</i>.
+ Unless stated otherwise, it is <i>normal</i>.
+
+<p><em>Non-normative:</em>
+ A <a>session</a> is started when <a href=#newsession>new session</a> is invoked.
+ It is an error to send any commands before starting a session,
+ or to continue to send commands after the session has been.
+ Maintaining session continuity between requests to the <a>remote end</a>
+ requires passing a <a>session ID</a>.
+
   <section>
     <h3>newSession()</h3>
     <p><table class="simple jsoncommand">

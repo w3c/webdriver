@@ -41,13 +41,33 @@
       <p>When the HTTP request has been parsed a call to the underlying WebDriver Command using the following algorithm:</p>
       <ol>
         <li>Let <var>command</var> be the command that has the corresponding URI as described throughout this document</li>
-        <li>Let <var>result</var> be an object that contains the following:</li>
+        <li>Let <var>response</var> be an initially empty object with the following fields:</li>
           <ul>
-            <li>Let <var>status</var> contain the error status if a command has failed.</li>
-            <li>Let <var id='return-value'>value</var> contain any return values from the command.
-                The contents are described in the methods throughout this document. If <var>status</var>
-                is not empty <var>value</var> will contain the error message describing why there was a failure.</li>
+            <li><var>status</var>, initially set to <a>success</a>.
+            <li><var>value</var>, initially set to null.
           </ul>
+        <li>If the <a>active session</a> is null
+         and <var>command</var> is not <a href=#newsession>new session</a>, run these substeps:
+          <ul>
+            <li>Set <var>response</var>'s <var>status</var> field to <a>invalid sessionid</a>.
+            <li>Return <var>response</var>.
+          </ul>
+        <li>Else if the <var>session ID</var> is not equal
+         to the <a>active session</a>'s <a>session ID</a>, run these substeps:
+          <ul>
+            <li>Set <var>response</var>'s <var>status</var> field to <a>invalid sessionid</a>.
+            <li>Return <var>response</var>.
+          </ul>
+        <li>If evaluating <var>command</var> yielded an error:
+          <ul>
+            <li>Set <var>response</var>'s <var>status</var> to
+             the appropriate status code corresponding to the error,
+             or <a>unknown error</a>.
+            <li>Return <var>response</var>.
+           </ul>
+        <li>Let <var>response</var>'s <var>value</var> be the return value
+         from the evaluated <var>command</var>.
+        <li>Return <var>response</var>.
       </ol>
 
       <h4 id='returning-http-response'>Returning a HTTP response to the local end</h4>
