@@ -53,4 +53,59 @@
       <p>This specification describes the conformance criteria for both local (relevant to creating bindings for languages) and remote end implementations (relevant to browser vendors and server implementors). A final conformance class &mdash; <dfn id="intermediate-node">intermediate node</dfn> &mdash; is also specified. These represent those nodes situated between the local and remote ends.</p>
     </section>
   </section>
+
+  <section>
+   <h3>Terminology</h3>
+
+   <p>In equations, all numbers are integers,
+    subtraction is represented by “−”, and bitwise OR by “|”. 
+    The characters “(” and “)” are used to provide logical grouping in these contexts.
+  </section>
+
+  <section>
+   <h3>Common Infrastructure</h3>
+
+   <h4>Style Pixel Values</h4>
+
+   <p>When asked to <dfn>normalize style pixel values to integer</dfn>
+    for a value <var>s</var>:
+
+   <ol>
+    <li>Let <var>trimmed string</var> be a substring of <var>s</var>
+     where the suffix "px" is removed.
+
+    <li>Let <var>pixels</var> be the result of parsing
+     <var>trimmed string</var> as an integer.
+
+    <li>If <var>pixels</var> is not a valid integer or the previous
+     operation did not succeed, return 0.
+
+    <li>Return <var>pixels</var>.
+   </ol>
+
+   <p>When asked to <dfn>normalize style pixel values to floating
+    point</dfn> for a value <var>s</var>:
+
+   <ol>
+    <li>Let <var>trimmed string</var> be a substring of <var>s</var>
+     where the suffix "px" is removed.
+
+    <li>Let <var>pixels</var> be the result of parsing
+     <var>trimmed string</var> as a float.
+
+    <li>If <var>pixels</var> is not a valid float
+     or the previous operation did not succeed, return 0.0.
+
+    <li>Round off <var>pixels</var> using <code>ceil</code>
+     so that it has no more than four decimals.
+
+    <li>Return <var>pixels</var>.
+   </ol>
+
+   <p class=note>These operations are almost equivalent to calling
+    <code><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.2>parseInt</a></code>
+    and <code><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></code>
+    from [[!ECMA-262]] with the exception that non-valid integer
+    or float return values are returned as 0 or 0.0.
+  </section>
 </section>

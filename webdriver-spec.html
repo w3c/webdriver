@@ -157,6 +157,61 @@ code a:visited, code a:link {
       <p>This specification describes the conformance criteria for both local (relevant to creating bindings for languages) and remote end implementations (relevant to browser vendors and server implementors). A final conformance class &mdash; <dfn id="intermediate-node">intermediate node</dfn> &mdash; is also specified. These represent those nodes situated between the local and remote ends.</p>
     </section>
   </section>
+
+  <section>
+   <h3>Terminology</h3>
+
+   <p>In equations, all numbers are integers,
+    subtraction is represented by “−”, and bitwise OR by “|”. 
+    The characters “(” and “)” are used to provide logical grouping in these contexts.
+  </section>
+
+  <section>
+   <h3>Common Infrastructure</h3>
+
+   <h4>Style Pixel Values</h4>
+
+   <p>When asked to <dfn>normalize style pixel values to integer</dfn>
+    for a value <var>s</var>:
+
+   <ol>
+    <li>Let <var>trimmed string</var> be a substring of <var>s</var>
+     where the suffix "px" is removed.
+
+    <li>Let <var>pixels</var> be the result of parsing
+     <var>trimmed string</var> as an integer.
+
+    <li>If <var>pixels</var> is not a valid integer or the previous
+     operation did not succeed, return 0.
+
+    <li>Return <var>pixels</var>.
+   </ol>
+
+   <p>When asked to <dfn>normalize style pixel values to floating
+    point</dfn> for a value <var>s</var>:
+
+   <ol>
+    <li>Let <var>trimmed string</var> be a substring of <var>s</var>
+     where the suffix "px" is removed.
+
+    <li>Let <var>pixels</var> be the result of parsing
+     <var>trimmed string</var> as a float.
+
+    <li>If <var>pixels</var> is not a valid float
+     or the previous operation did not succeed, return 0.0.
+
+    <li>Round off <var>pixels</var> using <code>ceil</code>
+     so that it has no more than four decimals.
+
+    <li>Return <var>pixels</var>.
+   </ol>
+
+   <p class=note>These operations are almost equivalent to calling
+    <code><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.2>parseInt</a></code>
+    and <code><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></code>
+    from [[!ECMA-262]] with the exception that non-valid integer
+    or float return values are returned as 0 or 0.0.
+  </section>
 </section>
 <section>
   <h2>The WebDriver Protocol</h2>
@@ -1694,6 +1749,204 @@ code a:visited, code a:link {
       <p>All WebDriver implementations MUST support finding elements by XPath 1.0 [[!XPATH]] with the <a href="http://dev.w3.org/html5/spec/Overview.html#interactions-with-xpath-and-xslt">edits from section 3.3</a> of the [[!html51]] specification made. If no native support is present in the browser, a pure JS implementation MAY be used. When called, the returned values MUST be equivalent of calling "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate">evaluate</a>" function from [[DOM-LEVEL-3-XPATH]] with the result type set to "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE">ORDERED_NODE_SNAPSHOT_TYPE</a> (7).</p>
     </section>
   </section>
+
+  <section>
+   <h2 id=element-displayedness>Element Displayedness</h2>
+
+   <p>The visibility of a <a href=http://w3c.github.io/dom/#element>Document element</a>
+    is guided by what is perceptually visible to the human eye.
+    An element's displayedness does in this context thus not relate
+    in any way to the
+    <code><a href=http://dev.w3.org/csswg/css-box/#visibility>visibility</a></code>
+    or <code><a href=http://dev.w3.org/csswg/css-box/#display0>display</a></code>
+    style properties [[!CSS3BOX]].
+
+   <p>The approach used by WebDriver to ascertain an element's
+    visibility is based on crude approximations about the element's
+    nature and relationship in the tree.  An element is in general
+    to be considered visible if any part of it is drawn on the
+    canvas within the bounderies of the viewport.
+
+   <p>The <dfn>element displayed</dfn> algorithm is
+    a boolean state where true signifies that the element is displayed
+    and false not displayed.
+    To compute the state on <var>element</var>:
+
+   <ol>
+    <li>If the attribute <code>hidden</code> is set, return false.
+
+    <li>If the computed value of the <code>display</code> style
+     property is "none", return false.
+
+    <!-- TODO(ato): Not really sure what this means, needs review: -->
+    <li>If it has a [[!CSS3-2D-TRANSFORMS]] or [[!CSS3-3D-TRANSFORMS]]
+     style property that gives a negative X or Y coordinates to the canvas, return false.
+
+    <li>If <var>element</var> is the document's root element,
+     that is <code>document.documentElement</code>:
+
+     <ol>
+      <li>If the computed value of the <code>background-color</code>
+       property is "transparent", run these substeps:
+
+       <ol>
+        <li>If <var>element</var> is an HTML <code>HTML</code>
+         element [[!html51]], and the computed value of the
+         <code>background-color</code> style property of the first
+         <code>BODY</code> element descendant of the element in
+         <a href=http://www.whatwg.org/specs/web-apps/current-work/multipage/infrastructure.html#tree-order>tree
+         order</a>, relative to that element, is also "transparent",
+         return false.
+
+        <li>Otherwise return false.
+       </ol>
+     </ol>
+
+    <li>If <var>element</var> is an <code>option</code>
+     or <code>optgroup</code> element,
+     and <var>element</var>'s parent node is a <code>select</code> element:
+
+     <ol>
+      <li>Apply the <a>element displayed</a> algorithm on <var>element</var>'s parent node.
+      <li>If the return value is false, abort these steps and return that value.
+     </ol>
+
+    <li>If <var>element</var> is a <code>map</code> element,
+     run these substeps:
+
+     <ol>
+      <li>Let <var>any images visible</var> be a boolean initially
+       set to false.
+
+      <li>For each <code>img</code> element, <var>image element</var>
+       in the document with a <code>name</code> attribute matching
+       the value of <var>element</var>'s <code>usemap</code>
+       attribute, run these substeps:
+
+       <ol>
+        <li>Run the <a>element displayed</a> algorithm on
+         <var>image element</var> and set <var>any images visible</var>
+         to <var>any images visible</var> bitwise OR its return value.
+       </ol>
+
+      <li>If <var>any images visible</var> is true, abort these
+       steps and return its value.
+    </ol>
+
+    <li>If <var>element</var> is an <code>area</code> element:
+
+     <ol>
+      <li>For each ancestral element <var>parent</var>,
+       in <a href=http://www.whatwg.org/specs/web-apps/current-work/multipage/infrastructure.html#tree-order>tree order</a>,
+       run the following substeps:
+
+      <ol>
+       <li>If <var>parent</var> is a <code>map</code> element,
+        apply the <a>element displayed</a> algorithm on it.
+
+       <li>If the return value is false, abort these steps and
+        return that value.
+
+       <li>Otherwise apply step 7.1 on <var>parent</var>.
+      </ol>
+     </ol>
+
+    <li>If <var>element</var> is a [[!DOM4]] <a
+     href=http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text>
+     text node</a>, return true.
+
+    <li>If it has equal to or more than one direct descendant elements:
+
+     <ol>
+      <li>Let <var>visible children</var> be a boolean initially set to false.
+
+     <li>For each descendant element <var>child</var>,
+      in <a href=http://www.whatwg.org/spec/web-apps/current-work/multipage/infrastructure.html#tree-order>tree order</a>,
+      run the following substeps:
+
+      <ol>
+       <li>Let <var>rectangle</var> be the <a
+        href=http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect>DOMRect</a>
+        returned by calling <code>getBoundingClientRect</code>
+        on <var>child</var>.
+
+       <li>If the value of the <code>height</code> property of
+       <var>rectangle</var> is
+        greater than zero CSS pixels, and the value of the
+        <code>width</code> property of <var>rectangle</var>
+        is greater than zero CSS pixels:
+
+        <ol>
+         <li>Set <var>visible children</var> to <var>visible children</var> bitwise OR true.
+        </ol>
+      </ol>
+     </ol>
+
+    <li>For each ancestral element <var>parent</var>,
+     in <a href=http://www.whatwg.org/spec/web-apps/current-work/multipage/infrastructure.html#tree-order>tree order</a>,
+     run the following substeps:
+
+     <ol>
+      <li>Apply the <a>element displayed</a> algorithm to <var>parent</var>.
+
+      <li>If the return value is false, abort these steps and return that value.
+
+      <li>If <var>parent</var> is a block element box and the
+       computed values of either <code>overflow-x</code>
+       or <code>overflow-y</code> is "hidden":
+
+      <ol>
+       <li>Let <var>parent dimensions</var> be the <code>DOMRect</code>
+        that is the first element of the <code>DOMRectList</code>
+        array returned by calling
+        <code><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></code>
+        on <var>parent</var>.
+
+       <li>Let <var>element dimensions</var> be the <code>DOMRect</code>
+        that is the first element of the <code>DOMRectList</code>
+        array returned by calling
+        <code><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></code>
+        on <var>element</var>.
+
+       <li>Let <var>parent style</var> be the computed style of <var>parent</var>.
+
+       <li>Return false if any the following conditions evaluate to false:
+
+       <ul>
+        <li><var>element dimension</var>'s <code>top</code>
+         is less than (<var>parent dimension</var>'s <code>bottom</code>
+         − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
+         of <var>parent style</var>'s <code>borderBottomWidth</code>).
+
+        <li><var>element dimension</var>'s <code>bottom</code>
+         is less than (<var>parent dimension</var>'s <code>top</code>
+         − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
+         of <var>parent style</var>'s <code>borderTopWidth</code>).
+
+        <li><var>element dimension</var>'s <code>left</code>
+         is less than (<var>parent dimension</var>'s <code>right</code>
+         − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
+         of <var>parent style</var>'s <code>borderRightWidth</code> casted as a float).
+
+        <li><var>element dimension</var>'s <code>right</code>
+         is less than (<var>parent dimension</var>'s <code>left</code>
+         − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
+         of <var>parent style</var>'s <code>borderLeftWidth</code> casted as a float).
+      </ul>
+
+      <li>Run step 10 on the parent elements of <var>parent</var>, if any.
+     </ol>
+    </ol>
+
+    <li>Return true.
+   </ol>
+
+   <p>If the steps above return true, then the element MUST also
+    be <a href=#interactable-elements>interactable</a> should it
+    meet the other criteria for being interactable.
+    If any part of the <code>BODY</code> can be brought into the current viewport,
+    the return value MUST be true.
+  </section>
 </section>
 <section>
   <h2>Element State</h2>
@@ -1715,64 +1968,84 @@ code a:visited, code a:link {
     <section>
       <!-- isDisplayed() -->
       <h3>isDisplayed()</h3>
-      <p>
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-            <th>Notes</th>
-          </tr>
-          <tr>
-            <td>GET</td>
-            <td id='get-id-displayed'>/session/{sessionId}/element/{ELEMENT}/displayed</td>
-            <td></td>
-          </tr>
-        </table>
-          <h2 id='determining-if-displayed'>Determining if an element is displayed</h2>
-            <p>The following steps MUST be used to determine if an element is displayed to a user.</p>
-            <ul>
-              <li>The BODY element MUST be displayed irrespective of any CSS style. This is due to the <a href='http://dev.w3.org/csswg/css-backgrounds/#special-backgrounds'>backgrounds of special elements</a> showing through from the document canvas.</li>
-              <li>Any INPUT elements of "type=hidden" MUST NOT be displayed.</li>
-              <li>Any NOSCRIPT elements MUST NOT be displayed.</li>
-              <li>OPTIONs and OPTGROUP elements MUST be displayed if and only if the enclosing select element is displayed.</li>
-              <li>MAP elements are displayed if and only if the image it uses is displayed. Areas within
-                a map are displayed if the enclosing MAP is displayed.</li>
-              <li>If element is a [[!DOM4]] <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text">
-                text node</a> then it MUST be displayed.</li>
-              <li>The element MUST NOT be displayed if there is a [[!css3-2d-transforms]] or [[!css3-3d-transforms]]
-                property that gives a negative x or y to the canvas. The User Agent MUST NOT allow negative scrolling.</li>
-              <li>The element MUST NOT be displayed if that element, or any of its ancestors,
-                has a <a href='http://www.w3.org/TR/html5/editing.html#the-hidden-attribute'>hidden attribute</a>
-                or has <code>display:none</code> in its computed CSS style.</li>
-              <li>If element or at least one of its descendents have both
-                <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a>
-                height and a <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a>
-                width greater than 0px, as returned by <code>element.<a href='http://dev.w3.org/csswg/cssom-view/#dom-element-getboundingclientrect'>getBoundingClientRect()</a>
-                </code>then it MUST be displayed.</li>
-              <li>The element MUST NOT be displayed if any ancestor of the element  has a fixed size, and has the CSS style with one of the following <code>overflow:hidden</code>, <code>overflow-x:hidden</code> or <code>overflow-y:hidden</code>, and the element's location as determined by <code><a href="http://www.w3.org/TR/cssom-view/#dom-range-getclientrects">getClientRects</a></code> is not within the fixed size of the parent.</li>
-            </ul>
 
-          <p class="note">
-            Essentially, this attempts to model whether or not a user of the browser could possibly find a way to view the <code>WebElement</code> without resizing the browser window.
-          </p>
-          <div class="note">
-            <p>
-            The common usage pattern for <code>isDisplayed</code> is typically something similar to (in python):</p>
-            <pre>
-              element = driver.find_element(by = TAG_NAME, value= = "button")
-              if element.is_displayed():
-                  element.click()
-              else
-                  # So other deep magic of the unseen ages.
-            </pre>
-        </div>
-        <p>If <code>isDisplayed</code> returns true, then the element MUST also be
-        <a href="#interactable-elements">interactable</a> should it meet the other criteria for being interactable. If any part of the BODY can be brought into the current viewport, this MUST return true.
-        <div class="note">
-          <p>This implies that <code>isDisplayed</code> MUST return true if the centre of the element could be brought into the viewport. The exception to this would be the BODY element, which is generally assumed to always be displayed by users of the WebDriver spec. It is possible to interact with elements which may not have the centre point brought into the viewport by using the <a href="#low-level-commands">low level commands</a>. This means that if any part of the element could be brought into the viewport by user action and its position could be used by low-level commands then a WebDriver implementation MAY return true.</p>
-        </div>
-        <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </section>
+      <table class="simple jsoncommand">
+        <tr>
+          <th>HTTP Method</th>
+          <th>Path Template</th>
+          <th>Notes</th>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td id='get-id-displayed'>/session/{sessionId}/element/{element}/displayed</td>
+          <td></td>
+        </tr>
+      </table>
+
+      <p>The command is used to determine the
+       <a rel="element displayed">element displayedness</a> of
+       the <a href=http://w3c.github.io/dom/#element>Document element</a>
+       connected with the <a>web element</a> reference given by
+       the <code>element</code> fragment in the path.
+
+      <p>The response is composed using the following algorithm:
+
+      <ol>
+       <li>Let <var>response</var> be an initially empty
+        <a>response</a>.
+
+       <li>Let <var>visible</var> be a boolean initially set to
+        false.
+
+       <li>Let <var>element</var> be an initially undefined
+        <a href="http://w3c.github.io/dom/#element">Document element</a>.
+
+       <li>Let <var>element reference</var> be a string with the
+        value of the <code>element</code> fragment from the path.
+
+       <li>If <var>element reference</var> is null or has a
+        length equal to 0, set <var>response</var>'s
+        <a href=#response-status>status</a> to
+        the <a>invalid argument</a> status and return <var>response</var>.
+
+       <li>If the <a>default content</a>'s <a
+        href=http.//www.w3.org/TR/html5/browser.html#top-level-browsing-context>top
+        level browsing context</a> is no longer open, set
+        <var>response</var>'s <a href=#response-status>status</a>
+        to the <a>no such window</a> status</a> and return
+        <var>response</var>.
+
+       <li>Set <var>element</var> be the <a
+        href=http://w3c.github.io/dom/#element>Document element</a>
+        found after applying the <a>web element lookup</a> algorithm
+        to the <a>element reference map</a>.
+ 
+       <li>If <var>element</var> is null
+        or <var>element</var> does not represent a
+        <a href=http://w3c.github.io/dom/#element>Document element</a>,
+        set <var>response</var>'s <a href=#response-status>status</a>
+        to the <a>no such element</a> status
+        and return <var>response</var>.
+
+       <li>If <var>element</var> represents
+        <a href=http://w3c.github.io/dom/#element>Document element</a>
+        that is no longer attached to the document's node tree,
+        set <var>response</var>'s <a href=#response-status>status</a>
+        to the <a>stale element reference</a> status and return
+        <var>response</var>.
+
+       <li>Apply the <a>element displayed</a> algorithm to
+        <var>element</var> and set <var>visible</var> to its
+        return value.</li>
+
+       <li>Set <var>response</var>'s
+        <a href=#response-status>status</a> to <a>success</a>
+        and its <a href="#response-value">value</a> to <var>visible</var>.
+
+       <li>Return <var>response</var>.
+      </ol>
+    </section>
+
       <section>
         <!-- isSelected -->
         <h3>isSelected()</h3>

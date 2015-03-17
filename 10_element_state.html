@@ -18,64 +18,84 @@
     <section>
       <!-- isDisplayed() -->
       <h3>isDisplayed()</h3>
-      <p>
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-            <th>Notes</th>
-          </tr>
-          <tr>
-            <td>GET</td>
-            <td id='get-id-displayed'>/session/{sessionId}/element/{ELEMENT}/displayed</td>
-            <td></td>
-          </tr>
-        </table>
-          <h2 id='determining-if-displayed'>Determining if an element is displayed</h2>
-            <p>The following steps MUST be used to determine if an element is displayed to a user.</p>
-            <ul>
-              <li>The BODY element MUST be displayed irrespective of any CSS style. This is due to the <a href='http://dev.w3.org/csswg/css-backgrounds/#special-backgrounds'>backgrounds of special elements</a> showing through from the document canvas.</li>
-              <li>Any INPUT elements of "type=hidden" MUST NOT be displayed.</li>
-              <li>Any NOSCRIPT elements MUST NOT be displayed.</li>
-              <li>OPTIONs and OPTGROUP elements MUST be displayed if and only if the enclosing select element is displayed.</li>
-              <li>MAP elements are displayed if and only if the image it uses is displayed. Areas within
-                a map are displayed if the enclosing MAP is displayed.</li>
-              <li>If element is a [[!DOM4]] <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text">
-                text node</a> then it MUST be displayed.</li>
-              <li>The element MUST NOT be displayed if there is a [[!css3-2d-transforms]] or [[!css3-3d-transforms]]
-                property that gives a negative x or y to the canvas. The User Agent MUST NOT allow negative scrolling.</li>
-              <li>The element MUST NOT be displayed if that element, or any of its ancestors,
-                has a <a href='http://www.w3.org/TR/html5/editing.html#the-hidden-attribute'>hidden attribute</a>
-                or has <code>display:none</code> in its computed CSS style.</li>
-              <li>If element or at least one of its descendents have both
-                <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a>
-                height and a <a href='http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect'>DOMRect</a>
-                width greater than 0px, as returned by <code>element.<a href='http://dev.w3.org/csswg/cssom-view/#dom-element-getboundingclientrect'>getBoundingClientRect()</a>
-                </code>then it MUST be displayed.</li>
-              <li>The element MUST NOT be displayed if any ancestor of the element  has a fixed size, and has the CSS style with one of the following <code>overflow:hidden</code>, <code>overflow-x:hidden</code> or <code>overflow-y:hidden</code>, and the element's location as determined by <code><a href="http://www.w3.org/TR/cssom-view/#dom-range-getclientrects">getClientRects</a></code> is not within the fixed size of the parent.</li>
-            </ul>
 
-          <p class="note">
-            Essentially, this attempts to model whether or not a user of the browser could possibly find a way to view the <code>WebElement</code> without resizing the browser window.
-          </p>
-          <div class="note">
-            <p>
-            The common usage pattern for <code>isDisplayed</code> is typically something similar to (in python):</p>
-            <pre>
-              element = driver.find_element(by = TAG_NAME, value= = "button")
-              if element.is_displayed():
-                  element.click()
-              else
-                  # So other deep magic of the unseen ages.
-            </pre>
-        </div>
-        <p>If <code>isDisplayed</code> returns true, then the element MUST also be
-        <a href="#interactable-elements">interactable</a> should it meet the other criteria for being interactable. If any part of the BODY can be brought into the current viewport, this MUST return true.
-        <div class="note">
-          <p>This implies that <code>isDisplayed</code> MUST return true if the centre of the element could be brought into the viewport. The exception to this would be the BODY element, which is generally assumed to always be displayed by users of the WebDriver spec. It is possible to interact with elements which may not have the centre point brought into the viewport by using the <a href="#low-level-commands">low level commands</a>. This means that if any part of the element could be brought into the viewport by user action and its position could be used by low-level commands then a WebDriver implementation MAY return true.</p>
-        </div>
-        <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </section>
+      <table class="simple jsoncommand">
+        <tr>
+          <th>HTTP Method</th>
+          <th>Path Template</th>
+          <th>Notes</th>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td id='get-id-displayed'>/session/{sessionId}/element/{element}/displayed</td>
+          <td></td>
+        </tr>
+      </table>
+
+      <p>The command is used to determine the
+       <a rel="element displayed">element displayedness</a> of
+       the <a href=http://w3c.github.io/dom/#element>Document element</a>
+       connected with the <a>web element</a> reference given by
+       the <code>element</code> fragment in the path.
+
+      <p>The response is composed using the following algorithm:
+
+      <ol>
+       <li>Let <var>response</var> be an initially empty
+        <a>response</a>.
+
+       <li>Let <var>visible</var> be a boolean initially set to
+        false.
+
+       <li>Let <var>element</var> be an initially undefined
+        <a href="http://w3c.github.io/dom/#element">Document element</a>.
+
+       <li>Let <var>element reference</var> be a string with the
+        value of the <code>element</code> fragment from the path.
+
+       <li>If <var>element reference</var> is null or has a
+        length equal to 0, set <var>response</var>'s
+        <a href=#response-status>status</a> to
+        the <a>invalid argument</a> status and return <var>response</var>.
+
+       <li>If the <a>default content</a>'s <a
+        href=http.//www.w3.org/TR/html5/browser.html#top-level-browsing-context>top
+        level browsing context</a> is no longer open, set
+        <var>response</var>'s <a href=#response-status>status</a>
+        to the <a>no such window</a> status</a> and return
+        <var>response</var>.
+
+       <li>Set <var>element</var> be the <a
+        href=http://w3c.github.io/dom/#element>Document element</a>
+        found after applying the <a>web element lookup</a> algorithm
+        to the <a>element reference map</a>.
+ 
+       <li>If <var>element</var> is null
+        or <var>element</var> does not represent a
+        <a href=http://w3c.github.io/dom/#element>Document element</a>,
+        set <var>response</var>'s <a href=#response-status>status</a>
+        to the <a>no such element</a> status
+        and return <var>response</var>.
+
+       <li>If <var>element</var> represents
+        <a href=http://w3c.github.io/dom/#element>Document element</a>
+        that is no longer attached to the document's node tree,
+        set <var>response</var>'s <a href=#response-status>status</a>
+        to the <a>stale element reference</a> status and return
+        <var>response</var>.
+
+       <li>Apply the <a>element displayed</a> algorithm to
+        <var>element</var> and set <var>visible</var> to its
+        return value.</li>
+
+       <li>Set <var>response</var>'s
+        <a href=#response-status>status</a> to <a>success</a>
+        and its <a href="#response-value">value</a> to <var>visible</var>.
+
+       <li>Return <var>response</var>.
+      </ol>
+    </section>
+
       <section>
         <!-- isSelected -->
         <h3>isSelected()</h3>
