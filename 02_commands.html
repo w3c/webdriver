@@ -12,6 +12,12 @@
   </section>
 
   <section>
+    <h3>Commands</h3>
+    <p>The WebDriver protocol is organised into commands. Each HTTP request with a method and template defined in this specification represents a single command and therefore each command produces a single HTTP response. In response to a command, a <a>remote end</a> will run a series of actions against the remote browser.</p>
+    <p>Each command defined in this sepcification has an associated list of <dfn>remote end steps</dfn>. This provides the sequence of actions that a remote end takes when it recieves a particular command.</p>
+  </section>
+
+  <section>
     <h3>Processing Model</h3>
     <p>The <a>remote end</a> acts as a HTTP server reading requests from the client and writing responses, typically over TCP socket. For the purposes of this specification we model the data transmission between a particular <a>local end</a> and <a>remote end</a> with a <dfn>connection</dfn> to which the <a>remote end</a> may <dfn>write bytes</dfn> and <dfn>read bytes</dfn>. However the exact details of how this <a>connection</a> works and how it is established are out of scope.</p>
 
@@ -52,7 +58,7 @@
         <p>Otherwise, let <var>parameters</var> be null</p>
       </li>
 
-      <li><p>Let <var>response data</var> be a <a>command response</a> object obtained by running the steps defined by <var>command</var> with arguments <var>element id</var> and <var>parameters</var>.</p></li>
+      <li><p>Let <var>response data</var> be a <a>command response</a> object obtained by running running the <a>remote end steps</a> for <var>command</var> with arguments <var>element id</var> and <var>parameters</var>.</p></li>
 
       <li><p>If <var>response data</var> is an <a>error</a>, <a>send an error</a> with <a>error code</a> equal to <var>response data</var>'s <a>error code<a>.</p>
 
@@ -94,8 +100,6 @@
 
   <section>
     <h3>Routing Requests</h3>
-
-    <!-- TODO: define what a command is -->
 
     <p><dfn>Request routing</dfn> is the process of going from a HTTP request to the series of steps needed to implement the <a>command</a> represented by that request.</p>
 
