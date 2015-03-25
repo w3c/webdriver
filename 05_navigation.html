@@ -1,69 +1,73 @@
 <section>
   <h2>Navigation</h2>
-  <p>Almost all usages of the WebDriver API begin by navigating to a particular URL. This section not only describes the commands used for navigation, but also describes when commands must be processed.</p>
-
-  <p>All WebDriver implementations MUST support navigating between different HTTP domains and between HTTPS and HTTP domains if the underlying browser supports this.</p>
+  <section>
+    <h3>Introduction</h3>
+    <p>Almost all usages of the WebDriver API begin by navigating to a particular URL. This section not only describes the commands used for navigation, but also describes when commands must be processed.</p>
+  </section>
 
   <section>
-    <h2 id="page-load-strategies">Page Load Strategies</h2>
+    <h3 id="page-load-strategies">The Page Load Strategy</h3>
 
-    <table class="simple">
-      <tr><td>Capability Name</td><td>Type</td></tr>
-      <tr><td><span id="capability-pageLoadingStrategy">pageLoadingStrategy</span></td><td>DOMString</td></tr>
-    </table>
+    <p><a>Local ends</a> may choose at what point during the page load cycle the remote end returns a response to navigation commands by requesting a particular <dfn>page load strategy</dfn> when creating a <a>new session</a>. The available page load strategies are:
 
-    <p>It is possible to request a particular strategy be used for detecting when the next command should be processed by a remote end implementation by modifying the page load strategy that is used. The following are the expected values that MAY be used when creating a new session:</p>
+    <dl>
+      <dt><dfn>normal</dfn></dt>
+      <dd><p>The response is sent when the <code>document.readyState</code> of the frame currently handling commands equals <code>complete</code>.</p>
 
-    <h4>'normal'</h4>
-    <p>The remote end MUST wait until the "<code>document.readyState</code>" of the frame currently handling commands equals "<code>complete</code>", or there are no more outstanding network requests other than XMLHttpRequests.</p>
+      <dt><dfn>eager</dfn></dt>
+      <dd><p>The response is sent when the <code>document.readyState</code> of frame currently handling reaches <code>interactive</code> or <code>complete</code>.</p>
 
-    <h3>'eager'</h3>
-    <p>The remote end MUST wait until the "<code>document.readyState</code>" of frame currently handling equals "<code>interactive</code>" or "<code>complete</code>", or there are no more outstanding network requests.</p>
+      <dt><dfn>none</dfn></dd>
+      <dd><p>The response is sent immediately after initiating the navigation.</p>
+    </dl>
 
-    <h3>'none'</h3>
-    <p>The remote end MUST not do any checks against "<code>document.readyState</code>".</p>
-
-    <p>All WebDriver implementations MUST support the <code>normal</code> and <code>eager</code> modes and SHOULD support the <code>none</code> mode. If no page loading strategy is chosen, then <code>normal</code> MUST be the default.
+    <!-- Todo: most of this should be elsewhere -->
+    <p>All WebDriver implementations MUST support the <a>normal</a> and <a>eager</a> modes and SHOULD support the <a>none</a> mode. If no page loading strategy is chosen, then <a>normal</a> MUST be the default.
     In addition, implementors MAY add additional page loading strategies.</p>
   </section>
 
   <section>
-    <h2>Navigation Commands</h2>
+    <h3>get</h3>
+    <table class="simple jsoncommand">
+      <tr>
+        <th>HTTP Method</th>
+        <th>Path Template</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>POST</td>
+        <td id='post-url'>/session/{sessionId}/url</td>
+        <td></td>
+      </tr>
+    </table>
+    <p>The <dfn>get</dfn> command is used to cause the browser to navigate to a new location. From a user's point of view, it is as if they have entered the "url" into the URL bar.</p>
 
-    <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "navigation" folder.</p>
-
-      <section>
-        <h3>get()</h3>
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-            <th>Notes</th>
-          </tr>
-          <tr>
-            <td>POST</td>
-            <td id='post-url'>/session/{sessionId}/url</td>
-            <td></td>
-          </tr>
-        </table>
-        <p>The "get" command is used to cause the browser to navigate to a new location, and is named after the HTTP verb. From a user's point of view, this is as if they have entered the "url" into the URL bar. When the command returns is based on the <a href="#page-load-strategies">page load strategy</a> that the user has selected with the following exceptions when the strategy is not "none":
-
-        <ul>
-          <li>HTTP redirects MUST be automatically followed without responding to the command.</li>
-          <li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met. When the refresh period is 1 second or less and the page loading strategy is "normal" implementations MUST wait for the refresh to complete before responding.</li>
-          <li>If any modal dialog box, such as those opened by on <code>window.onbeforeunload</code> or <code>window.alert</code>, is opened at any point in the page load, a response MUST be sent.</li>
-          <li>If a 401 response is seen by the browser, a response MUST be sent. That is, if BASIC, DIGEST, NTLM or similar authentication is required, the page load is assumed to be complete. This does not include FORM-based authentication.</li>
-        </ul>
-
-        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-        <p>Example of how the HTTP request payload body would look</p>
-        <pre>
+    <aside class="example">
+        <p>To navigate the current browsing context of the session with id <code>1</code> to <code>http://example.com/</code>, the local end would send a <code>POST</code> to <code>/session/1/url</code> with body:</p>
+        <pre class="highlight">
           {
-            "parameters": {
-              "url": "URL that the browser will navigate to",
-            }
+              "url": "http://example.com",
           }
         </pre>
+    </aside>
+
+    <p>The <a>remote end steps</a> for the <a>get</a> command are:</p>
+    <ol>
+      <li><p>If the <a>current browsing context</a> is no longer open, return an error with code <a>no such window</a>.</p></li>
+      <li><p>Let <var>url</var> be the result of <a>getting a property</a> named "url" from the <var>parameters</var> argument.</p></li>
+      <li><p>If <var>url</var> is undefined, return an <a>error</a> with code <a>invalid argument</a></p></li>
+      <li><p><a href="">Navigate</a> the <a>current browsing context</a>'s to <var>url</var>. If this navigation results in a HTTP 401 response, the <a>remote end</a> must proceed with the steps below, irrespective of how the authentication challenge is handled.</p></li>
+      <li><p>If the <a>current session</a>'s <a>page load strategy</a> is <a>none</a> jump to the next step in this overall set of steps. Otherwise:</p>
+        <ol>
+          <li><p>Let <var>readiness target</var> be <code>"interactive"</code> if the <a>current session</a>'s <a>page load strategy is <a>eager</a>, or <code>"complete"</code> if it is <a>normal</a>.</p></li>
+          <li><p>Wait for the <a href="">current document readiness</a> to reach <var>readiness target</var>, or for the <a>current session</a>'s <a>load timeout</a> milliseconds to pass, whichever occurs sooner.</p></li>
+          <li><p>If the previous step completed by the <a>load timeout</a> being reached, and the browser is not currently displaying an alert<!-- perhaps? Not sure if this is what the spec is trying to say -->, return an <a>error</a> with code <a>timeout</a>.</p></li>
+        </ol>
+      <li><p>Return <a>success</a> with data null</p></li>
+    </ol>
+        <!-- TODO: Figure out if next paragraph is actually required -->
+          <!--li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met. When the refresh period is 1 second or less and the page loading strategy is "normal" or "conservative" implementations MUST wait for the refresh to complete before responding.</li-->
+
       </section>
       <!-- getCurrentUrl() -->
       <section>
