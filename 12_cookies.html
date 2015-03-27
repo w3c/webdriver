@@ -9,24 +9,6 @@
   <section>
     <h2>Cookie</h2>
     <p>When returning Cookie objects, the server SHOULD include all optional fields it is capable of providing the information for.</p>
-    <dl class="idl" title='dictionary Cookie'>
-      <dt>DOMString name</dt>
-      <dd>The name of the cookie. This MUST be set.</dd>
-      <dt>DOMString value</dt>
-      <dd>The cookie value. This MUST be set.</dd>
-      <dt>DOMString path</dt>
-      <dd>The cookie path. This SHOULD be set or MUST be the null value if unknown.</dd>
-      <dt>DOMString domain</dt>
-      <dd>The domain the cookie is visible to. This SHOULD be set or MUST be the null value if unknown.</dd>
-      <dt>Date expiry</dt>
-      <dd>When the cookie expires, specified in milliseconds since midnight, January 1, 1970 UTC using the format described in [[!RFC1123]]. This SHOULD be set or MUST be null if unknown.</dd>
-      <dt>Date maxAge</dt>
-      <dd>The value of the Max-Age attribute to set the cookie’s expiration as an interval of seconds in the future</dd>
-      <dt>boolean secure</dt>
-      <dd>True if this represents a Secure cookie, false otherwise. If this attribute is missing, the local ends MUST interpret this as being false.</dd>
-      <dt>boolean httpOnly</dt>
-      <dd>True if this represents an HTTP-Only cookie, false otherwise. If this attribute is missing, local ends MUST interpret this as being false.</dd>
-    </dl>
     <section>
       <!-- getCookie() -->
       <h3>getCookie()</h3>
@@ -38,20 +20,58 @@
               <th>Notes</th>
             </tr>
             <tr>
-              <td>GET</td>
-              <td id='get-cookie'>/session/{sessionId}/cookie</td>
+              <td>POST</td>
+              <td id='post-cookie'>/session/{sessionId}/cookie</td>
               <td></td>
             </tr>
           </table>
-          <p>Remote ends MUST return all cookies that are available in document.cookie via Javascript. In addition, remote ends SHOULD return any HTTP-Only cookies that are associated with the current page.
-        Possible errors that can be returned:
-        <ul>
-          <li><code><a href="#status-invalid-cookie-domain">invalid cookie domain</a></code> - If the cookie's domain is not visible from the current page.<br />
-        </ul>
-        <dl class='parameters'>
-          <dt>optional DOMString? name</dt>
-          <dd>The name (e.g. <code>name=</code>) of the cookie that needs to be returned.</dd>
-        </dl>
+          <p>The <a>remote end steps</a> for the <a>getCookie</a> command are:</p>
+          <ol>
+            <li><p>If the <a>current browsing context</a> is no longer open, return an error with code <a>no such window</a>.</p></li>
+            <li><p>Let <var>name</var> be the result of <a>getting a property</a> named "name" from the <var>parameters</var> argument.</p></li>
+            <li><p>Let <var>result</var> be an empty sequence</p></li>
+            <li><p>Let <var>cookies</var> be all cookies of the resource represented by the idenfied by <a href="https://dom.spec.whatwg.org/#concept-document-url"> the document's address</a></p></li>
+            <li><p>Let <var>cookies</var> be the list of <a href='http://heycam.github.io/webidl/#dfn-values-to-iterate-over'>values to iterate over</a></p></li>
+            <li><p>Let <var>len</var> be the length of <var>cookies</var>.</p></li>
+            <li><p>Initialize <var>k</var> to 0</p></li>
+            <li><p>While <var>k</var> < <var>len</var>: </p>
+              <ol>
+                <li><p>Let <var>cookie</var> be the value in <var>cookies</var> at index <var>k</var>.</p></li>
+                <li><p>If <var>name</var> is undefined:</p>
+                  <ol>
+                    <li><p>Append an object with the following keys and values:</p>
+                      <ul>
+                        <li><p><var>name</var> = <var>cookie.name</var></p></li>
+                        <li><p><var>value</var> = <var>cookie.value</var></p></li>
+                        <li><p><var>path</var> = <var>cookie.path</var> if <var>cookie.path</var> is defined else it MUST be null.</p></li>
+                        <li><p><var>domain</var> = <var>cookie.domain</var> if <var>cookie.path</var> is defined else it MUST be null.</p></li>
+                        <li><p><var>secure</var> = <var>cookie.isSecure</var> if <var>cookie.isSecure</var> is defined else it MUST be false.</p></li>
+                        <li><p><var>expiry</var> = <var>cookie.expires</var> where <var>cookie.expires</var> is specified in milliseconds
+                          since midnight, January 1, 1970 UTC using the format described in [[!RFC1123]]. if <var>cookie.expires</var> is undefined it MUST be null.</p></li>
+                      </ul>
+                    </li>
+                  </ol>
+                </li>
+                <li><p>if <var>name</var> is defined and is equal to <var>cookie.name</var>:</p>
+                  <ol>
+                    <li><p>Append an object with the following keys and values:</p>
+                      <ul>
+                        <li><p><var>name</var> = <var>cookie.name</var></p></li>
+                        <li><p><var>value</var> = <var>cookie.value</var></p></li>
+                        <li><p><var>path</var> = <var>cookie.path</var> if <var>cookie.path</var> is defined else it MUST be null.</p></li>
+                        <li><p><var>domain</var> = <var>cookie.domain</var> if <var>cookie.path</var> is defined else it MUST be null.</p></li>
+                        <li><p><var>secure</var> = <var>cookie.isSecure</var> if <var>cookie.isSecure</var> is defined else it MUST be false.</p></li>
+                        <li><p><var>expiry</var> = <var>cookie.expires</var> where <var>cookie.expires</var> is specified in milliseconds
+                          since midnight, January 1, 1970 UTC using the format described in [[!RFC1123]]. if <var>cookie.expires</var> is undefined it MUST be null.</p></li>
+                      </ul>
+                    </li>
+                  </ol>
+                </li>
+                <li><p>Increase the value of <var>k</var> by 1</p></li>
+              </ol>
+            </li>
+            <li><p>Return <a>success</a> with data <var>result</var></p></li>
+          </ol>
       </section>
       <section>
       <h3>addCookie()</h3>
