@@ -11,7 +11,7 @@
     <p>When returning Cookie objects, the server SHOULD include all optional fields it is capable of providing the information for.</p>
     <section>
       <!-- getCookie() -->
-      <h3>getCookie()</h3>
+      <h3>getCookie</h3>
         <p>
           <table class="simple jsoncommand">
             <tr>
@@ -27,44 +27,24 @@
           </table>
           <p>The <a>remote end steps</a> for the <a>getCookie</a> command are:</p>
           <ol>
-            <li><p>If the <a>current browsing context</a> is no longer open, return an error with code <a>no such window</a>.</p></li>
+            <li><p>If the <a>current browsing context</a> is <a>no longer open</a>, return an error with code <a>no such window</a>.</p></li>
             <li><p>Let <var>name</var> be the result of <a>getting a property</a> named "name" from the <var>parameters</var> argument.</p></li>
-            <li><p>Let <var>result</var> be an empty sequence</p></li>
-            <li><p>Let <var>cookies</var> be all cookies of the resource represented by the idenfied by <a href="https://dom.spec.whatwg.org/#concept-document-url"> the document's address</a></p></li>
-            <li><p>Let <var>cookies</var> be the list of <a href='http://heycam.github.io/webidl/#dfn-values-to-iterate-over'>values to iterate over</a></p></li>
+            <li><p>Let <var>result</var> be an empty JSON List</p></li>
+            <li><p>Let <var>cookies</var> be all cookies [[!RFC6265]] of the resource represented by the idenfied by <a href="https://dom.spec.whatwg.org/#concept-document-url"> the document's address</a></p></li>
+            <li><p>Let <var>cookies</var> be the list of values to iterate over</p></li>
             <li><p>Let <var>len</var> be the length of <var>cookies</var>.</p></li>
-            <li><p>Initialize <var>k</var> to 0</p></li>
+            <li><p>Let <var>k</var> be 0</p></li>
             <li><p>While <var>k</var> < <var>len</var>: </p>
               <ol>
                 <li><p>Let <var>cookie</var> be the value in <var>cookies</var> at index <var>k</var>.</p></li>
                 <li><p>If <var>name</var> is undefined:</p>
                   <ol>
-                    <li><p>Append an object with the following keys and values:</p>
-                      <ul>
-                        <li><p><var>name</var> = <var>cookie.name</var></p></li>
-                        <li><p><var>value</var> = <var>cookie.value</var></p></li>
-                        <li><p><var>path</var> = <var>cookie.path</var> if <var>cookie.path</var> is defined else it MUST be null.</p></li>
-                        <li><p><var>domain</var> = <var>cookie.domain</var> if <var>cookie.path</var> is defined else it MUST be null.</p></li>
-                        <li><p><var>secure</var> = <var>cookie.isSecure</var> if <var>cookie.isSecure</var> is defined else it MUST be false.</p></li>
-                        <li><p><var>expiry</var> = <var>cookie.expires</var> where <var>cookie.expires</var> is specified in milliseconds
-                          since midnight, January 1, 1970 UTC using the format described in [[!RFC1123]]. if <var>cookie.expires</var> is undefined it MUST be null.</p></li>
-                      </ul>
-                    </li>
+                    <li><p>Append a <a>serialised cookie</a> to <var>result</var>.</p></li>
                   </ol>
                 </li>
-                <li><p>if <var>name</var> is defined and is equal to <var>cookie.name</var>:</p>
+                <li><p>if <var>name</var> is defined and is equal to <var>cookie-name</var>:</p>
                   <ol>
-                    <li><p>Append an object with the following keys and values:</p>
-                      <ul>
-                        <li><p><var>name</var> = <var>cookie.name</var></p></li>
-                        <li><p><var>value</var> = <var>cookie.value</var></p></li>
-                        <li><p><var>path</var> = <var>cookie.path</var> if <var>cookie.path</var> is defined else it MUST be null.</p></li>
-                        <li><p><var>domain</var> = <var>cookie.domain</var> if <var>cookie.path</var> is defined else it MUST be null.</p></li>
-                        <li><p><var>secure</var> = <var>cookie.isSecure</var> if <var>cookie.isSecure</var> is defined else it MUST be false.</p></li>
-                        <li><p><var>expiry</var> = <var>cookie.expires</var> where <var>cookie.expires</var> is specified in milliseconds
-                          since midnight, January 1, 1970 UTC using the format described in [[!RFC1123]]. if <var>cookie.expires</var> is undefined it MUST be null.</p></li>
-                      </ul>
-                    </li>
+                    <li><p>Append a <a>serialised cookie</a> to <var>result</var>.</p></li>
                   </ol>
                 </li>
                 <li><p>Increase the value of <var>k</var> by 1</p></li>
@@ -72,6 +52,22 @@
             </li>
             <li><p>Return <a>success</a> with data <var>result</var></p></li>
           </ol>
+          <p>A <dfn>serialised cookie</dfn> is created with the following algorithm:</p>
+          <p>
+            <ol>
+              <li><p>Let <var>serialisedCookie</var> be an empty map.</p></li>
+              <ul>
+                <li><p>Add an entry whose key is <var>name</var> and value is <var>cookie-name</var> be  as defined in [[!RFC6265]]</p></li>
+                <li><p>Add an entry whose key is <var>value</var> and value is <var>cookie-value</var> as defined in [[!RFC6265]]</p></li>
+                <li><p>Add an entry whose key is <var>path</var> and value is <var>path attribute</var> from cookie-attribute-list if defined else it MUST be null.</p></li>
+                <li><p>Add an entry whose key is <var>domain</var> and value is <var>Domain attribute</var> from cookie-attribute-list if defined else it MUST be null.</p></li>
+                <li><p>Add an entry whose key is <var>secure</var> and value is <var>Secure attribute</var> from cookie-attribute-list if defined else it MUST be false.</p></li>
+                <li><p>Add an entry whose key is <var>expiry</var> and value is <var>Expires attribute</var> from cookie-attribute-list where <var>Expires attribute</var>
+                  is specified in milliseconds since midnight, January 1, 1970 UTC using the format described in [[!RFC1123]]. If <var>Expires attribute</var> is undefined it MUST be null.</p></li>
+              </ul>
+              <li>Return <var>serialisedCookie</var></li>
+            </ol>
+          </p>
       </section>
       <section>
       <h3>addCookie()</h3>
