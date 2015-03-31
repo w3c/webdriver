@@ -9,27 +9,9 @@
   <section>
     <h2>Cookie</h2>
     <p>When returning Cookie objects, the server SHOULD include all optional fields it is capable of providing the information for.</p>
-    <dl class="idl" title='dictionary Cookie'>
-      <dt>DOMString name</dt>
-      <dd>The name of the cookie. This MUST be set.</dd>
-      <dt>DOMString value</dt>
-      <dd>The cookie value. This MUST be set.</dd>
-      <dt>DOMString path</dt>
-      <dd>The cookie path. This SHOULD be set or MUST be the null value if unknown.</dd>
-      <dt>DOMString domain</dt>
-      <dd>The domain the cookie is visible to. This SHOULD be set or MUST be the null value if unknown.</dd>
-      <dt>Date expiry</dt>
-      <dd>When the cookie expires, specified in milliseconds since midnight, January 1, 1970 UTC using the format described in [[!RFC1123]]. This SHOULD be set or MUST be null if unknown.</dd>
-      <dt>Date maxAge</dt>
-      <dd>The value of the Max-Age attribute to set the cookie’s expiration as an interval of seconds in the future</dd>
-      <dt>boolean secure</dt>
-      <dd>True if this represents a Secure cookie, false otherwise. If this attribute is missing, the local ends MUST interpret this as being false.</dd>
-      <dt>boolean httpOnly</dt>
-      <dd>True if this represents an HTTP-Only cookie, false otherwise. If this attribute is missing, local ends MUST interpret this as being false.</dd>
-    </dl>
     <section>
       <!-- getCookie() -->
-      <h3>getCookie()</h3>
+      <h3>getCookie</h3>
         <p>
           <table class="simple jsoncommand">
             <tr>
@@ -38,20 +20,64 @@
               <th>Notes</th>
             </tr>
             <tr>
-              <td>GET</td>
-              <td id='get-cookie'>/session/{sessionId}/cookie</td>
+              <td>POST</td>
+              <td id='post-cookie'>/session/{sessionId}/cookie</td>
               <td></td>
             </tr>
           </table>
-          <p>Remote ends MUST return all cookies that are available in document.cookie via Javascript. In addition, remote ends SHOULD return any HTTP-Only cookies that are associated with the current page.
-        Possible errors that can be returned:
-        <ul>
-          <li><code><a href="#status-invalid-cookie-domain">invalid cookie domain</a></code> - If the cookie's domain is not visible from the current page.<br />
-        </ul>
-        <dl class='parameters'>
-          <dt>optional DOMString? name</dt>
-          <dd>The name (e.g. <code>name=</code>) of the cookie that needs to be returned.</dd>
-        </dl>
+          <p>The <a>remote end steps</a> for the <a>getCookie</a> command are:</p>
+          <ol>
+            <li><p>If the <a>current browsing context</a> is <a>no longer open</a>, return an error with code <a>no such window</a>.</p></li>
+            <li><p>Let <var>name</var> be the result of <a>getting a property</a> named "name" from the <var>parameters</var> argument.</p></li>
+            <li><p>Let <var>result</var> be an empty JSON list.</p></li>
+            <li><p>Let <var>cookies</var> be a list of all cookies [[!RFC6265]] in the cookie store associated with <a href="https://html.spec.whatwg.org/#active-document">active document</a> <a href="https://dom.spec.whatwg.org/#concept-document-url">address</a>.</p></li>
+            <li><p>Let <var>length</var> be the length of <var>cookies</var>.</p></li>
+            <li><p>Let <var>k</var> be 0</p></li>
+            <li><p>While <var>k</var> &lt; <var>length</var>:</p>
+              <ol>
+                <li><p>Let <var>cookie</var> be the value in <var>cookies</var> at index <var>k</var>.</p></li>
+                <li><p>If <var>name</var> is undefined:</p>
+                  <ol>
+                    <li><p>Append a <a>serialised cookie</a> to <var>result</var>.</p></li>
+                  </ol>
+                </li>
+                <li><p>If <var>name</var> is defined and is equal to <var>cookie-name</var>:</p>
+                  <ol>
+                    <li><p>Append a <a>serialised cookie</a> to <var>result</var>.</p></li>
+                  </ol>
+                </li>
+                <li><p>Increase the value of <var>k</var> by 1.</p></li>
+              </ol>
+            </li>
+            <li><p>Return <a>success</a> with data <var>result.</var></p></li>
+          </ol>
+          <p>A <dfn>serialized cookie</dfn> is created with the following algorithm:</p>
+          <p>
+            <ol>
+              <li><p>Let <var>serialized cookie</var> be an empty map.</p></li>
+              <ul>
+                <li><p>Add an entry whose key is <var>name</var> and value is <var>cookie-name</var>  as defined in [[!RFC6265]]</p></li>
+                <li><p>Add an entry whose key is <var>value</var> and value is <var>cookie-value</var> as defined in [[!RFC6265]]</p></li>
+                <li><p>If cookie's attribute-list contains an attribute with attribute-name of Path,
+                  let <var>path</var> be the attribute-value of the last attribute in the cookie-attribute-list
+                   with an attribute-name of "Path". Otherwise let <var>path</var> be null</p>
+                  <p>Add an entry to <var>serialized cookie</var> with key "path" and value <var>path</var></p></li>
+                <li><p>If cookie's attribute-list contains an attribute with attribute-name of Domain,
+                  let <var>domain</var> be the attribute-value of the last attribute in the cookie-attribute-list
+                  with an attribute-name of "Domain". Otherwise let <var>domain</var> be null</p>
+                  <p>Add an entry to <var>serialized cookie</var> with key "domain" and value <var>domain</var></p></li>
+                <li><p>If cookie's attribute-list contains an attribute with attribute-name of Secure,
+                  let <var>secure</var> be the attribute-value of the last attribute in the cookie-attribute-list
+                  with an attribute-name of "Secure". Otherwise let <var>secure</var> be null</p>
+                  <p>Add an entry to <var>serialized cookie</var> with key "secure" and value <var>secure</var></p></li>
+                <li><p>If cookie's attribute-list contains an attribute with attribute-name of Expires,
+                  let <var>expiry</var> be the attribute-value of the last attribute in the cookie-attribute-list
+                   with an attribute-name of "Expires" specified in milliseconds since midnight, January 1, 1970 UTC
+                    using the format described in [[!RFC1123]]. Otherwise let <var>expiry</var> be null</p>
+              </ul>
+              <li>Return <var>serialized cookie</var></li>
+            </ol>
+          </p>
       </section>
       <section>
       <h3>addCookie()</h3>
