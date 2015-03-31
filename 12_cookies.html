@@ -29,11 +29,11 @@
           <ol>
             <li><p>If the <a>current browsing context</a> is <a>no longer open</a>, return an error with code <a>no such window</a>.</p></li>
             <li><p>Let <var>name</var> be the result of <a>getting a property</a> named "name" from the <var>parameters</var> argument.</p></li>
-            <li><p>Let <var>result</var> be an empty JSON List</p></li>
-            <li><p>Let <var>cookies</var> be a list of all cookies [[!RFC6265]] in the cookie store associated with <a href="https://dom.spec.whatwg.org/#concept-document-url"> the current document or frame address</a></p></li>
+            <li><p>Let <var>result</var> be an empty JSON list.</p></li>
+            <li><p>Let <var>cookies</var> be a list of all cookies [[!RFC6265]] in the cookie store associated with <a href="https://dom.spec.whatwg.org/#concept-document-url"> the current document or frame address.</a></p></li>
             <li><p>Let <var>length</var> be the length of <var>cookies</var>.</p></li>
             <li><p>Let <var>k</var> be 0</p></li>
-            <li><p>While <var>k</var> < <var>length</var>: </p>
+            <li><p>While <var>k</var> &lt; <var>length</var>:</p>
               <ol>
                 <li><p>Let <var>cookie</var> be the value in <var>cookies</var> at index <var>k</var>.</p></li>
                 <li><p>If <var>name</var> is undefined:</p>
@@ -41,22 +41,22 @@
                     <li><p>Append a <a>serialised cookie</a> to <var>result</var>.</p></li>
                   </ol>
                 </li>
-                <li><p>if <var>name</var> is defined and is equal to <var>cookie-name</var>:</p>
+                <li><p>If <var>name</var> is defined and is equal to <var>cookie-name</var>:</p>
                   <ol>
                     <li><p>Append a <a>serialised cookie</a> to <var>result</var>.</p></li>
                   </ol>
                 </li>
-                <li><p>Increase the value of <var>k</var> by 1</p></li>
+                <li><p>Increase the value of <var>k</var> by 1.</p></li>
               </ol>
             </li>
-            <li><p>Return <a>success</a> with data <var>result</var></p></li>
+            <li><p>Return <a>success</a> with data <var>result.</var></p></li>
           </ol>
-          <p>A <dfn>serialised cookie</dfn> is created with the following algorithm:</p>
+          <p>A <dfn>serialized cookie</dfn> is created with the following algorithm:</p>
           <p>
             <ol>
-              <li><p>Let <var>serialised cookie</var> be an empty map.</p></li>
+              <li><p>Let <var>serialized cookie</var> be an empty map.</p></li>
               <ul>
-                <li><p>Add an entry whose key is <var>name</var> and value is <var>cookie-name</var> be  as defined in [[!RFC6265]]</p></li>
+                <li><p>Add an entry whose key is <var>name</var> and value is <var>cookie-name</var>  as defined in [[!RFC6265]]</p></li>
                 <li><p>Add an entry whose key is <var>value</var> and value is <var>cookie-value</var> as defined in [[!RFC6265]]</p></li>
                 <li><p>If cookie's attribute-list contains an attribute with attribute-name of Path, let <var>path</var> be the attribute-value of the last attribute in the cookie-attribute-list with an attribute-name of "Path". Otherwise let <var>path</var> be null</p>
                   <p>Add an entry to <var>serialized cookie</var> with key "path" and value <var>path</var></p></li>
@@ -64,8 +64,7 @@
                   <p>Add an entry to <var>serialized cookie</var> with key "domain" and value <var>domain</var></p></li>
                 <li><p>If cookie's attribute-list contains an attribute with attribute-name of Secure, let <var>secure</var> be the attribute-value of the last attribute in the cookie-attribute-list with an attribute-name of "Secure". Otherwise let <var>secure</var> be null</p>
                   <p>Add an entry to <var>serialized cookie</var> with key "secure" and value <var>secure</var></p></li>
-                <li><p>If cookie's attribute-list contains an attribute with attribute-name of Expires, let <var>expiry</var> be the attribute-value of the last attribute in the cookie-attribute-list with an attribute-name of "Expires". Otherwise let <var>expiry</var> be null</p>
-                  <p>Add an entry to <var>serialized cookie</var> with key "expiry" and value <var>expiry</var> where <var>expiry</var> is specified in milliseconds since midnight, January 1, 1970 UTC using the format described in [[!RFC1123]]. If <var>Expires attribute</var> is undefined it MUST be null.</p></li>
+                <li><p>If cookie's attribute-list contains an attribute with attribute-name of Expires, let <var>expiry</var> be the attribute-value of the last attribute in the cookie-attribute-list with an attribute-name of "Expires" specified in milliseconds since midnight, January 1, 1970 UTC using the format described in [[!RFC1123]]. Otherwise let <var>expiry</var> be null</p>
               </ul>
               <li>Return <var>serialised cookie</var></li>
             </ol>
