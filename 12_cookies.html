@@ -20,15 +20,25 @@
               <th>Notes</th>
             </tr>
             <tr>
-              <td>POST</td>
-              <td id='post-cookie'>/session/{sessionId}/cookie</td>
+              <td>GET</td>
+              <td id='GET-cookie'>/session/{sessionId}/cookie</td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td id='GET-cookie-name'>/session/{sessionId}/cookie/{name}</td>
               <td></td>
             </tr>
           </table>
-          <p>The <a>remote end steps</a> for the <a>getCookie</a> command are:</p>
+          <p>The <a>remote end steps</a> for the <dfn>Get Cookie</dfn> command are:</p>
           <ol>
             <li><p>If the <a>current browsing context</a> is <a>no longer open</a>, return an error with code <a>no such window</a>.</p></li>
-            <li><p>Let <var>name</var> be the result of <a>getting a property</a> named "name" from the <var>parameters</var> argument.</p></li>
+            <li><p>Let <var>name</var> be equal to "name" from <a>match a request</a>.</p></li>
             <li><p>Let <var>result</var> be an empty JSON list.</p></li>
             <li><p>Let <var>cookies</var> be a list of all cookies [[!RFC6265]] in the cookie store associated with <a href="https://html.spec.whatwg.org/#active-document">active document</a> <a href="https://dom.spec.whatwg.org/#concept-document-url">address</a>.</p></li>
             <li><p>Let <var>length</var> be the length of <var>cookies</var>.</p></li>
