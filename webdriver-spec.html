@@ -238,7 +238,7 @@ code a:visited, code a:link {
   <section>
     <h3>Commands</h3>
     <p>The WebDriver protocol is organised into commands. Each HTTP request with a method and template defined in this specification represents a single command and therefore each command produces a single HTTP response. In response to a command, a <a>remote end</a> will run a series of actions against the remote browser.</p>
-    <p>Each command defined in this sepcification has an associated list of <dfn>remote end steps</dfn>. This provides the sequence of actions that a remote end takes when it recieves a particular command.</p>
+    <p>Each command defined in this specification has an associated list of <dfn>remote end steps</dfn>. This provides the sequence of actions that a remote end takes when it recieves a particular command.</p>
   </section>
 
   <section>
@@ -254,7 +254,7 @@ code a:visited, code a:link {
 
       <li><p><a>Read bytes</a> from the connection until a complete HTTP request can be constructed from the data. Let <var>request</var> be a <a href="https://fetch.spec.whatwg.org/#concept-request" class="externalRef">request</a> object constructed from the received data, according to the requirements of [[!RFC7230]].</p></li>
 
-      <li><p>Let <var>request match</var> be the result of <a>matching a request</a> with <var>request</var>'s <a href="https://fetch.spec.whatwg.org/#concept-request-method" class="externalRef">method</a> and <a href="https://fetch.spec.whatwg.org/#concept-request-url" class="externalRef">url</a> as arguments.</p></li>
+      <li><p>Let <var>request match</var> be the result of the algorithm to <a>match a request</a> with <var>request</var>'s <a href="https://fetch.spec.whatwg.org/#concept-request-method" class="externalRef">method</a> and <a href="https://fetch.spec.whatwg.org/#concept-request-url" class="externalRef">url</a> as arguments.</p></li>
 
       <li><p>If <var>request match</var> is of type <a>error</a>, <a>send an error</a> with <var>request match</var>'s <a>error code</a> and jump to step 1.</p>
 
@@ -355,7 +355,8 @@ code a:visited, code a:link {
 
       <li><p>If the match in step 2 populated a template variable called "elementId", let <var>element id</var> be the value it was populated with. Otherwise let <var>element id</var> be null.</p></li>
 
-      <li><p>If the match in step 2 populated a template variable called "name", let <var>name</var> be the value it was populated with. Otherwise let <var>name</var> be null.</p></li>
+      <li><p>If the match in step 2 populated a
+        template variable called "name", let <var>name</var> be the value it was populated with. Otherwise let <var>name</var> be null.</p></li>
 
       <li><p>Let <var>command</var> be the command represented by the "command" column of <var>entry</var>.</p></li>
 
