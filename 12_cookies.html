@@ -128,5 +128,45 @@
             <li><p>Return <a>success</a> with data null</p></li>
           </ol>
     </section>
+    <section>
+      <h3>deleteCookie</h3>
+      <p>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>DELETE</td>
+            <td id='delete-cookie'>/session/{sessionId}/cookie/{name}</td>
+            <td></td>
+          </tr>
+        </table>
+      </p>
+      <p>The <a>remote end steps</a> for the <dfn>Delete Cookie</dfn> command are:</p>
+      <ol>
+        <li><p>If the <a>current browsing context</a> is <a>no longer open</a>, return an error with code <a>no such window</a>.</p></li>
+        <li><p>Let <var>name</var> be equal to "name" from <a>match a request</a>.</p></li>
+        <li><p>Let <var>cookies</var> be a list of all cookies [[!RFC6265]] in the cookie store associated with <a href="https://html.spec.whatwg.org/#active-document">active document</a> <a href="https://dom.spec.whatwg.org/#concept-document-url">address</a>.</p></li>
+        <li><p>Let <var>length</var> be the length of <var>cookies</var>.</p></li>
+        <li><p>Let <var>k</var> be 0</p></li>
+        <li><p>While <var>k</var> &lt; <var>length</var>:</p>
+          <ol>
+            <li><p>Let <var>cookie</var> be the value in <var>cookies</var> at index <var>k</var>.</p></li>
+            <li><p>If <var>name</var> is undefined:</p>
+              <ol>
+                <li><p>Add an attribute to the attribute-list with attribute-name of Expires
+                  and set the value in the past.</p></li>
+              </ol>
+            <li><p>If <var>name</var> is defined and is equal to <var>cookie-name</var>:</p>
+              <ol>
+                <li><p>Add an attribute to the attribute-list with attribute-name of Expires
+                  and set the value in the past.</p></li>
+              </ol>
+          </ol>
+        <li><p>Return <a>success</a> with data null</p></li>
+      </ol>
+    </section>
   </section>
 </section>
