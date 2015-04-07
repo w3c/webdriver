@@ -2588,7 +2588,7 @@ code a:visited, code a:link {
           </p>
       </section>
       <section>
-      <h3>addCookie()</h3>
+      <h3>addCookie</h3>
         <p>
           <table class="simple jsoncommand">
             <tr>
@@ -2602,22 +2602,34 @@ code a:visited, code a:link {
               <td></td>
             </tr>
           </table>
-          <p>A command named "addCookie" MUST follow:
+          <p>The <a>remote end steps</a> for the <dfn>Add Cookie</dfn> command are:</p>
           <ol>
-            <li>If the parameters object does not contain an element that can be coverted to
-              <code><a>Cookie</a></code> return a <code><a href='#status-unable-to-set-cookie'>unable to set cookie</a></code> error.</li>
-            <li>If the <code>Document</code> is a <a href='http://www.w3.org/html/wg/drafts/html/master/single-page.html#cookie-averse-document-object'>cookie-averse <code>Document</code> object</a> then return an
-              <code><a href="#status-invalid-cookie-domain">invalid cookie domain</a></code> error.</li>
-            <li>Set the <a>Cookie</a> in the user agent following the steps described in <a href='http://tools.ietf.org/html/rfc6265#section-5.3'>Storage Model</a> in [[!RFC6265]]. If there is an error during this step
-              return a <code><a href='#status-unable-to-set-cookie'>unable to set cookie</a></code> error.</li>
+            <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
+                return an error with code <a>no such window</a>.</p></li>
+            <li><p>Let <var>cookie</var> be the result of <a>getting a property</a>
+              named "cookie" from the <var>parameters</var> argument. If <var>cookie</var>
+              is not a map then return an error <a>unable to set cookie</a>.</p></li>
+            <li><p>If the <code>Document</code> is a <a href='http://www.w3.org/html/wg/drafts/html/master/single-page.html#cookie-averse-document-object'>
+              cookie-averse <code>Document</code> object</a> then return an error with code
+              <a>invalid cookie domain</a>.</p></li>
+            <li><p>Set the value is <var>cookie-name</var>, as defined in [[!RFC6265]], to the value of entry with key <var>name</var>.
+              If <var>name</var>is undefined return error <a>unable to set cookie</a></p></li>
+            <li><p>Set the value is <var>cookie-value</var>, as defined in [[!RFC6265]], to the value of entry with key <var>value</var>.
+                If <var>value</var>is undefined return error <a>unable to set cookie</a></p></li>
+            <li><p>If <var>cookie</var> has an entry with key <var>path</var> set attribute-value of the last attribute in the cookie-attribute-list
+             with an attribute-name of "Path".</p></li>
+            <li><p>If <var>cookie</var> has an entry with key <var>domain</var> set attribute-value of the last attribute in the cookie-attribute-list
+              with an attribute-name of "Domain".</p></li>
+            <li><p>If <var>cookie</var> has an entry with key <var>secure</var> set attribute-value of the last attribute in the cookie-attribute-list
+                with an attribute-name of "Secure".</p></li>
+            <li><p>If <var>cookie</var> has an entry with key <var>expiry</var> set attribute-value of the last attribute in the cookie-attribute-list
+                  with an attribute-name of "Expires".</p></li>
+            <li><p>Store the contents <var>cookie</var> in the user agent cookie manager
+              following the steps described in <a href='http://tools.ietf.org/html/rfc6265#section-5.3'>Storage Model</a>
+              in [[!RFC6265]]. If there is an error during this step return an error
+              with code <a>unable to set cookie</a>.</p></li>
+            <li><p>Return <a>success</a> with data null</p></li>
           </ol>
-        <dl class='parameters'>
-          <dt>Cookie cookie</dt>
-          <dd>
-            A <code>Cookie</code> defining the cookie to be added. Store the <a>Cookie</a> in the user agent following the steps
-            described in <a href='http://tools.ietf.org/html/rfc6265#section-5.3'>Storage Model</a> in [[!RFC6265]].
-          </dd>
-        </dl>
     </section>
   </section>
 </section>
