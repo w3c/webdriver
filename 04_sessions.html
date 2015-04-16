@@ -51,13 +51,22 @@
  but I mean the ultimate, non-intermediary driver implementation.
 -->
 
-<p>A <a>session</a> has an associated <dfn>session ID</dfn> (a <a>UUID</a>)
- used to uniquely identify this session.
- Unless stated otherwise it is null.
+<p>A <a>session</a> has an associated <dfn>session ID</dfn>
+ (a <a>UUID</a>) used to uniquely identify this session.  Unless
+ stated otherwise it is null.
 
-<p>A <a>session</a> has an associated <dfn>active browsing context</dfn>
- (a reference to <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top level browsing context</a>) that indicates what <a>browsing context</a>
- commands are executed against.
+<p>A <a>session</a> has an associated <dfn>current browsing
+context</dfn>, which is the browsing context against which commands
+will run.</p>
+
+<p>A <a>session</a> has an associated <dfn>current top level browsing
+context</dfn>, which is the <a>current browsing context</a> if it
+itself is a
+<a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top-level
+browsing context</a>, or the top-level browsing context for which
+the <a>current browsing context</a> is
+an <a href="https://html.spec.whatwg.org/#ancestor-browsing-context">ancestor
+  browsing context</a>.</p>
 
 <!-- TODO(ato): https://www.w3.org/Bugs/Public/show_bug.cgi?id=28005 -->
 <p>A <a>session</a> has an associated <dfn>script timeout</dfn>

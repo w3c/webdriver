@@ -43,7 +43,7 @@
     <p>The <dfn>get</dfn> command is used to cause the browser to navigate to a new location. From a user's point of view, it is as if they have entered the "url" into the URL bar.</p>
 
     <aside class="example">
-        <p>To navigate the current browsing context of the session with id <code>1</code> to <code>http://example.com/</code>, the local end would send a <code>POST</code> to <code>/session/1/url</code> with body:</p>
+        <p>To navigate the current top level browsing context of the session with id <code>1</code> to <code>http://example.com/</code>, the local end would send a <code>POST</code> to <code>/session/1/url</code> with body:</p>
         <pre class="highlight">
           {
               "url": "http://example.com",
@@ -53,10 +53,10 @@
 
     <p>The <a>remote end steps</a> for the <a>get</a> command are:</p>
     <ol>
-      <li><p>If the <a>current browsing context</a> is <a>no longer open</a>, return an error with code <a>no such window</a>.</p></li>
+      <li><p>If the <a>current top level browsing context</a> is <a>no longer open</a>, return an error with code <a>no such window</a>.</p></li>
       <li><p>Let <var>url</var> be the result of <a>getting a property</a> named "url" from the <var>parameters</var> argument.</p></li>
       <li><p>If <var>url</var> is undefined, return an <a>error</a> with code <a>invalid argument</a></p></li>
-      <li><p><a href="">Navigate</a> the <a>current browsing context</a>'s to <var>url</var>. If this navigation results in a HTTP 401 response, the <a>remote end</a> must proceed with the steps below, irrespective of how the authentication challenge is handled.</p></li>
+      <li><p><a href="">Navigate</a> the <a>current top level browsing context</a>'s to <var>url</var>. If this navigation results in a HTTP 401 response, the <a>remote end</a> must proceed with the steps below, irrespective of how the authentication challenge is handled.</p></li>
       <li><p>If the <a>current session</a>'s <a>page load strategy</a> is <a>none</a> jump to the next step in this overall set of steps. Otherwise:</p>
         <ol>
           <li><p>Let <var>readiness target</var> be <code>"interactive"</code> if the <a>current session</a>'s <a>page load strategy is <a>eager</a>, or <code>"complete"</code> if it is <a>normal</a>.</p></li>
@@ -71,7 +71,7 @@
       </section>
       <!-- getCurrentUrl() -->
       <section>
-        <h3>getCurrentUrl()</h3>
+        <h3>getCurrentUrl</h3>
 
         <table class="simple jsoncommand">
           <tr>
@@ -85,10 +85,14 @@
             <td></td>
           </tr>
         </table>
-        <p>WebDriver implementations MUST allow the users to be able to get the
-          current URL. In the case of a <a href='http://www.w3.org/TR/html5/browsers.html#nested-browsing-context'>Nested Browsing Context</a> WebDriver MUST return the URL of the [[html51]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a>.
-          It is the equivalent to returning <code>document.location.href</code> for the [[html51]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a>.
-        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+        <p>The <dfn>getCurrentUrl</dfn> command returns the url of the <a>current top level browsing context</a>
+        <p>The <a>remote end steps</a> for the <a>getCurrentUrl</a> command are:</p>
+        <ol>
+          <li><p>If the <a>current top level browsing context</a> is <a>no longer open</a>, return an error with code <a>no such window</a>.</p></li>
+          <li><p>Let <var>url</var> be the <a href="https://url.spec.whatwg.org/#concept-url-serializer">serialization</a> of the <a>current top level browsing context</a>'s <a href="https://html.spec.whatwg.org/#active-document">active document</a>'s <a href="https://dom.spec.whatwg.org/#concept-document-url">url</a>.</p></li>
+          <li><p>Let <var>data</var> be a <a>new JSON Object</a>.</p>
+          <li><p><a>Set the properties</a> of <var>data</var> with values ("value", <var>url</var>)</p></li>
+          <li><p>Return <a>success</a> with data <var>data</var></p></li>
       </section>
       <!-- goBack() -->
       <section>
