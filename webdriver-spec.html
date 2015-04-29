@@ -881,7 +881,7 @@ an <a href="https://html.spec.whatwg.org/#ancestor-browsing-context">ancestor
  requires passing a <a>session ID</a>.
 
   <section>
-    <h3>newSession()</h3>
+    <h3>New Session</h3>
     <p><table class="simple jsoncommand">
       <tr>
         <th>HTTP Method</th>
@@ -894,89 +894,60 @@ an <a href="https://html.spec.whatwg.org/#ancestor-browsing-context">ancestor
         <td></td>
       </tr>
     </table>
-    <p>The process for successfully creating a session MUST be:</p>
+    <p>The <a>remote end steps</a> for the <dfn>New Session</dfn> command are:</p>
+
     <ol>
-      <li>The local end creates a new <a>Capabilities</a> instance describing the desired capabilities
-      for the session. The <a>Capabilities</a> object MUST be defined but MAY be empty.</li>
-      <li>The local end MUST populate <var>parameters</var> with an object containing an
-      entry named "desiredCapabilities" with the value set to the <a>Capabilities</a> instance from the previous step. An optional
-      "requiredCapabilities" entry MAY also be created and populated with a <a>Capabilities</a> instance. The "sessionId" fields
-      SHOULD be left empty.</li>
-      <li>The remote end MUST examine the "requiredCapabilities" parameter if specified, SHOULD examine the "desiredCapabilities" parameter, and MUST create a new session matching as many of the <a>Capabilities</a> as
-      possible.
-      How the new session is created depends on the implementation of this specification.
-        <ul>
-          <li>If any of the "requiredCapabilities" cannot be fulfilled by the new session, the remote end MUST quit the session and return the
-            <code><a href="#status-session-not-created">session not created</a></code> error code. The <var>sessionId</var> MUST be left as the default value unless one was set in the initial request, in which case that value MUST be used. The error message SHOULD list all unmet required capabilities though only a single required capability MUST be given.</li>
-          <li>If a capability is listed in both the requiredCapabilities and desiredCapabilities, the value in the requiredCapabilities MUST be used.</li>
-          </ul>
+      <li>
+        <p>Let <var>capabilities</var> be the result of <a>getting a property</a> named "capabilities"
+        from the <var>parameters</var> argument.</p>
       </li>
-      <li>The session MUST be assigned a <code><a href="#sessionid">sessionId</a></code> which MUST be unique for each session (a UUID SHOULD be used). Generating the sessionId
-      MAY occur before the session is created. If the <code>parameters</code> object had the "sessionId" key with a value, this MAY be
-      discarded in favour of the freshly generated sessionId. Because of this, it is
-      recommended that sessionId generation be done on the remote end. If the sessionId has already been used, a Response MUST be sent with the status
-      code set to <code><a href="#status-session-not-created">session not created</a></code> and the value being an explanation that the sessionId has previously been used.</li>
-      <li>The remote end MUST then return the session id, with the following fields MUST be set to:
-      <ul>
-        <li>"sessionId": the <code>sessionId</code> associated with this session.</li>
-        <li name="create-session-value">"value": a <a>Capabilities</a> instance. The keys of this <a>Capabilities</a> instance MUST be the strings given in each of the supported <a>Capabilities</a> as defined in the relevant sections of this specification. Supported functionality MUST be included in this <a>Capabilities</a> instance, while unsupported functionality MAY be omitted.</li>
-        <li>"status": the <code><a href="#status-success">success</a></code> error code.</li>
-      </ul></li>
-    </ol>
-
-    <p>As stated, when returning the <a href="#create-session-value">value of the Response, the remote end MUST include the capability names and values of all supported <a>Capabilities</a> from this specification. They MAY also include any additional capability names and values of supported <a>Capabilities</a> implemented independently of this specification. Local ends MAY choose to ignore this additional information. <a href="#intermediate-node">Intermediate nodes</a> between the local and remote ends MAY interpret the <a>Capabilities</a> being returned.</p>
-
-    <p>If the <code>browserName</code> is given as a desired capability and omitted from the required capabilities, and the returned <code>browserName</code> value does not match the requested one, local ends SHOULD issue a warning to the user. How this warning is issued is undefined, but one implementation could be a log message. In this particular case, local ends MAY chose to change the <code>Response</code>'s status code to <code><a href="#status-session-not-created">session not created</a></code>, and modify the value to explain the cause, including the value originally returned as the <code>browserName</code> capability. If this is done, the local end MUST ensure that the remote end quits the session.</p>
-
-    <section>
-      <h3>Capability Names</h3>
-      <p>The following keys SHOULD be used in the <a>Capabilities</a> instances. They all default to the null string.</p>
-      <dl>
-        <dt><span id="capability-browserName">browserName</span></dt>
-        <dd>The name of the desired browser as a string.</dd>
-        <dt><span id="capability-browserVersion">browserVersion</span></dt>
-        <dd>The version number of the browser, given as a string.</dd>
-        <dt><span id="capability-platformName">platformName</span></dt>
-        <dd>The OS that the browser is running on, matching any of the platform names given below.</dd>
-        <dt><span id="capability-platformVersion">platformVersion</span></dt>
-        <dd>The version of the OS that the browser is running on as a string.</dd>
-      </dl>
-
-      <section>
-        <h3>Platform Names</h3>
-        <p>The following platform names are defined and MUST be used, case sensitively, for the "platformName" unless the actual platform being used is not given in this list:</p>
+      <li>
+        <p>
+         Let <var>resultant capabilities</var> be the result of calling <a>process capabilities</a>
+         with <var>capabilities</var> as an argument. If the result is an <a>error</a>, return an
+         <a>error</a> with the code <a>session not created</a>.
+        </p>
+        <p class='note'>
+          An <a>Intermediary Node</a> may inspect <var>capabilities</var> for items that might influence
+          how jobs are distributed. When the <a>Intermediary Node</a> has completed any checks on <var>
+            capabilities</var> it MUST forward the request on to the <a>Remote End</a>.
+        </p>
+      </li>
+      <li>
+        <p>
+          If the <a>list of active sessions</a> is not empty:
+          <ul>
+            <li>
+              <p>
+                Return an <a>error</a> with code <a>unsupported operation</a>.
+              </p>
+            </li>
+          </ul>
+        </p>
+      </li>
+      <li><p>Let <var>session id</var> be the result of <a>generating a UUID</a>.</p></li>
+      <li><p>Append <var>session id</var> to <a>list of active sessions</a>.</p></li>
+      <li>
+         <p>
+           Let <var>data</var> be an empty JSON Object with the following entries.
+         </p>
         <ul>
-          <li>android</li>
-          <li>ios</li>
-          <li>linux</li>
-          <li>mac</li>
-          <li>unix</li>
-          <li>windows</li>
+          <li>
+             <p>
+               <code>sessionId</code>: the value of <var>session Id</var>.
+             </p>
+          </li>
+          <li>
+            <p>
+              <code>capabilities</code>: the value of <var>resultant capabilities</var>.
+            </p>
+          </li>
         </ul>
-        <p>In addition "any" MAY be used to indicate the underlying OS is either unknown or does not matter.</p>
-
-        <p>Implementors MAY add additional platform names. Until these are standardized, these MUST follow the conventions outlined in <a href="#extending-the-protocol">extending the protocol</a> section with the exception that the vendor prefix SHOULD omit the leading "-" character.<p>
-
-        <p class="note">For example, Mozilla's Firefox OS could be described as either "-MOZ-FIREFOXOS". The latter makes it easier for local ends to specify an enum of supported platforms and is therefore recommended in this case.</p>
-
-        <!-- TODO: Add section on comparing platforms -->
-
-      </section>
-    </section>
-    <section>
-      <h3>Error Handling</h3>
-      <p>The following status codes MUST be returned by the "newSession" command:</p>
-      <dl>
-        <dt><code><a href="#status-success">success</a></code></dt>
-        <dd>The session was successfully created. The "value" field of the <code>Response</code> MUST contain a <a>Capabilities</a> object describing the session.</dd>
-        <dt><code><a href="#status-timeout">timeout</a></code></dt>
-        <dd>The new session could not be created within the time allowed for command execution on the remote end. This
-        time MAY be infinite (in which case this status won't be seen). The "value" field of the Response SHOULD contain a string explaining that a timeout has
-        occurred, but it MAY be left as the null value or filled with the empty string.</dd>
-        <dt><code><a href="#status-unknown-error">unknown error</a></code></dt>
-        <dd>An unhandled error of some sort has occurred. The "value" field of the Response SHOULD contain a more detailed
-        description of the error as a string.</dd>
-      </dl>
+      </li>
+      <li>
+       <p>Return <a>success</a> with data <var>data</var>.
+      </li>
+      </ol>
     </section>
     <section>
       <h3>Remote End Matching of Capabilities</h3>
@@ -990,7 +961,6 @@ an <a href="https://html.spec.whatwg.org/#ancestor-browsing-context">ancestor
       </ol>
       <p>For all comparisons, if the key is missing (as determined by a call to Capability.has() returning "false"), that particular criteria shall not factor into the
       comparison.</p>
-    </section>
   </section>
   <section>
     <h3>Removing a Session</h3>
@@ -3779,10 +3749,6 @@ an <a href="https://html.spec.whatwg.org/#ancestor-browsing-context">ancestor
   <p>Capabilities are used by WebDriver implementations to enumerate the parts of this specification that they support. They are also used when establishing a new session to descrive the required or desired capabilities. This appendix collects the capabilities mentioned in this spec into one place.</p>
 
 <ul>
-<li><a href="#capability-browserName">browserName</a></li>
-<li><a href="#capability-browserVersion">browserVersion</a></li>
-<li><a href="#capability-platformName">platformName</a></li>
-<li><a href="#capability-platformVersion">platformVersion</a></li>
 <li><a href="#capability-securessl">secureSsl</a></li>
 <li><a href="#capability-takesElementScreenshot">takesElementScreenshot</a></li>
 <li><a href="#capability-takesScreenshot">takesScreenshot</a></li>
