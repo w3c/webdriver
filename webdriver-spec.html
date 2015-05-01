@@ -100,127 +100,61 @@ code a:visited, code a:link {
 <section id="sotd">
 <p>If you wish to make comments regarding this document, please email feedback to <a href="mailto:public-browser-tools-testing@w3.org">public-browser-tools-testing@w3.org</a>. All feedback is welcome, and the editors will read and consider all feedback.</p>
 
-<p>This specification is still under active development and may not be stable. Any implementors who are not actively participating in the preparation of this specification may find unexpected changes occurring. It is suggested that any implementors join the WG for this specification. Despite not being stable, it should be noted that this specification is strongly based on an existing Open Source project &mdash; <a href="http://selenium.googlecode.com/">Selenium WebDriver</a> &mdash; and the existing implementations of the API defined within that project.</p>
+<p>This specification is intended for implementors of the WebDriver API. It is not intended as light bed time reading. This specification is still under active development and may not be stable. Any implementors who are not actively participating in the preparation of this specification may find unexpected changes occurring. It is suggested that any implementors join the WG for this specification. Despite not being stable, it should be noted that this specification is strongly based on an existing Open Source project &mdash; <a href="http://selenium.googlecode.com/">Selenium WebDriver</a> &mdash; and the existing implementations of the API defined within that project.</p>
 </section>
 <section>
-  <h2>Introduction</h2>
-  <p>The WebDriver API aims to provide a synchronous API that can be used for a variety of use cases, though
-  it is primarily designed to support automated testing of web apps.</p>
-  <section>
-    <h3>Intended Audience</h3>
-    <p>This specification is intended for implementors of the WebDriver API. It is not intended as light bed
-    time reading.</p>
-  </section>
-  <section>
-    <h3>Relationship of WebDriver API and Existing Specifications</h3>
-    <p>Where possible and appropriate, the WebDriver API references existing specifications. For example, the
-    list of boolean attributes for elements is drawn from the
-    <a href="http://dev.w3.org/html5/spec/Overview.html">HTML specification</a>. When references are made, this
-    specification will link to the relevant sections.</p>
-  </section>
+<h3>Conformance</h3>
 
-  <section>
-    <h3>Naming the Two Sides of the API</h3>
+<p>All diagrams, examples, and notes in this specification are non-normative,
+ as are all sections explicitly marked non-normative.
+ Everything else in this specification is normative.
 
-    <p>The WebDriver API can be thought of as a client/server process. However, implementation details can mean that this terminology becomes confusing. For this reason, the two sides of the API are called the "local" and the "remote" ends.</p>
-    <dl>
-      <dt><dfn id="local-end">Local</dfn></dt>
-      <dd>The user-facing API. <code><a href="#command-1">Command</a></code> objects are sent and <code><a href="#response">Response</a></code> objects are
-      consumed by the local end of the WebDriver API. It can be thought of as
-      being "local" to the user of the API.</dd>
+<p>The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHOULD”,
+ “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
+ in the normative parts of this document are to be interpreted as described in [[!RFC2119]].
+ The key word "OPTIONALLY" in the normative parts of this document
+ is to be interpreted with the same normative meaning as “MAY” and “OPTIONAL”.
 
-      <dt><dfn id="remote-end">Remote</dfn></dt>
-      <dd>The implementation of the user-facing API. <code><a href="#command-1">Command</a></code> objects are
-      consumed and <code><a href="#response">Response</a></code> objects are sent by the remote end of the WebDriver
-      API. The implementation of the remote end may be on a machine remote from
-      the user of the local end.</dd>
+<p>Conformance requirements phrased as algorithms
+ or specific steps may be implemented in any manner,
+ so long as the end result is equivalent.
+</section>
 
-    </dl>
+<section>
+<h3>Terminology</h3>
 
-    <p>There is no requirement that the local and remote ends be in different processes. The IDLs given in this specification SHOULD be used as the basis for any conforming local end implementation.</p>
-  </section>
+<p>The terminology most used in this specification is from
+ HTML, DOM, and CSS. [[!HTML]] [[!DOM]] [[!CSS21]]
 
-  <section>
-    <h3>Conformance Requirements</h3>
+<p>In equations, all numbers are integers,
+ subtraction is represented by “−”, and bitwise OR by “|”.
+ The characters “(” and “)” are used to provide logical grouping in these contexts.
 
-    <p>All diagrams, examples, and notes in this specification are non-normative, as are all sections explicitly marked non-normative. Everything else in this specification is normative.</p>
+<p>This specification defines three broad conformance classes:
 
-    <p>The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in the normative parts of this document are to be interpreted as described in [[!RFC2119]]. The key word "OPTIONALLY" in the normative parts of this document is to be interpreted with the same normative meaning as "MAY" and "OPTIONAL".</p>
+<dl>
+ <dt><dfn>Local End</dfn>
+ <dd>This represents the client side of the protocol,
+  which is usually in the form of language-specific libraries
+  providing an API on top of the WebDriver protocol.
+  This specification does not place any restrictions on the details of those libraries
+  above the level of the wire protocol.
+  <!-- TODO: define the requirements on the local end somewhere -->
 
-    <p>Conformance requirements phrased as algorithms or specific steps may be implemented in any manner, so long as the end result is equivalent.</p>
-  </section>
+ <dt><dfn>Remote End</dfn>
+ <dd>This is the server side of the protocol,
+  which is usually implemented by a web browser or similar user agent.
+  Defining the behaviour of the remote end in response to the WebDriver protocol
+  forms the largest part of this specification.
 
-  <section>
-    <h3>Conformance Classes</h3>
-
-    <p>This specification defines three broad conformance classes:</p>
-    <dl>
-      <dt><dfn>Local End</dfn>
-      <dd>This represents the client side of the protocol, which is usually in the form of language-specific libraries providing an API on top of the WebDriver protocol. This specification does not place any restrictions on the details of those libraries above the level of the wire protocol. <!-- TODO: define the requirements on the local end somewhere -->
-      <dt><dfn>Remote End</dfn>
-      <dd>This is the server side of the protocol, which is usually implemented by a web browser or similar user agent. Defining the behaviour of the remote end in response to the WebDriver protocol forms the largest part of this specification.
-      <dt><dfn>Intermediary Node</dfn>
-      <dd>Intermediary nodes are those that act as proxies, implementing both the client and server sides of the protocol. Intermediary nodes must be black-box indistinguishable from <a>remote ends</a> from the point of view of <a>local end</a> and so are bound by the requirements on <a>remote ends</a> in terms of the wire protocol. However they are not expected to implement <a>commands</a> directly.
-    </dl>
-  </section>
-
-  <section>
-   <h3>Terminology</h3>
-
-   <p>In equations, all numbers are integers,
-    subtraction is represented by “−”, and bitwise OR by “|”.
-    The characters “(” and “)” are used to provide logical grouping in these contexts.
-  </section>
-
-  <section>
-   <h3>Common Infrastructure</h3>
-
-   <h4>Style Pixel Values</h4>
-
-   <p>When asked to <dfn>normalize style pixel values to integer</dfn>
-    for a value <var>s</var>:
-
-   <ol>
-    <li>Let <var>trimmed string</var> be a substring of <var>s</var>
-     where the suffix "px" is removed.
-
-    <li>Let <var>pixels</var> be the result of parsing
-     <var>trimmed string</var> as an integer.
-
-    <li>If <var>pixels</var> is not a valid integer or the previous
-     operation did not succeed, return 0.
-
-    <li>Return <var>pixels</var>.
-   </ol>
-
-   <p>When asked to <dfn>normalize style pixel values to floating
-    point</dfn> for a value <var>s</var>:
-
-   <ol>
-    <li>Let <var>trimmed string</var> be a substring of <var>s</var>
-     where the suffix "px" is removed.
-
-    <li>Let <var>pixels</var> be the result of parsing
-     <var>trimmed string</var> as a float.
-
-    <li>If <var>pixels</var> is not a valid float
-     or the previous operation did not succeed, return 0.0.
-
-    <li>Round off <var>pixels</var> using <code>ceil</code>
-     so that it has no more than four decimals.
-
-    <li>Return <var>pixels</var>.
-   </ol>
-
-   <p class=note>These operations are almost equivalent to calling
-    <code><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.2>parseInt</a></code>
-    and <code><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></code>
-    from [[!ECMA-262]] with the exception that non-valid integer
-    or float return values are returned as 0 or 0.0.
-
-    <h4>Top Level Browsing Context no longer open</h4>
-    <p>A top level browsing context is <dfn>no longer open</dfn> if it has been <a href="https://html.spec.whatwg.org/#a-browsing-context-is-discarded">discarded</a>
-  </section>
+ <dt><dfn>Intermediary Node</dfn>
+ <dd>Intermediary nodes are those that act as proxies,
+  implementing both the client and server sides of the protocol.
+  Intermediary nodes must be black-box indistinguishable from <a>remote ends</a>
+  from the point of view of <a>local end</a>
+  and so are bound by the requirements on <a>remote ends</a> in terms of the wire protocol.
+  However they are not expected to implement <a>commands</a> directly.
+</dl>
 </section>
 <section>
   <h2>The WebDriver Protocol</h2>
@@ -229,8 +163,7 @@ code a:visited, code a:link {
     <p>TODO</p>
   </section>
   <section>
-    <h3>Common Infrastructure</h3>
-    <h4>Algorithms</h4>
+    <h3>Algorithms</h3>
     <p>Various parts of this specification are written in terms of step-by-step algorithms. The details of these algorithms do not have any normative significance; implementations are free to adopt any implementation strategy that produces equivalent output to the specification. In particular algorithms in this document are optimised for readability rather than performance.</p>
     <p>Where algorithms that return values are fallible, they are written in terms of returning either <dfn>success</dfn> or <dfn>error</dfn>. A <a>success</a> value has an associated <var>data</var> field which encapsulates the value returned, whereas an <a>error</a> response has an associated <a>error code</a>.</p>
   </section>
@@ -843,17 +776,18 @@ code a:visited, code a:link {
  stated otherwise it is null.
 
 <p>A <a>session</a> has an associated <dfn>current browsing
-context</dfn>, which is the browsing context against which commands
-will run.</p>
+ context</dfn>, which is the browsing context against which commands
+ will run.</p>
 
-<p>A <a>session</a> has an associated <dfn>current top level browsing
-context</dfn>, which is the <a>current browsing context</a> if it
-itself is a
-<a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top-level
-browsing context</a>, or the top-level browsing context for which
-the <a>current browsing context</a> is
-an <a href="https://html.spec.whatwg.org/#ancestor-browsing-context">ancestor
-  browsing context</a>.</p>
+<p>A <a>session</a> has an associated
+ <dfn>current top level browsing context</dfn>,
+ which is the <a>current browsing context</a> if it itself is a
+ <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top-level browsing context</a>,
+ or the top-level browsing context for which
+ the <a>current browsing context</a> is an <a href="https://html.spec.whatwg.org/#ancestor-browsing-context">ancestor browsing context</a>.
+
+<p>The top-level browsing context is said to be <dfn>no longer open</dfn>
+ if it has been <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>.
 
 <!-- TODO(ato): https://www.w3.org/Bugs/Public/show_bug.cgi?id=28005 -->
 <p>A <a>session</a> has an associated <dfn>script timeout</dfn>
@@ -1812,6 +1746,31 @@ an <a href="https://html.spec.whatwg.org/#ancestor-browsing-context">ancestor
     nature and relationship in the tree.  An element is in general
     to be considered visible if any part of it is drawn on the
     canvas within the bounderies of the viewport.
+
+   <p>When asked to <dfn>normalize style pixel values to floating
+    point</dfn> for a value <var>s</var> of the type string:
+
+   <ol>
+    <li>Let <var>trimmed string</var> be a substring of <var>s</var>
+     where the suffix "px" is removed.
+
+    <li>Let <var>pixels</var> be the result of parsing
+     <var>trimmed string</var> as a float.
+
+    <li>If <var>pixels</var> is not a valid float
+     or the previous operation did not succeed, return 0.0.
+
+    <li>Round off <var>pixels</var> using <code>ceil</code>
+     so that it has no more than four decimals.
+
+    <li>Return <var>pixels</var>.
+   </ol>
+
+   <p class=note>To <a>normalize style pixel values to floating point</a>
+    is almost equivalent to calling
+    <code><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></code>
+    from [[!ECMA-262]] with the exception that
+    non-valid float return values are returned as 0.0.
 
    <p>The <dfn>element displayed</dfn> algorithm is
     a boolean state where true signifies that the element is displayed
