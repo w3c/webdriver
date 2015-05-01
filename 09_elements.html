@@ -307,6 +307,31 @@
     to be considered visible if any part of it is drawn on the
     canvas within the bounderies of the viewport.
 
+   <p>When asked to <dfn>normalize style pixel values to floating
+    point</dfn> for a value <var>s</var> of the type string:
+
+   <ol>
+    <li>Let <var>trimmed string</var> be a substring of <var>s</var>
+     where the suffix "px" is removed.
+
+    <li>Let <var>pixels</var> be the result of parsing
+     <var>trimmed string</var> as a float.
+
+    <li>If <var>pixels</var> is not a valid float
+     or the previous operation did not succeed, return 0.0.
+
+    <li>Round off <var>pixels</var> using <code>ceil</code>
+     so that it has no more than four decimals.
+
+    <li>Return <var>pixels</var>.
+   </ol>
+
+   <p class=note>To <a>normalize style pixel values to floating point</a>
+    is almost equivalent to calling
+    <code><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></code>
+    from [[!ECMA-262]] with the exception that
+    non-valid float return values are returned as 0.0.
+
    <p>The <dfn>element displayed</dfn> algorithm is
     a boolean state where true signifies that the element is displayed
     and false not displayed.
