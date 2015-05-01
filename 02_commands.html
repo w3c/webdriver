@@ -61,9 +61,19 @@
 
       <li><p>If <var>response data</var> is an <a>error</a>, <a>send an error</a> with <a>error code</a> equal to <var>response data</var>'s <a>error code</a>.</p>
 
-        <p>Otherwise <a>send a response</a> with status 200 and <var>response data</var>'s data.</p></li>
+        <p>Otherwise <a>send a success response</a> with <var>response data</var>'s data.</p></li>
 
       <li><p>Jump to step 1.</p></li>
+    </ol>
+
+    <p>When required to <dfn>send a success response</dfn> with <var>response data</var>, a remote end must run the following steps:</p>
+
+    <ol>
+      <li><p>Let <var>data</var> be a <a>new JSON Object</a>.</p></li>
+
+      <li><p>Set the "value" property of <var>data</var> to be <var>response data</var>.</p></li>
+
+      <li><p><a>Send a response</a> with 200 and <var>data</var> as arguments.</p></li>
     </ol>
 
     <p>When required to <dfn>send an error</dfn>, with <var>error code</var>, a remote end must run the following steps:</p>
