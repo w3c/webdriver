@@ -1,30 +1,29 @@
 <section>
   <h2>Capabilities</h2>
   <p>
-    Webdriver <dfn>capabilities</dfn> allow the <a>local end</a> to specify what
+    WebDriver <dfn>capabilities</dfn> allow the <a>local end</a> to specify what
      features it requires the <a>remote end</a> to fulfil to be able to create a
       <a>new session</a>
   </p>
   <h3>Processing Capabilities</h3>
   <p>
-    <p>The <a>remote end steps</a> to <dfn>process capabilities</dfn> are:</p>
+    <p>When asked to <dfn>process capabilities</dfn> with argument <var>parameters</var> a
+      <a>remote end</a> must run the following steps:</p>
     <ol>
       <li><p>Let <var>server capabilities</var> be a JSON Object with the following entries:<p></li>
         <ol>
-          <li><p>Let "browserName" be an entry with value equal to the lowercase name of the user agent</p></li>
-          <li><p>Let "browserVersion" be an entry with the value equal to the version of the user agent<p></li>
-          <li><p>Let "platformName" be an entry with the value equal to the lowercase name of the platform.</p></li>
-          <li><p>Let "platformVersion" be an entry with the value equal to the version of the platform</p></li>
-          <li><p>Let "acceptSslCerts" be an entry with the value equal to true if it can handle
+          <li><p><code>browserName</code>: the lowercase name of the user agent</p></li>
+          <li><p><code>browserVersion</code>: the version of the user agent<p></li>
+          <li><p><code>platformName</code>: the lowercase name of the platform.</p></li>
+          <li><p><code>platformVersion</code>: the version of the platform</p></li>
+          <li><p><code>acceptSslCerts</code>: be true if it can handle
             <a href='#invalid-ssl-certificates'>Invalid SSL Certifications</a> else let it be equal to
             false.</p></li>
-          <li><p>Let "takesScreenshot" be an entry with the value equal to true if it can capture
+          <li><p><code>takesScreenshot</code>: be true if it can capture
           a screenshot of the viewport described in <a>Take Screenshot</a>.</p></li>
-          <li><p>Let "takesElementScreenshot" be an entry with the value equal to true if it can capture
+          <li><p><code>takesElementScreenshot</code>: be true if it can capture
           a screenshot of an element as described in <a>Take Screenshot</a>.</p></li>
         </ol>
-        <li><p>Let <var>capabilities</var> be the result of <a>getting a property</a>
-          named "capabilities" from the <var>parameters</var> argument.</p></li>
         <li><p>let <var>required capabilities</var> be the result of <a>getting a property</a>
           name "required capabilities" from <var>capabilities</var>.</p></li>
         <li><p>let <var>desired capabilities</var> be the result of <a>getting a property</a>
