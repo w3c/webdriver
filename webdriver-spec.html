@@ -1228,39 +1228,81 @@ code a:visited, code a:link {
   </section>
 </section>
 <section>
-  <h2>Controlling Windows</h2>
+<h2>Controlling Windows</h2>
 
-  <section>
-    <h2>Definitions</h2>
+<p>WebDriver's use of the term “window” is equivalent to
+ a <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>.
+ No distinction is made between
+ windows or applications on the operating system level
+ and user agent tabs.
+ This must not be confused with
+ the <code><a href=https://html.spec.whatwg.org/#window>Window</a></code> object
+ in [[!HTML51]].
 
-    <p>Within this specification, a window equates to [[!html51]]'s <a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top level browsing context</a>. Put another way, within this spec browser tabs are counted as separate windows.</p>
+<p>WebDriver provides functionality to manipulate
+ the user agent's operating system level windows through actions such as
+ <a rel="Close Window">closing the window</a>,
+ <a rel="Set Window Size">resizing</a>,
+ <a rel="Maximize Window">maximizing</a>,
+ and <a rel="Fullscreen Window">fullscreening</a> a window.
 
-    <p><strong>TODO: define "frame"</strong></p>
+<p>Each <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+ can be uniquely identified using a <a>window handle</a>.
+ This handle can be used as an argument to <a>Switch To Window</a>
+ to change the <a>current browsing context</a>
+ to another top-level browsing context.
 
-    <p>A <dfn id='window-handle'>Window Handow</dfn> is an opaque string that MUST uniquely identify the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> and MUST NOT be "current". This MAY be a UUID.
-  </section>
+<p>A <dfn>window handle</dfn>
+ is an opaque string that uniquely identifies
+ a <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>.
 
-  <section>
-    <h2>Window Handles</h2>
-    <section>
-      <h3>getWindowHandle()</h3>
-      <p>
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-            <th>Notes</th>
-          </tr>
-          <tr>
-            <td>GET</td>
-            <td id='get-window_handle'>/session/{sessionId}/window_handle</td>
-            <td></td>
-          </tr>
-        </table>
-        <p>Each <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> has a <a href='#window-handle'>window handle</a>. The "getWindowHandle" command can be used to obtain the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> handle for the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> that commands are currently acting upon.</p>
+<p>By <dfn>creating a window handle</dfn> for a
+ <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+ <var>context</var>,
+ the <a>remote end</a> MUST return a string
+ that is unique amongst all past and future
+ <a href=https://html.spec.whatwg.org/#browsing-context>browsing contexts</a>,
+ and that <var>context</var> can be identified from.
+ This MAY be a UUID, but it MUST NOT be "<code>current</code>".
 
-    </section>
-  </section>
+<section>
+<h3>Get Window Handle</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+  <th>Notes</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{sessionId}/window_handle</td>
+  <td></td>
+ </tr>
+</table>
+
+<p>The <dfn>Get Window Handle</dfn> command
+ returns the <a>window handle</a>
+ uniquely identifying the <a>current top-level browsing context</a>.
+ It can be used as an argument to <a>Switch To Window</a>. 
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return an error with code <a>no such window</a>.
+
+ <li><p>Let <var>handle</var> be the result of <a>creating a window handle</a>
+  for the <a>current top-level browsing context</a>.
+
+ <li><p>Let <var>data</var> be a new JSON Object.
+
+ <li><p>Set the property "<code>value</code>" on <var>data</var>
+  to the value of <var>handle</var>.
+
+ <li>Return <a>success</a> with data <var>data</var>.
+</ol>
+</section>
 
   <section>
     <h2 name="iterating-over-windows">Iterating Over <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a></h2>
