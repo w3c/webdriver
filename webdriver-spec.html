@@ -1461,28 +1461,90 @@ code a:visited, code a:link {
   independently on the same desktop</p>
 </section>
 <section>
-  <h2>Elements</h2>
-  <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "element_location" folder.</p>
-  <p>One of the key abstractions of the WebDriver API is the concept of a
-  <a>WebElement</a>. A <dfn>WebElement</dfn> represents an
-  <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-element">Element</a> as defined in the
-  [[!DOM4]] specification. When communicating between the remote end and the local end this SHOULD be a UUID.
-  Because the WebDriver API is designed to allow users to interact with apps as if
-  they were actual users, the capabilities offered by the
-  <a>WebElement</a> interface are somewhat different from those offered by the
-  <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> interface.</p>
+<h2>Elements</h2>
 
-  <p id='webelement-unique-identifier'>Each <a>WebElement</a> instance must have a unique identifier, which is distinct from the value
-  of the <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> "id" property. The identifier for every WebElement representing the same
-  underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> MUST be the same. The identifiers used to refer to different
-  underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>s MUST be unique within the session over the entire duration of the session.
-  </p>
+<p>A <dfn>web element</dfn> is an abstraction of a document element
+ used for 
 
-  <div class="note">
-    <p>This requirement around <a>WebElement</a> identifiers allows for efficient equality
-    checks when the WebDriver API is being used out of process.</p>
-  </div>
+<p>A <a>web element</a> has an associated <dfn>DOM element</dfn>,
+ a reference to a [[!DOM4]] <a href=http://w3c.github.io/dom/#element>Element</a>.
 
+<p>A <a>web element</a> has an associated <dfn>web element reference</dfn>
+ (a UUID) used to uniquely identify the <a>web element</a>'s <a>DOM element</a>.
+
+<p>The <a>web element reference</a> for every <a>web element</a> representing
+ the same [[!DOM4]] <a href=http://w3c.github.io/dom/#element>Element</a> MUST be the same.
+
+<p class=note>Since multiple <a>web element</a> instances
+ that point to the same [[!DOM4]] <a href=http://w3c.github.io/dom/#element>Element</a>
+ have identical <a>web element reference</a>s,
+ efficient equality checks may be performed at the <a>local end</a>.
+
+<p>Each <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+ has an associated <dfn>known elements</dfn> table,
+ where <a>web element references</a> are mapped
+ to [[!DOM4]] <a href=http://w3c.github.io/dom/#element>Element</a>'s.
+
+<p>The <a>known elements</a> table is discarded when
+ the <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+ is <a>no longer open</a>.
+
+<p>To <dfn>get a known web element</dfn> with
+ a <a>web element reference</a> argument <var>element reference</var>:
+
+<ol>
+ <li><p>Let <var>web element</var> be
+  a new <a>web element</a>.
+
+ <li><p>Let <var>found element</var> be
+  a [[!DOM4]] <a href=http://w3c.github.io/dom/#element>Element</a> reference.
+
+ <li><p>If the <a>known elements</a> table
+  has an entry for <var>element reference</var>:
+
+ <ol>
+  <li><p>Assign the value of the entry for <var>element reference</var> 
+   from <a>known elements</a> to <var>found element</var>.
+ </ol>
+
+ <li><p>If <var>found element</var> is not empty:
+
+ <ol>
+  <li><p>Assign <var>web element</var>'s
+   <a>DOM element</a> property to <var>found element</var>.
+
+  <li><p>Assign <var>web element</var>'s
+   <a>web element reference</a> property to <var>element reference</var>.
+ </ol>
+
+ <li><p>Return <var>web element</var>.
+</ol>
+
+<p>To <dfn>create a web element reference</dfn> with
+ a [[!DOM4]] <a href=http://w3c.github.io/dom/#element>Element</a>
+ <var>element</var> as argument:
+
+<ol>
+ <li><p>If <var>element</var> is among
+  the values of the <a>known elements</a> table:
+
+  <ol>
+   <li><p>Return the key of the first entry
+    which value matches <var>element</var>.
+  </ol>
+
+ <li><p>Let <var>element reference</var> be a string
+  with a new unique identifier
+  that is determined at the <a>remote end</a>'s discretion.
+  This MAY be a UUID,
+  but it MUST NOT be equal to <var>element</var>'s
+  "<code>id</code>" content attribute.
+
+ <li><p>Set the entry with key <var>element reference</var>
+  and value <var>element</var> on <a>known elements</a>.
+
+ <li><p>Return <var>element reference</var>.
+</ol>
 
   <section>
     <h2>Finding Elements in a document</h2>
