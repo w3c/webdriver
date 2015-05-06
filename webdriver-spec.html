@@ -1001,50 +1001,80 @@ code a:visited, code a:link {
     In addition, implementors MAY add additional page loading strategies.</p>
   </section>
 
-  <section>
-    <h3>get</h3>
-    <table class="simple jsoncommand">
-      <tr>
-        <th>HTTP Method</th>
-        <th>Path Template</th>
-        <th>Notes</th>
-      </tr>
-      <tr>
-        <td>POST</td>
-        <td id='post-url'>/session/{sessionId}/url</td>
-        <td></td>
-      </tr>
-    </table>
-    <p>The <dfn>get</dfn> command is used to cause the browser to navigate to a new location. From a user's point of view, it is as if they have entered the "url" into the URL bar.</p>
+<section>
+<h3>Get</h3>
 
-    <aside class="example">
-        <p>To navigate the current top level browsing context of the session with id <code>1</code> to <code>http://example.com/</code>, the local end would send a <code>POST</code> to <code>/session/1/url</code> with body:</p>
-        <pre class="highlight">
-          {
-              "url": "http://example.com",
-          }
-        </pre>
-    </aside>
+<table class="simple jsoncommand">
+  <tr>
+    <th>HTTP Method</th>
+    <th>Path Template</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td id=post-url>/session/{sessionId}/url</td>
+    <td></td>
+  </tr>
+</table>
 
-    <p>The <a>remote end steps</a> for the <a>get</a> command are:</p>
-    <ol>
-      <li><p>If the <a>current top level browsing context</a> is <a>no longer open</a>, return an error with code <a>no such window</a>.</p></li>
-      <li><p>Let <var>url</var> be the result of <a>getting a property</a> named "url" from the <var>parameters</var> argument.</p></li>
-      <li><p>If <var>url</var> is undefined, return an <a>error</a> with code <a>invalid argument</a></p></li>
-      <li><p><a href="">Navigate</a> the <a>current top level browsing context</a>'s to <var>url</var>. If this navigation results in a HTTP 401 response, the <a>remote end</a> must proceed with the steps below, irrespective of how the authentication challenge is handled.</p></li>
-      <li><p>If the <a>current session</a>'s <a>page load strategy</a> is <a>none</a> jump to the next step in this overall set of steps. Otherwise:</p>
-        <ol>
-          <li><p>Let <var>readiness target</var> be <code>"interactive"</code> if the <a>current session</a>'s <a>page load strategy is <a>eager</a>, or <code>"complete"</code> if it is <a>normal</a>.</p></li>
-          <li><p>Wait for the <a href="">current document readiness</a> to reach <var>readiness target</var>, or for the <a>current session</a>'s <a>load timeout</a> milliseconds to pass, whichever occurs sooner.</p></li>
-          <li><p>If the previous step completed by the <a>load timeout</a> being reached, and the browser is not currently displaying an alert<!-- perhaps? Not sure if this is what the spec is trying to say -->, return an <a>error</a> with code <a>timeout</a>.</p></li>
-        </ol>
-      <li><p>Return <a>success</a> with data null</p></li>
-    </ol>
-        <!-- TODO: Figure out if next paragraph is actually required -->
-          <!--li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met. When the refresh period is 1 second or less and the page loading strategy is "normal" or "conservative" implementations MUST wait for the refresh to complete before responding.</li-->
+<p>The <dfn>get</dfn> command is used
+ to cause the browser to navigate to a new location.
+ From a user's point of view,
+ it is as if they have entered the "url" into the URL bar.</p>
 
-      </section>
-      <!-- getCurrentUrl() -->
+<aside class=example>
+ <p>To navigate the current
+  <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top-level browsing context</a>
+  of the session with ID <i>1</i> to <code>http://example.com/</code>,
+  the local end would send a POST to <i>/session/1/url</i> with the body:
+
+ <pre class=highlight>{"url": "http://example.com/"}</pre>
+</aside>
+
+<p>The <a>remote end steps</a> for the <a>get</a> command are:
+
+<ol>
+ <li><p>If the <a>current top level browsing context</a> is <a>no longer open</a>,
+  return an error with code <a>no such window</a>.
+
+ <li><p>Let <var>url</var> be the result of <a>getting a property</a> named "url"
+  from the <var>parameters</var> argument.
+
+ <li><p>If <var>url</var> is undefined,
+  return an <a>error</a> with code <a>invalid argument</a>.
+
+ <li><p><a>Navigate</a> the <a>current top level browsing context</a>'s to <var>url</var>.
+  If this navigation results in a HTTP 401 response,
+  the <a>remote end</a> must proceed with the steps below,
+  irrespective of how the authentication challenge is handled.
+
+ <li><p>If the <a>current session</a>'s <a>page load strategy</a> is <a>none</a>
+  jump to the next step in this overall set of steps.
+  Otherwise:
+
+  <ol>
+   <li><p>Let <var>readiness target</var> be <code>"interactive"</code>
+    if the <a>current session</a>'s <a>page load strategy is <a>eager</a>,
+    or <code>"complete"</code> if it is <a>normal</a>.
+
+   <li><p>Wait for the <a>current document readiness</a> to reach <var>readiness target</var>,
+    or for the <a>current session</a>'s <a>load timeout</a> milliseconds to pass,
+    whichever occurs sooner.
+
+   <li><p>If the previous step completed by the <a>load timeout</a> being reached,
+    and the browser is not currently displaying an alert,
+    <!-- perhaps? Not sure if this is what the spec is trying to say -->
+    return an <a>error</a> with code <a>timeout</a>.
+  </ol>
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+
+<!-- TODO: Figure out if next paragraph is actually required -->
+<!--li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met. When the refresh period is 1 second or less and the page loading strategy is "normal" or "conservative" implementations MUST wait for the refresh to complete before responding.</li-->
+
+</section> <!-- /Get -->
+
       <section>
         <h3>getCurrentUrl</h3>
 
