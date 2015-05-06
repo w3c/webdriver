@@ -803,11 +803,12 @@ code a:visited, code a:link {
  will run.</p>
 
 <p>A <a>session</a> has an associated
- <dfn>current top level browsing context</dfn>,
+ <dfn>current top-level browsing context</dfn>,
  which is the <a>current browsing context</a> if it itself is a
  <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top-level browsing context</a>,
  or the top-level browsing context for which
- the <a>current browsing context</a> is an <a href="https://html.spec.whatwg.org/#ancestor-browsing-context">ancestor browsing context</a>.
+ the <a>current browsing context</a>
+ is an <a href=https://html.spec.whatwg.org/#ancestor-browsing-context>ancestor browsing context</a>.
 
 <p>The top-level browsing context is said to be <dfn>no longer open</dfn>
  if it has been <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>.
@@ -1074,7 +1075,6 @@ code a:visited, code a:link {
 <!--li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met. When the refresh period is 1 second or less and the page loading strategy is "normal" or "conservative" implementations MUST wait for the refresh to complete before responding.</li-->
 
 </section> <!-- /Get -->
-
       <section>
         <h3>getCurrentUrl</h3>
 
@@ -1090,11 +1090,11 @@ code a:visited, code a:link {
             <td></td>
           </tr>
         </table>
-        <p>The <dfn>getCurrentUrl</dfn> command returns the url of the <a>current top level browsing context</a>
+        <p>The <dfn>getCurrentUrl</dfn> command returns the url of the <a>current top-level browsing context</a>
         <p>The <a>remote end steps</a> for the <a>getCurrentUrl</a> command are:</p>
         <ol>
-          <li><p>If the <a>current top level browsing context</a> is <a>no longer open</a>, return an error with code <a>no such window</a>.</p></li>
-          <li><p>Let <var>url</var> be the <a href="https://url.spec.whatwg.org/#concept-url-serializer">serialization</a> of the <a>current top level browsing context</a>'s <a href="https://html.spec.whatwg.org/#active-document">active document</a>'s <a href="https://dom.spec.whatwg.org/#concept-document-url">url</a>.</p></li>
+          <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>, return an error with code <a>no such window</a>.</p></li>
+          <li><p>Let <var>url</var> be the <a href="https://url.spec.whatwg.org/#concept-url-serializer">serialization</a> of the <a>current top-level browsing context</a>'s <a href="https://html.spec.whatwg.org/#active-document">active document</a>'s <a href="https://dom.spec.whatwg.org/#concept-document-url">url</a>.</p></li>
           <li><p>Let <var>data</var> be a <a>new JSON Object</a>.</p>
           <li><p><a>Set the properties</a> of <var>data</var> with values ("value", <var>url</var>)</p></li>
           <li><p>Return <a>success</a> with data <var>data</var></p></li>
