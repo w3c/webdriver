@@ -151,29 +151,47 @@
         <p>"refresh" emulates the user hitting the "refresh" or "reload" button in their browser, causing the current page to be reloaded.</p>
         <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </section>
-      <section>
-        <!-- getTitle() -->
-        <h3>getTitle()</h3>
 
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-            <th>Notes</th>
-          </tr>
-          <tr>
-            <td>POST</td>
-            <td id='get-title'>/session/{sessionId}/title</td>
-            <td></td>
-          </tr>
-        </table>
-        <p>
-          The "getTitle" command MUST return the contents of the <code>&lt;title&gt;</code> element like it would for <code>document.title</code>. In the case of a <a href='http://www.w3.org/TR/html5/browsers.html#nested-browsing-context'>Nested Browsing Context</a> WebDriver MUST return the title of the [[html51]] <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsering context</a>.
+<section>
+<h3>Get Title</h3>
 
-          <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-        </p>
-      </section>
-  </section>
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+  <th>Notes</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{sessionId}/title</td>
+  <td></td>
+ </tr>
+</table>
+
+<p>The <dfn>Get Title</dfn> command returns
+ the <a href=https://html.spec.whatwg.org/#dom-title-text>document title</a>
+ of the <a>current top-level browsing context</a>,
+ equivalent to calling <code>window.top.document.title</code>.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return an <a>error</a> with code <a>no such window</a>.
+
+ <li><p>Let <var>title</var> be the value of the <a>current top-level browsing context</a>'s
+  <a href=https://html.spec.whatwg.org/#active-document>active document</a>'s
+  <a href=https://html.spec.whatwg.org/#document.title>title</a>.
+
+ <li><p>Let <var>data</var> be a new JSON Object.
+
+ <li><p>Set the property "<code>value</code>" of <var>data</var>
+  to the value of <var>title</var>.
+
+ <li><p>Return <a>success</a> with data <var>data</var>.
+</ol>
+</section> <!-- /Get Title -->
+</section>
 
     <section>
       <h2>Invalid SSL Certificates</h2>
