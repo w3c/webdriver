@@ -755,7 +755,7 @@ code a:visited, code a:link {
   </p>
   <h3>Processing Capabilities</h3>
   <p>
-    <p>When asked to <dfn>process capabilities</dfn> with argument <var>parameters</var> a
+    <p>When <dfn>processng capabilities</dfn> with argument <var>parameters</var> a
       <a>remote end</a> must run the following steps:</p>
     <ol>
       <li><p>Let <var>server capabilities</var> be a JSON Object with the following entries:<p></li>
@@ -764,7 +764,7 @@ code a:visited, code a:link {
           <li><p><code>browserVersion</code>: the version of the user agent<p></li>
           <li><p><code>platformName</code>: the lowercase name of the platform.</p></li>
           <li><p><code>platformVersion</code>: the version of the platform</p></li>
-          <li><p><code>acceptSslCerts</code>: be true if it can handle
+          <li><p><code>acceptSslCerts</code>: be true if the User Agent can handle
             <a href='#invalid-ssl-certificates'>Invalid SSL Certifications</a> else let it be equal to
             false.</p></li>
           <li><p><code>takesScreenshot</code>: be true if it can capture
@@ -773,9 +773,9 @@ code a:visited, code a:link {
           a screenshot of an element as described in <a>Take Screenshot</a>.</p></li>
         </ol>
         <li><p>let <var>required capabilities</var> be the result of <a>getting a property</a>
-          name "required capabilities" from <var>capabilities</var>.</p></li>
+          name <code>required capabilities</code> from <var>capabilities</var>.</p></li>
         <li><p>let <var>desired capabilities</var> be the result of <a>getting a property</a>
-            name "desired capabilities" from <var>capabilities</var>.</p></li>
+            name <code>desired capabilities</code> from <var>capabilities</var>.</p></li>
         <li><p>If <var>required capabilities</var> is undefined and
           <var>desired capabilities</var> is undefined, go to the last step of this algorithm.</p></li>
         <li><p>Let <var>length</var> be the length of <var>required capabilities</var>
@@ -806,14 +806,14 @@ code a:visited, code a:link {
             <ol>
               <li>
                 <p>
-                  Let <var>caps</var> be the entry at index <var>j</var> in <var>unprocessed
+                  Let <var>unprocessed capability</var> be the entry at index <var>j</var> in <var>unprocessed
                   capabilities</var>.
                 </p>
               </li>
               <li>
                 <p>Let <var>browser name</var> be the result of <a>getting a property</a>
                   named "browserName" from <var>caps</var>. If <var>browser name</var>
-                  is undefined move to the next step. If <var>caps</var> equals <var>required
+                  is undefined move to the next step. If <var>unprocessed capability</var> equals <var>required
                   capabilities</var> do the following:</p>
                   <ol>
                     <li>
@@ -830,7 +830,7 @@ code a:visited, code a:link {
                 <p>Let <var>browser version</var> be the result of <a>getting a property</a>
                   named "browserVersion" from <var>caps</var>. If <var>browser name</var>
                   is undefined move to the next step.
-                  If <var>caps</var> equals <var>required capabilities</var> do the following:</p>
+                  If <var>unprocessed capability</var> equals <var>required capabilities</var> do the following:</p>
                   <ol>
                     <li>
                       <p>If <var>browser name</var> is defined
@@ -845,7 +845,7 @@ code a:visited, code a:link {
                 <p>Let <var>platform name</var> be the result of <a>getting a property</a>
                   named "platformName" from <var>caps</var>. If <var>platform name</var>
                   is undefined move to the next step.
-                  If <var>caps</var> equals <var>required capabilities</var> do the following:</p>
+                  If <var>unprocessed capability</var> equals <var>required capabilities</var> do the following:</p>
                   <ol>
                     <li>
                       <p>If <var>platform name</var> is defined
@@ -860,7 +860,7 @@ code a:visited, code a:link {
                 <p>Let <var>platform version</var> be the result of <a>getting a property</a>
                   named "platformVersion" from <var>caps</var>. If <var>platform version</var>
                   is undefined move to the next step.
-                  If <var>caps</var> equals <var>required capabilities</var> do the following:</p>
+                  If <var>unprocessed capability</var> equals <var>required capabilities</var> do the following:</p>
                   <ol>
                     <li>
                       <p>If <var>platform version</var> is defined
@@ -877,7 +877,7 @@ code a:visited, code a:link {
                 is undefined move to the next step. If <var>proxy</var> is defined and not a map
                 append a string saying that a map is required else call <a>setup proxy</a><!-- TODO (David) define setup proxy-->
                 passing in <var>proxy</var>.
-                If <var>caps</var> equals <var>required capabilities</var> do the following:</p>
+                If <var>unprocessed capability</var> equals <var>required capabilities</var> do the following:</p>
                 <ol>
                   <li>
                     <p>If any errors are returned from <a>setup proxy</a>
@@ -891,7 +891,7 @@ code a:visited, code a:link {
                 <p>Let <var>page load strategy</var> be the result of <a>getting a property</a>
                 named "pageLoadStrategy" from <var>caps</var>. If <var>page load strategy</var>
                 is undefined then set the entry "pageLoadStrategy" in <var>server capabilities</var> to <a>normal</a>.
-                If <var>caps</var> equals <var>required capabilities</var> do the following:</p>
+                If <var>unprocessed capability</var> equals <var>required capabilities</var> do the following:</p>
                 <ol>
                   <li>
                     <p>If <var>page load strategy</var> is defined and not equal to <a>normal</a>, <a>eager</a> and <a>none</a>
@@ -902,7 +902,7 @@ code a:visited, code a:link {
                   </li>
                 </ol>
                 <p>
-                If <var>caps</var> equals <var>desired capabilities</var>:
+                If <var>unprocessed capability</var> equals <var>desired capabilities</var>:
                </p>
                <ol>
                  <li>
@@ -1123,19 +1123,6 @@ code a:visited, code a:link {
       </li>
       </ol>
     </section>
-    <section>
-      <h3>Remote End Matching of Capabilities</h3>
-      <p>This section is non-normative.</p>
-      <p>The suggested order for comparing keys in the <a>Capabilities</a> instance when creating a session is:</p>
-      <ol>
-        <li>browserName</li>
-        <li>browserVersion</li>
-        <li>platformName</li>
-        <li>platformVersion</li>
-      </ol>
-      <p>For all comparisons, if the key is missing (as determined by a call to Capability.has() returning "false"), that particular criteria shall not factor into the
-      comparison.</p>
-  </section>
   <section>
     <h3>Removing a Session</h3>
     <p><table class="simple jsoncommand">
