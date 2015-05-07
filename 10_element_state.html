@@ -116,8 +116,8 @@
           <p>The remote end MUST determine whether a <code>WebElement</code> is selected using the following algorithm:
           <ol>
             <li id="is_selectable">If the item is not "<code title='selectable'>selectable</code>", the WebElement is not selected. A <dfn id="selectable" title="selectable">selectable</dfn> element is either an OPTION element or an INPUT element of type "<a href="http://www.w3.org/TR/html5/forms.html#checkbox-state-(type=checkbox)">checkbox</a>" or "<a href="http://www.w3.org/TR/html5/forms.html#radio-button-state-(type=radio)">radio</a>".</li>
-            <li>If the Document node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!html51]] determines whether the element is selected.</li>
-            <li>Otherwise, the value of the Document node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!html51]].</li>
+            <li>If the Document node represented by the WebElement is an OPTION element, the "<a href="http://www.w3.org/TR/html5/forms.html#concept-option-selectedness">selectedness</a>" of the element, as defined in [[!HTML51]] determines whether the element is selected.</li>
+            <li>Otherwise, the value of the Document node's "<a href="http://www.w3.org/TR/html5/forms.html#attr-input-checked">checked</a>" property determines whether the element is selected. This MUST reflect the element's "<a href="http://www.w3.org/TR/html5/forms.html#concept-fe-checked">checkedness</a>" as defined in [[!HTML51]].</li>
           </ol>
           <p>If <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
       </section>
@@ -138,7 +138,7 @@
             </tr>
           </table>
           <div class="note">
-          <p>Although the [[!html51]] spec is very clear about the difference between the properties and attributes of a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, users are frequently confused between the two. Because of thisend point which covers the case of returning either of the value of a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
+          <p>Although the [[!HTML51]] spec is very clear about the difference between the properties and attributes of a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, users are frequently confused between the two. Because of thisend point which covers the case of returning either of the value of a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> property or attribute. If a user wishes to refer specifically to an attribute or a property, they should evaluate Javascript in order to be unambiguous.</p>
 
           <p>The end result of this algorithm are values that can be passed to other commands within this specification. Notably, this means that URLs that are returned can be passed to <a href="#widl-WebDriver-get-void-DOMString-url">get</a> and the expected URL will be navigated to.</p>
           </div>
@@ -334,8 +334,8 @@
         <p>The "isEnabled" command MUST return false if all the following criteria are met otherwise return true:
           <ul>
             <li>A form control is <a href='http://www.w3.org/html/wg/drafts/html/master/forms.html#concept-fe-disabled'>disabled</a>
-            as described in [[!html51]].</li>
-            <li>A <a>WebElement</a> has a <code>disabled</code> <a href="http://www.w3.org/html/wg/drafts/html/master/infrastructure.html#boolean-attribute">boolean attribute</a> as described in <a href='http://www.w3.org/html/wg/drafts/html/master/disabled-elements.html#disabled-elements'>disabled elements</a> of [[!html51]]</li>
+            as described in [[!HTML51]].</li>
+            <li>A <a>WebElement</a> has a <code>disabled</code> <a href="http://www.w3.org/html/wg/drafts/html/master/infrastructure.html#boolean-attribute">boolean attribute</a> as described in <a href='http://www.w3.org/html/wg/drafts/html/master/disabled-elements.html#disabled-elements'>disabled elements</a> of [[!HTML51]]</li>
           </ul>
 
         <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
