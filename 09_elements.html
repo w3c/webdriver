@@ -1,87 +1,100 @@
 <section>
 <h2>Elements</h2>
 
-<p>A <dfn>web element</dfn> is an abstraction of a document element
- used for 
+<p>A <dfn>web element</dfn> is an abstraction over
+ a [[!DOM4]] <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>
+ used to reference elements
+ over the <a href=#the-webdriver-protocol>WebDriver protocol</a>.
 
-<p>A <a>web element</a> has an associated <dfn>DOM element</dfn>,
- a reference to a [[!DOM4]] <a href=http://w3c.github.io/dom/#element>Element</a>.
+<p>When <a>web elements</a> are transported
+ across the <a href=#the-webdriver-protocol>protocol</a>
+ to the <a>local end</a>,
+ they are indentified by the <a>web element reference</a> associated with them.
+ The reference is used as part of the arguments
+ to commands relevant to operations
+ on <a href=https://dom.spec.whatwg.org/#concept-element>elements</a>.
+
+<p>A <a>web element</a> has an associated <dfn>document element</dfn>,
+ a reference to a <a href=https://dom.spec.whatwg.org/#concept-element>element</a>.
 
 <p>A <a>web element</a> has an associated <dfn>web element reference</dfn>
- (a UUID) used to uniquely identify the <a>web element</a>'s <a>DOM element</a>.
+ (a UUID) used to uniquely identify the <a>web element</a>'s <a>document element</a>.
 
 <p>The <a>web element reference</a> for every <a>web element</a> representing
- the same [[!DOM4]] <a href=http://w3c.github.io/dom/#element>Element</a> MUST be the same.
+ the same <a>document element</a> MUST be the same.
 
-<p class=note>Since multiple <a>web element</a> instances
- that point to the same [[!DOM4]] <a href=http://w3c.github.io/dom/#element>Element</a>
- have identical <a>web element reference</a>s,
- efficient equality checks may be performed at the <a>local end</a>.
-
-<p>Each <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
- has an associated <dfn>known elements</dfn> table,
- where <a>web element references</a> are mapped
- to [[!DOM4]] <a href=http://w3c.github.io/dom/#element>Element</a>'s.
-
-<p>The <a>known elements</a> table is discarded when
- the <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
- is <a>no longer open</a>.
+<p>Each <a href=https://html.spec.whatwg.org/#browsing-context>browsing context</a>
+ has an associated set of <dfn>known web elements</dfn>.
+ The <a>known web elements</a> are discarded along with
+ the browsing context when it is
+ <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>.
 
 <p>To <dfn>get a known web element</dfn> with
- a <a>web element reference</a> argument <var>element reference</var>:
+ a <a>web element reference</a> <var>reference</var>:
 
 <ol>
- <li><p>Let <var>web element</var> be
-  a new <a>web element</a>.
-
- <li><p>Let <var>found element</var> be
-  a [[!DOM4]] <a href=http://w3c.github.io/dom/#element>Element</a> reference.
-
- <li><p>If the <a>known elements</a> table
-  has an entry for <var>element reference</var>:
-
- <ol>
-  <li><p>Assign the value of the entry for <var>element reference</var> 
-   from <a>known elements</a> to <var>found element</var>.
- </ol>
-
- <li><p>If <var>found element</var> is not empty:
-
- <ol>
-  <li><p>Assign <var>web element</var>'s
-   <a>DOM element</a> property to <var>found element</var>.
-
-  <li><p>Assign <var>web element</var>'s
-   <a>web element reference</a> property to <var>element reference</var>.
- </ol>
-
- <li><p>Return <var>web element</var>.
-</ol>
-
-<p>To <dfn>create a web element reference</dfn> with
- a [[!DOM4]] <a href=http://w3c.github.io/dom/#element>Element</a>
- <var>element</var> as argument:
-
-<ol>
- <li><p>If <var>element</var> is among
-  the values of the <a>known elements</a> table:
+ <li><p>For each <var>web element</var> in
+  the <a>current browsing context</a>’s set of <a>known web elements</a>:
 
   <ol>
-   <li><p>Return the key of the first entry
-    which value matches <var>element</var>.
+   <li>If <var>web element</var>’s <a>web element reference</a>
+    matches <var>reference</var>,
+    return <var>web element</a>.
   </ol>
 
- <li><p>Let <var>element reference</var> be a string
-  with a new unique identifier
-  that is determined at the <a>remote end</a>'s discretion.
+ <li><p>Raise an error.
+</ol>
+
+<p>To <dfn>create a web element reference</dfn> for
+ an <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
+ <var>element</var>:
+
+<ol>
+ <li><p>For each <var>web element</var> in
+  the <a>current browsing context</a>’s set of <a>known web elements</a>:
+
+  <ol>
+   <li><p>If <var>web element</var>’s <a>document element</a>
+    <a href=https://dom.spec.whatwg.org/#concept-node-equals>equals</a>
+    <var>element</var>,
+    return <var>web element</var>’s <a>web element reference</a>.
+  </ol>
+
+ <li>Let <var>new reference</var> be a string with a unique identifier
+  that is determined at the <a>remote end</a>’s discretion.
   This MAY be a UUID,
-  but it MUST NOT be equal to <var>element</var>'s
+  but it MUST NOT be equal to <var>element</var>’s
   "<code>id</code>" content attribute.
 
- <li><p>Set the entry with key <var>element reference</var>
-  and value <var>element</var> on <a>known elements</a>.
+ <li><p>Let <var>new web element</var> be a new <a>web element</a>
+  with the following properties:
+  
+  <dl>
+   <dt><a>web element reference</a>
+   <dd><p>Value of <var>new reference</a>.
 
- <li><p>Return <var>element reference</var>.
+   <dt><a>document element</a>
+   <dd><p>Value of <var>element</var>.
+  </dl>
+
+ <li><p>Add <var>new web element</var> to
+  the <a>known web elements</a> of the <a>current browsing context</a>.
+
+ <li><p>Return <var>new web element</var>’s <a>web element reference</a>.
+</ol>
+
+<p>When asked to <dfn>serialise the web element</dfn>
+ <var>web element</var>:
+
+<ol>
+ <li><p>Let <var>object</var> be a new JSON Object with properties:
+
+  <dl>
+   <dt>"<code>element-6066-11e4-a52e-4f735466cecf</code>"
+   <dd><p>Value of <var>web element</var>’s <a>web element reference</a>.
+  </dl>
+
+ <li><p>Return <var>web element</var>.
 </ol>
 
   <section>
