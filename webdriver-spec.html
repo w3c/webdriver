@@ -359,12 +359,12 @@ code a:visited, code a:link {
       <tr>
         <td>POST</td>
         <td>/session/{sessionId}/back</td>
-        <td><a>Go Back</a></td>
+        <td><a>Back</a></td>
       </tr>
       <tr>
         <td>POST</td>
         <td>/session/{sessionId}/forward</td>
-        <td><a>Go Forward</a></td>
+        <td><a>Forward</a></td>
       </tr>
       <tr>
         <td>POST</td>
@@ -904,7 +904,7 @@ code a:visited, code a:link {
  and torn down at some later point;
  either explicitly by invoking <a href=#>quit</a>,
  or implicitly when <a href=#close>close</a> is called at the last remaining
- <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top level browsing context</a>.
+ <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top-level browsing context</a>.
 
 <p>A <a>remote end</a> has an associated <dfn>list of active sessions</dfn>,
  which is a list of all <a rel="session">sessions</a> that are currently started.
@@ -1170,7 +1170,7 @@ associated browser process to be killed</p>.
 <p>The <a>remote end steps</a> for the <a>Get</a> command are:
 
 <ol>
- <li><p>If the <a>current top level browsing context</a> is <a>no longer open</a>,
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return an error with code <a>no such window</a>.
 
  <li><p>Let <var>url</var> be the result of <a>getting a property</a> named "url"
@@ -1179,7 +1179,7 @@ associated browser process to be killed</p>.
  <li><p>If <var>url</var> is undefined,
   return an <a>error</a> with code <a>invalid argument</a>.
 
- <li><p><a>Navigate</a> the <a>current top level browsing context</a>'s to <var>url</var>.
+ <li><p><a>Navigate</a> the <a>current top-level browsing context</a>'s to <var>url</var>.
   If this navigation results in a HTTP 401 response,
   the <a>remote end</a> must proceed with the steps below,
   irrespective of how the authentication challenge is handled.
@@ -1235,9 +1235,9 @@ associated browser process to be killed</p>.
           <li><p><a>Set the properties</a> of <var>data</var> with values ("value", <var>url</var>)</p></li>
           <li><p>Return <a>success</a> with data <var>data</var></p></li>
       </section>
-      <!-- goBack() -->
+
       <section>
-        <h3>goBack()</h3>
+        <h3>Back</h3>
 
         <table class="simple jsoncommand">
           <tr>
@@ -1247,16 +1247,51 @@ associated browser process to be killed</p>.
           </tr>
           <tr>
             <td>POST</td>
-            <td id='post-back'>/session/{sessionId}/back</td>
+            <td id='get-url'>/session/{sessionId}/back</td>
             <td></td>
           </tr>
         </table>
-        <p>The "goBack" command is equivalent to a user hitting the "back" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of -1</a> (as defined in [[!html51]]). If a user calls "<code>goBack</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
-        </p>
-        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+
+        <p>The <dfn>Back</dfn> command causes the browser to traverse
+        one step backward in the joint session history of
+        the <a>current top-level browsing context</a>.
+
+        <p>The <a>remote end steps</a> for the <a>Back</a> command
+        are:</p>
+        <ol>
+          <li><p>If the <a>current top-level browsing context</a>
+          is <a>no longer open</a>, return an error with code <a>no
+          such window</a>.</p></li>
+
+          <li>
+            <p><a href="https://html.spec.whatwg.org/#traverse-the-history-by-a-delta">
+                Traverse the history by a delta</a> -1 for
+                the <a>current browsing context</a>.</p>
+
+          <li><p>If the task queued by that algorithm aborted
+          before <a href="https://html.spec.whatwg.org/#traverse-the-history">traversing
+          the history</a>, return <a>success</a> with data null.
+
+          <li><p>Otherwise, wait until
+          the <a href="https://html.spec.whatwg.org/#current-entry">current
+          entry</a> in the session history has changed, or for
+          the <a>session page load timeout</a> milliseconds to pass,
+          whichever occurs sooner.</p></li>
+
+          <!-- TODO: this doesn't actually wait for the page to load if traversing the session history kicks off a navigation -->
+
+          <li><p>If the previous step completed by the <a>session page
+          load timeout</a> being reached, and the browser is not
+          currently displaying an alert<!-- perhaps? Not sure if this
+          is what the spec is trying to say -->, return
+          an <a>error</a> with code <a>timeout</a>.</p></li>
+
+          <li><p>Return <a>success</a> with data <var>null</var></p></li>
+        </ol>
       </section>
+
       <section>
-        <h3>goForward()</h3>
+        <h3>Forward</h3>
 
         <table class="simple jsoncommand">
           <tr>
@@ -1270,9 +1305,43 @@ associated browser process to be killed</p>.
             <td></td>
           </tr>
         </table>
-        <p>The "goForward" command is equivalent to a user hitting the "forward" button in their browser, and MUST behave as a <a href="http://www.w3.org/TR/html/browsers.html#traverse-the-history-by-a-delta">traversal of the browser history by a delta of +1</a> (as defined in [[!html51]]). If a user calls "<code>goForward</code>" when there are no further pages in the browser's history stack, then this call MUST be a no-op.
-        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+        <p>The <dfn>Forward</dfn> command causes the browser to traverse
+        one step forwards in the joint session history of
+        the <a>current top-level browsing context</a>.
+
+        <p>The <a>remote end steps</a> for the <a>Forward</a> command
+        are:</p>
+        <ol>
+          <li><p>If the <a>current top-level browsing context</a>
+          is <a>no longer open</a>, return an error with code <a>no
+          such window</a>.</p></li>
+
+          <li>
+            <p><a href="https://html.spec.whatwg.org/#traverse-the-history-by-a-delta">
+                Traverse the history by a delta</a> 1 for
+                the <a>current browsing context</a>.</p>
+
+          <li><p>If the task queued by that algorithm aborted
+          before <a href="https://html.spec.whatwg.org/#traverse-the-history">traversing
+          the history</a>, return <a>success</a> with data null.
+
+          <li><p>Otherwise, wait until
+          the <a href="https://html.spec.whatwg.org/#current-entry">current
+          entry</a> in the session history has changed, or for
+          the <a>session page load timeout</a> milliseconds to pass,
+          whichever occurs sooner.</p></li>
+
+          <!-- TODO: this doesn't actually wait for the page to load if traversing the session history kicks off a navigation -->
+
+          <li><p>If the previous step completed by the <a>session page
+          load timeout</a> being reached, and the browser is not
+          currently displaying an alert<!-- perhaps? Not sure if this
+          is what the spec is trying to say -->, return
+          an <a>error</a> with code <a>timeout</a>.</p></li>
+
+          <li><p>Return <a>success</a> with data <var>null</var></p></li>
       </section>
+
       <section>
        <!-- refresh() -->
         <h3>refresh()</h3>
