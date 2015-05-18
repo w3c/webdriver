@@ -938,6 +938,8 @@ code a:visited, code a:link {
 <p>The top-level browsing context is said to be <dfn>no longer open</dfn>
  if it has been <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>.
 
+<p>Each top-level browsing context has an associated <dfn>window handle</dfn>, which is a string uniquely identifying that browsing context. This string is implementation defined but must not be "current".</p>
+
 <!-- TODO(ato): https://www.w3.org/Bugs/Public/show_bug.cgi?id=28005 -->
 <p>A <a>session</a> has an associated <dfn>script timeout</dfn>
  that specifies a time to wait for scripts to run.
@@ -958,11 +960,24 @@ code a:visited, code a:link {
  which is one of <i>none</i>, <i>normal</i>, and <i>eager</i>.
  Unless stated otherwise, it is <i>normal</i>.
 
-<p>A <a>session</a> is started when <a href=#newsession>new session</a> is invoked.
- It is an error to send any commands before starting a session,
- or to continue to send commands after the session has been.
- Maintaining session continuity between requests to the <a>remote end</a>
- requires passing a <a>session ID</a>.
+<p>When required to <a>close the session</a> a <a>remote end</a> must
+perform the following steps:
+</p>
+
+<ol>
+  <li><p><a href="https://html.spec.whatwg.org/#closing-browsing-contexts">Close</a> any top-level browsing contexts associated with the session, without <a href="https://html.spec.whatwg.org/#prompt-to-unload-a-document">promping to unload</a></li>.
+
+  <li><p>Perform any implementation-specific cleanup steps.</p></li>
+</ol>
+
+<p class="note">For example, a closing the session might cause the
+associated browser process to be killed</p>.
+
+<p>A <a>session</a> is started when <a href=#newsession>new
+ session</a> is invoked.  It is an error to send any commands before
+ starting a session, or to continue to send commands after the session
+ has been.  Maintaining session continuity between requests to
+ the <a>remote end</a> requires passing a <a>session ID</a>.
 
   <section>
     <h3>New Session</h3>
@@ -1067,7 +1082,7 @@ code a:visited, code a:link {
       </ol>
     </section>
   <section>
-    <h3>Removing a Session</h3>
+    <h3>Delete Session</h3>
     <p><table class="simple jsoncommand">
       <tr>
         <th>HTTP Method</th>
@@ -1080,12 +1095,11 @@ code a:visited, code a:link {
         <td></td>
       </tr>
     </table>
-    <p>When removing the session the User Agent MUST do the following
-      <ol>
-        <li>If the <a href='#sessionid'>sessionId</a> does not exist an <code><a href="#status-unsupported-operation">unsupported operation</a></code> will be returned.</li>
-        <li>close all <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> that have the <a href='#sessionid'>sessionId</a> associated with it.</li>
-        <li>set <a href='#widl-WebDriver-sessionId'><code>sessionId</code></a> to null.
-      </ol>
+    <p>The <a>remote end steps</a> for the <dfn>Delete Session</dfn> command are:</p>
+    <ol>
+      <li><p><a>Close the session</a>.</li>
+      <li><p>Return <a>success</a> with data null.
+    </ol>
   </section>
 </section>
 <section>
@@ -1355,96 +1369,87 @@ code a:visited, code a:link {
  <a rel="Maximize Window">maximizing</a>,
  and <a rel="Fullscreen Window">fullscreening</a> a window.
 
-<p>Each <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
- can be uniquely identified using a <a>window handle</a>.
- This handle can be used as an argument to <a>Switch To Window</a>
- to change the <a>current browsing context</a>
- to another top-level browsing context.
+ <section>
+   <h3>Get Window Handle</h3>
 
-<p>A <dfn>window handle</dfn>
- is an opaque string that uniquely identifies
- a <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>.
+   <table class="simple jsoncommand">
+     <tr>
+       <th>HTTP Method</th>
+       <th>Path Template</th>
+       <th>Notes</th>
+     </tr>
+     <tr>
+       <td>GET</td>
+       <td>/session/{sessionId}/window_handle</td>
+       <td></td>
+     </tr>
+   </table>
 
-<p>By <dfn>creating a window handle</dfn> for a
- <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
- <var>context</var>,
- the <a>remote end</a> MUST return a string
- that is unique amongst all past and future
- <a href=https://html.spec.whatwg.org/#browsing-context>browsing contexts</a>,
- and that <var>context</var> can be identified from.
- This MAY be a UUID, but it MUST NOT be "<code>current</code>".
+   <p>The <a>Get Window Handle</a> command returns the <a>window
+     handle</a> for the <a>current top-level browsing context</a>. It
+     can be used as an argument to <a>Switch to Window</a>.
 
-<section>
-<h3>Get Window Handle</h3>
+   <p>The <a>remote end steps</a> for <dfn>Get Window Handle</dfn> are:
 
-<table class="simple jsoncommand">
- <tr>
-  <th>HTTP Method</th>
-  <th>Path Template</th>
-  <th>Notes</th>
- </tr>
- <tr>
-  <td>GET</td>
-  <td>/session/{sessionId}/window_handle</td>
-  <td></td>
- </tr>
-</table>
+     <ol>
+       <li><p>If the <a>current top-level browsing context</a>
+           is <a>no longer open</a>, return an error with code <a>no
+           such window</a>.</li>
 
-<p>The <dfn>Get Window Handle</dfn> command
- returns the <a>window handle</a>
- uniquely identifying the <a>current top-level browsing context</a>.
- It can be used as an argument to <a>Switch To Window</a>.
+       <li><p>Let <var>data</var> be a new JSON Object.</li>
 
-<p>The <a>remote end steps</a> are:
+       <li><p>Set the property "<code>value</code>" on <var>data</var>
+           to the value of the <a>window handle</a> associated with
+           the <a>current top-level browsing context</a>.
 
-<ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return an error with code <a>no such window</a>.
+           <li>Return <a>success</a> with data <var>data</var>.
+     </ol>
+   </section>
 
- <li><p>Let <var>handle</var> be the result of <a>creating a window handle</a>
-  for the <a>current top-level browsing context</a>.
+   <section>
+     <h3>Get Window Handles</h3>
 
- <li><p>Let <var>data</var> be a new JSON Object.
+     <p>
+       <table class="simple jsoncommand">
+         <tr>
+           <th>HTTP Method</th>
+           <th>Path Template</th>
+           <th>Notes</th>
+         </tr>
+         <tr>
+           <td>GET</td>
+           <td id='get-window_handles'>/session/{sessionId}/window_handles</td>
+           <td></td>
+         </tr>
+       </table>
 
- <li><p>Set the property "<code>value</code>" on <var>data</var>
-  to the value of <var>handle</var>.
+     <p>The <a>Get Window Handle</a> command returns a list
+         of <a>window handle</a>s for every open <a>top-level browsing
+         context</a>. The order in which the window handles are
+         returned is arbitary.
 
- <li>Return <a>success</a> with data <var>data</var>.
-</ol>
-</section>
+     <p>The <a>remote end steps</a> for <dfn>Get Window Handles</dfn> are:
 
-  <section>
-    <h2 name="iterating-over-windows">Iterating Over <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a></h2>
-    <section>
-      <h3>getWindowHandles()</h3>
+       <ol>
+         <li><p>Let <var>data</var> be a new JSON Object.</li>
 
-      <p>
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-            <th>Notes</th>
-          </tr>
-          <tr>
-            <td>GET</td>
-            <td id='get-window_handles'>/session/{sessionId}/window_handles</td>
-            <td></td>
-          </tr>
-        </table>
-        <p>This array of returned strings MUST contain a handle for every <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> associated with the browser session and no others. For each returned <a href='#window-handle'>window handle</a> the javascript expression "window.top.closed" (or equivalent) MUST evaluate to false at the time the command is being executed.</p>
+         <li><p>Let <var>value</var> be a JSON list object</p></li>
 
-    <p>The ordering of the sequence is not defined, but MAY be determined by iterating over each OS Window and returning the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> items within that OS window before iterating over the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing contexts</a> of the next OS window. For example, in the diagram below, the <a href='#window-handle'>window handle</a> should be returned as the handles for: win1tab1, win1tab2, win2.</p>
+         <li><p>For each <a>top-level browsing context</a> in the
+             remote end, push the associated <a>window handle</a>
+             to <var>value</var>.</li>
 
-    <img src="example-windows.png" alt="Two top level windows. The first window has two tabs, lablled win1tab1 and win1tab2. The second window has only one tab labelled win2"/>
+         <li><p>Set the property "<code>value</code>" on <var>data</var>
+             to <var>value</var>.</li>
 
-    <p class="note">This implies that the correct way to determine whether or not a particular interaction with the browser opens a new window is done by obtaining the set of <a href='#window-handle'>window handle</a> before the interaction is performed and comparing with the set after the action is performed.</p>
-    </section>
-  </section>
+         <li>Return <a>success</a> with data <var>data</var>.
+       </ol>
 
-  <section>
-    <h2>Closing Windows</h2>
-    <section>
-      <h3>close()</h3>
+     <p class="note">In order to determine whether or not a particular interaction with the browser opens a new window one can obtain the set of <a href='#window-handle'>window handle</a> before the interaction is performed and compare it with the set after the action is performed.</p>
+   </section>
+
+   <section>
+     <h3>Switch to Window</h3>
         <p>
           <table class="simple jsoncommand">
             <tr>
@@ -1453,17 +1458,64 @@ code a:visited, code a:link {
               <th>Notes</th>
             </tr>
             <tr>
-              <td>DELETE</td>
-              <td id='delete-window_handle'>/session/{sessionId}/window_handle</td>
+              <td>POST</td>
+              <td id='post-window'>/session/{sessionId}/window</td>
               <td></td>
             </tr>
           </table>
+        <p>The Switch to Window command is used to select
+          the <a>active top level browsing context</a> for the current
+          session; i.e. the one that will be used for processing
+          commands.
 
-        <p>The close command closes the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> that Commands are currently being sent to. If this means that a call to get the list of <a href='#window-handle'>window handle</a>s would return an empty list, then this close command MUST  <a href='removing-a-session'>remove the session</a>.</p>
+        <p>The <a>remote end steps</a> for the <a>Switch to Window</a> command are:</p>
 
-        <p>Once the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> has closed, future commands MUST return a status code of <code><a href="#status-no-such-window">no such window</a></code> until a new <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> is selected for receiving commands.</p>
+        <ol>
+          <li><p>Let <var>handle</var> be the result of <a>getting a
+          property</a> named "handle" from the <var>parameters</var>
+          argument.</li>
 
+          <li><p>If <var>handle</var> is equal to the
+          associated <a>window handle</a> for some <a>top-level
+          browsing context</a> in the current session, set the
+          session's <a>current top-level browsing context</a> to that
+          browsing context and return <a>success</a> with data
+          null.</li>
+
+          <li><p>Otherwise, return <a>error</a> with code <a>no such
+          window</a>.</p></li>
+        </ol>
     </section>
+
+   <section>
+     <h3>Close Window</h3>
+     <p>
+       <table class="simple jsoncommand">
+         <tr>
+           <th>HTTP Method</th>
+           <th>Path Template</th>
+           <th>Notes</th>
+         </tr>
+         <tr>
+           <td>DELETE</td>
+           <td id='delete-window_handle'>/session/{sessionId}/window_handle</td>
+           <td></td>
+         </tr>
+       </table>
+
+     <p>The <a>remote end steps</a> for the <dfn>Close Window</dfn> command are:</p>
+     <ol>
+       <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+           return an error with code <a>no such window</a>.</li>
+
+       <!-- this can prompt to unload, in which case the operation really failed -->
+       <li><p><a href="https://html.spec.whatwg.org/#closing-browsing-contexts">Close</a> the <a>current top-level browsing context</a></p></li>
+
+       <li><p>If there are no more open <a>top-level browsing contexts</a>, then <a>close the session</a>.</p>
+
+       <li>Return the result of running the <a>remote end steps</a> for the <a>Get Window Handles</a> command.
+     </ol>
+   </section>
   </section>
 
   <section>
@@ -1557,48 +1609,6 @@ code a:visited, code a:link {
   </section>
 </section>
 <section>
-  <h2>Context of Commands</h2>
-
-  <p>Web applications can be composed of multiple <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> and/or frames. For a normal user, the context in which an operation is performed is obvious: it's the window or frame that currently has OS focus and which has just received user input. The WebDriver API does not follow this convention. There is an expectation that many browsers using the WebDriver API may be used at the same time on the same machine. This section describes how WebDriver tracks which window or frame is currently the context in which commands are being executed.</p>
-
-  <section>
-    <h2>Default Content</h2>
-
-    <p>WebDriver's <dfn id="default-content">default content</dfn> is [[!html51]]'s <a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top level browsing context</a> that is currently receiving WebDriver commands.</p>
-
-    <p>When a WebDriver instance is started and a single OS window is opened, the <a href="#default-content">default content</a> of that OS window is automatically selected for receiving further commands. If more than one OS window or multiple <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing contexts</a> are opened when the session starts, then the user MUST first select which <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> to act upon using the <code>switchToWindow</code> command. Until the user selects a <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a>, all commands must return a status code of <code><a href="#status-no-such-window">no such window</a></code>.</p>
-
-  </section>
-
-  <section>
-    <h2>Switching Windows</h2>
-
-    <section>
-      <h3>switchToWindow()</h3>
-        <dl class='parameters'>
-          <dt>DOMString handle</dt>
-          <dd>The identifier used for a <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a></dd>
-        </dl>
-        <p>
-          <table class="simple jsoncommand">
-            <tr>
-              <th>HTTP Method</th>
-              <th>Path Template</th>
-              <th>Notes</th>
-            </tr>
-            <tr>
-              <td>POST</td>
-              <td id='post-window'>/session/{sessionId}/window</td>
-              <td></td>
-            </tr>
-          </table>
-          <p>
-        <p>The "switchToWindow" command is used to select which <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> MUST be used as the context for processing commands. In order to determine which <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> should be used for accepting commands, the "switchToWindow" command MUST iterate over all <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> comparing the window handle.
-
-        <p>If no <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing contexts</a> match, then a "<code><a href="#status-no-such-window">no such window</a></code>" status code MUST be returned, otherwise the "<a href="#default-content">default content</a>" of the first match will be selected for accepting commands.</p>
-
-    </section>
-  </section>
 
   <section>
     <h2>Switching Frames</h2>
