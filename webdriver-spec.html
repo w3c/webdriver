@@ -1666,28 +1666,103 @@ code a:visited, code a:link {
   independently on the same desktop</p>
 </section>
 <section>
-  <h2>Elements</h2>
-  <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "element_location" folder.</p>
-  <p>One of the key abstractions of the WebDriver API is the concept of a
-  <a>WebElement</a>. A <dfn>WebElement</dfn> represents an
-  <a href="http://www.w3.org/TR/2012/WD-dom-20120105/#interface-element">Element</a> as defined in the
-  [[!DOM4]] specification. When communicating between the remote end and the local end this SHOULD be a UUID.
-  Because the WebDriver API is designed to allow users to interact with apps as if
-  they were actual users, the capabilities offered by the
-  <a>WebElement</a> interface are somewhat different from those offered by the
-  <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> interface.</p>
+<h2>Elements</h2>
 
-  <p id='webelement-unique-identifier'>Each <a>WebElement</a> instance must have a unique identifier, which is distinct from the value
-  of the <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> "id" property. The identifier for every WebElement representing the same
-  underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> MUST be the same. The identifiers used to refer to different
-  underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>s MUST be unique within the session over the entire duration of the session.
-  </p>
+<p>A <dfn>web element</dfn> is an abstraction over
+ a [[!DOM4]] <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>
+ used to reference elements
+ over the <a href=#the-webdriver-protocol>WebDriver protocol</a>.
 
-  <div class="note">
-    <p>This requirement around <a>WebElement</a> identifiers allows for efficient equality
-    checks when the WebDriver API is being used out of process.</p>
-  </div>
+<p>When <a>web elements</a> are transported
+ across the <a href=#the-webdriver-protocol>protocol</a>
+ to the <a>local end</a>,
+ they are indentified by the <a>web element reference</a> associated with them.
+ The reference is used as part of the arguments
+ to commands relevant to operations
+ on <a href=https://dom.spec.whatwg.org/#concept-element>elements</a>.
 
+<p>A <a>web element</a> has an associated <dfn>document element</dfn>,
+ a reference to a <a href=https://dom.spec.whatwg.org/#concept-element>element</a>.
+
+<p>A <a>web element</a> has an associated <dfn>web element reference</dfn>
+ (a UUID) used to uniquely identify the <a>web element</a>'s <a>document element</a>.
+
+<p>The <a>web element reference</a> for every <a>web element</a> representing
+ the same <a>document element</a> MUST be the same.
+
+<p>Each <a href=https://html.spec.whatwg.org/#browsing-context>browsing context</a>
+ has an associated set of <dfn>known web elements</dfn>.
+ The <a>known web elements</a> are discarded along with
+ the browsing context when it is
+ <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>.
+
+<p>To <dfn>get a known web element</dfn> with
+ a <a>web element reference</a> <var>reference</var>:
+
+<ol>
+ <li><p>For each <var>web element</var> in
+  the <a>current browsing context</a>’s set of <a>known web elements</a>:
+
+  <ol>
+   <li>If <var>web element</var>’s <a>web element reference</a>
+    matches <var>reference</var>,
+    return <var>web element</a>.
+  </ol>
+
+ <li><p>Raise an error.
+</ol>
+
+<p>To <dfn>create a web element reference</dfn> for
+ an <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
+ <var>element</var>:
+
+<ol>
+ <li><p>For each <var>web element</var> in
+  the <a>current browsing context</a>’s set of <a>known web elements</a>:
+
+  <ol>
+   <li><p>If <var>web element</var>’s <a>document element</a>
+    <a href=https://dom.spec.whatwg.org/#concept-node-equals>equals</a>
+    <var>element</var>,
+    return <var>web element</var>’s <a>web element reference</a>.
+  </ol>
+
+ <li>Let <var>new reference</var> be a string with a unique identifier
+  that is determined at the <a>remote end</a>’s discretion.
+  This MAY be a UUID,
+  but it MUST NOT be equal to <var>element</var>’s
+  "<code>id</code>" content attribute.
+
+ <li><p>Let <var>new web element</var> be a new <a>web element</a>
+  with the following properties:
+  
+  <dl>
+   <dt><a>web element reference</a>
+   <dd><p>Value of <var>new reference</a>.
+
+   <dt><a>document element</a>
+   <dd><p>Value of <var>element</var>.
+  </dl>
+
+ <li><p>Add <var>new web element</var> to
+  the <a>known web elements</a> of the <a>current browsing context</a>.
+
+ <li><p>Return <var>new web element</var>’s <a>web element reference</a>.
+</ol>
+
+<p>When asked to <dfn>serialise the web element</dfn>
+ <var>web element</var>:
+
+<ol>
+ <li><p>Let <var>object</var> be a new JSON Object with properties:
+
+  <dl>
+   <dt>"<code>element-6066-11e4-a52e-4f735466cecf</code>"
+   <dd><p>Value of <var>web element</var>’s <a>web element reference</a>.
+  </dl>
+
+ <li><p>Return <var>web element</var>.
+</ol>
 
   <section>
     <h2>Finding Elements in a document</h2>
