@@ -1,1 +1,121 @@
-<!-- Section removed as it was describing specific local end implementations -->
+<section>
+  <h2>Capabilities</h2>
+  <p>
+    WebDriver <dfn>capabilities</dfn> allow the <a>local end</a> to specify what
+     features it requires the <a>remote end</a> to fulfil to be able to create a
+      <a>new session</a>
+  </p>
+  <h3>Processing Capabilities</h3>
+  <p>
+    <p>When <dfn>processing capabilities</dfn> with argument <var>parameters</var> a
+      <a>remote end</a> must run the following steps:</p>
+    <ol>
+      <li><p>Let <var>server capabilities</var> be a JSON Object with the following entries:<p></li>
+        <ul>
+          <li><p><code>browserName</code>: the lowercase name of the user agent</p></li>
+          <li><p><code>browserVersion</code>: the version of the user agent<p></li>
+          <li><p><code>platformName</code>: the lowercase name of the platform.</p></li>
+          <li><p><code>platformVersion</code>: the version of the platform</p></li>
+          <li><p><code>acceptSslCerts</code>: be true if the User Agent can handle
+            <a href='#invalid-ssl-certificates'>Invalid SSL Certifications</a> else let it be equal to
+            false.</p></li>
+          <li><p><code>takesScreenshot</code>: be true if it can capture
+          a screenshot of the viewport described in <a>Take Screenshot</a>.</p></li>
+          <li><p><code>takesElementScreenshot</code>: be true if it can capture
+          a screenshot of an element as described in <a>Take Screenshot</a>.</p></li>
+        </ul>
+        <li><p>let <var>required capabilities</var> be the result of <a>getting a property</a>
+          name <code>requiredCapabilities</code> from <var>capabilities</var>. If <var>required
+            capabilities</var> is not a JSON Object set the value to an empty JSON Object.</p></li>
+        <li><p>let <var>desired capabilities</var> be the result of <a>getting a property</a>
+            name <code>desiredCapabilities</code> from <var>capabilities</var>. If <var>desired
+              capabilities</var> is not a JSON Object set the value to an empty JSON Object.</p></li>
+        <li><p>Let <var>length</var> be the length of <var>required capabilities</var>
+            if <var>required capabilities</var> is defined else let it be 0.</p></li>
+        <li><p>Let <var>k</var> be 0</p></li>
+        <li><p>While <var>k</var> &lt; <var>length</var>:</p>
+          <ol>
+            <li><p>Let <var>capability</var> be the value in <var>required capabilities</var> at index <var>k</var>.</p></li>
+            <li><p>If the name of the <var>capability</var> entry is in <var>desired capabilities</var>
+              remove the entry from <var>desired capabilities</var>.</p>
+            </li>
+            <li>Increase <var>k</var> by 1.</li>
+          </ol>
+        </li>
+        <li><p>Let <var>unmet capabilities</var> be equal to an empty JSON List.</p></li>
+        <li>
+          <p>Let <var>unprocessed capabilities</var> be a JSON List that contains <var>required
+          capabilities</var> if defined and <var>desired capabilities</var> if defined.</p>
+        </li>
+        <li>
+          <p>Let <var>j</var> be 0</p>
+        </li>
+        <li>
+          <p>Let <var>capabilties length</var> be the length of <var>unprocessed capabilities</var>.</p>
+        </li>
+        <li>
+          <p>While <var>j</var> &lt; <var>capabilities length</var>:
+            <ol>
+              <li>
+                <p>
+                  Let <var>unprocessed capability</var> be the entry at index <var>j</var> in
+                  <var>unprocessed capabilities</var>.
+                </p>
+              </li>
+              <li>
+                <p>If during the steps below the  <var>unprocessed capability</var> property equals a property on <var>required
+                capabilities</var> and equals a <var>server capabilities</var> property and the values do not match do the following:
+                  <ul>
+                    <li><p>Append a string containing the property name and the differences between the values.</p></li>
+                  </ul>
+                </p>
+              </li>
+
+              <li>
+                <p>Let <var>browser name</var> be the result of <a>getting a property</a>
+                  named <code>browserName</code> from <var>unprocessed capability</var>. If <var>browser name</var>
+                  is undefined move to the next step.</p>
+              </li>
+              <li>
+                <p>Let <var>browser version</var> be the result of <a>getting a property</a>
+                  named <code>browserVersion</code> from <var>unprocessed capability</var>. If <var>browser name</var>
+                  is undefined move to the next step.
+                  </p>
+              </li>
+              <li>
+                <p>Let <var>platform name</var> be the result of <a>getting a property</a>
+                  named <code>platformName</code> from <var>unprocessed capability</var>. If <var>platform name</var>
+                  is undefined move to the next step.
+                  </p>
+              </li>
+              <li>
+                <p>Let <var>platform version</var> be the result of <a>getting a property</a>
+                  named <code>platformVersion</code> from <var>unprocessed capability</var>. If <var>platform version</var>
+                  is undefined move to the next step.
+                  </p>
+              </li>
+              <li>
+                <p>Let <var>proxy</var> be the result of <a>getting a property</a>
+                named <code>proxy</code> from <var>unprocessed capability</var>. If <var>proxy</var>
+                is undefined move to the next step. If <var>proxy</var> is defined and not a map
+                append a string saying that a map is required else call <a>setup proxy</a><!-- TODO (David) define setup proxy-->
+                passing in <var>proxy</var>.
+                </p>
+              </li>
+              <li>
+                <p>Let <var>page load strategy</var> be the result of <a>getting a property</a>
+                named <code>pageLoadStrategy</code> from <var>unprocessed capability</var>. If <var>page load strategy</var>
+                is undefined then set the entry <code>pageLoadStrategy</code> in <var>server capabilities</var> to <a>normal</a>.
+                </p>
+              </li>
+            </ol>
+          </p>
+        </li>
+        <li>
+          <p>If the length of <var>unmet capabilities</var> is not equal to 0 return
+           <a>session not created</a> with data <var>unmet capabilities</var>.</p>
+        </li>
+        <li><p>Return <var>server capabilities</var></p></li>
+    </ol>
+  </p>
+</section>
