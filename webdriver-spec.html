@@ -744,34 +744,49 @@ code a:visited, code a:link {
 
      <p class="note">It is strongly recommended that the <code>WebDriverException</code> contain as much diagnostic information as possible, including version numbers and details about the remote end. This is because experience suggests that when reporting errors from tests using WebDriver, users will simply cut-and-paste a stack trace of an exception. Adding this information to the exception makes the task of debugging problems considerably easier.</p>
   </section>
-
 </section>
+
 <section>
-  <h2>Capabilities</h2>
-  <p>
-    WebDriver <dfn>capabilities</dfn> allow the <a>local end</a> to specify what
-     features it requires the <a>remote end</a> to fulfil to be able to create a
-      <a>new session</a>
-  </p>
+<h2>Capabilities</h2>
+<p>WebDriver <dfn>capabilities</dfn> allow the <a>local end</a>
+ to specify what features it requires the <a>remote end</a> to fulfil
+ to be able to create a <a>new session</a>.
+
   <h3>Processing Capabilities</h3>
   <p>
     <p>When <dfn>processing capabilities</dfn> with argument <var>parameters</var> a
       <a>remote end</a> must run the following steps:</p>
     <ol>
-      <li><p>Let <var>server capabilities</var> be a JSON Object with the following entries:<p></li>
-        <ul>
-          <li><p><code>browserName</code>: the lowercase name of the user agent</p></li>
-          <li><p><code>browserVersion</code>: the version of the user agent<p></li>
-          <li><p><code>platformName</code>: the lowercase name of the platform.</p></li>
-          <li><p><code>platformVersion</code>: the version of the platform</p></li>
-          <li><p><code>acceptSslCerts</code>: be true if the User Agent can handle
-            <a href='#invalid-ssl-certificates'>Invalid SSL Certifications</a> else let it be equal to
-            false.</p></li>
-          <li><p><code>takesScreenshot</code>: be true if it can capture
-          a screenshot of the viewport described in <a>Take Screenshot</a>.</p></li>
-          <li><p><code>takesElementScreenshot</code>: be true if it can capture
-          a screenshot of an element as described in <a>Take Screenshot</a>.</p></li>
-        </ul>
+      <li><p>Let <var>server capabilities</var> be a JSON Object
+       with the following entries:
+ 
+       <dl>
+        <dt>"<code>browserName</code>"
+        <dd>The lowercase name of the user agent.
+
+        <dt>"<code>browserVersion</code>"
+        <dd>The version of the user agent.
+
+         <dt>"<code>platformName</code>"
+         <dd>The lowercase name of the platform.
+
+         <dt>"<code>platformVersion</code>"
+         <dd>The version of the platform.
+
+         <dt>"<code>acceptSslCerts</code>"
+         <dd>Be true if the User Agent can handle
+          <a href=#invalid-ssl-certificates>Invalid SSL Certifications</a>
+          else let it be false.
+
+         <dt>"<code>takesScreenshot</code>"
+         <dd>Be true if it can capture a screenshot of the viewport
+          described in <a>Take Screenshot</a>.
+
+         <dt>"<code>takesElementScreenshot</code>"
+         <dd>Be true if it can capture a screenshot of an element
+          as described in <a>Take Screenshot</a>.
+       </dl>
+
         <li><p>let <var>required capabilities</var> be the result of <a>getting a property</a>
           name <code>requiredCapabilities</code> from <var>capabilities</var>. If <var>required
             capabilities</var> is not a JSON Object set the value to an empty JSON Object.</p></li>
@@ -780,7 +795,7 @@ code a:visited, code a:link {
               capabilities</var> is not a JSON Object set the value to an empty JSON Object.</p></li>
         <li><p>Let <var>length</var> be the length of <var>required capabilities</var>
             if <var>required capabilities</var> is defined else let it be 0.</p></li>
-        <li><p>Let <var>k</var> be 0</p></li>
+        <li><p>Let <var>k</var> be 0.</p></li>
         <li><p>While <var>k</var> &lt; <var>length</var>:</p>
           <ol>
             <li><p>Let <var>capability</var> be the value in <var>required capabilities</var> at index <var>k</var>.</p></li>
@@ -796,7 +811,7 @@ code a:visited, code a:link {
           capabilities</var> if defined and <var>desired capabilities</var> if defined.</p>
         </li>
         <li>
-          <p>Let <var>j</var> be 0</p>
+          <p>Let <var>j</var> be 0.</p>
         </li>
         <li>
           <p>Let <var>capabilties length</var> be the length of <var>unprocessed capabilities</var>.</p>
@@ -863,7 +878,7 @@ code a:visited, code a:link {
           <p>If the length of <var>unmet capabilities</var> is not equal to 0 return
            <a>session not created</a> with data <var>unmet capabilities</var>.</p>
         </li>
-        <li><p>Return <var>server capabilities</var></p></li>
+        <li><p>Return <var>server capabilities</var>.</p></li>
     </ol>
   </p>
 </section>
@@ -2826,7 +2841,7 @@ associated browser process to be killed</p>.
             <li><p>Let <var>result</var> be an empty JSON list.</p></li>
             <li><p>Let <var>cookies</var> be a list of all cookies [[!RFC6265]] in the cookie store associated with <a href="https://html.spec.whatwg.org/#active-document">active document</a> <a href="https://dom.spec.whatwg.org/#concept-document-url">address</a>.</p></li>
             <li><p>Let <var>length</var> be the length of <var>cookies</var>.</p></li>
-            <li><p>Let <var>k</var> be 0</p></li>
+            <li><p>Let <var>k</var> be 0.</p></li>
             <li><p>While <var>k</var> &lt; <var>length</var>:</p>
               <ol>
                 <li><p>Let <var>cookie</var> be the value in <var>cookies</var> at index <var>k</var>.</p></li>
@@ -2939,7 +2954,7 @@ associated browser process to be killed</p>.
         <li><p>Let <var>name</var> be equal to "name" from <a>match a request</a>.</p></li>
         <li><p>Let <var>cookies</var> be a list of all cookies [[!RFC6265]] in the cookie store associated with <a href="https://html.spec.whatwg.org/#active-document">active document</a> <a href="https://dom.spec.whatwg.org/#concept-document-url">address</a>.</p></li>
         <li><p>Let <var>length</var> be the length of <var>cookies</var>.</p></li>
-        <li><p>Let <var>k</var> be 0</p></li>
+        <li><p>Let <var>k</var> be 0.</p></li>
         <li><p>While <var>k</var> &lt; <var>length</var>:</p>
           <ol>
             <li><p>Let <var>cookie</var> be the value in <var>cookies</var> at index <var>k</var>.</p></li>
