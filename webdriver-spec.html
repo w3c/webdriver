@@ -1146,10 +1146,12 @@ associated browser process to be killed</p>.
   </tr>
 </table>
 
-<p>The <dfn>get</dfn> command is used
- to cause the browser to navigate to a new location.
- From a user's point of view,
- it is as if they have entered the "url" into the URL bar.</p>
+<p>The <dfn>Get</dfn> command is used
+ to cause the user agent to navigate
+ the <a>current top-level browsing context</a> a new location.
+ From a user’s point of view,
+ it is as if they have entered a URL into the address bar
+ of the browser’s chrome.</p>
 
 <aside class=example>
  <p>To navigate the current
@@ -1160,7 +1162,7 @@ associated browser process to be killed</p>.
  <pre class=highlight>{"url": "http://example.com/"}</pre>
 </aside>
 
-<p>The <a>remote end steps</a> for the <a>get</a> command are:
+<p>The <a>remote end steps</a> for the <a>Get</a> command are:
 
 <ol>
  <li><p>If the <a>current top level browsing context</a> is <a>no longer open</a>,
@@ -1203,6 +1205,7 @@ associated browser process to be killed</p>.
 <!--li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met. When the refresh period is 1 second or less and the page loading strategy is "normal" or "conservative" implementations MUST wait for the refresh to complete before responding.</li-->
 
 </section> <!-- /Get -->
+
       <section>
         <h3>Get Current Url</h3>
 
