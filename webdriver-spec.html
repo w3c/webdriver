@@ -1794,6 +1794,23 @@ associated browser process to be killed</p>.
  <li><p>Return <var>web element</var>.
 </ol>    
 
+<p>A <a rel="is stale">stale</a> <a>web element</a>
+ is a reference to a <a href=https://dom.spec.whatwg.org/#concept-node>node</a>
+ that has been disconnected from the <a>current browsing context</a>’s DOM.
+ To determine if an element <dfn>is stale</dfn>, run the following substeps:
+
+<ol>
+ <li><p>Let <var>node</var> be <var>web element</var>’s <a>document element</a>.
+
+ <li><p>Let <var>document</var> be the <a>current browsing context</a>’s
+  <a href=https://dom.spec.whatwg.org/#document-element>document element</a>.
+
+ <li><p>If <var>node</var> is <a>not in the same tree</a> as <var>document</var>,
+  return true.
+
+ <li><p>Otherwise return false.
+</ol>
+
   <section>
     <h2>Finding Elements in a document</h2>
     <p>When the <a href='#findelement'>findElement()</a> or <a href='#findelements'>findElements()</a> WebDriver Command is called the
@@ -2657,13 +2674,9 @@ associated browser process to be killed</p>.
  <li><p><a>Deserialise the web element</a> from <var>parameters</var>,
   and let it be known as <var>web element</var>.
 
- <li><p>Let <var>element</var> be <var>web element</var>’s <a>document element</a>.
-
  <li><p>If an error occurred, return the <a>error</a>  and abort these substeps.
 
- <li><p>If <var>element</var> is <a>not in the same tree</a> as
-  the <a>current browsing context</a>’s
-  <a href=https://dom.spec.whatwg.org/#document-element>document element</a>,
+ <li><p>If <var>web element</var> <a>is stale</a>,
   return <a>error</a> with code <a>stale element reference</a>.
 
  <li><p><a>Calculate the absolute position</a> of
