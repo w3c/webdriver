@@ -149,7 +149,9 @@ code a:visited, code a:link {
  HTML, DOM, and CSS. [[!HTML]] [[!DOM4]] [[!CSS21]]
 
 <p>In equations, all numbers are integers,
- subtraction is represented by “−”, and bitwise OR by “|”.
+ addition is represtend by “+”,
+ subtraction is represented by “−”,
+ and bitwise OR by “|”.
  The characters “(” and “)” are used to provide logical grouping in these contexts.
 
 <p>This specification defines three broad conformance classes:
@@ -1725,7 +1727,7 @@ associated browser process to be killed</p>.
  <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>.
 
 <p>To <dfn>get a known web element</dfn> with
- a <a>web element reference</a> <var>reference</var>:
+ a UUID <var>reference</var>:
 
 <ol>
  <li><p>For each <var>web element</var> in
@@ -1737,7 +1739,7 @@ associated browser process to be killed</p>.
     return <var>web element</a>.
   </ol>
 
- <li><p>Raise an error.
+ <li><p>Return a <a>no such element</a> <a>error</a>.
 </ol>
 
 <p>To <dfn>create a web element reference</dfn> for
@@ -1790,6 +1792,41 @@ associated browser process to be killed</p>.
   </dl>
 
  <li><p>Return <var>web element</var>.
+</ol>
+
+<p>When asked to <dfn>deserialise the web element</dfn>
+ by a JSON Object <var>object</var>:
+
+<ol>
+ <li><p>If there is no property "<code>element-6066-11e4-a52e-4f735466cecf</code>"
+  on <var>object</var>, return an <a>invalid argument</a> <a>error</a>.
+
+ <li><p>Let <var>reference</var> be the value of <var>object</var>’s
+  "<code>element-6066-11e4-a52e-4f735466cecf</code>" property.
+
+ <li><p><a>Get a known web element</a> from <var>reference</var>
+  and let it be <var>web element</var>.
+
+ <li><p>If an error occured, propagate this error and abort these steps.
+
+ <li><p>Return <var>web element</var>.
+</ol>    
+
+<p>A <a title="is stale">stale</a> <a>web element</a>
+ is a reference to a <a href=https://dom.spec.whatwg.org/#concept-node>node</a>
+ that has been disconnected from the <a>current browsing context</a>’s DOM.
+ To determine if an element <dfn>is stale</dfn>, run the following substeps:
+
+<ol>
+ <li><p>Let <var>node</var> be <var>web element</var>’s <a>document element</a>.
+
+ <li><p>Let <var>document</var> be the <a>current browsing context</a>’s
+  <a href=https://dom.spec.whatwg.org/#document-element>document element</a>.
+
+ <li><p>If <var>node</var> is <a>not in the same tree</a> as <var>document</var>,
+  return true.
+
+ <li><p>Otherwise return false.
 </ol>
 
   <section>
@@ -2277,23 +2314,55 @@ associated browser process to be killed</p>.
    </ol>
   </section>
 </section>
-<section>
-  <h2>Element State</h2>
-    <section>
-      <h2>Reading current element state from the document</h2>
-      <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "element_state" folder.</p>
 
-          <p>When we are returning an <a>ElementRect</a> to the local end it will need to be serialised</p>
-          <dl class='idl' title='dictionary ElementRect'>
-            <dt>double x</dt>
-            <dd>The x coordinate for the top left of the element</dd>
-            <dt>double y</dt>
-            <dd>The y coordinate for the top left of the element</dd>
-            <dt>double height</dt>
-            <dd>Height of the element in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>
-            <dt>double width</dt>
-            <dd>Width of the element in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>
-          </dl>
+<section>
+<h2>Element State</h2>
+
+<p>To <dfn>calculate the absolute position</dfn> of
+ an <a href=https://dom.spec.whatwg.org/#concept-element>element</a>:
+
+<ol>
+ <li><p>Let <var>x</var> be 0.
+
+ <li><p>Let <var>y</var> be 0.
+
+ <li><p>While <var>element</var>’s
+  <a href=http://dev.w3.org/csswg/cssom-view/#dom-htmlelement-offsetparent>offsetParent</a>
+  is not null:
+
+  <ol>
+   <li><p>Set <var>x</var> to (<var>x</var> +
+    <var>element</var>’s <a href=http://dev.w3.org/csswg/cssom-view/#dom-htmlelement-offsetleft>offsetLeft</a>).
+
+   <li><p>Set <var>y</var> to (<var>y</var> +
+    <var>element</var>’s <a href=http://dev.w3.org/csswg/cssom-view/#dom-htmlelement-offsettop>offsetTop</a>).
+
+   <li><p>Set <var>element</var> to <var>element</var>’s
+    <a href=http://dev.w3.org/csswg/cssom-view/#dom-htmlelement-offsetparent>offsetParent</a>.
+  </ol>
+
+ <li><p>Return a pair of (<var>x</var>, <var>y</var>).
+</ol>
+
+<p>When a <a href=https://dom.spec.whatwg.org/#concept-node>node</a>
+ is said to be <dfn>not in the same tree</dfn>
+ as another <a href=https://dom.spec.whatwg.org/#concept-node>node</a>, <var>other</var>,
+ the following steps must be taken on <var>node</var>:
+
+<ol>
+ <li><p>If <var>node</var>’s
+  <a href=https://dom.spec.whatwg.org/#dom-node-ownerdocument>ownerDocument</a> attribute
+  is not <var>other</var>, return true.
+
+ <li><p>If the result of calling <var>node</var>’s
+  <code><a href=https://dom.spec.whatwg.org/#dom-node-comparedocumentpositionother>compareDocumentPosition</a></code>
+  with <var>other</var> as argument
+  is <a href=https://dom.spec.whatwg.org/#dom-node-document_position_disconnected><code>DOCUMENT_POSITION_DISCONNECTED</a></code> (1),
+  return true.
+
+ <li>Return false.
+</ol>
+
     <section>
       <!-- isDisplayed() -->
       <h3>isDisplayed()</h3>
@@ -2569,32 +2638,94 @@ associated browser process to be killed</p>.
             qualified name</a> of the element.
           <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
        </section>
-       <section>
-        <h3>ElementRect getElementRect()</h3>
-        <p>
-         <table class="simple jsoncommand">
-           <tr>
-             <th>HTTP Method</th>
-             <th>Path Template</th>
-             <th>Notes</th>
-           </tr>
-           <tr>
-             <td>GET</td>
-             <td id='get-id-rect'>/session/{sessionId}/element/{ELEMENT}/rect</td>
-             <td></td>
-           </tr>
-         </table>
+ 
+<section>
+<h3>Get Element Rect</h3>
 
-        <p>The "getElementRect" command MUST return the <a>ElementRect</a> with:
-          <ul>
-            <li><code><a href='#widl-ElementRect-x'>x</a></code> and <code><a href='#widl-ElementRect-y'>y</a></code> represent the top left coordinates of the <a>WebElement</a> relative to top left corner of the document.
-            <li><code><a href='#widl-ElementRect-height'>height</a></code> and the <code><a href='#widl-ElementRect-width'>width</a></code> will contain the height and the width of the
-        <a href='http://dev.w3.org/fxtf/geometry/#dom-domrect'>DOMRect</a>
-        of the <a>WebElement</a>.
-          </ul>
-         <p>The point (0, 0) refers to the top left corner of the document.
-          <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </section>
+<table class="simple jsoncommand">
+  <tr>
+    <th>HTTP Method</th>
+    <th>Path Template</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <td>GET</td>
+    <td>/session/{sessionId}/element/{elementId}/rect</td>
+    <td></td>
+  </tr>
+</table>
+
+<p>The <dfn>Get Element Rect</dfn> command returns
+ the dimensions and coordinates of the given <a>web element</a>.
+ The returned value is a dictionary with the following members:
+
+<dl>
+ <dt><dfn id=elementrect-x>x</dfn>
+ <dd>X axis position of the top-left corner of the <a>web element</a>
+  relative to the <a>current browsing context</a>’s
+  <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>
+  in <a href=http://www.w3.org/TR/css3-values/#reference-pixel>CSS pixels</a>.
+
+ <dt><dfn id=elementrect-y>y</dfn>
+ <dd>Y axis position of the top-left corner of the <a>web element</a>
+  relative to the <a>current browsing context</a>’s
+  <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>
+  in <a href=http://www.w3.org/TR/css3-values/#reference-pixel>CSS pixels</a>.
+
+ <dt><dfn id=elementrect-height>height</dfn>
+ <dd>Height of the <a>web element</a>’s
+  <a href=http://dev.w3.org/fxtf/geometry/#rectangle>rectangle</a>
+  in <a href=http://www.w3.org/TR/css3-values/#reference-pixel>CSS pixels</a>.
+
+ <dt><dfn id=elementrect-width>width</dfn>
+ <dd>Width of the <a>web element</a>’s
+  <a href=http://dev.w3.org/fxtf/geometry/#rectangle>rectangle</a>
+  in <a href=http://www.w3.org/TR/css3-values/#reference-pixel>CSS pixels</a>.
+</dl>
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return an <a>error</a> with code <a>no such window</a>.
+
+ <li><p><a>Deserialise the web element</a> from <var>parameters</var>,
+  and let it be known as <var>web element</var>.
+
+ <li><p>If an error occurred, return the <a>error</a>  and abort these substeps.
+
+ <li><p>If <var>web element</var> <a>is stale</a>,
+  return <a>error</a> with code <a>stale element reference</a>.
+
+ <li><p><a>Calculate the absolute position</a> of
+  <var>web element</var>’s <a>document element</a>
+  and let it be <var>coordinates</var>.
+
+ <li><p>Let <var>rect</var> be <var>web element</var>’s
+  <a>document element</a>’s <a href=http://dev.w3.org/fxtf/geometry/#domrect>DOMRect</a>.
+
+ <li><p>Let <var>data</var> be a new JSON Object initialised with:
+
+  <dl>
+   <dt>"<code>x</code>"
+   <dd>The first value of <var>coordinates</var>.
+
+   <dt>"<code>y</code>"
+   <dd>The second value of <var>coordinates</var>.
+
+   <dt>"<code>height</code>"
+   <dd>Value of <var>rect</var>’s
+    <a href=http://dev.w3.org/fxtf/geometry/#dom-domrectreadonly-domrect-height>height</a>.
+
+   <dt>"<code>width</code>"
+   <dd>Value of <var>rect</var>’s
+    <a href=http://dev.w3.org/fxtf/geometry/#dom-domrectreadonly-domrect-width>width</a>.
+  </dl>
+
+ <li><p>Return <a>success</a> with data <var>data</var>.
+</ol>
+</section> <!-- /Get Element Rect -->
+
       <section>
         <h3>isEnabled()</h3>
         <p>
