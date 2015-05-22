@@ -1772,8 +1772,10 @@ associated browser process to be killed</p>.
 <h2>Elements</h2>
 
 <p>A <dfn>web element</dfn> is an abstraction over
- a [[!DOM4]] <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>
- used to reference elements
+ a <a href=https://dom.spec.whatwg.org/#concept-node>node</a>
+ used to reference <a href=https://dom.spec.whatwg.org/#concept-element>elements</a>
+ and nodes that <a href=https://dom.spec.whatwg.org/#concept-tree-participate>participate</a>
+ in the <a href=https://dom.spec.whatwg.org/#concept-node-tree>node tree</a>
  over the <a href=#the-webdriver-protocol>WebDriver protocol</a>.
 
 <p>When <a>web elements</a> are transported
@@ -1784,14 +1786,14 @@ associated browser process to be killed</p>.
  to commands relevant to operations
  on <a href=https://dom.spec.whatwg.org/#concept-element>elements</a>.
 
-<p>A <a>web element</a> has an associated <dfn>document element</dfn>,
+<p>A <a>web element</a> has an associated <dfn>web element node</dfn>,
  a reference to a <a href=https://dom.spec.whatwg.org/#concept-element>element</a>.
 
 <p>A <a>web element</a> has an associated <dfn>web element reference</dfn>
- (a UUID) used to uniquely identify the <a>web element</a>'s <a>document element</a>.
+ (a UUID) used to uniquely identify the <a>web element node</a>.
 
 <p>The <a>web element reference</a> for every <a>web element</a> representing
- the same <a>document element</a> MUST be the same.
+ the same <a>web element node</a> MUST be the same.
 
 <p>Each <a href=https://html.spec.whatwg.org/#browsing-context>browsing context</a>
  has an associated set of <dfn>known web elements</dfn>.
@@ -1824,7 +1826,7 @@ associated browser process to be killed</p>.
   the <a>current browsing context</a>’s set of <a>known web elements</a>:
 
   <ol>
-   <li><p>If <var>web element</var>’s <a>document element</a>
+   <li><p>If <var>web element</var>’s <a>web element node</a>
     <a href=https://dom.spec.whatwg.org/#concept-node-equals>equals</a>
     <var>element</var>,
     return <var>web element</var>’s <a>web element reference</a>.
@@ -1843,7 +1845,7 @@ associated browser process to be killed</p>.
    <dt><a>web element reference</a>
    <dd><p>Value of <var>new reference</a>.
 
-   <dt><a>document element</a>
+   <dt><a>web element node</a>
    <dd><p>Value of <var>element</var>.
   </dl>
 
@@ -1891,7 +1893,7 @@ associated browser process to be killed</p>.
  To determine if an element <dfn>is stale</dfn>, run the following substeps:
 
 <ol>
- <li><p>Let <var>node</var> be <var>web element</var>’s <a>document element</a>.
+ <li><p>Let <var>node</var> be <var>web element</var>’s <a>web element node</a>.
 
  <li><p>Let <var>document</var> be the <a>current browsing context</a>’s
   <a href=https://dom.spec.whatwg.org/#document-element>document element</a>.
@@ -2771,11 +2773,11 @@ associated browser process to be killed</p>.
   return <a>error</a> with code <a>stale element reference</a>.
 
  <li><p><a>Calculate the absolute position</a> of
-  <var>web element</var>’s <a>document element</a>
+  <var>web element</var>’s <a>web element node</a>
   and let it be <var>coordinates</var>.
 
  <li><p>Let <var>rect</var> be <var>web element</var>’s
-  <a>document element</a>’s <a href=http://dev.w3.org/fxtf/geometry/#domrect>DOMRect</a>.
+  <a>web element node</a>’s <a href=http://dev.w3.org/fxtf/geometry/#domrect>DOMRect</a>.
 
  <li><p>Let <var>data</var> be a new JSON Object initialised with:
 
