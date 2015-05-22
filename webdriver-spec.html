@@ -1400,7 +1400,7 @@ associated browser process to be killed</p>.
 
    <p>The <a>Get Window Handle</a> command returns the <a>window
      handle</a> for the <a>current top-level browsing context</a>. It
-     can be used as an argument to <a>Switch to Window</a>.
+     can be used as an argument to <a>Switch To Window</a>.
 
    <p>The <a>remote end steps</a> for <dfn>Get Window Handle</dfn> are:
 
@@ -1461,44 +1461,43 @@ associated browser process to be killed</p>.
      <p class="note">In order to determine whether or not a particular interaction with the browser opens a new window one can obtain the set of <a href='#window-handle'>window handle</a> before the interaction is performed and compare it with the set after the action is performed.</p>
    </section>
 
-   <section>
-     <h3>Switch to Window</h3>
-        <p>
-          <table class="simple jsoncommand">
-            <tr>
-              <th>HTTP Method</th>
-              <th>Path Template</th>
-              <th>Notes</th>
-            </tr>
-            <tr>
-              <td>POST</td>
-              <td id='post-window'>/session/{sessionId}/window</td>
-              <td></td>
-            </tr>
-          </table>
-        <p>The Switch to Window command is used to select
-          the <a>active top level browsing context</a> for the current
-          session; i.e. the one that will be used for processing
-          commands.
+<section>
+<h3>Switch To Window</h3>
 
-        <p>The <a>remote end steps</a> for the <a>Switch to Window</a> command are:</p>
+<table class="simple jsoncommand">
+  <tr>
+    <th>HTTP Method</th>
+    <th>Path Template</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td>/session/{sessionId}/window</td>
+    <td></td>
+  </tr>
+</table>
 
-        <ol>
-          <li><p>Let <var>handle</var> be the result of <a>getting a
-          property</a> named "handle" from the <var>parameters</var>
-          argument.</li>
+<p>The <dfn>Switch To Window</dfn> command is used
+ to select the <a>current top-level browsing context</a>
+ for the current <a>session</a>,
+ i.e. the one that will be used for processing commands.
 
-          <li><p>If <var>handle</var> is equal to the
-          associated <a>window handle</a> for some <a>top-level
-          browsing context</a> in the current session, set the
-          session's <a>current top-level browsing context</a> to that
-          browsing context and return <a>success</a> with data
-          null.</li>
+<p>The <a>remote end steps</a> are:
 
-          <li><p>Otherwise, return <a>error</a> with code <a>no such
-          window</a>.</p></li>
-        </ol>
-    </section>
+<ol>
+ <li><p>Let <var>handle</var> be the result of
+  <a>getting a property</a> named "<code>handle</code>"
+  from the <var>parameters</var> argument.
+
+ <li><p>If <var>handle</var> is equal to the associated <a>window handle</a>
+  for some <a>top-level browsing context</a> in the current session,
+  set the session's <a>current top-level browsing context</a>
+  to that browsing context,
+  and return <a>success</a> with data null.
+
+ <li><p>Otherwise, return <a>error</a> with code <a>no such window</a>.
+</ol>
+</section> <!-- /Switch To Window -->
 
    <section>
      <h3>Close Window</h3>
