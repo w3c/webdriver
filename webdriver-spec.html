@@ -1826,48 +1826,54 @@ associated browser process to be killed</p>.
   utilization when using the WebDriver API to control several browsers
   independently on the same desktop</p>
 </section>
+
 <section>
 <h2>Elements</h2>
 
-<p>A <dfn>web element</dfn> is an abstraction over
- a [[!DOM4]] <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>
- used to reference elements
- over the <a href=#the-webdriver-protocol>WebDriver protocol</a>.
+<p>A <dfn>web element</dfn> is an abstraction
+ used to identify an <a href=https://dom.spec.whagwg.org/#concept-element>element</a>
+ when it is transported across the <a href=#the-webdriver-protocol>protocol</a>,
+ between <a title="remote end">remote</a>- and <a title="local end">local</a> ends.
 
-<p>When <a>web elements</a> are transported
- across the <a href=#the-webdriver-protocol>protocol</a>
- to the <a>local end</a>,
- they are indentified by the <a>web element reference</a> associated with them.
- The reference is used as part of the arguments
- to commands relevant to operations
- on <a href=https://dom.spec.whatwg.org/#concept-element>elements</a>.
+<p>The <dfn>web element identifier</dfn> is a constant
+ with the string "<code>element-6066-11e4-a52e-4f735466cecf</code>".
 
-<p>A <a>web element</a> has an associated <dfn>document element</dfn>,
- a reference to a <a href=https://dom.spec.whatwg.org/#concept-element>element</a>.
+<p>A DOM <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
+ has an associated <dfn>web element reference</dfn> (a <a>UUID</a>)
+ that uniquely identifies the the element across
+ all <a href=https://html.spec.whatwg.org/#browsing-context>browsing contexts</a>.
+ The <a>web element reference</a> for every
+ <a href=https://dom.spec.whagwg.org/#concept-element>element</a>
+ representing the same
+ <a href=https://dom.spec.whagwg.org/#concept-element>element</a>
+ MUST be the same.
 
-<p>A <a>web element</a> has an associated <dfn>web element reference</dfn>
- (a UUID) used to uniquely identify the <a>web element</a>'s <a>document element</a>.
+<p>An ECMAScript <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.2.1>Object</a>
+ <dfn>represents a web element</dfn> if it has
+ an <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.2.1>own property</a>
+ of the <a>web element identifier</a> holding a string value.
 
-<p>The <a>web element reference</a> for every <a>web element</a> representing
- the same <a>document element</a> MUST be the same.
+<!--
+The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that has <a>WebElement id</a> of <var>id</var> or null if no such element exists.
+-->
 
 <p>Each <a href=https://html.spec.whatwg.org/#browsing-context>browsing context</a>
- has an associated set of <dfn>known web elements</dfn>.
- The <a>known web elements</a> are discarded along with
- the browsing context when it is
- <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>.
+ has an associated list of <dfn>known elements</dfn>.
+ When the <a href=https://html.spec.whatwg.org/#browsing-context>browsing context</a>
+ is <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>,
+ the list of <a>known elements</a> is discarded along with it.
 
-<p>To <dfn>get a known web element</dfn> with
- a UUID <var>reference</var>:
+<p>To <dfn>get a known element</dfn>
+ with a <a>UUID</a> <var>reference</var>:
 
 <ol>
- <li><p>For each <var>web element</var> in
-  the <a>current browsing context</a>’s set of <a>known web elements</a>:
+ <li><p>For each <var>element</var> in
+  the <a>current browsing context</a>’s list of <a>known elements</a>:
 
   <ol>
-   <li>If <var>web element</var>’s <a>web element reference</a>
+   <li><p>If <var>element</var>’s <a>web element reference</a>
     matches <var>reference</var>,
-    return <var>web element</a>.
+    return <var>element</var>.
   </ol>
 
  <li><p>Return a <a>no such element</a> <a>error</a>.
@@ -1878,83 +1884,74 @@ associated browser process to be killed</p>.
  <var>element</var>:
 
 <ol>
- <li><p>For each <var>web element</var> in
-  the <a>current browsing context</a>’s set of <a>known web elements</a>:
+ <li><p>For each <var>known element</var>
+  of the <a>current browsing context</a>’s <a>known elements</a>:
 
   <ol>
-   <li><p>If <var>web element</var>’s <a>document element</a>
+   <li><p>If <var>known element</var>
     <a href=https://dom.spec.whatwg.org/#concept-node-equals>equals</a>
     <var>element</var>,
-    return <var>web element</var>’s <a>web element reference</a>.
+    return <var>known element</var>’s <a>web element reference</a>.
   </ol>
 
- <li>Let <var>new reference</var> be a string with a unique identifier
-  that is determined at the <a>remote end</a>’s discretion.
-  This MAY be a UUID,
-  but it MUST NOT be equal to <var>element</var>’s
-  "<code>id</code>" content attribute.
+ <li><p>Let <var>new reference</var> be the result of <a>generating a new UUID</a>.
+  <!-- TODO(ato): Not convinced this provision is needed: -->
+  It MUST NOT be equal to <var>element</var>’s
+  "<code>id</code>" content <a href=https://dom.spec.whatwg.org/#concept-attribute>attribute</a>.
 
- <li><p>Let <var>new web element</var> be a new <a>web element</a>
-  with the following properties:
+ <li><p>Set <var>element</var>’s <a>web element reference</a>
+  to <var>new reference</var>.
 
-  <dl>
-   <dt><a>web element reference</a>
-   <dd><p>Value of <var>new reference</a>.
+ <li><p>Append <var>element</var> to
+  the <a>known elements</a> of the <a>current browsing context</a>.
 
-   <dt><a>document element</a>
-   <dd><p>Value of <var>element</var>.
-  </dl>
-
- <li><p>Add <var>new web element</var> to
-  the <a>known web elements</a> of the <a>current browsing context</a>.
-
- <li><p>Return <var>new web element</var>’s <a>web element reference</a>.
+ <li><p>Return <var>element</var>’s <a>web element reference</a>.
 </ol>
 
-<p>When asked to <dfn>serialise the web element</dfn>
- <var>web element</var>:
+<p>When asked to <dfn>serialise the element</dfn> <var>element</var>:
 
 <ol>
  <li><p>Let <var>object</var> be a new JSON Object with properties:
 
   <dl>
-   <dt>"<code>element-6066-11e4-a52e-4f735466cecf</code>"
-   <dd><p>Value of <var>web element</var>’s <a>web element reference</a>.
+   <dt><a>web element identifier</a>
+   <dd><p>Value of <var>element</var>’s <a>web element reference</a>.
   </dl>
 
- <li><p>Return <var>web element</var>.
+ <li><p>Return <var>object</var>.
 </ol>
 
-<p>When asked to <dfn>deserialise the web element</dfn>
- by a JSON Object <var>object</var>:
+<p>When required to <dfn>deserialise the web element</dfn>
+ by a JSON Object <var>object</var> that <a>represents a web element</a>:
 
 <ol>
- <li><p>If there is no property "<code>element-6066-11e4-a52e-4f735466cecf</code>"
-  on <var>object</var>, return an <a>invalid argument</a> <a>error</a>.
+ <li><p>If <var>object</var> has no
+  <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.2.1>own property</a>
+  <a>web element identifier</a>,
+  return an <a>invalid argument</a> <a>error</a>.
 
- <li><p>Let <var>reference</var> be the value of <var>object</var>’s
-  "<code>element-6066-11e4-a52e-4f735466cecf</code>" property.
+ <li><p>Let <var>reference</var> be the result of
+  <a title="getting a property">getting the property</a>
+  <a>web element identifier</a> from <var>object</var>.
 
- <li><p><a>Get a known web element</a> from <var>reference</var>
-  and let it be <var>web element</var>.
+ <li><p><a>Get a known element</a> from <var>reference</var>
+  and let it be <var>element</var>.
 
  <li><p>If an error occured, propagate this error and abort these steps.
 
- <li><p>Return <var>web element</var>.
+ <li><p>Return <var>element</var>.
 </ol>
 
-<p>A <a title="is stale">stale</a> <a>web element</a>
+<p>A <a title="is stale">stale</a> <a>element</a>
  is a reference to a <a href=https://dom.spec.whatwg.org/#concept-node>node</a>
  that has been disconnected from the <a>current browsing context</a>’s DOM.
- To determine if an element <dfn>is stale</dfn>, run the following substeps:
+ To determine if an <var>element</var> <dfn>is stale</dfn>, run the following substeps:
 
 <ol>
- <li><p>Let <var>node</var> be <var>web element</var>’s <a>document element</a>.
-
  <li><p>Let <var>document</var> be the <a>current browsing context</a>’s
   <a href=https://dom.spec.whatwg.org/#document-element>document element</a>.
 
- <li><p>If <var>node</var> is <a>not in the same tree</a> as <var>document</var>,
+ <li><p>If <var>element</var> is <a>not in the same tree</a> as <var>document</var>,
   return true.
 
  <li><p>Otherwise return false.
@@ -2775,17 +2772,19 @@ associated browser process to be killed</p>.
   return an <a>error</a> with code <a>no such window</a>.
 
  <li><p><a>Deserialise the web element</a> from <var>parameters</var>,
-  and let it be known as <var>web element</var>.
+  and let it be known as <var>element</var>.
 
- <li><p>If an error occurred, return the <a>error</a>
+ <li><p>If an <a>error</a> occurred,
+  return the <a>error</a>
   and abort these substeps.
 
- <li><p>If <var>web element</var> <a>is stale</a>,
-  return <a>error</a> with code <a>stale element reference</a>.
+ <li><p>If <var>element</var> <a>is stale</a>,
+  return a <a>stale element reference</a> <a>error</a>.
 
  <li><p>Let <var>qualified name</var> be the result of getting
-  <var>web element</var>’s <a>web element node</a>’s
-  <a href=https://dom.spec.whatwg.org/#dom-element-tagname>tagName</a> attribute.
+  <var>element</var>’s
+  <a href=https://dom.spec.whatwg.org/#dom-element-tagname>tagName</a>
+  content <a href=https://dom.spec.whatwg.org/#concept-attribute>attribute</a>.
 
  <li><p>Let <var>body</var> be a JSON Object
   with the "<code>value</code>" member set to <var>qualified name</var>.
@@ -2845,21 +2844,20 @@ associated browser process to be killed</p>.
   return an <a>error</a> with code <a>no such window</a>.
 
  <li><p><a>Deserialise the web element</a> from <var>parameters</var>,
-  and let it be known as <var>web element</var>.
+  and let it be known as <var>element</var>.
 
  <li><p>If an error occurred, return the <a>error</a>  and abort these substeps.
 
- <li><p>If <var>web element</var> <a>is stale</a>,
-  return <a>error</a> with code <a>stale element reference</a>.
+ <li><p>If the <var>element</var> <a>is stale</a>,
+  return a <a>stale element reference</a> <a>error</a>.
 
- <li><p><a>Calculate the absolute position</a> of
-  <var>web element</var>’s <a>document element</a>
+ <li><p><a>Calculate the absolute position</a> of <var>element</var>
   and let it be <var>coordinates</var>.
 
- <li><p>Let <var>rect</var> be <var>web element</var>’s
-  <a>document element</a>’s <a href=http://dev.w3.org/fxtf/geometry/#domrect>DOMRect</a>.
+ <li><p>Let <var>rect</var> be <var>element</var>’s
+  <a href=http://dev.w3.org/fxtf/geometry/#domrect>DOMRect</a>.
 
- <li><p>Let <var>data</var> be a new JSON Object initialised with:
+ <li><p>Let <var>body</var> be a new JSON Object initialised with:
 
   <dl>
    <dt>"<code>x</code>"
@@ -2877,7 +2875,7 @@ associated browser process to be killed</p>.
     <a href=http://dev.w3.org/fxtf/geometry/#dom-domrectreadonly-domrect-width>width</a>.
   </dl>
 
- <li><p>Return <a>success</a> with data <var>data</var>.
+ <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
 </section> <!-- /Get Element Rect -->
 
