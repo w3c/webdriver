@@ -1538,14 +1538,65 @@ associated browser process to be killed</p>.
 
   <section>
     <h2>Resizing and Positioning Windows</h2>
-    <p>All commands MUST be handled by the OS window that ultimately owns the current context.</p>
-    <dl class='idl' title='dictionary WindowSize'>
-      <dt>double height</dt>
-      <dd>The height of the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>.
-      <dt>double width</dt>
-      <dd>The width of the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a></dd>.
-    </dl>
+
     <section>
+      <h3>Introduction</h3>
+      <p>WebDriver provides commands for interacting with the
+      operating system window containing the current browsing
+      context. Because different operating systems, window managers
+      provide different abilities, not all of the commands in this
+      section can be supported by all remote ends. Where a command is
+      not supported, an <a>unsupported operation</a> error is
+      returned.</p>
+    </section>
+    <section>
+
+      <section>
+      <h3>Get Window Size</h3>
+        <p>
+          <table class="simple jsoncommand">
+            <tr>
+              <th>HTTP Method</th>
+              <th>Path Template</th>
+              <th>Notes</th>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td id='get-window_handle-size'>/session/{sessionId}/window/size</td>
+              <td></td>
+            </tr>
+          </table>
+        <p>The Get Window Size command returns the size of the
+        operating system window corresponding to the <a>current
+        top-level browsing context</a>.</p>
+
+        <p>The <a>remote end steps</a> for <dfn>Get Window Size</dfn>
+        are:</p>
+        <ol>
+          <!-- Can this whole operation be unsupported? -->
+          <li><p>If the <a>current top level browsing context</a> is <a>no longer open</a>,
+              return an error with code <a>no such window</a>.</li>
+          <li><p>Let <var>width</var> be the width in CSS pixels of the OS
+              window containing the <a>current top-level browsing
+              context</a>, including any browser chrome and
+              externally drawn window decorations.</li>
+          <li><p>Let <var>height</var> be the height in CSS pixels of
+          the OS window containing the <a>current top-level browsing
+          context</a>, including any browser chrome and any externally
+          drawn window decorations.</li>
+
+          <li><p>Let <var>data</var> be a new JSON Object.</li>
+
+          <li><p>Set the property <code>width</code> on <var>data</var>
+              to <var>width</var>.</li>
+
+          <li><p>Set the property <code>height</code> on <var>data</var>
+              to <var>height</var>.</li>
+
+          <li><p>Return <a>success</a> with data <var>data</var>
+        </ol>
+      </section>
+
       <!-- setWindowSize() -->
       <h3>setWindowSize()</h3>
         <p>
@@ -1572,57 +1623,86 @@ associated browser process to be killed</p>.
           <dd>The "height" value refer to the javascript <code>window.outerheight</code> property. If the User Agent does not support this property, it represents the width of the whole OS window including window chrome and window resizing borders/handles.</li></dd>
 
       </section>
+
+
       <section>
-      <!-- getWindowSize() -->
-      <h3>getWindowSize()</h3>
-        <p>
-          <table class="simple jsoncommand">
-            <tr>
-              <th>HTTP Method</th>
-              <th>Path Template</th>
-              <th>Notes</th>
-            </tr>
-            <tr>
-              <td>GET</td>
-              <td id='get-window_handle-size'>/session/{sessionId}/window/size</td>
-              <td></td>
-            </tr>
-          </table>
-        <p>
-          A command named "getWindowSize()":
-        <ol>
-          <li>Create a <a>WindowSize</a> dictionary containing the <code><a href='#widl-WindowSize-height'>height</a></code> and <code><a href='#widl-WindowSize-width'>width</a></code> keys.
-          <li>Populate <code><a href='#widl-WindowSize-width'>width</a></code> with the value of <code>window.outerwidth</code> property of the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a>. If the User Agent does not support this property, it represents the width of the whole OS window including window chrome and window resizing borders/handles.</li>
-          <li>Populate <code><a href='#widl-WindowSize-height'>height</a></code> with the value of <code>window.outerheight</code> property of the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands in <a href='http://www.w3.org/TR/css3-values/#absolute-lengths'>CSS reference pixels</a>. If the User Agent does not support this property, it represents the width of the whole OS window including window chrome and window resizing borders/handles.</li>
-          <li>Return <a>WindowSize</a></li>
-        </ol>
+      <h3>Maximize Window</h3>
+      <table class="simple jsoncommand">
+        <tr>
+          <th>HTTP Method</th>
+          <th>Path Template</th>
+          <th>Notes</th>
+        </tr>
+        <tr>
+          <td>POST</td>
+          <td id='get-window_handle-maximize'>/session/{sessionId}/window/maximize</td>
+          <td></td>
+        </tr>
+      </table>
+      <p>The <a>Maximize Window</a> command invokes the window
+      manager-specific "maximize" operation, if any, on the window
+      containing the <a>current top-level browsing context</a>. This
+      typically increases the window to the maximum available size
+      without going full-screen.</p>
+      <p>The <a>remote end steps</a> for <dfn>Maximise Window</dfn>
+        are:</p>
+      <ol>
+          <li><p>If the <a>current top level browsing context</a>
+              is <a>no longer open</a>, return an <a>error</a> with
+              code <a>no such window</a>.</li>
+          <li><p>If the <a>remote end</a> does not support the
+               <a>Maximize Window</a> command for the <a>current top
+              level browsing context</a> for any reason, return an
+              error with code <a>unsupported operation</a>.</li>
+          <li><p>Run the implementation-specific steps to complete the
+          <a>Maximize</a> command,
+          which should have the effect of maximizing the dimensions of
+          the window containing the <a>current active top-level
+          browsing context</a> without making the window full-screen, if the
+          window manager distinguishes between maximized and
+          full-screen windows.</li>
+          <li><p>Return <a>success</a> with data null</li>
+      </ol>
       </section>
 
       <section>
-      <!-- maximizeWindow() -->
-      <h3>maximizeWindow()</h3>
-        <p>
-          <table class="simple jsoncommand">
-            <tr>
-              <th>HTTP Method</th>
-              <th>Path Template</th>
-              <th>Notes</th>
-            </tr>
-            <tr>
-              <td>POST</td>
-              <td id='get-window_handle-maximize'>/session/{sessionId}/window/maximize</td>
-              <td></td>
-            </tr>
-          </table>
-        <p>After  <code>maximizeWindow</code>, the OS window currently receving commands MUST be left as if the maximise button had been pressed if, and only if, the window manager of the OS supports this concept; it is not sufficient to leave the window "restored", but with the full screen dimensions.</p>
-        <p>If a request is made to resize a window to a size which cannot be performed (e.g. the browser has a minimum, or fixed window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
-      </section>
-      <section>
-      <!-- fullscreenWindow -->
-      <h3>fullscreenWindow()</h3>
-        <p>After <code>fullscreenWindow</code>, the OS window currently receiving commands MUST be in full-screen mode. For those operating systems that support the concept, this MUST be equivalent to if the user requested the OS window be full screen.</p>
+      <h3>Fullscreen Window</h3>
+      <table class="simple jsoncommand">
+        <tr>
+          <th>HTTP Method</th>
+          <th>Path Template</th>
+          <th>Notes</th>
+        </tr>
+        <tr>
+          <td>POST</td>
+          <td id='get-window_handle-maximize'>/session/{sessionId}/window/maximize</td>
+          <td></td>
+        </tr>
+      </table>
+      <p>The <a>Fullscreen Window</a> command invokes the window
+      manager-specific "full screen" operation, if any, on the window
+      containing the <a>current top-level browsing context</a>. This
+      typically increases the window to the size of the physical
+      display and can hide browser UI elements such as toolbars.</p>
+      <p>The <a>remote end steps</a> for <dfn>Fullscreen Window</dfn>
+        are:</p>
+      <ol>
+          <li><p>If the <a>current top level browsing context</a>
+              is <a>no longer open</a>, return an <a>error</a> with
+              code <a>no such window</a>.</li>
+          <li><p>If the <a>remote end</a> does not support the
+               <a>Fullscreen Window</a> command for the <a>current top
+              level browsing context</a> for any reason, return an
+              error with code <a>unsupported operation</a>.</li>
+          <li><p>Run the implementation-specific <a>Fullscreen
+          Window</a> steps, which should have the effect of making the
+          dimensions of the window containing the <a>current top-level
+          browsing context</a> as close as possible to the dimensions
+          of the display containing the window dimensions, and may
+          hide browser-provided chrome such as toolbars.</li>
+          <li><p>Return <a>success</a> with data null</li>
+      </ol>
 
-        <p>If the User Agent or OS does not support switching to full-screen mode, an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
     </section>
   </section>
 </section>
