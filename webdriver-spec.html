@@ -3014,6 +3014,7 @@ associated browser process to be killed</p>.
           <p></p>
         </section>
 </section>
+
 <section>
   <h2>Cookies</h2>
 
@@ -3022,6 +3023,7 @@ associated browser process to be killed</p>.
   as described in the HTML Specification ([[!html51]]). When retrieving
   and setting a cookie it MUST be in the format of a <code>Cookie</code>.</p>
   <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "cookies" folder.</p>
+
   <section>
     <h2>Cookie</h2>
     <p>When returning Cookie objects, the server SHOULD include all optional fields it is capable of providing the information for.</p>
@@ -3037,7 +3039,7 @@ associated browser process to be killed</p>.
             </tr>
             <tr>
               <td>GET</td>
-              <td id='GET-cookie-name'>/session/{sessionId}/cookie/{name}</td>
+              <td>/session/{sessionId}/cookie/{name}</td>
               <td></td>
             </tr>
           </table>
@@ -3076,27 +3078,28 @@ associated browser process to be killed</p>.
                 <li><p>Add an entry whose key is <var>value</var> and value is <var>cookie-value</var> as defined in [[!RFC6265]]</p></li>
                 <li><p>If cookie's attribute-list contains an attribute with attribute-name of Path,
                   let <var>path</var> be the attribute-value of the last attribute in the cookie-attribute-list
-                   with an attribute-name of "Path". Otherwise let <var>path</var> be null</p>
-                  <p>Add an entry to <var>serialized cookie</var> with key "path" and value <var>path</var></p></li>
+                   with an attribute-name of "Path". Otherwise let <var>path</var> be null.</p>
+                  <p>Add an entry to <var>serialized cookie</var> with key "path" and value <var>path</var>.</p></li>
                 <li><p>If cookie's attribute-list contains an attribute with attribute-name of Domain,
                   let <var>domain</var> be the attribute-value of the last attribute in the cookie-attribute-list
                   with an attribute-name of "Domain". Otherwise let <var>domain</var> be null</p>
-                  <p>Add an entry to <var>serialized cookie</var> with key "domain" and value <var>domain</var></p></li>
+                  <p>Add an entry to <var>serialized cookie</var> with key "domain" and value <var>domain</var>.</p></li>
                 <li><p>If cookie's attribute-list contains an attribute with attribute-name of Secure,
                   let <var>secure</var> be the attribute-value of the last attribute in the cookie-attribute-list
                   with an attribute-name of "Secure". Otherwise let <var>secure</var> be null</p>
-                  <p>Add an entry to <var>serialized cookie</var> with key "secure" and value <var>secure</var></p></li>
+                  <p>Add an entry to <var>serialized cookie</var> with key "secure" and value <var>secure</var>.</p></li>
                 <li><p>If cookie's attribute-list contains an attribute with attribute-name of Expires,
                   let <var>expiry</var> be the attribute-value of the last attribute in the cookie-attribute-list
                    with an attribute-name of "Expires" specified in milliseconds since midnight, January 1, 1970 UTC
-                    using the format described in [[!RFC1123]]. Otherwise let <var>expiry</var> be null</p>
+                    using the format described in [[!RFC1123]]. Otherwise let <var>expiry</var> be null.</p>
               </ul>
-              <li>Return <var>serialized cookie</var></li>
+              <li>Return <var>serialized cookie</var>.</li>
             </ol>
           </p>
       </section>
+
       <section>
-      <h3>addCookie</h3>
+      <h3>Add Cookie</h3>
         <p>
           <table class="simple jsoncommand">
             <tr>
@@ -3106,7 +3109,7 @@ associated browser process to be killed</p>.
             </tr>
             <tr>
               <td>POST</td>
-              <td id='post-cookie'>/session/{sessionId}/cookie</td>
+              <td>/session/{sessionId}/cookie</td>
               <td></td>
             </tr>
           </table>
@@ -3136,11 +3139,13 @@ associated browser process to be killed</p>.
               following the steps described in <a href='http://tools.ietf.org/html/rfc6265#section-5.3'>Storage Model</a>
               in [[!RFC6265]]. If there is an error during this step return an error
               with code <a>unable to set cookie</a>.</p></li>
-            <li><p>Return <a>success</a> with data null</p></li>
+            <li><p>Return <a>success</a> with data null.</p></li>
           </ol>
     </section>
+
     <section>
-      <h3>deleteCookie</h3>
+      <h3>Delete Cookie</h3>
+
       <p>
         <table class="simple jsoncommand">
           <tr>
@@ -3150,7 +3155,7 @@ associated browser process to be killed</p>.
           </tr>
           <tr>
             <td>DELETE</td>
-            <td id='delete-cookie'>/session/{sessionId}/cookie/{name}</td>
+            <td>/session/{sessionId}/cookie/{name}</td>
             <td></td>
           </tr>
         </table>
@@ -3176,11 +3181,12 @@ associated browser process to be killed</p>.
                   and set the value in the past.</p></li>
               </ol>
           </ol>
-        <li><p>Return <a>success</a> with data null</p></li>
+        <li><p>Return <a>success</a> with data null.</p></li>
       </ol>
     </section>
   </section>
 </section>
+
 <section>
   <h2 id="timeouts">Timeouts</h2>
   <p>This section describes how timeouts and implicit waits are handled within WebDriver</p>
