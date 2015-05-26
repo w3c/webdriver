@@ -1109,31 +1109,22 @@ associated browser process to be killed</p>.
 </section>
 <section>
   <h2>Navigation</h2>
-  <section>
-    <h3>Introduction</h3>
-    <p>Almost all usages of the WebDriver API begin by navigating to a particular URL. This section not only describes the commands used for navigation, but also describes when commands must be processed.</p>
-  </section>
+  <p>The commands in this section allow navigation of the <a>current
+  top-level browsing context</a> to new URLs and introspection of the
+  document currently loaded in this browsing context.
 
-  <section>
-    <h3 id="page-load-strategies">The Page Load Strategy</h3>
+  <p>For commands that cause a new document to load, the point at
+  which the command returns is determined by the session's <a>page
+  load strategy</a>. A value of <code>normal</code> causes the command
+  to return after the <code>load</code> event fires on the new page, a
+  value of <code>eager</code> causes it to return
+  after <code>DOMContentLoaded</code> fires, and a value
+  of <code>none</code> causes it to return immediately.
 
-    <p><a>Local ends</a> may choose at what point during the page load cycle the remote end returns a response to navigation commands by requesting a particular <dfn>page load strategy</dfn> when creating a <a>new session</a>. The available page load strategies are:
-
-    <dl>
-      <dt><dfn>normal</dfn></dt>
-      <dd><p>The response is sent when the <code>document.readyState</code> of the frame currently handling commands equals <code>complete</code>.</p>
-
-      <dt><dfn>eager</dfn></dt>
-      <dd><p>The response is sent when the <code>document.readyState</code> of frame currently handling reaches <code>interactive</code> or <code>complete</code>.</p>
-
-      <dt><dfn>none</dfn></dd>
-      <dd><p>The response is sent immediately after initiating the navigation.</p>
-    </dl>
-
-    <!-- Todo: most of this should be elsewhere -->
-    <p>All WebDriver implementations MUST support the <a>normal</a> and <a>eager</a> modes and SHOULD support the <a>none</a> mode. If no page loading strategy is chosen, then <a>normal</a> MUST be the default.
-    In addition, implementors MAY add additional page loading strategies.</p>
-  </section>
+  <p>Navigation actions are also affected by the value of
+  the <a>session page load timeout</a>, which determines the maximum
+  time that commands will block before returning with a <a>timeout</a>
+  error.
 
 <section>
 <h3>Get</h3>
