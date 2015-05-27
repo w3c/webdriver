@@ -179,6 +179,9 @@ code a:visited, code a:link {
   and so are bound by the requirements on a <a>remote end</a> in terms of the wire protocol.
   However they are not expected to implement <a>commands</a> directly.
 </dl>
+<p>When <dfn>getting a property</dfn> from a JSON Object, the steps in [[!ECMA-262]]
+  <a href='http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.2'>GetProperty</a>
+  need to be followed.
 </section>
 <section>
   <h2>The WebDriver Protocol</h2>
@@ -1871,7 +1874,7 @@ associated browser process to be killed</p>.
  <li><p>If an error occured, propagate this error and abort these steps.
 
  <li><p>Return <var>web element</var>.
-</ol>    
+</ol>
 
 <p>A <a title="is stale">stale</a> <a>web element</a>
  is a reference to a <a href=https://dom.spec.whatwg.org/#concept-node>node</a>
@@ -2699,7 +2702,7 @@ associated browser process to be killed</p>.
             qualified name</a> of the element.
           <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
        </section>
- 
+
 <section>
 <h3>Get Element Rect</h3>
 
