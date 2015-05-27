@@ -1178,13 +1178,13 @@ associated browser process to be killed</p>.
   the <a>remote end</a> must proceed with the steps below,
   irrespective of how the authentication challenge is handled.
 
- <li><p>If the <a>current session</a>'s <a>page load strategy</a> is <a>none</a>
-  jump to the next step in this overall set of steps.
+ <li><p>If the <a>current session</a>'s <a>page loading strategy</a>
+  is <a>none</a> jump to the next step in this overall set of steps.
   Otherwise:
 
   <ol>
    <li><p>Let <var>readiness target</var> be <code>"interactive"</code>
-    if the <a>current session</a>'s <a>page load strategy is <a>eager</a>,
+    if the <a>current session</a>'s <a>page loading strategy</a> is <a>eager</a>,
     or <code>"complete"</code> if it is <a>normal</a>.
 
    <li><p>Wait for the <a>current document readiness</a> to reach <var>readiness target</var>,
@@ -2183,17 +2183,17 @@ associated browser process to be killed</p>.
       <p>This strategy MUST be supported by all WebDriver implementations. </p>
       <p>This strategy MUST return all <a href="http://www.w3.org/TR/html5/text-level-semantics.html#the-a-element">"a"</a> elements with visible text exactly and case sensitively equal to the term being searched for.</p>
       <div class="note">
-	    <p>This is equivalent to:</p>
-	    <pre>
-		  elements = driver.find_elements(by = By.TAG_NAME, value = "a")
-		  result = []
-		  for element in elements:
-		    text = element.text
-		    if text == search_term:
-		      result.append(element)
-		</pre>
-		<p>Where "search_term" is the link text being searched for, and "result" contains the list of elements to return.</p>
-	  </div>
+            <p>This is equivalent to:</p>
+            <pre>
+                  elements = driver.find_elements(by = By.TAG_NAME, value = "a")
+                  result = []
+                  for element in elements:
+                    text = element.text
+                    if text == search_term:
+                      result.append(element)
+                </pre>
+                <p>Where "search_term" is the link text being searched for, and "result" contains the list of elements to return.</p>
+          </div>
     </section>
     <section>
       <h2>Partial Link Text</h2>
@@ -2201,22 +2201,22 @@ associated browser process to be killed</p>.
       <p>This strategy MUST be supported by all WebDriver implementations.</p>
       <p>This strategy is very similar to <a href="#link-text">link text</a>, but rather than matching the entire string, only a subset needs to match. That is, this MUST return all <a href="http://www.w3.org/TR/html5/text-level-semantics.html#the-a-element">"a"</a> elements with visible text that partially or completely and case sensitively matches the term being searched for.</p>
       <div class="note">
-	    <p>This is equivalent to:</p>
-	    <pre>
-		  elements = driver.find_elements(by = By.TAG_NAME, value = "a")
-		  result = []
-		  for element in elements:
-		    text = element.text
-		    if text.search(seach_term) != -1:
-		      result.append(element)
-		</pre>
-		<p>Where "search_term" is the link text being searched for, and "result" contains the list of elements to return.</p>
-	  </div>
+            <p>This is equivalent to:</p>
+            <pre>
+                  elements = driver.find_elements(by = By.TAG_NAME, value = "a")
+                  result = []
+                  for element in elements:
+                    text = element.text
+                    if text.search(seach_term) != -1:
+                      result.append(element)
+                </pre>
+                <p>Where "search_term" is the link text being searched for, and "result" contains the list of elements to return.</p>
+          </div>
     </section>
     <section>
       <h2>XPath</h2>
       <p>Strategy name: xpath</p>
-      <p>All WebDriver implementations MUST support finding elements by XPath 1.0 [[!XPATH]] with the <a href="http://dev.w3.org/html5/spec/Overview.html#interactions-with-xpath-and-xslt">edits from section 3.3</a> of the [[!html51]] specification made. If no native support is present in the browser, a pure JS implementation MAY be used. When called, the returned values MUST be equivalent of calling "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate">evaluate</a>" function from [[DOM-LEVEL-3-XPATH]] with the result type set to "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE">ORDERED_NODE_SNAPSHOT_TYPE</a> (7).</p>
+      <p>All WebDriver implementations MUST support finding elements by XPath 1.0 [[!XPATH]] with the <a href="http://dev.w3.org/html5/spec/Overview.html#interactions-with-xpath-and-xslt">edits from section 3.3</a> of the [[!html51]] specification made. If no native support is present in the browser, a pure JS implementation MAY be used. When called, the returned values MUST be equivalent of calling "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate">evaluate</a>" function from [[DOM-LEVEL-3-XPATH]] with the result type set to <a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE">ORDERED_NODE_SNAPSHOT_TYPE</a> (7).</p>
     </section>
   </section>
 
@@ -4044,7 +4044,7 @@ associated browser process to be killed</p>.
     <p>The keys considered upper-case symbols are either defined by the current keyboard locale or are derived from the US 104 keys Microsoft Windows keyboard layout, which are:
     <ul>
       <li>A - Z</li>
-      <li>!$^*()+{}:?|~@#%_\" &amp; &lt; &gt;</li>
+      <li>!$^*()+{}:?|~@#%_\&quot; &amp; &lt; &gt;</li>
     </ul>
     <p>When the user input is emulated natively (see note below), the implementation SHOULD use the current keyboard locale to determine which symbols are upper case. In all other cases, the implementation MUST use the US 104 key Microsoft Windows keyboard layout to determine those symbols.</p>
     <p>The state of the physical keyboard MUST NOT affect emulated user input.</p>
@@ -4242,7 +4242,7 @@ associated browser process to be killed</p>.
         <tr><td><span id="capability-takesElementScreenshot">takesElementScreenshot</span></td><td>boolean</td></tr>
       </table>
 
-  	<p>If this capability is supported, local end MUST add the <code>TakesScreenshot</code> interface to the <code>WebElement</code> interface.</p>
+    <p>If this capability is supported, local end MUST add the <code>TakesScreenshot</code> interface to the <code>WebElement</code> interface.</p>
     <table class="simple jsoncommand">
       <tr>
         <th>HTTP Method</th>
