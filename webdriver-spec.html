@@ -883,13 +883,9 @@ code a:visited, code a:link {
  including all its child browsers.
  WebDriver gives each <a>session</a> a unique <a>session ID</a>
  that can be used to differentiate one session from another,
- allowing multiple user agents to be controlled on the same machine if needed,
+ allowing multiple user agents to be controlled from a single HTTP server,
  and allowing sessions to be routed via a multiplexer
  (known as an <a>intermediary node</a>).
-
-<p class=note>This requires the <a>remote end</a> to maintain global state of
- <a rel="list of active sessions">current active sessions</a>,
- as well as the <a>current session</a> that only lasts for the duration of that session.
 
 <p>A WebDriver <dfn>session</dfn> represents
  the connection between a local end and a specific remote end.
@@ -912,13 +908,13 @@ code a:visited, code a:link {
 <p>A <a>remote end</a> has an associated <dfn>list of active sessions</dfn>,
  which is a list of all <a rel="session">sessions</a> that are currently started.
 
-<p>A <a>remote end</a> has an associated <a>current session</a>
- that is the <a rel="active session">session that is active</a>
- for the duration of a <a>command</a>.
+<p>Requests, except <a>New Session</a> requests, have an
+  associated <dfn>current session</dfn>, which is the session in
+  which that request's command will run.
 
 <p>A <a>remote end</a> has an associated
  <dfn>maximum active sessions</dfn> (an integer)
- that defines the number of current <a rel="active session">active sessions</a>
+ that defines the number of open sessions
  that are supported.
  This may be "unlimited" for <a rel="intermediary node">intermediary nodes</a>,
  but must be exactly one for a <a>final remote end</a>.
