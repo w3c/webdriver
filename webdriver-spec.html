@@ -872,7 +872,7 @@ code a:visited, code a:link {
                 <p>Let <var>proxy</var> be the result of <a>getting a property</a>
                 named <code>proxy</code> from <var>unprocessed capability</var>. If <var>proxy</var>
                 is undefined move to the next step. If <var>proxy</var> is defined and not a map
-                append a string saying that a map is required else call <a>setup proxy</a><!-- TODO (David) define setup proxy-->
+                append a string saying that a JSON Object is required else call <a>setup a proxy</a>
                 passing in <var>proxy</var>.
                 </p>
               </li>
@@ -891,6 +891,56 @@ code a:visited, code a:link {
         <li><p>Return <var>server capabilities</var>.</p></li>
     </ol>
   </p>
+</section>
+<section>
+  <p>The process to <dfn>setup a proxy</dfn> is:
+    <ol>
+      <li><p>Let <var>proxy</var> be the JSON Object passed in as an argument</p></li>
+      <li><p>Let <var>valid proxy type</var> be a JSON List with the following values
+        <code>direct</code>, <code>manual</code>, <code>pac</code>, <code>autodetect</code>
+        and <code>system</code>.</p></li>
+      <li><p>Let <var>proxy type</var> be the result of <a>getting a property</a> named
+        <code>proxyType</code> from <var>proxy</var>. If <var>proxy type</var> is undefined return
+          an <a>error</a>. If <var>proxy type</var> is not a string with the one of the following
+          values , return an <a>error</a>.
+         </p>
+      </li>
+      <li>
+        <p>
+          If <var>proxy type</var> is equal to <code>pac</code>:
+        </p>
+        <ol>
+          <li><p>Let <var>proxy autoconfiguration url</var> be the result of <a>getting a property</a>
+          named <code>proxyAutoconfigUrl</code>. If <var>proxy autoconfiguration url</var> is undefined
+          return an <a>error</a>.</p></li>
+        </ol>
+      </li>
+      <li><p>If <var>proxy type</var> is not equal to <code>manual</code>:</p>
+        <ol>
+          <li><p>Let <var>no proxy</var> be the result of <a>getting a property</a> named
+            <code>noProxy</code> from <var>proxy</var>.</p></li>
+          <li><p>Let <var>ftp proxy</var> be the result of <a>getting a property</a> named
+            <code>ftpProxy</code> from <var>proxy</var>.</p></li>
+          <li><p>Let <var>http proxy</var> be the result of <a>getting a property</a> named
+            <code>httpProxy</code> from <var>proxy</var>.</p></li>
+          <li><p>Let <var>ssl proxy</var> be the result of <a>getting a property</a> named
+            <code>sslProxy</code> from <var>proxy</var>.</p></li>
+          <li><p>Let <var>socks proxy</var> be the result of <a>getting a property</a> named
+            <code>socksProxy</code> from <var>proxy</var>.<p>
+            <p>If <var>socks proxy</var> is defined:</p>
+              <ol>
+                <li><p>Let <var>socks username</var> be the result of <a>getting a property</a>
+                  named <code>socksUsername</code> from <var>proxy</var>.</p></li>
+                <li><p>Let <var>socks password</var> be the result of <a>getting a property</a>
+                  named <code>socksPassword</code> from <var>proxy</var>.</p></li>
+              </ol>
+          </li>
+        </ol>
+      </li>
+      <li><p>Follow implementation defined steps to set the proxy using defined variables from
+        previous steps. If there are items that can not be set during this process return an
+        <a>error</a>.</p></li>
+    </ol>
 </section>
 <section>
 
