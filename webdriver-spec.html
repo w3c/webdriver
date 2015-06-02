@@ -1137,6 +1137,34 @@ associated browser process to be killed</p>.
   time that commands will block before returning with a <a>timeout</a>
   error.
 
+<p>When asked to <dfn>navigate the current top-level browsing context</dfn>
+ with <var>url</var>:
+
+<ol>
+ <li><p>Navigate the <a>current top-level browsing context</a> to <var>url</var>.
+  If the navigation results in a HTTP 401 response,
+  the <a>remote end</a> must proceed with the steps below,
+  irrespective of how the authentication challenge is handled.
+
+ <li><p>If the <a>current session</a>’s <a>page loading strategy</a>
+  is none, jump to the next step in this overall set of steps.
+  Otherwise:
+
+  <ol>
+   <li><p>Let <var>readiness target</var> be "<code>interactive</code>"
+    if the <a>current session</a>’s <a>page loading strategy</a> is <a>eager</a>,
+    or "<code>complete</code>" if it is <a>normal</a>.
+
+   <li><p><a>Wait for the current document readiness</a> to reach <var>readiness target</var>,
+    or for the <a>session page load timeout</a> milliseconds to pass,
+    whichever occurs sooner.
+
+   <li><p>If the previous step completed by the load timeout being reached,
+    and the browser is not currently displaying an alert,
+    return an <a>error</a> with code <a>timeout</a>.
+  </ol>
+</ol>
+
 <section>
 <h3>Get</h3>
 
@@ -1181,29 +1209,11 @@ associated browser process to be killed</p>.
  <li><p>If <var>url</var> is undefined,
   return an <a>error</a> with code <a>invalid argument</a>.
 
- <li><p><a>Navigate</a> the <a>current top-level browsing context</a>'s to <var>url</var>.
-  If this navigation results in a HTTP 401 response,
-  the <a>remote end</a> must proceed with the steps below,
-  irrespective of how the authentication challenge is handled.
+ <li><p><a>Navigate the current top-level browsing context</a>
+  with <var>url</var>.
 
- <li><p>If the <a>current session</a>'s <a>page loading strategy</a>
-  is <a>none</a> jump to the next step in this overall set of steps.
-  Otherwise:
-
-  <ol>
-   <li><p>Let <var>readiness target</var> be <code>"interactive"</code>
-    if the <a>current session</a>'s <a>page loading strategy</a> is <a>eager</a>,
-    or <code>"complete"</code> if it is <a>normal</a>.
-
-   <li><p>Wait for the <a>current document readiness</a> to reach <var>readiness target</var>,
-    or for the <a>session page load timeout</a> milliseconds to pass,
-    whichever occurs sooner.
-
-   <li><p>If the previous step completed by the <a>load timeout</a> being reached,
-    and the browser is not currently displaying an alert,
-    <!-- perhaps? Not sure if this is what the spec is trying to say -->
-    return an <a>error</a> with code <a>timeout</a>.
-  </ol>
+ <li><p>If an <a>error</a> occured,
+  propagate this error and abort these steps.
 
  <li><p>Return <a>success</a> with data null.
 </ol>
@@ -1341,28 +1351,44 @@ associated browser process to be killed</p>.
           is what the spec is trying to say -->, return
           an <a>error</a> with code <a>timeout</a>.</p></li>
 
-          <li><p>Return <a>success</a> with data <var>null</var></p></li>
+          <li><p>Return <a>success</a> with data <var>null</var>.</p></li>
       </section>
 
-      <section>
-       <!-- refresh() -->
-        <h3>refresh()</h3>
+<section>
+<h3>Refresh</h3>
 
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-            <th>Notes</th>
-          </tr>
-          <tr>
-            <td>POST</td>
-            <td id='post-refresh'>/session/{sessionId}/refresh</td>
-            <td></td>
-          </tr>
-        </table>
-        <p>"refresh" emulates the user hitting the "refresh" or "reload" button in their browser, causing the current page to be reloaded.</p>
-        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </section>
+<table class="simple jsoncommand">
+  <tr>
+    <th>HTTP Method</th>
+    <th>Path Template</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td>/session/{sessionId}/refresh</td>
+    <td></td>
+  </tr>
+</table>
+
+<p>The <dfn>Refresh</dfn> command causes
+ the <a>current top-level browsing context</a> to be navigated,
+ as with <a>Get</a>,
+ to its <a href=https://html.spec.whatwg.org/#dom-document-location>document location</a>.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return an <a>error</a> with code <a>no such window</a>.
+
+ <li><p><a>Navigate the current top-level browsing context</a> to <var>url</var>.
+
+ <li><p>If an <a>error</a> occurrred,
+  propagate this error and abort these steps.
+
+ <li><p>Return <a>success</a>.
+</ol>
+</section> <!-- /Refresh -->
 
 <section>
 <h3>Get Title</h3>
