@@ -1602,9 +1602,8 @@ associated browser process to be killed</p>.
       not supported, an <a>unsupported operation</a> error is
       returned.</p>
     </section>
-    <section>
 
-      <section>
+    <section>
       <h3>Get Window Size</h3>
         <p>
           <table class="simple jsoncommand">
@@ -1648,10 +1647,17 @@ associated browser process to be killed</p>.
 
           <li><p>Return <a>success</a> with data <var>data</var>
         </ol>
+
+        <aside class="note">
+          <p>In some browsers the dimensions of the
+            browser including window decorations are provided by the
+            proprietary <code>window.outerWidth</code>
+            and <code>window.outerHeight</code> properties.</p>
+        </aside>
       </section>
 
-      <!-- setWindowSize() -->
-      <h3>setWindowSize()</h3>
+    <section>
+      <h3>Set Window Size</h3>
         <p>
           <table class="simple jsoncommand">
             <tr>
@@ -1665,16 +1671,62 @@ associated browser process to be killed</p>.
               <td></td>
             </tr>
           </table>
-        <p>
-        Resizes the OS window currently receiving commands to have the <code>height</code> and <code>width</code> passed in as parameters.
-        <p>If a request is made to resize a OS window to a size which cannot be performed (e.g. the browser has a minimum, or fixed OS window size, or the operating system does not support resizing windows at all as is the case in many phone OSs), an <code><a href="#status-unsupported-operation">unsupported operation</a></code> status code MUST be returned.</p>
-        <p>After <code>setWindowSize</code>, the browser window MUST NOT be in the maximised state.</p>
-        <dl class='parameters'>
-          <dt>unsigned double width</dt>
-          <dd>The "width" value refer to the javascript <code>window.outerwidth</code> property. If the User Agent does not support this property, it represents the width of the whole OS window including window chrome and window resizing borders/handles.</li></dd>
-          <dt>unsigned double height</dt>
-          <dd>The "height" value refer to the javascript <code>window.outerheight</code> property. If the User Agent does not support this property, it represents the width of the whole OS window including window chrome and window resizing borders/handles.</li></dd>
 
+        <p>The Set Window Size command alters the size of the
+        operating system window corresponding to the <a>current
+        top-level browsing context</a>.</p>
+
+        <p>The <a>remote end steps</a> for <dfn>Set Window Size</dfn>
+        are:</p>
+        <ol>
+          <li><p>If the <a>current top level browsing context</a>
+              is <a>no longer open</a>, return an error with
+              code <a>no such window</a>.</li>
+
+          <li><p>If the <a>remote end</a> does not support the
+               <a>Set Window Size</a> command for the <a>current top
+              level browsing context</a> for any reason, return an
+              error with code <a>unsupported operation</a>.</li>
+
+          <li><p>Let <var>width</var> be the result of
+              <a>getting a property</a> named <code>width</code>
+              from the <var>parameters</var> argument.</li>
+
+          <li><p>If <var>width</var> is not an integer, or is less
+              than 0, return <a>error</a> with code <a>invalid
+              argument</a>.
+
+          <li><p>Let <var>height</var> be the result of
+              <a>getting a property</a> named <code>height</code>
+              from the <var>parameters</var> argument.
+
+          <li><p>If <var>height</var> is not an integer, or is less
+              than 0, return <a>error</a> with code <a>invalid
+              argument</a>.
+
+           <!-- TODO: window sizes outside the allowed range -->
+
+          <li><p>Set the width,
+              in <a href="http://www.w3.org/TR/css3-values/#absolute-lengths">CSS
+              reference pixels</a>, of the OS window containing
+              the <a>current top-level browsing context</a>, including
+              any browser chrome and externally drawn window
+              decorations to <var>width</var>.</li>
+
+          <li><p>Set the height,
+              in <a href="http://www.w3.org/TR/css3-values/#absolute-lengths">CSS
+              reference pixels</a>, of the OS window containing
+              the <a>current top-level browsing context</a>, including
+              any browser chrome and externally drawn window
+              decorations to <var>width</var>.</li>
+
+          <li><p>Let <var>height</var> be the height in <a href="http://www.w3.org/TR/css3-values/#absolute-lengths">CSS reference pixels</a> of
+          the OS window containing the <a>current top-level browsing
+          context</a>, including any browser chrome and any externally
+          drawn window decorations.</li>
+
+          <li><p>Return <a>success</a> with data null.</li>
+        </ol>
       </section>
 
 
