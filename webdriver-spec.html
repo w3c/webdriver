@@ -247,7 +247,7 @@ code a:visited, code a:link {
 
           <li><p>Let <var>parse result</var> be the result of <a>parsing as JSON</a> with <var>request</var>'s <a href="https://fetch.spec.whatwg.org/#concept-request-body" class="externalRef">body</a> as the argument.</p></li>
 
-          <li><p>If <var>parse result</a> is an <a>error</a> or if it is a <a>success</a> but its associated data is not an Object object, <a>send an error</a> with status <a>error code</a> <a>invalid argument</a> and jump back to step 1 in this overall algorithm.</p>
+          <li><p>If <var>parse result</var> is an <a>error</a> or if it is a <a>success</a> but its associated data is not an Object object, <a>send an error</a> with status <a>error code</a> <a>invalid argument</a> and jump back to step 1 in this overall algorithm.</p>
              <p>Otherwise, let <var>parameters</var> be<var>parse result</var>'s data.</p>
           </li>
         </ol>
@@ -834,10 +834,12 @@ code a:visited, code a:link {
               <li>
                 <p>If during the steps below the  <var>unprocessed capability</var> property equals a property on <var>required
                 capabilities</var> and equals a <var>server capabilities</var> property and the values do not match do the following:
-                  <ol>
-                    <li><p>Append a string containing the property name and the differences between the values.</p></li>
-                  </ol>
                 </p>
+                  <ol>
+                    <li>
+                      <p>Append a string containing the property name and the differences between the values.
+                    </p></li>
+                  </ol>
               </li>
 
               <li>
@@ -878,7 +880,6 @@ code a:visited, code a:link {
                 </p>
               </li>
             </ol>
-          </p>
         </li>
         <li>
           <p>If the length of <var>unmet capabilities</var> is not equal to 0 return
@@ -1153,10 +1154,11 @@ associated browser process to be killed</p>.
  <li><p>If <var>url</var> is undefined,
   return an <a>error</a> with code <a>invalid argument</a>.
 
- <li><p><a>Navigate</a> the <a>current top-level browsing context</a>'s to <var>url</var>.
-  If this navigation results in a HTTP 401 response,
-  the <a>remote end</a> must proceed with the steps below,
-  irrespective of how the authentication challenge is handled.
+ <li><p><a href="https://html.spec.whatwg.org/#navigate">Navigate</a>
+  the <a>current top-level browsing context</a> to <var>url</var>.  If
+  this navigation results in a HTTP 401 response, the <a>remote
+  end</a> must proceed with the steps below, irrespective of how the
+  authentication challenge is handled.
 
  <li><p>If the <a>current session</a>'s <a>page loading strategy</a>
   is <a>none</a> jump to the next step in this overall set of steps.
@@ -1200,14 +1202,28 @@ associated browser process to be killed</p>.
             <td></td>
           </tr>
         </table>
-        <p>The <dfn>Get Current Url</dfn> command returns the url of the <a>current top-level browsing context</a>
+        <p>The <dfn>Get Current Url</dfn> command returns the url of
+        the <a>current top-level browsing context</a>.
+
         <p>The <a>remote end steps</a> for the <a>getCurrentUrl</a> command are:</p>
         <ol>
-          <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>, return an error with code <a>no such window</a>.</p></li>
-          <li><p>Let <var>url</var> be the <a href="https://url.spec.whatwg.org/#concept-url-serializer">serialization</a> of the <a>current top-level browsing context</a>'s <a href="https://html.spec.whatwg.org/#active-document">active document</a>'s <a href="https://dom.spec.whatwg.org/#concept-document-url">url</a>.</p></li>
+
+          <li><p>If the <a>current top-level browsing context</a>
+          is <a>no longer open</a>, return an error with code <a>no
+          such window</a>.</p></li>
+
+          <li><p>Let <var>url</var> be
+          the <a href="https://url.spec.whatwg.org/#concept-url-serializer">serialization</a>
+          of the <a>current top-level browsing
+          context</a>'s <a href="https://html.spec.whatwg.org/#active-document">active
+          document</a>'s <a href="https://dom.spec.whatwg.org/#concept-document-url">url</a>.</p></li>
           <li><p>Let <var>data</var> be a <a>new JSON Object</a>.</p>
-          <li><p><a>Set the properties</a> of <var>data</var> with values ("value", <var>url</var>)</p></li>
+
+          <li><p><a>Set the properties</a> of <var>data</var> with
+          values ("value", <var>url</var>)</p></li>
+
           <li><p>Return <a>success</a> with data <var>data</var></p></li>
+        </ol>
       </section>
 
       <section>
@@ -1221,7 +1237,7 @@ associated browser process to be killed</p>.
           </tr>
           <tr>
             <td>POST</td>
-            <td id='get-url'>/session/{sessionId}/back</td>
+            <td id=back>/session/{sessionId}/back</td>
             <td></td>
           </tr>
         </table>
@@ -1317,8 +1333,7 @@ associated browser process to be killed</p>.
       </section>
 
       <section>
-       <!-- refresh() -->
-        <h3>refresh()</h3>
+        <h3>Refresh</h3>
 
         <table class="simple jsoncommand">
           <tr>
@@ -1332,8 +1347,49 @@ associated browser process to be killed</p>.
             <td></td>
           </tr>
         </table>
-        <p>"refresh" emulates the user hitting the "refresh" or "reload" button in their browser, causing the current page to be reloaded.</p>
-        <p> If the page takes too long <a href="#timeouts">as specified by the timeouts</a> a <code><a href="#status-timeout">timeout</a></code> error MUST be raised. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+        <p>The <dfn>Refresh</dfn> command causes the browser to reload
+        the page in in <a>current top-level browsing context</a>.
+
+        <p>The <a>remote end steps</a> for the <a>Refresh</a> command
+        are:</p>
+        <ol>
+          <li><p>If the <a>current top-level browsing context</a>
+          is <a>no longer open</a>, return an error with code <a>no
+          such window</a>.</p></li>
+
+          <li>
+            <p><a>Navigate</a> the <a>current top-level browsing
+            context</a> to the same resource as
+            its <a href="https://html.spec.whatwg.org/#active-document">active
+            document</a>,
+            with <a href="https://html.spec.whatwg.org/#replacement-enabled">replacement
+            enabled</a></p>
+            <!-- Not sure if this needs to consider the reload override flag -->
+          </li>
+
+          <li><p>If the <a>current session</a>'s <a>page load strategy</a> is <a>none</a>
+              jump to the next step in this overall set of steps.
+
+              Otherwise:
+
+              <ol>
+                <li><p>Let <var>readiness target</var> be
+                    <code>"interactive"</code> if the <a>current
+                    session</a>'s <a>page load strategy</a> is <a>eager</a>,
+                    or <code>"complete"</code> if it is <a>normal</a>.</li>
+
+                <li><p>Wait for the <a>current document readiness</a>
+                    to reach <var>readiness target</var>, or for the <a>session page
+                    load timeout</a> milliseconds to pass, whichever occurs sooner.</li>
+
+                <li><p>If the previous step completed by the <a>load timeout</a> being reached,
+                    and the browser is not currently displaying an alert,
+                    <!-- perhaps? Not sure if this is what the spec is trying to say -->
+                    return an <a>error</a> with code <a>timeout</a>.</li>
+              </ol>
+
+              <li><p>Return <a>success</a> with data null.
+        </ol>
       </section>
 
 <section>
