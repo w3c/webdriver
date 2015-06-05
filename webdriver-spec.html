@@ -976,23 +976,27 @@ code a:visited, code a:link {
  which is one of <i>none</i>, <i>normal</i>, and <i>eager</i>.
  Unless stated otherwise, it is <i>normal</i>.
 
-<p>When required to <a>close the session</a> a <a>remote end</a> must
-perform the following steps:
-</p>
+<p>When asked to <dfn>close the session</dfn>,
+ a <a>remote end</a> must take the following steps:
 
 <ol>
-  <li><p><a href="https://html.spec.whatwg.org/#closing-browsing-contexts">Close</a> any top-level browsing contexts associated with the session, without <a href="https://html.spec.whatwg.org/#prompt-to-unload-a-document">promping to unload</a></li>.
+ <li><p><a href=https://html.spec.whatwg.org/#closing-browsing-contexts>Close</a>
+  any <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>
+  associated with the <a>current session</a>,
+  without <a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>promping to unload</a>.
 
-  <li><p>Perform any implementation-specific cleanup steps.</p></li>
+ <li><p>Perform any implementation-specific cleanup steps.
 </ol>
 
-<p class="note">For example, a closing the session might cause the
-associated browser process to be killed</p>.
+<p class="note">For example,
+ closing the session might cause the
+ associated browser process to be killed.
 
-<p>A <a>session</a> is started when <a href=#newsession>new
- session</a> is invoked.  It is an error to send any commands before
- starting a session, or to continue to send commands after the session
- has been.  Maintaining session continuity between requests to
+<p>A <a>session</a> is started when
+ <a href=#newsession>New Session</a> is invoked. 
+ It is an error to send any commands before starting a session,
+ or to continue to send commands after the session has been <a title="close the session">closed</a>.
+ Maintaining session continuity between requests to
  the <a>remote end</a> requires passing a <a>session ID</a>.
 
   <section>
@@ -1005,7 +1009,7 @@ associated browser process to be killed</p>.
       </tr>
       <tr>
         <td>POST</td>
-        <td id='post-session'>/session</td>
+        <td>/session</td>
         <td></td>
       </tr>
     </table>
