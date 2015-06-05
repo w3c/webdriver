@@ -2333,35 +2333,46 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
         </ol>
       </p>
     </section>
-    <section>
-      <h3>getActiveElement()</h3>
-        <p>To get the currently active element on the document do the following algorithm:
-          <table class="simple jsoncommand">
-            <tr>
-              <th>HTTP Method</th>
-              <th>Path Template</th>
-              <th>Notes</th>
-            </tr>
-            <tr>
-              <td>POST</td>
-              <td id='post-active-elements'>/session/{sessionId}/element/active</td>
-              <td></td>
-            </tr>
-          </table>
-          <ol>
-            <li>Let <var>element</var> be a DOMElement that is returned from calling <code>document.activeElement</code></li>
-            <li>Let <var>id</var> be the <a href='#webelement-unique-identifier'>unique identifier</a> for the DOMElement which represents <var>element</var>. If <var>element</var> does not have a <a href='#webelement-unique-identifier'>unique identifier</a> then one should be generated and stored.</li>
-            <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
-            <li>Return <var>result</var>. The object returned will look like the following:
-            <pre>
-              {
-                "value": {"element-6066-11e4-a52e-4f735466cecf": id}
-              }
-            </pre></li>
-          </ol>
-        </p>
-    </section>
-  </section>
+ 
+<section>
+<h3>Get Active Element</h3>
+
+<table class="simple jsoncommand">
+  <tr>
+    <th>HTTP Method</th>
+    <th>Path Template</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <td>GET</td>
+    <td>/session/{sessionId}/element/active</td>
+    <td></td>
+  </tr>
+</table>
+
+<p><dfn>Get Active Element</dfn> returns
+ the <a href=https://html.spec.whatwg.org/#dom-document-activeelement>active element</a>
+ of the <a>current browsing context</a>’s
+ <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return the <a>no such window</a> error.
+
+ <li><p>Let <var>active element</var> be
+  the <a>current browsing context</a>’s
+  <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>’s
+  <code><a href=https://html.spec.whatwg.org/#dom-document-activeelement>activeElement</a></code> attribute. 
+
+ <li><p><a>Serialise the web element</a> that is <var>active element</var>
+  and let it be known as <var>active web element</var>.
+
+ <li><p>Return <a>success</a> with data <var>active web element</var>.
+</ol>
+</section> <!-- /Get Active Element -->
+ </section>
 
   <section>
     <h2 id="element-location-strategies">Element Location Strategies</h2>
@@ -3055,9 +3066,14 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return an <a>error</a> with code <a>no such window</a>.
 
+<<<<<<< HEAD
  <li><p><a>Deserialise the web element</a> from <var>parameters</var>,
   and let it be known as <var>element</var>.
 
+=======
+ <li><p><a>Get a known web element</a> from <var>elementId</var>
+  and let it be known as <var>web element</var>.
+>>>>>>> define Get Active Element command
 
  <li><p>If an error occurred, return the <a>error</a>  and abort these substeps.
 
