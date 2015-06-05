@@ -2518,86 +2518,58 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
  <li>Return false.
 </ol>
 
-    <section>
-      <!-- isDisplayed() -->
-      <h3>isDisplayed()</h3>
+<section>
+<h3>Is Element Displayed</h3>
 
-      <table class="simple jsoncommand">
-        <tr>
-          <th>HTTP Method</th>
-          <th>Path Template</th>
-          <th>Notes</th>
-        </tr>
-        <tr>
-          <td>GET</td>
-          <td id='get-id-displayed'>/session/{sessionId}/element/{element}/displayed</td>
-          <td></td>
-        </tr>
-      </table>
+<table class="simple jsoncommand">
+  <tr>
+    <th>HTTP Method</th>
+    <th>Path Template</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <td>GET</td>
+    <td>/session/{sessionId}/element/{elementId}/displayed</td>
+    <td></td>
+  </tr>
+</table>
 
-      <p>The command is used to determine the
-       <a rel="element displayed">element displayedness</a> of
-       the <a href=http://w3c.github.io/dom/#element>Document element</a>
-       connected with the <a>web element</a> reference given by
-       the <code>element</code> fragment in the path.
+<p>The <dfn>Is Element Displayed</dfn> commnad
+ is used to determine the <a rel="element displayed">element displayedness</a>
+ of a <a>web element</a>.
 
-      <p>The response is composed using the following algorithm:
+<p>The <a>remote end steps</a> are:
 
-      <ol>
-       <li>Let <var>response</var> be an initially empty
-        <a>response</a>.
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return an <a>error</a> with code <a>no such window</a>.
 
-       <li>Let <var>visible</var> be a boolean initially set to
-        false.
+ <li><p>Let <var>visible</var> be a boolean initially set to
+  false.
 
-       <li>Let <var>element</var> be an initially undefined
-        <a href="http://w3c.github.io/dom/#element">Document element</a>.
+ <li><p><a>Deserialise the web element</a> from <var>parameters</var>,
+  and let it be known as <var>web element</var>.
 
-       <li>Let <var>element reference</var> be a string with the
-        value of the <code>element</code> fragment from the path.
+ <li><p>If an <a>error</a> occurred,
+  return the error and abort these substeps.
 
-       <li>If <var>element reference</var> is null or has a
-        length equal to 0, set <var>response</var>'s
-        <a href=#response-status>status</a> to
-        the <a>invalid argument</a> status and return <var>response</var>.
+ <li><p>If <var>web element</var> <a>is stale</a>,
+  return <a>error</a> with code <a>stale element reference</a>.
 
-       <li>If the <a>default content</a>'s <a
-        href=http.//www.w3.org/TR/html5/browser.html#top-level-browsing-context>top
-        level browsing context</a> is no longer open, set
-        <var>response</var>'s <a href=#response-status>status</a>
-        to the <a>no such window</a> status</a> and return
-        <var>response</var>.
+ <li><p>Apply the <a>element displayed</a> algorithm to
+  <var>element</var> and set <var>visible</var> to its
+  return value.
 
-       <li>Set <var>element</var> be the <a
-        href=http://w3c.github.io/dom/#element>Document element</a>
-        found after applying the <a>web element lookup</a> algorithm
-        to the <a>element reference map</a>.
+ <li><p>Let <var>body</var> be a new JSON Object initialised with:
 
-       <li>If <var>element</var> is null
-        or <var>element</var> does not represent a
-        <a href=http://w3c.github.io/dom/#element>Document element</a>,
-        set <var>response</var>'s <a href=#response-status>status</a>
-        to the <a>no such element</a> status
-        and return <var>response</var>.
+  <dl>
+   <dt>"<code>value</code>"
+   <dd>The value of <var>visible</var>.
+  </dl>
 
-       <li>If <var>element</var> represents
-        <a href=http://w3c.github.io/dom/#element>Document element</a>
-        that is no longer attached to the document's node tree,
-        set <var>response</var>'s <a href=#response-status>status</a>
-        to the <a>stale element reference</a> status and return
-        <var>response</var>.
-
-       <li>Apply the <a>element displayed</a> algorithm to
-        <var>element</var> and set <var>visible</var> to its
-        return value.</li>
-
-       <li>Set <var>response</var>'s
-        <a href=#response-status>status</a> to <a>success</a>
-        and its <a href="#response-value">value</a> to <var>visible</var>.
-
-       <li>Return <var>response</var>.
-      </ol>
-    </section>
+ <li><p>Return <a>success</a> with data <var>body</var>.
+</ol>
+</section> <!-- /Is Element Displayed -->
 
       <section>
         <!-- isSelected -->
