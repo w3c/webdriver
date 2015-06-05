@@ -995,108 +995,78 @@ associated browser process to be killed</p>.
  has been.  Maintaining session continuity between requests to
  the <a>remote end</a> requires passing a <a>session ID</a>.
 
-  <section>
-    <h3>New Session</h3>
-    <p><table class="simple jsoncommand">
-      <tr>
-        <th>HTTP Method</th>
-        <th>Path Template</th>
-        <th>Notes</th>
-      </tr>
-      <tr>
-        <td>POST</td>
-        <td id='post-session'>/session</td>
-        <td></td>
-      </tr>
-    </table>
-    <p>The <a>remote end steps</a> for the <dfn>New Session</dfn> command are:</p>
+<section>
+<h3>New Session</h3>
 
-    <ol>
-      <li>
-        <p>If the node is an intermediate node, take implementation-defined steps that either result
-          in returning an error with status code <a>session not created</a> or in returning a
-          <a>success</a> with data that is isomorphic to that returned by <a>remote ends</a>
-          according to the rest of this algorithm.</p>
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+  <th>Notes</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session</td>
+  <td></td>
+ </tr>
+</table>
 
-        <p class=note>This allows intermediary nodes to use the capabilities data in any way they
-          want e.g. to select a specific browser to test based on a combination of the required and
-           desired capabilities. Typically the new session response from the remote end selected in
-            this process will then be  relayed directly to the client</p>
-      </li>
-      <li>
-        <p>
-          If the <a>maximum active sessions</a> is equal to <a>list of active sessions</a>:
-          <ul>
-            <li>
-              <p>
-                Return an <a>error</a> with code <a>unsupported operation</a>.
-              </p>
-            </li>
-          </ul>
-        </p>
-      </li>
-      <li>
-        <p>Let <var>capabilities</var> be the result of <a>getting a property</a> named
-        <code>capabilities</code> from the <var>parameters</var> argument.</p>
-      </li>
-      <li>
-        <p>
-         Let <var>resultant capabilities</var> be the result of <a>processing capabilities</a>
-         with <var>capabilities</var> as an argument. If the result is an <a>error</a>, return an
-         <a>error</a> with the code <a>session not created</a>.
-        </p>
-      </li>
-      <li><p>Let <var>session id</var> be the result of <a>generating a UUID</a>.</p></li>
-      <li><p>Append <var>session id</var> to <a>list of active sessions</a>.</p></li>
-      <li>
-         <p>
-           Let <var>data</var> be an empty JSON Object with the following entries:
-         </p>
-        <ul>
-          <li>
-             <p>
-               <code>sessionId</code>: the value of <var>session id</var>.
-             </p>
-          </li>
-          <li>
-            <p>
-              <code>capabilities</code>: the value of <var>resultant capabilities</var>.
-            </p>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <p>
-          Initialise the following if not set while <a>processing capabilities</a>:
-          <ul>
-            <li>
-              <p>
-                Set <a>session script timeout<a> equal to 30,000 milliseconds.
-              </p>
-            </li>
-            <li>
-              <p>
-                Set <a>session page load timeout</a> equal to 300,000 milliseconds.
-              </p>
-            </li>
-            <li>
-              <p>
-                Set <a>session implicit wait timeout</a> equal to 0 (zero) milliseconds.
-              </p>
-            </li>
-            <li>
-              <p>
-                Set <a>page loading strategy</a> equal to <a>normal</a>.
-              </p>
-            </li>
-          </ul>
-        </p>
-      </li>
-      <li>
-       <p>Return <a>success</a> with data <var>data</var>.
-      </li>
-      </ol>
-    </section>
+<p>The <a>remote end steps</a> for the <dfn>New Session</dfn> command are:
+
+<ol>
+ <li><p>If the node is an intermediate node,
+  take implementation-defined steps that either result in
+  returning an <a>error</a> with code <a>session not created</a>
+  or in returning a <a>success</a> with data
+  that is isomorphic to that returned by <a>remote ends</a>
+  according to the rest of this algorithm.
+
+  <p class=note>This allows intermediary nodes to use the capabilities data in any way they want
+   e.g. to select a specific browser to test based on a combination of the required and desired capabilities.
+   Typically the new session response from the remote end
+   selected in this process will then be  relayed directly to the client.
+
+ <li><p>If the <a>maximum active sessions</a> is equal to <a>list of active sessions</a>:
+
+  <ol>
+   <li><p>Return an <a>error</a> with code <a>unsupported operation</a>.
+  </ol>
+
+ <li><p>Let <var>capabilities</var> be the result of <a>getting a property</a>
+  named "<code>capabilities</code>" from the <var>parameters</var> argument.
+
+ <li><p>Let <var>resultant capabilities</var> be the result of <a>processing capabilities</a>
+  with <var>capabilities</var> as an argument.
+  If the result is an <a>error</a>, return an <a>error</a> with the code <a>session not created</a>.
+
+ <li><p>Let <var>session id</var> be the result of <a>generating a UUID</a>.
+
+ <li><p>Append <var>session id</var> to <a>list of active sessions</a>.
+
+ <li><p>Let <var>data</var> be an empty JSON Object initialised with:
+
+  <dl>
+   <dt>"<code>sessionId</code>"
+   <dd>The value of <var>session id</var>.
+
+   <dt>"<code>capabilities</code>"
+   <dd>The value of <var>resultant capabilities</var>.
+  </dl>
+
+ <li><p>Initialise the following if not set while <a>processing capabilities</a>:
+
+  <ol>
+   <li><p>Set the <a>current session</a>’s <a>session script timeout</a> to 30,000 milliseconds.
+   <lI><p>Set the <a>current session</a>’s <a>session page load timeout</a> to 300,000 milliseconds.
+   <li><p>Set the <a>current session</a>’s <a>session implicit wait timeout</a> to 0 (zero) milliseconds.
+   <li><p>Set the <a>current session</a>’s <a>page loading strategy</a> to <a>normal</a>.
+  </ol>
+
+ <li><p>Return <a>success</a> with data <var>data</var>.
+</ol>
+</section>
+
+
   <section>
     <h3>Delete Session</h3>
     <p><table class="simple jsoncommand">
