@@ -1423,24 +1423,32 @@ associated browser process to be killed</p>.
   </section>
 </section>
 <section>
-<h2>Controlling Windows</h2>
 
-<p>WebDriver's use of the term “window” is equivalent to
- a <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>.
- No distinction is made between
- windows or applications on the operating system level
- and user agent tabs.
- This must not be confused with
- the <code><a href=https://html.spec.whatwg.org/#window>Window</a></code> object
- in [[!html51]].
+<h2>Command Contexts</h2>
 
-<p>WebDriver provides functionality to manipulate
- the user agent's operating system level windows through actions such as
- <a rel="Close Window">closing the window</a>,
- <a rel="Set Window Size">resizing</a>,
- <a rel="Maximize Window">maximizing</a>,
- and <a rel="Fullscreen Window">fullscreening</a> a window.
+<section>
+  <p>Many WebDriver commands happen in the context of either
+    the <a>current browsing context</a> or <a>current top-level
+    browsing context</a>. The <a>current top-level browsing
+    context</a> is represented in the protocol by its
+    associated <a>window handle</a>. A
+    <a href=href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>
+    top-level browsing context</a> is selected using the <a>Switch To
+    Window</a> command. Once this is done, a specific browsing context
+    can be selected using the <a>Switch to Frame</a> command.
 
+  <p class=note>The use of the term "window" to refer to a top-level
+    browsing context is legacy and doesn't correspond with either the
+    operating system notaion of a "window" or the
+    DOM <a href="https://html.spec.whatwg.org/#the-window-object">Window</a>
+    object.</p>
+
+  <p class=note>In accordance with
+    the <a href="http://www.w3.org/TR/html5/editing.html#focus">focus</a>
+    section of the [[!html51]] specification, commands are unaffected
+    by whether the operating system window has focus or not.</p>
+
+  </section>
  <section>
    <h3>Get Window Handle</h3>
 
@@ -1556,7 +1564,6 @@ associated browser process to be killed</p>.
 
  <li><p>Otherwise, return <a>error</a> with code <a>no such window</a>.
 </ol>
-</section> <!-- /Switch To Window -->
 
    <section>
      <h3>Close Window</h3>
@@ -1587,7 +1594,122 @@ associated browser process to be killed</p>.
        <li>Return the result of running the <a>remote end steps</a> for the <a>Get Window Handles</a> command.
      </ol>
    </section>
-  </section>
+
+   <section>
+     <h3>Switch to Frame</h3>
+     <table class="simple jsoncommand">
+       <tr>
+         <th>HTTP Method</th>
+         <th>Path Template</th>
+         <th>Notes</th>
+       </tr>
+       <tr>
+         <td>POST</td>
+         <td id='post-frame'>/session/{sessionId}/frame</td>
+         <td></td>
+       </tr>
+     </table>
+     <p>The <a>Switch to Frame</a> command is used to select
+     a <a href="https://html.spec.whatwg.org/#child-browsing-context">child
+     browsing context</a> of the <a>current browsing context</a> to
+     use as the <a>current browsing context</a> for subsequent
+     commands.</p>
+     <p>The <a>remote end steps</a> for the <dfn>Switch to Frame</dfn>
+     command are:</p>
+     <ol>
+
+       <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
+           return an error with code <a>no such window</a>.</li>
+
+       <li><p>Let <var>id</var> be the result of <a>getting a
+           property</a> named <code>id</code> from
+           the <var>parameters</var> argument.</li>
+
+       <li>
+         <p>If <var>id</var> is null:
+           <ol><li><p>Set the <a>current browsing context</a> to
+                 the <a>current top-level browsing context</a>.</li>
+           </ol>
+         <p>Otherwise if <var>id</var> is a <code>Number</code> object:</p>
+         <ol>
+           <li><p>If <var>id</var> is less than 0 or greater than
+           2<sup>16</sup> - 1, return <a>error</a> with status <a>no
+           such frame</a>.</li>
+           <li><p>Let <var>window</var> be the
+               <a href="https://html.spec.whatwg.org/#concept-document-window">associated
+                 window</a> of the <a>current browsing
+                 context</a>'s <a href="https://html.spec.whatwg.org/#active-document">active
+                 document.</a></li>
+           <li><p>If <var>id</var> is not
+               a <a href="http://heycam.github.io/webidl/#dfn-supported-property-indices">supported
+                 property index</a> of <var>window</var>,
+               return <a>error</a> with status <a>no such frame</a>.</li>
+           <li><p>Let <var>child window</var> be the <code>WindowProxy</code> object
+               obtained
+               by <a href="https://html.spec.whatwg.org/#dom-window-item">determining
+                 the value of an indexed property</a> of <var>window</var>
+               with index <var>id</var>.</li>
+           <li><p>Set the <a>current browsing context</a> to <var>new
+           window</var>'s browsing context.</li>
+         </ol>
+         <p>Otherwise, if <var>id</var> <a>represents a web element</a>:
+           <ol>
+             <!-- note that representing a web element will have to do --
+               -- same document checks, or something -->
+             <li><p>Let <var>element</var> be the element <a>represented
+                   by</a> <var>id</var>.</li>
+             <li><p>If <var>element</var> is not a <code>frame</code>
+             or <code>iframe</code> element, return <a>error</a> with
+             status <a>no such frame</a>.</li>
+             <li><p>Set the <a>current browsing context</a> to element's
+             <a href="https://html.spec.whatwg.org/#nested-browsing-context">nested
+             browsing context</a>.</li>
+           </ol>
+           <p>Otherwise:
+             <ol>
+               <li><p>Return <a>error</a> with status <a>no such
+               frame</a>.</li>
+             </ol>
+       </li>
+       <li><p>Return <a>success</a> with data null.</li>
+     </ol>
+     <p class=note>WebDriver is not bound by the same origin policy,
+     so it is always possible to switch into child browsing contexts,
+     even if they are different origin to the current browsing context.</p>
+   </section>
+   <section>
+     <h3>Switch to Parent Frame</h3>
+
+     <table class="simple jsoncommand">
+       <tr>
+         <th>HTTP Method</th>
+         <th>Path Template</th>
+         <th>Notes</th>
+       </tr>
+       <tr>
+         <td>POST</td>
+         <td id='post-frame-parent'>/session/{sessionId}/frame/parent</td>
+         <td></td>
+       </tr>
+     </table>
+     <p>The <a>Switch to Parent Frame</a> command sets the <a>current
+     browsing context</a> for future commands to the parent of
+     the <a>current browsing context</a>.</p>
+     <p>The <a>remote end steps</a> for <dfn>Switch to Parent
+     Frame</dfn> are:</p>
+     <ol>
+       <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
+           return an error with code <a>no such window</a>.</li>
+       <li><p>If the <a>current browsing context</a> is not equal to
+       the <a>current top-level browsing context</a>, set
+       the <a>current browsing context</a> to
+       the <a href="https://html.spec.whatwg.org/#parent-browsing-context">parent
+       browsing context</a> of the <a>current browsing
+       context</a>.</li>
+       <li><p>Return <a>success</a> with data null.</li>
+     </ol>
+   </section>
+</section>
 
   <section>
     <h2>Resizing and Positioning Windows</h2>
@@ -1759,73 +1881,7 @@ associated browser process to be killed</p>.
     </section>
   </section>
 </section>
-<section>
-
-  <section>
-    <h2>Switching Frames</h2>
-    <section>
-      <h3>switchToFrame()</h3>
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-            <th>Notes</th>
-          </tr>
-          <tr>
-            <td>POST</td>
-            <td id='post-frame'>/session/{sessionId}/frame</td>
-            <td></td>
-          </tr>
-        </table>
-        <dl class='parameters'>
-          <dt><a>WebElement</a> or unsigned short? id</dt>
-          <dd>The identifier used for a frame.</dd>
-        </dl>
-        <p>The "switchToFrame" command is used to select which frame which is a child of the<a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> MUST be used as the context for handling future commands. All frame switching is taken from the current context from which commands are currently being handled. The "<code>id</code>" parameter can be an unsigned short or a <a>WebElement</a>. WebDriver implementations MUST determine which frame to select using the following algorithm:
-
-        <ol>
-          <li>If the "id" is a unsigned short the current context is set to the equivalent of the JS expression "window.frames[id]" where "id" is the number and "window" is the Document window represented by the current context.</li>
-          <li>If the "id" is null, the current context is set to the <a href='#default-content'>default content</a>.</li>
-          <li>If the "id" represents a <a>WebElement</a>, and the corresponding <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> represents a FRAME or an IFRAME, and the <a>WebElement</a> is part of the current context, the "window" property of that <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> becomes the current context.</li>
-        </ol>
-
-        <p>In all cases if no match is made a "<code><a href="#status-no-such-frame">no such frame</a></code>" status code MUST be returned.</p>
-
-        <p>If the indicated frame exists, frame switching MUST succeed even if doing so would violate the normal security constraints in place within the Javascript sandbox.</p>
-      </section>
-      <section>
-      <h3>switchToParentFrame()</h3>
-
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-            <th>Notes</th>
-          </tr>
-          <tr>
-            <td>POST</td>
-            <td id='post-frame-parent'>/session/{sessionId}/frame/parent</td>
-            <td></td>
-          </tr>
-        </table>
-        <p>The "switchToParentFrame" command MUST set the context of future commands to the <code>window.parent</code>. If the current context is the [[!html51]]'s <a href="http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">top level browsing context</a>, the context remains unchanged.</p>
-      </section>
-    </section>
-  </section>
-</section>
-<section>
-  <!-- TODO(simon): identify a better location for this -->
-  <h2>Running Without Window Focus</h2>
-  <p>All browsers must comply with the <a
-    href="http://www.w3.org/TR/html5/editing.html#focus">focus</a> section of
-  the [[!html51]] spec. In particular, the requirement that the active element within a top-level browsing
-  context be independent of whether or not the top-level browsing context itself
-  has system focus MUST be followed.</p>
-
-  <p class="note">This requirement is put in place to allow efficient machine
-  utilization when using the WebDriver API to control several browsers
-  independently on the same desktop</p>
-</section>
+<!-- this page left intentionally blank -->
 <section>
 <h2>Elements</h2>
 
