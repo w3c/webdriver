@@ -194,7 +194,7 @@ code a:visited, code a:link {
 </dl>
 <p>When <dfn>getting a property</dfn> from a JSON Object, the steps in [[!ECMA-262]]
   <a href='http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.2'>GetProperty</a>
-  need to be followed.
+  MUST be followed.
 </section>
 <section>
   <h2>The WebDriver Protocol</h2>
@@ -577,10 +577,10 @@ code a:visited, code a:link {
 
   <section>
     <h3>Handling Errors</h3>
-    <p>Errors are represented in the WebDriver protocol with a HTTP response with a HTTP status in the 4xx or 5xx range and a JSON body containing details of the error. This JSON body has two fields; <code>error</code>, containing a string indicating the error type and <code>error</code> containing an implementation-defined string containing a human readable description of the kind of error that occured.</p>
+    <p>Errors are represented in the WebDriver protocol with a HTTP response with a HTTP status in the 4xx or 5xx range and a JSON body containing details of the error. This JSON body has two fields: <code>status</code>, containing a string indicating the error type and <code>error</code> containing an implementation-defined string containing a human readable description of the kind of error that occured.</p>
 
     <aside class="example">
-      <p>A <code>DELETE</code> request to <code>/session/1234</code>, where <code>1234</code> is not the id of a <a title="current active session">currently active session</a> would return a HTTP <code>404</code> response with a body of the form:</p>
+      <p>A <code>DELETE</code> request to <code>/session/1234</code>, where <code>1234</code> is not the id of a <a title="current active session">currently active session</a> would return an HTTP <code>404</code> response with a body of the form:</p>
         <pre class="highlight">
 {
   "status": "invalid session id",
@@ -588,7 +588,7 @@ code a:visited, code a:link {
 }</pre>
     </aside>
 
-    <p>The following table lists each <dfn>error code</dfn>, its associated HTTP status, JSON status value, and gives a non-normative description of the error. The <dfn>error response data</dfn> for a particular <a>error code</a> is the values of the <i>HTTP Status</i> and <i>JSON Status</i> columns for the row corresponding to that <a>error code</a>.</p>
+    <p>The following table lists each <dfn>error code</dfn>, its associated HTTP status, JSON status, and a non-normative description of the error. The <dfn>error response data</dfn> for a particular <a>error code</a> is the values of the <i>HTTP Status</i> and <i>JSON Status</i> columns for the row corresponding to that <a>error code</a>.</p>
 
     <table class="simple">
       <tr>
@@ -785,18 +785,18 @@ code a:visited, code a:link {
           else let it be false.
 
          <dt>"<code>takesScreenshot</code>"
-         <dd>Be true if it can capture a screenshot of the viewport
+         <dd>Be true if the User Agent can capture a screenshot of the viewport
           described in <a>Take Screenshot</a>.
 
          <dt>"<code>takesElementScreenshot</code>"
-         <dd>Be true if it can capture a screenshot of an element
+         <dd>Be true if the User Agent can capture a screenshot of an element
           as described in <a>Take Screenshot</a>.
        </dl>
 
-        <li><p>let <var>required capabilities</var> be the result of <a>getting a property</a>
+        <li><p>Let <var>required capabilities</var> be the result of <a>getting a property</a>
           name <code>requiredCapabilities</code> from <var>capabilities</var>. If <var>required
             capabilities</var> is not a JSON Object set the value to an empty JSON Object.</p></li>
-        <li><p>let <var>desired capabilities</var> be the result of <a>getting a property</a>
+        <li><p>Let <var>desired capabilities</var> be the result of <a>getting a property</a>
             name <code>desiredCapabilities</code> from <var>capabilities</var>. If <var>desired
               capabilities</var> is not a JSON Object set the value to an empty JSON Object.</p></li>
         <li><p>Let <var>length</var> be the length of <var>required capabilities</var>
@@ -849,7 +849,7 @@ code a:visited, code a:link {
               </li>
               <li>
                 <p>Let <var>browser version</var> be the result of <a>getting a property</a>
-                  named <code>browserVersion</code> from <var>unprocessed capability</var>. If <var>browser name</var>
+                  named <code>browserVersion</code> from <var>unprocessed capability</var>. If <var>browser version</var>
                   is undefined move to the next step.
                   </p>
               </li>
@@ -990,13 +990,13 @@ perform the following steps:
   <li><p>Perform any implementation-specific cleanup steps.</p></li>
 </ol>
 
-<p class="note">For example, a closing the session might cause the
+<p class="note">For example, closing the session might cause the
 associated browser process to be killed</p>.
 
-<p>A <a>session</a> is started when <a href=#newsession>new
+<p>A <a>session</a> is started when a <a href=#newsession>new
  session</a> is invoked.  It is an error to send any commands before
  starting a session, or to continue to send commands after the session
- has been.  Maintaining session continuity between requests to
+ has been closed.  Maintaining session continuity between requests to
  the <a>remote end</a> requires passing a <a>session ID</a>.
 
 <section>
@@ -1214,6 +1214,7 @@ associated browser process to be killed</p>.
   end</a> must proceed with the steps below, irrespective of how the
   authentication challenge is handled.
 
+
  <li><p>If the <a>current session</a>'s <a>page loading strategy</a>
   is <a>none</a> jump to the next step in this overall set of steps.
   Otherwise:
@@ -1314,7 +1315,7 @@ associated browser process to be killed</p>.
 
           <li><p>If the task queued by that algorithm aborted
           before <a href="https://html.spec.whatwg.org/#traverse-the-history">traversing
-          the history</a>, return <a>success</a> with data null.
+          the history</a>, return <a>success</a> with data <var>null</var>.
 
           <li><p>Otherwise, wait until
           the <a href="https://html.spec.whatwg.org/#current-entry">current
@@ -1800,11 +1801,10 @@ associated browser process to be killed</p>.
       <h3>Introduction</h3>
       <p>WebDriver provides commands for interacting with the
       operating system window containing the current browsing
-      context. Because different operating systems, window managers
+      context. Because different operating system's window managers
       provide different abilities, not all of the commands in this
       section can be supported by all remote ends. Where a command is
-      not supported, an <a>unsupported operation</a> error is
-      returned.</p>
+      not supported, an <a>unsupported operation</a> error MUST be returned.</p>
     </section>
 
     <section>
@@ -1977,7 +1977,7 @@ associated browser process to be killed</p>.
           browsing context</a> without making the window full-screen, if the
           window manager distinguishes between maximized and
           full-screen windows.</li>
-          <li><p>Return <a>success</a> with data null</li>
+          <li><p>Return <a>success</a> with data <var>null</var></li>
       </ol>
       </section>
 
@@ -2016,7 +2016,7 @@ associated browser process to be killed</p>.
           browsing context</a> as close as possible to the dimensions
           of the display containing the window dimensions, and may
           hide browser-provided chrome such as toolbars.</li>
-          <li><p>Return <a>success</a> with data null</li>
+          <li><p>Return <a>success</a> with data <var>null</var></li>
       </ol>
 
     </section>
@@ -2158,20 +2158,20 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
     <p>When the <a href='#findelement'>findElement()</a> or <a href='#findelements'>findElements()</a> WebDriver Command is called the
       following must be <var>parameters</var> after the local end has made a request to the remote end:</p>
     <ol>
-      <li>let <var>using</var> contain the <a href='#element-location-strategies'>Element Location Strategy</a>.
+      <li>Let <var>using</var> contain the <a href='#element-location-strategies'>Element Location Strategy</a>.
         If it is not a valid stategy:
         <ul>
           <li>Set the HTTP Response status code to 500</li>
           <li>Let <var>status</var> be equal to <code><a href='#status-invalid-selector'>Invalid Selector</a></code></li>
-          <li>Let <var>value</var> to a stating that the strategy is invalid. It may return a list of valid search strategies.</li>
+          <li>Let <var>value</var> be a statement that the strategy is invalid. It MAY return a list of valid search strategies.</li>
         </ul>
       </li>
-      <li>let <var>value</var> contain a string that will be passed to the <a href='#element-location-strategies'>Element Location Strategy</a> call.
+      <li>Let <var>value</var> contain a string that will be passed to the <a href='#element-location-strategies'>Element Location Strategy</a> call.
         If <var>value</var> is an empty string or null:
         <ul>
           <li>Set the HTTP Response status code to 500</li>
           <li>Let <var>status</var> be equal to <a href='#status-invalid-selector'>Invalid Selector</a></li>
-          <li>Let <var>value</var> to a stating that the strategy is invalid. It may return a list of valid search strategies.</li>
+          <li>Let <var>value</var> to a stating that the strategy is invalid. It MAY return a list of valid search strategies.</li>
         </ul>
       </li>
       <li>Call the relevant <a href='#element-location-strategies'>Element Location Strategy</a> and return what is described in
@@ -2201,7 +2201,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
                 <li>Append <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code> to <var>result</var></li>
               </ol>
           </li>
-          <li>return <var>result</var>. The object returned will look like the following:
+          <li>Return <var>result</var>. The object returned will look like the following:
             <pre>
               {
                 "value": [{"element-6066-11e4-a52e-4f735466cecf": id}, {"element-6066-11e4-a52e-4f735466cecf": id}]
@@ -2234,7 +2234,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
                 <li>Append <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code> to <var>result</var></li>
               </ol>
           </li>
-          <li>return <var>result</var>. The object returned will look like the following:
+          <li>Return <var>result</var>. The object returned will look like the following:
             <pre>
               {
                 "value": [{"element-6066-11e4-a52e-4f735466cecf": id}, {"element-6066-11e4-a52e-4f735466cecf": id}]
@@ -2264,20 +2264,20 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
             <p>If <var>id</var> is empty:
               <ul>
                 <li>Let the HTTP response status code be 501</li>
-                <li>let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
-                <li>let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+                <li>Let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
+                <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
               </ul>
             </p>
             <p>If an error is returned from <a href='#element-location-strategies'>Element Location Strategy</a> do the following.(todo describe how the error is returned)
               <ul>
                 <li>Let the HTTP response status code be 501</li>
-                <li>let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
-                <li>let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+                <li>Let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
+                <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
               </ul>
             </p>
           </li>
           <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
-          <li>return <var>result</var>. The object returned will look like the following:
+          <li>Return <var>result</var>. The object returned will look like the following:
             <pre>
               {
                 "value": {"element-6066-11e4-a52e-4f735466cecf": id}
@@ -2307,20 +2307,20 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
             <p>If <var>id</var> is empty:
               <ul>
                 <li>Let the HTTP response status code be 501</li>
-                <li>let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
-                <li>let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+                <li>Let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
+                <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
               </ul>
             </p>
             <p>If an error is returned from <a href='#element-location-strategies'>Element Location Strategy</a> do the following.(todo describe how the error is returned)
               <ul>
                 <li>Let the HTTP response status code be 501</li>
-                <li>let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
-                <li>let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+                <li>Let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
+                <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
               </ul>
             </p>
           </li>
           <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
-          <li>return <var>result</var>. The object returned will look like the following:
+          <li>Return <var>result</var>. The object returned will look like the following:
             <pre>
               {
                 "value": {"element-6066-11e4-a52e-4f735466cecf": id}
@@ -2349,7 +2349,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
             <li>Let <var>element</var> be a DOMElement that is returned from calling <code>document.activeElement</code></li>
             <li>Let <var>id</var> be the <a href='#webelement-unique-identifier'>unique identifier</a> for the DOMElement which represents <var>element</var>. If <var>element</var> does not have a <a href='#webelement-unique-identifier'>unique identifier</a> then one should be generated and stored.</li>
             <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
-            <li>return <var>result</var>. The object returned will look like the following:
+            <li>Return <var>result</var>. The object returned will look like the following:
             <pre>
               {
                 "value": {"element-6066-11e4-a52e-4f735466cecf": id}
@@ -2425,9 +2425,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
    <h2 id=element-displayedness>Element Displayedness</h2>
 
    <p>The visibility of a <a href=http://w3c.github.io/dom/#element>Document element</a>
-    is guided by what is perceptually visible to the human eye.
-    An element's displayedness does in this context thus not relate
-    in any way to the
+    is guided by what is perceptually visible to the human eye. In this context, an element's displayedness does not relate to the
     <code><a href=http://dev.w3.org/csswg/css-box/#visibility>visibility</a></code>
     or <code><a href=http://dev.w3.org/csswg/css-box/#display0>display</a></code>
     style properties [[!CSS3BOX]].
@@ -2465,7 +2463,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
 
    <p>The <dfn>element displayed</dfn> algorithm is
     a boolean state where true signifies that the element is displayed
-    and false not displayed.
+    and false signifies that the element is not displayed.
     To compute the state on <var>element</var>:
 
    <ol>
@@ -3738,7 +3736,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
             The best way to understand this is through an example. Imagine we have two fingers acting on a touchscreen. One finger will press down on element1 at the same moment that another finger presses down on element2. Once these actions are done, the first finger will wait 5 seconds while the other finger moves to element3. Then both fingers release from the touchscreen.
             <br>
             <br>
-            To execute these actions, we must send the "actions" endpoint two dictionary objects in the JSON list of dictionaries, one fore each finger. We must use the "id" key of each object to uniquely identify each finger. The "actions" key will hold all the actions the input source will take.
+            To execute these actions, we must send the "actions" endpoint two dictionary objects in the JSON list of dictionaries, one for each finger. We must use the "id" key of each object to uniquely identify each finger. The "actions" key will hold all the actions the input source will take.
             <br>
             <br>
             The JSON for this set of actions is as follows:
@@ -4243,9 +4241,9 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
     <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "modals" folder.</p>
     <section>
       <h2>window.alert, window.prompt and window.confirm</h2>
-      <p>When the remote end is has a modal dialog such as those produced from <code>window.alert</code>,
-      <code>window.prompt</code> and <code>window.confirm</code> it should allow the interrogation of the
-      dialogues as using the following interface.</p>
+      <p>When the remote end has a modal dialog such as those produced from <code>window.alert</code>,
+      <code>window.prompt</code> and <code>window.confirm</code> it SHOULD allow the interrogation of the
+      dialogues using the following interface.</p>
       <section>
         <!-- dismiss() -->
         <h3>dismiss()</h3>
@@ -4359,7 +4357,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
 </section>
 <section>
   <h2>Screenshots</h2>
-  <p>Screenshots are a powerful mechanism for providing information to users of WebDriver, particularly once a particular WebDriver instance has been disposed of. In different circumstances, users want different types of screenshot. Note that the WebDriver spec does not provide a mechanism for taking a screenshot of the entire screen.</p>
+  <p>Screenshots are a powerful mechanism for providing information to users of WebDriver, particularly once a particular WebDriver instance has been disposed of. In different circumstances, users want different types of screenshots. Note that the WebDriver spec does not provide a mechanism for taking a screenshot of the entire screen.</p>
 
   <p>In all cases, screenshots MUST be returned as lossless PNG images encoded using Base64. Local ends MUST provide the user with access to the PNG images without requiring the user to decode the Base64. This access MUST be via at least one of a binary blob or a file.</p>
 
@@ -4405,7 +4403,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
 
     <p>If this capability is supported, local end MUST add the <code>TakesScreenshot</code> interface to the <code>WebDriver</code> interface.</p>
 
-    <p>This command will take a screenshot of the return the screenshot of the current state of the document at the top level browsing context. Implementations of the remote end SHOULD capture the entire document, even if this would require a user to scroll the browser window. That is, the returned PNG SHOULD have the same width and height as returned by a call to <code>getSize</code> of the BODY element and MUST contain all visible content on the page, and this SHOULD be done without resizing the browser window. If the remote end is unable to capture the entire Document, then the part of the Document currently displayed in UI of the browser MUST be captured without additional chrome such as scrollbars and browser chrome.</p>
+    <p>This command will return the screenshot of the current state of the document at the top level browsing context. Implementations of the remote end SHOULD capture the entire document, even if this would require a user to scroll the browser window. That is, the returned PNG SHOULD have the same width and height as returned by a call to <code>getSize</code> of the BODY element and MUST contain all visible content on the page, and this SHOULD be done without resizing the browser window. If the remote end is unable to capture the entire Document, then the part of the Document currently displayed in UI of the browser MUST be captured without additional chrome such as scrollbars and browser chrome.</p>
 
     <div class="note">
       <p>One way to think of capturing the entire Document is that the user has an infinitely large monitor and has resized the window to allow all content to be visible. One of those monitors would be very cool.</p>
@@ -4468,9 +4466,9 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
 
 <section>
   <h2>Handling non-HTML Content</h2>
-  <p>Non-HTML content MUST be treated in the same manner as HTML if the Non-HTML if the browser
+  <p>Non-HTML content MUST be treated in the same manner as HTML content if the browser
     creates a Document object for the content of the document. If a Document Object is not created then
-    how it handled SHOULD be non-normative</p>
+    how it is handled is non-normative.</p>
 
   <section>
     <h2>XML</h2>
@@ -4479,7 +4477,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
       <p>Since Browsers create a Document object for XML pages it is expected that we can interogate
       them as a normal HTML document however the following differences should be noted:</p>
       <ul>
-        <li>Visibility Checks MAY be skipped since XML nodes can not be hidden and <code>isDisplayed</code> MUST return true<li>
+        <li>Visibility Checks MAY be skipped since XML nodes can not be hidden and <code>isDisplayed</code> MUST return true</li>
         <li>Getting computed styles of elements MUST return an empty string</li>
         <li>Position and Size of element MUST return null for elements in the map returned</li>
         <li>Attempts to clear the node MUST return an <code><a href='#status-unsupported-operation'>unsupported operation</a></code> </li>
