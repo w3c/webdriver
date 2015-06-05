@@ -51,7 +51,8 @@ code a:visited, code a:link {
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline,
      -->
-    <script src='respec-w3c-common.js' class='remove' async></script>
+    <script src='https://www.w3.org/Tools/respec/respec-w3c-common'
+            async class='remove'></script>
     <script class='remove'>
       var respecConfig = {
           specStatus:           "ED",
@@ -981,6 +982,8 @@ perform the following steps:
 </p>
 
 <ol>
+  <li><p>Set the <a>webdriver-active flag</a> to false</p></li>
+
   <li><p><a href="https://html.spec.whatwg.org/#closing-browsing-contexts">Close</a> any top-level browsing contexts associated with the session, without <a href="https://html.spec.whatwg.org/#prompt-to-unload-a-document">promping to unload</a></li>.
 
   <li><p>Perform any implementation-specific cleanup steps.</p></li>
@@ -1067,6 +1070,95 @@ associated browser process to be killed</p>.
 </section>
 
 
+    <ol>
+      <li>
+        <p>If the node is an intermediate node, take implementation-defined steps that either result
+          in returning an error with status code <a>session not created</a> or in returning a
+          <a>success</a> with data that is isomorphic to that returned by <a>remote ends</a>
+          according to the rest of this algorithm.</p>
+
+        <p class=note>This allows intermediary nodes to use the capabilities data in any way they
+          want e.g. to select a specific browser to test based on a combination of the required and
+           desired capabilities. Typically the new session response from the remote end selected in
+            this process will then be  relayed directly to the client</p>
+      </li>
+      <li>
+        <p>
+          If the <a>maximum active sessions</a> is equal to <a>list of active sessions</a>:
+          <ul>
+            <li>
+              <p>
+                Return an <a>error</a> with code <a>unsupported operation</a>.
+              </p>
+            </li>
+          </ul>
+        </p>
+      </li>
+      <li>
+        <p>Let <var>capabilities</var> be the result of <a>getting a property</a> named
+        <code>capabilities</code> from the <var>parameters</var> argument.</p>
+      </li>
+      <li>
+        <p>
+         Let <var>resultant capabilities</var> be the result of <a>processing capabilities</a>
+         with <var>capabilities</var> as an argument. If the result is an <a>error</a>, return an
+         <a>error</a> with the code <a>session not created</a>.
+        </p>
+      </li>
+      <li><p>Let <var>session id</var> be the result of <a>generating a UUID</a>.</p></li>
+      <li><p>Append <var>session id</var> to <a>list of active sessions</a>.</p></li>
+      <li>
+         <p>
+           Let <var>data</var> be an empty JSON Object with the following entries:
+         </p>
+        <ul>
+          <li>
+             <p>
+               <code>sessionId</code>: the value of <var>session id</var>.
+             </p>
+          </li>
+          <li>
+            <p>
+              <code>capabilities</code>: the value of <var>resultant capabilities</var>.
+            </p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>
+          Initialise the following if not set while <a>processing capabilities</a>:
+          <ul>
+            <li>
+              <p>
+                Set <a>session script timeout<a> equal to 30,000 milliseconds.
+              </p>
+            </li>
+            <li>
+              <p>
+                Set <a>session page load timeout</a> equal to 300,000 milliseconds.
+              </p>
+            </li>
+            <li>
+              <p>
+                Set <a>session implicit wait timeout</a> equal to 0 (zero) milliseconds.
+              </p>
+            </li>
+            <li>
+              <p>
+                Set <a>page loading strategy</a> equal to <a>normal</a>.
+              </p>
+            </li>
+          </ul>
+        </p>
+      </li>
+      <li>
+        <p>Set the <a>webdriver-active flag</a> to true.</p>
+      </li>
+      <li>
+       <p>Return <a>success</a> with data <var>data</var>.
+      </li>
+      </ol>
+    </section>
   <section>
     <h3>Delete Session</h3>
     <p><table class="simple jsoncommand">
@@ -4308,6 +4400,24 @@ associated browser process to be killed</p>.
       </ul>
   </section>
 </section>
+
+<section>
+
+  <h2>The WebDriver Interface</h2>
+  <pre class='idl'>
+    partial interface Navigator {
+      readonly attribute boolean webdriver;
+    };
+  </pre>
+
+  <p>The <code>navigator</code> property must return the value of
+  the <dfn>webdriver-active flag</dfn>, which is initially false.
+
+  <p>This property allows websites to determine that the user agent is
+  being scripted by WebDriver, and can be used to help mitigate denial
+  of service attacks.
+</section>
+
 <section>
   <h2>Handling non-HTML Content</h2>
   <p>Non-HTML content MUST be treated in the same manner as HTML if the Non-HTML if the browser
@@ -4422,16 +4532,6 @@ associated browser process to be killed</p>.
     <p>If any of these fail then a
     <code><a href="#status-session-not-created">session not created</a></code>
     error MUST be thrown when the local end tries to create a new session.
-  </section>
-  <section>
-    <h3>Fingerprinting</h3>
-    <p>The following will allow web sites to know that the user interacting
-    with the content is not a real user. This can be used to prevent denial
-    of service attacks.
-    <p>When the user agent creates a new session it MUST add a read only property
-    to <code>window.navigator.webdriver</code>. The value should be set to
-    <code>true</code> when WebDriver has an active session. When WebDriver does not have
-    an active session then the value is equal to <code>false</code> or the property is removed.
   </section>
 </section>
     <section class='appendix'>
