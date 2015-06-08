@@ -893,53 +893,65 @@ code a:visited, code a:link {
   </p>
 </section>
 <section>
-  <p>The process to <dfn>setup a proxy</dfn> is:
+  <p>To <dfn>set the proxy</fdn> to <var>proxy</var>, the <a>remote end steps</a> must run the following:
     <ol>
       <li><p>Let <var>proxy</var> be the JSON Object passed in as an argument</p></li>
-      <li><p>Let <var>valid proxy type</var> be a JSON List with the following values
-        <code>direct</code>, <code>manual</code>, <code>pac</code>, <code>autodetect</code>
-        and <code>system</code>.</p></li>
       <li><p>Let <var>proxy type</var> be the result of <a>getting a property</a> named
         <code>proxyType</code> from <var>proxy</var>. If <var>proxy type</var> is undefined return
           an <a>error</a>. If <var>proxy type</var> is not a string with the one of the following
           values , return an <a>error</a>.
          </p>
       </li>
-      <li>
-        <p>
-          If <var>proxy type</var> is equal to <code>pac</code>:
-        </p>
-        <ol>
-          <li><p>Let <var>proxy autoconfiguration url</var> be the result of <a>getting a property</a>
-          named <code>proxyAutoconfigUrl</code>. If <var>proxy autoconfiguration url</var> is undefined
-          return an <a>error</a>.</p></li>
-        </ol>
-      </li>
-      <li><p>If <var>proxy type</var> is not equal to <code>manual</code>:</p>
-        <ol>
-          <li><p>Let <var>no proxy</var> be the result of <a>getting a property</a> named
-            <code>noProxy</code> from <var>proxy</var>.</p></li>
-          <li><p>Let <var>ftp proxy</var> be the result of <a>getting a property</a> named
-            <code>ftpProxy</code> from <var>proxy</var>.</p></li>
-          <li><p>Let <var>http proxy</var> be the result of <a>getting a property</a> named
-            <code>httpProxy</code> from <var>proxy</var>.</p></li>
-          <li><p>Let <var>ssl proxy</var> be the result of <a>getting a property</a> named
-            <code>sslProxy</code> from <var>proxy</var>.</p></li>
-          <li><p>Let <var>socks proxy</var> be the result of <a>getting a property</a> named
-            <code>socksProxy</code> from <var>proxy</var>.<p>
-            <p>If <var>socks proxy</var> is defined:</p>
+
+      <li><p>Match the value of <var>proxyType</var> against the following
+      options:
+          <dl>
+            <dt>The string <code>"pac"</code>:</dt>
+            <dd><p>If the implementation supports
+              <a href='https://web.archive.org/web/20070602031929/http://wp.netscape.com/eng/mozilla/2.0/relnotes/demo/proxy-live.html'>proxy autoconfiguration</a>,
+              set the implementation's autoproxy configuration url to
+              <var>proxy autoconfiguration url</var>.
+
+              Otherwise return an <a>error</a> with status <a>invalid argument</a></dd>
+            <dt>The string <code>"noproxy"</code>:</dt>
+            <dd><p>Set the proxy to No Proxy using implementation defined steps. If this
+              can not be set during this process return an <a>error</a>.</p></dd>
+            <dt>The string <code>"autodetect"</code>:</dt>
+            <dd><p>Set the proxy to Auto-Detect proxy setting from the network using implementation
+              defined steps. If this can not be set during this process return an <a>error</a>.</p></dd>
+            <dt>The string <code>"system"</code>:</dt>
+            <dd><p>Set the proxy to use system proxy settings using implementation defined steps. If this
+              can not be set during this process return an <a>error</a>.</p></dd>
+            <dt>The string <code>"manual"</code>:</dt>
+            <dd>
               <ol>
-                <li><p>Let <var>socks username</var> be the result of <a>getting a property</a>
-                  named <code>socksUsername</code> from <var>proxy</var>.</p></li>
-                <li><p>Let <var>socks password</var> be the result of <a>getting a property</a>
-                  named <code>socksPassword</code> from <var>proxy</var>.</p></li>
+                <li><p>Let <var>ftp proxy</var> be the result of <a>getting a property</a> named
+                  <code>ftpProxy</code> from <var>proxy</var>.</p></li>
+                <li><p>Let <var>http proxy</var> be the result of <a>getting a property</a> named
+                  <code>httpProxy</code> from <var>proxy</var>.</p></li>
+                <li><p>Let <var>ssl proxy</var> be the result of <a>getting a property</a> named
+                  <code>sslProxy</code> from <var>proxy</var>.</p></li>
+                <li><p>Let <var>socks proxy</var> be the result of <a>getting a property</a> named
+                  <code>socksProxy</code> from <var>proxy</var>.<p>
+                  <p>If <var>socks proxy</var> is defined:</p>
+                    <ol>
+                      <li><p>Let <var>socks username</var> be the result of <a>getting a property</a>
+                        named <code>socksUsername</code> from <var>proxy</var>.</p></li>
+                      <li><p>Let <var>socks password</var> be the result of <a>getting a property</a>
+                        named <code>socksPassword</code> from <var>proxy</var>.</p></li>
+                    </ol>
+                </li>
+                <li><p>Follow implementation defined steps to set the proxy using defined variables from
+                  previous steps. If there are items that can not be set during this process return an
+                  <a>error</a>.</p></li>
               </ol>
-          </li>
-        </ol>
+            </dd>
+            <dt>Otherwise:</dt>
+            <dd><p>Return <a>error</a> with status <a>invalid
+            argument</a>.
+          </dl>
       </li>
-      <li><p>Follow implementation defined steps to set the proxy using defined variables from
-        previous steps. If there are items that can not be set during this process return an
-        <a>error</a>.</p></li>
+
     </ol>
 </section>
 <section>
