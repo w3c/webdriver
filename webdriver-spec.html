@@ -3093,7 +3093,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
 </section> <!-- /Get Element Rect -->
 
       <section>
-        <h3>isEnabled()</h3>
+        <h3>Is Element Enabled</h3>
         <p>
            <table class="simple jsoncommand">
              <tr>
@@ -3103,18 +3103,41 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
              </tr>
              <tr>
                <td>GET</td>
-               <td id='get-id-enabled'>/session/{sessionId}/element/{ELEMENT}/enabled</td>
+               <td>/session/{sessionId}/element/{ELEMENT}/enabled</td>
                <td></td>
              </tr>
            </table>
-        <p>The "isEnabled" command MUST return false if all the following criteria are met otherwise return true:
-          <ul>
-            <li>A form control is <a href='http://www.w3.org/html/wg/drafts/html/master/forms.html#concept-fe-disabled'>disabled</a>
-            as described in [[!html51]].</li>
-            <li>A <a>WebElement</a> has a <code>disabled</code> <a href="http://www.w3.org/html/wg/drafts/html/master/infrastructure.html#boolean-attribute">boolean attribute</a> as described in <a href='http://www.w3.org/html/wg/drafts/html/master/disabled-elements.html#disabled-elements'>disabled elements</a> of [[!html51]]</li>
-          </ul>
+           <p><dfn>Is Element Enabled</dfn> determines if the referenced
+            <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
+            is enabled or not.
+            This operation only makes sense on form controls.
 
-        <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
+           <p>The <a>remote end steps</a> are:
+
+           <ol>
+            <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+             return the <a>no such window</a> <a>error</a>.
+
+            <li><p><a>Get a known web element</a> by <var>element id</var>
+             and let it be known as <var>element</var>.
+
+            <li><p>If an <a>error</a> occurred,
+             propagate this error and abort these steps.
+
+            <li><p>If <a>element</a> <a>is stale</a>,
+             return the <a>stale element reference</a> <a>error</a>.
+
+            <li><p>Let <var>enabled</var> be a boolean initially set to true.
+
+            <li><p>Set <var>enabled</var> to false if a form control is
+              <a href='https://html.spec.whatwg.org/#concept-fe-disabled'>disabled</a>.
+
+
+            <li><p>Let <var>body</var> be a JSON object
+             with the "<code>value</code>" member set to <var>selected</var>.
+
+            <li><p>Return <a>success</a> with data <var>body</var>.
+           </ol>
       </section>
     </section>
   </section>
