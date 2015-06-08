@@ -250,12 +250,12 @@ code a:visited, code a:link {
 
           <li><p>Let <var>parse result</var> be the result of <a>parsing as JSON</a> with <var>request</var>'s <a href="https://fetch.spec.whatwg.org/#concept-request-body" class="externalRef">body</a> as the argument.</p></li>
 
-          <li><p>If <var>parse result</var> is an <a>error</a> or if it is a <a>success</a> but its associated data is not an Object object, <a>send an error</a> with status <a>error code</a> <a>invalid argument</a> and jump back to step 1 in this overall algorithm.</p>
+          <li><p>If <var>parse result</var> is an <a>error</a> or if it is a <a>success</a> but its associated data is not an Object object, <a>send an error</a> with <a>error code</a> <a>invalid argument</a> and jump back to step 1 in this overall algorithm.</p>
              <p>Otherwise, let <var>parameters</var> be<var>parse result</var>'s data.</p>
           </li>
         </ol>
 
-        <p>Otherwise, let <var>parameters</var> be null</p>
+        <p>Otherwise, let <var>parameters</var> be null.</p>
       </li>
 
       <li><p>Let <var>response data</var> be a <a>command response</a> object obtained by running the <a>remote end steps</a> for <var>command</var> with arguments <var>element id</var> and <var>parameters</var>.</p></li>
@@ -267,24 +267,43 @@ code a:visited, code a:link {
       <li><p>Jump to step 1.</p></li>
     </ol>
 
-    <p>When required to <dfn>send an error</dfn>, with <var>error code</var>, a remote end must run the following steps:</p>
+<p>When required to <dfn>send an error</dfn>,
+ with <var>error code</var>,
+ a <a>remote end</a> must run the following steps:</p>
 
-    <ol>
-      <li><p>Let <var>http status</var> and <var>name</var> be the <a>error response data</a> for <var>error code</var>.</p></li>
-      <li><p>Let <var>data</var> be a <a>new JSON Object</a>.</p>
+<ol>
+ <li><p>Let <var>http status</var> and <var>name</var>
+  be the <a>error response data</a> for <var>error code</var>.
 
-      <li><p>Let <var>message</var> be an implementation-defined string containing a human-readable description of the reason for the error.</p></li>
+ <li><p>Let <var>message</var> be an implementation-defined string
+  containing a human-readable description of the reason for the error.
 
-      <li><p>Let <var>stacktrace</var> be an implementation-defined string containing a stack trace report of the active stack frames at the time when the error occurred.</p></li>
+ <li><p>Let <var>stacktrace</var> be an implementation-defined string
+  containing a stack trace report of the active stack frames
+  at the time when the error occurred.
 
-        <!-- TODO: really need a better way of constructing JSON literals -->
-      <li><p><a>Set the properties</a> of <var>data</var> with values ("error", <var>name</var>), ("message", <var>message</var>).</p></li>
+ <!-- TODO: really need a better way of constructing JSON literals -->
+ <li><p>Let <var>data</var> be a new JSON Object</a>
+  initialised with the following properties:
+  
+  <dl>
+   <dt>"<code>error</code>"
+   <dd>Value of <var>name</var>.
+   
+   <dt>"<code>message</code>"
+   <dd>Value of <var>message</var>.
+   
+   <dt>"<code>stacktrace</code>"
+   <dd>Value of <var>stacktrace</var>.
+  </dl>
 
-      <li><a>Send a response</a> with <var>status</var> and <var>data</var> as arguments.</li>
+ <li><p><a>Send a response</a> with <var>status</var>
+  and <var>data</var> as arguments.</li>
+</ol>
 
-    </ol>
-
-    <p>When required to <dfn>send a response</dfn>, with arguments <var>status</var> and <var>data</var>, a remote end must run the following steps:</p>
+    <p>When required to <dfn>send a response</dfn>,
+     with arguments <var>status</var> and <var>data</var>,
+     a <a>remote end</a> must run the following steps:</p>
 
     <ol>
       <li><p>Let <var>response</var> be a new <a href="https://fetch.spec.whatwg.org/#concept-response" class="externalRef">response</a>.</p></li>
@@ -580,24 +599,25 @@ code a:visited, code a:link {
 
   <section>
     <h3>Handling Errors</h3>
-    <p>Errors are represented in the WebDriver protocol with a HTTP response with a HTTP status in the 4xx or 5xx range and a JSON body containing details of the error. This JSON body has two fields: <code>error</code>, containing a string indicating the error type and <code>error</code> containing an implementation-defined string containing a human readable description of the kind of error that occured.</p>
+    <p>Errors are represented in the WebDriver protocol with a HTTP response with a HTTP status in the 4xx or 5xx range and a JSON body containing details of the error. This JSON body has three fields: <code>error</code>, containing a string indicating the error type; <code>message</code>, containing an implementation-defined string with a human readable description of the kind of error that occured; and <code>stacktrace</code>, containing an implementation-defined string with a stack trace report of the active stack frames at the time when the error occurred.</p>
 
     <aside class="example">
       <p>A <code>DELETE</code> request to <code>/session/1234</code>, where <code>1234</code> is not the id of a <a title="current active session">currently active session</a> would return an HTTP <code>404</code> response with a body of the form:</p>
         <pre class="highlight">
 {
-  "status": "invalid session id",
-  "error": "No active session with id 1234"
+  "error": "invalid session id",
+  "message": "No active session with id 1234",
+  "stacktrace": ""
 }</pre>
     </aside>
 
-    <p>The following table lists each <dfn>error code</dfn>, its associated HTTP status, JSON status, and a non-normative description of the error. The <dfn>error response data</dfn> for a particular <a>error code</a> is the values of the <i>HTTP Status</i> and <i>JSON Status</i> columns for the row corresponding to that <a>error code</a>.</p>
+    <p>The following table lists each <dfn>error code</dfn>, its associated HTTP status, JSON <code>error</code> code, and a non-normative description of the error. The <dfn>error response data</dfn> for a particular <a>error code</a> is the values of the <i>HTTP Status</i> and <i>JSON Error Code</i> columns for the row corresponding to that <a>error code</a>.</p>
 
     <table class="simple">
       <tr>
         <th>Error Code</th>
         <th>HTTP Status</th>
-        <th>JSON Status</th>
+        <th>JSON Error Code</th>
         <th>Description</th>
       </tr>
       <tr>
@@ -1139,8 +1159,7 @@ associated browser process to be killed</p>.
             <dd><p>Set the <a>session script timeout</a>
             to <var>timeout</var> milliseconds.</dd>
             <dt>Otherwise:</dt>
-            <dd><p>Return <a>error</a> with status <a>invalid
-            argument.</a>.
+            <dd><p>Return an <a>invalid argument</a> <a>error</a>.
           </dl>
       </li>
       <li>Return <a>success</a> with data null.</li>
@@ -1718,9 +1737,8 @@ associated browser process to be killed</p>.
            </ol>
          <p>Otherwise if <var>id</var> is a <code>Number</code> object:</p>
          <ol>
-           <li><p>If <var>id</var> is less than 0 or greater than
-           2<sup>16</sup> - 1, return <a>error</a> with status <a>no
-           such frame</a>.</li>
+           <li><p>If <var>id</var> is less than 0 or greater than 2<sup>16</sup> - 1,
+            return a <a>no such frame</a> <a>error</a>.
            <li><p>Let <var>window</var> be the
                <a href="https://html.spec.whatwg.org/#concept-document-window">associated
                  window</a> of the <a>current browsing
@@ -1729,7 +1747,7 @@ associated browser process to be killed</p>.
            <li><p>If <var>id</var> is not
                a <a href="http://heycam.github.io/webidl/#dfn-supported-property-indices">supported
                  property index</a> of <var>window</var>,
-               return <a>error</a> with status <a>no such frame</a>.</li>
+               return <a>no such frame</a> <a>error</a>.
            <li><p>Let <var>child window</var> be the <code>WindowProxy</code> object
                obtained
                by <a href="https://html.spec.whatwg.org/#dom-window-item">determining
@@ -1745,16 +1763,15 @@ associated browser process to be killed</p>.
              <li><p>Let <var>element</var> be the element <a>represented
                    by</a> <var>id</var>.</li>
              <li><p>If <var>element</var> is not a <code>frame</code>
-             or <code>iframe</code> element, return <a>error</a> with
-             status <a>no such frame</a>.</li>
+             or <code>iframe</code> element,
+             return a <a>no such frame</a> <a>error</a>.
              <li><p>Set the <a>current browsing context</a> to element's
              <a href="https://html.spec.whatwg.org/#nested-browsing-context">nested
              browsing context</a>.</li>
            </ol>
            <p>Otherwise:
              <ol>
-               <li><p>Return <a>error</a> with status <a>no such
-               frame</a>.</li>
+               <li><p>Return <a>no such frame</a> <a>error</a>.
              </ol>
        </li>
        <li><p>Return <a>success</a> with data null.</li>
