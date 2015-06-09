@@ -289,7 +289,7 @@ code a:visited, code a:link {
   at the time when the error occurred.
 
  <!-- TODO: really need a better way of constructing JSON literals -->
- <li><p>Let <var>data</var> be a new JSON Object</a>
+ <li><p>Let <var>data</var> be a new JSON Object
   initialised with the following properties:
 
   <dl>
@@ -916,7 +916,6 @@ code a:visited, code a:link {
         </li>
         <li><p>Return <var>server capabilities</var>.</p></li>
     </ol>
-  </p>
 </section>
 <section>
   <p>To <dfn>set the proxy</dfn> to <var>proxy</var>, the <a>remote end steps</a> must run the following:
@@ -1007,7 +1006,7 @@ code a:visited, code a:link {
  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>.
 
 <p>A <a>remote end</a> has an associated <dfn>list of active sessions</dfn>,
- which is a list of all <a rel="session">sessions</a> that are currently started.
+ which is a list of all <a title="session">sessions</a> that are currently started.
 
 <p>Requests, except <a>New Session</a> requests,
  have an associated <dfn>current session</dfn>,
@@ -1017,7 +1016,7 @@ code a:visited, code a:link {
  <dfn>maximum active sessions</dfn> (an integer)
  that defines the number of open sessions
  that are supported.
- This may be "unlimited" for <a rel="intermediary node">intermediary nodes</a>,
+ This may be "unlimited" for <a title="intermediary node">intermediary nodes</a>,
  but must be exactly one for a <a>remote end</a> that is an <a>endpoint node</a>.
 
 <p>A <a>session</a> has an associated <dfn>session ID</dfn>
@@ -1466,6 +1465,7 @@ code a:visited, code a:link {
           an <a>error</a> with code <a>timeout</a>.</p></li>
 
           <li><p>Return <a>success</a> with data null</p></li>
+        </ol>
       </section>
 
       <section>
@@ -1581,8 +1581,6 @@ code a:visited, code a:link {
 
       <p>The exception to requirement is if the <a>Capabilities</a> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY choose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. Remote end implementations MUST return an <code><a href="#status-unknown-error">unknown error</a></code> status in this case. If this is the case, the <a>Capabilities</a> describing the session MUST also set the <code>secureSsl</code> capability to "true".</p>
     </section>
-  </section>
-</section>
 <section>
 
 <h2>Command Contexts</h2>
@@ -1596,15 +1594,17 @@ code a:visited, code a:link {
  Once this is done, a specific browsing context can be selected
  using the <a>Switch to Frame</a> command.
 
-<p class=note>The use of the term "window" to refer to
+<p class=note>The use of the term “window” to refer to
  a <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
- is legacy and doesn't correspond with either the operating system notaion of a "window"
- or the DOM <a href="https://html.spec.whatwg.org/#the-window-object">Window</a> object.
+ is legacy and doesn’t correspond with either
+ the operating system notaion of a “window”
+ or the DOM <a href=https://html.spec.whatwg.org/#the-window-object>Window</a> object.
 
 <p class=note>In accordance with
  the <a href=http://www.w3.org/TR/html5/editing.html#focus>focus</a>
- section of the [[!html51]] specification, commands are unaffected
- by whether the operating system window has focus or not.
+ section of the [[!html51]] specification,
+ commands are unaffected by whether
+ the operating system window has focus or not.
 
  <section>
    <h3>Get Window Handle</h3>
@@ -1805,8 +1805,8 @@ code a:visited, code a:link {
          </ol>
          <p>Otherwise, if <var>id</var> <a>represents a web element</a>:
            <ol>
-             <!-- note that representing a web element will have to do --
-               -- same document checks, or something -->
+             <!-- note that representing a web element will have to do
+               same document checks, or something -->
              <li><p>Let <var>element</var> be the element <a>represented
                    by</a> <var>id</var>.</li>
              <li><p>If <var>element</var> is not a <code>frame</code>
@@ -2268,7 +2268,6 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
             </pre>
           </li>
         </ol>
-      </p>
       <p>
         When there is a need to search from an element to find the next <a>WebElement</a>s we use the following algorithm:
         <table class="simple jsoncommand">
@@ -2298,7 +2297,6 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
               }
             </pre></li>
         </ol>
-      </p>
     </section>
     <section>
     <h3>findElement()</h3>
@@ -2322,14 +2320,12 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
                 <li>Let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
                 <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
               </ul>
-            </p>
             <p>If an error is returned from <a href='#element-location-strategies'>Element Location Strategy</a> do the following.(todo describe how the error is returned)
               <ul>
                 <li>Let the HTTP response status code be 501</li>
                 <li>Let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
                 <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
               </ul>
-            </p>
           </li>
           <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
           <li>Return <var>result</var>. The object returned will look like the following:
@@ -2340,7 +2336,6 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
             </pre>
           </li>
         </ol>
-      </p>
       <p>
         When searching from an element from another element the following algorithm should be used:
         <table class="simple jsoncommand">
@@ -2363,14 +2358,12 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
                 <li>Let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
                 <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
               </ul>
-            </p>
             <p>If an error is returned from <a href='#element-location-strategies'>Element Location Strategy</a> do the following.(todo describe how the error is returned)
               <ul>
                 <li>Let the HTTP response status code be 501</li>
                 <li>Let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
                 <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
               </ul>
-            </p>
           </li>
           <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
           <li>Return <var>result</var>. The object returned will look like the following:
@@ -2381,7 +2374,6 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
             </pre>
           </li>
         </ol>
-      </p>
     </section>
 
 <section>
@@ -2741,7 +2733,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
  <li><p>If the result of calling <var>node</var>’s
   <code><a href=https://dom.spec.whatwg.org/#dom-node-comparedocumentpositionother>compareDocumentPosition</a></code>
   with <var>other</var> as argument
-  is <a href=https://dom.spec.whatwg.org/#dom-node-document_position_disconnected><code>DOCUMENT_POSITION_DISCONNECTED</a></code> (1),
+  is <code><a href=https://dom.spec.whatwg.org/#dom-node-document_position_disconnected>DOCUMENT_POSITION_DISCONNECTED</a></code> (1),
   return true.
 
  <li>Return false.
@@ -2762,7 +2754,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
 </table>
 
 <p>The <dfn>Is Element Displayed</dfn> commnad
- is used to determine the <a rel="element displayed">element displayedness</a>
+ is used to determine the <a title="element displayed">element displayedness</a>
  of a <a>web element</a>.
 
 <p>The <a>remote end steps</a> are:
@@ -2817,8 +2809,8 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
  is selected or not.
  This operation only makes sense on
  <code><a href=https://html.spec.whatwg.org/#the-input-element>input</a></code> elements
- of the <a href=https://html.spec.whatwg.org/#checkbox-state-%28type=checkbox%29>Checkbox</a>-
- and <a href=https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29>Radio Button</a> states,
+ of the <a href="https://html.spec.whatwg.org/#checkbox-state-%28type=checkbox%29">Checkbox</a>-
+ and <a href="https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29">Radio Button</a> states,
  or <code><a href=https://html.spec.whatwg.org/#the-option-element>option</a></code> elements.
 
 <p>The <a>remote end steps</a> are:
@@ -2846,8 +2838,8 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
  <li><p>If <var>element</var> is
   an <code><a href=https://html.spec.whatwg.org/#the-input-element>input</a></code>
   with a <code><a href=https://html.spec.whatwg.org/#attr-input-type>type</a></code> attribute
-  in the <a href=https://html.spec.whatwg.org/#checkbox-state-(type=checkbox)>Checkbox</a>-
-  or <a href=https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29>Radio Button</a> state:
+  in the <a href="https://html.spec.whatwg.org/#checkbox-state-(type=checkbox)">Checkbox</a>-
+  or <a href="https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29">Radio Button</a> state:
 
   <ol>
    <li><p>Set <var>selected</var> to <var>element</var>’s
@@ -2911,7 +2903,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
 
             <li>If <var>result</var> is null or undefined, or if it is an object, set the value of <var>result</var> to be the <code>value</code> of the Attr node obtained by calling <code>getAttributeNode</code> on <var>element</var> iff that Attr is <code>specified</code>. That is, <var>result</var> is the equivalent of executing the following Ecmascript: <code>var attr = element.getAttributeNode(name); var result = (attr &amp;&amp; attr.specified) ? attr.value : null;</code></li>
 
-            <li name="attribute-result-coercion">Coerce the return value to a DOMString:
+            <li>Coerce the return value to a DOMString:
               <ol>
                 <li>If <var>result</var> is a boolean value, use the value "true" if <var>result</var> is true, or null otherwise.</li>
                 <li>if <var>result</var> is null or undefined, set <var>result</var> to be null.</li>
@@ -3191,6 +3183,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
     </section>
   </section>
 </section>
+
 <section>
   <h2>Executing Javascript</h2>
   <div class="note">
@@ -3237,14 +3230,12 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
           <section>
             <!-- executeScript() -->
             <h3>executeScript()</h3>
-            <dd>
               <dl class='parameters'>
                 <dt> DOMString script</dt>
                 <dd>The script to execute.</dd>
                 <dt>sequence&lt;Argument>? args</dt>
                 <dd>The script arguments.</dd>
               </dl>
-              <p>
                 <table class="simple jsoncommand">
                   <tr>
                     <th>HTTP Method</th>
@@ -3430,7 +3421,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
           <p>A <dfn>serialized cookie</dfn> is created with the following algorithm:</p>
           <p>
             <ol>
-              <li><p>Let <var>serialized cookie</var> be an empty map.</p></li>
+              <li><p>Let <var>serialized cookie</var> be an empty map.
               <ul>
                 <li><p>Add an entry whose key is <var>name</var> and value is <var>cookie-name</var> as defined in [[!RFC6265]]</p></li>
                 <li><p>Add an entry whose key is <var>value</var> and value is <var>cookie-value</var> as defined in [[!RFC6265]]</p></li>
@@ -3453,7 +3444,6 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
               </ul>
               <li>Return <var>serialized cookie</var>.</li>
             </ol>
-          </p>
       </section>
 
       <section>
@@ -3502,19 +3492,19 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
     <section>
       <h3>Delete Cookie</h3>
 
-      <p>
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-          </tr>
-          <tr>
-            <td>DELETE</td>
-            <td>/session/{sessionId}/cookie/{name}</td>
-          </tr>
-        </table>
-      </p>
+      <table class="simple jsoncommand">
+        <tr>
+          <th>HTTP Method</th>
+          <th>Path Template</th>
+        </tr>
+        <tr>
+          <td>DELETE</td>
+          <td>/session/{sessionId}/cookie/{name}</td>
+        </tr>
+      </table>
+
       <p>The <a>remote end steps</a> for the <dfn>Delete Cookie</dfn> command are:</p>
+
       <ol>
         <li><p>If the <a>current browsing context</a> is <a>no longer open</a>, return an error with code <a>no such window</a>.</p></li>
         <li><p>Let <var>name</var> be equal to "name" from <a>match a request</a>.</p></li>
@@ -3719,27 +3709,22 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
             The "keyUp" requires a parameter named "code" whose value will be one of the codes from the <a href="#character-types">character types</a> table. This action will send a "keyUp" event, with the specified key as a target.
             <br>
           </section>
+
           <section>
             <h2>Pointer Actions</h2>
-            The following are actions that must be implemented for both "mouse" and "touch" input sources. Any future pointer-based source must implement these actions.
-            <br>
-            <b>NOTE: conflating mouse and touch causes the pointerMove/pointerDown to events to be confusing and lacks verisimilitude:</b> If you want to tap at element1, then that would mean 'put finger down on element1, remove finger from element1', for a tap, we have to decide if we want to send 'pointerMove, pointerDown, pointerUp' or 'pointerDown, pointerUp'. The latter matches the touch events sent (touchStart,touchEnd), and makes sense for touchscreens because there is no active button state (http://www.w3.org/TR/pointerevents/#glossary) until you dispatch a touchstart. sending a JSON structure with pointerMove, pointerDown, pointerUp for something that gets mapped to touchstart/touchend feels inelegant. We can enforce the following instead:
-            if the "source" is mouse, then pointerMove,pointerDown,pointerUp  is sent over the wire
-            if the "source" is touch, then pointerDown,pointerUp is sent over the wire.
-            if the "source" is anything else (stylus, or other), it will be defined later.
-
-            The ramifications of this proposal would be that pointerDown must accept the parameters that pointerMove does (ie: ELEMENT, etc.).
-            <br>
-            <br>
-            <br>
-            <b>pointerMove</b>
-            <br>
-            <br>
-            The "pointerMove" action is used to move the pointer to a specific location on a page. In "mouse" sources, this would dispatch a "mouseMove" event. In "touch" sources, then if there is an active pointerDown action, this will generate a "touchmove" or "pointermove" event. For "touch" sources, pointerMove must not be called before pointerDown, since pointer sources only have move events once they are active on the screen.
-            <br>
-            When sending a "pointerMove", one of the following parameter sets MUST be used:
+            <p>The following are actions that must be implemented for both "mouse" and "touch" input sources. Any future pointer-based source must implement these actions.
+            <p><b>NOTE: conflating mouse and touch causes the pointerMove/pointerDown to events to be confusing and lacks verisimilitude:</b> If you want to tap at element1, then that would mean 'put finger down on element1, remove finger from element1', for a tap, we have to decide if we want to send 'pointerMove, pointerDown, pointerUp' or 'pointerDown, pointerUp'. The latter matches the touch events sent (touchStart,touchEnd), and makes sense for touchscreens because there is no active button state (http://www.w3.org/TR/pointerevents/#glossary) until you dispatch a touchstart. sending a JSON structure with pointerMove, pointerDown, pointerUp for something that gets mapped to touchstart/touchend feels inelegant. We can enforce the following instead:
             <ul>
-              <li><b>"ELEMENT"</b> - "ELEMENT" will hold a WebElement's id, and this will dispatch the event to the center of that element, unless the following set of parameters is also included:</li>
+            <li>if the "source" is mouse, then pointerMove,pointerDown,pointerUp  is sent over the wire
+            <li>if the "source" is touch, then pointerDown,pointerUp is sent over the wire.
+            <li>if the "source" is anything else (stylus, or other), it will be defined later.
+            </ul>
+            <p>The ramifications of this proposal would be that pointerDown must accept the parameters that pointerMove does (ie: ELEMENT, etc.).
+            <p><b>pointerMove</b>
+            <p>The "pointerMove" action is used to move the pointer to a specific location on a page. In "mouse" sources, this would dispatch a "mouseMove" event. In "touch" sources, then if there is an active pointerDown action, this will generate a "touchmove" or "pointermove" event. For "touch" sources, pointerMove must not be called before pointerDown, since pointer sources only have move events once they are active on the screen.
+            <p>When sending a "pointerMove", one of the following parameter sets MUST be used:
+            <ul>
+              <li><b>"ELEMENT"</b> - "ELEMENT" will hold a WebElement's id, and this will dispatch the event to the center of that element, unless the following set of parameters is also included:
               <ul>
                 <li><b>"x"</b> - Integer, the x-coordinate relative to the top-left corner of the target WebElement. If this is not specifed, the midpoint of the width is used</li>
                 <li><b>"y"</b> - Integer, the y-coordinate relative to the top-left corner of the target WebElement. If this is not specifed, the midpoint of the height is used</li>
@@ -3748,164 +3733,184 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
                 <li><b>"x" and "y"</b> - Integers, the coordinates relative to the top-left corner of the <b>TODO: viewport, or top-left of root document?</b>.
               </ul>
             </ul>
-            <br>
-            <br>
-            <b>pointerDown</b>
-            <br>
-            <br>
-            The "pointerDown" action is used to start an interaction on the page. In "mouse" sources, this would mean "mouseDown", in "touch" sources, this would mean "touchstart" or "pointerdown".
-            <br>
-            <br>
-            For "touch" sources, the following parameters must be passed:
+            <p><b>pointerDown</b>
+            <p>The "pointerDown" action is used to start an interaction on the page. In "mouse" sources, this would mean "mouseDown", in "touch" sources, this would mean "touchstart" or "pointerdown".
+            <p>For "touch" sources, the following parameters must be passed:
             <ul>
-              <li><b>"ELEMENT"</b> - "ELEMENT" will hold a WebElement's id, and this will dispatch the event to the center of that element, unless the following optional set of parameters is also included:</li>
+              <li><b>"ELEMENT"</b> - "ELEMENT" will hold a WebElement's id, and this will dispatch the event to the center of that element, unless the following optional set of parameters is also included:
               <ul>
                 <li><b>"x"</b> - Integer, the x-coordinate relative to the top-left corner of the target WebElement. If this is not specifed, the midpoint of the width is used</li>
                 <li><b>"y"</b> - Integer, the y-coordinate relative to the top-left corner of the target WebElement. If this is not specifed, the midpoint of the height is used</li>
               </ul>
             </ul>
-            <br>
-            <br>
-            For "mouse" sources, the following parameter must be passed:
+            <p>For "mouse" sources, the following parameter must be passed:
             <ul>
               <li><b>"BUTTON"</b> - "BUTTON" will hold a value describing which mouse button should be depressed.<b>TODO: link to button chart</b></li>
             </ul>
-            <br>
-            <br>
-            <b>pointerUp</b>
-            <br>
-            <br>
-            The "pointerUp" action is used to start an interaction on the page. In "mouse" sources, this would mean "mouseUp", in "touch" sources, this would mean dispatching an event like "touchend" or "pointerup".
-            <br>
-            <br>
-            Takes no parameters
-            <br>
-            <br>
-            <b>pointerCancel</b>
-            <br>
-            <br>
-            The "pointerMove" action is used to cancel an active pointer on the page. In "mouse" sources, this would mean "mouseUp", in "touch" sources, it implies cancelling the current action if possible by dispatching an event like "touchcancel" or "pointercancel".
+            <p><b>pointerUp</b>
+            <p>The "pointerUp" action is used to start an interaction on the page. In "mouse" sources, this would mean "mouseUp", in "touch" sources, this would mean dispatching an event like "touchend" or "pointerup".
+            <p>Takes no parameters
+            <p><b>pointerCancel</b>
+            <p>The "pointerMove" action is used to cancel an active pointer on the page. In "mouse" sources, this would mean "mouseUp", in "touch" sources, it implies cancelling the current action if possible by dispatching an event like "touchcancel" or "pointercancel".
           </section>
-          <section>
-            <h2 id='parallel-actions'>Parallel Actions</h2>
-            Parallel actions are those that have more than one action acting simultaneously on the browser. An example of this is using multiple fingers to operate on a tablet screen at the same time.
-            <br>
-            <br>
-            Dispatching a parallel action also uses the <a href="#actions-endpoint">actions endpoint</a>. In order to send a parallel action, append multiple dictionaries to the list of dictionary objects. Each dictionary will hold all the actions from one input source. The list of actions each dictionary contains will be executed together in ticks, by stepping through each input source's action list in order and executing each step simultaneously.
-            <br>
-            <br>
-            The best way to understand this is through an example. Imagine we have two fingers acting on a touchscreen. One finger will press down on element1 at the same moment that another finger presses down on element2. Once these actions are done, the first finger will wait 5 seconds while the other finger moves to element3. Then both fingers release from the touchscreen.
-            <br>
-            <br>
-            To execute these actions, we must send the "actions" endpoint two dictionary objects in the JSON list of dictionaries, one for each finger. We must use the "id" key of each object to uniquely identify each finger. The "actions" key will hold all the actions the input source will take.
-            <br>
-            <br>
-            The JSON for this set of actions is as follows:
-            <pre>
-              [
-                {
-                  "source": "touch",
-                  "id": "1",
-                  "actions": [
-                            { "name": "pointerDown",
-                              "ELEMENT": "element1"
-                            },
-                            { "name": "pause",
-                              "duration": 0
-                            },
-                            { "name": "pointerUp"
-                            }
-                  ]
-                },
-                {
-                  "source": "touch",
-                  "id": "2",
-                  "actions": [
-                            { "name": "pointerDown",
-                              "ELEMENT": "element2"
-                            },
-                            { "name": "pointerMove",
-                              "ELEMENT": "element3"
-                            },
-                            { "name": "pointerUp"
-                            }
-                  ]
-                }
-              ]
-            </pre>
-            <br>
-            <br>
-            When the remote end receives this, it will look at each input source's action lists. It will dispatch the first action of each source together, then the second actions together, and lastly, the final actions together.
-            <br>
-            <br>
-            The diagram below displays when each action gets executed. "Source 1" is the first finger, and "source 2" is the second.
-            <br>
-            <img src="svgs/note1actions.svg">
-            <br>
-            <br>
-            There is no limit to the number of input sources, and there is no restriction regarding the length of each input's action list. Meaning, there is no requirement that all action lists have to be the same length. It is possible for one input source's action list may have more actions than another. As an example, imagine having two fingers on a touchscreen. The first finger will press on element1 while the second presses on element2, then the first will release the touchscreen while the second finger moves to element3, and finally the second finger releases from the touchscreen. In this case, the action list for the first finger contains 2 actions (pointerDown, pointerUp), and the action list for the second finger contains 3 (pointerDown, pointerMove, pointerUp). In this case, the JSON will look like this:
-            <pre>
-              [
-                {
-                  "source": "touch",
-                  "id": "1",
-                  "actions": [
-                            { "name": "pointerDown",
-                              "ELEMENT": "element1"
-                            },
-                            { "name": "pointerUp"
-                            }
-                  ]
-                },
-                {
-                  "source": "touch",
-                  "id": "2",
-                  "actions": [
-                            { "name": "pointerDown",
-                              "ELEMENT": "element2"
-                            },
-                            { "name": "pointerMove",
-                              "ELEMENT": "element3"
-                            },
-                            { "name": "pointerUp"
-                            }
-                  ]
-                }
-              ]
-            </pre>
-            And the execution of each action will be done as follows:
-            <br>
-            <img src="svgs/note4actions.svg">
-            <br>
-            <br>
-            Specific timing for the actions can also be expressed. The "pause" action can be used to either a) indicate a specific amount of time an input source must wait, or b) can be used to signify that the current input source must wait until all other actions in the tick are completed. For the former case, the current tick being executed must wait for the longest pause to complete. For example, in this diagram:
-            <br>
-            <br>
-            <img src="svgs/note2actions.svg">
-            <br>
-            <br>
-            The remote end will dispatch the pointerDown actions in the first tick. In the second tick, since source 1 declares a pause of 5 seconds, the remote end will dispatch the pointerUp event for source 2, and will wait 5 seconds before moving on to executing the third tick.
-            <br>
-            <br>
-            In the event that one tick contains multiple pause durations, the remote end will wait the maximum duration before moving on to executing the next tick.
-            <br>
-            <br>
-            As noted before, "pause" can be used to signify inaction during a tick. If "pause" is declared without a time period, then the input source will not have any actions executed in the containing tick. As an example:
-            <br>
-            <br>
-            <img src="svgs/note3actions.svg">
-            <br>
-            <br>
-            During tick 2, source 1 will have its pointerMove action dispatched, while source 2 will do nothing.
-         </section>
-      </section> <!-- low-level wire protocol commands -->
+
+<section>
+<h2>Parallel Actions</h2>
+
+<p>Parallel actions are those that have
+ more than one action acting simultaneously on the browser.
+ An example of this is using multiple fingers
+ to operate on a tablet screen at the same time.
+
+<p>Dispatching a parallel action also uses
+ the <a href=#actions-endpoint>actions endpoint</a>.
+ In order to send a parallel action,
+ append multiple dictionaries to the list of dictionary objects.
+ Each dictionary will hold all the actions from one input source.
+ The list of actions each dictionary contains will be executed together in ticks,
+ by stepping through each input source's action list
+ in order and executing each step simultaneously.
+
+<p>The best way to understand this is through an example.
+ Imagine we have two fingers acting on a touchscreen.
+ One finger will press down on element1
+ at the same moment that another finger presses down on element2.
+ Once these actions are done, the first finger will wait 5 seconds
+ while the other finger moves to element3.
+ Then both fingers release from the touchscreen.
+
+<p>To execute these actions,
+ we must send the "actions" endpoint two dictionary objects
+ in the JSON list of dictionaries, one for each finger.
+ We must use the "id" key of each object to uniquely identify each finger.
+ The "actions" key will hold all the actions the input source will take.
+
+<p>The JSON for this set of actions is as follows:
+
+<p><pre>[
+  {
+    "source": "touch",
+    "id": "1",
+    "actions": [
+              { "name": "pointerDown",
+                "ELEMENT": "element1"
+              },
+              { "name": "pause",
+                "duration": 0
+              },
+              { "name": "pointerUp"
+              }
+    ]
+  },
+  {
+    "source": "touch",
+    "id": "2",
+    "actions": [
+              { "name": "pointerDown",
+                "ELEMENT": "element2"
+              },
+              { "name": "pointerMove",
+                "ELEMENT": "element3"
+              },
+              { "name": "pointerUp"
+              }
+    ]
+  }
+]</pre>
+
+<p>When the remote end receives this,
+ it will look at each input source's action lists.
+ It will dispatch the first action of each source together,
+ then the second actions together, and lastly, the final actions together.
+
+<p>The diagram below displays when each action gets executed.
+ "Source 1" is the first finger, and "source 2" is the second.
+
+<p><img src="svgs/note1actions.svg" alt="">
+
+<p>There is no limit to the number of input sources,
+ and there is no restriction regarding the length of each input's action list.
+ Meaning, there is no requirement that all action lists have to be the same length.
+ It is possible for one input source's action list
+ may have more actions than another.
+ As an example, imagine having two fingers on a touchscreen.
+ The first finger will press on element1 while the second presses on element2,
+ then the first will release the touchscreen while the second finger moves to element3,
+ and finally the second finger releases from the touchscreen.
+ In this case, the action list for the first finger contains 2 actions (pointerDown, pointerUp),
+ and the action list for the second finger contains 3 (pointerDown, pointerMove, pointerUp).
+ In this case, the JSON will look like this:
+
+<p><pre>[
+  {
+    "source": "touch",
+    "id": "1",
+    "actions": [
+              { "name": "pointerDown",
+                "ELEMENT": "element1"
+              },
+              { "name": "pointerUp"
+              }
+    ]
+  },
+  {
+    "source": "touch",
+    "id": "2",
+    "actions": [
+              { "name": "pointerDown",
+                "ELEMENT": "element2"
+              },
+              { "name": "pointerMove",
+                "ELEMENT": "element3"
+              },
+              { "name": "pointerUp"
+              }
+    ]
+  }
+]</pre>
+
+<p>And the execution of each action will be done as follows:
+
+<p><img src="svgs/note4actions.svg" alt="">
+
+<p>Specific timing for the actions can also be expressed.
+ The "pause" action can be used to either a) indicate
+ a specific amount of time an input source must wait, or b)
+ can be used to signify that the current input source must wait
+ until all other actions in the tick are completed.
+ For the former case, the current tick being executed must wait
+ for the longest pause to complete.
+ For example, in this diagram:
+
+<p><img src=svgs/note2actions.svg alt="">
+
+<p>The remote end will dispatch the pointerDown actions in the first tick.
+ In the second tick, since source 1 declares a pause of 5 seconds,
+ the remote end will dispatch the pointerUp event for source 2,
+ and will wait 5 seconds before moving on to executing the third tick.
+
+<p>In the event that one tick contains multiple pause durations,
+ the remote end will wait the maximum duration
+ before moving on to executing the next tick.
+
+<p>As noted before, "pause" can be used to signify inaction during a tick.
+ If "pause" is declared without a time period,
+ then the input source will not have any actions executed in the containing tick.
+ As an example:
+
+<p><img src="svgs/note3actions.svg" alt="">
+
+<p>During tick 2, source 1 will have its pointerMove action dispatched,
+ while source 2 will do nothing.
+</section> <!-- /Parallel Actions -->
+</section> <!-- low-level wire protocol commands -->
 
     <section>
       <h2>High Level Commands</h2>
         <p>These higher level commands SHOULD be built on top of the low level commands, and implement a user friendly way of interacting with a page in a way that models common user expectations.
 
         <section>
-          <h2 id='high-level-click'>Clicking</a></h2>
+          <h2 id='high-level-click'>Clicking</h2>
           <section>
             <!-- click() -->
             <h3>click()</h3>
@@ -3948,13 +3953,13 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
               <li><code><a href="#status-element-not-visible">element not visible</a></code> if the element is hidden and thus cannot be interacted with.</li>
               <li><code><a href="#status-move-target-out-of-bounds">move target out of bounds</a></code> if the element cannot be scrolled into view.</li>
             </ul>
-            <p>This command MUST use either the mouse or touch mechanisms for
-              emulating the user input. In the case where the browser being automated
-              supports only mouse input or both mouse and touch input, the low-level
-              mouse mechanisms MUST be used. If the browser only supports touch input,
-              the low level touch inputs MUST be used.</p>
-            </dd>
-          </dl>
+
+          <p>This command MUST use either the mouse or touch mechanisms for
+            emulating the user input. In the case where the browser being automated
+            supports only mouse input or both mouse and touch input, the low-level
+            mouse mechanisms MUST be used. If the browser only supports touch input,
+            the low level touch inputs MUST be used.</p>
+
           <p class="note">As the goal is to emulate users as closely as possible, the
             implementation SHOULD NOT allow clicking on elements that are obscured by
             other elements. If the implementation forbids clicking on obscured elements,
@@ -4051,7 +4056,6 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
                 <td>/session/{sessionId}/element/{elementId}/clear</td>
               </tr>
             </table>
-          </p>
         </section>
         <section>
           <!-- sendKeys() -->
@@ -4286,8 +4290,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
     </section> <!-- typing -->
   </section>
   </section>
-    </section> <!-- high-level APIs -->
-</section>
+</section> <!-- high-level APIs -->
 <section>
   <h2>Modals</h2>
     This section describes how modal dialogs should be handled using the WebDriver API.
@@ -4374,7 +4377,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
           <a href='#widl-WebElement-sendKeys-void-stringArray-keysToSend'>sendKeys</a> to an element.
           If the modal has no means for text input it should throw a <code><a href='#status-element-not-visible'>
           Element not visible error</a></code>. If no modal is present then a <a href="#status-no-such-alert">
-          no such alert error</a></code> MUST be raised.
+          no such alert error</a> MUST be raised.
           <p> Let <var>value</var> be an array of characters that will be typed into a <a>WebElement</a>. If the modal has no means of acceptiing text input
              it MUST raise a <code><a href='#status-element-not-visible'>element not visible error</a></code>
       <p>If a modal dialog is created from a <code>onbeforeunload</code> event the remote end MUST handle the
@@ -4408,34 +4411,41 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
 
   <p>All commands within this section are implemented using the "TakesScreenshot" interface:</p>
 
-  <section>
-    <h3>takeScreenshot()</h3>
-      <p>
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-          </tr>
-          <tr>
-            <td>GET</td>
-            <td>/session/{sessionId}/screenshot</td>
-          </tr>
-        </table>
-      <p>
-      Take a screenshot and return a lossless PNG encoded using Base64. If
-      <code>element</code> is not populated or is <code>null</code> then the User Agent MUST return the screenshot of the current state of the document at the top level browsing context.
-      <p>The possible errors for this command:
-      <ul>
-        <li><code><a href="#unknown-error">unknown error</a></code> if the if the screenshot cannot be taken.</li>
-      </ul>
-      <p>Leaving below until <a href='https://www.w3.org/Bugs/Public/show_bug.cgi?id=27920'>Bug 27920</a> has a consensus</p>
-      <dl class='parameters'>
-        <dt>optional WebElement? element</dt>
-        <dd>The <a>WebElement</a> on which to operate. If <code>element</code> is not populated or is <code>null</code>
-          then the User Agent MUST return the screenshot of the current state of the document at the top level browsing context.</dd>
-      </dl>
-    </dd>
-  </section>
+<section>
+<h3>takeScreenshot()</h3>
+
+<table class="simple jsoncommand">
+  <tr>
+    <th>HTTP Method</th>
+    <th>Path Template</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <td>GET</td>
+    <td>/session/{sessionId}/screenshot</td>
+    <td></td>
+  </tr>
+</table>
+
+<p>Take a screenshot and return a lossless PNG encoded using Base64.
+ If <code>element</code> is not populated or is <code>null</code>
+ then the User Agent MUST return the screenshot of
+ the current state of the document at the top level browsing context.
+
+<p>The possible errors for this command:
+
+<ul>
+ <li><code><a href="#unknown-error">unknown error</a></code> if the if the screenshot cannot be taken.
+</ul>
+
+<p>Leaving below until <a href='https://www.w3.org/Bugs/Public/show_bug.cgi?id=27920'>Bug 27920</a> has a consensus</p>
+
+<dl class='parameters'>
+  <dt>optional WebElement? element
+  <dd>The <a>WebElement</a> on which to operate. If <code>element</code> is not populated or is <code>null</code>
+    then the User Agent MUST return the screenshot of the current state of the document at the top level browsing context.
+</dl>
+</section>
 
   <section>
     <h2>Current Top Level Browsing Context</h2>
@@ -4480,7 +4490,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
         <li>Let <var>screenshot</var> be a be a Base64 encoded, lossless PNG representation of area bounded by the clientBoundingRect of the DOMElement.
           <ol>
             <li>If the element is not in the current viewport, the DOMElement must be scrolled into view.</li>
-            <li><If the <code>WebElement</code> represents a FRAME or IFRAME element, this is equivalent of taking a screenshot of the frame's BODY elemen</li>
+            <li>If the <code>WebElement</code> represents a FRAME or IFRAME element, this is equivalent of taking a screenshot of the frame's BODY elemen</li>
           </ol>
         </li>
         <li>Return <var>screenshot</var> to the local end.</li>
@@ -4604,38 +4614,18 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
     error MUST be thrown when the local end tries to create a new session.
   </section>
 </section>
-    <section class='appendix'>
-      <h2>Acknowledgements</h2>
-      <p>
-        Many thanks to Robin Berjon for making our lives so much
-        easier with his cool tool. Thanks to Jason Leyba, Malcolm Rowe,
-        Ross Patterson and Andrey Botalov for proof reading and suggesting areas for
-        improvement. Thanks to Jason Leyba, Eran Messeri, Daniel
-        Wagner-Hall, Malini Das, Luke Inman-Semerau, Andreas Tolfsen, James Graham
-        and John Jansen for contributing sections to this document. Also
-        thanks to the following people for their contribution of
-        patches and test cases:
-        <ul>
-         <li>Philippe Le Hegaret</li>
-        </ul>
-      </p>
-      </section>
 
-      <div style="display: none">
-        <p>These links are only here until we have fixed ReSpec.js to avoid
-        creating anchors to things that don't exist.</p>
-        <ul>
-          <li id="idl-def-void">idl-def-void</li>
-          <li id="idl-def-stringbooleannumber">idl-def-stringbooleannumber</li>
-          <li id="idl-def-boolean">idl-def-boolean</li>
-          <li id="idl-def-number">idl-def-number</li>
-          <li id="idl-def-object">idl-def-object</li>
-          <li id="idl-def-DOMString">idl-def-DOMString</li>
-          <li id="idl-def-dictionary">idl-def-dictionary</li>
-          <li id="idl-def-integer">idl-def-integer</li>
-          <li id="idl-def-string">idl-def-string</li>
-          <li id="idl-def-Argument">idl-def-Argument</li>
-        </ul>
-      </div>
-  </body>
-</html>
+<section class=appendix>
+<h2>Acknowledgements</h2>
+
+<p>Many thanks to Robin Berjon for making our lives so much easier with his cool tool.
+ Thanks to Jason Leyba, Malcolm Rowe, Ross Patterson, and Andrey Botalov for proof reading
+ and suggesting areas for improvement.
+ Thanks to Jason Leyba, Eran Messeri, Daniel Wagner-Hall, Malini Das, Luke Inman-Semerau,
+ Andreas Tolfsen, James Graham, and John Jansen for contributing sections to this document.
+ Also thanks to the following people for their contribution of patches and test cases:
+
+ <ul>
+  <li>Philippe Le Hegaret
+ </ul>
+</section>
