@@ -3194,8 +3194,8 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
 </section> <!-- /Element State -->
 
 <section>
-  <h2>Executing Javascript</h2>
-  <div class="note">
+  <h2>Executing Script</h2>
+  <div class="issue">
     <p>Open questions: What happens if a user's JS triggers a modal dialog?
       Blocking seems like a reasonable idea, but there is an assumption that
       WebDriver is not threadsafe.
@@ -3203,176 +3203,430 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
       What happens to unhandled JS errors? Caused by a user's JS? Caused by JS
       on a page? How does a user of the API obtain the list of errors? Is that
       list cleared upon read?
-    </div>
-    <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "ecmascript" folder.</p>
+  </div>
 
-    <section>
-      <h2>Javascript Command Parameters</h2>
+  <p>When required to <dfn>JSON deserialize</dfn> with
+  argument <var>value</var>, and optional argument <var>seen</var>, a
+  remote end must run the following steps:</p>
+  <ol>
+    <li><p>If <var>seen</var> was not provided, let <var>seen</var> be
+    an empty set.</p></li>
+    <li><p>Jump to the first appropriate step below:
+      <dl>
+        <dt>If <var>value</var> is <code>null</code>, or has
+        type <code>Boolean</code>, <code>Number</code>
+        or <code>String</code>:</dt>
+        <dd><p>Return <a>success</a> with data <var>value</var>.</p></dd>
 
-      <p>When calling <a href="#sync-js-execution">Synchronous JavaScript Execution</a> or calling <a href="async-js-execution">Asynchronous JavaScript Execution</a> we need to extract
-        the following from <var><a href="#post-payload">payload body</a></var> into <dfn>JavaScript Command Parameters</dfn>:</p>
+        <dt>If <var>value</var> is an <code>Object</code>
+        that <a>represents a web element</a>:</dt>
+        <dd><p>Return the result of running the <a>deserialize the web
+        element</a> algorithm with object <var>value</var>.</p></dd>
 
-        <ul>
-          <li>let <var>script</var> be the JavaScript to execute, in the form of a Function body.</li>
-          <li>let <var>args</var> be an array that are used as the parameters to the function defined by <var>script</var>.
-            The <var>args</var> can contain the numbers, booleans, a WebElement, objects or arrays</li>
-        </ul>
-    </section>
+        <dt>If <var>value</var> if <var>value</var> is
+        an <code>Array</code> object or an <code>Object</code> object:
+        </dt>
+        <dd><p>Return the result of running the <a>clone an object</a>
+              algorithm with arguments <var>value</var>
+              and <var>seen</var>, and the <a>JSON deserialize</a>
+              algorithm as the clone algorithm.
+        </dd>
+        <dt>Anything else:</dt>
+        <dd><p>Return <a>error</a> with code <a>javascript error</a>.</dd>
+      </dl>
+      </p>
+    </li>
+  </ol>
 
-    <p>When executing Javascript, it MUST be possible to reference the <code>args</code> parameter using the function's <code>arguments</code> object. The arguments MUST be in the same order as defined in <code>args</code>. Each WebDriver implementation MUST preprocess the values in <code>args</code> using the following algorithm:
+  <p>When required to make a <dfn>JSON clone</dfn> with
+  argument <var>value</var>, a <a>remote
+  end</a> must run the following steps:</p>
+  <ol>
+    <li><p>Let <var>seen</var> be an empty set.</p></li>
+    <li><p>Return the result of calling the <a>internal JSON clone
+  algorithm</a> with arguments <var>value</var> and <var>seen</var>.</p></li>
+  </ol>
 
-      <p id="JS-args-preprocess">For each index, <code>index</code> in <code>args</code>, if <code>args[index]</code> is...
-        <ol>
-          <li>a long, boolean, DOMString, or <code>null</code>, then let <code>args[index] = args[index]</code>.</li>
-          <li>a sequence, then recursively apply this algorithm to <code>args[index]</code> and assign the result to <code>args[index]</code>.</li>
-          <li>an object, then recursively apply this algorithm to each value in <code>args[index]</code> and assign the result to <code>args[index]</code>.</li>
-          <li>a <a href="#elements">WebElement</a>, then:
-            <ol>
-              <li>If <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's tree, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error.</li>
-              <li>Otherwise, let <code>args[index]</code> be the underlying <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>.</li>
-            </ol>
-          </li>
-          <li>Otherwise WebDriver implementations MAY throw an <code><a href="#status-unknown-error">unknown error</a></code> indicating the index of the unhandled parameter but SHOULD attempt to convert the value into a <code>object</code>.</li>
-        </ol>
-        <section>
-          <h2 id="sync-js-execution">Synchronous Javascript Execution</h2>
-          <section>
-            <!-- executeScript() -->
-            <h3>executeScript()</h3>
-              <dl class='parameters'>
-                <dt> DOMString script</dt>
-                <dd>The script to execute.</dd>
-                <dt>sequence&lt;Argument>? args</dt>
-                <dd>The script arguments.</dd>
-              </dl>
-                <table class="simple jsoncommand">
-                  <tr>
-                    <th>HTTP Method</th>
-                    <th>Path Template</th>
-                  </tr>
-                  <tr>
-                    <td>POST</td>
-                    <td>/session/{sessionId}/execute</td>
-                  </tr>
-                </table>
-              <p>When executing JavaScript, the WebDriver implementations MUST use the following algorithm:
-                <ol>
-                  <li>Let <code>window</code> be the <a href="http://www.w3.org/TR/Window/">Window</a> object for WebDriver's current <a href="#where-commands-are-handled">command context</a>.
-                  <li>Let <code>script</code> be the DOMString from the command's <code>script</code> parameter.
-                  <li>Let <code>fn</code> be the Function object created by executing <code>new Function(script);</code>
-                  <li>Let <code>args</code> be the sequence created by the pre-processing algorithm defined <a href="#JS-args-preprocess">above</a>.
-                  <li>Invoke <code>fn.apply(window, args);</code>
-                  <li>If the previous step errors then:
-                  <ol>
-                    <li>Let <code>error</code> be the thrown value.
-                    <li>Set the response <a href="href=#response-status">status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.
-                    <li>Set the response <a href="#response-value">value</a> to a <code>object</code>, <code>dict</code>.
-                    <li>If <code>error</code> is an Error, then set a "message" entry in <code>dict</code> whose value is the DOMString defined by <code>error.message</code>.
-                    <li>Otherwise, set a "message" entry in <code>dict</code> whose value is the DOMString representation of <code>error</code>.
-                  </ol>
-                  <li>Otherwise:
-                  <ol>
-                    <li>Let <code>result</code> be the value returned by the function in step #5.
-                    <li>Set the command's response <a href='#response-status'>status</a> to <code><a href="#status-success">success</a></code>.
-                    <li>Let <code>value</code> be the result of the following algorithm:
-                  <ol>
-                    <li>If <code>result</code> is:
-                    <ol>
-                      <li><code>undefined</code> or <code>null</code>, return <code> null</code>.
-                      <li>a long, boolean, or DOMString, return <code>result</code>.
-                      <li>a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, then return the corresponding WebElement for that <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>.
-                      <!-- Should there be a recursion limit? -->
-                      <li>a <code>Sequence &lt;Node&gt; nodes</code>, then return the result of recursively applying this algorithm to <code>result</code>.
-                      <!-- Should there be a limit? -->
-                      <li>an object, then return the <code>object</code> created by recursively applying this algorithm to each property in <code>result</code>.
-                    </ol>
-                  </ol>
-                  <li>Set the response <a href="#response-value">value</a> to <code>value</code>.</li>
-                </ol>
-                <li>Return the response.</li>
+  <p>When required to run the <dfn>internal JSON clone algorithm</dfn>
+  with arguments <var>value</var> and <var>seen</var>,
+  a <a>remote end</a> must run the following algorithm:</p>
+  <ol>
+    <li><p>Jump to the appropriate step below:</p>
+      <dl>
+        <dt>If <var>value</var> is <code>undefined</code>
+        or <code>null</code>:</dt>
+        <dd><p>Return <a>success</a> with data <code>null</code>.</p></dd>
+
+        <dt>If <var>value</var> has
+        type <code>Boolean</code>, <code>Number</code>
+        or <code>String</code>:</dt>
+        <dd><p>Return <a>success</a> with data <var>value</var>.</dd>
+
+        <dt>If <var>value</var> is an <code>Element</code> Node:</dt>
+        <dd><p>Return the result of <a title="create a web element
+        reference">creating a web element</a> with
+        argument <var>value</var></dd>
+
+
+        <dd>
+          <ol>
+            <li><p>If <var>value</var> is in <var>seen</var>,
+                return <a>error</a> with code <a>javascript error</code>.</li>
+
+            <li><p>Add <var>value</var> to <var>seen</var></li>
+
+          </ol>
+        </dd>
+
+        <dt>If <var>value</var> is
+        a <code>NodeList</code>, <code>HTMLCollection</code>,
+        an <code>Array</code> object, or an <code>Object</code>
+        object:
+        </dt>
+        <dd>
+          <ol>
+            <li><p>If <var>value</var> is in <var>seen</var>,
+                return <a>error</a> with code <a>javascript error</code>.</li>
+
+            <li><p>Add <var>value</var> to <var>seen</var></li>
+
+            <li><p>Return the result of running the <a>clone an
+                  object</a> algorithm with arguments <var>value</var>
+                  and <var>seen</var>, and the <a>internal JSON clone
+                  algorithm</a> as the clone algorithm.</li>
+            <!-- TODO: Map and Set objects? -->
+          </ol>
+        </dd>
+        <dt>Anything else:</dt>
+        <dd><p>Return <a>error</a> with code <a>javascript error</a>.</dd>
+      </dl>
+  </ol>
+  <p>When required to <dfn>clone an object</dfn> with
+    arguments <var>value</var> and <var>seen</var> and
+    clone algorithm <var>clone algorithm</var>, run the
+    following steps:</p>
+
+  <ol>
+        <li>
+          <dl>
+            <dt>If <var>value</var> is
+              a <code>NodeList</code>, <code>HTMLCollection</code> or
+              ECMAScript <code>Array</code> object:</dt>
+            <dd>
+              <ol>
+                <li><p>Let <var>result</var> be a new <code>Array</code> object.</p></li>
+
+                <li><p>Let <var>length</var> be the result of <a>getting a
+                      property</a> named <code>length</code>
+                    from <var>value</var>.</p></li>
+
+                <li><p><a>Set a property</a> on <var>result</var> named <code>length</code>
+                    with value <var>length</var>.</p></li>
               </ol>
-            </section>
-        </section>
-        <section>
-          <h2>Asynchronous Javascript Execution</h2>
-          <section>
-            <h3 id="async-js-execution">executeAsyncScript()</h3>
+            </dd>
 
-              <dl class='parameters'>
-                <dt> DOMString script</dt>
-                <dd>The script to execute.</dd>
-                <dt>sequence&lt;Argument>? args</dt>
-                <dd>The script arguments.</dd>
-              </dl>
-              <p>
-                <table class="simple jsoncommand">
-                  <tr>
-                    <th>HTTP Method</th>
-                    <th>Path Template</th>
-                  </tr>
-                  <tr>
-                    <td>POST</td>
-                    <td>/session/{sessionId}/execute_async</td>
-                  </tr>
-                </table>
-                <p>
-              <p>When executing asynchronous JavaScript, the WebDriver implementation MUST use the following algorithm:
-                <ol>
-                  <li>Let <code>timeout</code> be the value of the last "script" <a href="#timeouts">timeout command</a>, or 0 if no such commands have been received.</li>
-                  <li>Let <code>window</code> be the <a href="http://www.w3.org/TR/Window/">Window</a> object for WebDriver's current <a href="#where-commands-are-handled">command context</a>.</li>
-                  <li>Let <code>script</code> be the DOMString from the command's <code>script</code> parameter.</li>
-                  <li>Let <code>fn</code> be the Function object created by executing <code>new Function(script);</code></li>
-                  <li>Let <code>args</code> be the sequence created by the pre-processing algorithm defined <a href="#JS-args-preprocess">above</a>.</li>
-                  <li>Let <code>callback</code> be a Function object pushed to the end of <code>args</code>.</li>
-                  <li>Register a one-shot timer on <code>window</code> set to fire <code>timeout</code> milliseconds in the future.</li>
-                  <li>Invoke <code>fn.apply(window, args);</code></li>
-                  <li>If the previous step errors then:
-                    <ol>
-                      <li>Let <code>error</code> be the thrown value.</li>
-                      <li>Set the response <a href='#response-status'>status</a> to <code><a href="#status-javascript-error">javascript error</a></code>.</li>
-                      <li>Set the response <a href="#response-value">value</a> to a <code>object</code>, <code>dict</code>.</li>
-                      <li>If <code>error</code> is an Error, then set a "message" entry in <code>dict</code> whose value is the DOMString defined by <code>error.message</code>.</li>
-                      <li>Otherwise, set a "message" entry in <code>dict</code> whose value is the DOMString representation of <code>error</code>.</li>
-                    </ol>
-                  </li>
-                  <li>Otherwise, the WebDriver implementation MUST wait for one of the following to occur:
-                    <ol>
-                      <li>if the one-shot timer that was set on the <code>window</code> fires
-                        , the WebDriver implementation MUST immediately set the response <a href='#response-status'>status</a>
-                        to <code><a href='#status-timeout'>timeout</a></code> and return.</li>
-                        <li>if the <code>window</code> fires an <code>unload</code> event, the WebDriver implementation MUST immediately set the response <a href='#response-status'>status</a> to JavascriptError and return with the error message set to "Javascript execution context no longer exists.".</li>
-                        <li>if the <code>callback</code> function is invoked, then:
-                          <ol>
-                            <li>Let <code>result</code> be the first argument passed to <code>callback</code>.</li>
-                            <li>Set the command's response <a href='#response-status'>status</a> to Success.</li>
-                            <li>Let <code>value</code> be the result of the following algorithm:
-                              <ol>
-                                <li>If <code>result</code> is:
-                                  <ol>
-                                    <li><code>undefined</code> or <code>null</code>, return <code> null</code>.</li>
-                                    <li>a long, boolean, or DOMString, return <code>result</code>.</li>
-                                    <li>a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, then return the corresponding WebElement for that <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>.</li>
-                                    <!-- Should there be a recursion limit? -->
-                                    <li>a <code>Sequence &lt;Node> Nodes</code>, then return the result by recursively applying this algorithm to <code>result</code>. WebDriver implementations SHOULD limit the recursion depth.</li>
-                                    <!-- Should there be a limit? -->
-                                    <li>an object, then return the <code>object</code> created by recursively applying this algorithm to each property in <code>result</code>.</li>
-                                  </ol>
-                                </li>
-                              </ol>
-                            </li>
-                            <li>Set the command's response <a href="#response-value">value</a> to <code>value</code>.</li>
-                          </ol>
-                        </li>
-                        <li>Return the response.</li>
-                      </ol>
-                    </li>
-                  </ol>
-                </section>
-        </section>
-        <section>
-          <h2>Reporting Errors</h2>
-          <p></p>
-        </section>
+            <dt>Otherwise:</dt>
+            <dd>
+              <ol>
+                <li><p>Let <var>result</var> be a
+                    new <code>Object</code> object.</p></li>
+                </ol>
+            </dd>
+          </dl>
+        </li>
+
+        <li><p>For each
+        enumerable <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30">own
+        property</a> in <var>value</var>, run the following
+        substeps:</p>
+          <ol>
+            <li><p>Let <var>name</var> be the name of the property.</li>
+
+            <li><p>Let <var>source property value</var> be the result
+                of <a>getting a property</a> named <var>name</var>
+                from <var>value</var>. If doing so causes script to be
+                run, and that script throws an exception,
+                return <a>error</a> with code <a>javascript
+                error</a>.</li>
+
+            <li><p>Let <var>cloned property result</var> be the result of
+                calling the <var>clone algorithm</var> with
+                arguments <var>source property value</var>
+                and <var>seen</var>.</p></li>
+
+            <li><p>If <var>cloned property result</var> is
+                a <a>success</a>, <a>set a property</a>
+                of <a>result</a> with name <var>name</var> and value
+                equal to <var>cloned property result</var>'s data.</li>
+
+            <li><p>Otherwise, return <var>cloned property result</var>.</li>
+          </ol>
+        </li>
+  </ol>
+
+  <p>The steps for <dfn>extracting the script arguments from a request</dfn>,
+  are:</p>
+   <ol>
+      <li><p>If the <a>current browsing context</a> is <a>no longer
+          open</a>, return an <a>error</a> with code <a>no such
+          window</a>.</p></li>
+
+      <li><p>Let <var>script</var> be the result of getting a property
+          named <code>script</code> from the parameters argument.</p></li>
+
+      <li><p>If <var>script</var> is not a <code>String</code> return
+          an <a>error</a> with code <a>invalid argument</a>.</p></li>
+
+      <li><p>Let <var>args</var> be the result of getting a property
+          named <code>args</code> from the parameters argument.</p></li>
+
+      <li><p>If <var>args</var> is not an <code>Object</code> or
+          its <code>[[\Class]]</code> internal property is
+          not <code>Array</code> or <code>Object</code>,
+          return <a>error</a> with code <a>invalid
+          argument</a>.</p></li>
+
+       <li><p>Let <var>arguments</var> be
+          a <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-8.8">List</a>
+          consisting of a <a>json deserialization</a> of each item
+          in <var>args</var> with the order preserved.</p></li>
+
+       <li><p>Return <a>success</a> with data <var>script</var>
+       and <var>arguments</var>.</p></li>
+   </ol>
+
+   <p>When required to <dfn>execute a function body</dfn> with
+   arguments <var>body</var> and <var>arguments</var>, a <a>remote
+   end</a> must run the following steps:
+   <ol>
+      <li><p>Let <var>window</var> be the
+          <a href="https://html.spec.whatwg.org/#concept-document-window">associated
+            window</a> of the <a>current browsing
+            context</a>'s <a href="https://html.spec.whatwg.org/#active-document">active
+            document</a>.</li>
+
+      <li><p>Let <var>environment settings</var> be the
+          <a href="https://html.spec.whatwg.org/#environment-settings-object">environment
+            settings object</a> for <var>window</var>.</p></li>
+
+      <li><p>Let <var>script environment</var> be
+          the <a href="https://html.spec.whatwg.org/#script-execution-environment">script
+          execution environment</a> for JavaScript obtained from
+          <var>environment settings</var>.</p></li>
+
+      <li><p>If <var>body</var> is not parsable as
+          a <a href="http://es5.github.io/#x13"><i>FunctionBody</i></a>
+          or if parsing detects
+          an <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-16"><i>early
+          error</i></a>, return <a>error</a> with code <a>javascript
+          error</a>.</p></li>
+
+      <li><p>If <var>body</var> begins with
+          a <a href="http://es5.github.io/#x14.1">Directive
+          Prologue</a> that contains
+          a <a href="http://es5.github.io/#x14.1">Use Strict
+          Directive</a> then let <var>strict</var> be true, otherwise
+          let <var>strict</var> be false.</p></li>
+
+      <li><p>Using
+          the <a href="https://html.spec.whatwg.org/#script-execution-environment">script
+          execution environment</a> <var>script environment</var>,
+          let <var>function</var> be the result of
+          calling <a href="http://es5.github.io/#x13.2">create a
+          function object</a> with parameter list of an
+          empty <a href="http://es5.github.io/#x8.8">List</a>,
+          body <var>body</var>, scope of
+          the <a href="http://es5.github.io/#x10.2.3">global
+          environment</a> and strict flag <var>strict</var>.</p></li>
+
+      <li><p>Let <var>script</var> be a
+          new <a href="https://html.spec.whatwg.org/#concept-script">script</a>.</p></li>
+
+      <li><p>Let <var>script</var>'s <a href="https://html.spec.whatwg.org/#code-entry-point">code
+            entry-point</a> be <var>function</var>.</p></li>
+
+      <li><p>Let
+          script's <a href="https://html.spec.whatwg.org/#settings-object">settings
+          object</a> object be <var>script settings</var>.</p></li>
+
+      <!-- the stuff from here on down is quite dubious -->
+      <!-- this incumbent scripts stuff is in webidl but the references don't
+           lead anywhere -->
+      <!-- li><p><a href="">Push <var>script</var> onto <a>the stack of
+              incumbent scripts</a>.</li-->
+
+      <li><p>Invoke the <code>[[\Call]]</code> internal method
+          of <var>function</var>, providing <var>window</var> as the
+          this value and <var>parameters</var> as the argument
+          values. If doing so does not produce an exception,
+          let <var>result</var> be <a>success</a> with data set
+          to the return value from this function call. Otherwise
+          let <var>result</var> be <a>error</a> with
+          code <a>javascript error</a>.</p>
+
+      <!-- li><p><a href="">Pop <var>script</var> from <a>the stack of
+              incumbent scripts</a>.</p></li -->
+
+      <li><p>If <var>result</var> is an <a>error</a>, return
+          result.</p></li>
+
+      <li><p>Otherwise let <var>json data</var> be a <a>JSON clone</a>
+          of <var>result</var>'s data.</p></li>
+
+      <li><p>Return <a>success</a> with data <var>json
+            data</var>.</p></li>
+
+    </ol>
+
+  <section>
+    <h3>Execute Script</h3>
+    <p>
+      <table class="simple jsoncommand">
+        <tr>
+          <th>HTTP Method</th>
+          <th>Path Template</th>
+        </tr>
+        <tr>
+          <td>POST</td>
+          <td>/session/{sessionId}/execute</td>
+        </tr>
+      </table>
+    <p>The <dfn>Execute Script</dfn> command executes a JavaScript
+      function in the context of the <a>current browsing context</a>
+      and return the return value of the function.
+
+    <p>The <a>remote end steps</a> for the <a>Execute Script</a>
+        command are:</p>
+    <ol>
+      <li><p>Let <var>script arguments</var> be the result
+      of <a>extracting the script arguments from a request</a> with
+      argument <var>parameters</var>.</p></li>
+
+      <li><p>If <var>script arguments</var> is an <a>error</a>
+      return <var>script arguments</var>.</p></li>
+
+      <li><p>Let <var>body</var> and <var>arguments</var>
+      be <var>script arguments</var>' data.</p></li>
+
+      <li><p>Let <var>result</var> be the result of calling <a>execute
+      a function body</a>, with arguments <var>body</var>
+      and <var>arguments</var>.</p></li>
+
+      <li><p>If <var>result</var> is an <a>error</a>, return result,
+      otherwise let <var>value</var> be <var>result</var>'s data.</p></li>
+
+      <li><p>Let <var>data</var> be a new <code>Object</code>.</p></li>
+
+      <li><p><a>Set the property</a> <code>value</code> of <var>data</var>
+      to <var>value</var>.</p></li>
+
+      <li><p>Return <a>success</a> with data <var>data</var>.</p></li>
+    </ol>
+  </section>
+
+  <section>
+    <h3>Execute Async Script</h3>
+    <p>
+      <table class="simple jsoncommand">
+        <tr>
+          <th>HTTP Method</th>
+          <th>Path Template</th>
+        </tr>
+        <tr>
+          <td>POST</td>
+          <td>/session/{sessionId}/execute_async</td>
+        </tr>
+      </table>
+      <p>The <dfn>Execute Async Script</dfn> command causes JavaScript
+      to execute as an anonymous function. Unlike the <a>Execute
+      Script</a> command, the result of the function is
+      ignored. Instead an additional argument is provided as the final
+      argument to the function. This is a function that, when called,
+      returns its first argument as the response.</p>
+
+    <p>The <a>remote end steps</a> for the <a>Execute Async Script</a>
+        command are:</p>
+    <ol>
+      <li><p>Let <var>script arguments</var> be the result
+      of <a>extracting the script arguments from a request</a> with
+      argument <var>parameters</var>.</p></li>
+
+      <li><p>If <var>script arguments</var> is an <a>error</a>
+      return <var>script arguments</var>.</p></li>
+
+      <li><p>Let <var>body</var> and <var>arguments</var>
+      be <var>script arguments</var>' data.</p></li>
+      <!-- this next step might not quite set up all the right
+      machinary -->
+
+      <li><p>Let <var>webdriver callback result</var> be
+      a flag which can have three
+      values; <code>unset</code>, <code>expired</code>,
+      or <code>set</code>, with the <code>set</code> value having
+      associated data. Initially it is in the <code>unset</code> state.</p></li>
+
+      <li><p>Let <var>callback</var> be
+      a <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24">function</a>
+      whose <code>[[\Call]]</code> internal method runs the <a>execute
+      async script callback</a> algorithm initialized with
+      argument <var>webdriver callback result</var>.</p></li>
+
+      <li><p>Append <var>callback</var> to <var>arguments</var>.</p></li>
+
+      <li><p>Let <var>result</var> be the result of calling <a>execute
+            a function body</a>, with arguments <var>body</var>
+            and <var>arguments</var>.</p></li>
+
+      <li><p>If <var>result</var> is an <a>error</a>, return
+          result.</p></li>
+
+      <li><p>Wait for <var>webdriver callback result</var> to enter
+      the <code>set</code> state, or for <a>session script timeout</a>
+      milliseconds to expire, whichever happens sooner.</p></li>
+
+      <li><p>If the previous step completed due the <a>script session
+          timeout</a> being reached, set <var>webdriver callback
+          result</var> to <code>expired</code> and return <a>error</a>
+          with code <a>script timeout</a>.</p></li>
+
+      <li><p>Otherwise, let <var>result</var> be <var>webdriver
+      callback result</var>'s data.</p></li>
+
+      <li><p>If <var>result</var> is an <a>error</a>,
+          return <var>result</var>.</p></li>
+
+      <li><p>Let <var>value</var> be <var>result</var>'s data.</p></li>
+
+      <li><p>Let <var>data</var> be a new <code>Object</code>.</p></li>
+
+      <li><p>Set the property <code>value</code> of <var>data</var>
+           to <var>value</var>.</p></li>
+
+      <li><p>Return <a>success</a> with data <var>data</var>.</p></li>
+    </ol>
+
+    <p>The <dfn>execute async script callback</dfn> algorithm is
+    initialized with a single argument <var>webdriver callback
+    state</var>. It defines
+    a <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24">function</a>
+    with a single optional argument <var>result</var>. When this
+    function is called, the following steps are run:</p>
+
+    <ol>
+      <li><p>If <var>webdriver callback state</var> is not in
+          the <code>unset</code> state, return <code>undefined</code>.</p></li>
+
+      <li><p>Otherwise, if <var>result</var> is not present,
+          let <var>result</var> be <code>null</code>.</p></li>
+
+      <li><p>Let <var>json result</var> be a <a>JSON clone</a>
+          of <var>result</var>.</p></li>
+
+      <li><p>Set the <var>webdriver callback state</var>
+          to <code>set</code> with data <var>json result</var>.</p></li>
+
+      <li><p>Return <code>undefined</code>.</p></li>
+    </ol>
 </section>
 
 <section>
