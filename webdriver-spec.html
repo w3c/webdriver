@@ -998,7 +998,7 @@ code a:visited, code a:link {
  and torn down at some later point;
  either explicitly by invoking <a href=#>quit</a>,
  or implicitly when <a href=#close>close</a> is called at the last remaining
- <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top-level browsing context</a>.
+ <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>.
 
 <p>A <a>remote end</a> has an associated <dfn>list of active sessions</dfn>,
  which is a list of all <a rel="session">sessions</a> that are currently started.
@@ -1029,15 +1029,19 @@ code a:visited, code a:link {
 <p>A <a>session</a> has an associated
  <dfn>current top-level browsing context</dfn>,
  which is the <a>current browsing context</a> if it itself is a
- <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top-level browsing context</a>,
- or the top-level browsing context for which
- the <a>current browsing context</a>
+ <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>,
+ or the <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+ for which the <a>current browsing context</a>
  is an <a href=https://html.spec.whatwg.org/#ancestor-browsing-context>ancestor browsing context</a>.
 
-<p>The top-level browsing context is said to be <dfn>no longer open</dfn>
+<p>The <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+ is said to be <dfn>no longer open</dfn>
  if it has been <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>.
 
-<p>Each top-level browsing context has an associated <dfn>window handle</dfn>, which is a string uniquely identifying that browsing context. This string is implementation defined but must not be "current".</p>
+<p>Each <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+ has an associated <dfn>window handle</dfn>,
+ which is a string uniquely identifying that browsing context.
+ This string is implementation defined but MUST not be "current".
 
 <!-- TODO(ato): https://www.w3.org/Bugs/Public/show_bug.cgi?id=28005 -->
 <p>A <a>session</a> has an associated <dfn>session script timeout</dfn>
@@ -1063,21 +1067,25 @@ code a:visited, code a:link {
  a <a>remote end</a> must take the following steps:
 
 <ol>
-  <li><p>Set the <a>webdriver-active flag</a> to false.</p></li>
+ <li><p>Set the <a>webdriver-active flag</a> to false.
 
-  <li><p><a href="https://html.spec.whatwg.org/#closing-browsing-contexts">Close</a> any top-level browsing contexts associated with the session, without <a href="https://html.spec.whatwg.org/#prompt-to-unload-a-document">promping to unload</a></li>.
-
+ <li><p><a href=https://html.spec.whatwg.org/#closing-browsing-contexts>Close</a>
+  any <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>
+  associated with the <a>session</a>,
+  without <a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>promping to unload</a>.
 
  <li><p>Perform any implementation-specific cleanup steps.
 </ol>
 
-<p class="note">For example, closing the session might cause the
-associated browser process to be killed</p>.
+<p class=note>For example, closing the <a>session</a>
+ might cause the associated browser process to be killed.
 
-<p>A <a>session</a> is started when a <a href=#newsession>new
- session</a> is invoked.  It is an error to send any commands before
- starting a session, or to continue to send commands after the session
- has been closed.  Maintaining session continuity between requests to
+<p>A <a>session</a> is started when
+ a <a>New Session</a> is invoked.
+ It is an <a>error</a> to send any commands before starting a session,
+ or to continue to send commands after
+ the <a>session</a> has been closed.
+ Maintaining session continuity between requests to
  the <a>remote end</a> requires passing a <a>session ID</a>.
 
 <section>
@@ -1269,7 +1277,7 @@ associated browser process to be killed</p>.
 
 <aside class=example>
  <p>To navigate the current
-  <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top-level browsing context</a>
+  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
   of the <a>session</a> with ID <i>1</i> to <code>http://example.com/</code>,
   the local end would send a POST to <i>/session/1/url</i> with the body:
 
@@ -1589,29 +1597,25 @@ associated browser process to be killed</p>.
 
 <h2>Command Contexts</h2>
 
-<section>
-  <p>Many WebDriver commands happen in the context of either
-    the <a>current browsing context</a> or <a>current top-level
-    browsing context</a>. The <a>current top-level browsing
-    context</a> is represented in the protocol by its
-    associated <a>window handle</a>. A
-    <a href=href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>
-    top-level browsing context</a> is selected using the <a>Switch To
-    Window</a> command. Once this is done, a specific browsing context
-    can be selected using the <a>Switch to Frame</a> command.
+<p>Many WebDriver commands happen in the context of either
+ the <a>current browsing context</a> or <a>current top-level browsing context</a>.
+ The <a>current top-level browsing context</a> is represented in the protocol
+ by its associated <a>window handle</a>.
+ A <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+ is selected using the <a>Switch To Window</a> command.
+ Once this is done, a specific browsing context can be selected
+ using the <a>Switch to Frame</a> command.
 
-  <p class=note>The use of the term "window" to refer to a top-level
-    browsing context is legacy and doesn't correspond with either the
-    operating system notaion of a "window" or the
-    DOM <a href="https://html.spec.whatwg.org/#the-window-object">Window</a>
-    object.</p>
+<p class=note>The use of the term "window" to refer to
+ a <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+ is legacy and doesn't correspond with either the operating system notaion of a "window"
+ or the DOM <a href="https://html.spec.whatwg.org/#the-window-object">Window</a> object.
 
-  <p class=note>In accordance with
-    the <a href="http://www.w3.org/TR/html5/editing.html#focus">focus</a>
-    section of the [[!html51]] specification, commands are unaffected
-    by whether the operating system window has focus or not.</p>
+<p class=note>In accordance with
+ the <a href=http://www.w3.org/TR/html5/editing.html#focus>focus</a>
+ section of the [[!html51]] specification, commands are unaffected
+ by whether the operating system window has focus or not.
 
-  </section>
  <section>
    <h3>Get Window Handle</h3>
 
@@ -1666,24 +1670,25 @@ associated browser process to be killed</p>.
          </tr>
        </table>
 
-     <p>The <a>Get Window Handle</a> command returns a list
-         of <a>window handle</a>s for every open <a>top-level browsing
-         context</a>. The order in which the window handles are
-         returned is arbitary.
+     <p>The <dfn>Get Window Handle</dfn> command returns
+      a list of <a title="window handle">window handles</a> for every open
+      <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>.
+      The order in which the window handles are returned is arbitary.
 
-     <p>The <a>remote end steps</a> for <dfn>Get Window Handles</dfn> are:
+     <p>The <a>remote end steps</a> are:
 
        <ol>
-         <li><p>Let <var>data</var> be a new JSON Object.</li>
+         <li><p>Let <var>data</var> be a new JSON Object.
 
-         <li><p>Let <var>value</var> be a JSON list object</p></li>
+         <li><p>Let <var>value</var> be a JSON list object.
 
-         <li><p>For each <a>top-level browsing context</a> in the
-             remote end, push the associated <a>window handle</a>
-             to <var>value</var>.</li>
+         <li><p>For each
+          <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+          in the <a>remote end</a>,
+          push the associated <a>window handle</a> to <var>value</var>.
 
          <li><p>Set the property "<code>value</code>" on <var>data</var>
-             to <var>value</var>.</li>
+             to <var>value</var>.
 
          <li>Return <a>success</a> with data <var>data</var>.
        </ol>
@@ -1720,7 +1725,9 @@ associated browser process to be killed</p>.
   from the <var>parameters</var> argument.
 
  <li><p>If <var>handle</var> is equal to the associated <a>window handle</a>
-  for some <a>top-level browsing context</a> in the current session,
+  for some
+  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+  in the <a>current session</a>,
   set the session's <a>current top-level browsing context</a>
   to that browsing context,
   and return <a>success</a> with data null.
@@ -1750,9 +1757,11 @@ associated browser process to be killed</p>.
            return an error with code <a>no such window</a>.</li>
 
        <!-- this can prompt to unload, in which case the operation really failed -->
-       <li><p><a href="https://html.spec.whatwg.org/#closing-browsing-contexts">Close</a> the <a>current top-level browsing context</a></p></li>
+       <li><p><a href="https://html.spec.whatwg.org/#closing-browsing-contexts">Close</a> the <a>current top-level browsing context</a>.</p></li>
 
-       <li><p>If there are no more open <a>top-level browsing contexts</a>, then <a>close the session</a>.</p>
+       <li><p>If there are no more open
+        <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>,
+        then <a>close the session</a>.
 
        <li>Return the result of running the <a>remote end steps</a> for the <a>Get Window Handles</a> command.
      </ol>
@@ -2051,11 +2060,11 @@ associated browser process to be killed</p>.
           <li><p>Run the implementation-specific steps to complete the
           <a>Maximize</a> command,
           which should have the effect of maximizing the dimensions of
-          the window containing the <a>current active top-level
-          browsing context</a> without making the window full-screen, if the
+          the window containing the <a>current top-level browsing context</a>
+          without making the window full-screen, if the
           window manager distinguishes between maximized and
           full-screen windows.</li>
-          <li><p>Return <a>success</a> with data null</li>
+          <li><p>Return <a>success</a> with data null.</li>
       </ol>
       </section>
 
