@@ -179,9 +179,8 @@ code a:visited, code a:link {
   <!-- TODO: define the requirements on the local end somewhere -->
 
  <dt><dfn>Remote End</dfn>
- <dd>This is the server side of the protocol,
-  which is usually implemented by a web browser or similar user agent.
-  Defining the behaviour of the remote end in response to the WebDriver protocol
+ <dd>The remote end hosts the server side of the protocol.
+  Defining the behaviour of a remote end in response to the WebDriver protocol
   forms the largest part of this specification.
 
  <dt><dfn>Intermediary Node</dfn>
@@ -191,6 +190,13 @@ code a:visited, code a:link {
   from the point of view of <a>local end</a>
   and so are bound by the requirements on a <a>remote end</a> in terms of the wire protocol.
   However they are not expected to implement <a>commands</a> directly.
+
+ <dt><dfn>Endpoint Node</dfn>
+ <dd>An endpoint node is the final <a>remote end</a>
+  in a chain of nodes that is not an <a>intermediary node</a>.
+  The endpoint node is implemented by a user agent or a similar program.
+  An endpoint node must be, like <a title="intermediary node">intermediary nodes</a>,
+  indistinguishable from a <a>remote end</a>.
 </dl>
 </section>
 <section>
@@ -1012,11 +1018,7 @@ code a:visited, code a:link {
  that defines the number of open sessions
  that are supported.
  This may be "unlimited" for <a rel="intermediary node">intermediary nodes</a>,
- but must be exactly one for a <a>final remote end</a>.
-<!-- TODO(ato):
- "final remote end" isn't great terminology,
- but I mean the ultimate, non-intermediary driver implementation.
--->
+ but must be exactly one for a <a>remote end</a> that is an <a>endpoint node</a>.
 
 <p>A <a>session</a> has an associated <dfn>session ID</dfn>
  (a <a>UUID</a>) used to uniquely identify this session.  Unless
