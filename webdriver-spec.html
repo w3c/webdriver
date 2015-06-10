@@ -211,11 +211,26 @@ code a:visited, code a:link {
     name <var>name</var>.
   </section>
 
-  <section>
-    <h3>Commands</h3>
-    <p>The WebDriver protocol is organised into commands. Each HTTP request with a method and template defined in this specification represents a single command and therefore each command produces a single HTTP response. In response to a command, a <a>remote end</a> will run a series of actions against the remote browser.</p>
-    <p>Each command defined in this specification has an associated list of <dfn>remote end steps</dfn>. This provides the sequence of actions that a remote end takes when it recieves a particular command.</p>
-  </section>
+<section>
+<h3>Commands</h3>
+
+<p>The WebDriver protocol is organised into commands.
+ Each HTTP request with a method and template defined in this specification
+ represents a single command,
+ and therefore each command produces a single HTTP response.
+ In response to a command,
+ a <a>remote end</a> will run a series of actions against the browser.
+
+<p>Each command defined in this specification has
+ an associated list of <dfn>remote end steps</dfn>.
+ This provides the sequence of actions
+ that a <a>remote end</a> takes when it recieves a particular command.
+
+<p>Correspondingly, each command MAY have
+ an associated list of <dfn>remote end post steps</dfn>
+ that are run after a <a title="send a response">response has been sent</a>
+ to the <a>local end</a>.
+</section> <!-- /Commands -->
 
   <section>
     <h3>Processing Model</h3>
@@ -264,6 +279,8 @@ code a:visited, code a:link {
 
         <p>Otherwise <a>send a response</a> with status 200 and <var>response data</var>'s data.</p></li>
 
+      <li><p>Run any <a>remote end post steps</a> for <var>command</var>.
+
       <li><p>Jump to step 1.</p></li>
     </ol>
 
@@ -311,12 +328,17 @@ code a:visited, code a:link {
       <li><p>Set <var>response</var>'s <a href="https://fetch.spec.whatwg.org/#concept-response-status" class="externalRef">status</a> to <var>status</var>, and <a href="https://fetch.spec.whatwg.org/#concept-response-status-message" class="externalRef">status message</a> to the string corresponding to the description of <var>status</var> in the <a href="http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml" class="externalRef">status code registry</a>.</p></li>
       <li><p>If <var>data</var> is not null, let <var>response</var>'s <a href="https://fetch.spec.whatwg.org/#concept-response-body" class="externalRef">body</a> be the result of <a>serializing as JSON</a> with <var>data</var> as the argument.</p></li>
 
+      <!-- TODO(ato): This should possibly be on the body instead or be called something else -->
+      <li><p>If the <a>current session</a> is <a>no longer active</a>,
+       <a href=https://fetch.spec.whatwg.org/#concept-header-list-append>append</a>
+       the pair of ("<code>closed</code>", "<code>true</code>") to
+       the <a href=https://fetch.spec.whatwg.org/#concept-header-list>header list</a>.
+
       <li><p>Let <var>response bytes</var> be the byte sequence resulting from serializing <var>response</var> according to the rules in [[!RFC7230]].</p></li>
 
-      <li><p><a title="write bytes">Write</a> <var>response bytes</var> to the <a>connection</a></p></li>
-
+      <li><p><a title="write bytes">Write</a> <var>response bytes</var>
+       to the <a>connection</a>.
     </ol>
-
   </section>
 
   <section>
@@ -982,6 +1004,12 @@ code a:visited, code a:link {
  and allowing sessions to be routed via a multiplexer
  (known as an <a>intermediary node</a>).
 
+<p>A <a>session</a> is started when a <a>New Session</a> is invoked.
+ It is an error to send any commands before starting a session,
+ or to continue to send commands to <a rel="active session">inactive sessions</a>.
+ Maintaining session continuity between requests to the <a>remote end</a>
+ requires passing a <a>session ID</a>.
+
 <p>A WebDriver <dfn>session</dfn> represents
  the connection between a local end and a specific remote end.
  A remote end that is not an <a>intermediary node</a>
@@ -1000,8 +1028,9 @@ code a:visited, code a:link {
  or implicitly when <a href=#close>close</a> is called at the last remaining
  <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top-level browsing context</a>.
 
-<p>A <a>remote end</a> has an associated <dfn>list of active sessions</dfn>,
- which is a list of all <a rel="session">sessions</a> that are currently started.
+<p>A <a>remote end</a> has an associated set of <dfn>active sessions</dfn>,
+ which are all <a title="session">sessions</a> that are active
+ and have not been <a title="close the current session">closed</a>.
 
 <p>Requests, except <a>New Session</a> requests, have an
   associated <dfn>current session</dfn>, which is the session in
@@ -1019,8 +1048,8 @@ code a:visited, code a:link {
 -->
 
 <p>A <a>session</a> has an associated <dfn>session ID</dfn>
- (a <a>UUID</a>) used to uniquely identify this session.  Unless
- stated otherwise it is null.
+ (a <a>UUID</a>) used to uniquely identify this session.
+ Unless stated otherwise it is null.
 
 <p>A <a>session</a> has an associated <dfn>current browsing context</dfn>,
  which is the <a href=https://html.spec.whatwg.org/#browsing-context>browsing context</a>
@@ -1030,14 +1059,17 @@ code a:visited, code a:link {
  <dfn>current top-level browsing context</dfn>,
  which is the <a>current browsing context</a> if it itself is a
  <a href=http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context>top-level browsing context</a>,
- or the top-level browsing context for which
- the <a>current browsing context</a>
+ or the <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+ for which the <a>current browsing context</a>
  is an <a href=https://html.spec.whatwg.org/#ancestor-browsing-context>ancestor browsing context</a>.
 
 <p>The top-level browsing context is said to be <dfn>no longer open</dfn>
  if it has been <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>.
 
-<p>Each top-level browsing context has an associated <dfn>window handle</dfn>, which is a string uniquely identifying that browsing context. This string is implementation defined but must not be "current".</p>
+<p>Each <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+ has an associated <dfn>window handle</dfn>,
+ which is a string uniquely identifying that browsing context.
+ This string is implementation defined but MUST not be "<code>current</code>".
 
 <!-- TODO(ato): https://www.w3.org/Bugs/Public/show_bug.cgi?id=28005 -->
 <p>A <a>session</a> has an associated <dfn>session script timeout</dfn>
@@ -1059,26 +1091,21 @@ code a:visited, code a:link {
  which is one of <i>none</i>, <i>normal</i>, and <i>eager</i>.
  Unless stated otherwise, it is <i>normal</i>.
 
-<p>When asked to <dfn>close the session</dfn>,
+<p>When asked to <dfn>close the current session</dfn>,
  a <a>remote end</a> must take the following steps:
 
 <ol>
-  <li><p>Set the <a>webdriver-active flag</a> to false.</p></li>
+ <li><p>Set the <a>webdriver-active flag</a> to false.
 
-  <li><p><a href="https://html.spec.whatwg.org/#closing-browsing-contexts">Close</a> any top-level browsing contexts associated with the session, without <a href="https://html.spec.whatwg.org/#prompt-to-unload-a-document">promping to unload</a></li>.
+ <li><p><a href=https://html.spec.whatwg.org/#closing-browsing-contexts>Close</a> any
+  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>
+  without <a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>promping to unload</a>.
 
-
- <li><p>Perform any implementation-specific cleanup steps.
+ <li><p>Remove the <a>current session</a> from <a>active sessions</a>.
 </ol>
 
-<p class="note">For example, closing the session might cause the
-associated browser process to be killed</p>.
-
-<p>A <a>session</a> is started when a <a href=#newsession>new
- session</a> is invoked.  It is an error to send any commands before
- starting a session, or to continue to send commands after the session
- has been closed.  Maintaining session continuity between requests to
- the <a>remote end</a> requires passing a <a>session ID</a>.
+<p>A <a>session</a> is said to be <dfn>no longer active</dfn>
+ if it is not in the set of <a>active sessions</a>.
 
 <section>
 <h3>New Session</h3>
@@ -1151,26 +1178,45 @@ associated browser process to be killed</p>.
  <li><p>Return <a>success</a> with data <var>data</var>.
 </ol>
 </section>
-  <section>
-    <h3>Delete Session</h3>
-    <p><table class="simple jsoncommand">
-      <tr>
-        <th>HTTP Method</th>
-        <th>Path Template</th>
-        <th>Notes</th>
-      </tr>
-      <tr>
-        <td>DELETE</td>
-        <td id='delete-session'>/session/{sessionId}</td>
-        <td></td>
-      </tr>
-    </table>
-    <p>The <a>remote end steps</a> for the <dfn>Delete Session</dfn> command are:</p>
-    <ol>
-      <li><p><a>Close the session</a>.</li>
-      <li><p>Return <a>success</a> with data null.
-    </ol>
-  </section>
+
+<section>
+<h3>Delete Session</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+  <th>Notes</th>
+ </tr>
+ <tr>
+  <td>DELETE</td>
+  <td>/session/{sessionId}</td>
+  <td></td>
+ </tr>
+</table>
+
+<p>The <dfn>Delete Session</dfn> command closes all
+ <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>
+ and <a title="close the current session">closes the current session</a>.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p><a>Close the current session</a>.
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+
+<p>The <a>remote end post steps</a> are:
+
+<ol>
+ <li><p>If the <a>current session</a> is <a>no longer active</a>,
+  perform any implementation-specific cleanup steps.
+ 
+  <p class=note><a title="close the current session">Closing the session</a>
+   might cause the associated browser process to be exit.
+</ol>
+</section> <!-- /Delete Session -->
 
   <section>
     <h3>Set Timeout</h3>
@@ -1728,35 +1774,57 @@ associated browser process to be killed</p>.
  <li><p>Otherwise, return <a>error</a> with code <a>no such window</a>.
 </ol>
 
-   <section>
-     <h3>Close Window</h3>
-     <p>
-       <table class="simple jsoncommand">
-         <tr>
-           <th>HTTP Method</th>
-           <th>Path Template</th>
-           <th>Notes</th>
-         </tr>
-         <tr>
-           <td>DELETE</td>
-           <td id='delete-window_handle'>/session/{sessionId}/window_handle</td>
-           <td></td>
-         </tr>
-       </table>
+<section>
+<h3>Close Window</h3>
 
-     <p>The <a>remote end steps</a> for the <dfn>Close Window</dfn> command are:</p>
-     <ol>
-       <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-           return an error with code <a>no such window</a>.</li>
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+  <th>Notes</th>
+ </tr>
+ <tr>
+  <td>DELETE</td>
+  <td>/session/{sessionId}/window_handle</td>
+  <td></td>
+</tr>
+</table>
 
-       <!-- this can prompt to unload, in which case the operation really failed -->
-       <li><p><a href="https://html.spec.whatwg.org/#closing-browsing-contexts">Close</a> the <a>current top-level browsing context</a></p></li>
+<p>The <dfn>Close Window</dfn> command
+ closes the <a>current top-level browsing context</a>.
+ If by this all <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a> have been <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>,
+ the <a title="close the current session">current session will be closed</a>.
 
-       <li><p>If there are no more open <a>top-level browsing contexts</a>, then <a>close the session</a>.</p>
+<p>The <a>remote end steps</a> are:
 
-       <li>Return the result of running the <a>remote end steps</a> for the <a>Get Window Handles</a> command.
-     </ol>
-   </section>
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return an error with code <a>no such window</a>.
+
+ <!-- this can prompt to unload, in which case the operation really failed -->
+ <li><p><a href=https://html.spec.whatwg.org/#closing-browsing-contexts>Close</a>
+  the <a>current top-level browsing context</a>.
+
+ <li><p>If all the
+  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>
+  have been <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>
+  then <a>close the current session</a>.
+
+ <li>Return the result of running the <a>remote end steps</a>
+  for the <a>Get Window Handles</a> command.
+</ol>
+
+<p>The <a>remote end post steps</a> are:
+
+<ol>
+ <li><p>If the <a>current session</a> is <a>no longer active</a>,
+  perform any implementation-specific cleanup steps.
+ 
+  <p class=note><a title="close the current session">Closing the session</a>
+   might cause the associated browser process to be exit.
+</ol>
+
+</section> <!-- /Close Window -->
 
    <section>
      <h3>Switch to Frame</h3>
