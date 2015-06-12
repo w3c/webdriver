@@ -1003,9 +1003,9 @@ code a:visited, code a:link {
 <p>A <a>remote end</a> has an associated <dfn>list of active sessions</dfn>,
  which is a list of all <a rel="session">sessions</a> that are currently started.
 
-<p>Requests, except <a>New Session</a> requests, have an
-  associated <dfn>current session</dfn>, which is the session in
-  which that request's command will run.
+<p>Requests, except <a>New Session</a> requests,
+ have an associated <dfn>current session</dfn>,
+ which is the <a>session</a> in which that request's command will run.
 
 <p>A <a>remote end</a> has an associated
  <dfn>maximum active sessions</dfn> (an integer)
@@ -1132,7 +1132,12 @@ code a:visited, code a:link {
 
  <li><p>Let <var>session id</var> be the result of <a>generating a UUID</a>.
 
- <li><p>Append <var>session id</var> to <a>list of active sessions</a>.
+ <li><p>Let <var>session</var> be a new <a>session</a>
+  with the <a>session ID</a> of <var>session id</var>.
+
+ <li><p>Set the <a>current session</a> to <var>session</var>.
+
+ <li><p>Append <var>session</var> to <a>list of active sessions</a>.
 
  <li><p>Let <var>data</var> be an empty JSON Object initialised with:
 
