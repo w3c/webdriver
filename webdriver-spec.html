@@ -1244,6 +1244,12 @@ associated browser process to be killed</p>.
   time that commands will block before returning with a <a>timeout</a>
   error.
 
+  <p class=note>Navigation actions - Get, Back, Forward, Refresh - always,
+  unless they abort the navigation, complete with the <a>current top-level browsing context</a>
+  being the <a>current browsing context</a>. Even if we navigate Back or Forward to a state
+  where a different <a href=https://html.spec.whatwg.org/#browsing-context>browsing context</a>
+  was the <a>current browsing context</a>.
+
 <section>
 <h3>Get</h3>
 
@@ -1313,6 +1319,12 @@ associated browser process to be killed</p>.
     <!-- perhaps? Not sure if this is what the spec is trying to say -->
     return an <a>error</a> with code <a>timeout</a>.
   </ol>
+
+ <li><p>Set the <a>current browsing context</a> to the
+  <a>current top-level browsing context</a> as if <a>Switch to Frame</a>
+  command was executed with no specified
+  <a href="https://html.spec.whatwg.org/#child-browsing-context">
+  child browsing context</a>.
 
  <li><p>Return <a>success</a> with data null.
 </ol>
@@ -1411,6 +1423,12 @@ associated browser process to be killed</p>.
           is what the spec is trying to say -->, return
           an <a>error</a> with code <a>timeout</a>.</p></li>
 
+          <li><p>Set the <a>current browsing context</a> to the
+          <a>current top-level browsing context</a> as if <a>Switch to Frame</a>
+          command was executed with no specified
+          <a href="https://html.spec.whatwg.org/#child-browsing-context">
+          child browsing context</a>.
+
           <li><p>Return <a>success</a> with data null</p></li>
         </ol>
       </section>
@@ -1463,6 +1481,12 @@ associated browser process to be killed</p>.
           currently displaying an alert<!-- perhaps? Not sure if this
           is what the spec is trying to say -->, return
           an <a>error</a> with code <a>timeout</a>.</p></li>
+
+          <li><p>Set the <a>current browsing context</a> to the
+          <a>current top-level browsing context</a> as if <a>Switch to Frame</a>
+          command was executed with no specified
+          <a href="https://html.spec.whatwg.org/#child-browsing-context">
+          child browsing context</a>.
 
           <li><p>Return <a>success</a> with data null</p></li>
       </section>
@@ -1522,6 +1546,12 @@ associated browser process to be killed</p>.
                     <!-- perhaps? Not sure if this is what the spec is trying to say -->
                     return an <a>error</a> with code <a>timeout</a>.</li>
               </ol>
+
+              <li><p>Set the <a>current browsing context</a> to the
+              <a>current top-level browsing context</a> as if <a>Switch to Frame</a>
+              command was executed with no specified
+              <a href="https://html.spec.whatwg.org/#child-browsing-context">
+              child browsing context</a>.
 
               <li><p>Return <a>success</a> with data null.
         </ol>
