@@ -2109,8 +2109,9 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
  is <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>,
  the list of <a>known elements</a> is discarded along with it.
 
-<p>To <dfn>get a known element</dfn>
- with a <a>UUID</a> <var>reference</var>:
+<p>When <dfn>getting a known element</dfn>
+ by a <a>UUID</a> <var>reference</var>,
+ the following steps must be taken:
 
 <ol>
  <li><p>For each <var>element</var> in
@@ -2180,10 +2181,13 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
   <a title="getting a property">getting the property</a>
   <a>web element identifier</a> from <var>object</var>.
 
- <li><p><a>Get a known element</a> from <var>reference</var>
-  and let it be <var>element</var>.
+ <li><p>Let <var>element result</var> be the result of
+  <a>getting a known element</a> by reference <var>reference</var>.
 
- <li><p>If an error occured, propagate this error and abort these steps.
+ <li><p>If <var>element result</var> is a <a>success</a>,
+  let <var>element</var> be <var>element result</var>’s data.
+
+  <p>Otherwise, return <var>element result</var>.
 
  <li><p>Return <var>element</var>.
 </ol>
@@ -2819,8 +2823,13 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
  <li><p><a>Get a known web element</a> by <var>element id</var>
   and let it be known as <var>element</var>.
 
- <li><p>If an <a>error</a> occurred,
-  propagate this error and abort these steps.
+ <li><p>Let <var>element result</var> be the result of
+  <a>getting a known element</a> by reference <var>element id</var>.
+
+ <li><p>If <var>element result</var> is a <a>success</a>,
+  let <var>element</var> be <var>element result</var>’s data.
+
+  <p>Otherwise, return <var>element result</var>.
 
  <li><p>If <a>element</a> <a>is stale</a>,
   return the <a>stale element reference</a> <a>error</a>.
@@ -3149,11 +3158,13 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
             <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
              return the <a>no such window</a> <a>error</a>.
 
-            <li><p><a>Get a known web element</a> by <var>element id</var>
-             and let it be known as <var>element</var>.
-
-            <li><p>If an <a>error</a> occurred,
-             propagate this error and abort these steps.
+            <li><p>Let <var>element result</var> be the result of
+             <a>getting a known element</a> by reference <var>element id</var>.
+           
+            <li><p>If <var>element result</var> is a <a>success</a>,
+             let <var>element</var> be <var>element result</var>’s data.
+           
+             <p>Otherwise, return <var>element result</var>.
 
             <li><p>If <a>element</a> <a>is stale</a>,
              return the <a>stale element reference</a> <a>error</a>.
