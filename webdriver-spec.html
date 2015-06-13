@@ -2001,85 +2001,90 @@ code a:visited, code a:link {
         </aside>
       </section>
 
+<section>
+<h3>Maximize Window</h3>
 
-      <section>
-      <h3>Maximize Window</h3>
-      <table class="simple jsoncommand">
-        <tr>
-          <th>HTTP Method</th>
-          <th>Path Template</th>
-        </tr>
-        <tr>
-          <td>POST</td>
-          <td>/session/{sessionId}/window/maximize</td>
-        </tr>
-      </table>
-      <p>The <a>Maximize Window</a> command invokes the window
-      manager-specific "maximize" operation, if any, on the window
-      containing the <a>current top-level browsing context</a>. This
-      typically increases the window to the maximum available size
-      without going full-screen.</p>
-      <p>The <a>remote end steps</a> for <dfn>Maximise Window</dfn>
-        are:</p>
-      <ol>
-          <li><p>If the <a>current top level browsing context</a>
-              is <a>no longer open</a>, return an <a>error</a> with
-              code <a>no such window</a>.</li>
-          <li><p>If the <a>remote end</a> does not support the
-               <a>Maximize Window</a> command for the <a>current top
-              level browsing context</a> for any reason, return an
-              error with code <a>unsupported operation</a>.</li>
-          <li><p>Run the implementation-specific steps to complete the
-          <a>Maximize</a> command,
-          which should have the effect of maximizing the dimensions of
-          the window containing the <a>current top-level browsing context</a>
-          without making the window full-screen, if the
-          window manager distinguishes between maximized and
-          full-screen windows.</li>
-          <li><p>Return <a>success</a> with data null.</li>
-      </ol>
-      </section>
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{sessionId}/window/maximize</td>
+ </tr>
+</table>
 
-      <section>
-      <h3>Fullscreen Window</h3>
-      <table class="simple jsoncommand">
-        <tr>
-          <th>HTTP Method</th>
-          <th>Path Template</th>
-        </tr>
-        <tr>
-          <td>POST</td>
-          <td>/session/{sessionId}/window/fullscreen</td>
-        </tr>
-      </table>
-      <p>The <a>Fullscreen Window</a> command invokes the window
-      manager-specific "full screen" operation, if any, on the window
-      containing the <a>current top-level browsing context</a>. This
-      typically increases the window to the size of the physical
-      display and can hide browser UI elements such as toolbars.</p>
-      <p>The <a>remote end steps</a> for <dfn>Fullscreen Window</dfn>
-        are:</p>
-      <ol>
-          <li><p>If the <a>current top level browsing context</a>
-              is <a>no longer open</a>, return an <a>error</a> with
-              code <a>no such window</a>.</li>
-          <li><p>If the <a>remote end</a> does not support the
-               <a>Fullscreen Window</a> command for the <a>current top
-              level browsing context</a> for any reason, return an
-              error with code <a>unsupported operation</a>.</li>
-          <li><p>Run the implementation-specific <a>Fullscreen
-          Window</a> steps, which should have the effect of making the
-          dimensions of the window containing the <a>current top-level
-          browsing context</a> as close as possible to the dimensions
-          of the display containing the window dimensions, and may
-          hide browser-provided chrome such as toolbars.</li>
-          <li><p>Return <a>success</a> with data null</li>
-      </ol>
+<p>The <dfn>Maximize Window</dfn> command
+ invokes the window manager-specific “maximize” operation, if any,
+ on the window containing the <a>current top-level browsing context</a>.
+ This typically increases the window to the maximum available size
+ without going full-screen.
 
-    </section>
-  </section>
-</section>
-<!-- this page left intentionally blank -->
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top level browsing context</a> is <a>no longer open</a>,
+  return a <a>no such window</a> <a>error</a>.
+
+ <li><p>If the <a>remote end</a> does not support
+  the <a>Maximize Window</a> command
+  for the <a>current top-level browsing context</a> for any reason,
+  return an <a>unsupported operation</a> <a>error</a>.
+
+ <li><p>Run the implementation-specific steps
+  to increase the dimensions of the operating system level window
+  containing the <a>current top-level browsing context</a>
+  to the maximum available size allowed by the window manager.
+
+ <li>Return <a>success</a>.
+</ol>
+</section> <!-- /Maximize Window -->
+
+<section>
+<h3>Fullscreen Window</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{sessionId}/window/fullscreen</td>
+ </tr>
+</table>
+
+<p>The <dfn>Fullscreen Window</dfn> command
+ invokes the window manager-specific “full screen” operation, if any,
+ on the window containing the <a>current top-level browsing context</a>.
+ This typically increases the window to the size of the physical display
+ and can hide browser UI elements such as toolbars.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top level browsing context</a> is <a>no longer open</a>,
+  return a <a>no such window</a> <a>error</a>.
+
+ <li><p>If the <a>remote end</a> does not support
+  the <a>Fullscreen Window</a> command
+  for the <a>current top level browsing context</a> for any reason,
+  return an <a>unsupported operation</a> <a>error</a>.
+ 
+ <li><p>Run the implementation-specific steps,
+   which should have the effect of making the dimensions of
+   the window containing the <a>current top-level browsing context</a>
+   as close as possible to the dimensions of the display containing the window,
+   and may hide browser-provided UI such as toolbars.
+
+ <li><p>Return <a>success</a>.
+</ol>
+</section> <!-- /Fullscreen Window -->
+
+</section> <!-- /Switch To Window -->
+</section> <!-- /Command Contexts -->
+
 <section>
 <h2>Elements</h2>
 
