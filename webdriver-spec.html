@@ -3403,16 +3403,16 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
             <li><p>While <var>k</var> &lt; <var>length</var>:</p>
               <ol>
                 <li><p>Let <var>cookie</var> be the value in <var>cookies</var> at index <var>k</var>.</p></li>
-                <li><p>If <var>name</var> is undefined:</p>
-                  <ol>
-                    <li><p>Append a <a>serialized cookie</a> to <var>result</var>.</p></li>
-                  </ol>
-                </li>
-                <li><p>If <var>name</var> is defined and is equal to <var>cookie-name</var> as defined in [[!RFC6265]]:</p>
-                  <ol>
-                    <li><p>Append a <a>serialized cookie</a> to <var>result</var>.</p></li>
-                  </ol>
-                </li>
+                <li><p>Match the value of <var>name</var> against the following options:
+                  <dl>
+                    <dt>The string equal to <var>cookie-name</var> as defined in [[!RFC6265]]</dt>
+                    <dd><ol>
+                      <li><p>Append a <a>serialized cookie</a> to <var>result</var>.
+                      <li><p>Break out of the loop.
+                    </ol></dd>
+                    <dt>Otherwise</dt>
+                    <dd><p>Append a <a>serialized cookie</a> to <var>result</var>.</dd>
+                  </dl>
                 <li><p>Increase the value of <var>k</var> by 1.</p></li>
               </ol>
             </li>
