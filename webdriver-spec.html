@@ -3133,56 +3133,55 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
 </ol>
 </section> <!-- /Get Element Rect -->
 
-      <section>
-        <h3>Is Element Enabled</h3>
-        <p>
-           <table class="simple jsoncommand">
-             <tr>
-               <th>HTTP Method</th>
-               <th>Path Template</th>
-             </tr>
-             <tr>
-               <td>GET</td>
-               <td>/session/{sessionId}/element/{elementId}/enabled</td>
-             </tr>
-           </table>
-           <p><dfn>Is Element Enabled</dfn> determines if the referenced
-            <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
-            is enabled or not.
-            This operation only makes sense on form controls.
+<section>
+<h3>Is Element Enabled</h3>
 
-           <p>The <a>remote end steps</a> are:
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{sessionId}/element/{elementId}/enabled</td>
+ </tr>
+</table>
 
-           <ol>
-            <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-             return the <a>no such window</a> <a>error</a>.
+<p><dfn>Is Element Enabled</dfn> determines if the referenced
+ <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
+ is enabled or not.
+ This operation only makes sense on form controls.
 
-            <li><p>Let <var>element result</var> be the result of
-             <a>getting a known element</a> by reference <var>element id</var>.
+<p>The <a>remote end steps</a> are:
 
-            <li><p>If <var>element result</var> is a <a>success</a>,
-             let <var>element</var> be <var>element result</var>’s data.
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return the <a>no such window</a> <a>error</a>.
 
-             <p>Otherwise, return <var>element result</var>.
+ <li><p>Let <var>element result</var> be the result of
+  <a>getting a known element</a> by reference <var>element id</var>.
 
-            <li><p>If <a>element</a> <a>is stale</a>,
-             return the <a>stale element reference</a> <a>error</a>.
+ <li><p>If <var>element result</var> is a <a>success</a>,
+  let <var>element</var> be <var>element result</var>’s data.
 
-            <li><p>Let <var>enabled</var> be a boolean initially set to true.
+  <p>Otherwise, return <var>element result</var>.
 
-            <li><p>Set <var>enabled</var> to false if a form control is
-              <a href='https://html.spec.whatwg.org/#concept-fe-disabled'>disabled</a>.
+ <li><p>If <a>element</a> <a>is stale</a>,
+  return the <a>stale element reference</a> <a>error</a>.
+
+ <li><p>Let <var>enabled</var> be a boolean initially set to true.
+
+ <li><p>Set <var>enabled</var> to false if a form control is
+  <a href=https://html.spec.whatwg.org/#concept-fe-disabled>disabled</a>.
 
 
-            <li><p>Let <var>body</var> be a JSON object
-             with the "<code>value</code>" member set to <var>enabled</var>.
+ <li><p>Let <var>body</var> be a JSON object
+  with the "<code>value</code>" member set to <var>enabled</var>.
 
-            <li><p>Return <a>success</a> with data <var>body</var>.
-           </ol>
-      </section>
-    </section>
-  </section>
-</section>
+ <li><p>Return <a>success</a> with data <var>body</var>.
+</ol>
+</section> <!-- /Is Element Enabled -->
+</section> <!-- /Element State -->
 
 <section>
   <h2>Executing Javascript</h2>
