@@ -242,11 +242,15 @@ code a:visited, code a:link {
 
         <p>Otherwise, let <var>command</var>, <var>session id</var> and <var>element id</var> be <var>request match</var>'s data.</p></li>
 
-      <li><p>If <var>command</var> is not <a>new session</a>:</p>
+      <li><p>If <var>command</var> is not <a>New Session</a>:</p>
         <ol>
-          <li><p>If <var>session id</var> is not equal to the <a title="session id">id</a> of any session in the <a>list of active sessions</a>, <a>send an error</a> with <a>error code</a> <a>invalid session id</a>, then jump to step 1 in this overall algorithm.</p>
+          <li><p>If <var>session id</var> is not equal to the <a title="session id">id</a>
+           of any session in the list of <a>active sessions</a>,
+           <a>send an error</a> with <a>error code</a> <a>invalid session id</a>,
+           then jump to step 1 in this overall algorithm.
 
-          <p>Otherwise, let the <a>current session</a> be the session with <a title="session id">id</a> <var>session id</var>.</p>
+          <p>Otherwise, let the <a>current session</a> be
+           the session with <a title="session id">id</a> <var>session id</var>.
           </li>
         </ol>
       </li>
@@ -257,7 +261,7 @@ code a:visited, code a:link {
           <li><p>Let <var>parse result</var> be the result of <a>parsing as JSON</a> with <var>request</var>'s <a href="https://fetch.spec.whatwg.org/#concept-request-body" class="externalRef">body</a> as the argument.</p></li>
 
           <li><p>If <var>parse result</var> is an <a>error</a> or if it is a <a>success</a> but its associated data is not an Object object, <a>send an error</a> with <a>error code</a> <a>invalid argument</a> and jump back to step 1 in this overall algorithm.</p>
-             <p>Otherwise, let <var>parameters</var> be<var>parse result</var>'s data.</p>
+             <p>Otherwise, let <var>parameters</var> be<var>parse result</var>’s data.</p>
           </li>
         </ol>
 
@@ -979,13 +983,21 @@ code a:visited, code a:link {
 
 <h2>Sessions</h2>
 
- <p>A <a>session</a> is equivalent to a single instantiation of a particular user agent,
+<p>A <a>session</a> is equivalent to a single instantiation of a particular user agent,
  including all its child browsers.
  WebDriver gives each <a>session</a> a unique <a>session ID</a>
  that can be used to differentiate one session from another,
  allowing multiple user agents to be controlled from a single HTTP server,
  and allowing sessions to be routed via a multiplexer
  (known as an <a>intermediary node</a>).
+
+<p>A <a>session</a> is started when
+ a <a>New Session</a> is invoked.
+ It is an <a>error</a> to send any commands before starting a session,
+ or to continue to send commands after
+ the <a>session</a> has been closed.
+ Maintaining session continuity between requests to
+ the <a>remote end</a> requires passing a <a>session ID</a>.
 
 <p>A WebDriver <dfn>session</dfn> represents
  the connection between a local end and a specific remote end.
@@ -1005,7 +1017,7 @@ code a:visited, code a:link {
  or implicitly when <a href=#close>close</a> is called at the last remaining
  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>.
 
-<p>A <a>remote end</a> has an associated <dfn>list of active sessions</dfn>,
+<p>A <a>remote end</a> has an associated list of <dfn>active sessions</dfn>,
  which is a list of all <a title="session">sessions</a> that are currently started.
 
 <p>Requests, except <a>New Session</a> requests,
@@ -1014,7 +1026,7 @@ code a:visited, code a:link {
 
 <p>A <a>remote end</a> has an associated
  <dfn>maximum active sessions</dfn> (an integer)
- that defines the number of open sessions
+ that defines the number of <a>active sessions</a>
  that are supported.
  This may be "unlimited" for <a title="intermediary node">intermediary nodes</a>,
  but must be exactly one for a <a>remote end</a> that is an <a>endpoint node</a>.
@@ -1073,21 +1085,18 @@ code a:visited, code a:link {
  <li><p><a href=https://html.spec.whatwg.org/#closing-browsing-contexts>Close</a>
   any <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>
   associated with the <a>session</a>,
-  without <a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>promping to unload</a>.
+  without <a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>prompting to unload</a>.
+
+ <li><p>Remove the <a>current session</a> from <a>active sessions</a>.
 
  <li><p>Perform any implementation-specific cleanup steps.
+ 
+  <p class=note>For example, closing the <a>session</a>
+   might cause the associated browser process to be killed.
+   It is assumed that these steps are performed
+   <em>after</em> the response has been sent back to the client
+   so that the connection is not prematurely closed.
 </ol>
-
-<p class=note>For example, closing the <a>session</a>
- might cause the associated browser process to be killed.
-
-<p>A <a>session</a> is started when
- a <a>New Session</a> is invoked.
- It is an <a>error</a> to send any commands before starting a session,
- or to continue to send commands after
- the <a>session</a> has been closed.
- Maintaining session continuity between requests to
- the <a>remote end</a> requires passing a <a>session ID</a>.
 
 <section>
 <h3>New Session</h3>
@@ -1118,7 +1127,8 @@ code a:visited, code a:link {
    Typically the new session response from the remote end
    selected in this process will then be  relayed directly to the client.
 
- <li><p>If the <a>maximum active sessions</a> is equal to <a>list of active sessions</a>:
+ <li><p>If the <a>maximum active sessions</a> is equal to
+  the length of the list of <a>active sessions</a>:
 
   <ol>
    <li><p>Return an <a>error</a> with code <a>unsupported operation</a>.
@@ -1138,7 +1148,7 @@ code a:visited, code a:link {
 
  <li><p>Set the <a>current session</a> to <var>session</var>.
 
- <li><p>Append <var>session</var> to <a>list of active sessions</a>.
+ <li><p>Append <var>session</var> to <a>active sessions</a>.
 
  <li><p>Let <var>data</var> be an empty JSON Object initialised with:
 
