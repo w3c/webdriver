@@ -952,13 +952,22 @@ code a:visited, code a:link {
               <ol>
                 <li><p>Let <var>ftp proxy</var> be the result of <a>getting a property</a> named
                   <code>ftpProxy</code> from <var>proxy</var>.</p></li>
+                <li><p>Let <var>ftp proxy port</var> be the result of <a>getting a property</a> named
+                  <code>ftpProxyPort</code> from <var>proxy</var>.</p></li>
                 <li><p>Let <var>http proxy</var> be the result of <a>getting a property</a> named
                   <code>httpProxy</code> from <var>proxy</var>.</p></li>
+                <li><p>Let <var>http proxy port</var> be the result of <a>getting a property</a> named
+                  <code>httpProxyPort</code> from <var>proxy</var>.</p></li>
                 <li><p>Let <var>ssl proxy</var> be the result of <a>getting a property</a> named
                   <code>sslProxy</code> from <var>proxy</var>.</p></li>
+                <li><p>Let <var>ssl proxy port</var> be the result of <a>getting a property</a> named
+                  <code>sslProxyPort</code> from <var>proxy</var>.</p></li>
                 <li><p>Let <var>socks proxy</var> be the result of <a>getting a property</a> named
-                  <code>socksProxy</code> from <var>proxy</var>.<p>
-                  <p>If <var>socks proxy</var> is defined:</p>
+                  <code>socksProxy</code> from <var>proxy</var>.<p></li>
+                <li><p>Let <var>socks proxy port</var> be the result of <a>getting a property</a> named
+                  <code>socksProxyPort</code> from <var>proxy</var>.<p></li>
+                <li>
+                  <p>If <var>socks proxy</var> and <var>socks proxy port</var> is defined:</p>
                     <ol>
                       <li><p>Let <var>socks username</var> be the result of <a>getting a property</a>
                         named <code>socksUsername</code> from <var>proxy</var>.</p></li>
@@ -1090,7 +1099,7 @@ code a:visited, code a:link {
  <li><p>Remove the <a>current session</a> from <a>active sessions</a>.
 
  <li><p>Perform any implementation-specific cleanup steps.
- 
+
   <p class=note>For example, closing the <a>session</a>
    might cause the associated browser process to be killed.
    It is assumed that these steps are performed
