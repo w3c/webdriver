@@ -2118,7 +2118,7 @@ code a:visited, code a:link {
 <p>The <dfn>web element identifier</dfn> is a constant
  with the string "<code>element-6066-11e4-a52e-4f735466cecf</code>".
 
-<p>A DOM <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
+<p>Each <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
  has an associated <dfn>web element reference</dfn> (a <a>UUID</a>)
  that uniquely identifies the the element across
  all <a href=https://html.spec.whatwg.org/#browsing-context>browsing contexts</a>.
@@ -2126,16 +2126,13 @@ code a:visited, code a:link {
  <a href=https://dom.spec.whagwg.org/#concept-element>element</a>
  representing the same
  <a href=https://dom.spec.whagwg.org/#concept-element>element</a>
- MUST be the same.
+ is the same.
 
 <p>An ECMAScript <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.2.1>Object</a>
  <dfn>represents a web element</dfn> if it has
- an <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>own property</a>
- of the <a>web element identifier</a> holding a string value.
-
-<!--
-The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that has <a>WebElement id</a> of <var>id</var> or null if no such element exists.
--->
+ a <a>web element identifier</a>
+ <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>own property</a>
+ holding a <a>UUID</a> value.
 
 <p>Each <a href=https://html.spec.whatwg.org/#browsing-context>browsing context</a>
  has an associated list of <dfn>known elements</dfn>.
@@ -2144,8 +2141,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
  the list of <a>known elements</a> is discarded along with it.
 
 <p>When <dfn>getting a known element</dfn>
- by a <a>UUID</a> <var>reference</var>,
- the following steps must be taken:
+ by a <a>UUID</a> <var>reference</var>:
 
 <ol>
  <li><p>For each <var>element</var> in
@@ -2154,7 +2150,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
   <ol>
    <li><p>If <var>element</var>’s <a>web element reference</a>
     matches <var>reference</var>,
-    return <var>element</var>.
+    return <a>success</a> with data <var>element</var>.
   </ol>
 
  <li><p>Return a <a>no such element</a> <a>error</a>.
@@ -2172,13 +2168,11 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
    <li><p>If <var>known element</var>
     <a href=https://dom.spec.whatwg.org/#concept-node-equals>equals</a>
     <var>element</var>,
-    return <var>known element</var>’s <a>web element reference</a>.
+    return <a>success</a> with
+    <var>known element</var>’s <a>web element reference</a>.
   </ol>
 
  <li><p>Let <var>new reference</var> be the result of <a>generating a new UUID</a>.
-  <!-- TODO(ato): Not convinced this provision is needed: -->
-  It MUST NOT be equal to <var>element</var>’s
-  "<code>id</code>" content <a href=https://dom.spec.whatwg.org/#concept-attribute>attribute</a>.
 
  <li><p>Set <var>element</var>’s <a>web element reference</a>
   to <var>new reference</var>.
@@ -2186,7 +2180,8 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
  <li><p>Append <var>element</var> to
   the <a>known elements</a> of the <a>current browsing context</a>.
 
- <li><p>Return <var>element</var>’s <a>web element reference</a>.
+ <li><p>Return <a>success</a> with 
+  <var>element</var>’s <a>web element reference</a>.
 </ol>
 
 <p>When asked to <dfn>serialise the element</dfn> <var>element</var>:
@@ -2212,8 +2207,9 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
   return an <a>invalid argument</a> <a>error</a>.
 
  <li><p>Let <var>reference</var> be the result of
-  <a title="getting a property">getting the property</a>
-  <a>web element identifier</a> from <var>object</var>.
+  <a title="getting a property">getting</a>
+  the <a>web element identifier</a> property
+  from <var>object</var>.
 
  <li><p>Let <var>element result</var> be the result of
   <a>getting a known element</a> by reference <var>reference</var>.
@@ -2223,10 +2219,10 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
 
   <p>Otherwise, return <var>element result</var>.
 
- <li><p>Return <var>element</var>.
+ <li><p>Return <a>success</> with <var>element</var>.
 </ol>
 
-<p>A <a title="is stale">stale</a> <a>element</a>
+<p>A <a title="is stale">stale element</a>
  is a reference to a <a href=https://dom.spec.whatwg.org/#concept-node>node</a>
  that has been disconnected from the <a>current browsing context</a>’s DOM.
  To determine if an <var>element</var> <dfn>is stale</dfn>, run the following substeps:
