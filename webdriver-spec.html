@@ -604,6 +604,11 @@ code a:visited, code a:link {
         <td>/session/{sessionId}/screenshot</td>
         <td><a>Take Screenshot</a></td>
       </tr>
+      <tr>
+        <td>GET</td>
+        <td>/session/{sessionId}/element/{elementId}/screenshot</td>
+        <td><a>Take Element Screenshot</a></td>
+      </tr>
     </table>
   </section>
 
@@ -823,7 +828,7 @@ code a:visited, code a:link {
 
          <dt>"<code>takesElementScreenshot</code>"
          <dd>Be true if the User Agent can capture a screenshot of an element
-          as described in <a>Take Screenshot</a>.
+          as described in <a>Take Element Screenshot</a>.
        </dl>
 
         <li><p>Let <var>required capabilities</var> be the result of <a>getting a property</a>
@@ -4685,50 +4690,24 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
 
   <p>All commands within this section are implemented using the "TakesScreenshot" interface:</p>
 
-<section>
-<h3>takeScreenshot()</h3>
-
-<table class="simple jsoncommand">
-  <tr>
-    <th>HTTP Method</th>
-    <th>Path Template</th>
-    <th>Notes</th>
-  </tr>
-  <tr>
-    <td>GET</td>
-    <td>/session/{sessionId}/screenshot</td>
-    <td></td>
-  </tr>
-</table>
-
-<p>Take a screenshot and return a lossless PNG encoded using Base64.
- If <code>element</code> is not populated or is <code>null</code>
- then the User Agent MUST return the screenshot of
- the current state of the document at the top level browsing context.
-
-<p>The possible errors for this command:
-
-<ul>
- <li><code><a href="#unknown-error">unknown error</a></code> if the if the screenshot cannot be taken.
-</ul>
-
-<p>Leaving below until <a href='https://www.w3.org/Bugs/Public/show_bug.cgi?id=27920'>Bug 27920</a> has a consensus</p>
-
-<dl class='parameters'>
-  <dt>optional WebElement? element
-  <dd>The <a>WebElement</a> on which to operate. If <code>element</code> is not populated or is <code>null</code>
-    then the User Agent MUST return the screenshot of the current state of the document at the top level browsing context.
-</dl>
-</section>
-
   <section>
-    <h2>Current Top Level Browsing Context</h2>
-    <table class="simple">
-      <tr><th>Capability Name</th><th>Type</th></tr>
-      <tr><td><span id="capability-takesScreenshot">takesScreenshot</span></td><td>boolean</td></tr>
-    </table>
-
-    <p>If this capability is supported, local end MUST add the <code>TakesScreenshot</code> interface to the <code>WebDriver</code> interface.</p>
+    <h3>Take Screenshot</h3>
+      <p>
+        <table class="simple jsoncommand">
+          <tr>
+            <th>HTTP Method</th>
+            <th>Path Template</th>
+            <th>Notes</th>
+          </tr>
+          <tr>
+            <td>GET</td>
+            <td id='get-screenshot'>/session/{sessionId}/screenshot</td>
+            <td></td>
+          </tr>
+        </table>
+      <p>The <dfn>Take Screenshot</dfn> command takes a screenshot and
+      return a lossless PNG encoded using Base64. If
+      <code>element</code> is not populated or is <code>null</code> then the User Agent MUST return the screenshot of the current state of the document at the top level browsing context.
 
     <p>This command will return the screenshot of the current state of the document at the top level browsing context. Implementations of the remote end SHOULD capture the entire document, even if this would require a user to scroll the browser window. That is, the returned PNG SHOULD have the same width and height as returned by a call to <code>getSize</code> of the BODY element and MUST contain all visible content on the page, and this SHOULD be done without resizing the browser window. If the remote end is unable to capture the entire Document, then the part of the Document currently displayed in UI of the browser MUST be captured without additional chrome such as scrollbars and browser chrome.</p>
 
@@ -4741,13 +4720,7 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
     <p>Remote ends MUST NOT attempt to track changes in window size as the screenshot is being taken. In particular this means that in the case of a page that makes use of "infinite scrolling" (where an AJAX call is used to populate additional content as the user scrolls down) or in some other way resizes content as the window size is changed only the content that was originally contained in the Document when the command is executed will be captured.</p>
   </section>
   <section>
-    <h2>Element</h2>
-      <table class="simple">
-        <tr><th>Capability Name</th><th>Type</th></tr>
-        <tr><td><span id="capability-takesElementScreenshot">takesElementScreenshot</span></td><td>boolean</td></tr>
-      </table>
-
-    <p>If this capability is supported, local end MUST add the <code>TakesScreenshot</code> interface to the <code>WebElement</code> interface.</p>
+    <h3>Take Element Screenshot</h3>
     <table class="simple jsoncommand">
       <tr>
         <th>HTTP Method</th>
@@ -4755,10 +4728,13 @@ The DOM Element <dfn>represented by</dfn> an <var>id</var> is the Element that h
       </tr>
       <tr>
         <td>GET</td>
-        <td>/session/{sessionId}/screenshot/{elementId}</td>
+        <td id='get-screenshot'>/session/{sessionId}/element/{elementId}/screenshot</td>
+        <td></td>
       </tr>
     </table>
-    <p>
+    <p>The <dfn>Take Element Screenshot</dfn> command takes a
+    screenshot of the region encompassed by the bounding rectangle of
+    an element, anbd returns it as a PNG file.</p>
       <ul>
         <li>Let <var>element</var> be the value from <var><a href="#uri-template-element">element</a></var> from the URI-Template</li>
         <li>Let <var>screenshot</var> be a be a Base64 encoded, lossless PNG representation of area bounded by the clientBoundingRect of the DOMElement.
