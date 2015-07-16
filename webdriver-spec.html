@@ -525,6 +525,10 @@ code a:visited, code a:link {
         <td><a>Is Element Enabled</a></td>
       </tr>
       <tr>
+        <td>GET</td>
+        <td>/session/{sessionId}/element/{elementId}/editable</td>
+        <td><a>Is Element Editable</a></td>
+      <tr>
         <td>POST</td>
         <td>/session/{sessionId}/execute</td>
         <td><a>Execute Script</a></td>
@@ -2098,7 +2102,7 @@ code a:visited, code a:link {
   the <a>Fullscreen Window</a> command
   for the <a>current top level browsing context</a> for any reason,
   return an <a>unsupported operation</a> <a>error</a>.
- 
+
  <li><p>Run the implementation-specific steps,
    which should have the effect of making the dimensions of
    the window containing the <a>current top-level browsing context</a>
@@ -2185,7 +2189,7 @@ code a:visited, code a:link {
  <li><p>Append <var>element</var> to
   the <a>known elements</a> of the <a>current browsing context</a>.
 
- <li><p>Return <a>success</a> with 
+ <li><p>Return <a>success</a> with
   <var>element</var>’s <a>web element reference</a>.
 </ol>
 
@@ -3209,6 +3213,58 @@ code a:visited, code a:link {
  <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
 </section> <!-- /Is Element Enabled -->
+
+<section>
+<h3>Is Element Editable</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{sessionId}/element/{elementId}/editable</td>
+ </tr>
+</table>
+
+<p><dfn>Is Element Editable</dfn> determines if the referenced
+ <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
+ is editable or not.
+
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return the <a>no such window</a> <a>error</a>.
+
+ <li><p>Let <var>element result</var> be the result of
+  <a>getting a known element</a> by reference <var>element id</var>.
+
+ <li><p>If <var>element result</var> is a <a>success</a>,
+  let <var>element</var> be <var>element result</var>’s data.
+
+  <p>Otherwise, return <var>element result</var>.
+
+ <li><p>If <a>element</a> <a>is stale</a>,
+  return the <a>stale element reference</a> <a>error</a>.
+
+ <li><p>Let <var>editable</var> be a boolean initially set to false.
+
+ <li><p>Set <var>editable</var> to true if the element is not a
+  <a href=https://html.spec.whatwg.org/#concept-fe-disabled>disabled</a> text field or textarea.
+
+ <li><p>Set <var>editable</var> to true if the element has the <a href="http://www.w3.org/TR/2008/WD-html5-20080610/editing.html#contenteditable0">contenteditable<a> attribute
+  and the attribute is set to "true"
+
+ <li><p>Let <var>body</var> be a JSON object
+  with the "<code>value</code>" member set to <var>enabled</var>.
+
+ <li><p>Return <a>success</a> with data <var>body</var>.
+</ol>
+</section> <!-- /Is Element Editable -->
+
 </section> <!-- /Element State -->
 
 <section>
