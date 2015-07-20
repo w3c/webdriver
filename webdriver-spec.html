@@ -189,7 +189,7 @@ code a:visited, code a:link {
   Intermediary nodes must be black-box indistinguishable from a <a>remote end</a>
   from the point of view of <a>local end</a>
   and so are bound by the requirements on a <a>remote end</a> in terms of the wire protocol.
-  However they are not expected to implement <a>commands</a> directly.
+  However they are not expected to implement <a>remote end steps</a> directly.
 
  <dt><dfn>Endpoint Node</dfn>
  <dd>An endpoint node is the final <a>remote end</a>
@@ -217,11 +217,21 @@ code a:visited, code a:link {
     name <var>name</var>.
   </section>
 
-  <section>
-    <h3>Commands</h3>
-    <p>The WebDriver protocol is organised into commands. Each HTTP request with a method and template defined in this specification represents a single command and therefore each command produces a single HTTP response. In response to a command, a <a>remote end</a> will run a series of actions against the remote browser.</p>
-    <p>Each command defined in this specification has an associated list of <dfn>remote end steps</dfn>. This provides the sequence of actions that a remote end takes when it recieves a particular command.</p>
-  </section>
+<section>
+<h3>Commands</h3>
+
+<p>The WebDriver protocol is organised into <a title=command>commands</a>.
+ Each HTTP request with a method and template defined in this specification
+ represents a single <dfn>command</dfn>
+ and therefore each command produces a single HTTP response.
+ In response to a <a>command</a>,
+ a <a>remote end</a> will run a series of actions against the remote browser.
+
+<p>Each <a>command</a> defined in this specification
+ has an associated list of <dfn>remote end steps</dfn>.
+ This provides the sequence of actions that a <a>remote end</a> takes
+ when it recieves a particular command.
+</section>
 
   <section>
     <h3>Processing Model</h3>
@@ -268,11 +278,13 @@ code a:visited, code a:link {
         <p>Otherwise, let <var>parameters</var> be null.</p>
       </li>
 
-      <li><p>Let <var>response data</var> be a <a>command response</a> object obtained by running the <a>remote end steps</a> for <var>command</var> with arguments <var>element id</var> and <var>parameters</var>.</p></li>
+      <li><p>Let <var>response result</var> be the return value obtained by running the <a>remote end steps</a> for <var>command</var> with arguments <var>element id</var> and <var>parameters</var>.</p></li>
 
-      <li><p>If <var>response data</var> is an <a>error</a>, <a>send an error</a> with <a>error code</a> equal to <var>response data</var>'s <a>error code</a>.</p>
+      <li><p>If <var>response result</var> is an <a>error</a>, <a>send an error</a> with <a>error code</a> equal to <var>response result</var>’s <a>error code</a>.</p>
 
-        <p>Otherwise <a>send a response</a> with status 200 and <var>response data</var>'s data.</p></li>
+        <p>Otherwise, if <var>response result</var> is a <a>success</a>, let <var>response data</var> be <var>response result</var>’s data.</p></li>
+
+      <li><p><a>Send a response</a> with status 200 and <var>response data</var>.</p></li>
 
       <li><p>Jump to step 1.</p></li>
     </ol>
@@ -332,7 +344,7 @@ code a:visited, code a:link {
   <section>
     <h3>Routing Requests</h3>
 
-    <p><dfn>Request routing</dfn> is the process of going from a HTTP request to the series of steps needed to implement the <a>command</a> represented by that request.</p>
+    <p><dfn>Request routing</dfn> is the process of going from a HTTP request to the <a title="remote end steps">series of steps</a> needed to implement the <a>command</a> represented by that request.</p>
 
     <p>A <a>remote end</a> has an associated <dfn>URL prefix</dfn>, which is used as a prefix on all WebDriver-defined URLs on that remote end. This must either be the empty string, or an <a href="https://url.spec.whatwg.org/#concept-absolute-path-relative-url" class="externalRef">absolute path relative url</a>.</p>
 
@@ -617,9 +629,8 @@ code a:visited, code a:link {
     <p>Errors are represented in the WebDriver protocol with a HTTP response with a HTTP status in the 4xx or 5xx range and a JSON body containing details of the error. This JSON body has three fields: <code>error</code>, containing a string indicating the error type; <code>message</code>, containing an implementation-defined string with a human readable description of the kind of error that occured; and <code>stacktrace</code>, containing an implementation-defined string with a stack trace report of the active stack frames at the time when the error occurred.</p>
 
     <aside class="example">
-      <p>A <code>DELETE</code> request to <code>/session/1234</code>, where <code>1234</code> is not the id of a <a title="current active session">currently active session</a> would return an HTTP <code>404</code> response with a body of the form:</p>
-        <pre class="highlight">
-{
+      <p>A <code>DELETE</code> request to <code>/session/1234</code>, where <code>1234</code> is not the <a>session id</a> of a <a>current session</a> would return an HTTP response with the status 404 and a body of the form:</p>
+<pre class=highlight>{
   "error": "invalid session id",
   "message": "No active session with id 1234",
   "stacktrace": ""
@@ -1016,10 +1027,9 @@ code a:visited, code a:link {
  the <a>remote end</a> requires passing a <a>session ID</a>.
 
 <p>A WebDriver <dfn>session</dfn> represents
- the connection between a local end and a specific remote end.
- A remote end that is not an <a>intermediary node</a>
- must have at most one <a>active session</a> at a given time.
-<!-- Is this actually a requirement? -->
+ the connection between a <a>local end</a> and a specific <a>remote end</a>.
+ A <a>remote end</a> that is not an <a>intermediary node</a>
+ has at most one <a title="active sessions">active session</a> at a given time.
 
 <!-- TODO(jgraham):
  Need to explain that there must be a relationship
@@ -1135,7 +1145,7 @@ code a:visited, code a:link {
   take implementation-defined steps that either result in
   returning an <a>error</a> with code <a>session not created</a>
   or in returning a <a>success</a> with data
-  that is isomorphic to that returned by <a>remote ends</a>
+  that is isomorphic to that returned by <a title="remote end">remote ends</a>
   according to the rest of this algorithm.
 
   <p class=note>This allows intermediary nodes to use the capabilities data in any way they want
@@ -1189,6 +1199,7 @@ code a:visited, code a:link {
  <li><p>Return <a>success</a> with data <var>data</var>.
 </ol>
 </section>
+
   <section>
     <h3>Delete Session</h3>
     <p><table class="simple jsoncommand">
@@ -1382,12 +1393,12 @@ code a:visited, code a:link {
           of the <a>current top-level browsing
           context</a>'s <a href="https://html.spec.whatwg.org/#active-document">active
           document</a>'s <a href="https://dom.spec.whatwg.org/#concept-document-url">url</a>.</p></li>
-          <li><p>Let <var>data</var> be a <a>new JSON Object</a>.</p>
+          <li><p>Let <var>data</var> be a new JSON Object.</p>
 
           <li><p><a>Set the properties</a> of <var>data</var> with
           values ("value", <var>url</var>)</p></li>
 
-          <li><p>Return <a>success</a> with data <var>data</var></p></li>
+          <li><p>Return <a>success</a> with data <var>data</var>.</p></li>
         </ol>
       </section>
 
@@ -1439,7 +1450,7 @@ code a:visited, code a:link {
           is what the spec is trying to say -->, return
           an <a>error</a> with code <a>timeout</a>.</p></li>
 
-          <li><p>Return <a>success</a> with data null</p></li>
+          <li><p>Return <a>success</a> with data null.</p></li>
         </ol>
       </section>
 
@@ -1490,7 +1501,7 @@ code a:visited, code a:link {
           is what the spec is trying to say -->, return
           an <a>error</a> with code <a>timeout</a>.</p></li>
 
-          <li><p>Return <a>success</a> with data null</p></li>
+          <li><p>Return <a>success</a> with data null.</p></li>
         </ol>
       </section>
 
@@ -1886,18 +1897,16 @@ code a:visited, code a:link {
    </section>
 </section>
 
-  <section>
-    <h2>Resizing and Positioning Windows</h2>
+<section>
+<h2>Resizing and Positioning Windows</h2>
 
-    <section>
-      <h3>Introduction</h3>
-      <p>WebDriver provides commands for interacting with the
-      operating system window containing the current browsing
-      context. Because different operating system's window managers
-      provide different abilities, not all of the commands in this
-      section can be supported by all remote ends. Where a command is
-      not supported, an <a>unsupported operation</a> error MUST be returned.</p>
-    </section>
+<p>WebDriver provides <a title="command">commands</a>
+ for interacting with the operating system window
+ containing the current browsing context.
+ Because different operating system's window managers provide different abilities,
+ not all of the commands in this section can be supported by all <a title="remote end">remote ends</a>.
+ Where a <a>command</a> is not supported,
+ an <a>unsupported operation</a> <a>error</a> is returned.
 
     <section>
       <h3>Get Window Size</h3>
@@ -1920,7 +1929,7 @@ code a:visited, code a:link {
         are:</p>
         <ol>
           <!-- Can this whole operation be unsupported? -->
-          <li><p>If the <a>current top level browsing context</a> is <a>no longer open</a>,
+          <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
               return an error with code <a>no such window</a>.</li>
           <li><p>Let <var>width</var> be the width in <a href="http://www.w3.org/TR/css3-values/#absolute-lengths">CSS reference pixels</a> of the OS
               window containing the <a>current top-level browsing
@@ -1971,7 +1980,7 @@ code a:visited, code a:link {
         <p>The <a>remote end steps</a> for <dfn>Set Window Size</dfn>
         are:</p>
         <ol>
-          <li><p>If the <a>current top level browsing context</a>
+          <li><p>If the <a>current top-level browsing context</a>
               is <a>no longer open</a>, return an error with
               code <a>no such window</a>.</li>
 
@@ -2051,7 +2060,7 @@ code a:visited, code a:link {
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top level browsing context</a> is <a>no longer open</a>,
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return a <a>no such window</a> <a>error</a>.
 
  <li><p>If the <a>remote end</a> does not support
@@ -2091,12 +2100,12 @@ code a:visited, code a:link {
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top level browsing context</a> is <a>no longer open</a>,
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return a <a>no such window</a> <a>error</a>.
 
  <li><p>If the <a>remote end</a> does not support
   the <a>Fullscreen Window</a> command
-  for the <a>current top level browsing context</a> for any reason,
+  for the <a>current top-level browsing context</a> for any reason,
   return an <a>unsupported operation</a> <a>error</a>.
  
  <li><p>Run the implementation-specific steps,
@@ -2224,7 +2233,7 @@ code a:visited, code a:link {
 
   <p>Otherwise, return <var>element result</var>.
 
- <li><p>Return <a>success</> with <var>element</var>.
+ <li><p>Return <a>success</a> with <var>element</var>.
 </ol>
 
 <p>A <a title="is stale">stale element</a>
@@ -2297,7 +2306,7 @@ code a:visited, code a:link {
           </li>
         </ol>
       <p>
-        When there is a need to search from an element to find the next <a>WebElement</a>s we use the following algorithm:
+        When there is a need to search from an element to find the next WebElement we use the following algorithm:
         <table class="simple jsoncommand">
           <tr>
             <th>HTTP Method</th>
@@ -3289,10 +3298,9 @@ code a:visited, code a:link {
         <dd>
           <ol>
             <li><p>If <var>value</var> is in <var>seen</var>,
-                return <a>error</a> with code <a>javascript error</code>.</li>
+                return <a>error</a> with code <a>javascript error</a>.</li>
 
-            <li><p>Add <var>value</var> to <var>seen</var></li>
-
+            <li><p>Add <var>value</var> to <var>seen</var>.</li>
           </ol>
         </dd>
 
@@ -3304,7 +3312,7 @@ code a:visited, code a:link {
         <dd>
           <ol>
             <li><p>If <var>value</var> is in <var>seen</var>,
-                return <a>error</a> with code <a>javascript error</code>.</li>
+                return <a>error</a> with code <a>javascript error</a>.</li>
 
             <li><p>Add <var>value</var> to <var>seen</var></li>
 
@@ -3602,8 +3610,8 @@ code a:visited, code a:link {
       the <code>set</code> state, or for <a>session script timeout</a>
       milliseconds to expire, whichever happens sooner.</p></li>
 
-      <li><p>If the previous step completed due the <a>script session
-          timeout</a> being reached, set <var>webdriver callback
+      <li><p>If the previous step completed due the <a>session script timeout</a>
+          being reached, set <var>webdriver callback
           result</var> to <code>expired</code> and return <a>error</a>
           with code <a>script timeout</a>.</p></li>
 
@@ -3697,7 +3705,7 @@ code a:visited, code a:link {
                 <li><p>Increase the value of <var>k</var> by 1.</p></li>
               </ol>
             </li>
-            <li><p>Return <a>success</a> with data <var>result.</var></p></li>
+            <li><p>Return <a>success</a> with data <var>result</var>.</p></li>
           </ol>
           <p>A <dfn>serialized cookie</dfn> is created with the following algorithm:</p>
           <p>
@@ -4205,7 +4213,7 @@ code a:visited, code a:link {
                 <td>/session/{sessionId}/element/{elementId}/click</td>
               </tr>
             </table>
-            <p>Click in the middle of the <a>WebElement</a> instance. The middle of the element is defined as the middle of the box returned by
+            <p>Click in the middle of the WebElement instance. The middle of the element is defined as the middle of the box returned by
             calling <code><a
               href="http://www.w3.org/TR/cssom-view/#the-getclientrects()-and-getboundingclientrect()-methods">getBoundingClientRect</a></code>
             on the underlying document Element, according to the [[!CSSOM-VIEW]] spec. If
@@ -4273,7 +4281,7 @@ code a:visited, code a:link {
                 <td>/session/{sessionId}/element/{elementId}/tap</td>
               </tr>
             </table>
-            <p>Tap in the middle of the <a>WebElement</a>. The middle of the element is defined as the middle of the box returned by
+            <p>Tap in the middle of the WebElement. The middle of the element is defined as the middle of the box returned by
               calling <code><a
                 href="http://www.w3.org/TR/cssom-view/#the-getclientrects()-and-getboundingclientrect()-methods">getBoundingClientRect</a></code>
               on the underlying document Element, according to the [[!CSSOM-VIEW]] spec. If
@@ -4352,7 +4360,7 @@ code a:visited, code a:link {
                 <td>/session/{sessionId}/element/{elementId}/value</td>
               </tr>
             </table>
-            <p> Let <var>value</var> be an array of characters that will be typed into a <a>WebElement</a>
+            <p> Let <var>value</var> be an array of characters that will be typed into a WebElement.
 
             <p>Sends a sequence of keyboard events representing the keys in the value parameter.
             <p>Caret positioning: If focusing was needed, after following the focusing steps, the caret MUST be positioned at the end of the text currently in the element. At the end of the interaction, the caret MUST be positioned at the end of the typed text sequence, unless the keys sent position it otherwise (e.g. using the LEFT key).</p>
@@ -4659,7 +4667,7 @@ code a:visited, code a:link {
           If the modal has no means for text input it should throw a <code><a href='#status-element-not-visible'>
           Element not visible error</a></code>. If no modal is present then a <a href="#status-no-such-alert">
           no such alert error</a> MUST be raised.
-          <p> Let <var>value</var> be an array of characters that will be typed into a <a>WebElement</a>. If the modal has no means of acceptiing text input
+          <p> Let <var>value</var> be an array of characters that will be typed into a WebElement. If the modal has no means of acceptiing text input
              it MUST raise a <code><a href='#status-element-not-visible'>element not visible error</a></code>
       <p>If a modal dialog is created from a <code>onbeforeunload</code> event the remote end MUST handle the
         dialog by either using <code>accept</code> or <code>dismiss</code>. These calls should either come from
