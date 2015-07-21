@@ -99,8 +99,20 @@ code a:visited, code a:link {
       };
     </script>
     <script src=bug-assist.js></script>
-  </head>
-  <body>
+
+<style>
+dl.switch { padding-left: 2em }
+dl.switch > dt { text-indent: -1.5em }
+dl.switch > dt > * { text-indent: 0 }
+dl.switch > dt:before {
+ content: "\21AA";
+ padding: 0 0.5em 0 0;
+ display: inline-block;
+ width: 1em;
+ text-align: right;
+ line-height: 0.5em;
+}
+</style>
 
 <section id=abstract>
 <p>This specification defines the WebDriver API,
@@ -952,26 +964,29 @@ code a:visited, code a:link {
       <li><p>Let <var>proxy type</var> be the result of <a>getting a property</a> named
         <code>proxyType</code> from <var>proxy</var>.
 
-      <li><p>Match the value of <var>proxyType</var> against the following
-      options:
-          <dl>
-            <dt>The string <code>"pac"</code>:</dt>
+      <li><p>Switch on <var>proxy type</var>:
+          <dl class=switch>
+            <dt>"<code>pac</code>"</dt>
             <dd><p>If the implementation supports
               <a href='https://web.archive.org/web/20070602031929/http://wp.netscape.com/eng/mozilla/2.0/relnotes/demo/proxy-live.html'>proxy autoconfiguration</a>,
               set the implementation's autoproxy configuration url to
               <var>proxy autoconfiguration url</var>.
 
               Otherwise return an <a>error</a> with status <a>invalid argument</a></dd>
-            <dt>The string <code>"noproxy"</code>:</dt>
+
+            <dt>"<code>noproxy</code>"</dt>
             <dd><p>Set the proxy to No Proxy using implementation defined steps. If this
               can not be set during this process return an <a>error</a>.</p></dd>
-            <dt>The string <code>"autodetect"</code>:</dt>
+
+            <dt>"<code>autodetect</code>"</dt>
             <dd><p>Set the proxy to Auto-Detect proxy setting from the network using implementation
               defined steps. If this can not be set during this process return an <a>error</a>.</p></dd>
-            <dt>The string <code>"system"</code>:</dt>
+
+            <dt>"<code>system</code>"</dt>
             <dd><p>Set the proxy to use system proxy settings using implementation defined steps. If this
               can not be set during this process return an <a>error</a>.</p></dd>
-            <dt>The string <code>"manual"</code>:</dt>
+
+            <dt>"<code>manual</code>"</dt>
             <dd>
               <ol>
                 <li><p>Let <var>ftp proxy</var> be the result of <a>getting a property</a> named
@@ -1006,15 +1021,16 @@ code a:visited, code a:link {
                   <a>error</a>.</p></li>
               </ol>
             </dd>
-            <dt>Otherwise:</dt>
-            <dd><p>Return <a>error</a> with status <a>invalid
-            argument</a>.
+
+            <dt>Otherwise</dt>
+            <dd><p>Return an <a>invalid argument</a> <a>error</a>.
           </dl>
       </li>
 
     </ol>
-<section>
+</section>
 
+<section>
 <h2>Sessions</h2>
 
 <p>A <a>session</a> is equivalent to a single instantiation of a particular user agent,
