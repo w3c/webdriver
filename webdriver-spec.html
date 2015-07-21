@@ -2510,221 +2510,221 @@ code a:visited, code a:link {
     </section>
   </section>
 
-  <section>
-   <h2 id=element-displayedness>Element Displayedness</h2>
+<section>
+<h2>Element Displayedness</h2>
 
-   <p>The visibility of a <a href=http://w3c.github.io/dom/#element>Document element</a>
-    is guided by what is perceptually visible to the human eye. In this context, an element's displayedness does not relate to the
-    <code><a href=http://dev.w3.org/csswg/css-box/#visibility>visibility</a></code>
-    or <code><a href=http://dev.w3.org/csswg/css-box/#display0>display</a></code>
-    style properties [[!CSS3BOX]].
+<p>The visibility of a <a href=http://w3c.github.io/dom/#element>Document element</a>
+ is guided by what is perceptually visible to the human eye. In this context, an element's displayedness does not relate to the
+ <code><a href=http://dev.w3.org/csswg/css-box/#visibility>visibility</a></code>
+ or <code><a href=http://dev.w3.org/csswg/css-box/#display0>display</a></code>
+ style properties [[!CSS3BOX]].
 
-   <p>The approach used by WebDriver to ascertain an element's
-    visibility is based on crude approximations about the element's
-    nature and relationship in the tree.  An element is in general
-    to be considered visible if any part of it is drawn on the
-    canvas within the bounderies of the viewport.
+<p>The approach used by WebDriver to ascertain an element's
+ visibility is based on crude approximations about the element's
+ nature and relationship in the tree.  An element is in general
+ to be considered visible if any part of it is drawn on the
+ canvas within the bounderies of the viewport.
 
-   <p>When asked to <dfn>normalize style pixel values to floating
-    point</dfn> for a value <var>s</var> of the type string:
+<p>When asked to <dfn>normalize style pixel values to floating
+ point</dfn> for a value <var>s</var> of the type string:
 
-   <ol>
-    <li>Let <var>trimmed string</var> be a substring of <var>s</var>
-     where the suffix "px" is removed.
+<ol>
+ <li>Let <var>trimmed string</var> be a substring of <var>s</var>
+  where the suffix "px" is removed.
 
-    <li>Let <var>pixels</var> be the result of parsing
-     <var>trimmed string</var> as a float.
+ <li>Let <var>pixels</var> be the result of parsing
+  <var>trimmed string</var> as a float.
 
-    <li>If <var>pixels</var> is not a valid float
-     or the previous operation did not succeed, return 0.0.
+ <li>If <var>pixels</var> is not a valid float
+  or the previous operation did not succeed, return 0.0.
 
-    <li>Round off <var>pixels</var> using <code>ceil</code>
-     so that it has no more than four decimals.
+ <li>Round off <var>pixels</var> using <code>ceil</code>
+  so that it has no more than four decimals.
 
-    <li>Return <var>pixels</var>.
-   </ol>
+ <li>Return <var>pixels</var>.
+</ol>
 
-   <p class=note>To <a>normalize style pixel values to floating point</a>
-    is almost equivalent to calling
-    <code><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></code>
-    from [[!ECMA-262]] with the exception that
-    non-valid float return values are returned as 0.0.
+<p class=note>To <a>normalize style pixel values to floating point</a>
+ is almost equivalent to calling
+ <code><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></code>
+ from [[!ECMA-262]] with the exception that
+ non-valid float return values are returned as 0.0.
 
-   <p>The <dfn>element displayed</dfn> algorithm is
-    a boolean state where true signifies that the element is displayed
-    and false signifies that the element is not displayed.
-    To compute the state on <var>element</var>:
+<p>The <dfn>element displayed</dfn> algorithm is
+ a boolean state where true signifies that the element is displayed
+ and false signifies that the element is not displayed.
+ To compute the state on <var>element</var>:
 
-   <ol>
-    <li>If the attribute <code>hidden</code> is set, return false.
+<ol>
+ <li>If the attribute <code>hidden</code> is set, return false.
 
-    <li>If the computed value of the <code>display</code> style
-     property is "none", return false.
+ <li>If the computed value of the <code>display</code> style
+  property is "none", return false.
 
-    <!-- TODO(ato): Not really sure what this means, needs review: -->
-    <li>If it has a [[!CSS3-2D-TRANSFORMS]] or [[!CSS3-3D-TRANSFORMS]]
-     style property that gives a negative X or Y coordinates to the canvas, return false.
+ <!-- TODO(ato): Not really sure what this means, needs review: -->
+ <li>If it has a [[!CSS3-2D-TRANSFORMS]] or [[!CSS3-3D-TRANSFORMS]]
+  style property that gives a negative X or Y coordinates to the canvas, return false.
 
-    <li>If <var>element</var> is the document's root element,
-     that is <code>document.documentElement</code>:
+ <li>If <var>element</var> is the document's root element,
+  that is <code>document.documentElement</code>:
 
-     <ol>
-      <li>If the computed value of the <code>background-color</code>
-       property is "transparent", run these substeps:
+  <ol>
+   <li>If the computed value of the <code>background-color</code>
+    property is "transparent", run these substeps:
 
-       <ol>
-        <li>If <var>element</var> is an HTML <code>HTML</code>
-         element [[!html51]], and the computed value of the
-         <code>background-color</code> style property of the first
-         <code>BODY</code> element descendant of the element in
-         <a href=http://www.whatwg.org/specs/web-apps/current-work/multipage/infrastructure.html#tree-order>tree
-         order</a>, relative to that element, is also "transparent",
-         return false.
+    <ol>
+     <li>If <var>element</var> is an HTML <code>HTML</code>
+      element [[!html51]], and the computed value of the
+      <code>background-color</code> style property of the first
+      <code>BODY</code> element descendant of the element in
+      <a href=http://www.whatwg.org/specs/web-apps/current-work/multipage/infrastructure.html#tree-order>tree
+      order</a>, relative to that element, is also "transparent",
+      return false.
 
-        <li>Otherwise return true.
-       </ol>
-     </ol>
+     <li>Otherwise return true.
+    </ol>
+  </ol>
 
-    <li>If <var>element</var> is an <code>option</code>
-     or <code>optgroup</code> element,
-     and <var>element</var>'s parent node is a <code>select</code> element:
+ <li>If <var>element</var> is an <code>option</code>
+  or <code>optgroup</code> element,
+  and <var>element</var>'s parent node is a <code>select</code> element:
 
-     <ol>
-      <li>Apply the <a>element displayed</a> algorithm on <var>element</var>'s parent node.
-      <li>If the return value is false, abort these steps and return that value.
-     </ol>
+  <ol>
+   <li>Apply the <a>element displayed</a> algorithm on <var>element</var>'s parent node.
+   <li>If the return value is false, abort these steps and return that value.
+  </ol>
 
-    <li>If <var>element</var> is a <code>map</code> element,
-     run these substeps:
+ <li>If <var>element</var> is a <code>map</code> element,
+  run these substeps:
 
-     <ol>
-      <li>Let <var>any images visible</var> be a boolean initially
-       set to false.
+  <ol>
+   <li>Let <var>any images visible</var> be a boolean initially
+    set to false.
 
-      <li>For each <code>img</code> element, <var>image element</var>
-       in the document with a <code>name</code> attribute matching
-       the value of <var>element</var>'s <code>usemap</code>
-       attribute, run these substeps:
+   <li>For each <code>img</code> element, <var>image element</var>
+    in the document with a <code>name</code> attribute matching
+    the value of <var>element</var>'s <code>usemap</code>
+    attribute, run these substeps:
 
-       <ol>
-        <li>Run the <a>element displayed</a> algorithm on
-         <var>image element</var> and set <var>any images visible</var>
-         to <var>any images visible</var> bitwise OR its return value.
-       </ol>
-
-      <li>If <var>any images visible</var> is true, abort these
-       steps and return its value.
+    <ol>
+     <li>Run the <a>element displayed</a> algorithm on
+      <var>image element</var> and set <var>any images visible</var>
+      to <var>any images visible</var> bitwise OR its return value.
     </ol>
 
-    <li>If <var>element</var> is an <code>area</code> element:
+   <li>If <var>any images visible</var> is true, abort these
+    steps and return its value.
+ </ol>
 
-     <ol>
-      <li>For each ancestral element <var>parent</var>,
-       in <a href=http://www.whatwg.org/specs/web-apps/current-work/multipage/infrastructure.html#tree-order>tree order</a>,
-       run the following substeps:
+ <li>If <var>element</var> is an <code>area</code> element:
 
-      <ol>
-       <li>If <var>parent</var> is a <code>map</code> element,
-        apply the <a>element displayed</a> algorithm on it.
+  <ol>
+   <li>For each ancestral element <var>parent</var>,
+    in <a href=http://www.whatwg.org/specs/web-apps/current-work/multipage/infrastructure.html#tree-order>tree order</a>,
+    run the following substeps:
 
-       <li>If the return value is false, abort these steps and
-        return that value.
+   <ol>
+    <li>If <var>parent</var> is a <code>map</code> element,
+     apply the <a>element displayed</a> algorithm on it.
 
-       <li>Otherwise apply step 7.1 on <var>parent</var>.
-      </ol>
-     </ol>
+    <li>If the return value is false, abort these steps and
+     return that value.
 
-    <li>If <var>element</var> is a [[!DOM4]] <a
-     href=http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text>
-     text node</a>, return true.
-
-    <li>If it has equal to or more than one direct descendant elements:
-
-     <ol>
-      <li>Let <var>visible children</var> be a boolean initially set to false.
-
-     <li>For each direct descendant element <var>child</var>,
-
-      run the following substeps:
-
-      <ol>
-       <li>Let <var>rectangle</var> be the <a
-        href=http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect>DOMRect</a>
-        returned by calling <code>getBoundingClientRect</code>
-        on <var>child</var>.
-
-       <li>If the value of the <code>height</code> property of
-       <var>rectangle</var> is
-        greater than zero <a href="http://www.w3.org/TR/css3-values/#absolute-lengths">CSS reference pixels</a>, and the value of the
-        <code>width</code> property of <var>rectangle</var>
-        is greater than zero <a href="http://www.w3.org/TR/css3-values/#absolute-lengths">CSS reference pixels</a>:
-
-        <ol>
-         <li>Set <var>visible children</var> to <var>visible children</var> bitwise OR true.
-        </ol>
-      </ol>
-     </ol>
-
-    <li>For each ancestral element <var>parent</var>,
-     in <a href=http://www.whatwg.org/spec/web-apps/current-work/multipage/infrastructure.html#tree-order>tree order</a>,
-     run the following substeps:
-
-     <ol>
-      <li>Apply the <a>element displayed</a> algorithm to <var>parent</var>.
-
-      <li>If the return value is false, abort these steps and return that value.
-
-      <li>If <var>parent</var> is a block element box and the
-       computed values of either <code>overflow-x</code>
-       or <code>overflow-y</code> is "hidden":
-
-      <ol>
-       <li>Let <var>parent dimensions</var> be the <code>DOMRect</code>
-        that is the first element of the <code>DOMRectList</code>
-        array returned by calling
-        <code><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></code>
-        on <var>parent</var>.
-
-       <li>Let <var>element dimensions</var> be the <code>DOMRect</code>
-        that is the first element of the <code>DOMRectList</code>
-        array returned by calling
-        <code><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></code>
-        on <var>element</var>.
-
-       <li>Let <var>parent style</var> be the computed style of <var>parent</var>.
-
-       <li>Return false if any the following conditions evaluate to false:
-
-       <ul>
-        <li><var>element dimension</var>'s <code>top</code>
-         is less than (<var>parent dimension</var>'s <code>bottom</code>
-         − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
-         of <var>parent style</var>'s <code>borderBottomWidth</code>).
-
-        <li><var>element dimension</var>'s <code>bottom</code>
-         is less than (<var>parent dimension</var>'s <code>top</code>
-         − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
-         of <var>parent style</var>'s <code>borderTopWidth</code>).
-
-        <li><var>element dimension</var>'s <code>left</code>
-         is less than (<var>parent dimension</var>'s <code>right</code>
-         − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
-         of <var>parent style</var>'s <code>borderRightWidth</code> casted as a float).
-
-        <li><var>element dimension</var>'s <code>right</code>
-         is less than (<var>parent dimension</var>'s <code>left</code>
-         − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
-         of <var>parent style</var>'s <code>borderLeftWidth</code> casted as a float).
-      </ul>
-
-      <li>Run step 10 on the parent elements of <var>parent</var>, if any.
-     </ol>
-    </ol>
-
-    <li>Return true.
+    <li>Otherwise apply step 7.1 on <var>parent</var>.
    </ol>
-  </section>
-</section>
+  </ol>
+
+ <li>If <var>element</var> is a [[!DOM4]] <a
+  href=http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text>
+  text node</a>, return true.
+
+ <li>If it has equal to or more than one direct descendant elements:
+
+  <ol>
+   <li>Let <var>visible children</var> be a boolean initially set to false.
+
+  <li>For each direct descendant element <var>child</var>,
+
+   run the following substeps:
+
+   <ol>
+    <li>Let <var>rectangle</var> be the <a
+     href=http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect>DOMRect</a>
+     returned by calling <code>getBoundingClientRect</code>
+     on <var>child</var>.
+
+    <li>If the value of the <code>height</code> property of
+    <var>rectangle</var> is
+     greater than zero <a href="http://www.w3.org/TR/css3-values/#absolute-lengths">CSS reference pixels</a>, and the value of the
+     <code>width</code> property of <var>rectangle</var>
+     is greater than zero <a href="http://www.w3.org/TR/css3-values/#absolute-lengths">CSS reference pixels</a>:
+
+     <ol>
+      <li>Set <var>visible children</var> to <var>visible children</var> bitwise OR true.
+     </ol>
+   </ol>
+  </ol>
+
+ <li>For each ancestral element <var>parent</var>,
+  in <a href=http://www.whatwg.org/spec/web-apps/current-work/multipage/infrastructure.html#tree-order>tree order</a>,
+  run the following substeps:
+
+  <ol>
+   <li>Apply the <a>element displayed</a> algorithm to <var>parent</var>.
+
+   <li>If the return value is false, abort these steps and return that value.
+
+   <li>If <var>parent</var> is a block element box and the
+    computed values of either <code>overflow-x</code>
+    or <code>overflow-y</code> is "hidden":
+
+   <ol>
+    <li>Let <var>parent dimensions</var> be the <code>DOMRect</code>
+     that is the first element of the <code>DOMRectList</code>
+     array returned by calling
+     <code><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></code>
+     on <var>parent</var>.
+
+    <li>Let <var>element dimensions</var> be the <code>DOMRect</code>
+     that is the first element of the <code>DOMRectList</code>
+     array returned by calling
+     <code><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></code>
+     on <var>element</var>.
+
+    <li>Let <var>parent style</var> be the computed style of <var>parent</var>.
+
+    <li>Return false if any the following conditions evaluate to false:
+
+    <ul>
+     <li><var>element dimension</var>'s <code>top</code>
+      is less than (<var>parent dimension</var>'s <code>bottom</code>
+      − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
+      of <var>parent style</var>'s <code>borderBottomWidth</code>).
+
+     <li><var>element dimension</var>'s <code>bottom</code>
+      is less than (<var>parent dimension</var>'s <code>top</code>
+      − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
+      of <var>parent style</var>'s <code>borderTopWidth</code>).
+
+     <li><var>element dimension</var>'s <code>left</code>
+      is less than (<var>parent dimension</var>'s <code>right</code>
+      − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
+      of <var>parent style</var>'s <code>borderRightWidth</code> casted as a float).
+
+     <li><var>element dimension</var>'s <code>right</code>
+      is less than (<var>parent dimension</var>'s <code>left</code>
+      − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
+      of <var>parent style</var>'s <code>borderLeftWidth</code> casted as a float).
+   </ul>
+
+   <li>Run step 10 on the parent elements of <var>parent</var>, if any.
+  </ol>
+ </ol>
+
+ <li>Return true.
+</ol>
+</section> <!-- /Element Displayedness -->
+</section> <!-- /Elements -->
 
 <section>
 <h2>Element State</h2>
