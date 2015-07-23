@@ -1203,24 +1203,34 @@ code a:visited, code a:link {
 </ol>
 </section>
 
-  <section>
-    <h3>Delete Session</h3>
-    <p><table class="simple jsoncommand">
-      <tr>
-        <th>HTTP Method</th>
-        <th>Path Template</th>
-      </tr>
-      <tr>
-        <td>DELETE</td>
-        <td>/session/{sessionId}</td>
-      </tr>
-    </table>
-    <p>The <a>remote end steps</a> for the <dfn>Delete Session</dfn> command are:</p>
-    <ol>
-      <li><p><a>Close the session</a>.</li>
-      <li><p>Return <a>success</a> with data null.
-    </ol>
-  </section>
+<section>
+<h3>Delete Session</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>DELETE</td>
+  <td>/session/{sessionId}</td>
+ </tr>
+</table>
+
+<p>The <dfn>Delete Session</dfn> <a>command</a>
+ <a href=https://html.spec.whatwg.org/#closing-browsing-contexts>closes</a>
+ any <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>
+ associated with the <a>current session</a>,
+ terminates the <a>connection</a>,
+ and finally <a title="close the session">closes</a> the <a>current session</a>.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+  <li><p><a>Close the session</a>.
+  <li><p>Return <a>success</a>.
+</ol>
+</section> <!-- /Delete Session -->
 
   <section>
     <h3>Set Timeout</h3>
