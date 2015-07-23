@@ -171,12 +171,13 @@ code a:visited, code a:link {
 
 <dl>
  <dt><dfn>Local End</dfn>
- <dd>This represents the client side of the protocol,
+ <dd><p>This represents the client side of the protocol,
   which is usually in the form of language-specific libraries
   providing an API on top of the WebDriver protocol.
   This specification does not place any restrictions on the details of those libraries
   above the level of the wire protocol.
-  <!-- TODO: define the requirements on the local end somewhere -->
+
+  <p class=issue>Define the requirements on the local end somewhere.
 
  <dt><dfn>Remote End</dfn>
  <dd>The remote end hosts the server side of the protocol.
@@ -198,13 +199,15 @@ code a:visited, code a:link {
   An endpoint node must be, like <a title="intermediary node">intermediary nodes</a>,
   indistinguishable from a <a>remote end</a>.
 </dl>
-</section>
+</section> <!-- /Terminology -->
+
 <section>
-  <h2>The WebDriver Protocol</h2>
-  <section>
-    <h3>Introduction</h3>
-    <p>TODO</p>
-  </section>
+<h2>The WebDriver Protocol</h2>
+<section>
+ <h3>Introduction</h3>
+ <p class=issue>TODO
+</section>
+
   <section>
     <h3>Algorithms</h3>
     <p>Various parts of this specification are written in terms of step-by-step algorithms. The details of these algorithms do not have any normative significance; implementations are free to adopt any implementation strategy that produces equivalent output to the specification. In particular algorithms in this document are optimised for readability rather than performance.</p>
@@ -304,8 +307,9 @@ code a:visited, code a:link {
   containing a stack trace report of the active stack frames
   at the time when the error occurred.
 
- <!-- TODO: really need a better way of constructing JSON literals -->
- <li><p>Let <var>data</var> be a new JSON Object
+ <li><p class=issue>Really need a better way to construct JSON literals.
+
+  <p>Let <var>data</var> be a new JSON Object
   initialised with the following properties:
 
   <dl>
@@ -368,9 +372,9 @@ code a:visited, code a:link {
       <li><p>There is now exactly one entry in <var>endpoints</var>; let <var>entry</var> be this entry.</p></li>
 
 
-      <!-- TODO: Check that URI-templates is being used in the right way here -->
+      <li><p class=issue>Check that URI-templates is being used in the right way here:
 
-      <li><p>If the match in step 2 populated a template variable called "sessionId", let <var>session id</var> be the value it was populated with. Otherwise let <var>session id</var> be null.</p></li>
+       <p>If the match in step 2 populated a template variable called "sessionId", let <var>session id</var> be the value it was populated with. Otherwise let <var>session id</var> be null.
 
       <li><p>If the match in step 2 populated a template variable called "elementId", let <var>element id</var> be the value it was populated with. Otherwise let <var>element id</var> be null.</p></li>
 
@@ -1031,10 +1035,8 @@ code a:visited, code a:link {
  A <a>remote end</a> that is not an <a>intermediary node</a>
  has at most one <a title="active sessions">active session</a> at a given time.
 
-<!-- TODO(jgraham):
- Need to explain that there must be a relationship
+<p class=issue>Need to explain that there must be a relationship
  between the current session and the browser state.
--->
 
 <p>The <a>session</a> is set up at the invocation of
  a <a href=#newsession>new session</a>,
@@ -1082,12 +1084,10 @@ code a:visited, code a:link {
  which is a string uniquely identifying that browsing context.
  This string is implementation defined but MUST not be "current".
 
-<!-- TODO(ato): https://www.w3.org/Bugs/Public/show_bug.cgi?id=28005 -->
 <p>A <a>session</a> has an associated <dfn>session script timeout</dfn>
  that specifies a time to wait for scripts to run.
  Unless stated otherwise it is 30,000 milliseconds.
 
-<!-- TODO(ato): https://www.w3.org/Bugs/Public/show_bug.cgi?id=28004 -->
 <p>A <a>session</a> has an associated <dfn>session page load timeout</dfn>
  that specifies a time to wait for the page loading to complete.
  Unless stated otherwise it is 300,000 milliseconds.
@@ -1360,8 +1360,18 @@ code a:visited, code a:link {
  <li><p>Return <a>success</a> with data null.
 </ol>
 
-<!-- TODO: Figure out if next paragraph is actually required -->
-<!--li>When a page contains a META tag with the "http-equiv" attribute set to "refresh", a response MUST be returned if the timeout is greater than 1 second and the other criteria for determining whether a page is loaded are met. When the refresh period is 1 second or less and the page loading strategy is "normal" or "conservative" implementations MUST wait for the refresh to complete before responding.</li-->
+<div class=issue>
+ <p>Figure out if next paragraph is actually required:
+
+ <blockquote>
+   <p>When a page contains a META tag with the "http-equiv" attribute set to "refresh",
+   a response MUST be returned if the timeout is greater than 1 second
+   and the other criteria for determining whether a page is loaded are met.
+   When the refresh period is 1 second or less
+   and the page loading strategy is "normal" or "conservative"
+   implementations MUST wait for the refresh to complete before responding.
+ </blockquote>
+</div>
 
 </section> <!-- /Get -->
 
@@ -1440,9 +1450,10 @@ code a:visited, code a:link {
           the <a href="https://html.spec.whatwg.org/#current-entry">current
           entry</a> in the session history has changed, or for
           the <a>session page load timeout</a> milliseconds to pass,
-          whichever occurs sooner.</p></li>
+          whichever occurs sooner.
 
-          <!-- TODO: this doesn't actually wait for the page to load if traversing the session history kicks off a navigation -->
+           <p class=issue>This doesn't actually wait for the page to load
+            if traversing the session history kicks off a navigation.
 
           <li><p>If the previous step completed by the <a>session page
           load timeout</a> being reached, and the browser is not
@@ -1491,9 +1502,10 @@ code a:visited, code a:link {
           the <a href="https://html.spec.whatwg.org/#current-entry">current
           entry</a> in the session history has changed, or for
           the <a>session page load timeout</a> milliseconds to pass,
-          whichever occurs sooner.</p></li>
+          whichever occurs sooner.
 
-          <!-- TODO: this doesn't actually wait for the page to load if traversing the session history kicks off a navigation -->
+           <p class=issue>This doesn't actually wait for the page to load
+            if traversing the session history kicks off a navigation.
 
           <li><p>If the previous step completed by the <a>session page
           load timeout</a> being reached, and the browser is not
@@ -2005,7 +2017,7 @@ code a:visited, code a:link {
               than 0, return <a>error</a> with code <a>invalid
               argument</a>.
 
-           <!-- TODO: window sizes outside the allowed range -->
+           <p class=issue>Window sizes outside the allowed range.
 
           <li><p>Set the width,
               in <a href="http://www.w3.org/TR/css3-values/#absolute-lengths">CSS
@@ -2563,9 +2575,10 @@ code a:visited, code a:link {
     <li>If the computed value of the <code>display</code> style
      property is "none", return false.
 
-    <!-- TODO(ato): Not really sure what this means, needs review: -->
-    <li>If it has a [[!CSS3-2D-TRANSFORMS]] or [[!CSS3-3D-TRANSFORMS]]
-     style property that gives a negative X or Y coordinates to the canvas, return false.
+    <li><p class=issue>Not really sure what this means, needs review:
+
+     <p>If it has a [[!CSS3-2D-TRANSFORMS]] or [[!CSS3-3D-TRANSFORMS]]
+      style property that gives a negative X or Y coordinates to the canvas, return false.
 
     <li>If <var>element</var> is the document's root element,
      that is <code>document.documentElement</code>:
@@ -3320,7 +3333,6 @@ code a:visited, code a:link {
                   object</a> algorithm with arguments <var>value</var>
                   and <var>seen</var>, and the <a>internal JSON clone
                   algorithm</a> as the clone algorithm.</li>
-            <!-- TODO: Map and Set objects? -->
           </ol>
         </dd>
         <dt>Anything else:</dt>
@@ -3905,7 +3917,8 @@ code a:visited, code a:link {
           <b>Source</b>
           <br>
           <br>
-          The "source" member will hold a string value to represent the input source. Implementations MUST support "keyboard", "mouse", and "touch" (<b>TODO: use symbols?</b>), and can be extended for any other input source.
+          <p class=issue>Use symbols?
+          <p>The "source" member will hold a string value to represent the input source. Implementations MUST support "keyboard", "mouse", and "touch", and can be extended for any other input source.
           <br>
           <br>
           <b>id</b>
@@ -3969,7 +3982,8 @@ code a:visited, code a:link {
             <b>pause</b>
             <br>
             <br>
-            The "pause" action MUST (<b>TODO: or "may", since we can default to 0 on remote end?</b>) take in a parameter named "duration" which will be the time to wait either in milliseconds or using a symbol. This action is used to indicate a period of time to wait between actions, and will also be used to indicate a period of inaction in <a href="#parallel-actions">parallel action chains</a>.
+            <p class=issue>Or MAY, since we can default to 0 on remote end?
+            <p>The "pause" action MUST take in a parameter named "duration" which will be the time to wait either in milliseconds or using a symbol. This action is used to indicate a period of time to wait between actions, and will also be used to indicate a period of inaction in <a href="#parallel-actions">parallel action chains</a>.
             <br>
             <br>
             If you wish to use a system specific wait period, please use the following symbols:
@@ -4019,8 +4033,9 @@ code a:visited, code a:link {
                 <li><b>"y"</b> - Integer, the y-coordinate relative to the top-left corner of the target WebElement. If this is not specifed, the midpoint of the height is used</li>
               </ul>
               <ul>
-                <li><b>"x" and "y"</b> - Integers, the coordinates relative to the top-left corner of the <b>TODO: viewport, or top-left of root document?</b>.
+                <li><b>"x" and "y"</b> - Integers, the coordinates relative to the top-left corner of the ???.
               </ul>
+            <p class=issue>Viewport, or top-left of root element?
             </ul>
             <p><b>pointerDown</b>
             <p>The "pointerDown" action is used to start an interaction on the page. In "mouse" sources, this would mean "mouseDown", in "touch" sources, this would mean "touchstart" or "pointerdown".
@@ -4034,7 +4049,8 @@ code a:visited, code a:link {
             </ul>
             <p>For "mouse" sources, the following parameter must be passed:
             <ul>
-              <li><b>"BUTTON"</b> - "BUTTON" will hold a value describing which mouse button should be depressed.<b>TODO: link to button chart</b></li>
+              <li><b>"BUTTON"</b> - "BUTTON" will hold a value describing which mouse button should be depressed.
+               <p class=issuee>Link to button chart
             </ul>
             <p><b>pointerUp</b>
             <p>The "pointerUp" action is used to start an interaction on the page. In "mouse" sources, this would mean "mouseUp", in "touch" sources, this would mean dispatching an event like "touchend" or "pointerup".
@@ -4249,13 +4265,15 @@ code a:visited, code a:link {
             mouse mechanisms MUST be used. If the browser only supports touch input,
             the low level touch inputs MUST be used.</p>
 
-          <p class="note">As the goal is to emulate users as closely as possible, the
+          <p class=note>As the goal is to emulate users as closely as possible, the
             implementation SHOULD NOT allow clicking on elements that are obscured by
             other elements. If the implementation forbids clicking on obscured elements,
             an <code><a href="#status-element-not-visible">element not visible</a></code> response MUST be returned and this SHOULD have an
             explantory message explaining the reason. The implementation SHOULD try to
             scroll the element into view, but in case it is fully obscured, it SHOULD
-            NOT be clickable.<!--TODO: add details of interactable'--></p>
+            NOT be clickable.
+            
+           <p class=issue>Add details of interactable
           </section>
         </section>
         <section>
