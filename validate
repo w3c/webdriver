@@ -1,0 +1,10 @@
+#!/bin/sh
+
+file=$1 || "webdriver.spec.html"
+if [ -z $file ]; then
+	file="webdriver-spec.html"
+fi
+
+errs=$(curl -s -F laxtype=yes -F parser=html5 -F level=error -F out=gnu -F doc=@$file "https://validator.nu" | sed -e 's/"//g')
+echo $errs
+test -z "$errs"
