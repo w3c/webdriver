@@ -972,19 +972,19 @@ dl.switch > dt:before {
               set the implementation's autoproxy configuration url to
               <var>proxy autoconfiguration url</var>.
 
-              Otherwise return an <a>error</a> with status <a>invalid argument</a></dd>
+              <p>Otherwise return an <a>error</a> with code <a>invalid argument</a>.
 
             <dt>"<code>noproxy</code>"</dt>
             <dd><p>Set the proxy to No Proxy using implementation defined steps. If this
-              can not be set during this process return an <a>error</a>.</p></dd>
+              can not be set during this process return an <a>error</a>.
 
             <dt>"<code>autodetect</code>"</dt>
             <dd><p>Set the proxy to Auto-Detect proxy setting from the network using implementation
-              defined steps. If this can not be set during this process return an <a>error</a>.</p></dd>
+              defined steps. If this can not be set during this process return an <a>error</a>.
 
             <dt>"<code>system</code>"</dt>
             <dd><p>Set the proxy to use system proxy settings using implementation defined steps. If this
-              can not be set during this process return an <a>error</a>.</p></dd>
+              can not be set during this process return an <a>error</a>.
 
             <dt>"<code>manual</code>"</dt>
             <dd>
@@ -1023,10 +1023,9 @@ dl.switch > dt:before {
             </dd>
 
             <dt>Otherwise</dt>
-            <dd><p>Return an <a>invalid argument</a> <a>error</a>.
+            <dd><p>Return <a>error</a> with code <a>invalid argument</a>.
           </dl>
       </li>
-
     </ol>
 </section>
 
@@ -1827,85 +1826,103 @@ dl.switch > dt:before {
      </ol>
    </section>
 
-   <section>
-     <h3>Switch to Frame</h3>
-     <table class="simple jsoncommand">
-       <tr>
-         <th>HTTP Method</th>
-         <th>Path Template</th>
-       </tr>
-       <tr>
-         <td>POST</td>
-         <td>/session/{sessionId}/frame</td>
-       </tr>
-     </table>
-     <p>The <a>Switch to Frame</a> command is used to select
-     the <a>current top-level browsing context</a> or
-     a <a href="https://html.spec.whatwg.org/#child-browsing-context">child
-     browsing context</a> of the <a>current browsing context</a> to
-     use as the <a>current browsing context</a> for subsequent
-     commands.</p>
-     <p>The <a>remote end steps</a> for the <dfn>Switch to Frame</dfn>
-     command are:</p>
-     <ol>
+<section>
+<h3>Switch To Frame</h3>
 
-       <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-           return an error with code <a>no such window</a>.</li>
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{sessionId}/frame</td>
+ </tr>
+</table>
 
-       <li><p>Let <var>id</var> be the result of <a>getting a
-           property</a> named <code>id</code> from
-           the <var>parameters</var> argument.</li>
+<p>The <dfn>Switch To Frame</dfn> command is used to select
+ the <a>current top-level browsing context</a> or
+ a <a href=https://html.spec.whatwg.org/#child-browsing-context>child browsing context</a>
+ of the <a>current browsing context</a> to use as the <a>current browsing context</a>
+ for subsequent <a>commands</a>.
 
-       <li>
-         <p>If <var>id</var> is null:
-           <ol><li><p>Set the <a>current browsing context</a> to
-                 the <a>current top-level browsing context</a>.</li>
-           </ol>
-         <p>Otherwise if <var>id</var> is a <code>Number</code> object:</p>
-         <ol>
-           <li><p>If <var>id</var> is less than 0 or greater than 2<sup>16</sup> - 1,
-            return a <a>no such frame</a> <a>error</a>.
-           <li><p>Let <var>window</var> be the
-               <a href="https://html.spec.whatwg.org/#concept-document-window">associated
-                 window</a> of the <a>current browsing
-                 context</a>'s <a href="https://html.spec.whatwg.org/#active-document">active
-                 document.</a></li>
-           <li><p>If <var>id</var> is not
-               a <a href="http://heycam.github.io/webidl/#dfn-supported-property-indices">supported
-                 property index</a> of <var>window</var>,
-               return <a>no such frame</a> <a>error</a>.
-           <li><p>Let <var>child window</var> be the <code>WindowProxy</code> object
-               obtained
-               by <a href="https://html.spec.whatwg.org/#dom-window-item">determining
-                 the value of an indexed property</a> of <var>window</var>
-               with index <var>id</var>.</li>
-           <li><p>Set the <a>current browsing context</a> to <var>new
-           window</var>'s browsing context.</li>
-         </ol>
-         <p>Otherwise, if <var>id</var> <a>represents a web element</a>:
-           <ol>
-             <!-- note that representing a web element will have to do
-               same document checks, or something -->
-             <li><p>Let <var>element</var> be the element <a>represented
-                   by</a> <var>id</var>.</li>
-             <li><p>If <var>element</var> is not a <code>frame</code>
-             or <code>iframe</code> element,
-             return a <a>no such frame</a> <a>error</a>.
-             <li><p>Set the <a>current browsing context</a> to element's
-             <a href="https://html.spec.whatwg.org/#nested-browsing-context">nested
-             browsing context</a>.</li>
-           </ol>
-           <p>Otherwise:
-             <ol>
-               <li><p>Return <a>no such frame</a> <a>error</a>.
-             </ol>
-       </li>
-       <li><p>Return <a>success</a> with data null.</li>
-     </ol>
-     <p class=note>WebDriver is not bound by the same origin policy,
-     so it is always possible to switch into child browsing contexts,
-     even if they are different origin to the current browsing context.</p>
-   </section>
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with code <a>no such window</a>.
+
+ <li><p>Let <var>id</var> be the result of
+  <a>getting a property</a> named "<code>id</code>"
+  from the <var>parameters</var> argument.
+
+ <li><p>Run the substeps of the first matching condition:
+
+  <dl class=switch>
+   <dt><var>id</var> is null
+   <dd>
+    <ol>
+     <li><p>Set the <a>current browsing context</a> to
+      the <a>current top-level browsing context</a>.
+    </ol>
+
+   <dt><var>id</var> is a <code>Number</code> object
+   <dd>
+    <ol>
+     <li><p>If <var>id</var> is less than 0 or greater than 2<sup>16</sup> – 1,
+      return <a>error</a> with code <a>no such frame</a>.
+
+     <li><p>Let <var>window</var> be the
+      <a href=https://html.spec.whatwg.org/#concept-document-window>associated window</a>
+      of the <a>current browsing context</a>’s
+      <a href=https://html.spec.whatwg.org/#active-document>active document</a>.
+
+     <li><p>If <var>id</var> is not a
+      <a href=http://heycam.github.io/webidl/#dfn-supported-property-indices>supported property index</a>
+      of <var>window</var>,
+      return <a>error</a> with code <a>no such frame</a>.
+
+     <li><p>Let <var>child window</var> be the <code>WindowProxy</code> object
+      obtained by
+      <a href=https://html.spec.whatwg.org/#dom-window-item>determining the value of an indexed property</a>
+      of <var>window</var> with index <var>id</var>.
+
+     <li><p>Set the <a>current browsing context</a> to
+      <var>new window</var>’s browsing context.</li>
+    </ol>
+   
+   <dt><var>id</var> <a>represents a web element</a>
+   <dd>
+    <ol>
+     <li><p class=issue>Note that representing a web element
+      will have to do the same document checks, or something.
+
+      <p><p>Let <var>element</var> be the element
+       <a>represented by</a> <var>id</var>.
+
+     <li><p>If <var>element</var> is not a <code>frame</code>
+      or <code>iframe</code> element,
+      return <a>error</a> with code <a>no such frame</a>.
+
+     <li><p>Set the <a>current browsing context</a> to element’s
+      <a href=https://html.spec.whatwg.org/#nested-browsing-context>nested browsing context</a>.
+    </ol>
+
+  <dt>Otherwise</dt>
+  <dd>
+   <ol>
+    <li><p>Return <a>error</a> with code <a>no such frame</a>.
+   </ol>
+ </dl>
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+
+<p class=note>WebDriver is not bound by the same origin policy,
+ so it is always possible to switch into child browsing contexts,
+ even if they are different origin to the current browsing context.
+</section> <!-- /Switch To Frame -->
+
    <section>
      <h3>Switch to Parent Frame</h3>
 
@@ -2911,26 +2928,25 @@ dl.switch > dt:before {
 
  <li><p>Let <var>selected</var> be a boolean initially set to false.
 
- <li><p>If <var>element</var> is
-  an <code><a href=https://html.spec.whatwg.org/#the-input-element>input</a></code>
-  with a <code><a href=https://html.spec.whatwg.org/#attr-input-type>type</a></code> attribute
-  in the <a href="https://html.spec.whatwg.org/#checkbox-state-(type=checkbox)">Checkbox</a>-
-  or <a href="https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29">Radio Button</a> state:
+ <li><p>Let <var>selected</var> be the value
+  corresponding to the first matching statement:
 
-  <ol>
-   <li><p>Set <var>selected</var> to <var>element</var>’s
+  <dl class=switch>
+   <dt><var>element</var> is
+    an <code><a href=https://html.spec.whatwg.org/#the-input-element>input</a></code>
+    with a <code><a href=https://html.spec.whatwg.org/#attr-input-type>type</a></code> attribute
+    in the <a href="https://html.spec.whatwg.org/#checkbox-state-(type=checkbox)">Checkbox</a>-
+    or <a href="https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29">Radio Button</a> state
+   <dd><p>The result of <var>element</var>’s 
     <a href=https://html.spec.whatwg.org/#concept-fe-checked>checkedness</a>.
-  </ol>
 
- <li><p>Otherwise if <var>element</var> is
-  an <code><a href=https://html.spec.whatwg.org/#the-option-element>option</a></code> element:
-
-  <ol>
-   <li><p>Set <var>selected</var> to <var>element</var>’s
+   <dt><var>element</var> is
+    an <code><a href=https://html.spec.whatwg.org/#the-option-element>option</a></code> element
+   <dd><p>The result of <var>element</var>’s
     <a href=https://html.spec.whatwg.org/#concept-option-selectedness>selectedness</a>.
-  </ol>
+  </dl>
 
- <li><p>Let <var>body</var> be a JSON object
+ <li><p>Let <var>body</var> be a JSON Object
   with the "<code>value</code>" member set to <var>selected</var>.
 
  <li><p>Return <a>success</a> with data <var>body</var>.
@@ -3316,117 +3332,101 @@ dl.switch > dt:before {
   <p>When required to run the <dfn>internal JSON clone algorithm</dfn>
   with arguments <var>value</var> and <var>seen</var>,
   a <a>remote end</a> must run the following algorithm:</p>
+
+<ol>
+ <li><p>Run the substeps of the first matching statement:
+
+  <dl class=switch>
+   <dt><var>value</var> is <code>undefined</code>
+    or <code>null</code>
+   <dd><p>Return <a>success</a> with data <code>null</code>.
+
+   <dt><var>value</var> has type <code>Boolean</code>,
+    <code>Number</code>, or <code>String</code>
+   <dd><p>Return <a>success</a> with data <var>value</var>.
+
+   <dt><var>value</var> is an <code>Element</code> Node
+   <dd><p>Return the result of
+    <a title="create a web element reference">creating a web element</a>
+    with argument <var>value</var>.
+
+    <dd>
+     <ol>
+      <li><p>If <var>value</var> is in <var>seen</var>,
+       return <a>error</a> with code <a>javascript error</a>.
+
+      <li><p>Add <var>value</var> to <var>seen</var>.</li>
+     </ol>
+    </dd>
+
+    <dt><var>value</var> is
+     a <code>NodeList</code>,
+     <code>HTMLCollection</code>,
+     <code>Array</code> object,
+     or <code>Object</code>object
+    <dd>
+     <ol>
+      <li><p>If <var>value</var> is in <var>seen</var>,
+       return <a>error</a> with code <a>javascript error</a>.
+
+      <li><p>Add <var>value</var> to <var>seen</var>.
+      
+      <li><p>Return the result of running the <a>clone an object</a> algorithm
+       with arguments <var>value</var> and <var>seen</var>,
+       and the <a>internal JSON clone algorithm</a> as the clone algorithm.
+     </ol>
+    </dd>
+
+    <dt>Otherwise</dt>
+    <dd><p>Return <a>error</a> with code <a>javascript error</a>.
+  </dl>
+</ol>
+
+<p>When required to <dfn>clone an object</dfn>
+ with arguments <var>value</var> and <var>seen</var>
+ and clone algorithm <var>clone algorithm</var>,
+ run the following steps:</p>
+
+<ol>
+ <li><p>Let <var>result</var> be the value of the first matching statement:
+ 
+  <dl class=switch>
+   <dt><var>value</var> is a
+    <code>NodeList</code>,
+    <code>HTMLCollection</code>,
+    or ECMAScript <code>Array</code> object
+   <dd><p>A new <code>Array</code> object,
+    which <code>length</code> property
+    has the result of <a>getting a property</a> named "<code>length</code>"
+    from <var>value</var>.
+
+   <dt>Otherwise
+   <dd><p>A new <code>Object</code> object.
+  </dl>
+
+ <li><p>For each enumerable
+  <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>own property</a>
+  in <var>value</var>, run the following substeps:
+
   <ol>
-    <li><p>Jump to the appropriate step below:</p>
-      <dl>
-        <dt>If <var>value</var> is <code>undefined</code>
-        or <code>null</code>:</dt>
-        <dd><p>Return <a>success</a> with data <code>null</code>.</p></dd>
+    <li><p>Let <var>name</var> be the name of the property.
 
-        <dt>If <var>value</var> has
-        type <code>Boolean</code>, <code>Number</code>
-        or <code>String</code>:</dt>
-        <dd><p>Return <a>success</a> with data <var>value</var>.</dd>
+    <li><p>Let <var>source property value</var> be the result of
+     <a>getting a property</a> named <var>name</var> from <var>value</var>.
+     If doing so causes script to be run, and that script throws an exception,
+     return <a>error</a> with code <a>javascript error</a>.
 
-        <dt>If <var>value</var> is an <code>Element</code> Node:</dt>
-        <dd><p>Return the result of <a title="create a web element
-        reference">creating a web element</a> with
-        argument <var>value</var></dd>
+    <li><p>Let <var>cloned property result</var> be the result of
+     calling the <var>clone algorithm</var> with arguments
+     <var>source property value</var> and <var>seen</var>.
 
+    <li><p>If <var>cloned property result</var> is a <a>success</a>,
+     <a>set a property</a> of <a>result</a> with
+     name <var>name</var> and value equal to <var>cloned property result</var>’s data.
 
-        <dd>
-          <ol>
-            <li><p>If <var>value</var> is in <var>seen</var>,
-                return <a>error</a> with code <a>javascript error</a>.</li>
-
-            <li><p>Add <var>value</var> to <var>seen</var>.</li>
-          </ol>
-        </dd>
-
-        <dt>If <var>value</var> is
-        a <code>NodeList</code>, <code>HTMLCollection</code>,
-        an <code>Array</code> object, or an <code>Object</code>
-        object:
-        </dt>
-        <dd>
-          <ol>
-            <li><p>If <var>value</var> is in <var>seen</var>,
-                return <a>error</a> with code <a>javascript error</a>.</li>
-
-            <li><p>Add <var>value</var> to <var>seen</var></li>
-
-            <li><p>Return the result of running the <a>clone an
-                  object</a> algorithm with arguments <var>value</var>
-                  and <var>seen</var>, and the <a>internal JSON clone
-                  algorithm</a> as the clone algorithm.</li>
-          </ol>
-        </dd>
-        <dt>Otherwise:</dt>
-        <dd><p>Return <a>error</a> with code <a>javascript error</a>.</dd>
-      </dl>
+    <li><p>Otherwise, return <var>cloned property result</var>.
   </ol>
-  <p>When required to <dfn>clone an object</dfn> with
-    arguments <var>value</var> and <var>seen</var> and
-    clone algorithm <var>clone algorithm</var>, run the
-    following steps:</p>
-
-  <ol>
-        <li>
-          <dl>
-            <dt>If <var>value</var> is
-              a <code>NodeList</code>, <code>HTMLCollection</code> or
-              ECMAScript <code>Array</code> object:</dt>
-            <dd>
-              <ol>
-                <li><p>Let <var>result</var> be a new <code>Array</code> object.</p></li>
-
-                <li><p>Let <var>length</var> be the result of <a>getting a
-                      property</a> named <code>length</code>
-                    from <var>value</var>.</p></li>
-
-                <li><p><a>Set a property</a> on <var>result</var> named <code>length</code>
-                    with value <var>length</var>.</p></li>
-              </ol>
-            </dd>
-
-            <dt>Otherwise:</dt>
-            <dd>
-              <ol>
-                <li><p>Let <var>result</var> be a
-                    new <code>Object</code> object.</p></li>
-                </ol>
-            </dd>
-          </dl>
-        </li>
-
-        <li><p>For each
-        enumerable <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30">own
-        property</a> in <var>value</var>, run the following
-        substeps:</p>
-          <ol>
-            <li><p>Let <var>name</var> be the name of the property.</li>
-
-            <li><p>Let <var>source property value</var> be the result
-                of <a>getting a property</a> named <var>name</var>
-                from <var>value</var>. If doing so causes script to be
-                run, and that script throws an exception,
-                return <a>error</a> with code <a>javascript
-                error</a>.</li>
-
-            <li><p>Let <var>cloned property result</var> be the result of
-                calling the <var>clone algorithm</var> with
-                arguments <var>source property value</var>
-                and <var>seen</var>.</p></li>
-
-            <li><p>If <var>cloned property result</var> is
-                a <a>success</a>, <a>set a property</a>
-                of <a>result</a> with name <var>name</var> and value
-                equal to <var>cloned property result</var>'s data.</li>
-
-            <li><p>Otherwise, return <var>cloned property result</var>.</li>
-          </ol>
-        </li>
-  </ol>
+</ol>
 
   <p>The steps for <dfn>extracting the script arguments from a request</dfn>,
   are:</p>
@@ -3669,29 +3669,28 @@ dl.switch > dt:before {
       <li><p>Return <a>success</a> with data <var>data</var>.</p></li>
     </ol>
 
-    <p>The <dfn>execute async script callback</dfn> algorithm is
-    initialized with a single argument <var>webdriver callback
-    state</var>. It defines
-    a <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24">function</a>
-    with a single optional argument <var>result</var>. When this
-    function is called, the following steps are run:</p>
+<p>The <dfn>execute async script callback</dfn> algorithm
+ is initialized with a single argument <var>webdriver callback state</var>.
+ It defines a <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24>function</a>
+ with a single optional argument <var>result</var>.
+ When this function is called, the following steps are run:
 
-    <ol>
-      <li><p>If <var>webdriver callback state</var> is not in
-          the <code>unset</code> state, return <code>undefined</code>.</p></li>
+<ol>
+ <li><p>If <var>webdriver callback state</var> is not in the <code>unset</code> state,
+  return <code>undefined</code>.
 
-      <li><p>Otherwise, if <var>result</var> is not present,
-          let <var>result</var> be <code>null</code>.</p></li>
+ <li><p>If <var>result</var> is not present,
+  let <var>result</var> be <code>null</code>.
 
-      <li><p>Let <var>json result</var> be a <a>JSON clone</a>
-          of <var>result</var>.</p></li>
+ <li><p>Let <var>json result</var> be a <a>JSON clone</a>
+  of <var>result</var>.
 
-      <li><p>Set the <var>webdriver callback state</var>
-          to <code>set</code> with data <var>json result</var>.</p></li>
+ <li><p>Set the <var>webdriver callback state</var>
+  to <code>set</code> with data <var>json result</var>.
 
-      <li><p>Return <code>undefined</code>.</p></li>
-    </ol>
-</section>
+ <li><p>Return <code>undefined</code>.
+</ol>
+</section> <!-- /Execute Async Script -->
 
 <section>
   <h2>Cookies</h2>
