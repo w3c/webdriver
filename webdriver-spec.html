@@ -1232,57 +1232,83 @@ code a:visited, code a:link {
 </ol>
 </section> <!-- /Delete Session -->
 
-  <section>
-    <h3>Set Timeout</h3>
-    <p>
-      <table class="simple jsoncommand">
-        <tr>
-          <th>HTTP Method</th>
-          <th>Path Template</th>
-        </tr>
-        <tr>
-          <td>POST</td>
-          <td>/session/{sessionId}/timeouts</td>
-        </tr>
-      </table>
-    <p>The <dfn>Set Timeout</dfn> command sets a timeout
-    associated with the <a>current session</a>.</p>
-    <p>The <a>remote end steps</a> for the <a>Set Timeout</a> command
-    are:</p>
-    <ol>
-      <li><p>Let <var>type</var> be the result of <a>getting a
-      property</a> named "<code>type</code>" from
-      the <var>parameters</var> argument.</li>
+<section>
+<h3>Set Timeout</h3>
 
-      <li><p>Let <var>timeout</var> be the result of <a>getting a
-      property</a> named "<code>ms</code>" from
-      the <var>parameters</var> argument.</li>
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{sessionId}/timeouts</td>
+ </tr>
+</table>
 
-      <li><p>If <var>type</var> or <var>timeout</var> is undefined,
-      or <var>timeout</var> is not an integer greater than 0,
-      return <a>error</a> with code <a>invalid argument</a>.</li>
+<p>The <dfn>Set Timeout</dfn> command sets timeouts
+ associated with the <a>current session</a>.
+ The timeouts that can be controlled are
+ the <a>session script timeout</a>,
+ the <a>session page load timeout</a>,
+ and the <a>session implicit wait timeout</a>.
 
-      <li><p>Match the value of <var>type</var> against the following
-      options:
-          <dl>
-            <dt>The string <code>"implicit"</code>:</dt>
-            <dd><p>Set the <a>session implicit wait timeout</a>
-            to <var>timeout</var> milliseconds.</dd>
-            <dt>The string <code>"page load"</code>:</dt>
-            <dd><p>Set the <a>session page load timeout</a>
-            to <var>timeout</var> milliseconds.</dd>
-            <dt>The string <code>"script"</code>:</dt>
-            <dd><p>Set the <a>session script timeout</a>
-            to <var>timeout</var> milliseconds.</dd>
-            <dt>Otherwise:</dt>
-            <dd><p>Return an <a>invalid argument</a> <a>error</a>.
-          </dl>
-      </li>
-      <li>Return <a>success</a> with data null.</li>
-    </ol>
-  </section>
+<p>The following <dfn>table of session timeouts</dfn>
+ lists pairs of different timeouts that may be changed
+ with the string codes used to identify them:
 
-</section>
+<table class=simple>
+ <tr>
+  <th>Type
+  <th>Identifier
+ </tr>
+
+ <tr>
+  <td><a>session script timeout</a>
+  <td>"<code>script</code>"
+ </tr>
+
+ <tr>
+  <td><a>session page load timeout</a>
+  <td>"<code>page load</code>"
+ </tr>
+
+ <tr>
+  <td><a>session implicit wait timeout</a>
+  <td>"<code>implicit</code>"
+ </tr>
+</table>
+
+<p>The <a>remote end steps</a> for
+ the <a>Set Timeout</a> command are:
+
+<ol>
+ <li><p>For each row in the <a>table of session timeouts</a>,
+  enumerated as <var>type</var> and <var>identifier</var>:
+
+  <ol>
+   <li><p>If <var>parameters</var> does not have
+    an <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>own property</a>
+    <var>identifier</var>, continue to the next entry.
+
+   <li><p>Let <var>timeout</var> be the result of
+    <a>getting a property</a> using <var>identifier</var>
+    from <var>parameters</var>.
+
+   <li><p>If <var>timeout</var> is of the
+   <code><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.19>Number</a></code> type
+   and a non-negative integer,
+   set the <var>type</var> timeout to
+   <var>timeout</var>’s value in milliseconds.
+
+   <p>Otherwise, return an <a>invalid argument</a> <a>error</a>.
+  </ol>
+
+ <li><p>Return <a>success</a>.
+</ol>
+</section> <!-- /Set Timeout -->
+</section> <!-- /Sessions -->
+
 <section>
   <h2>Navigation</h2>
   <p>The commands in this section allow navigation of the <a>current
