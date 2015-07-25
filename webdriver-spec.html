@@ -1,106 +1,67 @@
 <!DOCTYPE html>
-<html data-bug-blocked=20860
-      data-bug-product="Browser Test/Tools WG"
-      data-bug-component=WebDriver>
-  <head>
-    <meta charset="utf-8">
-    <title>WebDriver</title>
+<html
+ data-bug-blocked=20860
+ data-bug-product="Browser Test/Tools WG"
+ data-bug-component=WebDriver>
+<meta charset=utf-8>
+<title>WebDriver</title>
 
-    <style>
-    /* --- WEB IDL --- */
-pre.IDL {
-    border-top: 1px solid #90b8de;
-    border-bottom: 1px solid #90b8de;
-    padding:    1em;
-    line-height:    120%;
-}
+<link rel=stylesheet href=look.css>
+<style>
+#respec-ui { top: 80px !important }
+</style>
 
-pre.IDL::before {
-    content:    "WebIDL";
-    display:    block;
-    width:      150px;
-    background: #90b8de;
-    color:  #fff;
-    font-family:    initial;
-    padding:    3px;
-    font-weight:    bold;
-    margin: -1em 0 1em -1em;
-}
+<!--
+=== NOTA BENE ===
+For the three scripts below, if your spec resides on dev.w3 you can check them
+out in the same tree and use relative links so that they'll work offline,
+-->
+<script src=https://www.w3.org/Tools/respec/respec-w3c-common async class=remove></script>
+<script class=remove>
+var respecConfig = {
+  specStatus: "ED",
+  shortName: "webdriver",
 
-code a:visited, code a:link {
-  color:  #ff4500;
-}
+  // publishDate: "2009-08-06",
+  // copyrightStart: "2005"
+  // previousPublishDate: "1977-03-15",
+  // previousMaturity: "WD",
+  edDraftURI: "https://w3c.github.io/webdriver/webdriver-spec.html",
+  // lcEnd: "2009-08-05",
 
-     #respec-ui { top: 80px !important }
-    </style>
-    <style>
-      /* Make spec narrower */
-      body { max-width: 60em; margin: 0 auto !important; line-height: 1.5; }
+  editors: [
+    {
+      name: "Simon Stewart",
+      url: "http://www.rocketpoweredjetpants.com/",
+      company: "Facebook",
+      companyURL: "http://www.facebook.com/",
+    },
+    {
+      name: "David Burns",
+      url: "http://www.theautomatedtester.co.uk/",
+      company: "Mozilla",
+      companyURL: "http://www.mozilla.org/",
+    },
+  ],
 
-      /* Bump up code size */
-      code { font-size: 16px !important; }
-      pre, pre code { font-size: 14px !important; }
+  otherLinks: [{
+    key: "Raising issues with the specification",
+    data: [{
+      value: "W3 Bug Tracker",
+      href: "https://www.w3.org/Bugs/Public/enter_bug.cgi?comment=&blocked=20860&short_desc=[WebDriver%20Spec]%3A%20&product=Browser%20Test%2FTools%20WG&component=WebDriver",
+    }]
+  }],
 
-      a {text-decoration:none}
-      a[href]:link {border-bottom:none; color: #005a9c}
-      a[href]:visited {border-bottom:none}
-    </style>
+  wg:           "Browser Testing and Tools Working Group",
+  wgURI:        "http://www.w3.org/testing/browser/",
+  wgPublicList: "public-browser-tools-testing",
+  wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/49799/status",
 
-    <!--
-      === NOTA BENE ===
-      For the three scripts below, if your spec resides on dev.w3 you can check them
-      out in the same tree and use relative links so that they'll work offline,
-     -->
-    <script src='https://www.w3.org/Tools/respec/respec-w3c-common'
-            async class='remove'></script>
-    <script class='remove'>
-      var respecConfig = {
-          specStatus:           "ED",
+  noIDLSorting: true,
+};
+</script>
 
-          shortName:            "webdriver",
-
-          // publishDate:  "2009-08-06",
-
-          // copyrightStart: "2005"
-
-          // previousPublishDate:  "1977-03-15",
-
-          // previousMaturity:  "WD",
-
-          edDraftURI:           "https://w3c.github.io/webdriver/webdriver-spec.html",
-
-          // lcEnd: "2009-08-05",
-
-          editors:  [
-              { name: "Simon Stewart", url: "http://www.rocketpoweredjetpants.com/",
-                company: "Facebook", companyURL: "http://www.facebook.com/"
-              },
-              { name: "David Burns", url: "http://www.theautomatedtester.co.uk/",
-                company: "Mozilla", companyURL: "http://www.mozilla.org/" },
-          ],
-
-          otherLinks: [{
-            key: "Raising issues with the specification",
-            data: [{
-                    value: "W3 Bug Tracker",
-                    href: "https://www.w3.org/Bugs/Public/enter_bug.cgi?comment=&blocked=20860&short_desc=[WebDriver%20Spec]%3A%20&product=Browser%20Test%2FTools%20WG&component=WebDriver"
-                  }]
-          }],
-
-          wg:           "Browser Testing and Tools Working Group",
-
-          wgURI:        "http://www.w3.org/testing/browser/",
-
-          wgPublicList: "public-browser-tools-testing",
-
-          wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/49799/status",
-
-          noIDLSorting: true,
-      };
-    </script>
-    <script src=bug-assist.js></script>
-  </head>
-  <body>
+<script src=bug-assist.js></script>
 
 <section id=abstract>
 <p>This specification defines the WebDriver API,
