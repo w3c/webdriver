@@ -2142,79 +2142,73 @@ URL, and command for each WebDriver <a>command</a>.
         </aside>
       </section>
 
-    <section>
-      <h3>Set Window Size</h3>
-        <p>
-          <table class="simple jsoncommand">
-            <tr>
-              <th>HTTP Method</th>
-              <th>Path Template</th>
-            </tr>
-            <tr>
-              <td>POST</td>
-              <td>/session/{sessionId}/window/size</td>
-            </tr>
-          </table>
+<section>
+<h3>Set Window Size</h3>
 
-        <p>The Set Window Size command alters the size of the
-        operating system window corresponding to the <a>current
-        top-level browsing context</a>.</p>
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{sessionId}/window/size</td>
+ </tr>
+</table>
 
-        <p>The <a>remote end steps</a> for <dfn>Set Window Size</dfn>
-        are:</p>
-        <ol>
-          <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-           return <a>error</a> with <a>error code</a> <a>no such window</a>.
+<p>The Set Window Size command alters the size of the operating system window
+ corresponding to the <a>current top-level browsing context</a>.
 
-          <li><p>If the <a>remote end</a> does not support the <a>Set Window Size</a> command
-           for the <a>current top level browsing context</a> for any reason,
-           return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+<p>The <a>remote end steps</a> are:
 
-          <li><p>Let <var>width</var> be the result of
-              <a>getting a property</a> named <code>width</code>
-              from the <var>parameters</var> argument.</li>
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return an error with code <a>no such window</a>.</li>
 
-          <li><p>If <var>width</var> is not an integer, or is less than 0,
-           return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+ <li><p>If the <a>remote end</a> does not support the
+  <a>Set Window Size</a> command for
+  the <a>current top level browsing context</a> for any reason,
+  return an error with code <a>unsupported operation</a>.
 
-          <li><p>Let <var>height</var> be the result of
-              <a>getting a property</a> named <code>height</code>
-              from the <var>parameters</var> argument.
+ <li><p>Let <var>width</var> be the result of
+  <a>getting a property</a> named <code>width</code>
+  from the <var>parameters</var> argument.
 
-          <li><p>If <var>height</var> is not an integer, or is less than 0,
-           return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+ <li><p>If <var>width</var> is not an integer, or is less than 0,
+  return <a>error</a> with code <a>invalid argument</a>.
 
-           <p class=issue>Window sizes outside the allowed range.
+ <li><p>Let <var>height</var> be the result of
+  <a>getting a property</a> named <code>height</code>
+  from the <var>parameters</var> argument.
 
-          <li><p>Set the width,
-              in <a href="http://www.w3.org/TR/css3-values/#absolute-lengths">CSS
-              reference pixels</a>, of the OS window containing
-              the <a>current top-level browsing context</a>, including
-              any browser chrome and externally drawn window
-              decorations to a value that is as close as possible
-              to <var>width</var>.</li>
+ <li><p>If <var>height</var> is not an integer, or is less than 0,
+  return <a>error</a> with code <a>invalid argument</a>.
 
-          <li><p>Set the height,
-              in <a href="http://www.w3.org/TR/css3-values/#absolute-lengths">CSS
-              reference pixels</a>, of the OS window containing
-              the <a>current top-level browsing context</a>, including
-              any browser chrome and externally drawn window
-              decorations to a value that is as close as possible
-              to <var>height</var>.</li>
+ <p class=issue>Window sizes outside the allowed range.
 
-          <li><p>Return <a>success</a> with data null.</li>
-        </ol>
+ <li><p>Set the width,
+  in <a href=http://www.w3.org/TR/css3-values/#absolute-lengths>CSS reference pixels</a>,
+  of the OS window containing the <a>current top-level browsing context</a>,
+  including any browser chrome and externally drawn window decorations
+  to a value that is as close as possible to <var>width</var>.
 
-        <aside class=note>
-          <p>The specification does not guarantee that the resulting
-          window size will exactly match that which was requested. In
-          particular the implementation is expected to clamp values
-          that are larger than the physical screen dimensions, or
-          smaller than the minimum window size. Particular
-          implemetations may have other limitations such as not being
-          able to resize in single-pixel increments.</p>
-        </aside>
-      </section>
+ <li><p>Set the height,
+  in <a href=http://www.w3.org/TR/css3-values/#absolute-lengths>CSS reference pixels</a>,
+  of the OS window containing the <a>current top-level browsing context</a>,
+  including any browser chrome and externally drawn window decorations
+  to a value that is as close as possible to <var>height</var>.
+ 
+ <li><p>Return <a>success</a> with data null.
+</ol>
+
+<p class=note>The specification does not guarantee
+ that the resulting window size will exactly match that which was requested.
+ In particular the implementation is expected to clamp values
+ that are larger than the physical screen dimensions,
+ or smaller than the minimum window size.
+ Particular implemetations may have other limitations
+ such as not being able to resize in single-pixel increments.
+</section> <!-- /Set Window Size -->
 
 <section>
 <h3>Maximize Window</h3>
