@@ -2107,56 +2107,62 @@ URL, and command for each WebDriver <a>command</a>.
  Where a <a>command</a> is not supported,
  an <a>unsupported operation</a> <a>error</a> is returned.
 
-    <section>
-      <h3>Get Window Size</h3>
-        <p>
-          <table class="simple jsoncommand">
-            <tr>
-              <th>HTTP Method</th>
-              <th>Path Template</th>
-            </tr>
-            <tr>
-              <td>GET</td>
-              <td>/session/{sessionId}/window/size</td>
-            </tr>
-          </table>
-        <p>The Get Window Size command returns the size of the
-        operating system window corresponding to the <a>current
-        top-level browsing context</a>.</p>
+<section>
+<h3>Get Window Size</h3>
 
-        <p>The <a>remote end steps</a> for <dfn>Get Window Size</dfn>
-        are:</p>
-        <ol>
-          <!-- Can this whole operation be unsupported? -->
-          <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-              return <a>error</a> with <a>error code</a> <a>no such window</a>.
-          <li><p>Let <var>width</var> be the width in <a href="http://www.w3.org/TR/css3-values/#absolute-lengths">CSS reference pixels</a> of the OS
-              window containing the <a>current top-level browsing
-              context</a>, including any browser chrome and
-              externally drawn window decorations.</li>
-          <li><p>Let <var>height</var> be the height in <a href="http://www.w3.org/TR/css3-values/#absolute-lengths">CSS reference pixels</a> of
-          the OS window containing the <a>current top-level browsing
-          context</a>, including any browser chrome and any externally
-          drawn window decorations.</li>
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{sessionId}/window/size</td>
+ </tr>
+</table>
 
-          <li><p>Let <var>data</var> be a new JSON Object.</li>
+<p>The <dfn>Get Window Size</dfn> <a>command</a>
+ returns the size of the operating system window corresponding
+ to the <a>current top-level browsing context</a>.
 
-          <li><p>Set the property <code>width</code> on <var>data</var>
-              to <var>width</var>.</li>
+<p>The <a>remote end steps</a> are:
 
-          <li><p>Set the property <code>height</code> on <var>data</var>
-              to <var>height</var>.</li>
+<ol>
+ <li><p class=issue>Can this whole operation be unsupported?
 
-          <li><p>Return <a>success</a> with data <var>data</var>.
-        </ol>
+  <p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
-        <aside class="note">
-          <p>In some browsers the dimensions of the
-            browser including window decorations are provided by the
-            proprietary <code>window.outerWidth</code>
-            and <code>window.outerHeight</code> properties.</p>
-        </aside>
-      </section>
+ <li><p>Let <var>width</var> be the width in
+  <a href=http://www.w3.org/TR/css3-values/#absolute-length>CSS reference pixels</a>
+  of the operating system window containing
+  the <a>current top-level browsing context</a>,
+  including any browser chrome and externally drawn window decorations.
+
+ <li><p>Let <var>height</var> be the height in
+  <a href=http://www.w3.org/TR/css3-values/#absolute-lengths>CSS reference pixels</a>
+  of the operating system window containing
+  the <a>current top-level browsing context</a>,
+  including any browser chrome and any externally drawn window decorations.
+
+ <li><p>Let <var>body</var> be a new JSON Object initialised with:
+
+  <dl>
+   <dt>"<code>width</code>"
+   <dd>The value of <var>width</var>.
+
+   <dt>"<code>height</code>"
+   <dd>The value of <var>height</var>.
+  </dl>
+
+ <li><p>Return <a>success</a> with data <var>body</var>.
+</ol>
+
+<p class=note>In some browsers
+ the dimensions of the browser including window decorations
+ are provided by the proprietary <code>window.outerWidth</code>
+ and <code>window.outerHeight</code> properties.
+</section> <!-- /Get Window Size -->
 
 <section>
 <h3>Set Window Size</h3>
@@ -2182,9 +2188,9 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p>If the <a>remote end</a> does not support the
-  <a>Set Window Size</a> <a>command</a> for
-  the <a>current top level browsing context</a> for any reason,
+ <li><p>If the <a>remote end</a> does not support
+  the <a>Set Window Size</a> <a>command</a> for
+  the <a>current top-level browsing context</a> for any reason,
   return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
 
  <li><p>Let <var>width</var> be the result of
@@ -2192,7 +2198,7 @@ URL, and command for each WebDriver <a>command</a>.
   from the <var>parameters</var> argument.
 
  <li><p>If <var>width</var> is not an integer, or is less than 0,
-  return <a>error</a> with code <a>invalid argument</a>.
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>height</var> be the result of
   <a>getting a property</a> named <code>height</code>
@@ -2205,16 +2211,18 @@ URL, and command for each WebDriver <a>command</a>.
 
  <li><p>Set the width,
   in <a href=http://www.w3.org/TR/css3-values/#absolute-lengths>CSS reference pixels</a>,
-  of the OS window containing the <a>current top-level browsing context</a>,
+  of the operating system window containing
+  the <a>current top-level browsing context</a>,
   including any browser chrome and externally drawn window decorations
   to a value that is as close as possible to <var>width</var>.
 
  <li><p>Set the height,
   in <a href=http://www.w3.org/TR/css3-values/#absolute-lengths>CSS reference pixels</a>,
-  of the OS window containing the <a>current top-level browsing context</a>,
+  of the operating system window containing
+  the <a>current top-level browsing context</a>,
   including any browser chrome and externally drawn window decorations
   to a value that is as close as possible to <var>height</var>.
- 
+
  <li><p>Return <a>success</a> with data null.
 </ol>
 
