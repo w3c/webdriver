@@ -3002,28 +3002,55 @@ code a:visited, code a:link {
             <dd>The name of the property or attribute to return.</dd>
           </dl>
           <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </section>
-      <section>
-        <!-- getCssValue() -->
-        <h3>getCssValue()</h3>
-        <p>
-          <table class="simple jsoncommand">
-            <tr>
-              <th>HTTP Method</th>
-              <th>Path Template</th>
-            </tr>
-            <tr>
-              <td>GET</td>
-              <td>/session/{sessionId}/element/{elementId}/css/{propertyName}</td>
-            </tr>
-          </table>
-          <p>The "getCssValue" command will return a <code>DOMString</code> of the value of the property passed. It MUST return the value of <a href="http://dev.w3.org/csswg/cssom/#dom-cssstyledeclaration-getpropertyvalue"><code>getPropertyValue(propertyName)</code></a> returned from calling <a href='http://dev.w3.org/csswg/cssom/#dom-window-getcomputedstyle'><code>window.getComputedStyle(element)</code></a>. Color property values MUST be standardized to <a href='http://www.w3.org/TR/css3-color/#rgba-color'>RGBA color format</a> as described in [[!css3-color]]. If a user agent does not support RGBA then it MUST return a value as 1 for opacity. If the property is not present then return an empty string.
-          <dl class='parameters'>
-            <dt>DOMString propertyName</dt>
-            <dd>The name of the property whose value will be returned</dd>
-          </dl>
-          <p>If the <code><a href='widl-WebElement-ELEMENT'>ELEMENT</a></code> does not represent a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a>, or it represents a <a href='http://w3c.github.io/dom/#element'>Document <code>element</code></a> that is no longer attached to the document's <a href='http://w3c.github.io/dom/#concept-node-tree'>node tree</a>, then the WebDriver implementation MUST immediately abort the command and return a <code title="stale-element-reference"><a href="#status-stale-element-reference">stale element reference</a></code> error. If the <a href='http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context'>top level browsing context</a> currently receiving commands is no longer open a <code><a href="#no-such-window">no such window</a></code> error MUST be raised.
-      </section>
+      </section> <!-- /Get Element Attribute -->
+
+<section>
+<h3>Get Element CSS Value</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{session id}/element/{element id}/css/{property name}</td>
+ </tr>
+</table>
+
+<p>The <dfn>Get Element CSS Value</dfn> <a>command</a>
+ retrieves the <a href=https://drafts.csswg.org/css-cascade-4/#computed-value>computed value</a>
+ of the given CSS property of the given <a>web element</a>.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>Let <var>element result</var> be the result of
+  <a>getting a known element</a> by parameter <var>element id</var>.
+
+ <li><p>If <var>element result</var> is a <a>success</a>,
+  let <var>element</var> be <var>element result</var>’s data.
+
+  <p>Otherwise, return <var>element result</var>.
+
+ <li><p>If <var>element</var> is <a>stale</a>,
+  return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
+
+ <li><p>Let <var>computed value</var> be
+  the <a href=https://drafts.csswg.org/css-cascade-4/#computed-value>computed value</a>
+  of parameter <var>property name</var>
+  from <var>element</var>’s style declarations.
+
+ <li><p>Let <var>body</var> be a JSON Object with
+  the "<code>value</code>" member set to <var>computed value</var>.
+
+ <li>Return <a>success</a> with data <var>body</var>.
+</ol>
+</section> <!-- /Get CSS Value -->
+
       <section>
         <!-- getElementText() -->
         <h3>getElementText()</h3>
