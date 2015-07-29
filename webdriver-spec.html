@@ -353,26 +353,35 @@ dl.switch > dt:before {
   </dl>
 
  <li><p><a>Send a response</a> with <var>status</var>
-  and <var>data</var> as arguments.</li>
+  and <var>data</var> as arguments.
 </ol>
 
-    <p>When required to <dfn>send a response</dfn>,
-     with arguments <var>status</var> and <var>data</var>,
-     a <a>remote end</a> must run the following steps:</p>
+<p>When required to <dfn>send a response</dfn>,
+ with arguments <var>status</var> and <var>data</var>,
+ a <a>remote end</a> must run the following steps:
 
-    <ol>
-      <li><p>Let <var>response</var> be a new <a href="https://fetch.spec.whatwg.org/#concept-response" class="externalRef">response</a>.</p></li>
+<ol>
+ <li><p>Let <var>response</var> be a new
+  <a href=https://fetch.spec.whatwg.org/#concept-response class=externalRef>response</a>.
 
-      <li><p>Set <var>response</var>'s <a href="https://fetch.spec.whatwg.org/#concept-response-status" class="externalRef">status</a> to <var>status</var>, and <a href="https://fetch.spec.whatwg.org/#concept-response-status-message" class="externalRef">status message</a> to the string corresponding to the description of <var>status</var> in the <a href="http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml" class="externalRef">status code registry</a>.</p></li>
-      <li><p>If <var>data</var> is not null, let <var>response</var>'s <a href="https://fetch.spec.whatwg.org/#concept-response-body" class="externalRef">body</a> be the result of <a>serializing as JSON</a> with <var>data</var> as the argument.</p></li>
+ <li><p>Set <var>response</var>’s
+  <a href=https://fetch.spec.whatwg.org/#concept-response-status class=externalRef>status</a>
+  to <var>status</var>,
+  and <a href=https://fetch.spec.whatwg.org/#concept-response-status-message class=externalRef>status message</a>
+  to the string corresponding to the description of <var>status</var>
+  in the <a href=http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml class=externalRef>status code registry</a>.
 
-      <li><p>Let <var>response bytes</var> be the byte sequence resulting from serializing <var>response</var> according to the rules in [[!RFC7230]].</p></li>
+ <li><p>If <var>data</var> is not null, let <var>response</var>’s
+  <a href=https://fetch.spec.whatwg.org/#concept-response-body class=externalRef>body</a>
+  be the result of <a>serializing as JSON</a> with <var>data</var> as the argument.
 
-      <li><p><a title="write bytes">Write</a> <var>response bytes</var> to the <a>connection</a></p></li>
+ <li><p>Let <var>response bytes</var> be the byte sequence resulting
+  from serializing <var>response</var> according to the rules in [[!RFC7230]].
 
-    </ol>
-
-  </section>
+ <li><p><a title="write bytes">Write</a> <var>response bytes</var>
+  to the <a>connection</a>.
+</ol>
+</section> <!-- /Processing Model -->
 
   <section>
     <h3>Routing Requests</h3>
