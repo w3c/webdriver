@@ -424,13 +424,13 @@ dl.switch > dt:before {
   according to the rules in [[!URI-Template]].
 
  <li><p>If there are no entries in <var>endpoints</var>,
-  return <a>error</a> with code <a>unknown command</a>.
+  return <a>error</a> with <a>error code</a> <a>unknown command</a>.
 
  <li><p>Remove each entry in <var>endpoints</var>
   for which the "method" column is not an exact case-sensitive match for <var>method</var>.
 
  <li><p>If there are no entries in <var>endpoints</var>,
-  return <a>error</a> with code <a>unknown method</a>.
+  return <a>error</a> with <a>error code</a> <a>unknown method</a>.
 
  <li><p>There is now exactly one entry in <var>endpoints</var>;
   let <var>entry</var> be this entry.
@@ -1069,7 +1069,7 @@ URL, and command for each WebDriver <a>command</a>.
               set the implementation's autoproxy configuration url to
               <var>proxy autoconfiguration url</var>.
 
-              <p>Otherwise return an <a>error</a> with code <a>invalid argument</a>.
+              <p>Otherwise return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
             <dt>"<code>noproxy</code>"</dt>
             <dd><p>Set the proxy to No Proxy using implementation defined steps. If this
@@ -1258,7 +1258,7 @@ URL, and command for each WebDriver <a>command</a>.
 <ol>
  <li><p>If the node is an intermediate node,
   take implementation-defined steps that either result in
-  returning an <a>error</a> with code <a>session not created</a>
+  returning an <a>error</a> with <a>error code</a> <a>session not created</a>
   or in returning a <a>success</a> with data
   that is isomorphic to that returned by <a title="remote end">remote ends</a>
   according to the rest of this algorithm.
@@ -1272,7 +1272,7 @@ URL, and command for each WebDriver <a>command</a>.
   the length of the list of <a>active sessions</a>:
 
   <ol>
-   <li><p>Return <a>error</a> with code <a>unsupported operation</a>.
+   <li><p>Return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
   </ol>
 
  <li><p>Let <var>capabilities</var> be the result of <a>getting a property</a>
@@ -1476,13 +1476,13 @@ URL, and command for each WebDriver <a>command</a>.
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with code <a>no such window</a>.
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>url</var> be the result of <a>getting a property</a> named "url"
   from the <var>parameters</var> argument.
 
  <li><p>If <var>url</var> is undefined,
-  return <a>error</a> with code <a>invalid argument</a>.
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p><a href="https://html.spec.whatwg.org/#navigate">Navigate</a>
   the <a>current top-level browsing context</a> to <var>url</var>.  If
@@ -1507,7 +1507,7 @@ URL, and command for each WebDriver <a>command</a>.
    <li><p>If the previous step completed by the <a>load timeout</a> being reached,
     and the browser is not currently displaying an alert,
     <!-- perhaps? Not sure if this is what the spec is trying to say -->
-    return <a>error</a> with code <a>timeout</a>.
+    return <a>error</a> with <a>error code</a> <a>timeout</a>.
   </ol>
 
  <li><p>Return <a>success</a> with data null.
@@ -1548,7 +1548,7 @@ URL, and command for each WebDriver <a>command</a>.
         <ol>
 
           <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-           return <a>error</a> with code <a>no such window</a>.
+           return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
           <li><p>Let <var>url</var> be
           the <a href="https://url.spec.whatwg.org/#concept-url-serializer">serialization</a>
@@ -1586,7 +1586,7 @@ URL, and command for each WebDriver <a>command</a>.
         are:</p>
         <ol>
           <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-           return <a>error</a> with code <a>no such window</a>.
+           return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
           <li>
             <p><a href="https://html.spec.whatwg.org/#traverse-the-history-by-a-delta">
@@ -1611,7 +1611,7 @@ URL, and command for each WebDriver <a>command</a>.
            <p>If the previous step completed by the <a>session page
            load timeout</a> being reached, and the browser is not
            currently displaying an alert,
-           return <a>error</a> with code <a>timeout</a>.
+           return <a>error</a> with <a>error code</a> <a>timeout</a>.
 
           <li><p>Return <a>success</a> with data null.</p></li>
         </ol>
@@ -1638,7 +1638,7 @@ URL, and command for each WebDriver <a>command</a>.
         are:</p>
         <ol>
           <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-           return <a>error</a> with code <a>no such window</a>.
+           return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
           <li>
             <p><a href="https://html.spec.whatwg.org/#traverse-the-history-by-a-delta">
@@ -1662,7 +1662,7 @@ URL, and command for each WebDriver <a>command</a>.
           
            <p>If the previous step completed by the <a>session page load timeout</a> being reached,
             and the browser is not currently displaying an alert,
-            return <a>error</a> with code <a>timeout</a>.
+            return <a>error</a> with <a>error code</a> <a>timeout</a>.
 
           <li><p>Return <a>success</a> with data null.
         </ol>
@@ -1689,7 +1689,7 @@ URL, and command for each WebDriver <a>command</a>.
         are:</p>
         <ol>
           <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-           return <a>error</a> with code <a>no such window</a>.
+           return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
           <li>
             <p><a>Navigate</a> the <a>current top-level browsing
@@ -1720,7 +1720,7 @@ URL, and command for each WebDriver <a>command</a>.
                 
                  <p>If the previous step completed by the <a>load timeout</a> being reached,
                   and the browser is not currently displaying an alert,
-                  return <a>error</a> with code <a>timeout</a>.
+                  return <a>error</a> with <a>error code</a> <a>timeout</a>.
               </ol>
 
               <li><p>Return <a>success</a> with data null.
@@ -1750,7 +1750,7 @@ URL, and command for each WebDriver <a>command</a>.
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with code <a>no such window</a>.
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>title</var> be the value of the <a>current top-level browsing context</a>'s
   <a href=https://html.spec.whatwg.org/#active-document>active document</a>'s
@@ -1828,7 +1828,7 @@ URL, and command for each WebDriver <a>command</a>.
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with code <a>no such window</a>.
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>data</var> be a new JSON Object.
 
@@ -1915,7 +1915,7 @@ URL, and command for each WebDriver <a>command</a>.
   to that browsing context,
   and return <a>success</a> with data null.
 
- <li><p>Otherwise, return <a>error</a> with code <a>no such window</a>.
+ <li><p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such window</a>.
 </ol>
 
    <section>
@@ -1935,7 +1935,7 @@ URL, and command for each WebDriver <a>command</a>.
      <p>The <a>remote end steps</a> for the <dfn>Close Window</dfn> command are:</p>
      <ol>
        <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-           return <a>error</a> with code <a>no such window</a>.
+           return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
        <!-- this can prompt to unload, in which case the operation really failed -->
        <li><p><a href="https://html.spec.whatwg.org/#closing-browsing-contexts">Close</a> the <a>current top-level browsing context</a>.</p></li>
@@ -1972,7 +1972,7 @@ URL, and command for each WebDriver <a>command</a>.
 
 <ol>
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with code <a>no such window</a>.
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>id</var> be the result of
   <a>getting a property</a> named "<code>id</code>"
@@ -2065,7 +2065,7 @@ URL, and command for each WebDriver <a>command</a>.
      Frame</dfn> are:</p>
      <ol>
        <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-        return <a>error</a> with code <a>no such window</a>.
+        return <a>error</a> with <a>error code</a> <a>no such window</a>.
        <li><p>If the <a>current browsing context</a> is not equal to
        the <a>current top-level browsing context</a>, set
        the <a>current browsing context</a> to
@@ -2110,7 +2110,7 @@ URL, and command for each WebDriver <a>command</a>.
         <ol>
           <!-- Can this whole operation be unsupported? -->
           <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-              return <a>error</a> with code <a>no such window</a>.
+              return <a>error</a> with <a>error code</a> <a>no such window</a>.
           <li><p>Let <var>width</var> be the width in <a href="http://www.w3.org/TR/css3-values/#absolute-lengths">CSS reference pixels</a> of the OS
               window containing the <a>current top-level browsing
               context</a>, including any browser chrome and
@@ -2161,25 +2161,25 @@ URL, and command for each WebDriver <a>command</a>.
         are:</p>
         <ol>
           <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-           return <a>error</a> with code <a>no such window</a>.
+           return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
           <li><p>If the <a>remote end</a> does not support the <a>Set Window Size</a> command
            for the <a>current top level browsing context</a> for any reason,
-           return <a>error</a> with code <a>unsupported operation</a>.
+           return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
 
           <li><p>Let <var>width</var> be the result of
               <a>getting a property</a> named <code>width</code>
               from the <var>parameters</var> argument.</li>
 
           <li><p>If <var>width</var> is not an integer, or is less than 0,
-           return <a>error</a> with code <a>invalid argument</a>.
+           return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
           <li><p>Let <var>height</var> be the result of
               <a>getting a property</a> named <code>height</code>
               from the <var>parameters</var> argument.
 
           <li><p>If <var>height</var> is not an integer, or is less than 0,
-           return <a>error</a> with code <a>invalid argument</a>.
+           return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
            <p class=issue>Window sizes outside the allowed range.
 
@@ -2237,12 +2237,12 @@ URL, and command for each WebDriver <a>command</a>.
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with code <a>no such window</a>.
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>If the <a>remote end</a> does not support
   the <a>Maximize Window</a> command
   for the <a>current top-level browsing context</a> for any reason,
-  return <a>error</a> with code <a>unsupported operation</a>.
+  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
 
  <li><p>Run the implementation-specific steps
   to increase the dimensions of the operating system level window
@@ -2277,12 +2277,12 @@ URL, and command for each WebDriver <a>command</a>.
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with code <a>no such window</a>.
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>If the <a>remote end</a> does not support
   the <a>Fullscreen Window</a> command
   for the <a>current top-level browsing context</a> for any reason,
-  return <a>error</a> with code <a>unsupported operation</a>.
+  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
 
  <li><p>Run the implementation-specific steps,
    which should have the effect of making the dimensions of
@@ -2343,7 +2343,7 @@ URL, and command for each WebDriver <a>command</a>.
     return <a>success</a> with data <var>element</var>.
   </ol>
 
- <li><p>Return <a>error</a> with code <a>no such element</a>.
+ <li><p>Return <a>error</a> with <a>error code</a> <a>no such element</a>.
 </ol>
 
 <p>To <dfn>create a web element reference</dfn> for
@@ -2394,7 +2394,7 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>If <var>object</var> has no
   <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.2.1>own property</a>
   <a>web element identifier</a>,
-  return <a>error</a> with code <a>invalid argument</a>.
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>reference</var> be the result of
   <a title="getting a property">getting</a>
@@ -2612,7 +2612,7 @@ URL, and command for each WebDriver <a>command</a>.
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with code <a>no such window</a>.
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>active element</var> be
   the <code><a href=https://html.spec.whatwg.org/#dom-document-activeelement>activeElement</a></code> attribute of the
@@ -2972,7 +2972,7 @@ URL, and command for each WebDriver <a>command</a>.
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with code <a>no such window</a>.
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>visible</var> be a boolean initially set to
   false.
@@ -2984,7 +2984,7 @@ URL, and command for each WebDriver <a>command</a>.
   return the error and abort these substeps.
 
  <li><p>If <var>web element</var> <a>is stale</a>,
-  return <a>error</a> with code <a>stale element reference</a>.
+  return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
  <li><p>Apply the <a>element displayed</a> algorithm to
   <var>element</var> and set <var>visible</var> to its
@@ -3028,7 +3028,7 @@ URL, and command for each WebDriver <a>command</a>.
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with code <a>no such window</a>.
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p><a>Get a known web element</a> by <var>element id</var>
   and let it be known as <var>element</var>.
@@ -3042,7 +3042,7 @@ URL, and command for each WebDriver <a>command</a>.
   <p>Otherwise, return <var>element result</var>.
 
  <li><p>If <a>element</a> <a>is stale</a>,
-  return <a>error</a> with code <a>stale element reference</a>.
+  return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
  <li><p>Let <var>selected</var> be a boolean initially set to false.
 
@@ -3235,7 +3235,7 @@ URL, and command for each WebDriver <a>command</a>.
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with code <a>no such window</a>.
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p><a>Deserialise the web element</a> from <var>parameters</var>,
   and let it be known as <var>element</var>.
@@ -3245,7 +3245,7 @@ URL, and command for each WebDriver <a>command</a>.
   and abort these substeps.
 
  <li><p>If <var>element</var> <a>is stale</a>,
-  return <a>error</a> with code <a>stale element reference</a>.
+  return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
  <li><p>Let <var>qualified name</var> be the result of getting
   <var>element</var>’s
@@ -3305,7 +3305,7 @@ URL, and command for each WebDriver <a>command</a>.
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with code <a>no such window</a>.
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p><a>Deserialise the web element</a> from <var>parameters</var>,
   and let it be known as <var>element</var>.
@@ -3313,7 +3313,7 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>If an error occurred, return the <a>error</a>  and abort these substeps.
 
  <li><p>If the <var>element</var> <a>is stale</a>,
-  return <a>error</a> with code <a>stale element reference</a>.
+  return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
  <li><p><a>Calculate the absolute position</a> of <var>element</var>
   and let it be <var>coordinates</var>.
@@ -3366,7 +3366,7 @@ URL, and command for each WebDriver <a>command</a>.
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with code <a>no such window</a>.
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>element result</var> be the result of
   <a>getting a known element</a> by reference <var>element id</var>.
@@ -3377,7 +3377,7 @@ URL, and command for each WebDriver <a>command</a>.
   <p>Otherwise, return <var>element result</var>.
 
  <li><p>If <a>element</a> <a>is stale</a>,
-  return <a>error</a> with code <a>stale element reference</a>.
+  return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
  <li><p>Let <var>enabled</var> be a boolean initially set to true.
 
@@ -3432,7 +3432,7 @@ URL, and command for each WebDriver <a>command</a>.
               algorithm as the clone algorithm.
         </dd>
         <dt>Otherwise:</dt>
-        <dd><p>Return <a>error</a> with code <a>javascript error</a>.</dd>
+        <dd><p>Return <a>error</a> with <a>error code</a> <a>javascript error</a>.</dd>
       </dl>
     </li>
   </ol>
@@ -3470,7 +3470,7 @@ URL, and command for each WebDriver <a>command</a>.
     <dd>
      <ol>
       <li><p>If <var>value</var> is in <var>seen</var>,
-       return <a>error</a> with code <a>javascript error</a>.
+       return <a>error</a> with <a>error code</a> <a>javascript error</a>.
 
       <li><p>Add <var>value</var> to <var>seen</var>.</li>
      </ol>
@@ -3484,7 +3484,7 @@ URL, and command for each WebDriver <a>command</a>.
     <dd>
      <ol>
       <li><p>If <var>value</var> is in <var>seen</var>,
-       return <a>error</a> with code <a>javascript error</a>.
+       return <a>error</a> with <a>error code</a> <a>javascript error</a>.
 
       <li><p>Add <var>value</var> to <var>seen</var>.
       
@@ -3495,7 +3495,7 @@ URL, and command for each WebDriver <a>command</a>.
     </dd>
 
     <dt>Otherwise</dt>
-    <dd><p>Return <a>error</a> with code <a>javascript error</a>.
+    <dd><p>Return <a>error</a> with <a>error code</a> <a>javascript error</a>.
   </dl>
 </ol>
 
@@ -3531,7 +3531,7 @@ URL, and command for each WebDriver <a>command</a>.
     <li><p>Let <var>source property value</var> be the result of
      <a>getting a property</a> named <var>name</var> from <var>value</var>.
      If doing so causes script to be run, and that script throws an exception,
-     return <a>error</a> with code <a>javascript error</a>.
+     return <a>error</a> with <a>error code</a> <a>javascript error</a>.
 
     <li><p>Let <var>cloned property result</var> be the result of
      calling the <var>clone algorithm</var> with arguments
@@ -3549,13 +3549,13 @@ URL, and command for each WebDriver <a>command</a>.
   are:</p>
    <ol>
       <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-       return <a>error</a> with code <a>no such window</a>.
+       return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
       <li><p>Let <var>script</var> be the result of getting a property
           named <code>script</code> from the parameters argument.
 
       <li><p>If <var>script</var> is not a <code>String</code>,
-       return <a>error</a> with code <a>invalid argument</a>.
+       return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
       <li><p>Let <var>args</var> be the result of getting a property
           named <code>args</code> from the parameters argument.
@@ -3563,7 +3563,7 @@ URL, and command for each WebDriver <a>command</a>.
       <li><p>If <var>args</var> is not an <code>Object</code> or
           its <code>[[\Class]]</code> internal property is
           not <code>Array</code> or <code>Object</code>,
-          return <a>error</a> with code <a>invalid argument</a>.
+          return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
        <li><p>Let <var>arguments</var> be
           a <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-8.8">List</a>
@@ -3597,7 +3597,7 @@ URL, and command for each WebDriver <a>command</a>.
           a <a href="http://es5.github.io/#x13"><i>FunctionBody</i></a>
           or if parsing detects
           an <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-16"><i>early
-          error</i></a>, return <a>error</a> with code <a>javascript error</a>.
+          error</i></a>, return <a>error</a> with <a>error code</a> <a>javascript error</a>.
 
       <li><p>If <var>body</var> begins with
           a <a href="http://es5.github.io/#x14.1">Directive
@@ -3763,7 +3763,7 @@ URL, and command for each WebDriver <a>command</a>.
       <li><p>If the previous step completed due the <a>session script timeout</a>
           being reached, set <var>webdriver callback
           result</var> to <code>expired</code> and return <a>error</a>
-          with code <a>script timeout</a>.</p></li>
+          with <a>error code</a> <a>script timeout</a>.</p></li>
 
       <li><p>Otherwise, let <var>result</var> be <var>webdriver
       callback result</var>'s data.</p></li>
@@ -3833,7 +3833,7 @@ URL, and command for each WebDriver <a>command</a>.
           <p>The <a>remote end steps</a> for the <dfn>Get Cookie</dfn> command are:</p>
           <ol>
             <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-             return <a>error</a> with code <a>no such window</a>.</p></li>
+             return <a>error</a> with <a>error code</a> <a>no such window</a>.</p></li>
             <li><p>Let <var>name</var> be equal to "name" from <a>match a request</a>.</p></li>
             <li><p>Let <var>result</var> be an empty JSON List.</p></li>
             <li><p>Let <var>cookies</var> be a list of all cookies [[!RFC6265]] in the cookie store associated with <a href="https://html.spec.whatwg.org/#active-document">active document</a> <a href="https://dom.spec.whatwg.org/#concept-document-url">address</a>.</p></li>
@@ -3901,19 +3901,19 @@ URL, and command for each WebDriver <a>command</a>.
           <p>The <a>remote end steps</a> for the <dfn>Add Cookie</dfn> command are:</p>
           <ol>
             <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-                return <a>error</a> with code <a>no such window</a>.
+                return <a>error</a> with <a>error code</a> <a>no such window</a>.
             <li><p>Let <var>cookie</var> be the result of <a>getting a property</a>
               named "cookie" from the <var>parameters</var> argument. If <var>cookie</var>
-              is not a map then return <a>error</a> with code <a>unable to set cookie</a>.
+              is not a map then return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
             <li><p>If the <code>Document</code> is a <a href='http://www.w3.org/html/wg/drafts/html/master/single-page.html#cookie-averse-document-object'>
               cookie-averse <code>Document</code> object</a>,
-               return <a>error</a> with code <a>invalid cookie domain</a>.
+               return <a>error</a> with <a>error code</a> <a>invalid cookie domain</a>.
             <li><p>Set the value is <var>cookie-name</var>, as defined in [[!RFC6265]], to the value of entry with key <var>name</var>.
               If <var>name</var>is undefined,
-               return <a>error</a> with code <a>unable to set cookie</a>.
+               return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
             <li><p>Set the value is <var>cookie-value</var>, as defined in [[!RFC6265]], to the value of entry with key <var>value</var>.
                 If <var>value</var>is undefined,
-                 return <a>error</a> with code <a>unable to set cookie</a>.
+                 return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
             <li><p>If <var>cookie</var> has an entry with key <var>path</var> set attribute-value of the last attribute in the cookie-attribute-list
              with an attribute-name of "Path".</p></li>
             <li><p>If <var>cookie</var> has an entry with key <var>domain</var> set attribute-value of the last attribute in the cookie-attribute-list
@@ -3925,7 +3925,7 @@ URL, and command for each WebDriver <a>command</a>.
             <li><p>Store the contents <var>cookie</var> in the user agent cookie manager
               following the steps described in <a href='http://tools.ietf.org/html/rfc6265#section-5.3'>Storage Model</a>
               in [[!RFC6265]]. If there is an <a>error</a> during this step,
-               return <a>error</a> with code <a>unable to set cookie</a>.
+               return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
             <li><p>Return <a>success</a> with data null.</p></li>
           </ol>
     </section>
@@ -3948,7 +3948,7 @@ URL, and command for each WebDriver <a>command</a>.
 
       <ol>
         <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-         return <a>error</a> with code <a>no such window</a>.
+         return <a>error</a> with <a>error code</a> <a>no such window</a>.
         <li><p>Let <var>name</var> be equal to "name" from <a>match a request</a>.</p></li>
         <li><p>Let <var>cookies</var> be a list of all cookies [[!RFC6265]] in the cookie store associated with <a href="https://html.spec.whatwg.org/#active-document">active document</a> <a href="https://dom.spec.whatwg.org/#concept-document-url">address</a>.</p></li>
         <li><p>Let <var>length</var> be the length of <var>cookies</var>.</p></li>
