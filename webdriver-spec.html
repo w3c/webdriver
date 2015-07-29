@@ -383,49 +383,72 @@ dl.switch > dt:before {
 </ol>
 </section> <!-- /Processing Model -->
 
-  <section>
-    <h3>Routing Requests</h3>
+<section>
+<h3>Routing Requests</h3>
 
-    <p><dfn>Request routing</dfn> is the process of going from a HTTP request to the <a title="remote end steps">series of steps</a> needed to implement the <a>command</a> represented by that request.</p>
+<p><dfn>Request routing</dfn> is the process of going from a HTTP request
+ to the <a title="remote end steps">series of steps</a> needed
+ to implement the <a>command</a> represented by that request.
 
-    <p>A <a>remote end</a> has an associated <dfn>URL prefix</dfn>, which is used as a prefix on all WebDriver-defined URLs on that remote end. This must either be the empty string, or an <a href="https://url.spec.whatwg.org/#concept-absolute-path-relative-url" class="externalRef">absolute path relative url</a>.</p>
+<p>A <a>remote end</a> has an associated <dfn>URL prefix</dfn>,
+ which is used as a prefix on all WebDriver-defined URLs on that remote end.
+ This must either be the empty string,
+ or an <a href=https://url.spec.whatwg.org/#concept-absolute-path-relative-url class=externalRef>absolute path relative url</a>.
 
-    <aside class="note">
-      <p>For example a remote end wishing to run alongside other services on <code>example.com</code> might set its <a>url prefix</a> to <code>/wd</code> so that a <a>new session</a> command would be invoked by sending a POST request to <code>/wd/session</code> rather than <code>/session</code>.</p>
-    </aside>
+<p class=note>For example a <a>remote end</a> wishing
+ to run alongside other services on <code>example.com</code>
+ might set its <a>url prefix</a> to <code>/wd</code>
+ so that a <a>new session</a> <a>command</a> would be invoked
+ by sending a POST request to <code>/wd/session</code>,
+ rather than <code>/session</code>.
 
-    <p>In order to <dfn>match a request</dfn> given a <var>method</var> and <var>url</var>, the following steps must be taken:</p>
+<p>In order to <dfn>match a request</dfn> given
+ a <var>method</var> and <var>url</var>,
+ the following steps must be taken:
 
-    <ol>
-      <li><p>Let <var>endpoints</var> be a list containing each row in the <a>table of endpoints</a>.</p></li>
+<ol>
+ <li><p>Let <var>endpoints</var> be a list containing each row in the <a>table of endpoints</a>.
 
-   <li><p>Remove each entry in <var>endpoints</var> for which the concatenation of the <a>url prefix</a> and the production in the "url" column does not match <a>url</a> according to the rules in [[!URI-Template]].</p></li>
+ <li><p>Remove each entry in <var>endpoints</var>
+  for which the concatenation of the <a>url prefix</a>
+  and the production in the "url" column does not match <a>url</a>
+  according to the rules in [[!URI-Template]].
 
-      <li><p>If there are no entries in <var>endpoints</var>, return an <a>error</a> with code <a>unknown command</a>.</p></li>
+ <li><p>If there are no entries in <var>endpoints</var>,
+  return <a>error</a> with code <a>unknown command</a>.
 
-      <li><p>Remove each entry in <var>endpoints</var> for which the "method" column is not an exact case-sensitive match for <var>method</var>.</p></li>
+ <li><p>Remove each entry in <var>endpoints</var>
+  for which the "method" column is not an exact case-sensitive match for <var>method</var>.
 
-      <li><p>If there are no entries in <var>endpoints</var>, return an <a>error</a> with code <a>unknown method</a>.</p></li>
+ <li><p>If there are no entries in <var>endpoints</var>,
+  return <a>error</a> with code <a>unknown method</a>.
 
-      <li><p>There is now exactly one entry in <var>endpoints</var>; let <var>entry</var> be this entry.</p></li>
+ <li><p>There is now exactly one entry in <var>endpoints</var>;
+  let <var>entry</var> be this entry.
 
+ <li><p class=issue>Check that URI-templates is being used in the right way here:
 
-      <li><p class=issue>Check that URI-templates is being used in the right way here:
+  <p>If the match in step 2 populated a template variable called "sessionId",
+   let <var>session id</var> be the value it was populated with.
+   Otherwise let <var>session id</var> be null.
 
-       <p>If the match in step 2 populated a template variable called "sessionId", let <var>session id</var> be the value it was populated with. Otherwise let <var>session id</var> be null.
+ <li><p>If the match in step 2 populated a template variable called "elementId",
+  let <var>element id</var> be the value it was populated with.
+  Otherwise let <var>element id</var> be null.
 
-      <li><p>If the match in step 2 populated a template variable called "elementId", let <var>element id</var> be the value it was populated with. Otherwise let <var>element id</var> be null.</p></li>
+ <li><p>If the match in step 2 populated a template variable called "name",
+  let <var>name</var> be the value it was populated with.
+  Otherwise let <var>name</var> be null.
 
-      <li><p>If the match in step 2 populated a
-        template variable called "name", let <var>name</var> be the value it was populated with. Otherwise let <var>name</var> be null.</p></li>
+ <li><p>Let <var>command</var> be the <a>command</a>
+  represented by the "command" column of <var>entry</var>.
 
-      <li><p>Let <var>command</var> be the command represented by the "command" column of <var>entry</var>.</p></li>
-
-      <li><p>Return <a>success</a> with data <var>session id</var>, <var>element id</var> and <var>command</var>.</li>
-
-    </ol>
-
-  </section>
+ <li><p>Return <a>success</a> with data
+  <var>session id</var>,
+  <var>element id</var>,
+  and <var>command</var>.
+</ol>
+</section> <!-- /Routing Requests -->
 
   <section>
     <h3>List of Endpoints</h3>
