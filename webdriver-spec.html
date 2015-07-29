@@ -873,17 +873,17 @@ dl.switch > dt:before {
         <li><p>Let <var>k</var> be 0.</p></li>
         <li><p>While <var>k</var> &lt; <var>length</var>:</p>
           <ol>
-            <li><p>Let <var>capability</var> be the value in <var>required capabilities</var> at index <var>k</var>.</p></li>
-            <li><p>If the name of the <var>capability</var> entry is in <var>desired capabilities</var>
-              remove the entry from <var>desired capabilities</var>.</p>
+            <li><p>Let <var>capability</var> be the entry in <var>required capabilities</var> at index <var>k</var>.</p></li>
+            <li><p>If the name of the <var>capability</var> is among the names of entries in <var>desired capabilities</var>
+              remove the corresponding entry from <var>desired capabilities</var>.</p>
             </li>
             <li>Increase <var>k</var> by 1.</li>
           </ol>
         </li>
         <li><p>Let <var>unmet capabilities</var> be equal to an empty JSON List.</p></li>
         <li>
-          <p>Let <var>unprocessed capabilities</var> be a JSON List that contains <var>required
-          capabilities</var> if defined and <var>desired capabilities</var> if defined.</p>
+          <p>Let <var>unprocessed capabilities</var> be a JSON Object that contains all entries from
+          <var>required capabilities</var> and all entries from <var>desired capabilities</var>.</p>
         </li>
         <li>
           <p>Let <var>j</var> be 0.</p>
@@ -901,8 +901,8 @@ dl.switch > dt:before {
                 </p>
               </li>
               <li>
-                <p>If during the steps below the  <var>unprocessed capability</var> property equals a property on <var>required
-                capabilities</var> and equals a <var>server capabilities</var> property and the values do not match do the following:
+                <p>If during the steps below the <var>unprocessed capability</var> equals an entry in <var>required
+                capabilities</var> and name of <var>unprocessed capability</var> entry among the names of entries in <var>server capabilities</var> and the values do not match do the following:
                 </p>
                   <ol>
                     <li>
