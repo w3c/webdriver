@@ -1,3 +1,13 @@
 language: c
 script: ./validate
 sudo: false
+branches:
+  only:
+    - gh-pages
+env:
+  global:
+    - URL="https://w3c.github.io/webdriver/echidna-manifest.txt"
+    - DECISION="[TO-DO]"
+    - secure: "[TO-DO run: 'gem install travis; travis encrypt TOKEN=<the-token>']"
+after_success:
+  - curl "https://labs.w3.org/echidna/api/request" --data "url=$URL" --data "decision=$DECISION" --data "token=$TOKEN"
