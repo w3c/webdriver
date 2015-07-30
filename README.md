@@ -1,6 +1,4 @@
-# W3C WebDriver Specification
-
-[![Validation Status](https://travis-ci.org/w3c/webdriver.svg)](https://travis-ci.org/w3c/webdriver)
+# W3C WebDriver Specification [![Build Status](https://travis-ci.org/w3c/webdriver.svg)](https://travis-ci.org/w3c/webdriver)
 
 This repository contains the W3C specification
 for the browser automation protocol known as _WebDriver_.
