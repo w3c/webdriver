@@ -183,6 +183,9 @@ dl.switch > dt:before {
  and bitwise OR by “|”.
  The characters “(” and “)” are used to provide logical grouping in these contexts.
 
+<p>An <dfn>ASCII string</dfn> is a string
+ in the range U+0000 to U+007F, inclusive. 
+
 <p>This specification defines four broad conformance classes:
 
 <dl>
@@ -992,6 +995,56 @@ URL, and command for each WebDriver <a>command</a>.
  </tr>
 </table>
 </section> <!-- /Handling Errors -->
+
+<section>
+<h2>Protocol Extensions</h2>
+
+<p>The protocol is designed to allow extension to meet vendor-specific needs.
+ Commands that are specific to a user agent
+ are called <dfn title="extension command">extension commands</dfn>
+ and behave no differently than other <a title=command>commands</a>;
+ each has a dedicated HTTP endpoint and a set of <a>remote end steps</a>.
+
+<p>Each <a>extension command</a> has an associated
+ <dfn>extension command name</dfn>
+ that is a lowercased <a>ASCII string</a>,
+ and which should bear some resemblance to what the command performs.
+ The name is used to form an <a>extension command</a>’s
+ <a title="extension command URL">URL</a>.
+
+<p>The <a>extension command</a>’s <dfn>extension command URL</dfn>
+ is a <a href=https://url.spec.whatwg.org/#concept-url>URL</a>
+ composed of the <a>extension prefix</a>,
+ followed by "<code>/</code>",
+ and the <a>extension command</a>’s <a title="extension command name">name</a>.
+ The <a>extension command URL</a>,
+ along with the HTTP method and <a>extension command</a>,
+ is added to the <a>table of endpoints</a>
+ and thus follows the same rules for <a>request routing</a> 
+ as that of other built-in <a>commands</a>.
+
+<aside class=example>
+ <p>This might lead to a URL of the form
+  <code>/session/5d376174-36f0-11e5-9b9a-6bdf200a3f7f/<var>moz</var>/<var>context</var></code>,
+  where <var>moz</var> is an <a>extension prefix</a>
+  and the vendor prefix associated with Mozilla,
+  and <var>context</var> the <a>extension command name</a>
+  that, in the context of Firefox, allows a <a>local end</a>
+  to switch between content- and chrome contexts.
+  Requesting this URL will call the <a>extension command</a>’s <a>remote end steps</a>.
+</aside>
+
+<p>The <a>remote end</a>’s <dfn>extension prefix</dfn>
+ is a lowercased <a>ASCII string</a> that forms a URL path element,
+ separating <a title="extension command">extension commands</a>
+ from other <a title="command">commands</a>
+ to avoid potential resource conflicts with other implementations.
+ It is suggested that vendors use their vendor prefixes
+ without additional characters as outlined in [[CSS21]],
+ notably in <a href=http://www.w3.org/TR/CSS21/syndata.html#vendor-keywords>section 4.1.2.2 on <i>vendor keywords</i></a>,
+ as the name for this path element.
+
+</section> <!-- /Protocol Extensions -->
 </section> <!-- /The WebDriver Protocol -->
 
 <section>
@@ -5099,28 +5152,6 @@ URL, and command for each WebDriver <a>command</a>.
     <p class="note">This is one way in which it might be possible to test mobile applications that marry a native wrapper around a series of HTML views.</p>
   </section>
 </section>
-  <section>
-    <h2>Extending the Protocol</h2>
-    <p></p>
-    <section>
-      <h3>Vendor-specific Extensions</h3>
-      <p>The WebDriver protocol is designed to allow extension to meet vendor-specific needs, such as interacting with the chrome of a browser. Vendor-specific extensions are implemented by appending a prefix to the command name. This should be of the form:</p>
-      <pre>
-        '-' + vendor prefix + '-' + command name
-      </pre>
-      <p>For example: "<code>-o-open-bookmark</code>" or "<code>-moz-install-extension</code>".</p>
-      <p>It is guaranteed that no command name in this or future versions of the WebDriver specification will be prefixed with a leading dash.</p>
-
-      <div class="note">
-        It is suggested that vendors use the same vendor identifier as in [[!CSS21]] (notably, section <a href="http://www.w3.org/TR/CSS21/syndata.html#vendor-keywords">4.1.2.2</a>)
-      </div>
-    </section>
-    <section>
-      <h3>Extending the JSON/HTTP Protocol</h3>
-      <p>This section is non-normative.</p>
-      <p>The wire protocol (see <a href="#mapping-to-http-and-json">Appendix</a> below) makes use of URLs to distinguish command names. When extending the protocol by adding new URLs, vendors should use their vendor prefix without additional characters to prevent any potential clashes with other implementations. This leads to URLs of the form: <code>http://host:port/session/somekey/<b>moz</b>/extension</code>.
-    </section>
-  </section>
 
 <section class='appendix'>
   <h2>Thread Safety</h2>
