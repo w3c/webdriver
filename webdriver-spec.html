@@ -147,6 +147,7 @@ dl.switch > dt:before {
  <a href=https://github.com/SeleniumHQ/selenium>Selenium WebDriver</a> &mdash;
  and the existing implementations of the API defined within that project.
 </section>
+
 <section>
 <h3>Conformance</h3>
 
@@ -218,11 +219,12 @@ dl.switch > dt:before {
 
 <section>
 <h2>The WebDriver Protocol</h2>
+
 <section>
 <h3>Introduction</h3>
 
 <p class=issue>TODO
-</section> <!-- /The WebDriver Protocol -->
+</section>
 
 <section>
 <h3>Algorithms</h3>
@@ -263,70 +265,89 @@ dl.switch > dt:before {
  when it recieves a particular command.
 </section>
 
-  <section>
-    <h3>Processing Model</h3>
-    <p>The <a>remote end</a> acts as a HTTP server reading requests from the client and writing responses, typically over TCP socket. For the purposes of this specification we model the data transmission between a particular <a>local end</a> and <a>remote end</a> with a <dfn>connection</dfn> to which the <a>remote end</a> may <dfn>write bytes</dfn> and <dfn>read bytes</dfn>. However the exact details of how this <a>connection</a> works and how it is established are out of scope.</p>
+<section>
+<h3>Processing Model</h3>
 
-    <p>After such a <a>connection</a> has been established, a remote end MUST run the following steps:</p>
+<p>The <a>remote end</a> acts as a HTTP server reading requests
+ from the client and writing responses, typically over TCP socket.
+ For the purposes of this specification we model the data transmission
+ between a particular <a>local end</a> and <a>remote end</a> with a <dfn>connection</dfn>
+ to which the <a>remote end</a> may <dfn>write bytes</dfn> and <dfn>read bytes</dfn>.
+ However the exact details of how this <a>connection</a> works
+ and how it is established are out of scope.
 
-    <ol>
-      <!-- Should mention what happens if it can't be decoded as HTTP -->
-      <!-- Note: the way that fetch is used here isn't quite right because it doesn't
-           specify how to construct a request from network data, or serialize a response. -->
+<p>After such a <a>connection</a> has been established,
+ a remote end MUST run the following steps:</p>
 
-      <li><p><a>Read bytes</a> from the connection until a complete HTTP request can be constructed from the data. Let <var>request</var> be a <a href="https://fetch.spec.whatwg.org/#concept-request" class="externalRef">request</a> object constructed from the received data, according to the requirements of [[!RFC7230]].</p></li>
+<p class=issue>Should mention what happens if it can’t be decoded as HTTP.
+ Note that <a href=https://fetch.spec.whatwg.org/>Fetch</a> isn’t quite right
+ because it doesn’t specify how to construct a request from network data, or serialise a response.
 
-      <li><p>Let <var>request match</var> be the result of the algorithm to <a>match a request</a> with <var>request</var>'s <a href="https://fetch.spec.whatwg.org/#concept-request-method" class="externalRef">method</a> and <a href="https://fetch.spec.whatwg.org/#concept-request-url" class="externalRef">url</a> as arguments.</p></li>
+<ol>
+ <li><p><a>Read bytes</a> from the connection
+  until a complete HTTP request can be constructed from the data.
+  Let <var>request</var> be a <a href=https://fetch.spec.whatwg.org/#concept-request>request</a> object
+  constructed from the received data, according to the requirements of [[!RFC7230]].
 
-      <li><p>If <var>request match</var> is of type <a>error</a>,
-       <a>send an error</a> with <var>request match</var>’s <a>error code</a>
-       and jump to step 1.
+ <li><p>Let <var>request match</var> be the result of the algorithm
+  to <a>match a request</a> with <var>request</var>’s
+  <a href=https://fetch.spec.whatwg.org/#concept-request-method>method</a>
+  and <a href=https://fetch.spec.whatwg.org/#concept-request-url>url</a> as arguments.
 
-        <p>Otherwise, let <var>command</var>,
-         <var>session id</var>,
-         and <var>element id</var>
-         be <var>request match</var>’s data.
+ <li><p>If <var>request match</var> is of type <a>error</a>,
+  <a>send an error</a> with <var>request match</var>’s <a>error code</a>
+  and jump to step 1.
 
-      <li><p>If <var>command</var> is not <a>New Session</a>:</p>
-        <ol>
-          <li><p>If <var>session id</var> is not equal to the <a title="session id">id</a>
-           of any session in the list of <a>active sessions</a>,
-           <a>send an error</a> with <a>error code</a> <a>invalid session id</a>,
-           then jump to step 1 in this overall algorithm.
+  <p>Otherwise, let <var>command</var>,
+   <var>session id</var>,
+   and <var>element id</var>
+   be <var>request match</var>’s data.
 
-          <p>Otherwise, let the <a>current session</a> be
-           the session with <a title="session id">id</a> <var>session id</var>.
-          </li>
-        </ol>
-      </li>
+ <li><p>If <var>command</var> is not <a>New Session</a>:
 
-      <li><p>If <var>request</var>'s <a href="https://fetch.spec.whatwg.org/#concept-request-method" class="externalRef">method</a> is POST:</p>
-        <ol>
+  <ol>
+   <li><p>If <var>session id</var> is not equal to the <a title="session id">id</a>
+    of any session in the list of <a>active sessions</a>,
+    <a>send an error</a> with <a>error code</a> <a>invalid session id</a>,
+    then jump to step 1 in this overall algorithm.
 
-          <li><p>Let <var>parse result</var> be the result of <a>parsing as JSON</a> with <var>request</var>'s <a href="https://fetch.spec.whatwg.org/#concept-request-body" class="externalRef">body</a> as the argument.</p></li>
+    <p>Otherwise, let the <a>current session</a> be
+     the <a>session</a> with <a title="session id">id</a> <var>session id</var>.
+  </ol>
 
-          <li><p>If <var>parse result</var> is an <a>error</a> or if it is a <a>success</a> but its associated data is not an Object object, <a>send an error</a> with <a>error code</a> <a>invalid argument</a> and jump back to step 1 in this overall algorithm.</p>
-             <p>Otherwise, let <var>parameters</var> be<var>parse result</var>’s data.</p>
-          </li>
-        </ol>
+ <li><p>If <var>request</var>'s
+  <a href=https://fetch.spec.whatwg.org/#concept-request-method>method</a> is POST:
 
-        <p>Otherwise, let <var>parameters</var> be null.</p>
-      </li>
+  <ol>
+   <li><p>Let <var>parse result</var> be the result of
+    <a>parsing as JSON</a> with <var>request</var>’s
+    <a href=https://fetch.spec.whatwg.org/#concept-request-body>body</a> as the argument.
 
-      <li><p>Let <var>response result</var> be the return value obtained by running the <a>remote end steps</a> for <var>command</var> with arguments <var>element id</var> and <var>parameters</var>.</p></li>
+   <li><p>If <var>parse result</var> is an <a>error</a> or if it is a <a>success</a>
+    but its associated data is not an Object object,
+    <a>send an error</a> with <a>error code</a> <a>invalid argument</a>
+    and jump back to step 1 in this overall algorithm.
 
-      <li><p>If <var>response result</var> is an <a>error</a>,
-       <a>send an error</a> with <a>error code</a>
-       equal to <var>response result</var>’s <a>error code</a>.
+    <p>Otherwise, let <var>parameters</var> be<var>parse result</var>’s data.
+  </ol>
 
-        <p>Otherwise, if <var>response result</var> is a <a>success</a>,
-         let <var>response data</var> be <var>response result</var>’s data.
+  <p>Otherwise, let <var>parameters</var> be null.</p>
 
-      <li><p><a>Send a response</a> with status 200
-       and <var>response data</var>.
+ <li><p>Let <var>response result</var> be the return value
+  obtained by running the <a>remote end steps</a> for <var>command</var>
+  with arguments <var>element id</var> and <var>parameters</var>.
 
-      <li><p>Jump to step 1.</p></li>
-    </ol>
+ <li><p>If <var>response result</var> is an <a>error</a>,
+  <a>send an error</a> with <a>error code</a>
+  equal to <var>response result</var>’s <a>error code</a>.
+
+  <p>Otherwise, if <var>response result</var> is a <a>success</a>,
+   let <var>response data</var> be <var>response result</var>’s data.
+
+ <li><p><a>Send a response</a> with status 200 and <var>response data</var>.
+
+ <li><p>Jump to step 1.
+</ol>
 
 <p>When required to <dfn>send an error</dfn>,
  with <var>error code</var>,
