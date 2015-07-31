@@ -3694,22 +3694,23 @@ URL, and command for each WebDriver <a>command</a>.
       <li><p>Return <a>success</a> with data <var>json data</var>.
     </ol>
 
-  <section>
-    <h3>Execute Script</h3>
-    <p>
-      <table class="simple jsoncommand">
-        <tr>
-          <th>HTTP Method</th>
-          <th>Path Template</th>
-        </tr>
-        <tr>
-          <td>POST</td>
-          <td>/session/{sessionId}/execute</td>
-        </tr>
-      </table>
-    <p>The <dfn>Execute Script</dfn> command executes a JavaScript
-      function in the context of the <a>current browsing context</a>
-      and return the return value of the function.
+<section>
+<h3>Execute Script</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{sessionId}/execute</td>
+ </tr>
+</table>
+
+<p>The <dfn>Execute Script</dfn> <a>command</a>
+ executes a JavaScript function in the context of the <a>current browsing context</a>
+ and returns the return value of the function.
 
 <p>The <a>remote end steps</a> are:
 
@@ -3740,86 +3741,81 @@ URL, and command for each WebDriver <a>command</a>.
 </ol>
 </section> <!-- /Execute Script -->
 
-  <section>
-    <h3>Execute Async Script</h3>
-    <p>
-      <table class="simple jsoncommand">
-        <tr>
-          <th>HTTP Method</th>
-          <th>Path Template</th>
-        </tr>
-        <tr>
-          <td>POST</td>
-          <td>/session/{sessionId}/execute_async</td>
-        </tr>
-      </table>
-      <p>The <dfn>Execute Async Script</dfn> command causes JavaScript
-      to execute as an anonymous function. Unlike the <a>Execute
-      Script</a> command, the result of the function is
-      ignored. Instead an additional argument is provided as the final
-      argument to the function. This is a function that, when called,
-      returns its first argument as the response.</p>
+<section>
+<h3>Execute Async Script</h3>
 
-    <p>The <a>remote end steps</a> for the <a>Execute Async Script</a>
-        command are:</p>
-    <ol>
-      <li><p>Let <var>script arguments</var> be the result
-      of <a>extracting the script arguments from a request</a> with
-      argument <var>parameters</var>.</p></li>
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{sessionId}/execute_async</td>
+ </tr>
+</table>
 
-      <li><p>If <var>script arguments</var> is an <a>error</a>
-      return <var>script arguments</var>.</p></li>
+<p>The <dfn>Execute Async Script</dfn> <a>command</a>
+ causes JavaScript to execute as an anonymous function.
+ Unlike the <a>Execute Script</a> <a>command</a>,
+ the result of the function is ignored.
+ Instead an additional argument is provided as the final argument to the function.
+ This is a function that, when called, returns its first argument as the response.
 
-      <li><p>Let <var>body</var> and <var>arguments</var>
-      be <var>script arguments</var>' data.</p></li>
-      <!-- this next step might not quite set up all the right
-      machinary -->
+<p>The <a>remote end steps</a> are:
 
-      <li><p>Let <var>webdriver callback result</var> be
-      a flag which can have three
-      values; <code>unset</code>, <code>expired</code>,
-      or <code>set</code>, with the <code>set</code> value having
-      associated data. Initially it is in the <code>unset</code> state.</p></li>
+<ol>
+ <li><p>Let <var>script arguments</var> be the result
+  of <a>extracting the script arguments from a request</a>
+  with argument <var>parameters</var>.
 
-      <li><p>Let <var>callback</var> be
-      a <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24">function</a>
-      whose <code>[[\Call]]</code> internal method runs the <a>execute
-      async script callback</a> algorithm initialized with
-      argument <var>webdriver callback result</var>.</p></li>
+ <li><p>If <var>script arguments</var> is an <a>error</a>,
+  return <var>script arguments</var>.
 
-      <li><p>Append <var>callback</var> to <var>arguments</var>.</p></li>
+ <li><p>Let <var>body</var> and <var>arguments</var>
+  be <var>script arguments</var>’ data.
 
-      <li><p>Let <var>result</var> be the result of calling <a>execute
-            a function body</a>, with arguments <var>body</var>
-            and <var>arguments</var>.</p></li>
+ <li><p class=issue>This next step might not quite set up all the right machinery.
+ 
+  <p>Let <var>webdriver callback result</var> be
+   a flag which can have three values:
+   <code>unset</code>, <code>expired</code>, or <code>set</code>,
+   with the <code>set</code> value having associated data.
+   Initially it is in the <code>unset</code> state.
 
-      <li><p>If <var>result</var> is an <a>error</a>, return
-          result.</p></li>
+ <li><p>Let <var>callback</var> be a <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24>function</a>
+  whose <code>[[\Call]]</code> internal method runs
+  the <a>execute async script callback</a> algorithm
+  initialized with argument <var>webdriver callback result</var>.
 
-      <li><p>Wait for <var>webdriver callback result</var> to enter
-      the <code>set</code> state, or for <a>session script timeout</a>
-      milliseconds to expire, whichever happens sooner.</p></li>
+ <li><p>Append <var>callback</var> to <var>arguments</var>.
 
-      <li><p>If the previous step completed due the <a>session script timeout</a>
-          being reached, set <var>webdriver callback
-          result</var> to <code>expired</code> and return <a>error</a>
-          with <a>error code</a> <a>script timeout</a>.</p></li>
+ <li><p>Let <var>result</var> be the result of calling <a>execute a function body</a>
+  with arguments <var>body</var> and <var>arguments</var>.
 
-      <li><p>Otherwise, let <var>result</var> be <var>webdriver
-      callback result</var>'s data.</p></li>
+ <li><p>If <var>result</var> is an <a>error</a>, return <var>result</var>.
 
-      <li><p>If <var>result</var> is an <a>error</a>,
-          return <var>result</var>.</p></li>
+ <li><p>Wait for <var>webdriver callback result</var> to enter the <code>set</code> state,
+  or for <a>session script timeout</a> milliseconds to expire,
+  whichever happens sooner.
 
-      <li><p>Let <var>value</var> be <var>result</var>'s data.</p></li>
+ <li><p>If the previous step completed due the <a>session script timeout</a> being reached,
+  set <var>webdriver callback result</var> to <code>expired</code>
+  and return <a>error</a> with <a>error code</a> <a>script timeout</a>.
 
-      <li><p>Let <var>data</var> be a new <code>Object</code>.</p></li>
+ <li><p>Otherwise, let <var>result</var> be <var>webdriver callback result</var>’s data.
 
-      <li><p>Set the property <code>value</code> of <var>data</var>
-           to <var>value</var>.</p></li>
+ <li><p>If <var>result</var> is an <a>error</a>, return <var>result</var>.
 
-      <li><p>Return <a>success</a> with data <var>data</var>.</p></li>
-    </ol>
+ <li><p>Let <var>value</var> be <var>result</var>’s data.
+
+ <li><p>Let <var>data</var> be a new <code>Object</code>.
+
+ <li><p>Set the property <code>value</code> of <var>data</var>
+  to <var>value</var>.
+
+ <li><p>Return <a>success</a> with data <var>data</var>.
+</ol>
 
 <p>The <dfn>execute async script callback</dfn> algorithm
  is initialized with a single argument <var>webdriver callback state</var>.
