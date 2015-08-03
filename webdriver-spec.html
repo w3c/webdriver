@@ -742,6 +742,7 @@ URL, and command for each WebDriver <a>command</a>.
   <td>/session/{sessionId}/alert/text</td>
   <td><a>Get Alert Text</a></td>
  </tr>
+
  <tr>
   <td>POST</td>
   <td>/session/{sessionId}/alert/text</td>
@@ -762,182 +763,236 @@ URL, and command for each WebDriver <a>command</a>.
 </table>
 </section> <!-- /List of Endpoints -->
 
-  <section>
-    <h3>Handling Errors</h3>
-    <p>Errors are represented in the WebDriver protocol with a HTTP response with a HTTP status in the 4xx or 5xx range and a JSON body containing details of the error. This JSON body has three fields: <code>error</code>, containing a string indicating the error type; <code>message</code>, containing an implementation-defined string with a human readable description of the kind of error that occured; and <code>stacktrace</code>, containing an implementation-defined string with a stack trace report of the active stack frames at the time when the error occurred.</p>
+<section>
+<h3>Handling Errors</h3>
 
-    <aside class="example">
-      <p>A <code>DELETE</code> request to <code>/session/1234</code>, where <code>1234</code> is not the <a>session id</a> of a <a>current session</a> would return an HTTP response with the status 404 and a body of the form:</p>
-<pre class=highlight>{
+<p>Errors are represented in the WebDriver protocol
+ with a HTTP response with a HTTP status in the 4xx or 5xx range,
+ and a JSON body containing details of the error.
+ This JSON body has three fields:
+ <code>error</code>, containing a string indicating the error type;
+ <code>message</code>, containing an implementation-defined string
+ with a human readable description of the kind of error that occured;
+ and <code>stacktrace</code>, containing an implementation-defined string
+ with a stack trace report of the active stack frames at the time when the error occurred.
+
+<aside class=example>
+ <p>A <code>DELETE</code> request to <code>/session/1234</code>,
+ where <code>1234</code> is not the <a>session id</a> of a <a>current session</a>
+ would return an HTTP response with the status 404 and a body of the form:
+
+ <pre class=highlight>{
   "error": "invalid session id",
   "message": "No active session with id 1234",
   "stacktrace": ""
 }</pre>
-    </aside>
+</aside>
 
-    <p>The following table lists each <dfn>error code</dfn>, its associated HTTP status, JSON <code>error</code> code, and a non-normative description of the error. The <dfn>error response data</dfn> for a particular <a>error code</a> is the values of the <i>HTTP Status</i> and <i>JSON Error Code</i> columns for the row corresponding to that <a>error code</a>.</p>
+<p>The following table lists each <dfn>error code</dfn>,
+ its associated HTTP status,
+ JSON <code>error</code> code,
+ and a non-normative description of the error.
+ The <dfn>error response data</dfn> for a particular <a>error code</a>
+ is the values of the <i>HTTP Status</i>
+ and <i>JSON Error Code</i> columns for the row corresponding to that <a>error code</a>.
 
-    <table class="simple">
-      <tr>
-        <th>Error Code</th>
-        <th>HTTP Status</th>
-        <th>JSON Error Code</th>
-        <th>Description</th>
-      </tr>
-      <tr>
-        <td><dfn>element not selectable</dfn></td>
-        <td>400</td>
-        <td><code>element not selectable</code></td>
-        <td>An attempt was made to select an element that cannot be selected.</td>
-      </tr>
-      <tr>
-        <td><dfn>element not visible</dfn></td>
-        <td>400</td>
-        <td><code>element not visible</code></td>
-        <td>An element command could not be completed because the element is not visible on the page.</td>
-      </tr>
-      <tr>
-        <td><dfn>invalid argument</dfn></td>
-        <td>400</td>
-        <td><code>invalid argument</code></td>
-        <td>The arguments passed to a command are either invalid or malformed.</td>
-      </tr>
-      <tr>
-        <td><dfn>invalid cookie domain</dfn></td>
-        <td>400</td>
-        <td><code>invalid cookie domain</code></td>
-        <td>An illegal attempt was made to set a cookie under a different domain than the current page.</td>
-      </tr>
-      <tr>
-        <td><dfn>invalid element coordinates</dfn></td>
-        <td>400</td>
-        <td><code>invalid element coordinates</code></td>
-        <td>The coordinates provided to an interactions operation are invalid.</td>
-      </tr>
-      <tr>
-        <td><dfn>invalid element state</dfn></td>
-        <td>400</td>
-        <td><code>invalid element state</code></td>
-        <td>An element command could not be completed
-         because the element is in an invalid state
-         (e.g. attempting to click an element that is no longer attached
-         to the <a href=http://www.w3.org/TR/dom/#interface-document>Document</a>).</td>
-      </tr>
-      <tr>
-        <td><dfn>invalid selector</dfn></td>
-        <td>400</td>
-        <td><code>invalid selector</code></td>
-        <td>Argument was an invalid selector.</td>
-      </tr>
-      <tr>
-        <td><dfn>invalid session id</dfn></td>
-        <td>404</td>
-        <td><code>invalid session id</code></td>
-        <td>The session with the session ID does not exist.
-         This could be either from the session being quit
-         or the session ID passed in is not currently active.</td>
-      </tr>
-      <tr>
-        <td><dfn>javascript error</dfn></td>
-        <td>500</td>
-        <td><code>javascript error</code></td>
-        <td>An error occurred while executing JavaScript supplied by the user.</td>
-      </tr>
-      <tr>
-        <td><dfn>move target out of bounds</dfn></td>
-        <td>500</td>
-        <td><code>move target out of bounds</code></td>
-        <td>The target for mouse interaction is not in the browser's viewport and cannot be brought into that viewport.</td>
-      </tr>
-      <tr>
-        <td><dfn>no such alert</dfn></td>
-        <td>400</td>
-        <td><code>no such alert</code></td>
-        <td>An attempt was made to operate on a modal dialog when one was not open.</td>
-      </tr>
-      <tr>
-        <td><dfn>no such element</dfn></td>
-        <td>404</td>
-        <td><code>no such element</code></td>
-        <td>An element could not be located on the page using the given search parameters.</td>
-      </tr>
-      <tr>
-        <td><dfn>no such frame</dfn></td>
-        <td>400</td>
-        <td><code>no such frame</code></td>
-        <td>A request to switch to a frame could not be satisfied because the frame could not be found.</td>
-      </tr>
-      <tr>
-        <td><dfn>no such window</dfn></td>
-        <td>400</td>
-        <td><code>no such window</code></td>
-        <td>A request to switch to a different window could not be satisfied because the window could not be found.</td>
-      </tr>
-      <tr>
-        <td><dfn>script timeout</dfn></td>
-        <td>408</td>
-        <td><code>script timeout</code></td>
-        <td>A script did not complete before its timeout expired.</td>
-      </tr>
-      <tr>
-        <td><dfn>session not created</dfn></td>
-        <td>500</td>
-        <td><code>session not created</code></td>
-        <td>A new session could not be created.</td>
-      </tr>
-      <tr>
-        <td><dfn>stale element reference</dfn></td>
-        <td>400</td>
-        <td><code>stale element reference</code></td>
-        <td>An element command failed because the referenced element
-         is no longer attached to the
-         <a href=http://www.w3.org/TR/dom/#interface-document>Document</a>.</td>
-      </tr>
-      <tr>
-        <td><dfn>timeout</dfn></td>
-        <td>408</td>
-        <td><code>timeout</code></td>
-        <td>An operation did not complete before its timeout expired.</td>
-      </tr>
-      <tr>
-        <td><dfn>unable to set cookie</dfn></td>
-        <td>500</td>
-        <td><code>unable to set cookie</code></td>
-        <td>A request to set a cookie's value could not be satisfied.</td>
-      </tr>
-      <tr>
-        <td><dfn>unexpected alert open</dfn></td>
-        <td>500</td>
-        <td><code>unexpected alert open</code></td>
-        <td>A modal dialog was open, blocking this operation.</td>
-      </tr>
-      <tr>
-        <td><dfn>unknown command</dfn></td>
-        <td>404</td>
-        <td><code>unknown command</code></td>
-        <td>A command could not be executed because the remote end is not aware of it.</td>
-      </tr>
-      <tr>
-        <td><dfn>unknown error</dfn></td>
-        <td>500</td>
-        <td><code>unknown error</code></td>
-        <td>An unknown error occurred in the remote end while processing the command.</td>
-      </tr>
-      <tr>
-        <td><dfn>unknown method</dfn></td>
-        <td>405</td>
-        <td><code>unknown method</code></td>
-        <td>The requested command matched a known URL but did not match an method for that URL.</td>
-      </tr>
-      <tr>
-        <td><dfn>unsupported operation</dfn></td>
-        <td>500</td>
-        <td><code>unsupported operation</code></td>
-        <td>Indicates that a command that should have executed properly cannot be supported for some reason.</td>
-      </tr>
-    </table>
-  </section>
-</section>
+<table class=simple>
+ <tr>
+  <th>Error Code
+  <th>HTTP Status
+  <th>JSON Error Code
+  <th>Description
+ </tr>
+
+ <tr>
+  <td><dfn>element not selectable</dfn>
+  <td>400
+  <td><code>element not selectable</code>
+  <td>An attempt was made to select an element that cannot be selected.
+ </tr>
+
+ <tr>
+  <td><dfn>element not visible</dfn>
+  <td>400
+  <td><code>element not visible</code>
+  <td>An element <a>command</a> could not be completed
+   because the element is not visible on the page.
+ </tr>
+
+ <tr>
+  <td><dfn>invalid argument</dfn>
+  <td>400
+  <td><code>invalid argument</code>
+  <td>The arguments passed to a <a>command</a>
+   are either invalid or malformed.
+ </tr>
+
+ <tr>
+  <td><dfn>invalid cookie domain</dfn>
+  <td>400
+  <td><code>invalid cookie domain</code>
+  <td>An illegal attempt was made to set a cookie
+   under a different domain than the current page.
+ </tr>
+
+ <tr>
+  <td><dfn>invalid element coordinates</dfn>
+  <td>400
+  <td><code>invalid element coordinates</code>
+  <td>The coordinates provided to an interactions operation are invalid.
+ </tr>
+
+ <tr>
+  <td><dfn>invalid element state</dfn>
+  <td>400
+  <td><code>invalid element state</code>
+  <td>An element <a>command</a> could not be completed
+   because the element is in an invalid state,
+   e.g. attempting to click an element that is no longer attached
+   to the <a href=https://dom.spec.whatwg.org/#document-element>document</a>.
+ </tr>
+
+ <tr>
+  <td><dfn>invalid selector</dfn>
+  <td>400
+  <td><code>invalid selector</code>
+  <td>Argument was an invalid selector.
+ </tr>
+
+ <tr>
+  <td><dfn>invalid session id</dfn>
+  <td>404
+  <td><code>invalid session id</code>
+  <td>The <a>session</a> with the <a>session id</a> does not exist.
+   This could be either from the session being quit
+   or the <a>session id</a> passed in is not currently active.
+ </tr>
+
+ <tr>
+  <td><dfn>javascript error</dfn>
+  <td>500
+  <td><code>javascript error</code>
+  <td>An error occurred while executing JavaScript supplied by the user.
+ </tr>
+
+ <tr>
+  <td><dfn>move target out of bounds</dfn>
+  <td>500
+  <td><code>move target out of bounds</code>
+  <td>The target for mouse interaction is not in the browser’s viewport
+   and cannot be brought into that viewport.
+ </tr>
+
+ <tr>
+  <td><dfn>no such alert</dfn>
+  <td>400
+  <td><code>no such alert</code>
+  <td>An attempt was made to operate on a modal dialog
+   when one was not open.
+ </tr>
+
+ <tr>
+  <td><dfn>no such element</dfn>
+  <td>404
+  <td><code>no such element</code>
+  <td>An element could not be located on the page
+   using the given search parameters.
+ </tr>
+
+ <tr>
+  <td><dfn>no such frame</dfn>
+  <td>400
+  <td><code>no such frame</code>
+  <td>A request to switch to a frame
+   could not be satisfied because the frame could not be found.
+ </tr>
+
+ <tr>
+  <td><dfn>no such window</dfn>
+  <td>400
+  <td><code>no such window</code>
+  <td>A request to switch to a window
+   could not be satisfied because the window could not be found.
+ </tr>
+
+ <tr>
+  <td><dfn>script timeout</dfn>
+  <td>408
+  <td><code>script timeout</code>
+  <td>A script did not complete before its timeout expired.
+ </tr>
+
+ <tr>
+  <td><dfn>session not created</dfn>
+  <td>500
+  <td><code>session not created</code>
+  <td>A new <a>session</a> could not be created.
+ </tr>
+
+ <tr>
+  <td><dfn>stale element reference</dfn>
+  <td>400
+  <td><code>stale element reference</code>
+  <td>An element <a>command</a> failed because the referenced
+   <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
+   is no longer attached to the DOM.
+ </tr>
+
+ <tr>
+  <td><dfn>timeout</dfn>
+  <td>408
+  <td><code>timeout</code>
+  <td>An operation did not complete before its timeout expired.
+ </tr>
+
+ <tr>
+  <td><dfn>unable to set cookie</dfn>
+  <td>500
+  <td><code>unable to set cookie</code>
+  <td>A request to set a cookie’s value could not be satisfied.
+ </tr>
+
+ <tr>
+  <td><dfn>unexpected alert open</dfn>
+  <td>500
+  <td><code>unexpected alert open</code>
+  <td>A modal dialog was open, blocking this operation.
+ </tr>
+
+ <tr>
+  <td><dfn>unknown command</dfn>
+  <td>404
+  <td><code>unknown command</code>
+  <td>A <a>command</a> could not be executed
+   because the <a>remote end</a> is not aware of it.
+ </tr>
+
+ <tr>
+  <td><dfn>unknown error</dfn>
+  <td>500
+  <td><code>unknown error</code>
+  <td>An unknown error occurred in the <a>remote end</a>
+   while processing the <a>command</a>.
+ </tr>
+
+ <tr>
+  <td><dfn>unknown method</dfn>
+  <td>405
+  <td><code>unknown method</code>
+  <td>The requested <a>command</a> matched a known URL
+   but did not match an method for that URL.
+ </tr>
+
+ <tr>
+  <td><dfn>unsupported operation</dfn>
+  <td>500
+  <td><code>unsupported operation</code>
+  <td>Indicates that a <a>command</a> that should have
+   executed properly cannot be supported for some reason.
+ </tr>
+</table>
+</section> <!-- /Handling Errors -->
+</section> <!-- /The WebDriver Protocol -->
 
 <section>
 <h2>Capabilities</h2>
