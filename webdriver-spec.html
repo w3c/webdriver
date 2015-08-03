@@ -186,7 +186,7 @@ dl.switch > dt:before {
 <p>This specification defines four broad conformance classes:
 
 <dl>
- <dt><dfn>Local End</dfn>
+ <dt><dfn data-lt="local end|local">Local End</dfn>
  <dd><p>This represents the client side of the protocol,
   which is usually in the form of language-specific libraries
   providing an API on top of the WebDriver protocol.
@@ -195,12 +195,12 @@ dl.switch > dt:before {
 
   <p class=issue>Define the requirements on the local end somewhere.
 
- <dt><dfn>Remote End</dfn>
+ <dt><dfn data-lt="remote end|remote ends|remote">Remote End</dfn>
  <dd>The remote end hosts the server side of the protocol.
   Defining the behaviour of a remote end in response to the WebDriver protocol
   forms the largest part of this specification.
 
- <dt><dfn>Intermediary Node</dfn>
+ <dt><dfn data-lt="intermediary node|intermediary nodes">Intermediary Node</dfn>
  <dd>Intermediary nodes are those that act as proxies,
   implementing both the client and server sides of the protocol.
   Intermediary nodes must be black-box indistinguishable from a <a>remote end</a>
@@ -212,7 +212,7 @@ dl.switch > dt:before {
  <dd>An endpoint node is the final <a>remote end</a>
   in a chain of nodes that is not an <a>intermediary node</a>.
   The endpoint node is implemented by a user agent or a similar program.
-  An endpoint node must be, like <a title="intermediary node">intermediary nodes</a>,
+  An endpoint node must be, like <a>intermediary nodes</a>,
   indistinguishable from a <a>remote end</a>.
 </dl>
 </section> <!-- /Terminology -->
@@ -252,9 +252,9 @@ dl.switch > dt:before {
 <section>
 <h3>Commands</h3>
 
-<p>The WebDriver protocol is organised into <a title=command>commands</a>.
+<p>The WebDriver protocol is organised into <a>commands</a>.
  Each HTTP request with a method and template defined in this specification
- represents a single <dfn>command</dfn>
+ represents a single <dfn data-lt="command|commands">command</dfn>
  and therefore each command produces a single HTTP response.
  In response to a <a>command</a>,
  a <a>remote end</a> will run a series of actions against the remote browser.
@@ -306,13 +306,13 @@ dl.switch > dt:before {
  <li><p>If <var>command</var> is not <a>New Session</a>:
 
   <ol>
-   <li><p>If <var>session id</var> is not equal to the <a title="session id">id</a>
+   <li><p>If <var>session id</var> is not equal to the <a data-lt="session id">id</a>
     of any session in the list of <a>active sessions</a>,
     <a>send an error</a> with <a>error code</a> <a>invalid session id</a>,
     then jump to step 1 in this overall algorithm.
 
     <p>Otherwise, let the <a>current session</a> be
-     the <a>session</a> with <a title="session id">id</a> <var>session id</var>.
+     the <a>session</a> with <a data-lt="session id">id</a> <var>session id</var>.
   </ol>
 
  <li><p>If <var>request</var>'s
@@ -406,7 +406,7 @@ dl.switch > dt:before {
  <li><p>Let <var>response bytes</var> be the byte sequence resulting
   from serializing <var>response</var> according to the rules in [[!RFC7230]].
 
- <li><p><a title="write bytes">Write</a> <var>response bytes</var>
+ <li><p><a data-lt="write bytes">Write</a> <var>response bytes</var>
   to the <a>connection</a>.
 </ol>
 </section> <!-- /Processing Model -->
@@ -415,7 +415,7 @@ dl.switch > dt:before {
 <h3>Routing Requests</h3>
 
 <p><dfn>Request routing</dfn> is the process of going from a HTTP request
- to the <a title="remote end steps">series of steps</a> needed
+ to the <a data-lt="remote end steps">series of steps</a> needed
  to implement the <a>command</a> represented by that request.
 
 <p>A <a>remote end</a> has an associated <dfn>URL prefix</dfn>,
@@ -1219,10 +1219,10 @@ URL, and command for each WebDriver <a>command</a>.
  Maintaining session continuity between requests to
  the <a>remote end</a> requires passing a <a>session ID</a>.
 
-<p>A WebDriver <dfn>session</dfn> represents
+<p>A WebDriver <dfn data-lt="session|sessions">session</dfn> represents
  the connection between a <a>local end</a> and a specific <a>remote end</a>.
  A <a>remote end</a> that is not an <a>intermediary node</a>
- has at most one <a title="active sessions">active session</a> at a given time.
+ has at most one <a>active session</a> at a given time.
 
 <p class=issue>Need to explain that there must be a relationship
  between the current session and the browser state.
@@ -1234,8 +1234,9 @@ URL, and command for each WebDriver <a>command</a>.
  or implicitly when <a href=#close>close</a> is called at the last remaining
  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>.
 
-<p>A <a>remote end</a> has an associated list of <dfn>active sessions</dfn>,
- which is a list of all <a title="session">sessions</a> that are currently started.
+<p>A <a>remote end</a> has an associated list of
+ <dfn data-lt="active session|active sessions">active sessions</dfn>,
+ which is a list of all <a>sessions</a> that are currently started.
 
 <p>Requests, except <a>New Session</a> requests,
  have an associated <dfn>current session</dfn>,
@@ -1245,7 +1246,7 @@ URL, and command for each WebDriver <a>command</a>.
  <dfn>maximum active sessions</dfn> (an integer)
  that defines the number of <a>active sessions</a>
  that are supported.
- This may be "unlimited" for <a title="intermediary node">intermediary nodes</a>,
+ This may be “unlimited” for <a>intermediary nodes</a>,
  but must be exactly one for a <a>remote end</a> that is an <a>endpoint node</a>.
 
 <p>A <a>session</a> has an associated <dfn>session ID</dfn>
@@ -1269,7 +1270,7 @@ URL, and command for each WebDriver <a>command</a>.
  if it has been <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>.
 
 <p>Each <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
- has an associated <dfn>window handle</dfn>,
+ has an associated <dfn data-lt="window handle|window handles">window handle</dfn>,
  which is a string uniquely identifying that browsing context.
  This string is implementation defined but MUST not be "current".
 
@@ -1334,7 +1335,7 @@ URL, and command for each WebDriver <a>command</a>.
   take implementation-defined steps that either result in
   returning an <a>error</a> with <a>error code</a> <a>session not created</a>
   or in returning a <a>success</a> with data
-  that is isomorphic to that returned by <a title="remote end">remote ends</a>
+  that is isomorphic to that returned by <a>remote ends</a>
   according to the rest of this algorithm.
 
   <p class=note>This allows intermediary nodes to use the capabilities data in any way they want
@@ -1409,7 +1410,7 @@ URL, and command for each WebDriver <a>command</a>.
  any <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>
  associated with the <a>current session</a>,
  terminates the <a>connection</a>,
- and finally <a title="close the session">closes</a> the <a>current session</a>.
+ and finally <a data-lt="close the session">closes</a> the <a>current session</a>.
 
 <p>The <a>remote end steps</a> are:
 
@@ -1894,7 +1895,7 @@ URL, and command for each WebDriver <a>command</a>.
  </tr>
 </table>
 
-<p>The <a>Get Window Handle</a> command returns
+<p>The <dfn>Get Window Handle</dfn> command returns
  the <a>window handle</a> for the <a>current top-level browsing context</a>.
  It can be used as an argument to <a>Switch To Window</a>.
 
@@ -1930,7 +1931,7 @@ URL, and command for each WebDriver <a>command</a>.
        </table>
 
      <p>The <dfn>Get Window Handles</dfn> command returns
-      a list of <a title="window handle">window handles</a> for every open
+      a list of <a>window handles</a> for every open
       <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>.
       The order in which the window handles are returned is arbitary.
 
@@ -2154,11 +2155,11 @@ URL, and command for each WebDriver <a>command</a>.
 <section>
 <h2>Resizing and Positioning Windows</h2>
 
-<p>WebDriver provides <a title="command">commands</a>
+<p>WebDriver provides <a>commands</a>
  for interacting with the operating system window
  containing the current browsing context.
  Because different operating system's window managers provide different abilities,
- not all of the commands in this section can be supported by all <a title="remote end">remote ends</a>.
+ not all of the commands in this section can be supported by all <a>remote ends</a>.
  Where a <a>command</a> is not supported,
  an <a>unsupported operation</a> <a>error</a> is returned.
 
@@ -2380,7 +2381,7 @@ URL, and command for each WebDriver <a>command</a>.
 <p>A <dfn>web element</dfn> is an abstraction
  used to identify an <a href=https://dom.spec.whagwg.org/#concept-element>element</a>
  when it is transported across the <a href=#the-webdriver-protocol>protocol</a>,
- between <a title="remote end">remote</a>- and <a title="local end">local</a> ends.
+ between <a>remote</a>- and <a>local</a> ends.
 
 <p>The <dfn>web element identifier</dfn> is a constant
  with the string "<code>element-6066-11e4-a52e-4f735466cecf</code>".
@@ -2423,8 +2424,8 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>Return <a>error</a> with <a>error code</a> <a>no such element</a>.
 </ol>
 
-<p>To <dfn>create a web element reference</dfn> for
- an <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
+<p>To <dfn data-lt="create a web element reference|create an element">create a web element reference</dfn>
+ for an <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
  <var>element</var>:
 
 <ol>
@@ -2474,7 +2475,7 @@ URL, and command for each WebDriver <a>command</a>.
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>reference</var> be the result of
-  <a title="getting a property">getting</a>
+  <a data-lt="getting a property">getting</a>
   the <a>web element identifier</a> property
   from <var>object</var>.
 
@@ -2489,10 +2490,11 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>Return <a>success</a> with data <var>element</var>.
 </ol>
 
-<p>A <a title="is stale">stale element</a>
- is a reference to a <a href=https://dom.spec.whatwg.org/#concept-node>node</a>
+<p>A <a>stale element</a> is a reference to
+ a <a href=https://dom.spec.whatwg.org/#concept-node>node</a>
  that has been disconnected from the <a>current browsing context</a>’s DOM.
- To determine if an <var>element</var> <dfn>is stale</dfn>, run the following substeps:
+ To determine if an <var>element</var> <dfn data-lt="is stale|stale element">is stale</dfn>,
+ run the following substeps:
 
 <ol>
  <li><p>Let <var>document</var> be the <a>current browsing context</a>’s
@@ -2782,7 +2784,8 @@ URL, and command for each WebDriver <a>command</a>.
  in general to be considered visible if any part of it is drawn on the canvas
  within the bounderies of the viewport.
 
-<p>When asked to <dfn>normalize style pixel values to floating point</dfn>
+<p>When asked to
+ <dfn data-lt="normalize style pixel values to floating point|normalized style pixel float value">normalize style pixel values to floating point</dfn>
  for a value <var>s</var> of the type string:
 
 <ol>
@@ -2807,8 +2810,8 @@ URL, and command for each WebDriver <a>command</a>.
  from [[!ECMA-262]] with the exception that
  non-valid float return values are returned as <code>0.0</code>.
 
-<p>The <dfn>element displayed</dfn> algorithm is
- a boolean state where true signifies that the element is displayed
+<p>The <dfn data-lt="element displayed|element displayedness">element displayed</dfn> algorithm
+ is a boolean state where true signifies that the element is displayed
  and false signifies that the element is not displayed.
  To compute the state on <var>element</var>:
 
@@ -2950,22 +2953,22 @@ URL, and command for each WebDriver <a>command</a>.
     <ul>
      <li><p><var>element dimension</var>'s <code>top</code>
       is less than (<var>parent dimension</var>'s <code>bottom</code>
-      − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
+      − the <a>normalized style pixel float value</a>
       of <var>parent style</var>'s <code>borderBottomWidth</code>).
 
      <li><p><var>element dimension</var>'s <code>bottom</code>
       is less than (<var>parent dimension</var>'s <code>top</code>
-      − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
+      − the <a>normalized style pixel float value</a>
       of <var>parent style</var>'s <code>borderTopWidth</code>).
 
      <li><p><var>element dimension</var>'s <code>left</code>
       is less than (<var>parent dimension</var>'s <code>right</code>
-      − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
+      − the <a>normalized style pixel float value</a>
       of <var>parent style</var>'s <code>borderRightWidth</code> casted as a float).
 
      <li><p><var>element dimension</var>'s <code>right</code>
       is less than (<var>parent dimension</var>'s <code>left</code>
-      − the <a title="normalize style pixel values to floating point">normalized style pixel float value</a>
+      − the <a>normalized style pixel float value</a>
       of <var>parent style</var>'s <code>borderLeftWidth</code> casted as a float).
    </ul>
 
@@ -3042,7 +3045,7 @@ URL, and command for each WebDriver <a>command</a>.
 </table>
 
 <p>The <dfn>Is Element Displayed</dfn> <a>command</a>
- is used to determine the <a title="element displayed">element displayedness</a>
+ is used to determine the <a>element displayedness</a>
  of a <a>web element</a>.
 
 <p>The <a>remote end steps</a> are:
@@ -3566,8 +3569,7 @@ URL, and command for each WebDriver <a>command</a>.
    <dd><p>Return <a>success</a> with data <var>value</var>.
 
    <dt><var>value</var> is an <code>Element</code> Node
-   <dd><p>Return the result of
-    <a title="create a web element reference">creating a web element</a>
+   <dd><p>Return the result of <a>creating a web element</a>
     with argument <var>value</var>.
 
     <dd>
