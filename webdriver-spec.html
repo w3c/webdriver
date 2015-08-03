@@ -3909,173 +3909,244 @@ URL, and command for each WebDriver <a>command</a>.
 </section> <!-- /Executing Script -->
 
 <section>
-  <h2>Cookies</h2>
+<h2>Cookies</h2>
 
-  <p>This section describes the interaction with
-  <a href='http://www.w3.org/TR/html5/dom.html#dom-document-cookie'>cookies</a>
-  as described in the HTML Specification ([[!html51]]). When retrieving
-  and setting a cookie it MUST be in the format of a <code>Cookie</code>.</p>
-  <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "cookies" folder.</p>
+<p>This section describes the interaction with
+ <a href=http://www.w3.org/TR/html5/dom.html#dom-document-cookie>cookies</a>
+ as described in the [[!html51]].
+ When retrieving and setting a cookie it MUST be in the format of a <code>Cookie</code>.
 
-  <section>
-    <h2>Cookie</h2>
-    <p>When returning Cookie objects, the server SHOULD include all optional fields it is capable of providing the information for.</p>
-    <section>
-      <!-- getCookie() -->
-      <h3>Get Cookie</h3>
-        <p>
-          <table class="simple jsoncommand">
-            <tr>
-              <th>HTTP Method</th>
-              <th>Path Template</th>
-            </tr>
-            <tr>
-              <td>GET</td>
-              <td>/session/{session id}/cookie/{name}</td>
-            </tr>
-          </table>
-          <p>The <a>remote end steps</a> for the <dfn>Get Cookie</dfn> command are:</p>
-          <ol>
-            <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-             return <a>error</a> with <a>error code</a> <a>no such window</a>.</p></li>
-            <li><p>Let <var>name</var> be equal to "name" from <a>match a request</a>.</p></li>
-            <li><p>Let <var>result</var> be an empty JSON List.</p></li>
-            <li><p>Let <var>cookies</var> be a list of all cookies [[!RFC6265]] in the cookie store associated with <a href="https://html.spec.whatwg.org/#active-document">active document</a> <a href="https://dom.spec.whatwg.org/#concept-document-url">address</a>.</p></li>
-            <li><p>Let <var>length</var> be the length of <var>cookies</var>.</p></li>
-            <li><p>Let <var>k</var> be 0.</p></li>
-            <li><p>While <var>k</var> &lt; <var>length</var>:</p>
-              <ol>
-                <li><p>Let <var>cookie</var> be the value in <var>cookies</var> at index <var>k</var>.</p></li>
-                <li><p>Match the value of <var>name</var> against the following options:
-                  <dl>
-                    <dt>The string equal to <var>cookie-name</var> as defined in [[!RFC6265]]</dt>
-                    <dd><ol>
-                      <li><p>Append a <a>serialized cookie</a> to <var>result</var>.
-                      <li><p>Break out of the loop.
-                    </ol></dd>
-                    <dt>Otherwise</dt>
-                    <dd><p>Append a <a>serialized cookie</a> to <var>result</var>.</dd>
-                  </dl>
-                <li><p>Increase the value of <var>k</var> by 1.</p></li>
-              </ol>
-            </li>
-            <li><p>Return <a>success</a> with data <var>result</var>.</p></li>
-          </ol>
-          <p>A <dfn>serialized cookie</dfn> is created with the following algorithm:</p>
-          <p>
-            <ol>
-              <li><p>Let <var>serialized cookie</var> be an empty map.
-              <ul>
-                <li><p>Add an entry whose key is <var>name</var> and value is <var>cookie-name</var> as defined in [[!RFC6265]]</p></li>
-                <li><p>Add an entry whose key is <var>value</var> and value is <var>cookie-value</var> as defined in [[!RFC6265]]</p></li>
-                <li><p>If cookie's attribute-list contains an attribute with attribute-name of Path,
-                  let <var>path</var> be the attribute-value of the last attribute in the cookie-attribute-list
-                   with an attribute-name of "Path". Otherwise let <var>path</var> be null.</p>
-                  <p>Add an entry to <var>serialized cookie</var> with key "path" and value <var>path</var>.</p></li>
-                <li><p>If cookie's attribute-list contains an attribute with attribute-name of Domain,
-                  let <var>domain</var> be the attribute-value of the last attribute in the cookie-attribute-list
-                  with an attribute-name of "Domain". Otherwise let <var>domain</var> be null</p>
-                  <p>Add an entry to <var>serialized cookie</var> with key "domain" and value <var>domain</var>.</p></li>
-                <li><p>If cookie's attribute-list contains an attribute with attribute-name of Secure,
-                  let <var>secure</var> be the attribute-value of the last attribute in the cookie-attribute-list
-                  with an attribute-name of "Secure". Otherwise let <var>secure</var> be null</p>
-                  <p>Add an entry to <var>serialized cookie</var> with key "secure" and value <var>secure</var>.</p></li>
-                <li><p>If cookie's attribute-list contains an attribute with attribute-name of Expires,
-                  let <var>expiry</var> be the attribute-value of the last attribute in the cookie-attribute-list
-                   with an attribute-name of "Expires" specified in milliseconds since midnight, January 1, 1970 UTC
-                    using the format described in [[!RFC1123]]. Otherwise let <var>expiry</var> be null.</p>
-              </ul>
-              <li>Return <var>serialized cookie</var>.</li>
-            </ol>
-      </section>
+<p class=note>Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "cookies" folder.</p>
 
-      <section>
-      <h3>Add Cookie</h3>
-        <p>
-          <table class="simple jsoncommand">
-            <tr>
-              <th>HTTP Method</th>
-              <th>Path Template</th>
-            </tr>
-            <tr>
-              <td>POST</td>
-              <td>/session/{session id}/cookie</td>
-            </tr>
-          </table>
-          <p>The <a>remote end steps</a> for the <dfn>Add Cookie</dfn> command are:</p>
-          <ol>
-            <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-                return <a>error</a> with <a>error code</a> <a>no such window</a>.
-            <li><p>Let <var>cookie</var> be the result of <a>getting a property</a>
-              named "cookie" from the <var>parameters</var> argument. If <var>cookie</var>
-              is not a map then return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
-            <li><p>If the <code>Document</code> is a <a href='http://www.w3.org/html/wg/drafts/html/master/single-page.html#cookie-averse-document-object'>
-              cookie-averse <code>Document</code> object</a>,
-               return <a>error</a> with <a>error code</a> <a>invalid cookie domain</a>.
-            <li><p>Set the value is <var>cookie-name</var>, as defined in [[!RFC6265]], to the value of entry with key <var>name</var>.
-              If <var>name</var>is undefined,
-               return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
-            <li><p>Set the value is <var>cookie-value</var>, as defined in [[!RFC6265]], to the value of entry with key <var>value</var>.
-                If <var>value</var>is undefined,
-                 return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
-            <li><p>If <var>cookie</var> has an entry with key <var>path</var> set attribute-value of the last attribute in the cookie-attribute-list
-             with an attribute-name of "Path".</p></li>
-            <li><p>If <var>cookie</var> has an entry with key <var>domain</var> set attribute-value of the last attribute in the cookie-attribute-list
-              with an attribute-name of "Domain".</p></li>
-            <li><p>If <var>cookie</var> has an entry with key <var>secure</var> set attribute-value of the last attribute in the cookie-attribute-list
-                with an attribute-name of "Secure".</p></li>
-            <li><p>If <var>cookie</var> has an entry with key <var>expiry</var> set attribute-value of the last attribute in the cookie-attribute-list
-                  with an attribute-name of "Expires".</p></li>
-            <li><p>Store the contents <var>cookie</var> in the user agent cookie manager
-              following the steps described in <a href='http://tools.ietf.org/html/rfc6265#section-5.3'>Storage Model</a>
-              in [[!RFC6265]]. If there is an <a>error</a> during this step,
-               return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
-            <li><p>Return <a>success</a> with data null.</p></li>
-          </ol>
-    </section>
+<p>When returning Cookie objects, the server SHOULD include all optional fields
+ it is capable of providing the information for.
 
-    <section>
-      <h3>Delete Cookie</h3>
+<section>
+<h3>Get Cookie</h3>
 
-      <table class="simple jsoncommand">
-        <tr>
-          <th>HTTP Method</th>
-          <th>Path Template</th>
-        </tr>
-        <tr>
-          <td>DELETE</td>
-          <td>/session/{session id}/cookie/{name}</td>
-        </tr>
-      </table>
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{session id}/cookie/{name}</td>
+ </tr>
+</table>
 
-      <p>The <a>remote end steps</a> for the <dfn>Delete Cookie</dfn> command are:</p>
+<p>The <a>remote end steps</a> for the <dfn>Get Cookie</dfn> command are:
 
-      <ol>
-        <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-         return <a>error</a> with <a>error code</a> <a>no such window</a>.
-        <li><p>Let <var>name</var> be equal to "name" from <a>match a request</a>.</p></li>
-        <li><p>Let <var>cookies</var> be a list of all cookies [[!RFC6265]] in the cookie store associated with <a href="https://html.spec.whatwg.org/#active-document">active document</a> <a href="https://dom.spec.whatwg.org/#concept-document-url">address</a>.</p></li>
-        <li><p>Let <var>length</var> be the length of <var>cookies</var>.</p></li>
-        <li><p>Let <var>k</var> be 0.</p></li>
-        <li><p>While <var>k</var> &lt; <var>length</var>:</p>
-          <ol>
-            <li><p>Let <var>cookie</var> be the value in <var>cookies</var> at index <var>k</var>.</p></li>
-            <li><p>If <var>name</var> is undefined:</p>
-              <ol>
-                <li><p>Add an attribute to the attribute-list with attribute-name of Expires
-                  and set the value in the past.</p></li>
-              </ol>
-            <li><p>If <var>name</var> is defined and is equal to <var>cookie-name</var>:</p>
-              <ol>
-                <li><p>Add an attribute to the attribute-list with attribute-name of Expires
-                  and set the value in the past.</p></li>
-              </ol>
-          </ol>
-        <li><p>Return <a>success</a> with data null.</p></li>
-      </ol>
-    </section>
-  </section>
-</section>
+<ol>
+ <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>Let <var>name</var> be equal to "name" from <a>match a request</a>.
+
+ <li><p>Let <var>result</var> be an empty JSON List.
+
+ <li><p>Let <var>cookies</var> be a list of all cookies [[!RFC6265]]
+  in the cookie store associated with
+  <a href=https://html.spec.whatwg.org/#active-document>active document</a>
+  <a href=https://dom.spec.whatwg.org/#concept-document-url>address</a>.
+
+ <li><p>Let <var>length</var> be the length of <var>cookies</var>.
+
+ <li><p>Let <var>k</var> be 0.
+
+ <li><p>While <var>k</var> &lt; <var>length</var>:
+
+  <ol>
+    <li><p>Let <var>cookie</var> be the value in
+     <var>cookies</var> at index <var>k</var>.
+
+    <li><p>Match the value of <var>name</var> against the following options:
+
+     <dl>
+      <dt>The string equal to <var>cookie-name</var> as defined in [[!RFC6265]]
+      <dd>
+       <ol>
+        <li><p>Append a <a>serialized cookie</a> to <var>result</var>.
+        <li><p>Break out of the loop.
+       </ol>
+
+      <dt>Otherwise</dt>
+      <dd><p>Append a <a>serialized cookie</a> to <var>result</var>.
+     </dl>
+
+    <li><p>Increase the value of <var>k</var> by 1.
+  </ol>
+
+ <li><p>Return <a>success</a> with data <var>result</var>.
+</ol>
+
+<p>A <dfn>serialized cookie</dfn> is created with the following algorithm:
+
+<ol>
+ <li><p>Let <var>serialized cookie</var> be an empty map.
+
+  <ul>
+   <li><p>Add an entry whose key is <var>name</var>
+    and value is <var>cookie-name</var> as defined in [[!RFC6265]].
+
+   <li><p>Add an entry whose key is <var>value</var>
+    and value is <var>cookie-value</var> as defined in [[!RFC6265]].
+
+   <li><p>If cookie’s attribute-list contains an attribute with attribute-name of Path,
+     let <var>path</var> be the attribute-value of the last attribute in the cookie-attribute-list
+     with an attribute-name of "Path".
+     Otherwise let <var>path</var> be null.
+
+    <p>Add an entry to <var>serialized cookie</var>
+     with key "path" and value <var>path</var>.
+
+   <li><p>If cookie’s attribute-list contains an attribute with attribute-name of Domain,
+     let <var>domain</var> be the attribute-value of the last attribute in the cookie-attribute-list
+     with an attribute-name of "Domain".
+     Otherwise let <var>domain</var> be null.
+
+    <p>Add an entry to <var>serialized cookie</var>
+     with key "domain" and value <var>domain</var>.
+
+   <li><p>If cookie’s attribute-list contains an attribute with attribute-name of Secure,
+     let <var>secure</var> be the attribute-value of the last attribute in the cookie-attribute-list
+     with an attribute-name of "Secure".
+     Otherwise let <var>secure</var> be null.
+
+    <p>Add an entry to <var>serialized cookie</var>
+     with key "secure" and value <var>secure</var>.
+
+   <li><p>If cookie’s attribute-list contains an attribute with attribute-name of Expires,
+     let <var>expiry</var> be the attribute-value of the last attribute in the cookie-attribute-list
+     with an attribute-name of "Expires" specified in milliseconds since midnight, January 1, 1970 UTC
+     using the format described in [[!RFC1123]]. Otherwise let <var>expiry</var> be null.
+ </ul>
+
+ <li>Return <var>serialized cookie</var>.
+</ol>
+</section> <!-- /Get Cookie -->
+
+<section>
+<h3>Add Cookie</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{session id}/cookie</td>
+ </tr>
+</table>
+
+<p>The <a>remote end steps</a> for the <dfn>Add Cookie</dfn> <a>command</a> are:
+
+<ol>
+ <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>Let <var>cookie</var> be the result of <a>getting a property</a>
+  named "<code>cookie</code>" from the <var>parameters</var> argument.
+  If <var>cookie</var> is not a map
+  then return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
+
+ <li><p>If the <code>Document</code> is
+  a <a href=http://www.w3.org/html/wg/drafts/html/master/single-page.html#cookie-averse-document-object>cookie-averse <code>Document</code> object</a>,
+  return <a>error</a> with <a>error code</a> <a>invalid cookie domain</a>.
+
+ <li><p>Set the value is <var>cookie-name</var>,
+  as defined in [[!RFC6265]], to the value of entry with key <var>name</var>.
+  If <var>name</var>is undefined,
+  return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
+
+ <li><p>Set the value is <var>cookie-value</var>,
+  as defined in [[!RFC6265]], to the value of entry with key <var>value</var>.
+  If <var>value</var>is undefined,
+  return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
+
+ <li><p>If <var>cookie</var> has an entry with key <var>path</var>
+  set attribute-value of the last attribute in the cookie-attribute-list
+  with an attribute-name of "Path".
+
+ <li><p>If <var>cookie</var> has an entry with key <var>domain</var>
+  set attribute-value of the last attribute in the cookie-attribute-list
+  with an attribute-name of "Domain".
+
+ <li><p>If <var>cookie</var> has an entry with key <var>secure</var>
+  set attribute-value of the last attribute in the cookie-attribute-list
+  with an attribute-name of "Secure".
+
+ <li><p>If <var>cookie</var> has an entry with key <var>expiry</var>
+  set attribute-value of the last attribute in the cookie-attribute-list
+  with an attribute-name of "Expires".
+
+ <li><p>Store the contents <var>cookie</var> in the user agent cookie manager
+  following the steps described in
+  <a href=http://tools.ietf.org/html/rfc6265#section-5.3>Storage Model</a> in [[!RFC6265]].
+  If there is an <a>error</a> during this step,
+  return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+</section> <!-- /Add Cookie -->
+
+<section>
+<h3>Delete Cookie</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>DELETE</td>
+  <td>/session/{session id}/cookie/{name}</td>
+  </tr>
+</table>
+
+<p>The <a>remote end steps</a> for the <dfn>Delete Cookie</dfn> command are:
+
+<ol>
+ <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>Let <var>name</var> be equal to "name" from <a>match a request</a>.
+
+ <li><p>Let <var>cookies</var> be a list of all cookies [[!RFC6265]]
+  in the cookie store associated with
+  <a href=https://html.spec.whatwg.org/#active-document>active document</a>
+  <a href=https://dom.spec.whatwg.org/#concept-document-url>address</a>.
+
+ <li><p>Let <var>length</var> be the length of <var>cookies</var>.
+
+ <li><p>Let <var>k</var> be 0.
+
+ <li><p>While <var>k</var> &lt; <var>length</var>:
+
+  <ol>
+   <li><p>Let <var>cookie</var> be the value in
+    <var>cookies</var> at index <var>k</var>.
+
+   <li><p>If <var>name</var> is undefined:
+
+    <ol>
+     <li><p>Add an attribute to the attribute-list with
+      attribute-name of Expires and set the value in the past.
+    </ol>
+
+   <li><p>If <var>name</var> is defined and is equal to <var>cookie-name</var>:
+
+    <ol>
+     <li><p>Add an attribute to the attribute-list with attribute-name of Expires
+      and set the value in the past.
+   </ol>
+  </ol>
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+</section> <!-- /Delete Cookie -->
+</section> <!-- /Cookies -->
 
 <section>
   <h2>Interactions</h2>
