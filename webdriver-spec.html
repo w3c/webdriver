@@ -173,7 +173,7 @@ var respecConfig = {
 <p>This specification defines four broad conformance classes:
 
 <dl>
- <dt><dfn data-lt="local end|local">Local End</dfn>
+ <dt><dfn data-lt="local end|local ends|local">Local End</dfn>
  <dd><p>This represents the client side of the protocol,
   which is usually in the form of language-specific libraries
   providing an API on top of the WebDriver protocol.
@@ -5130,43 +5130,61 @@ URL, and command for each WebDriver <a>command</a>.
   </section>
 </section>
 
-<section class='appendix'>
-  <h2>Thread Safety</h2>
+<section class=appendix>
+<h2>Thread Safety</h2>
 
-  <p>There is no requirement for local or remote implementations to be thread safe. Local ends SHOULD support serialized access from multiple threads.</p>
-</section><section class='appendix'>
-  <h2>Security and Privacy</h2>
-  <p>The following section is non-normative.</p>
-  <section>
-    <h3>Privacy</h3>
-    <p>The local end SHOULD create a new profile when creating a new session.
-      If a new profile can be created it MUST NOT copy the profile in use and
-      MUST create a fresh profile. By creating a new profile the user agent will
-       prevent any unexpected behaviour when the remote end is accessing content.</p>
-  </section>
-  <section>
-    <h3>Security</h3>
-    <p>The remote end SHOULD have a specific command line argument when starting
-      the browser up if it is connecting to a browser
-      (e.g. firefox.exe --webdriver ) and SHOULD have user agent configuration
-       preference that is tested when the user agent starts up
-    <p>When the remote end starts up, it MUST include a flag or setting to limit
-      the IP addesses allowed to connect and create sessions.
-      The default value for this setting SHOULD limit connections to be from
-      <code>127.0.0.1</code> IPV4 address or <code>::1</code> IPV6 address.
-      This will prevent arbitrary machines from connecting and creating WebDriver
-      sessions unless specifically configured to allow them, while still supporting
-      use-cases where the local end runs on a different machine from the remote end.</p>
-    <div class='note'>
-      <p>Some devices will require the device to be placed into a 'developer' mode.
-      This allows unix sockets to be forwarded on to the device while the device is
-      connected to a host. An example of this is if the local end needed to go through
-       a remote debugger protocol.</p>
-    </div>
-    <p>If any of these fail then a
-    <code><a href="#status-session-not-created">session not created</a></code>
-    error MUST be thrown when the local end tries to create a new session.
-  </section>
+<p>There is no requirement for <a>local</a>
+ or <a>remote</a> implementations to be thread safe.
+ <a>Local ends</a> SHOULD support serialized access from multiple threads.
+</section>
+
+<section class=appendix>
+<h3>Privacy</h3>
+
+<p>The following section is non-normative.
+
+<p>The local end SHOULD create a new profile when creating a <a>new session</a>.
+ If a new profile can be created it MUST NOT copy the profile in use
+ and MUST create a fresh profile.
+ By creating a new profile the user agent
+ will prevent any unexpected behaviour
+ when the <a>remote end</a> is accessing content.
+</section>
+
+<section class=appendix>
+<h3>Security</h3>
+
+<p>The following section is non-normative.
+
+<p>The remote end SHOULD have a specific command line argument
+ when starting the browser up if it is connecting to a browser
+ (e.g. firefox.exe --webdriver)
+ and SHOULD have user agent configuration preference
+ that is tested when the user agent starts up.
+
+<p>When the remote end starts up, it MUST include a flag or setting
+ to limit the IP addesses allowed to connect and create sessions.
+ The default value for this setting SHOULD limit connections
+ to be from <code>127.0.0.1</code> IPV4 address
+ or <code>::1</code> IPV6 address.
+ This will prevent arbitrary machines from connecting
+ and creating <a data-lt=session>WebDriver sessions</a>
+ unless specifically configured to allow them,
+ while still supporting use-cases where the <a>local end</a>
+ runs on a different machine from the <a>remote end</a>.
+
+<aside class=example>
+ <p>Some devices will require the device
+  to be placed into a “developer mode”.
+  This allows Unix sockets to be forwarded on to the device
+  while the device is connected to a host.
+  An example of this is if the local end needed to go through
+  a remote debugger protocol.
+</aside>
+
+<p>If any of these fail then a
+ <code><a href="#status-session-not-created">session not created</a></code>
+ error MUST be thrown when the local end tries to create a new session.
 </section>
 
 <section class=appendix>
