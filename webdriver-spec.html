@@ -1788,64 +1788,60 @@ URL, and command for each WebDriver <a>command</a>.
 </ol>
 </section> <!-- /Forward -->
 
-      <section>
-        <h3>Refresh</h3>
+<section>
+<h3>Refresh</h3>
 
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-          </tr>
-          <tr>
-            <td>POST</td>
-            <td>/session/{session id}/refresh</td>
-          </tr>
-        </table>
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{session id}/refresh</td>
+ </tr>
+</table>
 
-        <p>The <dfn>Refresh</dfn> command causes the browser to reload
-        the page in in <a>current top-level browsing context</a>.
+<p>The <dfn>Refresh</dfn> <a>command</a>
+ causes the browser to reload the page in in <a>current top-level browsing context</a>.
 
-        <p>The <a>remote end steps</a> for the <a>Refresh</a> command
-        are:</p>
-        <ol>
-          <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-           return <a>error</a> with <a>error code</a> <a>no such window</a>.
+<p>The <a>remote end steps</a> are:
 
-          <li>
-            <p><a>Navigate</a> the <a>current top-level browsing
-            context</a> to the same resource as
-            its <a href="https://html.spec.whatwg.org/#active-document">active
-            document</a>,
-            with <a href="https://html.spec.whatwg.org/#replacement-enabled">replacement
-            enabled</a></p>
-            <!-- Not sure if this needs to consider the reload override flag -->
-          </li>
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
-          <li><p>If the <a>current session</a>'s <a>page load strategy</a> is <a>none</a>
-              jump to the next step in this overall set of steps.
+ <li><p class=issue>Not sure if this needs to consider the reload override flag.
+ 
+  <p><a>Navigate</a> the <a>current top-level browsing context</a>
+   to the same resource as its <a href=https://html.spec.whatwg.org/#active-document>active document</a>,
+   with <a href=https://html.spec.whatwg.org/#replacement-enabled>replacement enabled</a>.
+ </li>
 
-              Otherwise:
+ <li><p>If the <a>current session</a>’s <a>page load strategy</a> is <a>none</a>,
+  jump to the next step in this overall set of steps.
 
-              <ol>
-                <li><p>Let <var>readiness target</var> be
-                    <code>"interactive"</code> if the <a>current
-                    session</a>'s <a>page load strategy</a> is <a>eager</a>,
-                    or <code>"complete"</code> if it is <a>normal</a>.</li>
+  <p>Otherwise:
 
-                <li><p>Wait for the <a>current document readiness</a>
-                    to reach <var>readiness target</var>, or for the <a>session page
-                    load timeout</a> milliseconds to pass, whichever occurs sooner.</li>
+  <ol>
+   <li><p>Let <var>readiness target</var> be <code>"interactive"</code>
+    if the <a>current session</a>’s <a>page load strategy</a> is <a>eager</a>,
+    or "<code>complete</code>" if it is <a>normal</a>.
 
-                <li><p class=issue>Perhaps? Not sure if this is what the spec is trying to say.
+   <li><p>Wait for the <a>current document readiness</a> to reach <var>readiness target</var>,
+    or for the <a>session page load timeout</a> milliseconds to pass,
+    whichever occurs sooner.
 
-                 <p>If the previous step completed by the <a>load timeout</a> being reached,
-                  and the browser is not currently displaying an alert,
-                  return <a>error</a> with <a>error code</a> <a>timeout</a>.
-              </ol>
+   <li><p class=issue>Perhaps? Not sure if this is what the spec is trying to say.
 
-              <li><p>Return <a>success</a> with data null.
-        </ol>
-      </section>
+    <p>If the previous step completed by the <a>load timeout</a> being reached,
+     and the browser is not currently displaying an alert,
+     return <a>error</a> with <a>error code</a> <a>timeout</a>.
+  </ol>
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+</section> <!-- /Refresh -->
 
 <section>
 <h3>Get Title</h3>
