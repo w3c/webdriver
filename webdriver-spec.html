@@ -1641,41 +1641,41 @@ URL, and command for each WebDriver <a>command</a>.
 
 </section> <!-- /Get -->
 
-      <section>
-        <h3>Get Current Url</h3>
+<section>
+<h3>Get Current Url</h3>
 
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-          </tr>
-          <tr>
-            <td>GET</td>
-            <td>/session/{session id}/url</td>
-          </tr>
-        </table>
-        <p>The <dfn>Get Current Url</dfn> command returns the url of
-        the <a>current top-level browsing context</a>.
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{session id}/url</td>
+ </tr>
+</table>
 
-        <p>The <a>remote end steps</a> for the <a>getCurrentUrl</a> command are:</p>
-        <ol>
+<p>The <dfn>Get Current Url</dfn> <a>command</a>
+ returns the URL of the <a>current top-level browsing context</a>.
 
-          <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-           return <a>error</a> with <a>error code</a> <a>no such window</a>.
+<p>The <a>remote end steps</a> are:
 
-          <li><p>Let <var>url</var> be
-          the <a href="https://url.spec.whatwg.org/#concept-url-serializer">serialization</a>
-          of the <a>current top-level browsing
-          context</a>'s <a href="https://html.spec.whatwg.org/#active-document">active
-          document</a>'s <a href="https://dom.spec.whatwg.org/#concept-document-url">url</a>.</p></li>
-          <li><p>Let <var>data</var> be a new JSON Object.</p>
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
-          <li><p><a>Set the properties</a> of <var>data</var> with
-          values ("value", <var>url</var>)</p></li>
+ <li><p>Let <var>url</var> be
+  the <a href=https://url.spec.whatwg.org/#concept-url-serializer>serialization</a>
+  of the <a>current top-level browsing context</a>’s
+  <a href=https://html.spec.whatwg.org/#active-document>active document</a>’s
+  <a href=https://dom.spec.whatwg.org/#concept-document-url>url</a>.
 
-          <li><p>Return <a>success</a> with data <var>data</var>.</p></li>
-        </ol>
-      </section>
+ <li><p>Let <var>body</var> be a JSON Object
+  with the "<code>value</code>" property set to <var>url</var>.
+
+ <li><p>Return <a>success</a> with data <var>data</var>.</p></li>
+</ol>
+</section>
 
       <section>
         <h3>Back</h3>
