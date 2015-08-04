@@ -1363,6 +1363,23 @@ URL, and command for each WebDriver <a>command</a>.
 <section>
 <h3>New Session</h3>
 
+<p>The <dfn>New Session</dfn> <a>command</a>
+ creates a new WebDriver <a>session</a> with the <a>endpoint node</a>.
+ If the <a>maximum active sessions</a> has been reached,
+ that is if the <a>endpoint node</a> already has a <a>current session</a>,
+ there is a problem processing the given <a>capabilities</a>,
+ or the provisioning of a <a>remote end</a> is impossible,
+ a <a>session not created</a> <a>error</a> is returned.
+
+<p>If the <a>remote end</a> is an <a>intermediary node</a>,
+ they are allowed to freely use the <a>capabilities</a> data
+ e.g. to select a specific browser to test based on
+ a combination of the <a data=lt="required capabilities">required</a>
+ and <a>desired capabilities</a>.
+ Typically the <a>New Session</a> response from the <a>endpoint node</a>
+ selected in this process will then be relayed directly to the <a>local end</a>,
+ as outlined in step 1 of the <a>remote end steps</a>.
+
 <table class="simple jsoncommand">
  <tr>
   <th>HTTP Method</th>
@@ -1374,20 +1391,15 @@ URL, and command for each WebDriver <a>command</a>.
  </tr>
 </table>
 
-<p>The <a>remote end steps</a> for the <dfn>New Session</dfn> command are:
+<p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the node is an intermediate node,
+ <li><p>If the <a>remote end</a> is an <a>intermediate node</a>,
   take implementation-defined steps that either result in
   returning an <a>error</a> with <a>error code</a> <a>session not created</a>
   or in returning a <a>success</a> with data
   that is isomorphic to that returned by <a>remote ends</a>
   according to the rest of this algorithm.
-
-  <p class=note>This allows intermediary nodes to use the capabilities data in any way they want
-   e.g. to select a specific browser to test based on a combination of the required and desired capabilities.
-   Typically the new session response from the remote end
-   selected in this process will then be  relayed directly to the client.
 
  <li><p>If the <a>maximum active sessions</a> is equal to
   the length of the list of <a>active sessions</a>:
@@ -1413,7 +1425,7 @@ URL, and command for each WebDriver <a>command</a>.
 
  <li><p>Append <var>session</var> to <a>active sessions</a>.
 
- <li><p>Let <var>data</var> be an empty JSON Object initialised with:
+ <li><p>Let <var>body</var> be a JSON Object initialised with:
 
   <dl>
    <dt>"<code>sessionId</code>"
@@ -1433,7 +1445,7 @@ URL, and command for each WebDriver <a>command</a>.
    <li><p>Set the <a>webdriver-active flag</a> to true.</p>
   </ol>
 
- <li><p>Return <a>success</a> with data <var>data</var>.
+ <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
 </section>
 
