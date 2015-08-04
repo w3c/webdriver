@@ -620,6 +620,12 @@ URL, and command for each WebDriver <a>command</a>.
 
  <tr>
   <td>GET</td>
+  <td>/session/{session id}/element/{element id}/property/{name}</td>
+  <td><a>Get Element Property</a></td>
+ </tr>
+
+ <tr>
+  <td>GET</td>
   <td>/session/{session id}/element/{element id}/css/{property name}</td>
   <td><a>Get Element CSS Value</a></td>
  </tr>
@@ -3236,6 +3242,48 @@ URL, and command for each WebDriver <a>command</a>.
    <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
 </section> <!-- /Get Element Attribute -->
+<section>
+  <h3>Get Element Property</h3>
+  <p>
+  <table class="simple jsoncommand">
+    <tr>
+      <th>HTTP Method</th>
+      <th>Path Template</th>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>/session/{session id}/element/{element id}/property/{name}</td>
+    </tr>
+  </table>
+  <p>The <dfn>Get Element property</dfn> <a>command</a> will return the result of
+    <a>getting a property</a> of a <a>element</a>.
+
+  <p>The <a>remote end steps</a> are:
+  <ol>
+   <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+    return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+   <li><p>Let <var>element result</var> be the result of
+    <a>getting a known element</a> by reference <var>element id</var>.
+
+   <li><p>If <var>element result</var> is a <a>success</a>,
+    let <var>element</var> be <var>element result</var>’s data.
+
+    <p>Otherwise, return <var>element result</var>.
+
+   <li><p>If <var>element</var> <a>is stale</a>,
+    return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
+
+  <li>Let <var>result</var> be the result of <a>getting a property</a> with
+    <var>name</var> from the <a>element</a>.
+    If <var>result</var> is <code>undefined</code> set
+    <var>result</var>'s value to <code>Null</code>.
+  <li><p>Let <var>body</var> be a JSON Object
+        with the "<code>value</code>" member set to <var>result</var>.
+
+  <li><p>Return <a>success</a> with data <var>body</var>.
+  </ol>
+</section> <!-- /Get Element Property -->
 
 <section>
 <h3>Get Element CSS Value</h3>
