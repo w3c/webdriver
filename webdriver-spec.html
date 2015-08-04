@@ -1730,56 +1730,55 @@ URL, and command for each WebDriver <a>command</a>.
         </ol>
       </section>
 
-      <section>
-        <h3>Forward</h3>
+<section>
+<h3>Forward</h3>
 
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-          </tr>
-          <tr>
-            <td>POST</td>
-            <td>/session/{session id}/forward</td>
-          </tr>
-        </table>
-        <p>The <dfn>Forward</dfn> command causes the browser to traverse
-        one step forwards in the joint session history of
-        the <a>current top-level browsing context</a>.
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{session id}/forward</td>
+ </tr>
+</table>
 
-        <p>The <a>remote end steps</a> for the <a>Forward</a> command
-        are:</p>
-        <ol>
-          <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-           return <a>error</a> with <a>error code</a> <a>no such window</a>.
+<p>The <dfn>Forward</dfn> <a>command</a>
+ causes the browser to traverse one step forwards
+ in the joint session history of the <a>current top-level browsing context</a>.
 
-          <li>
-            <p><a href="https://html.spec.whatwg.org/#traverse-the-history-by-a-delta">
-                Traverse the history by a delta</a> 1 for
-                the <a>current browsing context</a>.</p>
+<p>The <a>remote end steps</a> are:
 
-          <li><p>If the task queued by that algorithm aborted
-          before <a href="https://html.spec.whatwg.org/#traverse-the-history">traversing
-          the history</a>, return <a>success</a> with data null.
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
-          <li><p>Otherwise, wait until
-          the <a href="https://html.spec.whatwg.org/#current-entry">current
-          entry</a> in the session history has changed, or for
-          the <a>session page load timeout</a> milliseconds to pass,
-          whichever occurs sooner.
+ <li><p><a href=https://html.spec.whatwg.org/#traverse-the-history-by-a-delta>Traverse the history by a delta</a>
+  1 for the <a>current browsing context</a>.
 
-           <p class=issue>This doesn't actually wait for the page to load
-            if traversing the session history kicks off a navigation.
+ <li><p>If the task queued by that algorithm aborted before
+  <a href=https://html.spec.whatwg.org/#traverse-the-history>traversing the history</a>,
+  return <a>success</a> with data null.
 
-          <li><p class=issue>Perhaps? Not sure if this is what the spec is trying to say.
+ <li><p>Otherwise, wait until
+  the <a href=https://html.spec.whatwg.org/#current-entry>current entry</a>
+  in the session history has changed,
+  or for the <a>session page load timeout</a> milliseconds to pass,
+  whichever occurs sooner.
 
-           <p>If the previous step completed by the <a>session page load timeout</a> being reached,
-            and the browser is not currently displaying an alert,
-            return <a>error</a> with <a>error code</a> <a>timeout</a>.
+  <p class=issue>This doesn't actually wait for the page to load
+   if traversing the session history kicks off a navigation.
 
-          <li><p>Return <a>success</a> with data null.
-        </ol>
-      </section>
+ <li><p class=issue>Perhaps? Not sure if this is what the spec is trying to say.
+
+  <p>If the previous step completed by the <a>session page load timeout</a> being reached,
+   and the browser is not currently displaying an alert,
+   return <a>error</a> with <a>error code</a> <a>timeout</a>.
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+</section> <!-- /Forward -->
 
       <section>
         <h3>Refresh</h3>
