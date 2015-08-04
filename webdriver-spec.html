@@ -1956,46 +1956,47 @@ URL, and command for each WebDriver <a>command</a>.
 </ol>
 </section> <!-- /Get Window Handle -->
 
-   <section>
-     <h3>Get Window Handles</h3>
+<section>
+<h3>Get Window Handles</h3>
 
-     <p>
-       <table class="simple jsoncommand">
-         <tr>
-           <th>HTTP Method</th>
-           <th>Path Template</th>
-         </tr>
-         <tr>
-           <td>GET</td>
-           <td>/session/{session id}/window_handles</td>
-         </tr>
-       </table>
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{session id}/window_handles</td>
+ </tr>
+</table>
 
-     <p>The <dfn>Get Window Handles</dfn> command returns
-      a list of <a>window handles</a> for every open
-      <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>.
-      The order in which the window handles are returned is arbitary.
+<p>The <dfn>Get Window Handles</dfn> <a>command</a>
+ returns a list of <a>window handles</a> for every open
+ <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>.
+ The order in which the window handles are returned is arbitary.
 
-     <p>The <a>remote end steps</a> are:
+<p>The <a>remote end steps</a> are:
 
-       <ol>
-         <li><p>Let <var>data</var> be a new JSON Object.
+<ol>
+ <li><p>Let <var>handles</var> be a JSON List.
 
-         <li><p>Let <var>value</var> be a JSON List.
+ <li><p>For each
+  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+  in the <a>remote end</a>,
+  push the associated <a>window handle</a> onto <var>handles</var>.
 
-         <li><p>For each
-          <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
-          in the <a>remote end</a>,
-          push the associated <a>window handle</a> to <var>value</var>.
+ <li><p>Let <var>body</var> be a JSON object
+  with the property "<code>value</code>" set to <var>handles</var>.
 
-         <li><p>Set the property "<code>value</code>" on <var>data</var>
-             to <var>value</var>.
+ <li>Return <a>success</a> with data <var>body</var>.
+</ol>
 
-         <li>Return <a>success</a> with data <var>data</var>.
-       </ol>
-
-     <p class="note">In order to determine whether or not a particular interaction with the browser opens a new window one can obtain the set of <a href='#window-handle'>window handle</a> before the interaction is performed and compare it with the set after the action is performed.</p>
-   </section>
+<aside class=example>
+ <p>In order to determine whether or not a particular interaction
+  with the browser opens a new window,
+  one can obtain the set of window handles before the interaction is performed
+  and compare it with the set after the action is performed.
+</section> <!-- /Get Window Handles -->
 
 <section>
 <h3>Switch To Window</h3>
