@@ -2043,6 +2043,7 @@ URL, and command for each WebDriver <a>command</a>.
 
  <li><p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such window</a>.
 </ol>
+</section> <!-- /Switch To Window -->
 
    <section>
      <h3>Close Window</h3>
@@ -2171,37 +2172,39 @@ URL, and command for each WebDriver <a>command</a>.
  even if they are different origin to the current browsing context.
 </section> <!-- /Switch To Frame -->
 
-   <section>
-     <h3>Switch to Parent Frame</h3>
+<section>
+<h3>Switch To Parent Frame</h3>
 
-     <table class="simple jsoncommand">
-       <tr>
-         <th>HTTP Method</th>
-         <th>Path Template</th>
-       </tr>
-       <tr>
-         <td>POST</td>
-         <td>/session/{session id}/frame/parent</td>
-       </tr>
-     </table>
-     <p>The <a>Switch to Parent Frame</a> command sets the <a>current
-     browsing context</a> for future commands to the parent of
-     the <a>current browsing context</a>.</p>
-     <p>The <a>remote end steps</a> for <dfn>Switch to Parent
-     Frame</dfn> are:</p>
-     <ol>
-       <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-        return <a>error</a> with <a>error code</a> <a>no such window</a>.
-       <li><p>If the <a>current browsing context</a> is not equal to
-       the <a>current top-level browsing context</a>, set
-       the <a>current browsing context</a> to
-       the <a href="https://html.spec.whatwg.org/#parent-browsing-context">parent
-       browsing context</a> of the <a>current browsing
-       context</a>.</li>
-       <li><p>Return <a>success</a> with data null.</li>
-     </ol>
-   </section>
-</section>
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{session id}/frame/parent</td>
+ </tr>
+</table>
+
+<p>The <a>Switch to Parent Frame</a> <a>command</a>
+ sets the <a>current browsing context</a> for future <a>commands</a>
+ to the parent of the <a>current browsing context</a>.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>If the <a>current browsing context</a> is not equal to
+  the <a>current top-level browsing context</a>,
+  set the <a>current browsing context</a> to
+  the <a href=https://html.spec.whatwg.org/#parent-browsing-context>parent browsing context</a>
+  of the <a>current browsing context</a>.
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+</section> <!-- /Switch To Parent Frame -->
 
 <section>
 <h2>Resizing and Positioning Windows</h2>
