@@ -1177,75 +1177,86 @@ URL, and command for each WebDriver <a>command</a>.
         <li><p>Return <var>server capabilities</var>.</p></li>
     </ol>
 
-  <p>To <dfn>set the proxy</dfn> from a JSON Object <var>proxy</var>:
+<p>To <dfn>set the proxy</dfn> from a JSON Object <var>proxy</var>:
 
+<ol>
+ <li><p>Let <var>proxy type</var> be the result of
+  <a>getting a property</a> named <code>proxyType</code> from <var>proxy</var>.
+
+ <li><p>Switch on <var>proxy type</var>:
+
+  <dl class=switch>
+   <dt>"<code>pac</code>"
+   <dd><p>If the implementation supports
+    <a href=https://web.archive.org/web/20070602031929/http://wp.netscape.com/eng/mozilla/2.0/relnotes/demo/proxy-live.html>proxy autoconfiguration</a>,
+    set the implementation’s autoproxy configuration URL
+    to <var>proxy autoconfiguration url</var>.
+
+    <p>Otherwise return an <a>error</a>
+     with <a>error code</a> <a>invalid argument</a>.
+
+   <dt>"<code>noproxy</code>"
+   <dd><p>Set the proxy to No Proxy using implementation defined steps.
+    If this can not be set during this process return <a>error</a>.
+
+   <dt>"<code>autodetect</code>"
+   <dd><p>Set the proxy to Auto-Detect proxy setting from the network
+    using implementation defined steps.
+    If this can not be set during this process return <a>error</a>.
+
+   <dt>"<code>system</code>"
+   <dd><p>Set the proxy to use system proxy settings using implementation defined steps.
+    If this can not be set during this process return <a>error</a>.
+
+   <dt>"<code>manual</code>"
+   <dd>
     <ol>
-      <li><p>Let <var>proxy type</var> be the result of <a>getting a property</a> named
-        <code>proxyType</code> from <var>proxy</var>.
+     <li><p>Let <var>ftp proxy</var> be the result of <a>getting a property</a>
+      named <code>ftpProxy</code> from <var>proxy</var>.
 
-      <li><p>Switch on <var>proxy type</var>:
-          <dl class=switch>
-            <dt>"<code>pac</code>"</dt>
-            <dd><p>If the implementation supports
-              <a href='https://web.archive.org/web/20070602031929/http://wp.netscape.com/eng/mozilla/2.0/relnotes/demo/proxy-live.html'>proxy autoconfiguration</a>,
-              set the implementation's autoproxy configuration url to
-              <var>proxy autoconfiguration url</var>.
+     <li><p>Let <var>ftp proxy port</var> be the result of <a>getting a property</a>
+      named <code>ftpProxyPort</code> from <var>proxy</var>.
 
-              <p>Otherwise return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+     <li><p>Let <var>http proxy</var> be the result of <a>getting a property</a>
+      named <code>httpProxy</code> from <var>proxy</var>.
 
-            <dt>"<code>noproxy</code>"</dt>
-            <dd><p>Set the proxy to No Proxy using implementation defined steps. If this
-              can not be set during this process return an <a>error</a>.
+     <li><p>Let <var>http proxy port</var> be the result of <a>getting a property</a>
+      named <code>httpProxyPort</code> from <var>proxy</var>.
 
-            <dt>"<code>autodetect</code>"</dt>
-            <dd><p>Set the proxy to Auto-Detect proxy setting from the network using implementation
-              defined steps. If this can not be set during this process return <a>error</a>.
+     <li><p>Let <var>ssl proxy</var> be the result of <a>getting a property</a>
+      named <code>sslProxy</code> from <var>proxy</var>.
 
-            <dt>"<code>system</code>"</dt>
-            <dd><p>Set the proxy to use system proxy settings using implementation defined steps. If this
-              can not be set during this process return <a>error</a>.
+     <li><p>Let <var>ssl proxy port</var> be the result of <a>getting a property</a>
+      named <code>sslProxyPort</code> from <var>proxy</var>.
 
-            <dt>"<code>manual</code>"</dt>
-            <dd>
-              <ol>
-                <li><p>Let <var>ftp proxy</var> be the result of <a>getting a property</a> named
-                  <code>ftpProxy</code> from <var>proxy</var>.</p></li>
-                <li><p>Let <var>ftp proxy port</var> be the result of <a>getting a property</a> named
-                  <code>ftpProxyPort</code> from <var>proxy</var>.</p></li>
-                <li><p>Let <var>http proxy</var> be the result of <a>getting a property</a> named
-                  <code>httpProxy</code> from <var>proxy</var>.</p></li>
-                <li><p>Let <var>http proxy port</var> be the result of <a>getting a property</a> named
-                  <code>httpProxyPort</code> from <var>proxy</var>.</p></li>
-                <li><p>Let <var>ssl proxy</var> be the result of <a>getting a property</a> named
-                  <code>sslProxy</code> from <var>proxy</var>.</p></li>
-                <li><p>Let <var>ssl proxy port</var> be the result of <a>getting a property</a> named
-                  <code>sslProxyPort</code> from <var>proxy</var>.</p></li>
-                <li><p>Let <var>socks proxy</var> be the result of <a>getting a property</a> named
-                  <code>socksProxy</code> from <var>proxy</var>.<p></li>
-                <li><p>Let <var>socks proxy port</var> be the result of <a>getting a property</a> named
-                  <code>socksProxyPort</code> from <var>proxy</var>.<p></li>
-                <li>
-                  <p>If <var>socks proxy</var> and <var>socks proxy port</var> is defined:</p>
-                    <ol>
-                      <li><p>Let <var>socks version</var> be the result of <a>getting a property</a>
-                        named <code>socksVersion</code> from <var>proxy</var>.</p></li>
-                      <li><p>Let <var>socks username</var> be the result of <a>getting a property</a>
-                        named <code>socksUsername</code> from <var>proxy</var>.</p></li>
-                      <li><p>Let <var>socks password</var> be the result of <a>getting a property</a>
-                        named <code>socksPassword</code> from <var>proxy</var>.</p></li>
-                    </ol>
-                </li>
-                <li><p>Follow implementation defined steps to set the proxy using defined variables from
-                  previous steps. If there are items that can not be set during this process return
-                  <a>error</a>.</p></li>
-              </ol>
-            </dd>
+     <li><p>Let <var>socks proxy</var> be the result of <a>getting a property</a>
+      named <code>socksProxy</code> from <var>proxy</var>.
 
-            <dt>Otherwise</dt>
-            <dd><p>Return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-          </dl>
-      </li>
+     <li><p>Let <var>socks proxy port</var> be the result of <a>getting a property</a>
+      named <code>socksProxyPort</code> from <var>proxy</var>.
+
+     <li><p>If <var>socks proxy</var> and <var>socks proxy port</var> is defined:
+
+      <ol>
+        <li><p>Let <var>socks version</var> be the result of <a>getting a property</a>
+         named <code>socksVersion</code> from <var>proxy</var>.
+
+        <li><p>Let <var>socks username</var> be the result of <a>getting a property</a>
+         named <code>socksUsername</code> from <var>proxy</var>.
+
+        <li><p>Let <var>socks password</var> be the result of <a>getting a property</a>
+         named <code>socksPassword</code> from <var>proxy</var>.
+      </ol>
+
+     <li><p>Follow implementation defined steps to set the proxy
+      using defined variables from previous steps.
+      If there are items that can not be set during this process return <a>error</a>.
     </ol>
+
+   <dt>Otherwise
+   <dd><p>Return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  </dl>
+</ol>
 </section> <!-- /Capabilities -->
 
 <section>
