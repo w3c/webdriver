@@ -4001,12 +4001,53 @@ URL, and command for each WebDriver <a>command</a>.
 <p>This section describes the interaction with
  <a href=http://www.w3.org/TR/html5/dom.html#dom-document-cookie>cookies</a>
  as described in the [[!html51]].
- When retrieving and setting a cookie it MUST be in the format of a <code>Cookie</code>.
 
-<p class=note>Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "cookies" folder.</p>
+<p>A <dfn>serialized cookie</dfn> is created with the following algorithm:
 
-<p>When returning Cookie objects, the server SHOULD include all optional fields
- it is capable of providing the information for.
+<ol>
+ <li><p>Let <var>serialized cookie</var> be a JSON Object
+  initialised with the following properties:
+  
+  <dl>
+   <dt>"<code>name</code>"
+   <dd><p>The value of <var>cookie</var>’s <code>cookie-name</code>.
+
+   <dt>"<code>value</code>"
+   <dd><p>The value of <var>cookie</var>”s <code>cookie-value</code>.
+   
+   <dt>"<code>path</code>"
+   <dd><p>If present, the value of the attribute
+    with <code>attribute-name</code> "<code>Path</code>"
+    from <var>cookie</var>’s <code>attribute-list</code>.
+    
+    <p>Otherwise, null.
+   
+   <dt>"<code>domain</code>"
+   <dd><p>If present, the value of the attribute
+    with <code>attribute-name</code> "<code>Domain</code>"
+    from <var>cookie</var>’s <code>attribute-list</code>.
+    
+    <p>Otherwise, null.
+   
+   <dt>"<code>secure</code>"
+   <dd><p>If present, the value of the attribute
+    with <code>attribute-name</code> "<code>Secure</code>"
+    from <var>cookie</var>’s <code>attribute-list</code>.
+    
+    <p>Otherwise, null.
+    
+   <dt>"<code>expiry</code>"
+   <dd><p>If present, the value of the attribute
+    with <code>attribute-name</code> "<code>Expires</code>"
+    from <var>cookie</var>’s <code>attribute-list</code>
+    in milliseconds since since midnight, January 1 1970 UTC
+    using the format described in [[!RFC1123]].
+    
+    <p>Otherwise, null.
+  </dl>
+
+ <li>Return <var>serialized cookie</var>.
+</ol>
 
 <section>
 <h3>Get Cookie</h3>
@@ -4054,53 +4095,6 @@ URL, and command for each WebDriver <a>command</a>.
   </dl>
 
  <li><p>Return <a>success</a> with data <var>result</var>.
-</ol>
-
-<p>A <dfn>serialized cookie</dfn> is created with the following algorithm:
-
-<ol>
- <li><p>Let <var>serialized cookie</var> be a JSON Object
-  initialised with the following properties:
-
-  <dl>
-   <dt>"<code>name</code>"
-   <dd><p>The value of <var>cookie</var>’s <code>cookie-name</code>.
-
-   <dt>"<code>value</code>"
-   <dd><p>The value of <var>cookie</var>”s <code>cookie-value</code>.
-
-   <dt>"<code>path</code>"
-   <dd><p>If present, the value of the attribute
-    with <code>attribute-name</code> "<code>Path</code>"
-    from <var>cookie</var>’s <code>attribute-list</code>.
-
-    <p>Otherwise, null.
-
-   <dt>"<code>domain</code>"
-   <dd><p>If present, the value of the attribute
-    with <code>attribute-name</code> "<code>Domain</code>"
-    from <var>cookie</var>’s <code>attribute-list</code>.
-
-    <p>Otherwise, null.
-
-   <dt>"<code>secure</code>"
-   <dd><p>If present, the value of the attribute
-    with <code>attribute-name</code> "<code>Secure</code>"
-    from <var>cookie</var>’s <code>attribute-list</code>.
-
-    <p>Otherwise, null.
-
-   <dt>"<code>expiry</code>"
-   <dd><p>If present, the value of the attribute
-    with <code>attribute-name</code> "<code>Expires</code>"
-    from <var>cookie</var>’s <code>attribute-list</code>
-    in milliseconds since since midnight, January 1 1970 UTC
-    using the format described in [[!RFC1123]].
-
-    <p>Otherwise, null.
-  </dl>
-
- <li>Return <var>serialized cookie</var>.
 </ol>
 </section> <!-- /Get Cookie -->
 
