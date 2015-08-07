@@ -1890,22 +1890,26 @@ URL, and command for each WebDriver <a>command</a>.
 </section> <!-- /Get Title -->
 </section>
 
-    <section>
-      <h2>Invalid SSL Certificates</h2>
-
-      <table class="simple">
-        <tr><td>Capability Name</td><td>Type</td></tr>
-        <tr><td><span id="capability-securessl">secureSsl</span></td><td>boolean</td></tr>
-      </table>
-
-      <p>WebDriver implementations MUST support users accessing sites served via HTTPS. Access to those sites using self-signed or invalid certificates, and where the certificate does not match the serving domain MUST be the same as if the HTTPS was configured properly.</p>
-
-      <p class="note">The reason for this is that implementations of this spec are often used for testing. It's a sorry fact that many QA engineers and testers are asked to verify that apps work on sites that have insecure HTTPS configurations</p>
-
-
-      <p>The exception to requirement is if the <a>Capabilities</a> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY choose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. Remote end implementations MUST return an <code><a href="#status-unknown-error">unknown error</a></code> status in this case. If this is the case, the <a>Capabilities</a> describing the session MUST also set the <code>secureSsl</code> capability to "true".</p>
-    </section>
 <section>
+<h2>Invalid SSL Certificates</h2>
+
+<p class=issue><strong>Warning:</strong>
+ This section has not yet been redefined to match the <a>routing requests</a> model,
+ and uses old concepts and definitions.
+ Please do not rely on it yet.
+
+<table class="simple">
+ <tr><td>Capability Name</td><td>Type</td></tr>
+ <tr><td><span id="capability-securessl">secureSsl</span></td><td>boolean</td></tr>
+</table>
+
+<p>WebDriver implementations MUST support users accessing sites served via HTTPS. Access to those sites using self-signed or invalid certificates, and where the certificate does not match the serving domain MUST be the same as if the HTTPS was configured properly.</p>
+
+<p class="note">The reason for this is that implementations of this spec are often used for testing. It's a sorry fact that many QA engineers and testers are asked to verify that apps work on sites that have insecure HTTPS configurations</p>
+
+<p>The exception to requirement is if the <a>Capabilities</a> used to initialize has the WebDriver session had the capability <code>secureSsl</code> set to true. In this case, implementations MAY choose to make accessing a site with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown. Remote end implementations MUST return an <code><a href="#status-unknown-error">unknown error</a></code> status in this case. If this is the case, the <a>Capabilities</a> describing the session MUST also set the <code>secureSsl</code> capability to "true".</p>
+</section> <!-- /Invalid SSL Certificates -->
+
 
 <h2>Command Contexts</h2>
 
@@ -2559,6 +2563,7 @@ URL, and command for each WebDriver <a>command</a>.
 
   <section>
     <h2>Finding Elements in a document</h2>
+    <p class=issue><strong>Warning:</strong> This section has not yet been redefined to match the <a>routing requests</a> model, and uses old concepts and definitions.  Please do not rely on it yet.
     <p>When the <a href='#findelement'>findElement()</a> or <a href='#findelements'>findElements()</a> WebDriver Command is called the
       following must be <var>parameters</var> after the local end has made a request to the remote end:</p>
     <ol>
@@ -2583,6 +2588,7 @@ URL, and command for each WebDriver <a>command</a>.
     </ol>
     <section>
     <h3>findElements()</h3>
+    <p class=issue><strong>Warning:</strong> This section has not yet been redefined to match the <a>routing requests</a> model, and uses old concepts and definitions.  Please do not rely on it yet.
       <p>When there is a need to find multiple elements on a document that we can return to the local end we use the following algorithm:
         <table class="simple jsoncommand">
           <tr>
@@ -2639,6 +2645,7 @@ URL, and command for each WebDriver <a>command</a>.
     </section>
     <section>
     <h3>findElement()</h3>
+    <p class=issue><strong>Warning:</strong> This section has not yet been redefined to match the <a>routing requests</a> model, and uses old concepts and definitions.  Please do not rely on it yet.
       <p>
         <table class="simple jsoncommand">
           <tr>
@@ -2752,7 +2759,13 @@ URL, and command for each WebDriver <a>command</a>.
   <section>
     <h2 id="element-location-strategies">Element Location Strategies</h2>
 
+    <p class=issue><strong>Warning:</strong>
+     This section has not yet been redefined to match the <a>routing requests</a> model,
+     and uses old concepts and definitions.
+     Please do not rely on it yet.
+
     <p>All element location strategies MUST return elements in the order in which they appear in the current document.</p>
+
     <section>
       <h2>CSS Selectors</h2>
       <p>Strategy name: css selector</p>
@@ -3192,7 +3205,7 @@ URL, and command for each WebDriver <a>command</a>.
 
 <section>
 <h3>Get Element Attribute</h3>
-<p>
+
 <table class="simple jsoncommand">
   <tr>
     <th>HTTP Method</th>
@@ -3203,9 +3216,10 @@ URL, and command for each WebDriver <a>command</a>.
     <td>/session/{session id}/element/{element id}/attribute/{name}</td>
   </tr>
 </table>
-<p>The <dfn>Get Element Attribute</dfn> <a>command</a> will return the
-  <a href=https://dom.spec.whatwg.org/#concept-attribute>attribute</a> of a
-  <a>web element</a>.
+
+<p>The <dfn>Get Element Attribute</dfn> <a>command</a>
+ will return the <a href=https://dom.spec.whatwg.org/#concept-attribute>attribute</a>
+ of a <a>web element</a>.
 
 <p>The <a>remote end steps</a> are:
 <ol>
@@ -3342,6 +3356,10 @@ URL, and command for each WebDriver <a>command</a>.
       <section>
         <!-- getElementText() -->
         <h3>getElementText()</h3>
+        <p class=issue><strong>Warning:</strong>
+         This section has not yet been redefined to match the <a>routing requests</a> model,
+         and uses old concepts and definitions.
+         Please do not rely on it yet.
           <p>
             <table class="simple jsoncommand">
               <tr>
@@ -4218,17 +4236,23 @@ URL, and command for each WebDriver <a>command</a>.
 </section> <!-- /Cookies -->
 
 <section>
-  <h2>Interactions</h2>
-  <br>
-  The WebDriver API offers two ways of interacting with elements,
-  either with a set of low-level "do as I say" actions, or a
-  high-level "do as I mean" set of actions. The former are offered to
-  allow precise emulation of user input. The latter are offered as a
-  convenience to cover the common case, and can conceivably be
-  implemented on top of the lower level primitive operations.
-  <br>
-  Interactions can be used to emulate single input actions as well as
-  multiple, simultaneous actions.
+<h2>Interactions</h2>
+  
+<p class=issue><strong>Warning:</strong>
+ This section has not yet been redefined to match the <a>routing requests</a> model,
+ and uses old concepts and definitions.
+ Please do not rely on it yet.
+
+<p>The WebDriver API offers two ways of interacting with elements,
+ either with a set of low-level "do as I say" actions, or a
+ high-level "do as I mean" set of actions. The former are offered to
+ allow precise emulation of user input. The latter are offered as a
+ convenience to cover the common case, and can conceivably be
+ implemented on top of the lower level primitive operations.
+
+<p>Interactions can be used to emulate single input actions as well as
+ multiple, simultaneous actions.
+
   <br>
   <h3>Terms:</h3>
   <br>
@@ -4985,8 +5009,15 @@ URL, and command for each WebDriver <a>command</a>.
 </section> <!-- /Interactions -->
 
 <section>
-  <h2>Modals</h2>
-    This section describes how modal dialogs should be handled using the WebDriver API.
+<h2>Modals</h2>
+
+<p class=issue><strong>Warning:</strong>
+ This section has not yet been redefined to match the <a>routing requests</a> model,
+ and uses old concepts and definitions.
+ Please do not rely on it yet.
+
+<p>This section describes how modal dialogs should be handled using the WebDriver API.
+
     <p class="note">Conformance tests for this section can be found in the <a href="https://github.com/w3c/web-platform-tests/tree/master/webdriver/">webdriver module</a> under the "modals" folder.</p>
     <section>
       <h2>window.alert, window.prompt and window.confirm</h2>
@@ -5096,26 +5127,33 @@ URL, and command for each WebDriver <a>command</a>.
       future commands to the remote end</p>
     </section>
 </section>
+
 <section>
-  <h2>Screenshots</h2>
-  <p>Screenshots are a powerful mechanism for providing information to users of WebDriver, particularly once a particular WebDriver instance has been disposed of. In different circumstances, users want different types of screenshots. Note that the WebDriver spec does not provide a mechanism for taking a screenshot of the entire screen.</p>
+<h2>Screenshots</h2>
 
-  <p>In all cases, screenshots MUST be returned as lossless PNG images encoded using Base64. Local ends MUST provide the user with access to the PNG images without requiring the user to decode the Base64. This access MUST be via at least one of a binary blob or a file.</p>
+<p class=issue><strong>Warning:</strong>
+ This section has not yet been redefined to match the <a>routing requests</a> model,
+ and uses old concepts and definitions.
+ Please do not rely on it yet.
 
-  <p>All commands within this section are implemented using the "TakesScreenshot" interface:</p>
+<p>Screenshots are a powerful mechanism for providing information to users of WebDriver, particularly once a particular WebDriver instance has been disposed of. In different circumstances, users want different types of screenshots. Note that the WebDriver spec does not provide a mechanism for taking a screenshot of the entire screen.</p>
+
+<p>In all cases, screenshots MUST be returned as lossless PNG images encoded using Base64. Local ends MUST provide the user with access to the PNG images without requiring the user to decode the Base64. This access MUST be via at least one of a binary blob or a file.</p>
+
+<p>All commands within this section are implemented using the "TakesScreenshot" interface:</p>
 
 <section>
 <h3>Take Screenshot</h3>
 
 <table class="simple jsoncommand">
-  <tr>
-    <th>HTTP Method</th>
-    <th>Path Template</th>
-  </tr>
-  <tr>
-    <td>GET</td>
-    <td>/session/{session id}/screenshot</td>
-  </tr>
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{session id}/screenshot</td>
+ </tr>
 </table>
 
 <p>The <dfn>Take Screenshot</dfn> command takes a screenshot
@@ -5204,10 +5242,16 @@ URL, and command for each WebDriver <a>command</a>.
 </section>
 
 <section>
-  <h2>Handling non-HTML Content</h2>
-  <p>Non-HTML content MUST be treated in the same manner as HTML content if the browser
-    creates a Document object for the content of the document. If a Document Object is not created then
-    how it is handled is non-normative.</p>
+<h2>Handling non-HTML Content</h2>
+
+<p class=issue><strong>Warning:</strong>
+ This section has not yet been redefined to match the <a>routing requests</a> model,
+ and uses old concepts and definitions.
+ Please do not rely on it yet.
+
+<p>Non-HTML content MUST be treated in the same manner as HTML content if the browser
+ creates a Document object for the content of the document. If a Document Object is not created then
+ how it is handled is non-normative.</p>
 
   <section>
     <h2>XML</h2>
@@ -5245,6 +5289,11 @@ URL, and command for each WebDriver <a>command</a>.
 <section class=appendix>
 <h2>Thread Safety</h2>
 
+<p class=issue><strong>Warning:</strong>
+ This section has not yet been redefined to match the <a>routing requests</a> model,
+ and uses old concepts and definitions.
+ Please do not rely on it yet.
+
 <p>There is no requirement for <a>local</a>
  or <a>remote</a> implementations to be thread safe.
  <a>Local ends</a> SHOULD support serialized access from multiple threads.
@@ -5252,6 +5301,11 @@ URL, and command for each WebDriver <a>command</a>.
 
 <section class=appendix>
 <h3>Privacy</h3>
+
+<p class=issue><strong>Warning:</strong>
+ This section has not yet been redefined to match the <a>routing requests</a> model,
+ and uses old concepts and definitions.
+ Please do not rely on it yet.
 
 <p>The following section is non-normative.
 
@@ -5265,6 +5319,11 @@ URL, and command for each WebDriver <a>command</a>.
 
 <section class=appendix>
 <h3>Security</h3>
+
+<p class=issue><strong>Warning:</strong>
+ This section has not yet been redefined to match the <a>routing requests</a> model,
+ and uses old concepts and definitions.
+ Please do not rely on it yet.
 
 <p>The following section is non-normative.
 
