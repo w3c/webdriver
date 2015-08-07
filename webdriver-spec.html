@@ -1407,10 +1407,13 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>Let <var>capabilities</var> be the result of <a>getting a property</a>
   named "<code>capabilities</code>" from the <var>parameters</var> argument.
 
- <li><p>Let <var>resultant capabilities</var> be the result of <a>processing capabilities</a>
+ <li><p>Let <var>capabilities result</var> be the result of <a>processing capabilities</a>
   with <var>capabilities</var> as an argument.
-  If the result is an <a>error</a>,
-  return <a>error</a> with the code <a>session not created</a>.
+
+ <li><p>If <var>capabilities result</var> is an <a>error</a>,
+  return <a>error</a> with <a>error code</a> <a>session not created</a>.
+
+ <li><p>Let <var>capabilities</var> be <var>capabilities result</var>’s data.
 
  <li><p>Let <var>session id</var> be the result of <a>generating a UUID</a>.
 
