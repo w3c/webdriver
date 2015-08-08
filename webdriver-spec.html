@@ -2062,35 +2062,40 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such window</a>.
 </ol>
 
-   <section>
-     <h3>Close Window</h3>
-     <p>
-       <table class="simple jsoncommand">
-         <tr>
-           <th>HTTP Method</th>
-           <th>Path Template</th>
-         </tr>
-         <tr>
-           <td>DELETE</td>
-           <td>/session/{session id}/window</td>
-         </tr>
-       </table>
+<section>
+<h3>Close Window</h3>
 
-     <p>The <a>remote end steps</a> for the <dfn>Close Window</dfn> command are:</p>
-     <ol>
-       <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-           return <a>error</a> with <a>error code</a> <a>no such window</a>.
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>DELETE</td>
+  <td>/session/{session id}/window</td>
+ </tr>
+</table>
 
-       <!-- this can prompt to unload, in which case the operation really failed -->
-       <li><p><a href="https://html.spec.whatwg.org/#closing-browsing-contexts">Close</a> the <a>current top-level browsing context</a>.</p></li>
+<p>The <a>remote end steps</a> for the <dfn>Close Window</dfn> <a>command</a> are:
 
-       <li><p>If there are no more open
-        <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>,
-        then <a>close the session</a>.
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
-       <li>Return the result of running the <a>remote end steps</a> for the <a>Get Window Handles</a> command.
-     </ol>
-   </section>
+ <li><p class=issue>This can prompt unload,
+  in which case the operation really failed.
+
+  <p><a href=https://html.spec.whatwg.org/#closing-browsing-contexts>Close</a>
+   the <a>current top-level browsing context</a>.
+
+ <li><p>If there are no more open
+  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>,
+  then <a>close the session</a>.
+
+ <li>Return the result of running the <a>remote end steps</a>
+  for the <a>Get Window Handles</a> <a>command</a>.
+</ol>
+</section> <!-- /Close Window -->
 
 <section>
 <h3>Switch To Frame</h3>
