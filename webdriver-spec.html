@@ -4064,6 +4064,15 @@ URL, and command for each WebDriver <a>command</a>.
  <a href=http://www.w3.org/TR/html5/dom.html#dom-document-cookie>cookies</a>
  as described in the [[!html51]].
 
+<p>To get <dfn>all associated cookies</dfn> to
+ a <a href=https://dom.spec.whatwg.org/#concept-document>document</a>,
+ the user agent must return the enumerated set of cookies
+ that meet the requirements set out in the first step of the algorithm in [[RFC6265]] to
+ <a href=https://tools.ietf.org/html/rfc6265#section-5.4>compute <code>cookie-string</code></a>
+ for the <a href=https://dom.spec.whatwg.org/#concept-document>document</a>’s
+ <a href=https://dom.spec.whatwg.org/#concept-document-url>address</a>
+ for an ‘HTTP API’.
+
 <p>A <dfn>serialized cookie</dfn> is created with the following algorithm:
 
 <ol>
@@ -4126,10 +4135,17 @@ URL, and command for each WebDriver <a>command</a>.
 </table>
 
 <p>The <dfn>Get Cookie</dfn> <a>command</a>
- returns a list of either a single matching cookie,
- or all cookies associated with
- the <a href=https://html.spec.whatwg.org/#active-document>active document</a>’s
- <a href=https://dom.spec.whatwg.org/#concept-document-url>address</a>.
+ returns all <a>cookies</a> associated with the
+ <a href=https://dom.spec.whatwg.org/#concept-document-url>address</a>
+ of the <a>current browsing context</a>’s
+ <a href=https://html.spec.whatwg.org/#active-document>active document</a>.
+
+<p>Provided with an optional <var>name</var> parameter,
+ the returned set will consist of only a single <a>cookie</a>
+ matching an entry’s
+ <a href=http://tools.ietf.org/html/rfc6265#section-4.2.2><code>cookie-name</code></a>
+ in the <a href=https://tools.ietf.org/html/rfc6265#section-5.3>cookie store</a>,
+ or be empty.
 
 <p>The <a>remote end steps</a> are:
 
@@ -4139,13 +4155,10 @@ URL, and command for each WebDriver <a>command</a>.
 
  <li><p>Let <var>result</var> be an initially empty JSON List.
 
- <li><p>Let <var>cookies</var> be a list of all cookies [[!RFC6265]]
-  in the cookie store associated with
-  the <a href=https://html.spec.whatwg.org/#active-document>active document</a>’s
-  <a href=https://dom.spec.whatwg.org/#concept-document-url>address</a>.
-
- <li><p>For each <var>cookie</var> in <var>cookies</var>,
-  switch on matching <var>name</var>:
+ <li><p>For each <var>cookie</var> among <a>all associated cookies</a> of
+  the <a>current top-level browsing context</a>’s
+  <a href=https://html.spec.whatwg.org/#active-document>active document</a>,
+  switching on <var>name</var>:
 
   <dl class=switch>
    <dt><var>cookie</var>’s <code>cookie-name</code>
@@ -4153,7 +4166,7 @@ URL, and command for each WebDriver <a>command</a>.
     and break out of the loop.
 
    <dt>undefined
-   <dd><p>Append a <a>serialized cookie</a> to <var>result</var>.
+   <dd><p>Append a <a>serialized cookie</a> of <var>cookie</var> to <var>result</var>.
   </dl>
 
  <li><p>Return <a>success</a> with data <var>result</var>.
@@ -4253,18 +4266,24 @@ URL, and command for each WebDriver <a>command</a>.
  <a href=https://dom.spec.whatwg.org/#concept-document-url>address</a>
  if <var>name</var> is undefined.
 
+<p class=issue><a>Delete Cookie</a> needs some further work
+ to explain how it interacts with [[RFC6265]]’s
+ <i><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Storage Model</a></i>
+ and that it needs to obtain
+ a <a href=https://html.spec.whatwg.org/#obtain-the-storage-mutex>storage mutex</a>
+ before modifying an entry,
+ as well as some references.
+
 <p>The <a>remote end steps</a> are:
 
 <ol>
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p>Let <var>cookies</var> be a list of all cookies [[!RFC6265]]
-  in the cookie store associated with
-  <a href=https://html.spec.whatwg.org/#active-document>active document</a>
-  <a href=https://dom.spec.whatwg.org/#concept-document-url>address</a>.
-
- <li><p>For each <var>cookie</var> in <var>cookies</var>, if:
+ <li><p>For each <var>cookie</var> among <a>all associated cookies</a> of
+  the <a>current top-level browsing context</a>’s
+  <a href=https://html.spec.whatwg.org/#active-document>active document</a>,
+  if:
 
   <dl class=switch>
    <dt><var>name</var> is undefined
