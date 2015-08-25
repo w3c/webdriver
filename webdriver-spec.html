@@ -3651,61 +3651,68 @@ URL, and command for each WebDriver <a>command</a>.
 </section> <!-- /Element State -->
 
 <section>
-  <h2>Executing Script</h2>
-  <div class="issue">
-    <p>Open questions: What happens if a user's JS triggers a modal dialog?
-      Blocking seems like a reasonable idea, but there is an assumption that
-      WebDriver is not threadsafe.
+<h2>Executing Script</h2>
 
-      What happens to unhandled JS errors? Caused by a user's JS? Caused by JS
-      on a page? How does a user of the API obtain the list of errors? Is that
-      list cleared upon read?
-  </div>
+<aside class=issue>
+ <p>Open questions: What happens if a user's JS triggers a modal dialog?
+  Blocking seems like a reasonable idea,
+  but there is an assumption that WebDriver is not threadsafe.
 
-  <p>When required to <dfn>JSON deserialize</dfn> with
-  argument <var>value</var>, and optional argument <var>seen</var>, a
-  remote end must run the following steps:</p>
-  <ol>
-    <li><p>If <var>seen</var> was not provided, let <var>seen</var> be
-    an empty set.</p></li>
-    <li><p>Jump to the first appropriate step below:
-      <dl>
-        <dt>If <var>value</var> is <code>null</code>, or has
-        type <code>Boolean</code>, <code>Number</code>
-        or <code>String</code>:</dt>
-        <dd><p>Return <a>success</a> with data <var>value</var>.</p></dd>
+ <p>What happens to unhandled JS errors?
+  Caused by a user's JS?
+  Caused by JS on a page?
+  How does a user of the API obtain the list of errors?
+  Is that list cleared upon read?
+</aside>
 
-        <dt>If <var>value</var> is an <code>Object</code>
-        that <a>represents a web element</a>:</dt>
-        <dd><p>Return the result of running the <a>deserialize the web
-        element</a> algorithm with object <var>value</var>.</p></dd>
+<p>When required to <dfn>JSON deserialize</dfn>
+ with argument <var>value</var>,
+ and optional argument <var>seen</var>,
+ a <a>remote end</a> must run the following steps:
 
-        <dt>If <var>value</var> if <var>value</var> is
-        an <code>Array</code> object or an <code>Object</code> object:
-        </dt>
-        <dd><p>Return the result of running the <a>clone an object</a>
-              algorithm with arguments <var>value</var>
-              and <var>seen</var>, and the <a>JSON deserialize</a>
-              algorithm as the clone algorithm.
-        </dd>
-        <dt>Otherwise:</dt>
-        <dd><p>Return <a>error</a> with <a>error code</a> <a>javascript error</a>.</dd>
-      </dl>
-    </li>
-  </ol>
+<ol>
+ <li><p>If <var>seen</var> was not provided,
+  let <var>seen</var> be an empty set.
 
-  <p>When required to make a <dfn>JSON clone</dfn> with
-  argument <var>value</var>, a <a>remote
-  end</a> must run the following steps:</p>
-  <ol>
-    <li><p>Let <var>seen</var> be an empty set.</p></li>
-    <li><p>Return the result of calling the <a>internal JSON clone
-  algorithm</a> with arguments <var>value</var> and <var>seen</var>.</p></li>
-  </ol>
+ <li><p>Jump to the first appropriate step below:
 
-  <p>When required to run the <dfn>internal JSON clone algorithm</dfn>
-  with arguments <var>value</var> and <var>seen</var>,
-  a <a>remote end</a> must run the following algorithm:</p>
+  <dl>
+   <dt>If <var>value</var> is <code>null</code>,
+    or has type <code>Boolean</code>,
+    <code>Number</code>
+    or <code>String</code>:
+   <dd><p>Return <a>success</a> with data <var>value</var>.
+
+   <dt>If <var>value</var> is an <code>Object</code>
+    that <a>represents a web element</a>:
+   <dd><p>Return the result of running
+    the <a>deserialize the web element</a> algorithm with object <var>value</var>.
+
+   <dt>If <var>value</var> if <var>value</var> is an <code>Array</code> object
+    or an <code>Object</code> object:
+   <dd><p>Return the result of running the <a>clone an object</a> algorithm
+    with arguments <var>value</var> and <var>seen</var>,
+    and the <a>JSON deserialize</a> algorithm as the clone algorithm.
+
+   <dt>Otherwise:</dt>
+   <dd><p>Return <a>error</a> with <a>error code</a> <a>javascript error</a>.
+  </dl>
+ </li>
+</ol>
+
+<p>When required to make a <dfn>JSON clone</dfn> with argument <var>value</var>,
+ a <a>remote end</a> must run the following steps:
+
+<ol>
+ <li><p>Let <var>seen</var> be an empty set.
+
+ <li><p>Return the result of calling the <a>internal JSON clone algorithm</a>
+  with arguments <var>value</var> and <var>seen</var>.
+</ol>
+
+<p>When required to run the <dfn>internal JSON clone algorithm</dfn>
+ with arguments <var>value</var> and <var>seen</var>,
+ a <a>remote end</a> must run the following algorithm:
 
 <ol>
  <li><p>Run the substeps of the first matching statement:
@@ -3782,133 +3789,131 @@ URL, and command for each WebDriver <a>command</a>.
   in <var>value</var>, run the following substeps:
 
   <ol>
-    <li><p>Let <var>name</var> be the name of the property.
+   <li><p>Let <var>name</var> be the name of the property.
 
-    <li><p>Let <var>source property value</var> be the result of
-     <a>getting a property</a> named <var>name</var> from <var>value</var>.
-     If doing so causes script to be run, and that script throws an exception,
-     return <a>error</a> with <a>error code</a> <a>javascript error</a>.
+   <li><p>Let <var>source property value</var> be the result of
+    <a>getting a property</a> named <var>name</var> from <var>value</var>.
+    If doing so causes script to be run, and that script throws an exception,
+    return <a>error</a> with <a>error code</a> <a>javascript error</a>.
 
-    <li><p>Let <var>cloned property result</var> be the result of
-     calling the <var>clone algorithm</var> with arguments
-     <var>source property value</var> and <var>seen</var>.
+   <li><p>Let <var>cloned property result</var> be the result of
+    calling the <var>clone algorithm</var> with arguments
+    <var>source property value</var> and <var>seen</var>.
 
-    <li><p>If <var>cloned property result</var> is a <a>success</a>,
-     <a>set a property</a> of <a>result</a> with
-     name <var>name</var> and value equal to <var>cloned property result</var>’s data.
+   <li><p>If <var>cloned property result</var> is a <a>success</a>,
+    <a>set a property</a> of <a>result</a> with
+    name <var>name</var> and value equal to <var>cloned property result</var>’s data.
 
-    <li><p>Otherwise, return <var>cloned property result</var>.
+   <li><p>Otherwise, return <var>cloned property result</var>.
   </ol>
 </ol>
 
-  <p>The steps for <dfn>extracting the script arguments from a request</dfn>,
-  are:</p>
-   <ol>
-      <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-       return <a>error</a> with <a>error code</a> <a>no such window</a>.
+<p>The steps for <dfn>extracting the script arguments from a request</dfn> are:
 
-      <li><p>Let <var>script</var> be the result of getting a property
-          named <code>script</code> from the parameters argument.
+<ol>
+ <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
-      <li><p>If <var>script</var> is not a <code>String</code>,
-       return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+ <li><p>Let <var>script</var> be the result of
+  <a>getting a property</a> named <code>script</code>
+  from the parameters argument.
 
-      <li><p>Let <var>args</var> be the result of getting a property
-          named <code>args</code> from the parameters argument.
+ <li><p>If <var>script</var> is not a <code>String</code>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-      <li><p>If <var>args</var> is not an <code>Object</code> or
-          its <code>[[\Class]]</code> internal property is
-          not <code>Array</code> or <code>Object</code>,
-          return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+ <li><p>Let <var>args</var> be the result of
+  <a>getting a property</a> named <code>args</code>
+  from the parameters argument.
 
-       <li><p>Let <var>arguments</var> be
-          a <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-8.8">List</a>
-          consisting of a <a>json deserialization</a> of each item
-          in <var>args</var> with the order preserved.
+ <li><p>If <var>args</var> is not an <code>Object</code> 
+  or its <code>[[\Class]]</code> internal property
+  is not <code>Array</code> or <code>Object</code>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-       <li><p>Return <a>success</a> with data <var>script</var>
-       and <var>arguments</var>.
-   </ol>
+ <li><p>Let <var>arguments</var> be
+  a <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-8.8">List</a>
+  consisting of a <a>json deserialization</a> of each item
+  in <var>args</var> with the order preserved.
 
-   <p>When required to <dfn>execute a function body</dfn> with
-   arguments <var>body</var> and <var>arguments</var>, a <a>remote
-   end</a> must run the following steps:
-   <ol>
-      <li><p>Let <var>window</var> be the
-          <a href="https://html.spec.whatwg.org/#concept-document-window">associated
-            window</a> of the <a>current browsing
-            context</a>'s <a href="https://html.spec.whatwg.org/#active-document">active
-            document</a>.</li>
+ <li><p>Return <a>success</a> with data <var>script</var>
+  and <var>arguments</var>.
+</ol>
 
-      <li><p>Let <var>environment settings</var> be the
-          <a href="https://html.spec.whatwg.org/#environment-settings-object">environment
-            settings object</a> for <var>window</var>.</p></li>
+<p>When required to <dfn>execute a function body</dfn>
+ with arguments <var>body</var> and <var>arguments</var>,
+ a <a>remote end</a> must run the following steps:
 
-      <li><p>Let <var>script environment</var> be
-          the <a href="https://html.spec.whatwg.org/#script-execution-environment">script
-          execution environment</a> for JavaScript obtained from
-          <var>environment settings</var>.</p></li>
+<ol>
+ <li><p>Let <var>window</var> be
+  the <a href=https://html.spec.whatwg.org/#concept-document-window>associated window</a>
+  of the <a>current browsing context</a>’s
+  <a href=https://html.spec.whatwg.org/#active-document>active document</a>.
 
-      <li><p>If <var>body</var> is not parsable as
-          a <a href="http://es5.github.io/#x13"><i>FunctionBody</i></a>
-          or if parsing detects
-          an <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-16"><i>early
-          error</i></a>, return <a>error</a> with <a>error code</a> <a>javascript error</a>.
+ <li><p>Let <var>environment settings</var> be
+  the <a href=https://html.spec.whatwg.org/#environment-settings-object>environment settings object</a>
+  for <var>window</var>.
 
-      <li><p>If <var>body</var> begins with
-          a <a href="http://es5.github.io/#x14.1">Directive
-          Prologue</a> that contains
-          a <a href="http://es5.github.io/#x14.1">Use Strict
-          Directive</a> then let <var>strict</var> be true, otherwise
-          let <var>strict</var> be false.</p></li>
+ <li><p>Let <var>script environment</var> be
+  the <a href=https://html.spec.whatwg.org/#script-execution-environment>script execution environment</a>
+  for JavaScript obtained from <var>environment settings</var>.
 
-      <li><p>Using
-          the <a href="https://html.spec.whatwg.org/#script-execution-environment">script
-          execution environment</a> <var>script environment</var>,
-          let <var>function</var> be the result of
-          calling <a href="http://es5.github.io/#x13.2">create a
-          function object</a> with parameter list of an
-          empty <a href="http://es5.github.io/#x8.8">List</a>,
-          body <var>body</var>, scope of
-          the <a href="http://es5.github.io/#x10.2.3">global
-          environment</a> and strict flag <var>strict</var>.</p></li>
+ <li><p>If <var>body</var> is not parsable as
+  a <a href=http://es5.github.io/#x13><i>FunctionBody</i></a>
+  or if parsing detects an
+  <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-16>early error</a>,
+  return <a>error</a> with <a>error code</a> <a>javascript error</a>.
 
-      <li><p>Let <var>script</var> be a
-          new <a href="https://html.spec.whatwg.org/#concept-script">script</a>.</p></li>
+ <li><p>If <var>body</var> begins with
+  a <a href=http://es5.github.io/#x14.1>Directive Prologue</a> that contains
+  a <a href=http://es5.github.io/#x14.1>Use Strict Directive</a>
+  then let <var>strict</var> be true,
+  otherwise let <var>strict</var> be false.
 
-      <li><p>Let <var>script</var>'s <a href="https://html.spec.whatwg.org/#code-entry-point">code
-            entry-point</a> be <var>function</var>.</p></li>
+ <li><p>Using the
+  <a href=https://html.spec.whatwg.org/#script-execution-environment>script execution environment</a>
+  <var>script environment</var>,
+  let <var>function</var> be the result of
+  calling <a href=http://es5.github.io/#x13.2>create a function object</a>
+  with parameter list of an empty <a href=http://es5.github.io/#x8.8>List</a>,
+  body <var>body</var>,
+  scope of the <a href=http://es5.github.io/#x10.2.3>global environment</a>,
+  and strict flag <var>strict</var>.
 
-      <li><p>Let
-          script's <a href="https://html.spec.whatwg.org/#settings-object">settings
-          object</a> object be <var>script settings</var>.</p></li>
+ <li><p>Let <var>script</var> be a new
+  <a href=https://html.spec.whatwg.org/#concept-script>script</a>.
 
-      <!-- the stuff from here on down is quite dubious -->
-      <!-- this incumbent scripts stuff is in webidl but the references don't
-           lead anywhere -->
-      <!-- li><p><a href="">Push <var>script</var> onto <a>the stack of
-              incumbent scripts</a>.</li-->
+ <li><p>Let <var>script</var>’s
+  <a href=https://html.spec.whatwg.org/#code-entry-point>code entry-point</a>
+  be <var>function</var>.
 
-      <li><p>Invoke the <code>[[\Call]]</code> internal method
-          of <var>function</var>, providing <var>window</var> as the
-          this value and <var>parameters</var> as the argument
-          values. If doing so does not produce an exception,
-          let <var>result</var> be <a>success</a> with data set
-          to the return value from this function call. Otherwise
-          let <var>result</var> be <a>error</a> with
-          code <a>javascript error</a>.</p>
+ <li><p>Let script’s <a href=https://html.spec.whatwg.org/#settings-object>settings object</a> object
+  be <var>script settings</var>.
 
-      <!-- li><p><a href="">Pop <var>script</var> from <a>the stack of
-              incumbent scripts</a>.</p></li -->
+ <!-- the stuff from here on down is quite dubious -->
+ <!-- this incumbent scripts stuff is in webidl but the references don't
+    lead anywhere -->
+ <!-- li><p><a href="">Push <var>script</var> onto <a>the stack of
+       incumbent scripts</a>.</li-->
 
-      <li><p>If <var>result</var> is an <a>error</a>,
-       return result.
+ <li><p>Invoke the <code>[[\Call]]</code> internal method of <var>function</var>,
+  providing <var>window</var> as the this value
+  and <var>parameters</var> as the argument values.
+  If doing so does not produce an exception,
+  let <var>result</var> be <a>success</a> with data set
+  to the return value from this function call.
+  Otherwise let <var>result</var> be <a>error</a>
+  with <a>error code</a> <a>javascript error</a>.
 
-      <li><p>Otherwise let <var>json data</var> be a <a>JSON clone</a>
-          of <var>result</var>'s data.</p></li>
+ <!-- li><p><a href="">Pop <var>script</var> from <a>the stack of
+       incumbent scripts</a>.</p></li -->
 
-      <li><p>Return <a>success</a> with data <var>json data</var>.
-    </ol>
+ <li><p>If <var>result</var> is an <a>error</a>, return result.
+
+ <li><p>Otherwise let <var>json data</var> be a <a>JSON clone</a>
+  of <var>result</var>’s data.
+
+ <li><p>Return <a>success</a> with data <var>json data</var>.
+</ol>
 
 <section>
 <h3>Execute Script</h3>
