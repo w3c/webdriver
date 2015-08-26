@@ -141,6 +141,39 @@ var respecConfig = {
  or specific steps may be implemented in any manner,
  so long as the end result is equivalent.
 
+<p>The standard defines four broad conformance classes:
+
+<dl>
+ <dt><dfn data-lt="local end|local ends|local">Local End</dfn>
+ <dd><p>This represents the client side of the protocol,
+  which is usually in the form of language-specific libraries
+  providing an API on top of the WebDriver protocol.
+  This specification does not place any restrictions on the details of those libraries
+  above the level of the wire protocol.
+
+  <p class=issue>Define the requirements on the local end somewhere.
+
+ <dt><dfn data-lt="remote end|remote ends|remote">Remote End</dfn>
+ <dd>The remote end hosts the server side of the protocol.
+  Defining the behaviour of a remote end in response to the WebDriver protocol
+  forms the largest part of this specification.
+
+ <dt><dfn data-lt="intermediary node|intermediary nodes">Intermediary Node</dfn>
+ <dd>Intermediary nodes are those that act as proxies,
+  implementing both the client and server sides of the protocol.
+  Intermediary nodes must be black-box indistinguishable from a <a>remote end</a>
+  from the point of view of <a>local end</a>
+  and so are bound by the requirements on a <a>remote end</a> in terms of the wire protocol.
+  However they are not expected to implement <a>remote end steps</a> directly.
+
+ <dt><dfn>Endpoint Node</dfn>
+ <dd>An endpoint node is the final <a>remote end</a>
+  in a chain of nodes that is not an <a>intermediary node</a>.
+  The endpoint node is implemented by a user agent or a similar program.
+  An endpoint node must be, like <a>intermediary nodes</a>,
+  indistinguishable from a <a>remote end</a>.
+</dl>
+
 <section>
 <h3>Dependencies</h3>
 
@@ -183,39 +216,27 @@ var respecConfig = {
 
 <p>An <dfn>ASCII string</dfn> is a string
  in the range U+0000 to U+007F, inclusive.
+</section>
 
-<p>This specification defines four broad conformance classes:
+<section>
+<h3>Terminology</h3>
 
-<dl>
- <dt><dfn data-lt="local end|local ends|local">Local End</dfn>
- <dd><p>This represents the client side of the protocol,
-  which is usually in the form of language-specific libraries
-  providing an API on top of the WebDriver protocol.
-  This specification does not place any restrictions on the details of those libraries
-  above the level of the wire protocol.
+<p>The terminology most used in this specification is from
+ HTML, DOM, and CSS. [[!HTML]] [[!DOM4]] [[!CSS21]]
+ When the specification talks about <em>elements</em>,
+ this is a reference to
+ <code><a href=https://dom.spec.whatwg.org/#concept-element>Element</a></code>
+ <a href=https://dom.spec.whatwg.org/#concept-node>nodes</a>
+ in the Document Object Model, unless stated otherwise.
 
-  <p class=issue>Define the requirements on the local end somewhere.
+<p>In equations, all numbers are integers,
+ addition is represented by “+”,
+ subtraction is represented by “−”,
+ and bitwise OR by “|”.
+ The characters “(” and “)” are used to provide logical grouping in these contexts.
 
- <dt><dfn data-lt="remote end|remote ends|remote">Remote End</dfn>
- <dd>The remote end hosts the server side of the protocol.
-  Defining the behaviour of a remote end in response to the WebDriver protocol
-  forms the largest part of this specification.
-
- <dt><dfn data-lt="intermediary node|intermediary nodes">Intermediary Node</dfn>
- <dd>Intermediary nodes are those that act as proxies,
-  implementing both the client and server sides of the protocol.
-  Intermediary nodes must be black-box indistinguishable from a <a>remote end</a>
-  from the point of view of <a>local end</a>
-  and so are bound by the requirements on a <a>remote end</a> in terms of the wire protocol.
-  However they are not expected to implement <a>remote end steps</a> directly.
-
- <dt><dfn>Endpoint Node</dfn>
- <dd>An endpoint node is the final <a>remote end</a>
-  in a chain of nodes that is not an <a>intermediary node</a>.
-  The endpoint node is implemented by a user agent or a similar program.
-  An endpoint node must be, like <a>intermediary nodes</a>,
-  indistinguishable from a <a>remote end</a>.
-</dl>
+<p>An <dfn>ASCII string</dfn> is a string
+ in the range U+0000 to U+007F, inclusive.
 </section> <!-- /Terminology -->
 
 <section>
