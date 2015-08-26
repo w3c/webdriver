@@ -208,13 +208,26 @@ var respecConfig = {
 </section> <!-- /Terminology -->
 
 <section>
-<h2>The WebDriver Protocol</h2>
+<h2>Interface</h2>
+
+<pre class=idl>partial interface Navigator {
+  readonly attribute boolean webdriver;
+};</pre>
+
+<p>The <code>webdriver</code> IDL attribute
+ of the <code><a>Navigator</a></code> interface must return
+ the value of the <dfn>webdriver-active flag</dfn>, which is initially false.
+
+<p>This property allows websites to determine
+ that the user agent is under control by WebDriver,
+ and can be used to help mitigate
+ <a href=https://en.wikipedia.org/wiki/Denial-of-service_attack>denial-of-service attacks</a>.
+</section>
 
 <section>
-<h3>Introduction</h3>
+<h2>Protocol</h2>
 
-<p class=issue>TODO
-</section>
+<p class=issue>TODO: Introduction
 
 <section>
 <h3>Algorithms</h3>
@@ -5292,20 +5305,6 @@ URL, and command for each WebDriver <a>command</a>.
  <li>Return <var>screenshot</var> to the local end.</li>
 </ul>
 </section> <!-- /Take Element Screenshot -->
-</section>
-
-<section>
-<h2>The WebDriver Interface</h2>
-<pre class=idl>partial interface Navigator {
-  readonly attribute boolean webdriver;
-};</pre>
-
-<p>The <code>navigator</code> property must return
- the value of the <dfn>webdriver-active flag</dfn>, which is initially false.
-
-<p>This property allows websites to determine
- that the user agent is being scripted by WebDriver,
- and can be used to help mitigate denial of service attacks.
 </section>
 
 <section>
