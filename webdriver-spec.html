@@ -3702,55 +3702,42 @@ URL, and command for each WebDriver <a>command</a>.
 
 <p>When required to run the <dfn>internal JSON clone algorithm</dfn>
  with arguments <var>value</var> and <var>seen</var>,
- a <a>remote end</a> must run the following algorithm:
+ a <a>remote end</a> must return the value
+ of the first matching statement, matching on <var>value</var>:
 
-<ol>
- <li><p>Run the substeps of the first matching statement:
+<dl class=switch>
+ <dt><code>undefined</code>
+ <dt><code>null</code>
+ <dd><p><a>Success</a> with data <code>null</code>.
 
-  <dl class=switch>
-   <dt><var>value</var> is <code>undefined</code>
-    or <code>null</code>
-   <dd><p>Return <a>success</a> with data <code>null</code>.
+ <dt>type <code>Boolean</code>
+ <dt>type <code>Number</code>
+ <dt> type<code>String</code>
+ <dd><p><a>Success</a> with data <var>value</var>.
 
-   <dt><var>value</var> has type <code>Boolean</code>,
-    <code>Number</code>, or <code>String</code>
-   <dd><p>Return <a>success</a> with data <var>value</var>.
+ <dt>instance of <a href=https://dom.spec.whagwg.org/#concept-element>element</a>
+ <dd><p><a>Serialize the element</a> with argument <var>value</var>.
 
-   <dt><var>value</var> is an <code>Element</code> Node
-   <dd><p>Return the result of <a>creating a web element</a>
-    with argument <var>value</var>.
+ <dt>instance of <code>NodeList</code>
+ <dt>instance of <code>HTMLCollection</code>
+ <dt>instance of <code>Array</code>
+ <dt>instance of <code>Object</code>
+ <dd>
+  <ol>
+   <li><p>If <var>value</var> is in <var>seen</var>,
+    return <a>error</a> with <a>error code</a> <a>javascript error</a>.
 
-    <dd>
-     <ol>
-      <li><p>If <var>value</var> is in <var>seen</var>,
-       return <a>error</a> with <a>error code</a> <a>javascript error</a>.
+   <li><p>Add <var>value</var> to <var>seen</var>.
 
-      <li><p>Add <var>value</var> to <var>seen</var>.</li>
-     </ol>
-    </dd>
+   <li><p>Produce the value of running the <a>clone an object</a> algorithm
+    with arguments <var>value</var> and <var>seen</var>,
+    and the <a>internal JSON clone algorithm</a> as the <a>clone algorithm</a>.
+  </ol>
+ </dd>
 
-    <dt><var>value</var> is
-     a <code>NodeList</code>,
-     <code>HTMLCollection</code>,
-     <code>Array</code> object,
-     or <code>Object</code>object
-    <dd>
-     <ol>
-      <li><p>If <var>value</var> is in <var>seen</var>,
-       return <a>error</a> with <a>error code</a> <a>javascript error</a>.
-
-      <li><p>Add <var>value</var> to <var>seen</var>.
-
-      <li><p>Return the result of running the <a>clone an object</a> algorithm
-       with arguments <var>value</var> and <var>seen</var>,
-       and the <a>internal JSON clone algorithm</a> as the clone algorithm.
-     </ol>
-    </dd>
-
-    <dt>Otherwise</dt>
-    <dd><p>Return <a>error</a> with <a>error code</a> <a>javascript error</a>.
-  </dl>
-</ol>
+ <dt>Otherwise</dt>
+ <dd><p><a>Error</a> with <a>error code</a> <a>javascript error</a>.
+</dl>
 
 <p>When required to <dfn>clone an object</dfn>
  with arguments <var>value</var> and <var>seen</var>
