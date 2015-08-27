@@ -272,7 +272,7 @@ var respecConfig = {
 
 <p class=issue>Should mention what happens if it can’t be decoded as HTTP.
  Note that <a href=https://fetch.spec.whatwg.org/>Fetch</a> isn’t quite right
- because it doesn’t specify how to construct a request from network data, or serialise a response.
+ because it doesn’t specify how to construct a request from network data, or serialize a response.
 
 <ol>
  <li><p><a>Read bytes</a> from the connection
@@ -2496,26 +2496,18 @@ URL, and command for each WebDriver <a>command</a>.
  holding a <a>UUID</a> value.
 
 <p>Each <a href=https://html.spec.whatwg.org/#browsing-context>browsing context</a>
- has an associated list of <dfn>known elements</dfn>.
+ has an associated list of
+ <dfn data-lt="known elements|known element">known elements</dfn>.
  When the <a href=https://html.spec.whatwg.org/#browsing-context>browsing context</a>
  is <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>,
  the list of <a>known elements</a> is discarded along with it.
 
-<p>When <dfn>getting a known element</dfn>
- by a <a>UUID</a> <var>reference</var>:
-
-<ol>
- <li><p>For each <var>element</var> in
-  the <a>current browsing context</a>’s list of <a>known elements</a>:
-
-  <ol>
-   <li><p>If <var>element</var>’s <a>web element reference</a>
-    matches <var>reference</var>,
-    return <a>success</a> with data <var>element</var>.
-  </ol>
-
- <li><p>Return <a>error</a> with <a>error code</a> <a>no such element</a>.
-</ol>
+<p>To <dfn data-lt="get a known element|getting a known element">get a known element</dfn>
+ by a <a>UUID</a> <var>reference</var>,
+ return <a>success</a> with the <a>known element</a>
+ which <a>web element reference</a> matches <var>reference</var>.
+ If there are none, return <a>error</a>
+ with <a>error code</a> <a>no such element</a>.
 
 <p>To <dfn data-lt="create a web element reference|create an element">create a web element reference</dfn>
  for an <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
@@ -2545,7 +2537,7 @@ URL, and command for each WebDriver <a>command</a>.
   <var>element</var>’s <a>web element reference</a>.
 </ol>
 
-<p>When asked to <dfn>serialise the element</dfn> <var>element</var>:
+<p>When asked to <dfn>serialize the element</dfn> <var>element</var>:
 
 <ol>
  <li><p>Let <var>object</var> be a new JSON Object with properties:
@@ -2558,7 +2550,7 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>Return <var>object</var>.
 </ol>
 
-<p>When required to <dfn>deserialise the web element</dfn>
+<p>When required to <dfn>deserialize the web element</dfn>
  by a JSON Object <var>object</var> that <a>represents a web element</a>:
 
 <ol>
@@ -2573,7 +2565,8 @@ URL, and command for each WebDriver <a>command</a>.
   from <var>object</var>.
 
  <li><p>Let <var>element result</var> be the result of
-  <a>getting a known element</a> by reference <var>reference</var>.
+  <a>getting a known element</a> by
+  <a>UUID</a> <var>reference</var>.
 
  <li><p>If <var>element result</var> is a <a>success</a>,
   let <var>element</var> be <var>element result</var>’s data.
@@ -3151,7 +3144,8 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>Let <var>visible</var> be a boolean initially set to false.
 
  <li><p>Let <var>element result</var> be the result of
-  <a>getting a known element</a> by parameter <var>element id</var>.
+  <a>getting a known element</a> by
+  <a>UUID</a> parameter <var>element id</var>.
 
  <li><p>If <var>element result</var> is a <a>success</a>,
   let <var>element</var> be <var>element result</var>’s data.
@@ -3203,7 +3197,8 @@ URL, and command for each WebDriver <a>command</a>.
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>element result</var> be the result of
-  <a>getting a known element</a> by reference <var>element id</var>.
+  <a>getting a known element</a> by
+  <a>UUID</a> reference <var>element id</var>.
 
  <li><p>If <var>element result</var> is a <a>success</a>,
   let <var>element</var> be <var>element result</var>’s data.
@@ -3265,7 +3260,8 @@ URL, and command for each WebDriver <a>command</a>.
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>element result</var> be the result of
-  <a>getting a known element</a> by reference <var>element id</var>.
+  <a>getting a known element</a> by
+  <a>UUID</a> reference <var>element id</var>.
 
  <li><p>If <var>element result</var> is a <a>success</a>,
   let <var>element</var> be <var>element result</var>’s data.
@@ -3326,7 +3322,8 @@ URL, and command for each WebDriver <a>command</a>.
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>element result</var> be the result of
-  <a>getting a known element</a> by reference <var>element id</var>.
+  <a>getting a known element</a> by
+  <a>UUID</a> reference <var>element id</var>.
 
  <li><p>If <var>element result</var> is a <a>success</a>,
   let <var>element</var> be <var>element result</var>’s data.
@@ -3375,7 +3372,8 @@ URL, and command for each WebDriver <a>command</a>.
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>element result</var> be the result of
-  <a>getting a known element</a> by parameter <var>element id</var>.
+  <a>getting a known element</a> by
+  <a>UUID</a> parameter <var>element id</var>.
 
  <li><p>If <var>element result</var> is a <a>success</a>,
   let <var>element</var> be <var>element result</var>’s data.
@@ -3490,11 +3488,12 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p><a>Deserialise the web element</a> from <var>parameters</var>,
-  and let it be known as <var>element result</var>.
+ <li><p>Let <var>element result</var> be the result of
+  <a>getting a known element</a> by
+  <a>UUID</a> reference parameter <var>element id</var>.
 
  <li><p>If <var>element result</var> is an <a>error</a>,
-  return it with its error code.
+  return <var>element result</var>.
 
  <li><p>Let <var>element</var> be <var>element result</var>’s data.
 
@@ -3561,13 +3560,14 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p><a>Deserialise the web element</a> from <var>parameters</var>,
-  and let it be known as <var>element result</var>.
+ <li><p>Let <var>element result</var> be the result of
+  <a>getting a known element</a> by
+  <a>UUID</a> reference parameter <var>element id</var>.
 
  <li><p>If <var>element result</var> is an <a>error</a>,
-  return it with its error code.
+  return <var>element result</var>.
 
- <lI><p>Let <var>element</var> be <var>element result</var>’s data.
+ <li><p>Let <var>element</var> be <var>element result</var>’s data.
 
  <li><p>If the <var>element</var> <a>is stale</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
@@ -3626,7 +3626,8 @@ URL, and command for each WebDriver <a>command</a>.
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>element result</var> be the result of
-  <a>getting a known element</a> by reference <var>element id</var>.
+  <a>getting a known element</a> by
+  <a>UUID</a> reference <var>element id</var>.
 
  <li><p>If <var>element result</var> is a <a>success</a>,
   let <var>element</var> be <var>element result</var>’s data.
