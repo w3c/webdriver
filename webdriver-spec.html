@@ -4069,7 +4069,8 @@ URL, and command for each WebDriver <a>command</a>.
  the user agent must return the enumerated set of cookies
  that meet the requirements set out in the first step of the algorithm in [[RFC6265]] to
  <a href=https://tools.ietf.org/html/rfc6265#section-5.4>compute <code>cookie-string</code></a>
- for the <a href=https://dom.spec.whatwg.org/#concept-document>document</a>’s
+ for the <a>current browsing context</a>’s
+ <a href=https://dom.spec.whatwg.org/#concept-document>document</a>’s
  <a href=https://dom.spec.whatwg.org/#concept-document-url>address</a>
  for an ‘HTTP API’.
 
@@ -4158,7 +4159,7 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>For each <var>cookie</var> among <a>all associated cookies</a> of
   the <a>current top-level browsing context</a>’s
   <a href=https://html.spec.whatwg.org/#active-document>active document</a>,
-  switching on <var>name</var>:
+  matching on <var>name</var>:
 
   <dl class=switch>
    <dt><var>cookie</var>’s <code>cookie-name</code>
@@ -4265,14 +4266,6 @@ URL, and command for each WebDriver <a>command</a>.
  the <a href=https://html.spec.whatwg.org/#active-document>active document</a>’s
  <a href=https://dom.spec.whatwg.org/#concept-document-url>address</a>
  if <var>name</var> is undefined.
-
-<p class=issue><a>Delete Cookie</a> needs some further work
- to explain how it interacts with [[RFC6265]]’s
- <i><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Storage Model</a></i>
- and that it needs to obtain
- a <a href=https://html.spec.whatwg.org/#obtain-the-storage-mutex>storage mutex</a>
- before modifying an entry,
- as well as some references.
 
 <p>The <a>remote end steps</a> are:
 
