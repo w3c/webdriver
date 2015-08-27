@@ -125,7 +125,7 @@ var respecConfig = {
 <section id=sotd></section>
 
 <section>
-<h3>Conformance</h3>
+<h2>Conformance</h2>
 
 <p>All diagrams, examples, and notes in this specification are non-normative,
  as are all sections explicitly marked non-normative.
@@ -140,14 +140,36 @@ var respecConfig = {
 <p>Conformance requirements phrased as algorithms
  or specific steps may be implemented in any manner,
  so long as the end result is equivalent.
-</section>
 
 <section>
-<h3>Terminology</h3>
+<h3>Dependencies</h3>
 
-<p>The terminology most used in this specification is from
- HTML, DOM, and CSS. [[!HTML]] [[!DOM4]] [[!CSS21]]
- When the specification talks about <em>elements</em>,
+<p>This specification relies on several other underlying specifications.
+
+<p class=issue>This list is not exhaustive.
+
+<dl>
+ <dt>HTTP and related specifications
+ <dd><p>The following terms are defined in the Cookie specification: [[COOKIES]]
+  <ul>
+   <li><dfn>cookie</dfn>
+   <li><dfn>cookie name</dfn> as a <a>cookie</a>’s <code>name</code> field
+   <li><dfn>cookie value</dfn> as a <a>cookie</a>’s <code>value</code> field
+   <li><dfn>cookie expiry time</dfn> a <a>cookie</a>’s <code>expiry-time</code> field
+   <li><dfn>cookie domain</dfn> as a <a>cookie</a>’s <code>domain</code> field
+   <li><dfn>cookie path</dfn> as a a <a>cookie</a>’s <code>path</code> field
+   <li><dfn>cookie secure only</dfn> as a <a>cookie</a>’s <code>secure-only-flag</code> field
+   <li><dfn>cookie http only</dfn> as a <a>cookie</a>’s <code>http-only-flag</code>
+  </ul>
+</dl>
+
+</section> <!-- /Dependencies -->
+</section> <!-- /Conformance -->
+
+<section>
+<h2>Terminology</h2>
+
+<p>When the specification talks about <em>elements</em>,
  this is a reference to
  <code><a href=https://dom.spec.whatwg.org/#concept-element>Element</a></code>
  <a href=https://dom.spec.whatwg.org/#concept-node>nodes</a>
@@ -4059,52 +4081,33 @@ URL, and command for each WebDriver <a>command</a>.
  <a href=http://www.w3.org/TR/html5/dom.html#dom-document-cookie>cookies</a>
  as described in the [[!html51]].
 
-<p>A <dfn>serialized cookie</dfn> is created with the following algorithm:
+<p>A <dfn>serialized cookie</dfn> is created by
+ assigning the fields of a <a>cookie</a>
+ to properties of a new JSON Object:
 
-<ol>
- <li><p>Let <var>serialized cookie</var> be a JSON Object
-  initialised with the following properties:
+<dl>
+ <dt>"<code>name</code>"
+ <dd><p><a>cookie name</a>
 
-  <dl>
-   <dt>"<code>name</code>"
-   <dd><p>The value of <var>cookie</var>’s <code>cookie-name</code>.
+ <dt>"<code>value</code>"
+ <dd><p><a>cookie value</a>
 
-   <dt>"<code>value</code>"
-   <dd><p>The value of <var>cookie</var>”s <code>cookie-value</code>.
+ <dt>"<code>expiry</code>"
+ <dd><p><a>cookie expiry time</a>
 
-   <dt>"<code>path</code>"
-   <dd><p>If present, the value of the attribute
-    with <code>attribute-name</code> "<code>Path</code>"
-    from <var>cookie</var>’s <code>attribute-list</code>.
+ <dt>"<code>domain</code>"
+ <dd><p><a>cookie domain</a>
 
-    <p>Otherwise, null.
+ <dt>"<code>path</code>"
+ <dd><p><a>cookie path</a>
 
-   <dt>"<code>domain</code>"
-   <dd><p>If present, the value of the attribute
-    with <code>attribute-name</code> "<code>Domain</code>"
-    from <var>cookie</var>’s <code>attribute-list</code>.
+ <dt>"<code>secure</code>"
+ <dd><p><a>cookie secure only</a>
 
-    <p>Otherwise, null.
+ <dt>"<code>http</code>"
+ <dd><p><a>cookie http only flag</a>
+</dl>
 
-   <dt>"<code>secure</code>"
-   <dd><p>If present, the value of the attribute
-    with <code>attribute-name</code> "<code>Secure</code>"
-    from <var>cookie</var>’s <code>attribute-list</code>.
-
-    <p>Otherwise, null.
-
-   <dt>"<code>expiry</code>"
-   <dd><p>If present, the value of the attribute
-    with <code>attribute-name</code> "<code>Expires</code>"
-    from <var>cookie</var>’s <code>attribute-list</code>
-    in milliseconds since since midnight, January 1 1970 UTC
-    using the format described in [[!RFC1123]].
-
-    <p>Otherwise, null.
-  </dl>
-
- <li>Return <var>serialized cookie</var>.
-</ol>
 
 <section>
 <h3>Get Cookie</h3>
