@@ -524,12 +524,6 @@ URL, and command for each WebDriver <a>command</a>.
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/window/handles</td>
-  <td><a>Get Window Handles</a></td>
- </tr>
-
- <tr>
-  <td>GET</td>
   <td>/session/{session id}/window</td>
   <td><a>Get Window Handle</a></td>
  </tr>
@@ -542,20 +536,14 @@ URL, and command for each WebDriver <a>command</a>.
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/window/size</td>
-  <td><a>Set Window Size</a></td>
+  <td>/session/{session id}/window</td>
+  <td><a>Switch To Window</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/window/size</td>
-  <td><a>Get Window Size</a></td>
- </tr>
-
- <tr>
-  <td>POST</td>
-  <td>/session/{session id}/window/maximize</td>
-  <td><a>Maximize Window</a></td>
+  <td>/session/{session id}/window/handles</td>
+  <td><a>Get Window Handles</a></td>
  </tr>
 
  <tr>
@@ -566,8 +554,20 @@ URL, and command for each WebDriver <a>command</a>.
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/window</td>
-  <td><a>Switch To Window</a></td>
+  <td>/session/{session id}/window/maximize</td>
+  <td><a>Maximize Window</a></td>
+ </tr>
+
+ <tr>
+  <td>POST</td>
+  <td>/session/{session id}/window/size</td>
+  <td><a>Set Window Size</a></td>
+ </tr>
+
+ <tr>
+  <td>GET</td>
+  <td>/session/{session id}/window/size</td>
+  <td><a>Get Window Size</a></td>
  </tr>
 
  <tr>
@@ -1988,6 +1988,79 @@ URL, and command for each WebDriver <a>command</a>.
 </section> <!-- /Get Window Handle -->
 
 <section>
+<h3>Close Window</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>DELETE</td>
+  <td>/session/{session id}/window</td>
+ </tr>
+</table>
+
+<p>The <a>remote end steps</a> for the <dfn>Close Window</dfn> <a>command</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p class=issue>This can prompt unload,
+  in which case the operation really failed.
+
+  <p><a href=https://html.spec.whatwg.org/#closing-browsing-contexts>Close</a>
+   the <a>current top-level browsing context</a>.
+
+ <li><p>If there are no more open
+  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>,
+  then <a>close the session</a>.
+
+ <li>Return the result of running the <a>remote end steps</a>
+  for the <a>Get Window Handles</a> <a>command</a>.
+</ol>
+</section> <!-- /Close Window -->
+
+<section>
+<h3>Switch To Window</h3>
+
+<table class="simple jsoncommand">
+  <tr>
+    <th>HTTP Method</th>
+    <th>Path Template</th>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td>/session/{session id}/window</td>
+  </tr>
+</table>
+
+<p>The <dfn>Switch To Window</dfn> command is used
+ to select the <a>current top-level browsing context</a>
+ for the current <a>session</a>,
+ i.e. the one that will be used for processing commands.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>Let <var>handle</var> be the result of
+  <a>getting a property</a> named "<code>handle</code>"
+  from the <var>parameters</var> argument.
+
+ <li><p>If <var>handle</var> is equal to the associated <a>window handle</a>
+  for some
+  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+  in the <a>current session</a>,
+  set the session's <a>current top-level browsing context</a>
+  to that browsing context,
+  and return <a>success</a> with data null.
+
+ <li><p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such window</a>.
+</ol>
+</section> <!-- /Switch To Window -->
+
+<section>
 <h3>Get Window Handles</h3>
 
 <table class="simple jsoncommand">
@@ -2029,79 +2102,6 @@ URL, and command for each WebDriver <a>command</a>.
   and compare it with the set after the action is performed.
 </aside>
 </section> <!-- /Get Window Handles -->
-
-<section>
-<h3>Switch To Window</h3>
-
-<table class="simple jsoncommand">
-  <tr>
-    <th>HTTP Method</th>
-    <th>Path Template</th>
-  </tr>
-  <tr>
-    <td>POST</td>
-    <td>/session/{session id}/window</td>
-  </tr>
-</table>
-
-<p>The <dfn>Switch To Window</dfn> command is used
- to select the <a>current top-level browsing context</a>
- for the current <a>session</a>,
- i.e. the one that will be used for processing commands.
-
-<p>The <a>remote end steps</a> are:
-
-<ol>
- <li><p>Let <var>handle</var> be the result of
-  <a>getting a property</a> named "<code>handle</code>"
-  from the <var>parameters</var> argument.
-
- <li><p>If <var>handle</var> is equal to the associated <a>window handle</a>
-  for some
-  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
-  in the <a>current session</a>,
-  set the session's <a>current top-level browsing context</a>
-  to that browsing context,
-  and return <a>success</a> with data null.
-
- <li><p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such window</a>.
-</ol>
-</section> <!-- /Switch To Window -->
-
-<section>
-<h3>Close Window</h3>
-
-<table class="simple jsoncommand">
- <tr>
-  <th>HTTP Method</th>
-  <th>Path Template</th>
- </tr>
- <tr>
-  <td>DELETE</td>
-  <td>/session/{session id}/window</td>
- </tr>
-</table>
-
-<p>The <a>remote end steps</a> for the <dfn>Close Window</dfn> <a>command</a> are:
-
-<ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
-
- <li><p class=issue>This can prompt unload,
-  in which case the operation really failed.
-
-  <p><a href=https://html.spec.whatwg.org/#closing-browsing-contexts>Close</a>
-   the <a>current top-level browsing context</a>.
-
- <li><p>If there are no more open
-  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>,
-  then <a>close the session</a>.
-
- <li>Return the result of running the <a>remote end steps</a>
-  for the <a>Get Window Handles</a> <a>command</a>.
-</ol>
-</section> <!-- /Close Window -->
 
 <section>
 <h3>Switch To Frame</h3>
@@ -3815,7 +3815,7 @@ URL, and command for each WebDriver <a>command</a>.
   <a>getting a property</a> named <code>args</code>
   from the parameters argument.
 
- <li><p>If <var>args</var> is not an <code>Object</code> 
+ <li><p>If <var>args</var> is not an <code>Object</code>
   or its <code>[[\Class]]</code> internal property
   is not <code>Array</code> or <code>Object</code>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
