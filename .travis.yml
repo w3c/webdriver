@@ -6,5 +6,5 @@ env:
     - URL="https://w3c.github.io/webdriver/echidna-manifest.txt"
     - DECISION="https://lists.w3.org/Archives/Public/public-browser-tools-testing/2015JulSep/0009.html"
     - secure: YyDoEwlD8azykD+mq6TcNi7tQ93M7+R6qx0EqPd/z7M6KSFNRu8SdMYNkHI8XSSf0qLfOUPhm0t92hJkfte/wF33JFTeux/U51e1I4gLql/nuCddR4FreTFd00XSbAH+zZg9Kffb9pah60UyyM1ndOzDedy+lRdEe7QT8iseae0=
-after_deploy:
+before_deploy:
   - curl "https://labs.w3.org/echidna/api/request" --data "url=$URL" --data "decision=$DECISION" --data "token=$TOKEN"
