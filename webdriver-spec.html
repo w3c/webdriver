@@ -2918,7 +2918,7 @@ URL, and command for each WebDriver <a>command</a>.
  from [[!ECMA-262]] with the exception that
  non-valid float return values are returned as <code>0.0</code>.
 
-<p>The <dfn data-lt="element displayed|element displayedness">element displayed</dfn> algorithm
+<p>The <dfn data-lt="element displayed|element displayedness|not displayed">element displayed</dfn> algorithm
  is a boolean state where true signifies that the element is displayed
  and false signifies that the element is not displayed.
  To compute the state on <var>element</var>:
@@ -3686,6 +3686,200 @@ URL, and command for each WebDriver <a>command</a>.
 </ol>
 </section> <!-- /Is Element Enabled -->
 </section> <!-- /Element State -->
+
+<section>
+<h2>Element Interaction</h2>
+
+<p>The element interaction <a>commands</a>
+ provide a high-level instruction set for manipulating form controls.
+ Unlike the <a>Actions</a> interface,
+ they will implicitly <a data-lt="scroll into view">scroll elements into view</a>
+ and check for <a>element displayedness</a>.
+
+<section>
+<h3>Element Click</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{session id}/element/{element id}/click</td>
+ </tr>
+</table>
+
+<p>The <dfn>Element Click</dfn> <a>command</a>
+ <a>scrolls into view</a> the <a>element</a>
+ and then attempts to click the centre of its visible area.
+ In case the <a>element</a> is <a>not displayed</a>,
+ an <a>element not visible</a> <a>error</a> is returned.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>Let <var>element result</var> be the result of <a>getting a known element</a>
+  by <a>UUID</a> reference <var>element id</var>.
+
+ <lI><p>Let <var>element</var> be <var>element result</var>’s data
+  if it is a <a>success</a>.
+  Otherwise return <var>element result</var>.
+
+ <li><p>If <var>element</var> is <a>not displayed</a>,
+  return <a>error</a> with <a>error code</a> <a>element not visible</a>.
+
+ <li><p><a>Scroll into view</a> the <var>element</var>.
+
+ <li><p class=issue>Get the element’s bounding box and calculate centre position.
+
+ <li><p class=issue>Run interaction steps on coordinate.
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+</section> <!-- /Element Click -->
+
+<section>
+<h3>Element Tap</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{session id}/element/{element id}/tap</td>
+ </tr>
+</table>
+
+<p>The <dfn>Element Tap</dfn> <a>command</a>
+ <a>scrolls into view</a> the <a>element</a>
+ and then attempts to tap the centre of its visible area.
+ In case the <a>element</a> is <a>not displayed</a>,
+ an <a>element not visible</a> <a>error</a> is returned.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>Let <var>element result</var> be the result of <a>getting a known element</a>
+  by <a>UUID</a> reference <var>element id</var>.
+
+ <lI><p>Let <var>element</var> be <var>element result</var>’s data
+  if it is a <a>success</a>.
+  Otherwise return <var>element result</var>.
+
+ <li><p>If <var>element</var> is <a>not displayed</a>,
+  return <a>error</a> with <a>error code</a> <a>element not visible</a>.
+
+ <li><p><a>Scroll into view</a> the <var>element</var>.
+
+ <li><p class=issue>Get the element’s bounding box and calculate centre position.
+
+ <li><p class=issue>Run interaction steps on coordinate.
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+</section> <!-- /Element Tap -->
+
+<section>
+<h3>Element Clear</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{session id}/element/{element id}/clear</td>
+ </tr>
+</table>
+
+<p>The <dfn>Element Clear</dfn> <a>command</a>
+ <a>scrolls into view</a> the form control <a>element</a>
+ and then attempts to clear its text content or reset it to its default state.
+ In case the <a>element</a> is <a>not displayed</a>,
+ an <a>element not visible</a> <a>error</a> is returned.
+
+<p class=issue>Should this also work for <code>contenteditable</code> elements?
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>Let <var>element result</var> be the result of <a>getting a known element</a>
+  by <a>UUID</a> reference <var>element id</var>.
+
+ <lI><p>Let <var>element</var> be <var>element result</var>’s data
+  if it is a <a>success</a>.
+  Otherwise return <var>element result</var>.
+
+ <li><p>If <var>element</var> is <a>not displayed</a>,
+  return <a>error</a> with <a>error code</a> <a>element not visible</a>.
+
+ <li><p><a>Scroll into view</a> the <var>element</var>.
+
+ <li><p class=issue>Clear element’s text content or reset to default state. 
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+</section> <!-- /Element Clear -->
+
+<section>
+<h3>Element Send Keys</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{session id}/element/{element id}/sendKeys</td>
+ </tr>
+</table>
+
+<p>The <dfn>Element Send Keys</dfn> <a>command</a>
+ <a>scrolls into view</a> the form control <a>element</a>
+ and then sends the provided keys to the element.
+ In case the <a>element</a> is <a>not displayed</a>,
+ an <a>element not visible</a> <a>error</a> is returned.
+
+<p class=issue>Should this also work for <code>contenteditable</code> elements?
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>Let <var>element result</var> be the result of <a>getting a known element</a>
+  by <a>UUID</a> reference <var>element id</var>.
+
+ <lI><p>Let <var>element</var> be <var>element result</var>’s data
+  if it is a <a>success</a>.
+  Otherwise return <var>element result</var>.
+
+ <li><p>If <var>element</var> is <a>not displayed</a>,
+  return <a>error</a> with <a>error code</a> <a>element not visible</a>.
+
+ <li><p><a>Scroll into view</a> the <var>element</var>.
+
+ <li><p class=issue>Interact with the element.
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+</section> <!-- Element Send Keys -->
+</section> <!-- /Element Interaction -->
 
 <section>
 <h2>Executing Script</h2>
