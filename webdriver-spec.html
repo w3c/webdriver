@@ -628,6 +628,12 @@ URL, and command for each WebDriver <a>command</a>.
 
  <tr>
   <td>GET</td>
+  <td>/session/{session id}/element/active</td>
+  <td><a>Get Active Element</a></td>
+ </tr>
+
+ <tr>
+  <td>GET</td>
   <td>/session/{session id}/element/{element id}/displayed</td>
   <td><a>Is Element Displayed</a></td>
  </tr>
@@ -2558,7 +2564,9 @@ URL, and command for each WebDriver <a>command</a>.
   <var>element</var>’s <a>web element reference</a>.
 </ol>
 
-<p>When asked to <dfn>serialize the element</dfn> <var>element</var>:
+<p>When asked to
+ <dfn data-lt="serialize the element|serialization of the element">serialize the element</dfn>
+ <var>element</var>:
 
 <ol>
  <li><p>Let <var>object</var> be a new JSON Object with properties:
@@ -2769,6 +2777,7 @@ URL, and command for each WebDriver <a>command</a>.
           </li>
         </ol>
     </section>
+</section> <!-- /Finding Elements In a Document -->
 
 <section>
 <h3>Get Active Element</h3>
@@ -2795,18 +2804,16 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p>Let <var>active element</var> be
-  the <code><a href=https://html.spec.whatwg.org/#dom-document-activeelement>activeElement</a></code> attribute of the
-  the <a>current browsing context</a>’s
+ <li><p>Let <var>active element</var> be the <a>active element</a>
+  of the <a>current browsing context</a>’s
   <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>.
 
- <li><p><a>Serialise the element</a> that is <var>active element</var>
-  and let it be known as <var>active web element</var>.
+ <li><p>Let <var>active web element</var> be the
+  <a>serialization of the element</a> <var>active element</var>.
 
  <li><p>Return <a>success</a> with data <var>active web element</var>.
 </ol>
 </section> <!-- /Get Active Element -->
- </section>
 
   <section>
     <h2 id="element-location-strategies">Element Location Strategies</h2>
@@ -2873,7 +2880,7 @@ URL, and command for each WebDriver <a>command</a>.
       <p>Strategy name: xpath</p>
       <p>All WebDriver implementations MUST support finding elements by XPath 1.0 [[!XPATH]] with the <a href="http://dev.w3.org/html5/spec/Overview.html#interactions-with-xpath-and-xslt">edits from section 3.3</a> of the [[!html51]] specification made. If no native support is present in the browser, a pure JS implementation MAY be used. When called, the returned values MUST be equivalent of calling "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate">evaluate</a>" function from [[DOM-LEVEL-3-XPATH]] with the result type set to <a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE">ORDERED_NODE_SNAPSHOT_TYPE</a> (7).</p>
     </section>
-  </section>
+</section> <!-- /Element Location Strategies -->
 
 <section>
 <h2>Element Displayedness</h2>
