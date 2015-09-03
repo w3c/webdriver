@@ -54,6 +54,10 @@ dl.switch > dt:before {
  text-align: right;
  line-height: 0.5em;
 }
+
+dl dt { margin: .75em 0 .25em }
+dd > p { margin-top: 0 }
+dd ul { margin: 1em 0 1em }
 </style>
 
 <script src=https://www.w3.org/Tools/respec/respec-w3c-common async class=remove></script>
@@ -177,20 +181,209 @@ var respecConfig = {
 
 <p>This specification relies on several other underlying specifications.
 
-<p class=issue>This list is not exhaustive.
+<!--
+ Each item in the list begins with a comment
+ with term described using the characters [a-zA-Z].
+ This is so that the list items can be piped through sort(1)
+ to automatically sort each list alphabetically.
+-->
 
 <dl>
+ <dt>DOM
+ <dd><p>The following terms are defined in the Document Object Model specification: [[DOM]]
+  <ul>
+   <!-- Attribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-attribute>Attribute</a></dfn>
+   <!-- comapreDocumentPosition --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-comparedocumentposition>compareDocumentPosition</a></dfn>
+   <!-- Document element --> <li><dfn><a href=https://dom.spec.whatwg.org/#document-element>Document element</a></dfn>
+   <!-- Document --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document>Document</a></dfn>
+   <!-- DOCUMENT_POSITION_DISCONNECTED --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-document_position_disconnected>DOCUMENT_POSITION_DISCONNECTED</a></dfn> (1)
+   <!-- Document type --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-type>Document type</a></dfn>
+   <!-- Document URL --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-url>Document URL</a></dfn>
+   <!-- Element --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-element>Element</a></dfn>
+   <!-- Equals --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node-equals>Equals</a></dfn>
+   <!-- Get an attribute by name --> <li><dfn data-lt="getting an attribute by name"><a href=https://dom.spec.whatwg.org/#concept-element-attributes-get-by-name>Get an attribute by name</a></dfn>
+   <!-- hasAttribute --> <li><dfn data-lt="has the attribute"><a href=https://dom.spec.whatwg.org/#dom-element-hasattribute>hasAttribute</a></dfn>
+   <!-- Node --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node>Node</a></dfn>
+   <!-- ownerDocument --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-ownerdocument>ownerDocument</a></dfn>
+   <!-- tagName --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-tagname>tagName</a></dfn>
+   <!-- Text node --> <li><dfn><a href=https://dom.spec.whatwg.org/#text><code>Text</code> node</a></dfn>
+  </ul>
+
+ <dt>ECMAScript
+ <dd><p>The following terms are defined in the ECMAScript Language Specification: [[ECMA-262]]
+  <ul>
+   <!-- Create a function object --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-13.2>Create a function object</a></dfn>
+   <!-- Directive prologue --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Directive prologue</a></dfn>
+   <!-- Early error --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-16>Early error</a></dfn>
+   <!-- FunctionBody --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-13>FunctionBody</a></dfn>
+   <!-- Function --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24>Function</a></dfn>
+   <!-- Global environment --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-10.2.3>Global environment</a></dfn>
+   <!-- Own Property --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>Own property</a></dfn>
+   <!-- parseFloat --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></dfn>
+   <!-- Use strict directive --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Use strict directive</a></dfn>
+  </ul>
+
+ <dd>This specification also presumes that you are able to call
+  some of the internal methods from the ECMAScript Language Specification:
+  <ul>
+   <!-- Class --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>[[\Class]]</a></dfn>
+   <!-- GetOwnProperty --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.1>[[\GetOwnProperty]]</a></dfn>
+   <!-- GetProperty --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.2>[[\GetProperty]]</a></dfn>
+  </ul>
+
+ <dd>The ECMAScript Language Specification also defines
+  the following types that are used throughout this specification:
+  <ul>
+   <!-- Array --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-11.1.4>Array</a></dfn>
+   <!-- List --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.8>List</a></dfn>
+   <!-- Number --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.19>Number</a></dfn>
+   <!-- Object --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.2.1>Object</a></dfn>
+  </ul>
+
+ <dt>Fetch
+ <dd><p>The following terms are defined in the WHATWG Fetch specification: [[FETCH]]
+  <ul>
+   <!-- Body --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-body>Body</a></dfn>
+   <!-- Method --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-method>Method</a></dfn>
+   <!-- Response --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response>Response</a></dfn>
+   <!-- Status --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response-status>Status</a></dfn>
+   <!-- Status message --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response-status-message>Status message</a></dfn>
+   <!-- URL --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-url>URL</a></dfn>
+  </ul>
+
+ <dt>HTML
+ <dd><p>The following terms are defined in the HTML specification: [[HTML]]
+  <ul>
+   <!-- A browsing context is discarded --> <li><dfn data-lt=discarded><a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>A browsing context is discarded</a></dfn>
+   <!-- Active document --> <li><dfn><a href=https://html.spec.whatwg.org/#active-document>Active document</a></dfn>
+   <!-- Active element --> <li><dfn>Active element</dfn> being the <a href=https://html.spec.whatwg.org/#dom-document-activeelement><code>activeElement</code></a> attribute on <a href=https://html.spec.whatwg.org/#document><code>Document</code></a>
+   <!-- Ancestor browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#ancestor-browsing-context>Ancestor browsing context</a></dfn>
+   <!-- Associated window --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-document-window>Associated window</a></dfn>
+   <!-- Boolean attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#boolean-attribute>Boolean attribute</a></dfn>
+   <!-- Browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#browsing-context>Browsing context</a></dfn>
+   <!-- Checkbox --> <li><dfn><a href="https://html.spec.whatwg.org/#checkbox-state-%28type=checkbox%29">Checkbox</a></dfn> state
+   <!-- Checkedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-checked>Checkedness</a></dfn>
+   <!-- Child browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#child-browsing-context>Child browsing context</a></dfn>
+   <!-- Close a browsing context --> <li><dfn data-lt="close|closes"><a href=https://html.spec.whatwg.org/#close-a-browsing-context>Close a browsing context</a></dfn>
+   <!-- Code entry point --> <li><dfn><a href=https://html.spec.whatwg.org/#code-entry-point>Code entry point</a></dfn>
+   <!-- Cookie-averse Document object --> <li><dfn><a href=https://html.spec.whatwg.org/#cookie-averse-document-object>Cookie-averse <code>Document</code> object</a></dfn>
+   <!-- Current entry --> <li><dfn><a href=https://html.spec.whatwg.org/#current-entry>Current entry</a></dfn>
+   <!-- Determine the value of an indexed property --> <li><dfn data-lt="determining the value of an indexed property"><a href=https://html.spec.whatwg.org/#dom-window-item>Determine the value of an indexed property</a></dfn> of a <a><code>Window</code></a> object
+   <!-- Disabled --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-disabled>Disabled</a></dfn>
+   <!-- Document title --> <li><dfn data-lt=title><a href=https://html.spec.whatwg.org/#dom-title-text>Document title</a></dfn>
+   <!-- Environment settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#environment-settings-object>Environment settings object</a></dfn>
+   <!-- Navigate --> <li><dfn><a href=https://html.spec.whatwg.org/#navigate>Navigate</a></dfn>
+   <!-- Nested browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#nested-browsing-context>Nested browsing context</a></dfn>
+   <!-- Parent browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#parent-browsing-context>Parent browsing context</a></dfn>
+   <!-- Prompt to unload a document --> <li><dfn data-lt="prompt to unload a document|prompting to unload"><a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>Prompt to unload a document</a></dfn>
+   <!-- Radio button --> <li><dfn><a href="https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29">Radio Button</a></dfn> state
+   <!-- Replacement enabled --> <li><dfn><a href=https://html.spec.whatwg.org/#replacement-enabled>Replacement enabled</a></dfn>
+   <!-- Script execution environment --> <li><dfn><a href=https://html.spec.whatwg.org/#script-execution-environment>Script execution environment</a></dfn>
+   <!-- Script --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-script>Script</a></dfn>
+   <!-- Selectedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-option-selectedness>Selectedness</a></dfn>
+   <!-- Settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#settings-object>Settings object</a></dfn>
+   <!-- Top-level browsing context --> <li><dfn data-lt="top-level browsing context|top-level browsing contexts"><a href=https://html.spec.whatwg.org/#top-level-browsing-context>Top-level browsing context</a></dfn>
+   <!-- Traverse the history by a delta --> <li><dfn><a href=https://html.spec.whatwg.org/#traverse-the-history-by-a-delta>Traverse the history by a delta</a></dfn>
+   <!-- Traverse the history --> <li><dfn data-lt="traverse the history|traversing the history"><a href=https://html.spec.whatwg.org/#traverse-the-history>Traverse the history</a></dfn>
+   <!-- Tree order --> <li><dfn><a href=https://html.spec.whatwg.org/#tree-order>Tree order</a></dfn>
+  </ul>
+
+ <dd><p>The HTML specification also defines a number of elements
+  which this specification has special-cased behaviour for:
+  <ul>
+   <!-- input element --> <li><a href=https://html.spec.whatwg.org/#the-input-element><dfn><code>input</code></dfn> element</a>
+   <!-- option element --> <li><a href=https://html.spec.whatwg.org/#the-option-element><dfn><code>option</code></dfn> element</a>
+  </ul>
+
+ <dd><p>The following types are also defined in the HTML specification,
+  and referenced here:
+  <ul>
+   <!-- type attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-input-type><code>type</code> attribute</a></dfn>
+   <!-- Window object --> <li><dfn><a href=https://html.spec.whatwg.org/#the-window-object><code>Window</code></a></dfn> object
+ </ul>
+
  <dt>HTTP and related specifications
  <dd><p>The following terms are defined in the Cookie specification: [[RFC6265]]
   <ul>
-   <li><dfn>cookie</dfn>
-   <li><dfn>cookie name</dfn> as a <a>cookie</a>’s <code>name</code> field
-   <li><dfn>cookie value</dfn> as a <a>cookie</a>’s <code>value</code> field
-   <li><dfn>cookie expiry time</dfn> a <a>cookie</a>’s <code>expiry-time</code> field
-   <li><dfn>cookie domain</dfn> as a <a>cookie</a>’s <code>domain</code> field
-   <li><dfn>cookie path</dfn> as a a <a>cookie</a>’s <code>path</code> field
-   <li><dfn>cookie secure only</dfn> as a <a>cookie</a>’s <code>secure-only-flag</code> field
-   <li><dfn>cookie http only</dfn> as a <a>cookie</a>’s <code>http-only-flag</code> field
+   <li><dfn><a href=https://tools.ietf.org/html/rfc6265#section-5.4>Compute <code>cookie-string</code></a></dfn>
+   <li><dfn><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Cookie</a></dfn>
+   <li><dfn><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Cookie store</a></dfn>
+   <li><dfn>Cookie name</dfn> as a <a>cookie</a>’s <code>name</code> field
+   <li><dfn>Cookie value</dfn> as a <a>cookie</a>’s <code>value</code> field
+   <li><dfn>Cookie expiry time</dfn> a <a>cookie</a>’s <code>expiry-time</code> field
+   <li><dfn>Cookie domain</dfn> as a <a>cookie</a>’s <code>domain</code> field
+   <li><dfn>Cookie path</dfn> as a a <a>cookie</a>’s <code>path</code> field
+   <li><dfn>Cookie secure only</dfn> as a <a>cookie</a>’s <code>secure-only-flag</code> field
+   <li><dfn>Cookie http only</dfn> as a <a>cookie</a>’s <code>http-only-flag</code>
+  </ul>
+
+ <dd><p>The following terms are defined in
+  the Hypertext Transfer Protocol (HTTP) Status Code Registry:
+  <ul>
+   <li><dfn><a href=http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml>Status code registry</a></dfn>
+  </ul>
+
+ <dd>The following terms are defined in
+  the Netscape Navigator Proxy Auto-Config File Format:
+  <ul>
+   <li><dfn><a href=https://web.archive.org/web/20070602031929/http://wp.netscape.com/eng/mozilla/2.0/relnotes/demo/proxy-live.html>Proxy autoconfiguration</a></dfn>
+  </ul>
+
+ <dt>Styling
+ <dd>The following terms are defined in
+  the CSS Values and Units Module Level 3 specification: [[CSS3-VALUES]]
+  <ul>
+   <li><dfn><a href=http://www.w3.org/TR/css3-values/#reference-pixel>CSS reference pixels</a></dfn>
+  </ul>
+
+ <dd>The following properties are defined in
+  the CSS Basic Box Model Level 3 specification: [[CSS3-BOX]]
+   <ul>
+    <li>The <dfn><a href=https://drafts.csswg.org/css-box/#visibility><code>visibility</code></a></dfn> property
+   </ul>
+
+ <dd>The following properties are defined in
+  the CSS Display Module Level 3 specification: [[CSS3-DISPLAY]]
+  <ul>
+   <li>The <dfn><a href=https://drafts.csswg.org/css-display/#the-display-properties><code>display</code></a></dfn> property
+  </ul>
+
+ <dd>The following terms are defined in
+  the Geometry Interfaces Module Level 1 specification: [[GEOMETRY-1]]
+  <ul>
+   <li><dfn data-lt="width dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-width-dimension>Rectangle width dimension</a></dfn>
+   <li><dfn data-lt="height dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-height-dimension>Rectangle height dimension</a></dfn>
+  </ul>
+
+ <dd>The following terms are defined in
+  the CSS Cascading and Inheritance Level 4 specification: [[CSS-CASCADE-4]]
+  <ul>
+   <li><dfn><a href=https://drafts.csswg.org/css-cascade-4/#computed-value>Computed value</a></dfn>
+  </ul>
+
+ <dd>The following functions are defined in
+  the CSSOM View Module: [[CSSOM-VIEW]]:
+  <ul>
+   <li><dfn>Bounding rectangle</dfn> as <a href=https://drafts.csswg.org/cssom-view-1/#dom-range-getboundingclientrect>getBoundingClientRect</a>
+   <li><dfn><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></dfn>
+   <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetleft>offsetLeft</a></dfn>
+   <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsettop>offsetTop</a></dfn>
+   <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetparent>offsetParent</a></dfn>
+  </ul>
+
+ <dt>URLs
+ <dd>The following terms are defined in the WHATWG URL standard: [[URL]]
+  <ul>
+   <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-path-absolute>Path-absolute URL</a></dfn>
+   <li><dfn><a href=https://url.spec.whatwg.org/#concept-url-serializer>URL serializer</a></dfn>
+  </ul>
+
+ <dt>Web IDL
+ <dd><p>The IDL fragments in this specification
+  must be interpreted as required for conforming IDL fragments,
+  as described in the Web IDL specification. [[WEBIDL]]
+  <ul>
+   <li><dfn><a href=http://heycam.github.io/webidl/#dfn-supported-property-indices>Supported property indices</a></dfn>
   </ul>
 </dl>
 </section> <!-- /Dependencies -->
@@ -198,12 +391,6 @@ var respecConfig = {
 
 <section>
 <h2>Terminology</h2>
-
-<p>When the specification talks about <em>elements</em>,
- this is a reference to
- <code><a href=https://dom.spec.whatwg.org/#concept-element>Element</a></code>
- <a href=https://dom.spec.whatwg.org/#concept-node>nodes</a>
- in the Document Object Model, unless stated otherwise.
 
 <p>In equations, all numbers are integers,
  addition is represented by “+”,
@@ -213,7 +400,7 @@ var respecConfig = {
 
 <p>An <dfn>ASCII string</dfn> is a string
  in the range U+0000 to U+007F, inclusive.
-</section> <!-- /Terminology -->
+</section>
 
 <section>
 <h2>Interface</h2>
@@ -257,7 +444,7 @@ var respecConfig = {
 <p>The result of <dfn>getting a property</dfn> with name <var>name</var>
  from an [[!ECMA-262]] Object <var>object</var>
  is defined as the result of calling
- the <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.1>[[\GetOwnProperty]]</a>
+ the <a>[[\GetOwnProperty]]</a>
  internal method of <var>object</var> with property name <var>name</var>.
 </section> <!-- /Algorithms -->
 
@@ -303,8 +490,7 @@ var respecConfig = {
 
  <li><p>Let <var>request match</var> be the result of the algorithm
   to <a>match a request</a> with <var>request</var>’s
-  <a href=https://fetch.spec.whatwg.org/#concept-request-method>method</a>
-  and <a href=https://fetch.spec.whatwg.org/#concept-request-url>url</a> as arguments.
+  <a>method</a> and <a>url</a> as arguments.
 
  <li><p>If <var>request match</var> is of type <a>error</a>,
   <a>send an error</a> with <var>request match</var>’s <a>error code</a>
@@ -333,7 +519,7 @@ var respecConfig = {
   <ol>
    <li><p>Let <var>parse result</var> be the result of
     <a>parsing as JSON</a> with <var>request</var>’s
-    <a href=https://fetch.spec.whatwg.org/#concept-request-body>body</a> as the argument.
+    <a>body</a> as the argument.
 
    <li><p>If <var>parse result</var> is an <a>error</a> or if it is a <a>success</a>
     but its associated data is not an Object object,
@@ -401,19 +587,15 @@ var respecConfig = {
  a <a>remote end</a> must run the following steps:
 
 <ol>
- <li><p>Let <var>response</var> be a new
-  <a href=https://fetch.spec.whatwg.org/#concept-response class=externalRef>response</a>.
+ <li><p>Let <var>response</var> be a new <a>response</a>.
 
- <li><p>Set <var>response</var>’s
-  <a href=https://fetch.spec.whatwg.org/#concept-response-status class=externalRef>status</a>
-  to <var>status</var>,
-  and <a href=https://fetch.spec.whatwg.org/#concept-response-status-message class=externalRef>status message</a>
-  to the string corresponding to the description of <var>status</var>
-  in the <a href=http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml class=externalRef>status code registry</a>.
+ <li><p>Set <var>response</var>’s <a>status</a> to <var>status</var>,
+  and <a>status message</a> to the string corresponding to the description of <var>status</var>
+  in the <a>status code registry</a>.
 
  <li><p>If <var>data</var> is not null, let <var>response</var>’s
-  <a href=https://fetch.spec.whatwg.org/#concept-response-body class=externalRef>body</a>
-  be the result of <a>serializing as JSON</a> with <var>data</var> as the argument.
+  <a>body</a> be the result of <a>serializing as JSON</a>
+  with <var>data</var> as the argument.
 
  <li><p>Let <var>response bytes</var> be the byte sequence resulting
   from serializing <var>response</var> according to the rules in [[!RFC7230]].
@@ -433,8 +615,7 @@ var respecConfig = {
 
 <p>A <a>remote end</a> has an associated <dfn>URL prefix</dfn>,
  which is used as a prefix on all WebDriver-defined URLs on that remote end.
- This must either be the empty string,
- or an <a href=https://url.spec.whatwg.org/#concept-absolute-path-relative-url class=externalRef>absolute path relative url</a>.
+ This must either be the empty string or an <a>path-absolute URL</a>.
 
 <aside class=example>
  <p>For example a <a>remote end</a> wishing
@@ -454,14 +635,15 @@ var respecConfig = {
 
  <li><p>Remove each entry in <var>endpoints</var>
   for which the concatenation of the <a>url prefix</a>
-  and the production in the "url" column does not match <a>url</a>
+  and the production in the <i>url</i> column does not match <a>url</a>
   according to the rules in [[!URI-Template]].
 
  <li><p>If there are no entries in <var>endpoints</var>,
   return <a>error</a> with <a>error code</a> <a>unknown command</a>.
 
  <li><p>Remove each entry in <var>endpoints</var>
-  for which the "method" column is not an exact case-sensitive match for <var>method</var>.
+  for which the <i>method</i> column
+  is not an exact case-sensitive match for <var>method</var>.
 
  <li><p>If there are no entries in <var>endpoints</var>,
   return <a>error</a> with <a>error code</a> <a>unknown method</a>.
@@ -953,9 +1135,8 @@ URL, and command for each WebDriver <a>command</a>.
   <td><dfn>stale element reference</dfn>
   <td>400
   <td><code>stale element reference</code>
-  <td>An element <a>command</a> failed because the referenced
-   <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
-   is no longer attached to the DOM.
+  <td>An element <a>command</a> failed because
+   the referenced <a>element</a> is no longer attached to the DOM.
  </tr>
 
  <tr>
@@ -1211,8 +1392,7 @@ URL, and command for each WebDriver <a>command</a>.
 
   <dl class=switch>
    <dt>"<code>pac</code>"
-   <dd><p>If the implementation supports
-    <a href=https://web.archive.org/web/20070602031929/http://wp.netscape.com/eng/mozilla/2.0/relnotes/demo/proxy-live.html>proxy autoconfiguration</a>,
+   <dd><p>If the implementation supports <a>proxy autoconfiguration</a>,
     set the implementation’s autoproxy configuration URL
     to <var>proxy autoconfiguration url</var>.
 
@@ -1310,12 +1490,11 @@ URL, and command for each WebDriver <a>command</a>.
 <p class=issue>Need to explain that there must be a relationship
  between the current session and the browser state.
 
-<p>The <a>session</a> is set up at the invocation of
- a <a href=#newsession>new session</a>,
+<p>The <a>session</a> is set up at the invocation of a <a>New Session</a>,
  and torn down at some later point;
- either explicitly by invoking <a href=#>quit</a>,
- or implicitly when <a href=#close>close</a> is called at the last remaining
- <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>.
+ either explicitly by invoking <a>Close Session</a>,
+ or implicitly when <a>Close Window</a> is called
+ at the last remaining <a>top-level browsing context</a>.
 
 <p>A <a>remote end</a> has an associated list of
  <dfn data-lt="active sessions|active session">active sessions</dfn>,
@@ -1337,22 +1516,18 @@ URL, and command for each WebDriver <a>command</a>.
  stated otherwise it is null.
 
 <p>A <a>session</a> has an associated <dfn>current browsing context</dfn>,
- which is the <a href=https://html.spec.whatwg.org/#browsing-context>browsing context</a>
- against which commands will run.
+ which is the <a>browsing context</a> against which <a>commands</a> will run.
 
 <p>A <a>session</a> has an associated
  <dfn>current top-level browsing context</dfn>,
- which is the <a>current browsing context</a> if it itself is a
- <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>,
- or the <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
- for which the <a>current browsing context</a>
- is an <a href=https://html.spec.whatwg.org/#ancestor-browsing-context>ancestor browsing context</a>.
+ which is the <a>current browsing context</a> if it itself is a <a>top-level browsing context</a>,
+ or the <a>top-level browsing context</a> for which
+ the <a>current browsing context</a> is an <a>ancestor browsing context</a>.
 
-<p>The <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
- is said to be <dfn>no longer open</dfn>
- if it has been <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>.
+<p>The <a>top-level browsing context</a> is said
+ to be <dfn>no longer open</dfn> if it has been <a>discarded</a>.
 
-<p>Each <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+<p>Each <a>top-level browsing context</a>
  has an associated <dfn data-lt="window handle|window handles">window handle</dfn>,
  which is a string uniquely identifying that browsing context.
  This string is implementation defined but MUST not be "current".
@@ -1367,8 +1542,7 @@ URL, and command for each WebDriver <a>command</a>.
 
 <p>A <a>session</a> has an associated <dfn>session implicit wait timeout</dfn>
  that specifies a time to wait for the <a>implicit element location strategy</a>
- when locating elements using <a href=#findelement>find element</a>
- and <a href=#findelements>find elements</a>.
+ when locating elements using <a>Find Element</a> and <a>Find Elements</a>.
  Unless stated otherwise it is zero milliseconds.
 
 <p>A <a>session</a> has an associated <dfn>page loading strategy</dfn>,
@@ -1381,10 +1555,9 @@ URL, and command for each WebDriver <a>command</a>.
 <ol>
  <li><p>Set the <a>webdriver-active flag</a> to false.
 
- <li><p><a href=https://html.spec.whatwg.org/#closing-browsing-contexts>Close</a>
-  any <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>
+ <li><p><a>Close</a> any <a>top-level browsing contexts</a>
   associated with the <a>session</a>,
-  without <a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>prompting to unload</a>.
+  without <a>prompting to unload</a>.
 
  <li><p>Remove the <a>current session</a> from <a>active sessions</a>.
 
@@ -1499,10 +1672,8 @@ URL, and command for each WebDriver <a>command</a>.
  </tr>
 </table>
 
-<p>The <dfn>Delete Session</dfn> <a>command</a>
- <a href=https://html.spec.whatwg.org/#closing-browsing-contexts>closes</a>
- any <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>
- associated with the <a>current session</a>,
+<p>The <dfn>Delete Session</dfn> <a>command</a> <a>closes</a>
+ any <a>top-level browsing contexts</a> associated with the <a>current session</a>,
  terminates the <a>connection</a>,
  and finally <a data-lt="close the session">closes</a> the <a>current session</a>.
 
@@ -1570,15 +1741,15 @@ URL, and command for each WebDriver <a>command</a>.
 
   <ol>
    <li><p>If <var>parameters</var> does not have
-    an <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>own property</a>
-    <var>identifier</var>, continue to the next entry.
+    an <a>own property</a> <var>identifier</var>,
+    continue to the next entry.
 
    <li><p>Let <var>timeout</var> be the result of
     <a>getting a property</a> using <var>identifier</var>
     from <var>parameters</var>.
 
    <li><p>If <var>timeout</var> is of the
-   <code><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.19>Number</a></code> type
+   <code><a>Number</a></code> type
    and a non-negative integer,
    set the <var>type</var> timeout to
    <var>timeout</var>’s value in milliseconds.
@@ -1593,23 +1764,24 @@ URL, and command for each WebDriver <a>command</a>.
 </section> <!-- /Sessions -->
 
 <section>
-  <h2>Navigation</h2>
-  <p>The commands in this section allow navigation of the <a>current
-  top-level browsing context</a> to new URLs and introspection of the
-  document currently loaded in this browsing context.
+<h2>Navigation</h2>
+<p>The <a>commands</a> in this section allow navigation of
+ the <a>current top-level browsing context</a> to new URLs
+ and introspection of the document currently loaded in this <a>browsing context</a>.
 
-  <p>For commands that cause a new document to load, the point at
-  which the command returns is determined by the session's <a>page
-  load strategy</a>. A value of <code>normal</code> causes the command
-  to return after the <code>load</code> event fires on the new page, a
-  value of <code>eager</code> causes it to return
-  after <code>DOMContentLoaded</code> fires, and a value
-  of <code>none</code> causes it to return immediately.
+<p>For commands that cause a new document to load,
+ the point at which the <a>command</a> returns
+ is determined by the session’s <a>page load strategy</a>.
+ A value of <code>normal</code> causes the command
+ to return after the <code>load</code> event fires on the new page,
+ a value of <code>eager</code> causes it to return
+ after <code>DOMContentLoaded</code> fires,
+ and a value of <code>none</code> causes it to return immediately.
 
-  <p>Navigation actions are also affected by the value of
-  the <a>session page load timeout</a>, which determines the maximum
-  time that commands will block before returning with a <a>timeout</a>
-  <a>error</a>.
+<p>Navigation actions are also affected by the value of
+ the <a>session page load timeout</a>,
+ which determines the maximum time that commands will block
+ before returning with a <a>timeout</a> <a>error</a>.
 
 <section>
 <h3>Get</h3>
@@ -1633,8 +1805,7 @@ URL, and command for each WebDriver <a>command</a>.
  of the browser’s chrome.</p>
 
 <aside class=example>
- <p>To navigate the current
-  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+ <p>To navigate the current <a>top-level browsing context</a>
   of the <a>session</a> with ID <i>1</i> to <code>http://example.com/</code>,
   the local end would send a POST to <i>/session/1/url</i> with the body:
 
@@ -1653,21 +1824,20 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>If <var>url</var> is undefined,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p><a href="https://html.spec.whatwg.org/#navigate">Navigate</a>
-  the <a>current top-level browsing context</a> to <var>url</var>.  If
-  this navigation results in a HTTP 401 response, the <a>remote
-  end</a> must proceed with the steps below, irrespective of how the
-  authentication challenge is handled.
+ <li><p><a>Navigate</a> the <a>current top-level browsing context</a> to <var>url</var>.
+  If this navigation results in a HTTP 401 response,
+  the <a>remote end</a> must proceed with the steps below,
+  irrespective of how the authentication challenge is handled.
 
-
- <li><p>If the <a>current session</a>'s <a>page loading strategy</a>
+ <li><p>If the <a>current session</a>’s <a>page loading strategy</a>
   is <a>none</a> jump to the next step in this overall set of steps.
-  Otherwise:
+
+  <p>Otherwise:
 
   <ol>
-   <li><p>Let <var>readiness target</var> be <code>"interactive"</code>
-    if the <a>current session</a>'s <a>page loading strategy</a> is <a>eager</a>,
-    or <code>"complete"</code> if it is <a>normal</a>.
+   <li><p>Let <var>readiness target</var> be "<code>interactive</code>"
+    if the <a>current session</a>’s <a>page loading strategy</a> is <a>eager</a>,
+    or "<code>complete</code>" if it is <a>normal</a>.
 
    <li><p>Wait for the <a>current document readiness</a> to reach <var>readiness target</var>,
     or for the <a>session page load timeout</a> milliseconds to pass,
@@ -1686,7 +1856,7 @@ URL, and command for each WebDriver <a>command</a>.
  <p>Figure out if next paragraph is actually required:
 
  <blockquote>
-   <p>When a page contains a META tag with the "http-equiv" attribute set to "refresh",
+  <p>When a page contains a META tag with the "http-equiv" attribute set to "refresh",
    a response MUST be returned if the timeout is greater than 1 second
    and the other criteria for determining whether a page is loaded are met.
    When the refresh period is 1 second or less
@@ -1720,11 +1890,9 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p>Let <var>url</var> be
-  the <a href=https://url.spec.whatwg.org/#concept-url-serializer>serialization</a>
+ <li><p>Let <var>url</var> be the <a data-lt="url serializer">serialization</a>
   of the <a>current top-level browsing context</a>’s
-  <a href=https://html.spec.whatwg.org/#active-document>active document</a>’s
-  <a href=https://dom.spec.whatwg.org/#concept-document-url>url</a>.
+  <a>active document</a>’s <a>document URL</a>.
 
  <li><p>Let <var>body</var> be a JSON Object
   with the "<code>value</code>" property set to <var>url</var>.
@@ -1757,20 +1925,18 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p><a href=https://html.spec.whatwg.org/#traverse-the-history-by-a-delta>Traverse the history by a delta</a>
-  -1 for the <a>current browsing context</a>.
+ <li><p><a>Traverse the history by a delta</a> –1
+  for the <a>current browsing context</a>.
 
  <li><p>If the task queued by that algorithm aborted before
-  <a href=https://html.spec.whatwg.org/#traverse-the-history>traversing the history</a>,
-  return <a>success</a> with data null.
+  <a>traversing the history</a>, return <a>success</a> with data null.
 
- <li><p>Otherwise, wait until
-  the <a href=https://html.spec.whatwg.org/#current-entry>current entry</a>
+ <li><p>Otherwise, wait until the <a>current entry</a>
   in the session history has changed,
   or for the <a>session page load timeout</a> milliseconds to pass,
   whichever occurs sooner.
 
-  <p class=issue>This doesn't actually wait for the page to load
+  <p class=issue>This doesn’t actually wait for the page to load
    if traversing the session history kicks off a navigation.
 
  <li><p class=issue>Perhaps? Not sure if this is what the spec is trying to say?
@@ -1807,15 +1973,14 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p><a href=https://html.spec.whatwg.org/#traverse-the-history-by-a-delta>Traverse the history by a delta</a>
-  1 for the <a>current browsing context</a>.
+ <li><p><a>Traverse the history by a delta</a> 1
+  for the <a>current browsing context</a>.
 
  <li><p>If the task queued by that algorithm aborted before
-  <a href=https://html.spec.whatwg.org/#traverse-the-history>traversing the history</a>,
+  <a>traversing the history</a>,
   return <a>success</a> with data null.
 
- <li><p>Otherwise, wait until
-  the <a href=https://html.spec.whatwg.org/#current-entry>current entry</a>
+ <li><p>Otherwise, wait until the <a>current entry</a>
   in the session history has changed,
   or for the <a>session page load timeout</a> milliseconds to pass,
   whichever occurs sooner.
@@ -1858,9 +2023,9 @@ URL, and command for each WebDriver <a>command</a>.
 
  <li><p class=issue>Not sure if this needs to consider the reload override flag.
 
-  <p><a href=https://html.spec.whatwg.org/#navigate>Navigate</a> the <a>current top-level browsing context</a>
-   to the same resource as its <a href=https://html.spec.whatwg.org/#active-document>active document</a>,
-   with <a href=https://html.spec.whatwg.org/#replacement-enabled>replacement enabled</a>.
+  <p><a>Navigate</a> the <a>current top-level browsing context</a>
+   to the same resource as its <a>active document</a>,
+   with <a>replacement enabled</a>.
  </li>
 
  <li><p>If the <a>current session</a>’s <a>page load strategy</a> is <a>none</a>,
@@ -1869,7 +2034,7 @@ URL, and command for each WebDriver <a>command</a>.
   <p>Otherwise:
 
   <ol>
-   <li><p>Let <var>readiness target</var> be <code>"interactive"</code>
+   <li><p>Let <var>readiness target</var> be "<code>interactive</code>"
     if the <a>current session</a>’s <a>page load strategy</a> is <a>eager</a>,
     or "<code>complete</code>" if it is <a>normal</a>.
 
@@ -1902,8 +2067,7 @@ URL, and command for each WebDriver <a>command</a>.
  </tr>
 </table>
 
-<p>The <dfn>Get Title</dfn> command returns
- the <a href=https://html.spec.whatwg.org/#dom-title-text>document title</a>
+<p>The <dfn>Get Title</dfn> command returns the <a>document title</a>
  of the <a>current top-level browsing context</a>,
  equivalent to calling <code>window.top.document.title</code>.
 
@@ -1914,8 +2078,7 @@ URL, and command for each WebDriver <a>command</a>.
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>title</var> be the value of the <a>current top-level browsing context</a>'s
-  <a href=https://html.spec.whatwg.org/#active-document>active document</a>'s
-  <a href=https://html.spec.whatwg.org/#document.title>title</a>.
+  <a>active document</a>'s <a>title</a>.
 
  <li><p>Let <var>data</var> be a new JSON Object.
 
@@ -1973,11 +2136,11 @@ URL, and command for each WebDriver <a>command</a>.
  Once this is done, a specific browsing context can be selected
  using the <a>Switch to Frame</a> command.
 
-<p class=note>The use of the term “window” to refer to
- a <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+<p class=note>The use of the term “window” to
+ refer to a <a>top-level browsing context</a>
  is legacy and doesn’t correspond with either
  the operating system notaion of a “window”
- or the DOM <a href=https://html.spec.whatwg.org/#the-window-object>Window</a> object.
+ or the DOM <a><code>Window</code> object</a>.
 
 <p class=note>In accordance with
  the <a href=http://www.w3.org/TR/html5/editing.html#focus>focus</a>
@@ -2042,11 +2205,9 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p class=issue>This can prompt unload,
   in which case the operation really failed.
 
-  <p><a href=https://html.spec.whatwg.org/#closing-browsing-contexts>Close</a>
-   the <a>current top-level browsing context</a>.
+  <p><a>Close</a> the <a>current top-level browsing context</a>.
 
- <li><p>If there are no more open
-  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing contexts</a>,
+ <li><p>If there are no more open <a>top-level browsing contexts</a>,
   then <a>close the session</a>.
 
  <li>Return the result of running the <a>remote end steps</a>
@@ -2081,8 +2242,7 @@ URL, and command for each WebDriver <a>command</a>.
   from the <var>parameters</var> argument.
 
  <li><p>If <var>handle</var> is equal to the associated <a>window handle</a>
-  for some
-  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
+  for some <a>top-level browsing context</a>
   in the <a>current session</a>,
   set the session's <a>current top-level browsing context</a>
   to that browsing context,
@@ -2107,8 +2267,8 @@ URL, and command for each WebDriver <a>command</a>.
 </table>
 
 <p>The <dfn>Get Window Handles</dfn> <a>command</a>
- returns a list of <a>window handles</a> for every open
- <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>.
+ returns a list of <a>window handles</a>
+ for every open <a>top-level browsing context</a>.
  The order in which the window handles are returned is arbitary.
 
 <p>The <a>remote end steps</a> are:
@@ -2116,9 +2276,7 @@ URL, and command for each WebDriver <a>command</a>.
 <ol>
  <li><p>Let <var>handles</var> be a JSON List.
 
- <li><p>For each
-  <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>
-  in the <a>remote end</a>,
+ <li><p>For each <a>top-level browsing context</a> in the <a>remote end</a>,
   push the associated <a>window handle</a> onto <var>handles</var>.
 
  <li><p>Let <var>body</var> be a JSON object
@@ -2150,8 +2308,7 @@ URL, and command for each WebDriver <a>command</a>.
 </table>
 
 <p>The <dfn>Switch To Frame</dfn> command is used to select
- the <a>current top-level browsing context</a> or
- a <a href=https://html.spec.whatwg.org/#child-browsing-context>child browsing context</a>
+ the <a>current top-level browsing context</a> or a <a>child browsing context</a>
  of the <a>current browsing context</a> to use as the <a>current browsing context</a>
  for subsequent <a>commands</a>.
 
@@ -2181,19 +2338,15 @@ URL, and command for each WebDriver <a>command</a>.
      <li><p>If <var>id</var> is less than 0 or greater than 2<sup>16</sup> – 1,
       return <a>error</a> with <a>error code</a> <a>no such frame</a>.
 
-     <li><p>Let <var>window</var> be the
-      <a href=https://html.spec.whatwg.org/#concept-document-window>associated window</a>
-      of the <a>current browsing context</a>’s
-      <a href=https://html.spec.whatwg.org/#active-document>active document</a>.
+     <li><p>Let <var>window</var> be the <a>associated window</a>
+      of the <a>current browsing context</a>’s <a>active document</a>.
 
-     <li><p>If <var>id</var> is not a
-      <a href=http://heycam.github.io/webidl/#dfn-supported-property-indices>supported property index</a>
-      of <var>window</var>,
+     <li><p>If <var>id</var> is not
+      a <a>supported property index</a> of <var>window</var>,
       return <a>error</a> with <a>error code</a> <a>no such frame</a>.
 
      <li><p>Let <var>child window</var> be the <code>WindowProxy</code> object
-      obtained by
-      <a href=https://html.spec.whatwg.org/#dom-window-item>determining the value of an indexed property</a>
+      obtained by <a>determining the value of an indexed property</a>
       of <var>window</var> with index <var>id</var>.
 
      <li><p>Set the <a>current browsing context</a> to
@@ -2214,7 +2367,7 @@ URL, and command for each WebDriver <a>command</a>.
       return <a>error</a> with <a>error code</a> <a>no such frame</a>.
 
      <li><p>Set the <a>current browsing context</a> to element’s
-      <a href=https://html.spec.whatwg.org/#nested-browsing-context>nested browsing context</a>.
+      <a>nested browsing context</a>.
     </ol>
 
   <dt>Otherwise</dt>
@@ -2259,8 +2412,7 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>If the <a>current browsing context</a> is not equal to
   the <a>current top-level browsing context</a>,
   set the <a>current browsing context</a> to
-  the <a href=https://html.spec.whatwg.org/#parent-browsing-context>parent browsing context</a>
-  of the <a>current browsing context</a>.
+  the <a>parent browsing context</a> of the <a>current browsing context</a>.
 
  <li><p>Return <a>success</a> with data null.
 </ol>
@@ -2303,14 +2455,12 @@ URL, and command for each WebDriver <a>command</a>.
   <p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
    return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p>Let <var>width</var> be the width in
-  <a href=http://www.w3.org/TR/css3-values/#absolute-length>CSS reference pixels</a>
+ <li><p>Let <var>width</var> be the width in <a>CSS reference pixels</a>
   of the operating system window containing
   the <a>current top-level browsing context</a>,
   including any browser chrome and externally drawn window decorations.
 
- <li><p>Let <var>height</var> be the height in
-  <a href=http://www.w3.org/TR/css3-values/#absolute-lengths>CSS reference pixels</a>
+ <li><p>Let <var>height</var> be the height in <a>CSS reference pixels</a>
   of the operating system window containing
   the <a>current top-level browsing context</a>,
   including any browser chrome and any externally drawn window decorations.
@@ -2328,7 +2478,7 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
 
-<p class=note>In some browsers the dimensions of the browser
+<p class=note>In some user agents the dimensions of the browser
  including window decorations are provided by
  the proprietary <code>window.outerWidth</code>
  and <code>window.outerHeight</code> properties.
@@ -2379,15 +2529,13 @@ URL, and command for each WebDriver <a>command</a>.
 
  <p class=issue>Window sizes outside the allowed range.
 
- <li><p>Set the width,
-  in <a href=http://www.w3.org/TR/css3-values/#absolute-lengths>CSS reference pixels</a>,
+ <li><p>Set the width, in <a>CSS reference pixels</a>,
   of the operating system window containing
   the <a>current top-level browsing context</a>,
   including any browser chrome and externally drawn window decorations
   to a value that is as close as possible to <var>width</var>.
 
- <li><p>Set the height,
-  in <a href=http://www.w3.org/TR/css3-values/#absolute-lengths>CSS reference pixels</a>,
+ <li><p>Set the height, in <a>CSS reference pixels</a>,
   of the operating system window containing
   the <a>current top-level browsing context</a>,
   including any browser chrome and externally drawn window decorations
@@ -2492,35 +2640,25 @@ URL, and command for each WebDriver <a>command</a>.
 <section>
 <h2>Elements</h2>
 
-<p>A <dfn>web element</dfn> is an abstraction
- used to identify an <a href=https://dom.spec.whagwg.org/#concept-element>element</a>
+<p>A <dfn>web element</dfn> is an abstraction used to identify an <a>element</a>
  when it is transported across the <a href=#the-webdriver-protocol>protocol</a>,
  between <a>remote</a>- and <a>local</a> ends.
 
 <p>The <dfn>web element identifier</dfn> is a constant
  with the string "<code>element-6066-11e4-a52e-4f735466cecf</code>".
 
-<p>Each <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
- has an associated <dfn>web element reference</dfn> (a <a>UUID</a>)
- that uniquely identifies the the element across
- all <a href=https://html.spec.whatwg.org/#browsing-context>browsing contexts</a>.
- The <a>web element reference</a> for every
- <a href=https://dom.spec.whagwg.org/#concept-element>element</a>
- representing the same
- <a href=https://dom.spec.whagwg.org/#concept-element>element</a>
- is the same.
+<p>Each <a>element</a> has an associated <dfn>web element reference</dfn> (a <a>UUID</a>)
+ that uniquely identifies the the element across all <a>browsing contexts</a>.
+ The <a>web element reference</a> for every <a>element</a>
+ representing the same <a>element</a> is the same.
 
-<p>An ECMAScript <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.2.1>Object</a>
- <dfn>represents a web element</dfn> if it has
- a <a>web element identifier</a>
- <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>own property</a>
+<p>An ECMAScript <a>Object</a> <dfn>represents a web element</dfn>
+ if it has a <a>web element identifier</a> <a>own property</a>
  holding a <a>UUID</a> value.
 
-<p>Each <a href=https://html.spec.whatwg.org/#browsing-context>browsing context</a>
- has an associated list of
+<p>Each <a>browsing context</a> has an associated list of
  <dfn data-lt="known elements|known element">known elements</dfn>.
- When the <a href=https://html.spec.whatwg.org/#browsing-context>browsing context</a>
- is <a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>discarded</a>,
+ When the <a>browsing context</a> is <a>discarded</a>,
  the list of <a>known elements</a> is discarded along with it.
 
 <p>To <dfn data-lt="get a known element|getting a known element">get a known element</dfn>
@@ -2531,19 +2669,15 @@ URL, and command for each WebDriver <a>command</a>.
  with <a>error code</a> <a>no such element</a>.
 
 <p>To <dfn data-lt="create a web element reference|create an element">create a web element reference</dfn>
- for an <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
- <var>element</var>:
+ for an <a><var>element</var></a>:
 
 <ol>
  <li><p>For each <var>known element</var>
   of the <a>current browsing context</a>’s <a>known elements</a>:
 
   <ol>
-   <li><p>If <var>known element</var>
-    <a href=https://dom.spec.whatwg.org/#concept-node-equals>equals</a>
-    <var>element</var>,
-    return <a>success</a> with
-    <var>known element</var>’s <a>web element reference</a>.
+   <li><p>If <var>known element</var> <a>equals</a> <var>element</var>,
+    return <a>success</a> with <var>known element</var>’s <a>web element reference</a>.
   </ol>
 
  <li><p>Let <var>new reference</var> be the result of <a>generating a new UUID</a>.
@@ -2575,9 +2709,7 @@ URL, and command for each WebDriver <a>command</a>.
  by a JSON Object <var>object</var> that <a>represents a web element</a>:
 
 <ol>
- <li><p>If <var>object</var> has no
-  <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.2.1>own property</a>
-  <a>web element identifier</a>,
+ <li><p>If <var>object</var> has no <a>own property</a> <a>web element identifier</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>reference</var> be the result of
@@ -2597,15 +2729,14 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>Return <a>success</a> with data <var>element</var>.
 </ol>
 
-<p>A <a>stale element</a> is a reference to
- a <a href=https://dom.spec.whatwg.org/#concept-node>node</a>
+<p>A <a>stale element</a> is a reference to a <a>node</a>
  that has been disconnected from the <a>current browsing context</a>’s DOM.
  To determine if an <var>element</var> <dfn data-lt="is stale|stale element">is stale</dfn>,
  run the following substeps:
 
 <ol>
- <li><p>Let <var>document</var> be the <a>current browsing context</a>’s
-  <a href=https://dom.spec.whatwg.org/#document-element>document element</a>.
+ <li><p>Let <var>document</var> be
+  the <a>current browsing context</a>’s <a>document element</a>.
 
  <li><p>If <var>element</var> is <a>not in the same tree</a> as <var>document</var>,
   return true.
@@ -2795,10 +2926,8 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p>Let <var>active element</var> be
-  the <code><a href=https://html.spec.whatwg.org/#dom-document-activeelement>activeElement</a></code> attribute of the
-  the <a>current browsing context</a>’s
-  <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>.
+ <li><p>Let <var>active element</var> be the <a>active element</a>
+  of the <a>current browsing context</a>’s <a>document element</a>.
 
  <li><p><a>Serialise the element</a> that is <var>active element</var>
   and let it be known as <var>active web element</var>.
@@ -2878,19 +3007,16 @@ URL, and command for each WebDriver <a>command</a>.
 <section>
 <h2>Element Displayedness</h2>
 
-<p>The visibility of an <a href=https://dom.spec.whagwg.org/#concept-element>element</a>
- is guided by what is perceptually visible to the human eye.
- In this context, an <a href=https://dom.spec.whagwg.org/#concept-element>element</a>'s displayedness
- does not relate to the <code><a href=http://dev.w3.org/csswg/css-box/#visibility>visibility</a></code>
- or <code><a href=http://dev.w3.org/csswg/css-box/#display0>display</a></code>
- style properties [[!CSS3BOX]].
+<p>The visibility of an <a>element</a> is guided
+ by what is perceptually visible to the human eye.
+ In this context, an <a>element</a>'s displayedness
+ does not relate to the <a><code>visibility</code></a>
+ or <a><code>display</code></a> style properties.
 
-<p>The approach used by WebDriver to
- ascertain an <a href=https://dom.spec.whagwg.org/#concept-element>element</a>'s visibility
+<p>The approach used by WebDriver to ascertain an <a>element</a>'s visibility
  is based on crude approximations about its nature and relationship in the tree.
- An <a href=https://dom.spec.whagwg.org/#concept-element>element</a> is
- in general to be considered visible if any part of it is drawn on the canvas
- within the bounderies of the viewport.
+ An <a>element</a> is in general to be considered visible
+ if any part of it is drawn on the canvas within the bounderies of the viewport.
 
 <p>When asked to
  <dfn data-lt="normalize style pixel values to floating point|normalized style pixel float value">normalize style pixel values to floating point</dfn>
@@ -2913,8 +3039,7 @@ URL, and command for each WebDriver <a>command</a>.
 </ol>
 
 <p class=note>To <a>normalize style pixel values to floating point</a>
- is almost equivalent to calling
- <code><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></code>
+ is almost equivalent to calling <a>parseFloat</a>
  from [[!ECMA-262]] with the exception that
  non-valid float return values are returned as <code>0.0</code>.
 
@@ -2945,9 +3070,8 @@ URL, and command for each WebDriver <a>command</a>.
      <li><p>If <var>element</var> is an HTML <code>HTML</code>
       element [[!html51]], and the computed value of the
       <code>background-color</code> style property of the first
-      <code>BODY</code> element descendant of the element in
-      <a href=http://www.whatwg.org/specs/web-apps/current-work/multipage/infrastructure.html#tree-order>tree
-      order</a>, relative to that element, is also "transparent",
+      <code>body</code> element descendant of the element in
+      <a>tree order</a>, relative to that element, is also "transparent",
       return false.
 
       Otherwise return true.
@@ -2989,7 +3113,7 @@ URL, and command for each WebDriver <a>command</a>.
 
   <ol>
    <li><p>For each ancestral element <var>parent</var>,
-    in <a href=http://www.whatwg.org/specs/web-apps/current-work/multipage/infrastructure.html#tree-order>tree order</a>:
+    in <a>tree order</a>:
 
    <ol>
     <li><p>If <var>parent</var> is a <code>map</code> element,
@@ -3002,8 +3126,7 @@ URL, and command for each WebDriver <a>command</a>.
    </ol>
   </ol>
 
- <li><p>If <var>element</var> is a [[!DOM4]]
-  <a href=http://www.w3.org/TR/2012/WD-dom-20120105/#interface-text>text node</a>,
+ <li><p>If <var>element</var> is a [[!DOM4]] <a>text node</a>,
   return true.
 
  <li><p>If it has equal to or more than one direct descendant elements:
@@ -3014,14 +3137,12 @@ URL, and command for each WebDriver <a>command</a>.
    <li><p>For each direct descendant element <var>child</var>:
 
    <ol>
-    <li><p>Let <var>rectangle</var> be the
-     <a href=http://dev.w3.org/fxtf/geometry/Overview.html#dom-domrect-domrect>DOMRect</a>
-     returned by calling <code>getBoundingClientRect</code> on <var>child</var>.
+    <li><p>Let <var>rectangle</var> be <var>child</var>’s <a>bounding rectangle</a>.
 
     <li><p>If the value of the <code>height</code> property of <var>rectangle</var> is
-     greater than zero <a href=http://www.w3.org/TR/css3-values/#absolute-lengths>CSS reference pixels</a>,
+     greater than zero <a>CSS reference pixels</a>,
      and the value of the <code>width</code> property of <var>rectangle</var>
-     is greater than zero <a href=http://www.w3.org/TR/css3-values/#absolute-lengths>CSS reference pixels</a>:
+     is greater than zero <a>CSS reference pixels</a>:
 
      <ol>
       <li><p>Set <var>visible children</var> to <var>visible children</var> bitwise OR true.
@@ -3029,8 +3150,7 @@ URL, and command for each WebDriver <a>command</a>.
    </ol>
   </ol>
 
- <li><p>For each ancestral element <var>parent</var>,
-  in <a href=http://www.whatwg.org/spec/web-apps/current-work/multipage/infrastructure.html#tree-order>tree order</a>:
+ <li><p>For each ancestral element <var>parent</var>, in <a>tree order</a>:
 
   <ol>
    <li><p>Apply the <a>element displayed</a> algorithm to <var>parent</var>.
@@ -3042,17 +3162,17 @@ URL, and command for each WebDriver <a>command</a>.
     or <code>overflow-y</code> is "hidden":
 
    <ol>
-    <li><p>Let <var>parent dimensions</var> be the <code>DOMRect</code>
+    <li><p class=issue><code>DOMRectList</code> has disappeared from [[GEOMETRY-1]]
+     and been replaced by <code>ArrayClass</code>,
+     but there is no reference to it.
+    
+     <p>Let <var>parent dimensions</var> be the <a>rectangle</a>
      that is the first element of the <code>DOMRectList</code>
-     array returned by calling
-     <code><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></code>
-     on <var>parent</var>.
+     array returned by calling <a>getClientRects</a> on <var>parent</var>.
 
-    <li><p>Let <var>element dimensions</var> be the <code>DOMRect</code>
+    <li><p>Let <var>element dimensions</var> be the <a>rectangle</a>
      that is the first element of the <code>DOMRectList</code>
-     array returned by calling
-     <code><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></code>
-     on <var>element</var>.
+     array returned by calling <a>getClientRects</a> on <var>element</var>.
 
     <li><p>Let <var>parent style</var> be the computed style of <var>parent</var>.
 
@@ -3092,9 +3212,7 @@ URL, and command for each WebDriver <a>command</a>.
 <section>
 <h2>Element State</h2>
 
-<p>To <dfn>calculate the absolute position</dfn> of
- an <a href=https://dom.spec.whatwg.org/#concept-element>element</a>,
- <var>element</var>:
+<p>To <dfn>calculate the absolute position</dfn> of <a><var>element</var></a>:
 
 <ol>
  <li><p>Let <var>x</var> be 0.
@@ -3107,32 +3225,28 @@ URL, and command for each WebDriver <a>command</a>.
 
   <ol>
    <li><p>Set <var>x</var> to (<var>x</var> +
-    <var>element</var>’s <a href=http://dev.w3.org/csswg/cssom-view/#dom-htmlelement-offsetleft>offsetLeft</a>).
+    <var>element</var>’s <a>offsetLeft</a>).
 
    <li><p>Set <var>y</var> to (<var>y</var> +
-    <var>element</var>’s <a href=http://dev.w3.org/csswg/cssom-view/#dom-htmlelement-offsettop>offsetTop</a>).
+    <var>element</var>’s <a>offsetTop</a>).
 
-   <li><p>Set <var>element</var> to <var>element</var>’s
-    <a href=http://dev.w3.org/csswg/cssom-view/#dom-htmlelement-offsetparent>offsetParent</a>.
+   <li><p>Set <var>element</var> to <var>element</var>’s <a>offsetParent</a>.
   </ol>
 
  <li><p>Return a pair of (<var>x</var>, <var>y</var>).
 </ol>
 
-<p>When a <a href=https://dom.spec.whatwg.org/#concept-node>node</a>
- is said to be <dfn>not in the same tree</dfn>
- as another <a href=https://dom.spec.whatwg.org/#concept-node>node</a>, <var>other</var>,
+<p>When a <a>node</a> is said to be <dfn>not in the same tree</dfn>
+ as another <a>node</a>, <var>other</var>,
  the following steps must be taken on <var>node</var>:
 
 <ol>
- <li><p>If <var>node</var>’s
-  <a href=https://dom.spec.whatwg.org/#dom-node-ownerdocument>ownerDocument</a> attribute
+ <li><p>If <var>node</var>’s <a>ownerDocument</a> attribute
   is not <var>other</var>, return true.
 
  <li><p>If the result of calling <var>node</var>’s
-  <code><a href=https://dom.spec.whatwg.org/#dom-node-comparedocumentpositionother>compareDocumentPosition</a></code>
-  with <var>other</var> as argument
-  is <code><a href=https://dom.spec.whatwg.org/#dom-node-document_position_disconnected>DOCUMENT_POSITION_DISCONNECTED</a></code> (1),
+  <a>compareDocumentPosition</a> with <var>other</var> as argument
+  is <a>DOCUMENT_POSITION_DISCONNECTED</a> (1),
   return true.
 
  <li><p>Return false.
@@ -3162,9 +3276,8 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p>If the <a>current browsing context</a>’s
-  <a href=https://dom.spec.whatwg.org/#concept-document>document</a>
-  <a href=https://dom.spec.whatwg.org/#concept-document-type>type</a> is not
+ <li><p>If the <a>current browsing context</a>’s <a>document</a>
+  <a data-lt="document type">type</a> is not
   "<code>xml</code>", let <var>visible</var> be a boolean initially set to false
 
  <p>Otherwise Let <var>visible</var> be equal to true and jump to the last step
@@ -3208,14 +3321,11 @@ URL, and command for each WebDriver <a>command</a>.
  </tr>
 </table>
 
-<p><dfn>Is Element Selected</dfn> determines if the referenced
- <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
- is selected or not.
- This operation only makes sense on
- <code><a href=https://html.spec.whatwg.org/#the-input-element>input</a></code> elements
- of the <a href="https://html.spec.whatwg.org/#checkbox-state-%28type=checkbox%29">Checkbox</a>-
- and <a href="https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29">Radio Button</a> states,
- or <code><a href=https://html.spec.whatwg.org/#the-option-element>option</a></code> elements.
+<p><dfn>Is Element Selected</dfn> determines
+ if the referenced <a>element</a> is selected or not.
+ This operation only makes sense on <a><code>input</code></a> elements
+ of the <a>Checkbox</a>- and <a>Radio Button</a> states,
+ or <a><code>option</code></a> elements.
 
 <p>The <a>remote end steps</a> are:
 
@@ -3239,18 +3349,14 @@ URL, and command for each WebDriver <a>command</a>.
   corresponding to the first matching statement:
 
   <dl class=switch>
-   <dt><var>element</var> is
-    an <code><a href=https://html.spec.whatwg.org/#the-input-element>input</a></code>
-    with a <code><a href=https://html.spec.whatwg.org/#attr-input-type>type</a></code> attribute
-    in the <a href="https://html.spec.whatwg.org/#checkbox-state-(type=checkbox)">Checkbox</a>-
-    or <a href="https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29">Radio Button</a> state
-   <dd><p>The result of <var>element</var>’s
-    <a href=https://html.spec.whatwg.org/#concept-fe-checked>checkedness</a>.
+   <dt><var>element</var> is an <a><code>input</code></a>
+    with a <a><code>type</code> attribute</a>
+    in the <a>Checkbox</a>- or <a>Radio Button</a> state
+   <dd><p>The result of <var>element</var>’s <a>checkedness</a>.
 
    <dt><var>element</var> is
-    an <code><a href=https://html.spec.whatwg.org/#the-option-element>option</a></code> element
-   <dd><p>The result of <var>element</var>’s
-    <a href=https://html.spec.whatwg.org/#concept-option-selectedness>selectedness</a>.
+    an <a><code>option</code></a> element
+   <dd><p>The result of <var>element</var>’s <a>selectedness</a>.
 
    <dt>Otherwise
    <dd>False.
@@ -3278,8 +3384,7 @@ URL, and command for each WebDriver <a>command</a>.
 </table>
 
 <p>The <dfn>Get Element Attribute</dfn> <a>command</a>
- will return the <a href=https://dom.spec.whatwg.org/#concept-attribute>attribute</a>
- of a <a>web element</a>.
+ will return the <a>attribute</a> of a <a>web element</a>.
 
 <p>The <a>remote end steps</a> are:
 <ol>
@@ -3304,10 +3409,8 @@ URL, and command for each WebDriver <a>command</a>.
   <li>Let <var>result</var> be the result of the first appropriate step below:
 
    <dl class=switch>
-     <dt><p>If <var>name</var> is a
-       <a href='https://html.spec.whatwg.org/#boolean-attribute'>boolean attribute</a>:
-     <dd><p>The first matching statement if the element
-       <a href=https://dom.spec.whatwg.org/#dom-element-hasattribute>has the attribute</a>:
+     <dt><p>If <var>name</var> is a <a>boolean attribute</a>:
+     <dd><p>The first matching statement if the element <a>has the attribute</a>:
        <dl class=switch>
          <dt><code>true</code>
          <dd><p>'true'.
@@ -3315,8 +3418,7 @@ URL, and command for each WebDriver <a>command</a>.
          <dd><p><code>Null</code>.
       </dl>
       <dt><p>Otherwise:
-      <dd><p>The result of <a href=https://dom.spec.whatwg.org/#concept-element-attributes-get-by-name>
-          getting the attribute by name</a>.
+      <dd><p>The result of <a>getting an attribute by name</a> <var>name</var>.
    </dl>
    <li><p>Let <var>body</var> be a JSON Object
     with the "<code>value</code>" member set to <var>result</var>.
@@ -3361,7 +3463,7 @@ URL, and command for each WebDriver <a>command</a>.
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
  <li><p>Let <var>property</var> be the result of calling
-  the <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.2>[[\GetProperty]]</a> internal method
+  the <a>[[\GetProperty]]</a> internal method
   of <var>element</var> with property name <var>name</var>.
 
  <li><p>Let <var>result</var> be the value of
@@ -3389,7 +3491,7 @@ URL, and command for each WebDriver <a>command</a>.
 </table>
 
 <p>The <dfn>Get Element CSS Value</dfn> <a>command</a>
- retrieves the <a href=https://drafts.csswg.org/css-cascade-4/#computed-value>computed value</a>
+ retrieves the <a>computed value</a>
  of the given CSS property of the given <a>web element</a>.
 
 <p>The <a>remote end steps</a> are:
@@ -3411,12 +3513,10 @@ URL, and command for each WebDriver <a>command</a>.
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
  <li><p>Let <var>computed value</var> be
-  the <a href=https://drafts.csswg.org/css-cascade-4/#computed-value>computed value</a>
-  of parameter <var>property name</var>
+  the <a>computed value</a> of parameter <var>property name</var>
   from <var>element</var>’s style declarations if the <a>current browsing context</a>’s
-   <a href=https://dom.spec.whatwg.org/#concept-document>document</a>
-   <a href=https://dom.spec.whatwg.org/#concept-document-type>type</a> is not
-   "<code>xml</code>" else let it be "".
+   <a>document</a> <a data-lt="document type">type</a> is not "<code>xml</code>",
+   else let it be "".
 
  <li><p>Let <var>body</var> be a JSON Object with
   the "<code>value</code>" member set to <var>computed value</var>.
@@ -3531,9 +3631,7 @@ URL, and command for each WebDriver <a>command</a>.
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
  <li><p>Let <var>qualified name</var> be the result of getting
-  <var>element</var>’s
-  <a href=https://dom.spec.whatwg.org/#dom-element-tagname>tagName</a>
-  content <a href=https://dom.spec.whatwg.org/#concept-attribute>attribute</a>.
+  <var>element</var>’s <a>tagName</a> content <a>attribute</a>.
 
  <li><p>Let <var>body</var> be a JSON Object
   with the "<code>value</code>" member set to <var>qualified name</var>.
@@ -3561,27 +3659,23 @@ URL, and command for each WebDriver <a>command</a>.
  The returned value is a dictionary with the following members:
 
 <dl>
- <dt><dfn id=elementrect-x>x</dfn>
+ <dt><dfn data-lt=elementrect-x>x</dfn>
  <dd>X axis position of the top-left corner of the <a>web element</a>
   relative to the <a>current browsing context</a>’s
-  <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>
-  in <a href=http://www.w3.org/TR/css3-values/#reference-pixel>CSS pixels</a>.
+  <a>document element</a> in <a>CSS reference pixels</a>.
 
- <dt><dfn id=elementrect-y>y</dfn>
+ <dt><dfn data-lt=elementrect-y>y</dfn>
  <dd>Y axis position of the top-left corner of the <a>web element</a>
   relative to the <a>current browsing context</a>’s
-  <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>
-  in <a href=http://www.w3.org/TR/css3-values/#reference-pixel>CSS pixels</a>.
+  <a>document element</a> in <a>CSS reference pixels</a>.
 
- <dt><dfn id=elementrect-height>height</dfn>
+ <dt><dfn data-lt=elementrect-height>height</dfn>
  <dd>Height of the <a>web element</a>’s
-  <a href=http://dev.w3.org/fxtf/geometry/#rectangle>rectangle</a>
-  in <a href=http://www.w3.org/TR/css3-values/#reference-pixel>CSS pixels</a>.
+  <a>bounding rectangle</a> in <a>CSS reference pixels</a>.
 
- <dt><dfn id=elementrect-width>width</dfn>
+ <dt><dfn data-lt=elementrect-width>width</dfn>
  <dd>Width of the <a>web element</a>’s
-  <a href=http://dev.w3.org/fxtf/geometry/#rectangle>rectangle</a>
-  in <a href=http://www.w3.org/TR/css3-values/#reference-pixel>CSS pixels</a>.
+  <a>bounding rectangle</a> in <a>CSS reference pixels</a>.
 </dl>
 
 <p>The <a>remote end steps</a> are:
@@ -3606,7 +3700,7 @@ URL, and command for each WebDriver <a>command</a>.
   and let it be <var>coordinates</var>.
 
  <li><p>Let <var>rect</var> be <var>element</var>’s
-  <a href=http://dev.w3.org/fxtf/geometry/#domrect>DOMRect</a>.
+  <a>bonding rectangle</a>.
 
  <li><p>Let <var>body</var> be a new JSON Object initialised with:
 
@@ -3617,13 +3711,11 @@ URL, and command for each WebDriver <a>command</a>.
    <dt>"<code>y</code>"
    <dd>The second value of <var>coordinates</var>.
 
-   <dt>"<code>height</code>"
-   <dd>Value of <var>rect</var>’s
-    <a href=http://dev.w3.org/fxtf/geometry/#dom-domrectreadonly-domrect-height>height</a>.
-
    <dt>"<code>width</code>"
-   <dd>Value of <var>rect</var>’s
-    <a href=http://dev.w3.org/fxtf/geometry/#dom-domrectreadonly-domrect-width>width</a>.
+   <dd>Value of <var>rect</var>’s <a>width dimension</a>.
+
+   <dt>"<code>height</code>"
+   <dd>Value of <var>rect</var>’s <a>height dimension</a>.
   </dl>
 
  <li><p>Return <a>success</a> with data <var>body</var>.
@@ -3644,9 +3736,8 @@ URL, and command for each WebDriver <a>command</a>.
  </tr>
 </table>
 
-<p><dfn>Is Element Enabled</dfn> determines if the referenced
- <a href=https://dom.spec.whatwg.org/#concept-element>element</a>
- is enabled or not.
+<p><dfn>Is Element Enabled</dfn> determines
+ if the referenced <a>element</a> is enabled or not.
  This operation only makes sense on form controls.
 
 <p>The <a>remote end steps</a> are:
@@ -3667,17 +3758,15 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>If <a>element</a> <a>is stale</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
- <li><p>Let <var>enabled</var> be a boolean initially set to true If the <a>current browsing context</a>’s
-  <a href=https://dom.spec.whatwg.org/#concept-document>document</a>
-  <a href=https://dom.spec.whatwg.org/#concept-document-type>type</a> is not
-  "<code>xml</code>".
+ <li><p>Let <var>enabled</var> be a boolean initially set to true
+  if the <a>current browsing context</a>’s
+  <a>document</a> <a data-lt="document type">type</a>
+  is not "<code>xml</code>".
 
-  <p>Otherwise, let <var>enabled</var> to false and jump to the last step of this
-    algorithm.
+  <p>Otherwise, let <var>enabled</var> to false
+   and jump to the last step of this algorithm.
 
- <li><p>Set <var>enabled</var> to false if a form control is
-  <a href=https://html.spec.whatwg.org/#concept-fe-disabled>disabled</a>.
-
+ <li><p>Set <var>enabled</var> to false if a form control is <a>disabled</a>.
 
  <li><p>Let <var>body</var> be a JSON object
   with the "<code>value</code>" member set to <var>enabled</var>.
@@ -3762,7 +3851,7 @@ URL, and command for each WebDriver <a>command</a>.
  <dt> type<code>String</code>
  <dd><p><a>Success</a> with data <var>value</var>.
 
- <dt>instance of <a href=https://dom.spec.whagwg.org/#concept-element>element</a>
+ <dt>instance of <a>element</a>
  <dd><p><a>Serialize the element</a> with argument <var>value</var>.
 
  <dt>instance of <code>NodeList</code>
@@ -3808,8 +3897,7 @@ URL, and command for each WebDriver <a>command</a>.
    <dd><p>A new <code>Object</code> object.
   </dl>
 
- <li><p>For each enumerable
-  <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>own property</a>
+ <li><p>For each enumerable <a>own property</a>
   in <var>value</var>, run the following substeps:
 
   <ol>
@@ -3842,20 +3930,19 @@ URL, and command for each WebDriver <a>command</a>.
   <a>getting a property</a> named <code>script</code>
   from the parameters argument.
 
- <li><p>If <var>script</var> is not a <code>String</code>,
+ <li><p>If <var>script</var> is not a <a>String</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>args</var> be the result of
   <a>getting a property</a> named <code>args</code>
   from the parameters argument.
 
- <li><p>If <var>args</var> is not an <code>Object</code>
-  or its <code>[[\Class]]</code> internal property
-  is not <code>Array</code> or <code>Object</code>,
+ <li><p>If <var>args</var> is not an <a>Object</a>
+  or its <a>[[\Class]]</a> internal property
+  is not <a>Array</a> or <a>Object</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>Let <var>arguments</var> be
-  a <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-8.8">List</a>
+ <li><p>Let <var>arguments</var> be a <a>List</a>
   consisting of a <a>json deserialization</a> of each item
   in <var>args</var> with the order preserved.
 
@@ -3868,49 +3955,39 @@ URL, and command for each WebDriver <a>command</a>.
  a <a>remote end</a> must run the following steps:
 
 <ol>
- <li><p>Let <var>window</var> be
-  the <a href=https://html.spec.whatwg.org/#concept-document-window>associated window</a>
-  of the <a>current browsing context</a>’s
-  <a href=https://html.spec.whatwg.org/#active-document>active document</a>.
+ <li><p>Let <var>window</var> be the <a>associated window</a>
+  of the <a>current browsing context</a>’s <a>active document</a>.
 
  <li><p>Let <var>environment settings</var> be
-  the <a href=https://html.spec.whatwg.org/#environment-settings-object>environment settings object</a>
-  for <var>window</var>.
+  the <a>environment settings object</a> for <var>window</var>.
 
  <li><p>Let <var>script environment</var> be
-  the <a href=https://html.spec.whatwg.org/#script-execution-environment>script execution environment</a>
+  the <a>script execution environment</a>
   for JavaScript obtained from <var>environment settings</var>.
 
- <li><p>If <var>body</var> is not parsable as
-  a <a href=http://es5.github.io/#x13><i>FunctionBody</i></a>
-  or if parsing detects an
-  <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-16>early error</a>,
+ <li><p>If <var>body</var> is not parsable as a <a>FunctionBody</a>
+  or if parsing detects an <a>early error</a>,
   return <a>error</a> with <a>error code</a> <a>javascript error</a>.
 
- <li><p>If <var>body</var> begins with
-  a <a href=http://es5.github.io/#x14.1>Directive Prologue</a> that contains
-  a <a href=http://es5.github.io/#x14.1>Use Strict Directive</a>
+ <li><p>If <var>body</var> begins with a <a>directive prologue</a>
+  that contains a <a>use strict directive</a>
   then let <var>strict</var> be true,
   otherwise let <var>strict</var> be false.
 
- <li><p>Using the
-  <a href=https://html.spec.whatwg.org/#script-execution-environment>script execution environment</a>
-  <var>script environment</var>,
+ <li><p>Using the <a>script execution environment</a> <var>script environment</var>,
   let <var>function</var> be the result of
-  calling <a href=http://es5.github.io/#x13.2>create a function object</a>
-  with parameter list of an empty <a href=http://es5.github.io/#x8.8>List</a>,
+  calling <a>create a function object</a> with parameter list of
+  an empty <a>List</a>,
   body <var>body</var>,
-  scope of the <a href=http://es5.github.io/#x10.2.3>global environment</a>,
+  scope of the <a>global environment</a>,
   and strict flag <var>strict</var>.
 
- <li><p>Let <var>script</var> be a new
-  <a href=https://html.spec.whatwg.org/#concept-script>script</a>.
+ <li><p>Let <var>script</var> be a new <a>script</a>.
 
- <li><p>Let <var>script</var>’s
-  <a href=https://html.spec.whatwg.org/#code-entry-point>code entry-point</a>
+ <li><p>Let <var>script</var>’s <a>code entry-point</a>
   be <var>function</var>.
 
- <li><p>Let script’s <a href=https://html.spec.whatwg.org/#settings-object>settings object</a> object
+ <li><p>Let script’s <a>settings object</a> object
   be <var>script settings</var>.
 
  <!-- the stuff from here on down is quite dubious -->
@@ -3919,7 +3996,7 @@ URL, and command for each WebDriver <a>command</a>.
  <!-- li><p><a href="">Push <var>script</var> onto <a>the stack of
        incumbent scripts</a>.</li-->
 
- <li><p>Invoke the <code>[[\Call]]</code> internal method of <var>function</var>,
+ <li><p>Invoke the <a>[[\Call]]</a> internal method of <var>function</var>,
   providing <var>window</var> as the this value
   and <var>parameters</var> as the argument values.
   If doing so does not produce an exception,
@@ -4028,8 +4105,8 @@ URL, and command for each WebDriver <a>command</a>.
    with the <code>set</code> value having associated data.
    Initially it is in the <code>unset</code> state.
 
- <li><p>Let <var>callback</var> be a <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24>function</a>
-  whose <code>[[\Call]]</code> internal method runs
+ <li><p>Let <var>callback</var> be a <a>function</a>
+  whose <a>[[\Call]]</a> internal method runs
   the <a>execute async script callback</a> algorithm
   initialized with argument <var>webdriver callback result</var>.
 
@@ -4064,8 +4141,7 @@ URL, and command for each WebDriver <a>command</a>.
 
 <p>The <dfn>execute async script callback</dfn> algorithm
  is initialized with a single argument <var>webdriver callback state</var>.
- It defines a <a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24>function</a>
- with a single optional argument <var>result</var>.
+ It defines a <a>function</a> with a single optional argument <var>result</var>.
  When this function is called, the following steps are run:
 
 <ol>
@@ -4089,19 +4165,15 @@ URL, and command for each WebDriver <a>command</a>.
 <section>
 <h2>Cookies</h2>
 
-<p>This section describes the interaction with
- <a href=http://www.w3.org/TR/html5/dom.html#dom-document-cookie>cookies</a>
+<p>This section describes the interaction with <a>cookies</a>
  as described in the [[!html51]].
 
-<p>To get <dfn>all associated cookies</dfn> to
- a <a href=https://dom.spec.whatwg.org/#concept-document>document</a>,
+<p>To get <dfn>all associated cookies</dfn> to a <a>document</a>,
  the user agent must return the enumerated set of cookies
  that meet the requirements set out in the first step of the algorithm in [[RFC6265]] to
- <a href=https://tools.ietf.org/html/rfc6265#section-5.4>compute <code>cookie-string</code></a>
+ <a>compute <code>cookie-string</code></a>
  for the <a>current browsing context</a>’s
- <a href=https://dom.spec.whatwg.org/#concept-document>document</a>’s
- <a href=https://dom.spec.whatwg.org/#concept-document-url>address</a>
- for an ‘HTTP API’.
+ <a>document</a>’s <a>address</a> for an ‘HTTP API’.
 
 <p>A <dfn>serialized cookie</dfn> is created by
  assigning the fields of a <a>cookie</a>
@@ -4146,17 +4218,13 @@ URL, and command for each WebDriver <a>command</a>.
 </table>
 
 <p>The <dfn>Get Cookie</dfn> <a>command</a>
- returns all <a>cookies</a> associated with the
- <a href=https://dom.spec.whatwg.org/#concept-document-url>address</a>
- of the <a>current browsing context</a>’s
- <a href=https://html.spec.whatwg.org/#active-document>active document</a>.
+ returns all <a>cookies</a> associated with the <a>address</a>
+ of the <a>current browsing context</a>’s <a>active document</a>.
 
 <p>Provided with an optional <var>name</var> parameter,
  the returned set will consist of only a single <a>cookie</a>
- matching an entry’s
- <a href=http://tools.ietf.org/html/rfc6265#section-4.2.2><code>cookie-name</code></a>
- in the <a href=https://tools.ietf.org/html/rfc6265#section-5.3>cookie store</a>,
- or be empty.
+ matching an entry’s <a><code>cookie-name</code></a>
+ in the <a>cookie store</a>, or be empty.
 
 <p>The <a>remote end steps</a> are:
 
@@ -4168,8 +4236,7 @@ URL, and command for each WebDriver <a>command</a>.
 
  <li><p>For each <var>cookie</var> among <a>all associated cookies</a> of
   the <a>current top-level browsing context</a>’s
-  <a href=https://html.spec.whatwg.org/#active-document>active document</a>,
-  matching on <var>name</var>:
+  <a>active document</a>, matching on <var>name</var>:
 
   <dl class=switch>
    <dt><var>cookie</var>’s <code>cookie-name</code>
@@ -4200,8 +4267,7 @@ URL, and command for each WebDriver <a>command</a>.
 
 <p>The <dfn>Add Cookie</dfn> <a>command</a>
  adds a single cookie to the cookie storage associated with
- the <a href=https://html.spec.whatwg.org/#active-document>active document</a>’s
- <a href=https://dom.spec.whatwg.org/#concept-document-url>address</a>.
+ the <a>active document</a>’s <a>address</a>.
 
 <p>The <a>remote end steps</a> are:
 
@@ -4215,9 +4281,8 @@ URL, and command for each WebDriver <a>command</a>.
  <li><p>If <var>cookie</var> is not a JSON Object,
   return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
 
- <li><p>If the <a>current top-level browsing context</a>’s
-  <a href=https://dom.spec.whatwg.org/#document-element>document element</a>
-  is a <a href=http://www.w3.org/html/wg/drafts/html/master/single-page.html#cookie-averse-document-object>cookie-averse <code>Document</code> object</a>,
+ <li><p>If the <a>current top-level browsing context</a>’s <a>document element</a>
+  is a <a>cookie-averse <code>Document</code> object</a>,
   return <a>error</a> with <a>error code</a> <a>invalid cookie domain</a>.
 
  <li><p>Set the value is <var>cookie-name</var>,
@@ -4273,8 +4338,7 @@ URL, and command for each WebDriver <a>command</a>.
 <p>The <dfn>Delete Cookie</dfn> <a>command</a>
  allows you to delete either a single cookie by parameter <var>name</var>,
  or all the cookies associated with
- the <a href=https://html.spec.whatwg.org/#active-document>active document</a>’s
- <a href=https://dom.spec.whatwg.org/#concept-document-url>address</a>
+ the <a>active document</a>’s <a>address</a>
  if <var>name</var> is undefined.
 
 <p>The <a>remote end steps</a> are:
@@ -4284,9 +4348,7 @@ URL, and command for each WebDriver <a>command</a>.
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>For each <var>cookie</var> among <a>all associated cookies</a> of
-  the <a>current top-level browsing context</a>’s
-  <a href=https://html.spec.whatwg.org/#active-document>active document</a>,
-  if:
+  the <a>current top-level browsing context</a>’s <a>active document</a>, if:
 
   <dl class=switch>
    <dt><var>name</var> is undefined
