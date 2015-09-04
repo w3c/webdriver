@@ -1160,6 +1160,13 @@ URL, and command for each WebDriver <a>command</a>.
  </tr>
 
  <tr>
+  <td><dfn>unable to capture screen</dfn>
+  <td>500
+  <td><code>unable to capture screen</code>
+  <td>A screen capture was made impossible.
+ </tr>
+
+ <tr>
   <td><dfn>unexpected alert open</dfn>
   <td>500
   <td><code>unexpected alert open</code>
@@ -2751,6 +2758,10 @@ URL, and command for each WebDriver <a>command</a>.
 
  <li><p>Otherwise return false.
 </ol>
+
+<p>An <a href=https://dom.spec.whagwg.org/#concept-element>element</a>
+ is <dfn data-lt="scroll into view">scrolled into view</dfn> by calling
+ <a href=https://drafts.csswg.org/cssom-view/#dom-element-scrollintoview><code>scrollIntoView()</code></a> from [[CSSOM-VIEW]].
 
   <section>
     <h2>Finding Elements in a document</h2>
@@ -5474,18 +5485,86 @@ URL, and command for each WebDriver <a>command</a>.
 </section> <!-- /Modals -->
 
 <section>
-<h2>Screenshots</h2>
+<h2>Screen Capture</h2>
 
-<p class=issue><strong>Warning:</strong>
- This section has not yet been redefined to match the <a>routing requests</a> model,
- and uses old concepts and definitions.
- Please do not rely on it yet.
+<p>Screenshots are a mechanism for providing
+ additional visual diagnostic information.
+ They work by dumping a snapshot of
+ the <a href=https://drafts.csswg.org/css-device-adapt/#the-viewport>viewport</a>’s
+ framebuffer as a lossless PNG image.
+ It is returned to the <a>local end</a> as a Base64 encoded string.
 
-<p>Screenshots are a powerful mechanism for providing information to users of WebDriver, particularly once a particular WebDriver instance has been disposed of. In different circumstances, users want different types of screenshots. Note that the WebDriver spec does not provide a mechanism for taking a screenshot of the entire screen.</p>
+<p>WebDriver provides the <a>Take Screenshot</a> <a>command</a>
+ to capture the
+ <a href=https://html.spec.whatwg.org/#top-level-browsing-context>top-level browsing context</a>’s
+ <a href=https://drafts.csswg.org/css-device-adapt/#the-viewport>viewport</a>,
+ and a <a>command</a> <a>Take Element Screenshot</a>
+ for doing the same with the visible region of
+ an <a href=https://dom.spec.whagwg.org/#concept-element>element</a>’s
+ bounding rectangle after it has been <a>scrolled into view</a>.
 
-<p>In all cases, screenshots MUST be returned as lossless PNG images encoded using Base64. Local ends MUST provide the user with access to the PNG images without requiring the user to decode the Base64. This access MUST be via at least one of a binary blob or a file.</p>
+<p>In order to <dfn>draw a bounding box from the framebuffer</dfn>, given
+ a <a href=https://drafts.fxtf.org/geometry/#rectangle>rectangle</a>
+ <var>rect</var>:
 
-<p>All commands within this section are implemented using the "TakesScreenshot" interface:</p>
+<ol>
+ <li><p>Let <var>viewport width</var> and <var>viewport height</var>
+  be the size of the
+  <a href=https://drafts.csswg.org/css-device-adapt/#initial-viewport>initial viewport</a>.
+
+ <li><p>If either <var>viewport width</var>
+  or <var>viewport height</var> is &lt; 0,
+  return <a>error</a> with <a>error code</a>
+  <a>unable to capture screen</a>.
+
+ <li><p>Let <var>paint width</var> be
+  <var>viewport width</var> – <var>rect</var>’s
+  <a href=https://drafts.fxtf.org/geometry/#rectangle-width-dimension>width dimension</a>.
+
+ <li><p>Let <var>paint height</var> be
+  <var>viewport height</var> – <var>rect</var>’s
+  <a href=https://drafts.fxtf.org/geometry/#rectangle-height-dimension>height dimension</a>.
+
+ <li><p class=issue>Determine if all corners of <var>rect</var> is
+  inside the rectangle that is the viewport.
+
+ <li><p>Let <var>canvas</var> be a new
+ <a href=https://html.spec.whatwg.org/multipage/scripting.html#the-canvas-element><code>canvas</code> element</a>,
+  and set its
+  <a href=https://html.spec.whatwg.org/multipage/scripting.html#attr-canvas-width>width</a>
+  and <a href=https://html.spec.whatwg.org/multipage/scripting.html#attr-canvas-height>height</a>
+  to <var>paint width</var> and <var>paint height</var>, respectively.
+
+ <li><p>Let <var>context</var>,
+  a <a href=https://html.spec.whatwg.org/multipage/scripting.html#concept-canvas-context-mode>canvas context mode</a>,
+  be the result of invoking
+  the <a href=https://html.spec.whatwg.org/multipage/scripting.html#2d-context-creation-algorithm>2D context creation algorithm</a>
+  given <var>canvas</var> as the target.
+
+ <li><p>Complete implementation specific steps equivalent to
+  drawing the region of the framebuffer
+  specified by the following coordinates onto <var>context</var>:
+
+  <dl>
+   <dt>X coordinate
+   <dd><var>rect</var>’s <a href=#>x coordinate</a>
+
+   <dt>Y coordinate
+   <dd><var>rect</var>’s <a href=#>y coordinate</a>
+
+   <dt>Width
+   <dd><var>paint width</var>
+
+   <dt>Height
+   <dd><var>paint height</var>
+  </dl>
+
+ <li><p>Let <var>file</var> be
+  <a href=https://html.spec.whatwg.org/multipage/scripting.html#a-serialisation-of-the-bitmap-as-a-file>a serialisation of the <code>canvas</code> element’s bitmap as a file</a>,
+  using "<code>image/png</code>" as an argument.
+
+ <li><p>Return <a>success</a> with data <var>file</var>.
+</ol>
 
 <section>
 <h3>Take Screenshot</h3>
@@ -5501,42 +5580,39 @@ URL, and command for each WebDriver <a>command</a>.
  </tr>
 </table>
 
-<p>The <dfn>Take Screenshot</dfn> command takes a screenshot
- and return a lossless PNG encoded using Base64.
- If <code>element</code> is not populated or is <code>null</code>
- then the User Agent MUST return the screenshot of
- the current state of the document at the top level browsing context.
+<p>The <dfn>Take Screenshot</dfn> <a>command</a>
+ takes a screenshot of the
+ <a href=#>top-level browsing context</a>’s
+ <a href=#>viewport</a>.
 
-<p>This command will return the screenshot of the current state of
- the document at the top level browsing context.
- Implementations of the remote end SHOULD capture the entire document,
- even if this would require a user to scroll the browser window.
- That is, the returned PNG SHOULD have the same width and height
- as returned by a call to <code>getSize</code> of the BODY element
- and MUST contain all visible content on the page,
- and this SHOULD be done without resizing the browser window.
- If the remote end is unable to capture the entire Document,
- then the part of the Document currently displayed in UI of
- the browser MUST be captured without additional chrome
- such as scrollbars and browser chrome.
+<p>The <a>remote end steps</a> are:
 
-<p class=note>One way to think of capturing the entire Document
- is that the user has an infinitely large monitor
- and has resized the window to allow all content to be visible.
- One of those monitors would be very cool.
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
-<p>Nested frames MUST be sized as if the user has resized the window
- to the dimensions of the PNG being returned.
- This often means that not all potentially visible content
- within the nested frames is captured.
+ <li>Let <var>root rect</var> be the
+  <a>current top-level browsing context</a>’s
+  <a href=https://dom.spec.whatwg.org/#document-element>document element</a>’s
+  <a href=https://drafts.fxtf.org/geometry/#rectangle>rectangle</a>.
 
-<p>Remote ends MUST NOT attempt to track changes in window size
- as the screenshot is being taken.
- In particular this means that in the case of a page that makes use of "infinite scrolling"
- (where an AJAX call is used to populate additional content as the user scrolls down)
- or in some other way resizes content as the window size is changed
- only the content that was originally contained in the Document
- when the command is executed will be captured.
+ <li><p>Let <var>screenshot result</var> be the result of calling
+  <a>draw a bounding box from the framebuffer</a>,
+  given <var>root rect</var> as an argument.
+
+ <li><p>If <var>screenshot result</var> is an <a>error</a>,
+  return <var>screenshot result</var>.
+
+ <li><p>Let <var>blob</var> be <var>screenshot result</var>’s data.
+
+ <li><p><a>Encode as Base64</a> the <var>blob</var>
+  and let it be known as <var>encoded string</var>.
+
+ <li><p>Let <var>body</var> be a JSON Object
+  with the "<code>value</code>" property set to <var>encoded string</var>.
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
 </section> <!-- /Take Screenshot -->
 
 <section>
@@ -5550,27 +5626,51 @@ URL, and command for each WebDriver <a>command</a>.
  <tr>
   <td>GET</td>
   <td>/session/{session id}/element/{element id}/screenshot</td>
-  <td></td>
  </tr>
 </table>
 
-<p>The <dfn>Take Element Screenshot</dfn> command
- takes a screenshot of the region encompassed
- by the bounding rectangle of an element,
- and returns it as a PNG file.
+<p>The <dfn>Take Element Screenshot</dfn> <a>command</a>
+ takes a screenshot of the visible region encompassed
+ by the bounding rectangle of an <a href=#>element</a>,
+ after it has been scrolled into view.
 
-<ul>
- <li>Let <var>element</var> be the value from <var><a href="#uri-template-element">element</a></var> from the URI-Template</li>
- <li>Let <var>screenshot</var> be a be a Base64 encoded, lossless PNG representation of area bounded by the clientBoundingRect of the DOMElement.
-   <ol>
-     <li>If the element is not in the current viewport, the DOMElement must be scrolled into view.</li>
-     <li>If the <code>WebElement</code> represents a FRAME or IFRAME element, this is equivalent of taking a screenshot of the frame's BODY elemen</li>
-   </ol>
- </li>
- <li>Return <var>screenshot</var> to the local end.</li>
-</ul>
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>Let <var>element result</var> be the result of
+  <a>getting a known element</a> by
+  <a>UUID</a> reference parameter <var>element id</var>.
+
+ <li><p>If <var>element result</var> is an <a>error</a>,
+  return <var>element result</var>.
+
+ <li><p>Let <var>element</var> be <var>element result</var>’s data.
+
+ <li><p>Let <var>element rect</var> be <var>element</var>’s
+  <a href=https://drafts.fxtf.org/geometry/#rectangle>rectangle</a>.
+
+ <li><p><a>Scroll into view</a> the <var>element</var>.
+
+ <li><p>Let <var>screenshot result</var> be the result of calling
+  <a>draw a bounding box from the framebuffer</a>,
+  given <var>element rect</var> as an argument.
+
+ <li><p>If <var>screenshot result</var> is an <a>error</a>,
+  return <var>screenshot result</var>.
+
+ <li><p>Let <var>blob</var> be <var>screenshot result</var>’s data.
+
+ <li><p><a>Encode as Base64</a> the <var>blob</var>
+  and let it be known as <var>encoded string</var>.
+
+ <li><p>Let <var>body</var> be a JSON Object
+  with the "<code>value</code>" property set to <var>encoded string</var>.
+
+ <li><p>Return <a>success</a> with data <var>body</var>.
+</ol>
 </section> <!-- /Take Element Screenshot -->
-</section>
+</section> <!-- /Screen Capture -->
 
 
 <section class=appendix>
