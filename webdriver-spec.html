@@ -246,6 +246,7 @@ var respecConfig = {
    <!-- Body --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-body>Body</a></dfn>
    <!-- Method --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-method>Method</a></dfn>
    <!-- Response --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response>Response</a></dfn>
+   <!-- Request --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request>Request</a></dfn>
    <!-- Status --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response-status>Status</a></dfn>
    <!-- Status message --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response-status-message>Status message</a></dfn>
    <!-- URL --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-url>URL</a></dfn>
@@ -485,8 +486,9 @@ var respecConfig = {
 <ol>
  <li><p><a>Read bytes</a> from the connection
   until a complete HTTP request can be constructed from the data.
-  Let <var>request</var> be a <a href=https://fetch.spec.whatwg.org/#concept-request>request</a> object
-  constructed from the received data, according to the requirements of [[!RFC7230]].
+  Let <var>request</var> be a <a>request</a>
+  constructed from the received data,
+  according to the requirements of [[!RFC7230]].
 
  <li><p>Let <var>request match</var> be the result of the algorithm
   to <a>match a request</a> with <var>request</var>’s
@@ -513,8 +515,7 @@ var respecConfig = {
      the <a>session</a> with <a data-lt="session id">id</a> <var>session id</var>.
   </ol>
 
- <li><p>If <var>request</var>'s
-  <a href=https://fetch.spec.whatwg.org/#concept-request-method>method</a> is POST:
+ <li><p>If <var>request</var>’s <a>method</a> is POST:
 
   <ol>
    <li><p>Let <var>parse result</var> be the result of
@@ -590,8 +591,8 @@ var respecConfig = {
  <li><p>Let <var>response</var> be a new <a>response</a>.
 
  <li><p>Set <var>response</var>’s <a>status</a> to <var>status</var>,
-  and <a>status message</a> to the string corresponding to the description of <var>status</var>
-  in the <a>status code registry</a>.
+  and <a>status message</a> to the string corresponding
+  to the description of <var>status</var> in the <a>status code registry</a>.
 
  <li><p>If <var>data</var> is not null, let <var>response</var>’s
   <a>body</a> be the result of <a>serializing as JSON</a>
