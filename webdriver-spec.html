@@ -1576,6 +1576,8 @@ var respecConfig = {
  which is one of <i>none</i>, <i>normal</i>, and <i>eager</i>.
  Unless stated otherwise, it is <i>normal</i>.
 
+<p>A <a>session</a> has an associated <a>unexpected user prompt handler</a>.
+
 <p>When asked to <dfn>close the session</dfn>,
  a <a>remote end</a> must take the following steps:
 
@@ -1639,6 +1641,9 @@ var respecConfig = {
 
  <li><p>If the <a>maximum active sessions</a> is equal to
   the length of the list of <a>active sessions</a>,
+  return <a>error</a> with <a>error code</a> <a>session not created</a>.
+
+ <li><p>If there is a <a>current user prompt</a>,
   return <a>error</a> with <a>error code</a> <a>session not created</a>.
 
  <li><p>Let <var>capabilities</var> be the result of <a>getting a property</a>
@@ -1845,6 +1850,8 @@ var respecConfig = {
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
  <li><p>Let <var>url</var> be the result of <a>getting a property</a> named "url"
   from the <var>parameters</var> argument.
 
@@ -1917,6 +1924,8 @@ var respecConfig = {
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
  <li><p>Let <var>url</var> be the <a data-lt="url serializer">serialization</a>
   of the <a>current top-level browsing context</a>’s
   <a>active document</a>’s <a>document URL</a>.
@@ -1951,6 +1960,8 @@ var respecConfig = {
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p><a>Traverse the history by a delta</a> –1
   for the <a>current browsing context</a>.
@@ -2000,6 +2011,8 @@ var respecConfig = {
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
  <li><p><a>Traverse the history by a delta</a> 1
   for the <a>current browsing context</a>.
 
@@ -2047,6 +2060,8 @@ var respecConfig = {
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p class=issue>Not sure if this needs to consider the reload override flag.
 
@@ -2103,6 +2118,8 @@ var respecConfig = {
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>title</var> be the value of the <a>current top-level browsing context</a>'s
   <a>active document</a>'s <a>title</a>.
@@ -2345,6 +2362,8 @@ var respecConfig = {
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
  <li><p>Let <var>id</var> be the result of
   <a>getting a property</a> named "<code>id</code>"
   from the <var>parameters</var> argument.
@@ -2436,6 +2455,8 @@ var respecConfig = {
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
  <li><p>If the <a>current browsing context</a> is not equal to
   the <a>current top-level browsing context</a>,
   set the <a>current browsing context</a> to
@@ -2474,13 +2495,15 @@ var respecConfig = {
  returns the size of the operating system window corresponding
  to the <a>current top-level browsing context</a>.
 
+<p class=issue>Can this whole operation be unsupported?
+
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p class=issue>Can this whole operation be unsupported?
-
-  <p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
    return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>width</var> be the width in <a>CSS reference pixels</a>
   of the operating system window containing
@@ -2534,6 +2557,8 @@ var respecConfig = {
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>If the <a>remote end</a> does not support
   the <a>Set Window Size</a> <a>command</a> for
@@ -2606,6 +2631,8 @@ var respecConfig = {
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
  <li><p>If the <a>remote end</a> does not support
   the <a>Maximize Window</a> command
   for the <a>current top-level browsing context</a> for any reason,
@@ -2645,6 +2672,8 @@ var respecConfig = {
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>If the <a>remote end</a> does not support
   the <a>Fullscreen Window</a> command
@@ -2960,9 +2989,10 @@ var respecConfig = {
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
  <li><p>Let <var>active element</var> be the <a>active element</a>
   of the <a>current browsing context</a>’s <a>document element</a>.
-
 
  <li><p>Let <var>active web element</var> be the
   <a>serialization of the element</a> <var>active element</var>.
@@ -3310,6 +3340,8 @@ var respecConfig = {
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
  <li><p>If the <a>current browsing context</a>’s <a>document</a>
   <a data-lt="document type">type</a> is not
   "<code>xml</code>", let <var>visible</var> be a boolean initially set to false
@@ -3366,6 +3398,8 @@ var respecConfig = {
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element result</var> be the result of
   <a>getting a known element</a> by
@@ -3424,6 +3458,8 @@ var respecConfig = {
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element result</var> be the result of
   <a>getting a known element</a> by
@@ -3484,6 +3520,8 @@ var respecConfig = {
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
  <li><p>Let <var>element result</var> be the result of
   <a>getting a known element</a> by
   <a>UUID</a> reference <var>element id</var>.
@@ -3533,6 +3571,8 @@ var respecConfig = {
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element result</var> be the result of
   <a>getting a known element</a> by
@@ -3652,6 +3692,8 @@ var respecConfig = {
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
  <li><p>Let <var>element result</var> be the result of
   <a>getting a known element</a> by
   <a>UUID</a> reference parameter <var>element id</var>.
@@ -3718,6 +3760,8 @@ var respecConfig = {
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
  <li><p>Let <var>element result</var> be the result of
   <a>getting a known element</a> by
   <a>UUID</a> reference parameter <var>element id</var>.
@@ -3779,6 +3823,8 @@ var respecConfig = {
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element result</var> be the result of
   <a>getting a known element</a> by
@@ -4265,6 +4311,11 @@ var respecConfig = {
 <p>The <a>remote end steps</a> are:
 
 <ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
+
  <li><p>Let <var>script arguments</var> be the result of
   <a>extracting the script arguments from a request</a>
   with argument <var>parameters</var>.
@@ -4315,6 +4366,11 @@ var respecConfig = {
 <p>The <a>remote end steps</a> are:
 
 <ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
+
  <li><p>Let <var>script arguments</var> be the result
   of <a>extracting the script arguments from a request</a>
   with argument <var>parameters</var>.
@@ -4460,6 +4516,8 @@ var respecConfig = {
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
+ <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
+
  <li><p>Let <var>result</var> be an initially empty JSON List.
 
  <li><p>For each <var>cookie</var> among <a>all associated cookies</a> of
@@ -4502,6 +4560,8 @@ var respecConfig = {
 <ol>
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>cookie</var> be the result of <a>getting a property</a>
   named "<code>cookie</code>" from the <var>parameters</var> argument.
@@ -4574,6 +4634,8 @@ var respecConfig = {
 <ol>
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
  <li><p>For each <var>cookie</var> among <a>all associated cookies</a> of
   the <a>current top-level browsing context</a>’s <a>active document</a>, if:
@@ -5365,26 +5427,146 @@ var respecConfig = {
 </section> <!-- /Interactions -->
 
 <section>
-<h2>Modals</h2>
+<h2>User Prompts</h2>
 
-<p class=issue><strong>Warning:</strong>
- This section has not yet been redefined to match the <a>routing requests</a> model,
- and uses old concepts and definitions.
- Please do not rely on it yet.
+<p><i>Non-normative summary:</i>
 
-<p>This section describes how modal dialogs
- should be handled using the WebDriver API.
+<p>This chapter describes interaction with various types of
+ <a href=https://html.spec.whatwg.org/#user-prompts>user prompts</a>.
+ The common denominator for user prompts is that they are
+ modal windows requiring users to interact with them
+ before the <a href=https://html.spec.whatwg.org/#event-loop>event loop</a>
+ is <a href=https://html.spec.whatwg.org/#pause>unpaused</a>
+ and control is returned to the <a>current top-level browsing context</a>.
+
+<p>By default <a href=https://html.spec.whatwg.org/#user-prompts>user prompts</a>
+ that are not handled automatically
+ unless a <a>user prompt handler</a> has been defined.
+ When a <a href=https://html.spec.whatwg.org/#user-prompts>user prompt</a> appears,
+ it is the task of the subsequent <a>command</a> to handle it.
+ If the subsequent requested <a>command</a> is not one listed in this chapter,
+ an <a>unexpected alert open</a> <a>error</a> will be returned.
+
+<p><a href=https://html.spec.whatwg.org/#user-prompts>User prompts</a>
+ that are spawned from <code>onbeforeunload</code> event handlers,
+ are <a>dismissed</a> implicitly upon <a href=#>navigation</a>,
+ regardless of the defined <a>user prompt handler</a>.
+
+<p>The following <dfn>table of simple dialogues</dfn> enumerates all
+ supported <a href=https://html.spec.whatwg.org/#simple-dialogs>simple dialogues</a>,
+ along with the <a>commands</a> that are allowed to interact with it
+ as a non-normative reference:
+
+<table class=simple>
+ <tr>
+  <th>Definition
+  <th>Dialogue
+  <th>Interactions
+ </tr>
+
+ <tr>
+  <td><dfn>Alert</dfn>
+  <td>window.<a href=https://html.spec.whatwg.org/#dom-alert><code>alert</code></a>
+  <td>
+   <a>Accept Alert</a><br />
+   <a>Dismiss Alert</a><br />
+   <a>Get Alert Text</a>
+ </tr>
+
+ <tr>
+  <td><dfn>Confirm</dfn>
+  <td>window.<a href=https://html.spec.whatwg.org/#dom-confirm><code>confirm</code></a>
+  <td>
+   <a>Dismiss Alert</a><br />
+   <a>Accept Alert</a><br />
+   <a>Get Alert Text</a>
+ </tr>
+
+ <tr>
+  <td><dfn>Prompt</dfn>
+  <td>window.<a href=https://html.spec.whatwg.org/#dom-prompt><code>prompt</code></a>
+  <td>
+   <a>Dismiss Alert</a><br />
+   <a>Accept Alert</a><br />
+   <a>Get Alert Text</a><br />
+   <a>Send Alert Text</a>
+ </tr>
+</table>
+
+<p class=issue>It’s not clear what interoperability looks like
+ for the ability to switch top-level browsing contexts
+ whilst a user prompt is present.
+
+<p>The <dfn>current user prompt</dfn> is said to be the active
+ <a href=https://html.spec.whatwg.org/#user-prompts>user prompt</a>,
+ which can be one of the entries on the <a>table of simple dialogues</a>,
+ the window.<a href=https://html.spec.whatwg.org/#dom-print><code>print</code></a> dialogue,
+ or a dialogue spawned by <a href=https://html.spec.whatwg.org/#dom-showmodaldialog><code>showModalDialog()</code></a>
+ should this be supported by the user agent.
+
+<p>To <dfn data-lt="dismiss|dismissed|dismisses">dismiss</dfn>
+ the <a>current user prompt</a>,
+ do so as if the user would click the <b>Cancel</b> or <b>OK</b> button,
+ whichever is present, in that order.
+
+<p>To <dfn data-lt="accept|accepted|accepts">accept</dfn> the <a>current user prompt</a>,
+ do so as if the user would click the <b>OK</b> button.
+
+<p>A <dfn>user prompt handler</dfn> is
+ an <a href=https://html.spec.whatwg.org/#enumerated-attribute>enumerated attribute</a>
+ defining what action the <a>remote end</a> must take
+ when a <a href=https://html.spec.whatwg.org/#user-prompts>user prompt</a> is encountered.
+ The following table lists the keywords and states for the attribute:
+
+<table class=simple>
+ <tr>
+  <th>Keyword
+  <th>State
+  <th>Description
+ </tr>
+
+ <tr>
+  <td>"<code>dismiss</code>"
+  <td><dfn>Dismiss state</dfn>
+  <td>All <a href=https://html.spec.whatwg.org/#simple-dialogs>simple dialogues</a>
+   encountered should be <a>dismissed</a>.
+ </tr>
+
+ <tr>
+  <td>"<code>accept</code>"
+  <td><dfn>Accept state</dfn>
+  <td>All <a href=https://html.spec.whatwg.org/#simple-dialogs>simple dialogues</a>
+   encountered should be <a>accepted</a>.
+ </tr>
+</table>
+
+<p>In order to <dfn>handle any user prompts</dfn>
+ a <a>remote end</a> must take the following steps:
+
+<ol>
+ <li><p>If there is no <a>current user prompt</a>,
+  abort these steps and return <a>success</a>.
+
+ <li><p>Match on the <a>user prompt handler</a>:
+
+  <dl class=switch>
+   <dt><a>dismiss state</a>
+   <dd><p><a>Dismiss</a> the <a>current user prompt</a>.
+
+   <dt><a>accept state</a>
+   <dd><p><a>Accept</a> the <a>current user prompt</a>.
+
+   <dt><a href=https://html.spec.whatwg.org/#missing-value-default>missing value default state</a>
+   <dt>not in the <a>table of simple dialogues</a>
+   <dd><p>Return <a>error</a> with <a>error code</a>
+    <a>unexpected alert open</a>.
+  </dl>
+
+ <li><p>Return <a>success</a>.
+</ol>
 
 <section>
-<h3>window.alert, window.prompt and window.confirm</h3>
-
-<p>When the remote end has a modal dialog
- such as those produced from <code>window.alert</code>,
- <code>window.prompt</code> and <code>window.confirm</code>
- it SHOULD allow the interrogation of the dialogues using the following interface.
-
-<section>
-<h4>dismiss()</h4>
+<h3>Dismiss Alert</h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5397,13 +5579,31 @@ var respecConfig = {
  </tr>
 </table>
 
-<p>This will dismiss the modal. If the modal is an alert,
- this MUST be equivalent to calling <code>accept()</code> on the dialog.
- If no alert is present a <code><a href="#status-no-such-alert">no such alert error</a></code> MUST be raised.
-</section> <!-- /Dismiss -->
+<p>The <dfn>Dismiss Alert</dfn> <a>command</a>
+ <a>dismisses</a> a <a href=https://html.spec.whatwg.org/#simple-dialogs>simple dialogue</a>
+ if <a data-lt="current user prompt">present</a>.
+ A request to <a>dismiss</a> an <a>alert</a>
+ <a href=https://html.spec.whatwg.org/#user-prompts>user prompt</a>,
+ which may not necessarily have a dismiss button,
+ has the same effect as <a>accepting</a> it.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>If there is no <a>current user prompt</a>,
+  return <a>error</a> with <a>error code</a> <a>no such alert</a>.
+
+ <li><p><a>Dismiss</a> the <a>current user prompt</a>.
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+</section>
 
 <section>
-<h4>accept()</h4>
+<h3>Accept Alert</h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5416,13 +5616,27 @@ var respecConfig = {
  </tr>
 </table>
 
-<p>This will accept the modal.
- If the modal is from a <code>window.prompt</code> it is the equivalent of clicking the OK button.
- If no modal is present then a <code><a href="#status-no-such-alert">no such alert error</a></code> MUST be raised.
-</section> <!-- /Accept -->
+<p>The <dfn>Accept Alert</dfn> <a>command</a>
+ <a>accepts</a> a <a href=https://html.spec.whatwg.org/#simple-dialogs>simple dialogue</a>
+ if <a data-lt="current user prompt">present</a>.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>If there is no <a>current user prompt</a>,
+  return <a>error</a> with <a>error code</a> <a>no such alert</a>.
+
+ <li><p><a>Accept</a> the <a>current user prompt</a>.
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+</section>
 
 <section>
-<h4>getText()</h4>
+<h3>Get Alert Text</h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5435,12 +5649,32 @@ var respecConfig = {
  </tr>
 </table>
 
-<p>This will return the message shown in the modal.
- If no modal is present then a <code><a href="#status-no-such-alert">no such alert error</a></code> MUST be raised.
-</section> <!-- /Get Text -->
+<p>The <dfn>Get Alert Text</dfn> <a>command</a>
+ returns the message of the <a>current user prompt</a>.
+ If there is no <a>current user prompt</a>, it returns with null.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>If there is no <a>current user prompt</a>,
+  return <a>error</a> with <a>error code</a> <a>no such alert</a>.
+
+ <li><p>Let <var>message</var> be the text message
+  associated with the <a>current user prompt</a>,
+  or otherwise be null.
+
+ <li><p>Let <var>body</var> be a JSON Object with the
+  "<code>value</code>" property set to <var>message</var>.
+
+ <li><p>Return <a>success</a> with data <var>body</var>.
+</ol>
+</section>
 
 <section>
-<h4>sendKeys()</h4>
+<h3>Send Alert Text</h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5453,50 +5687,50 @@ var respecConfig = {
  </tr>
 </table>
 
-<p>This MUST act in the same manner as in
- <a href='#widl-WebElement-sendKeys-void-stringArray-keysToSend'>sendKeys</a> to an element.
- If the modal has no means for text input
- it should throw a <code><a href='#status-element-not-visible'>Element not visible error</a></code>.
- If no modal is present then a <a href="#status-no-such-alert"> no such alert error</a> MUST be raised.
+<p>The <dfn>Send Alert Text</dfn> <a>command</a>
+ sets the text field prompt to a given value,
+ and only makes sense on <a>prompt</a>
+ <a href=https://html.spec.whatwg.org/#user-prompts>user prompts</a>.
 
-<p> Let <var>value</var> be an array of characters that will be typed into a WebElement.
- If the modal has no means of accepting text input
- it MUST raise a <code><a href='#status-element-not-visible'>element not visible error</a></code>.
+<p>The <a>remote end steps</a> are:
 
-<p>If a modal dialog is created from a <code>onbeforeunload</code> event
- the remote end MUST handle the dialog by
- either using <code>accept</code> or <code>dismiss</code>.
- These calls should either come from the local end
- or should be handled as an unexpected modal dialog as described below.
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
-<p>The remote end SHOULD have a mechanism to allow unexpected modal dialogs
- to be closed to prevent the remote end from becoming unusable.
- The default for this should be dismiss.
- The local end SHOULD allow a capability to be set that allows
- the default value to be overridden with accept.
- The local end SHOULD also allow setting the default behaviour
- to wait for a command to handle the modal.
- If the next command does not interact with the modal
- it MUST return a <code><a href='#status-unexpected-alert-open'>Unexpected alert open</a></code> error
- to the local end.
-</section> <!-- /Send Keys -->
-</section> <!-- /window.prompt &c. -->
+ <li><p>If there is no <a>current user prompt</a>,
+  return <a>error</a> with <a>error code</a> <a>no such alert</a>.
 
-<section>
-<h3>Modal dialogs</h3>
+ <li><p>Match on <a>current user prompt</a>:
 
-<p>If a browser supports Modal dialogs, as created by <code>document.showModalDialog()</code>,
- it MUST support handling of Modal dialogs via the WebDriver API.
- Modal dialogs can then be <a href='#iterating-over-windows'>iterated</a> over
- in the same approach as normal windows.
+  <dl class=switch>
+   <dt><a>alert</a>
+   <dt><a>confirm</a>
+   <dd><p>Return <a>error</a> with
+    <a>error code</a> <a>element not visible</a>.
 
-<p>If <code><a href='#widl-WebDriver-close-void'>close()</a></code>
- is called on a parent window and it has modal dialogs open
- then the remote end SHOULD iterate over modal dialogs closing them
- before it closes the remaining windows
- so that it does not block the future commands to the remote end.
-</section>
-</section> <!-- /Modals -->
+   <dt><a>prompt</a>
+   <dd><p>Do nothing.
+
+   <dt>Otherwise
+   <dd><p>Return <a>error</a> with
+    <a>error code</a> <a>unsupported operation</a>.
+  </dl>
+
+ <li><p>Let <var>character array</var> be the result of
+  <a>getting a property</a> <code>message</code>
+  from the <var>parameters</var> argument.
+
+ <li><p>Let <var>message</var> be the result of
+  joining together each element in <var>character array</var> to a string.
+
+ <li><p>Set the <a>current user prompt</a>’s text field value
+  to the value of <var>message</var>.
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+</section> <!-- /Send Alert Text -->
+</section> <!-- /User Prompts -->
 
 <section>
 <h2>Screen Capture</h2>
