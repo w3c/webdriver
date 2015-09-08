@@ -352,6 +352,12 @@ var respecConfig = {
     <li>The <dfn><a href=https://drafts.csswg.org/css-box/#visibility><code>visibility</code></a></dfn> property
    </ul>
 
+ <dd>The following terms are defined in
+  the CSS Device Adaptation Module Level 1 specification: [[!CSS-DEVICE-ADAPT]]
+   <ul>
+    <li><dfn><a href=https://drafts.csswg.org/css-device-adapt/#initial-viewport>Initial viewport</a></dfn>
+   </ul>
+
  <dd>The following properties are defined in
   the CSS Display Module Level 3 specification: [[!CSS3-DISPLAY]]
   <ul>
@@ -361,8 +367,10 @@ var respecConfig = {
  <dd>The following terms are defined in
   the Geometry Interfaces Module Level 1 specification: [[!GEOMETRY-1]]
   <ul>
-   <li><dfn data-lt="width dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-width-dimension>Rectangle width dimension</a></dfn>
-   <li><dfn data-lt="height dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-height-dimension>Rectangle height dimension</a></dfn>
+   <!-- Rectangle height dimension --> <li><dfn data-lt="height dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-height-dimension>Rectangle height dimension</a></dfn>
+   <!-- Rectangle width dimension --> <li><dfn data-lt="width dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-width-dimension>Rectangle width dimension</a></dfn>
+   <!-- Rectangle x coordinate --> <li><dfn><a href=https://drafts.fxtf.org/geometry/#rectangle-x-coordinate>Rectangle x coordinate</a></dfn>
+   <!-- Rectangle y coordinate --> <li><dfn><a href=https://drafts.fxtf.org/geometry/#rectangle-y-coordinate>Rectangle y coordinate</a></dfn>
   </ul>
 
  <dd>The following terms are defined in
@@ -5783,26 +5791,17 @@ following must be <var>parameters</var> after the local end has made a request t
  bounding rectangle after it has been <a>scrolled into view</a>.
 
 <p>In order to <dfn>draw a bounding box from the framebuffer</dfn>, given
- a <a href=https://drafts.fxtf.org/geometry/#rectangle>rectangle</a>
- <var>rect</var>:
+ a <a href=https://drafts.fxtf.org/geometry/#rectangle>rectangle</a>:
 
 <ol>
- <li><p>Let <var>viewport width</var> and <var>viewport height</var>
-  be the size of the
-  <a href=https://drafts.csswg.org/css-device-adapt/#initial-viewport>initial viewport</a>.
+ <li><p>If either the <a>initial viewport</a>’s width or height is 0 <a>CSS reference pixels</a>,
+  return <a>error</a> with <a>error code</a> <a>unable to capture screen</a>.
 
- <li><p>If either <var>viewport width</var>
-  or <var>viewport height</var> is 0 <a>CSS reference pixels</a>,
-  return <a>error</a> with <a>error code</a>
-  <a>unable to capture screen</a>.
+ <li><p>Let <var>paint width</var> be the <a>initial viewport</a>’s width –
+  min(<a>rectangle x coordinate</a>, <a>rectangle x coordinate</a> + <a>rectangle width dimension</a>).
 
- <li><p>Let <var>paint width</var> be
-  <var>viewport width</var> – <var>rect</var>’s
-  <a href=https://drafts.fxtf.org/geometry/#rectangle-width-dimension>width dimension</a>.
-
- <li><p>Let <var>paint height</var> be
-  <var>viewport height</var> – <var>rect</var>’s
-  <a href=https://drafts.fxtf.org/geometry/#rectangle-height-dimension>height dimension</a>.
+ <li><p>Let <var>paint height</var> be the <a>initial viewport</a>’s height –
+  min(<a>rectangle y coordinate</a>, <a>rectangle y coordinate</a> + <a>rectangle height dimension</a>).
 
  <li><p class=issue>Determine if all corners of <var>rect</var> is
   inside the rectangle that is the viewport.
