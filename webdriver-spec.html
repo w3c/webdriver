@@ -2806,270 +2806,8 @@ var respecConfig = {
  is <dfn data-lt="scroll into view">scrolled into view</dfn> by calling
  <a href=https://drafts.csswg.org/cssom-view/#dom-element-scrollintoview><code>scrollIntoView()</code></a> from [[CSSOM-VIEW]].
 
-  <section>
-    <h2>Finding Elements in a document</h2>
-    <p class=issue><strong>Warning:</strong> This section has not yet been redefined to match the <a>routing requests</a> model, and uses old concepts and definitions.  Please do not rely on it yet.
-    <p>When the <a href='#findelement'>findElement()</a> or <a href='#findelements'>findElements()</a> WebDriver Command is called the
-      following must be <var>parameters</var> after the local end has made a request to the remote end:</p>
-    <ol>
-      <li>Let <var>using</var> contain the <a href='#element-location-strategies'>Element Location Strategy</a>.
-        If it is not a valid stategy:
-        <ul>
-          <li>Set the HTTP Response status code to 500</li>
-          <li>Let <var>status</var> be equal to <code><a href='#status-invalid-selector'>Invalid Selector</a></code></li>
-          <li>Let <var>value</var> be a statement that the strategy is invalid. It MAY return a list of valid search strategies.</li>
-        </ul>
-      </li>
-      <li>Let <var>value</var> contain a string that will be passed to the <a href='#element-location-strategies'>Element Location Strategy</a> call.
-        If <var>value</var> is an empty string or null:
-        <ul>
-          <li>Set the HTTP Response status code to 500</li>
-          <li>Let <var>status</var> be equal to <a href='#status-invalid-selector'>Invalid Selector</a></li>
-          <li>Let <var>value</var> to a stating that the strategy is invalid. It MAY return a list of valid search strategies.</li>
-        </ul>
-      </li>
-      <li>Call the relevant <a href='#element-location-strategies'>Element Location Strategy</a> and return what is described in
-        <a href='#findelement'>findElement()</a> or <a href='#findelements'>findElements()</a> WebDriver Command described below.</li>
-    </ol>
-    <section>
-    <h3>findElements()</h3>
-    <p class=issue><strong>Warning:</strong> This section has not yet been redefined to match the <a>routing requests</a> model, and uses old concepts and definitions.  Please do not rely on it yet.
-      <p>When there is a need to find multiple elements on a document that we can return to the local end we use the following algorithm:
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-          </tr>
-          <tr>
-            <td>POST</td>
-            <td>/session/{session id}/elements</td>
-          </tr>
-        </table>
-        <ol>
-          <li>Let <var>result</var> be equal to an empty list</li>
-          <li>Let <var>queryResult</var> be a NodeList returned from <a href='#element-location-strategies'>Element Location Strategy</a></li>
-          <li>Repeat for every value in <var>queryResult</var> if not an empty set else return <var>result</var>
-              <ol>
-                <li>Let <var>id</var> be the <a href='#webelement-unique-identifier'>unique identifier</a> for the DOMElement.</li>
-                <li>Append <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code> to <var>result</var></li>
-              </ol>
-          </li>
-          <li>Return <var>result</var>. The object returned will look like the following:
-<pre>{
-  "value": [{"element-6066-11e4-a52e-4f735466cecf": id}, {"element-6066-11e4-a52e-4f735466cecf": id}]
-}</pre>
-          </li>
-        </ol>
-      <p>
-        When there is a need to search from an element to find the next WebElement we use the following algorithm:
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-          </tr>
-          <tr>
-            <td>POST</td>
-            <td>/session/{session id}/element/{element id}/elements</td>
-          </tr>
-        </table>
-        <ol>
-          <li>Let <var>result</var> be equal to an empty list.</li>
-          <li>Let <var><a href="#uri-template-element">element</a></var> be the start node for the query in the <a href='#element-location-strategies'>Element Location Strategy</a></li>
-          <li>Let <var>queryResult</var> be a NodeList returned from <a href='#element-location-strategies'>Element Location Strategy</a></li>
-          <li>Repeat for every value in <var>queryResult</var> if not an empty set else return <var>result</var>
-              <ol>
-                <li>Let <var>id</var> be the <a href='#webelement-unique-identifier'>unique identifier</a> for the DOMElement.</li>
-                <li>Append <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code> to <var>result</var></li>
-              </ol>
-          </li>
-          <li>Return <var>result</var>. The object returned will look like the following:
-<pre>{
-  "value": [{"element-6066-11e4-a52e-4f735466cecf": id}, {"element-6066-11e4-a52e-4f735466cecf": id}]
-}</pre></li>
-        </ol>
-    </section>
-    <section>
-    <h3>findElement()</h3>
-    <p class=issue><strong>Warning:</strong> This section has not yet been redefined to match the <a>routing requests</a> model, and uses old concepts and definitions.  Please do not rely on it yet.
-      <p>
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-          </tr>
-          <tr>
-            <td>POST</td>
-            <td>/session/{session id}/element</td>
-          </tr>
-        </table>
-        <ol>
-          <li>Let <var>id</var> be an identifier for a DOMElement returned from <a href='#element-location-strategies'>Element Location Strategy</a>.
-            If a NodeList is returned, the first element in the NodeList MUST be used.
-            <p>If <var>id</var> is empty:
-              <ul>
-                <li>Let the HTTP response status code be 501</li>
-                <li>Let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
-                <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
-              </ul>
-            <p>If an error is returned from <a href='#element-location-strategies'>Element Location Strategy</a> do the following.(todo describe how the error is returned)
-              <ul>
-                <li>Let the HTTP response status code be 501</li>
-                <li>Let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
-                <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
-              </ul>
-          </li>
-          <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
-          <li>Return <var>result</var>. The object returned will look like the following:
-<pre>{
-  "value": {"element-6066-11e4-a52e-4f735466cecf": id}
-}</pre>
-          </li>
-        </ol>
-      <p>
-        When searching from an element from another element the following algorithm should be used:
-        <table class="simple jsoncommand">
-          <tr>
-            <th>HTTP Method</th>
-            <th>Path Template</th>
-          </tr>
-          <tr>
-            <td>POST</td>
-            <td>/session/{session id}/element/{element id}/element</td>
-          </tr>
-        </table>
-        <ol>
-          <li>Let <var><a href="#uri-template-element">element</a></var> be the start node for the query in the <a href='#element-location-strategies'>Element Location Strategy</a></li>
-          <li>Let <var>id</var> be a <a href='#webelement-unique-identifier'>unique identifier</a> for the DOMElement returned from <a href='#element-location-strategies'>Element Location Strategy</a>.
-            If a NodeList is returned, the first DOMElement in the NodeList MUST be used.
-            <p>If <var>id</var> is empty:
-              <ul>
-                <li>Let the HTTP response status code be 501</li>
-                <li>Let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
-                <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
-              </ul>
-            <p>If an error is returned from <a href='#element-location-strategies'>Element Location Strategy</a> do the following.(todo describe how the error is returned)
-              <ul>
-                <li>Let the HTTP response status code be 501</li>
-                <li>Let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
-                <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
-              </ul>
-          </li>
-          <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
-          <li>Return <var>result</var>. The object returned will look like the following:
-<pre>{
-  "value": {"element-6066-11e4-a52e-4f735466cecf": id}
-}</pre>
-          </li>
-        </ol>
-    </section>
-</section> <!-- /Finding Elements In a Document -->
-
 <section>
-<h3>Get Active Element</h3>
-
-<table class="simple jsoncommand">
- <tr>
-  <th>HTTP Method</th>
-  <th>Path Template</th>
- </tr>
- <tr>
-  <td>GET</td>
-  <td>/session/{session id}/element/active</td>
- </tr>
-</table>
-
-<p><dfn>Get Active Element</dfn> returns
- the <a href=https://html.spec.whatwg.org/#dom-document-activeelement>active element</a>
- of the <a>current browsing context</a>’s
- <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>.
-
-<p>The <a>remote end steps</a> are:
-
-<ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
-
- <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
-
- <li><p>Let <var>active element</var> be the <a>active element</a>
-  of the <a>current browsing context</a>’s <a>document element</a>.
-
- <li><p>Let <var>active web element</var> be the
-  <a>serialization of the element</a> <var>active element</var>.
-
- <li><p>Return <a>success</a> with data <var>active web element</var>.
-</ol>
-</section> <!-- /Get Active Element -->
-
-  <section>
-    <h2 id="element-location-strategies">Element Location Strategies</h2>
-
-    <p class=issue><strong>Warning:</strong>
-     This section has not yet been redefined to match the <a>routing requests</a> model,
-     and uses old concepts and definitions.
-     Please do not rely on it yet.
-
-    <p>All element location strategies MUST return elements in the order in which they appear in the current document.</p>
-
-    <section>
-      <h2>CSS Selectors</h2>
-      <p>Strategy name: css selector</p>
-      <p>If a browser supports the
-      <a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a> ([[!SELECTORS-API]]) it MUST support locating elements by
-      CSS Selector. If the browser does not support the browser CSS Selector spec it MAY choose to implement locating
-      by this mechanism. If the browser can support locating elements by CSS Selector, it MUST set the "cssSelector" capability to boolean true when responding to the <a href="#newsession">newSession()</a>. Elements MUST be returned in the same order as if "<code>querySelectorAll</code>" had been called with the <code>Locator</code>'s <code>value</code>. Compound selectors are allowed.</p>
-      </section>
-      <section>
-    </section>
-    <section>
-      <h2>ECMAScript</h2>
-      <p>Finding elements by ecmascript is covered in the <a href="#ecmascript">ecmascript part of this spec</a>.</p>
-    </section>
-    <section>
-      <h2>Link Text</h2>
-      <p>Strategy name: link text</p>
-      <p>This strategy MUST be supported by all WebDriver implementations. </p>
-      <p>This strategy MUST return all <a href="http://www.w3.org/TR/html5/text-level-semantics.html#the-a-element">"a"</a> elements with visible text exactly and case sensitively equal to the term being searched for.</p>
-      <div class="note">
-            <p>This is equivalent to:</p>
-            <pre>
-                  elements = driver.find_elements(by = By.TAG_NAME, value = "a")
-                  result = []
-                  for element in elements:
-                    text = element.text
-                    if text == search_term:
-                      result.append(element)
-                </pre>
-                <p>Where "search_term" is the link text being searched for, and "result" contains the list of elements to return.</p>
-          </div>
-    </section>
-    <section>
-      <h2>Partial Link Text</h2>
-      <p>Strategy name: partial link text</p>
-      <p>This strategy MUST be supported by all WebDriver implementations.</p>
-      <p>This strategy is very similar to <a href="#link-text">link text</a>, but rather than matching the entire string, only a subset needs to match. That is, this MUST return all <a href="http://www.w3.org/TR/html5/text-level-semantics.html#the-a-element">"a"</a> elements with visible text that partially or completely and case sensitively matches the term being searched for.</p>
-      <div class="note">
-            <p>This is equivalent to:</p>
-            <pre>
-                  elements = driver.find_elements(by = By.TAG_NAME, value = "a")
-                  result = []
-                  for element in elements:
-                    text = element.text
-                    if text.search(seach_term) != -1:
-                      result.append(element)
-                </pre>
-                <p>Where "search_term" is the link text being searched for, and "result" contains the list of elements to return.</p>
-          </div>
-    </section>
-    <section>
-      <h2>XPath</h2>
-      <p>Strategy name: xpath</p>
-      <p>All WebDriver implementations MUST support finding elements by XPath 1.0 [[!XPATH]] with the <a href="http://dev.w3.org/html5/spec/Overview.html#interactions-with-xpath-and-xslt">edits from section 3.3</a> of the [[!html51]] specification made. If no native support is present in the browser, a pure JS implementation MAY be used. When called, the returned values MUST be equivalent of calling "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate">evaluate</a>" function from [[!DOM-LEVEL-3-XPATH]] with the result type set to <a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE">ORDERED_NODE_SNAPSHOT_TYPE</a> (7).</p>
-    </section>
-</section> <!-- /Element Location Strategies -->
-
-<section>
-<h2>Element Displayedness</h2>
+<h3>Element Displayedness</h3>
 
 <p>The visibility of an <a>element</a> is guided
  by what is perceptually visible to the human eye.
@@ -3271,7 +3009,300 @@ var respecConfig = {
  <li><p>Return true.
 </ol>
 </section> <!-- /Element Displayedness -->
+
+<section>
+<h3>Get Active Element</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{session id}/element/active</td>
+ </tr>
+</table>
+
+<p><dfn>Get Active Element</dfn> returns
+ the <a href=https://html.spec.whatwg.org/#dom-document-activeelement>active element</a>
+ of the <a>current browsing context</a>’s
+ <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
+ <li><p>Let <var>active element</var> be the <a>active element</a>
+  of the <a>current browsing context</a>’s <a>document element</a>.
+
+ <li><p>Let <var>active web element</var> be the
+  <a>serialization of the element</a> <var>active element</var>.
+
+ <li><p>Return <a>success</a> with data <var>active web element</var>.
+</ol>
+</section> <!-- /Get Active Element -->
 </section> <!-- /Elements -->
+
+<section>
+<h2>Element Retrieval</h2>
+
+<p class=issue><strong>Warning:</strong> This section has not yet been redefined to match the <a>routing requests</a> model, and uses old concepts and definitions.  Please do not rely on it yet.
+
+<section>
+<h2>Element Location Strategies</h2>
+
+<p class=issue><strong>Warning:</strong>
+ This section has not yet been redefined to match the <a>routing requests</a> model,
+ and uses old concepts and definitions.
+ Please do not rely on it yet.
+
+<p>All element location strategies MUST return elements in the order in which they appear in the current document.</p>
+
+<section>
+<h3>CSS Selectors</h3>
+
+<p>Strategy name: css selector</p>
+
+<p>If a browser supports the
+<a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a> ([[!SELECTORS-API]]) it MUST support locating elements by
+CSS Selector. If the browser does not support the browser CSS Selector spec it MAY choose to implement locating
+by this mechanism. If the browser can support locating elements by CSS Selector, it MUST set the "cssSelector" capability to boolean true when responding to the <a href="#newsession">newSession()</a>. Elements MUST be returned in the same order as if "<code>querySelectorAll</code>" had been called with the <code>Locator</code>'s <code>value</code>. Compound selectors are allowed.</p>
+</section> <!-- /CSS Selector -->
+
+<section>
+<h3>ECMAScript</h3>
+
+<p>Finding elements by ecmascript is covered in the <a href="#ecmascript">ecmascript part of this spec</a>.
+</section>
+
+<section>
+<h3>Link Text</h3>
+
+<p>Strategy name: link text</p>
+
+<p>This strategy MUST be supported by all WebDriver implementations. </p>
+
+<p>This strategy MUST return all <a href="http://www.w3.org/TR/html5/text-level-semantics.html#the-a-element">"a"</a> elements with visible text exactly and case sensitively equal to the term being searched for.</p>
+
+<div class="note">
+      <p>This is equivalent to:</p>
+      <pre>
+            elements = driver.find_elements(by = By.TAG_NAME, value = "a")
+            result = []
+            for element in elements:
+              text = element.text
+              if text == search_term:
+                result.append(element)
+          </pre>
+          <p>Where "search_term" is the link text being searched for, and "result" contains the list of elements to return.</p>
+    </div>
+</section> <!-- /Link Text -->
+
+<section>
+<h2>Partial Link Text</h2>
+
+<p>Strategy name: partial link text</p>
+
+<p>This strategy MUST be supported by all WebDriver implementations.</p>
+
+<p>This strategy is very similar to <a href="#link-text">link text</a>, but rather than matching the entire string, only a subset needs to match. That is, this MUST return all <a href="http://www.w3.org/TR/html5/text-level-semantics.html#the-a-element">"a"</a> elements with visible text that partially or completely and case sensitively matches the term being searched for.</p>
+
+<div class="note">
+      <p>This is equivalent to:</p>
+      <pre>
+            elements = driver.find_elements(by = By.TAG_NAME, value = "a")
+            result = []
+            for element in elements:
+              text = element.text
+              if text.search(seach_term) != -1:
+                result.append(element)
+          </pre>
+          <p>Where "search_term" is the link text being searched for, and "result" contains the list of elements to return.</p>
+    </div>
+</section> <!-- /Partial Link Text -->
+
+<section>
+<h2>XPath</h2>
+<p>Strategy name: xpath</p>
+<p>All WebDriver implementations MUST support finding elements by XPath 1.0 [[!XPATH]] with the <a href="http://dev.w3.org/html5/spec/Overview.html#interactions-with-xpath-and-xslt">edits from section 3.3</a> of the [[!html51]] specification made. If no native support is present in the browser, a pure JS implementation MAY be used. When called, the returned values MUST be equivalent of calling "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate">evaluate</a>" function from [[!DOM-LEVEL-3-XPATH]] with the result type set to <a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE">ORDERED_NODE_SNAPSHOT_TYPE</a> (7).</p>
+</section> <!-- /XPath -->
+</section> <!-- /Element Location Strategies -->
+
+<p>When the <a href='#findelement'>findElement()</a> or <a href='#findelements'>findElements()</a> WebDriver Command is called the
+following must be <var>parameters</var> after the local end has made a request to the remote end:
+
+<ol>
+ <li>Let <var>using</var> contain the <a href='#element-location-strategies'>Element Location Strategy</a>.
+ If it is not a valid stategy:
+  <ul>
+   <li>Set the HTTP Response status code to 500</li>
+   <li>Let <var>status</var> be equal to <code><a href='#status-invalid-selector'>Invalid Selector</a></code></li>
+   <li>Let <var>value</var> be a statement that the strategy is invalid. It MAY return a list of valid search strategies.</li>
+  </ul>
+ </li>
+ <li>Let <var>value</var> contain a string that will be passed to the <a href='#element-location-strategies'>Element Location Strategy</a> call.
+ If <var>value</var> is an empty string or null:
+  <ul>
+   <li>Set the HTTP Response status code to 500</li>
+   <li>Let <var>status</var> be equal to <a href='#status-invalid-selector'>Invalid Selector</a></li>
+   <li>Let <var>value</var> to a stating that the strategy is invalid. It MAY return a list of valid search strategies.</li>
+  </ul>
+ </li>
+ <li>Call the relevant <a href='#element-location-strategies'>Element Location Strategy</a> and return what is described in <a href='#findelement'>findElement()</a> or <a href='#findelements'>findElements()</a> WebDriver Command described below.</li>
+</ol>
+
+<section>
+<h3>Find Element</h3>
+
+<p class=issue><strong>Warning:</strong>
+ This section has not yet been redefined to match the <a>routing requests</a> model,
+ and uses old concepts and definitions. 
+ Please do not rely on it yet.
+
+<p>
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{session id}/element</td>
+ </tr>
+</table>
+
+<ol>
+ <li>Let <var>id</var> be an identifier for a DOMElement returned from <a href='#element-location-strategies'>Element Location Strategy</a>.
+   If a NodeList is returned, the first element in the NodeList MUST be used.
+   <p>If <var>id</var> is empty:
+     <ul>
+       <li>Let the HTTP response status code be 501</li>
+       <li>Let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
+       <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+     </ul>
+   <p>If an error is returned from <a href='#element-location-strategies'>Element Location Strategy</a> do the following.(todo describe how the error is returned)
+     <ul>
+       <li>Let the HTTP response status code be 501</li>
+       <li>Let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
+       <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+     </ul>
+ </li>
+ <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
+ <li>Return <var>result</var>. The object returned will look like the following:
+<pre>{
+"value": {"element-6066-11e4-a52e-4f735466cecf": id}
+}</pre>
+ </li>
+</ol>
+
+<p>When searching from an element from another element the following algorithm should be used:
+
+<table class="simple jsoncommand">
+ <tr>
+   <th>HTTP Method</th>
+   <th>Path Template</th>
+ </tr>
+ <tr>
+   <td>POST</td>
+   <td>/session/{session id}/element/{element id}/element</td>
+ </tr>
+</table>
+
+<ol>
+ <li>Let <var><a href="#uri-template-element">element</a></var> be the start node for the query in the <a href='#element-location-strategies'>Element Location Strategy</a></li>
+ <li>Let <var>id</var> be a <a href='#webelement-unique-identifier'>unique identifier</a> for the DOMElement returned from <a href='#element-location-strategies'>Element Location Strategy</a>.
+   If a NodeList is returned, the first DOMElement in the NodeList MUST be used.
+   <p>If <var>id</var> is empty:
+     <ul>
+       <li>Let the HTTP response status code be 501</li>
+       <li>Let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
+       <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+     </ul>
+   <p>If an error is returned from <a href='#element-location-strategies'>Element Location Strategy</a> do the following.(todo describe how the error is returned)
+     <ul>
+       <li>Let the HTTP response status code be 501</li>
+       <li>Let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
+       <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
+     </ul>
+ </li>
+ <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
+ <li>Return <var>result</var>. The object returned will look like the following:
+<pre>{
+"value": {"element-6066-11e4-a52e-4f735466cecf": id}
+}</pre>
+ </li>
+</ol>
+</section> <!-- /Find Element -->
+
+<section>
+<h3>Find Elements</h3>
+
+<p class=issue><strong>Warning:</strong> This section has not yet been redefined to match the <a>routing requests</a> model, and uses old concepts and definitions.  Please do not rely on it yet.
+
+<p>When there is a need to find multiple elements on a document that we can return to the local end we use the following algorithm:
+
+<table class="simple jsoncommand">
+ <tr>
+   <th>HTTP Method</th>
+   <th>Path Template</th>
+ </tr>
+ <tr>
+   <td>POST</td>
+   <td>/session/{session id}/elements</td>
+ </tr>
+</table>
+
+<ol>
+ <li>Let <var>result</var> be equal to an empty list</li>
+ <li>Let <var>queryResult</var> be a NodeList returned from <a href='#element-location-strategies'>Element Location Strategy</a></li>
+ <li>Repeat for every value in <var>queryResult</var> if not an empty set else return <var>result</var>
+     <ol>
+       <li>Let <var>id</var> be the <a href='#webelement-unique-identifier'>unique identifier</a> for the DOMElement.</li>
+       <li>Append <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code> to <var>result</var></li>
+     </ol>
+ </li>
+ <li>Return <var>result</var>. The object returned will look like the following:
+<pre>{
+"value": [{"element-6066-11e4-a52e-4f735466cecf": id}, {"element-6066-11e4-a52e-4f735466cecf": id}]
+}</pre>
+ </li>
+</ol>
+
+<p>When there is a need to search from an element to find the next WebElement we use the following algorithm:
+
+<table class="simple jsoncommand">
+ <tr>
+   <th>HTTP Method</th>
+   <th>Path Template</th>
+ </tr>
+ <tr>
+   <td>POST</td>
+   <td>/session/{session id}/element/{element id}/elements</td>
+ </tr>
+</table>
+
+<ol>
+ <li>Let <var>result</var> be equal to an empty list.</li>
+ <li>Let <var><a href="#uri-template-element">element</a></var> be the start node for the query in the <a href='#element-location-strategies'>Element Location Strategy</a></li>
+ <li>Let <var>queryResult</var> be a NodeList returned from <a href='#element-location-strategies'>Element Location Strategy</a></li>
+ <li>Repeat for every value in <var>queryResult</var> if not an empty set else return <var>result</var>
+     <ol>
+       <li>Let <var>id</var> be the <a href='#webelement-unique-identifier'>unique identifier</a> for the DOMElement.</li>
+       <li>Append <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code> to <var>result</var></li>
+     </ol>
+ </li>
+ <li>Return <var>result</var>. The object returned will look like the following:
+<pre>{
+"value": [{"element-6066-11e4-a52e-4f735466cecf": id}, {"element-6066-11e4-a52e-4f735466cecf": id}]
+}</pre></li>
+</ol>
+</section> <!-- /Find Elements -->
+</section> <!-- /Element Retrieval -->
 
 <section>
 <h2>Element State</h2>
