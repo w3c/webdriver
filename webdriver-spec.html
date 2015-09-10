@@ -199,7 +199,7 @@ var respecConfig = {
    <!-- DOCUMENT_POSITION_DISCONNECTED --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-document_position_disconnected>DOCUMENT_POSITION_DISCONNECTED</a></dfn> (1)
    <!-- Document type --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-type>Document type</a></dfn>
    <!-- Document URL --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-url>Document URL</a></dfn>
-   <!-- Element --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-element>Element</a></dfn>
+   <!-- Element --> <li><dfn data-lt=elements><a href=https://dom.spec.whatwg.org/#concept-element>Element</a></dfn>
    <!-- Equals --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node-equals>Equals</a></dfn>
    <!-- Get an attribute by name --> <li><dfn data-lt="getting an attribute by name"><a href=https://dom.spec.whatwg.org/#concept-element-attributes-get-by-name>Get an attribute by name</a></dfn>
    <!-- hasAttribute --> <li><dfn data-lt="has the attribute"><a href=https://dom.spec.whatwg.org/#dom-element-hasattribute>hasAttribute</a></dfn>
@@ -3077,17 +3077,49 @@ var respecConfig = {
 <section>
 <h2>Element Retrieval</h2>
 
-<p class=issue><strong>Warning:</strong> This section has not yet been redefined to match the <a>routing requests</a> model, and uses old concepts and definitions.  Please do not rely on it yet.
+<p>The <a>Find Element</a> and <a>Find Elements</a> <a>commands</a>
+ allows look up of individual and a collection of <a>elements</a>, respectively.
+ Elements are <a data-lt="serialize the element">serialised</a>
+ and returned as <a>web elements</a>.
+ <a>Web element</a> references are needed to interact with individual elements.
 
-<section>
-<h2>Element Location Strategies</h2>
+<p>An <dfn data-lt=strategy>element location strategy</dfn>
+ is an <a>enumerated attribute</a>
+ which decides what technique should be used
+ to search for <a>elements</a> in the <a>current browsing context</a>.
+ The following table lists the keywords and states defined for this attribute:
+
+<table class=simple>
+ <tr>
+  <th>State
+  <th>Keyword
+ </tr>
+
+ <tr>
+  <td><a>CSS selector</a>
+  <td>"<code>css selector</code>"
+ </tr>
+
+ <tr>
+  <td><a>Link text selector</a>
+  <td>"<code>link text</code>"
+ </tr>
+
+ <tr>
+  <td><a>Partial link text selector</a>
+  <td>"<code>partial link text</code>"
+ </tr>
+
+ <tr>
+  <td><a>XPath selector</a>
+  <td>"<code>xpath</code>"
+ </tr>
+</table>
 
 <p class=issue><strong>Warning:</strong>
- This section has not yet been redefined to match the <a>routing requests</a> model,
+ This rest of this section has not yet been redefined to match the <a>routing requests</a> model,
  and uses old concepts and definitions.
  Please do not rely on it yet.
-
-<p>All element location strategies MUST return elements in the order in which they appear in the current document.</p>
 
 <section>
 <h3>CSS Selectors</h3>
@@ -3157,7 +3189,6 @@ by this mechanism. If the browser can support locating elements by CSS Selector,
 <p>Strategy name: xpath</p>
 <p>All WebDriver implementations MUST support finding elements by XPath 1.0 [[!XPATH]] with the <a href="http://dev.w3.org/html5/spec/Overview.html#interactions-with-xpath-and-xslt">edits from section 3.3</a> of the [[!html51]] specification made. If no native support is present in the browser, a pure JS implementation MAY be used. When called, the returned values MUST be equivalent of calling "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate">evaluate</a>" function from [[!DOM-LEVEL-3-XPATH]] with the result type set to <a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE">ORDERED_NODE_SNAPSHOT_TYPE</a> (7).</p>
 </section> <!-- /XPath -->
-</section> <!-- /Element Location Strategies -->
 
 <p>When the <a href='#findelement'>findElement()</a> or <a href='#findelements'>findElements()</a> WebDriver Command is called the
 following must be <var>parameters</var> after the local end has made a request to the remote end:
