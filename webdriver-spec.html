@@ -413,8 +413,14 @@ var respecConfig = {
  <dt>URLs
  <dd>The following terms are defined in the WHATWG URL standard: [[!URL]]
   <ul>
-   <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-path-absolute>Path-absolute URL</a></dfn>
-   <li><dfn><a href=https://url.spec.whatwg.org/#concept-url-serializer>URL serializer</a></dfn>
+   <!-- Path --> <li><dfn><a href=https://url.spec.whatwg.org/#concept-url-path>Path</a></dfn>
+   <!-- Path-absolute URL --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-path-absolute>Path-absolute URL</a></dfn>
+   <!-- URL serialiser --> <li><dfn><a href=https://url.spec.whatwg.org/#concept-url-serializer>URL serialiser</a></dfn>
+  </ul>
+
+ <dd>The following terms are defined in the URI Template specification: [[!URI-TEMPLATE]]
+  <ul>
+   <li><dfn><a href=https://tools.ietf.org/html/rfc6570#section-3>Expansion</a></dfn>
   </ul>
 
  <dt>Web IDL
@@ -532,27 +538,28 @@ var respecConfig = {
 
  <li><p>Let <var>request match</var> be the result of the algorithm
   to <a>match a request</a> with <var>request</var>’s
-  <a>method</a> and <a>url</a> as arguments.
+  <a>method</a> and <a>URL</a> as arguments.
 
  <li><p>If <var>request match</var> is of type <a>error</a>,
   <a>send an error</a> with <var>request match</var>’s <a>error code</a>
   and jump to step 1.
 
-  <p>Otherwise, let <var>command</var>,
-   <var>session id</var>,
-   and <var>element id</var>
+  <p>Otherwise, let <var>command</var> and <var>url variables</var>
    be <var>request match</var>’s data.
+
+ <li><p>Let <var>session id</var> be the corresponding variable
+  from <var>url variables</var>.
 
  <li><p>If <var>command</var> is not <a>New Session</a>:
 
   <ol>
-   <li><p>If <var>session id</var> is not equal to the <a data-lt="session id">id</a>
+   <li><p>If <var>session id</var> is not equal to the <a data-lt="session id">ID</a>
     of any session in the list of <a>active sessions</a>,
     <a>send an error</a> with <a>error code</a> <a>invalid session id</a>,
     then jump to step 1 in this overall algorithm.
 
     <p>Otherwise, let the <a>current session</a> be
-     the <a>session</a> with <a data-lt="session id">id</a> <var>session id</var>.
+     the <a>session</a> with <a data-lt="session id">ID</a> <var>session id</var>.
   </ol>
 
  <li><p>If <var>request</var>’s <a>method</a> is POST:
@@ -574,7 +581,7 @@ var respecConfig = {
 
  <li><p>Let <var>response result</var> be the return value
   obtained by running the <a>remote end steps</a> for <var>command</var>
-  with arguments <var>element id</var> and <var>parameters</var>.
+  with <var>url variables</var> as arguments.
 
  <li><p>If <var>response result</var> is an <a>error</a>,
   <a>send an error</a> with <a>error code</a>
@@ -656,29 +663,29 @@ var respecConfig = {
 
 <p>A <a>remote end</a> has an associated <dfn>URL prefix</dfn>,
  which is used as a prefix on all WebDriver-defined URLs on that remote end.
- This must either be the empty string or an <a>path-absolute URL</a>.
+ This must either be undefined or an <a>path-absolute URL</a>.
 
 <aside class=example>
  <p>For example a <a>remote end</a> wishing
   to run alongside other services on <code>example.com</code>
-  might set its <a>url prefix</a> to <code>/wd</code>
+  might set its <a>URL prefix</a> to <code>/wd</code>
   so that a <a>new session</a> <a>command</a> would be invoked
   by sending a POST request to <code>/wd/session</code>,
   rather than <code>/session</code>.
 </aside>
 
 <p>In order to <dfn>match a request</dfn> given
- a <var>method</var> and <var>url</var>,
+ a <a><var>method</var></a> and <a><var>URL</var></a>,
  the following steps must be taken:
 
 <ol>
  <li><p>Let <var>endpoints</var> be a list
   containing each row in the <a>table of endpoints</a>.
 
- <li><p>Remove each entry in <var>endpoints</var>
-  for which the concatenation of the <a>url prefix</a>
-  and the production in the <i>url</i> column does not match <a>url</a>
-  according to the rules in [[!URI-TEMPLATE]].
+ <li><p>Remove each entry from <var>endpoints</var>
+  for which the concatenation of the <a>URL prefix</a>
+  and the entry’s <var>URI template</var>
+  does not match <var>URL</var>’s <a>path</a>.
 
  <li><p>If there are no entries in <var>endpoints</var>,
   return <a>error</a> with <a>error code</a> <a>unknown command</a>.
@@ -693,27 +700,13 @@ var respecConfig = {
  <li><p>There is now exactly one entry in <var>endpoints</var>;
   let <var>entry</var> be this entry.
 
- <li><p class=issue>Check that URI-templates is being used in the right way here:
+ <li><p>Let <var>parameters</var> be the result of extracting the variables
+  from <var>URL</var> using <var>entry</var>’s <var>URI template</var>.
 
-  <p>If the match in step 2 populated a template variable called "<code>sessionId</code>",
-   let <var>session id</var> be the value it was populated with.
-   Otherwise let <var>session id</var> be null.
-
- <li><p>If the match in step 2 populated a template variable called "<code>elementId</code>",
-  let <var>element id</var> be the value it was populated with.
-  Otherwise let <var>element id</var> be null.
-
- <li><p>If the match in step 2 populated a template variable called "<code>name</code>",
-  let <var>name</var> be the value it was populated with.
-  Otherwise let <var>name</var> be null.
-
- <li><p>Let <var>command</var> be the <a>command</a>
-  represented by the <b>command</b> column of <var>entry</var>.
+ <li><p>Let <var>command</var> be <var>entry</var>’s <a>command</a>.
 
  <li><p>Return <a>success</a> with data
-  <var>session id</var>,
-  <var>element id</var>,
-  and <var>command</var>.
+  <var>command</var> and <var>parameters</var>.
 </ol>
 </section> <!-- /Routing Requests -->
 
@@ -739,277 +732,277 @@ var respecConfig = {
 
  <tr>
   <td>DELETE</td>
-  <td>/session/{session id}</td>
+  <td>/session/{<var>session id</var>}</td>
   <td><a>Delete Session</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/url</td>
+  <td>/session/{<var>session id</var>}/url</td>
   <td><a>Get</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/url</td>
+  <td>/session/{<var>session id</var>}/url</td>
   <td><a>Get Current Url</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/back</td>
+  <td>/session/{<var>session id</var>}/back</td>
   <td><a>Back</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/forward</td>
+  <td>/session/{<var>session id</var>}/forward</td>
   <td><a>Forward</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/refresh</td>
+  <td>/session/{<var>session id</var>}/refresh</td>
   <td><a>Refresh</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/title</td>
+  <td>/session/{<var>session id</var>}/title</td>
   <td><a>Get Title</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/window</td>
+  <td>/session/{<var>session id</var>}/window</td>
   <td><a>Get Window Handle</a></td>
  </tr>
 
  <tr>
   <td>DELETE</td>
-  <td>/session/{session id}/window</td>
+  <td>/session/{<var>session id</var>}/window</td>
   <td><a>Close Window</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/window</td>
+  <td>/session/{<var>session id</var>}/window</td>
   <td><a>Switch To Window</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/window/handles</td>
+  <td>/session/{<var>session id</var>}/window/handles</td>
   <td><a>Get Window Handles</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/window/fullscreen</td>
+  <td>/session/{<var>session id</var>}/window/fullscreen</td>
   <td><a>Fullscreen Window</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/window/maximize</td>
+  <td>/session/{<var>session id</var>}/window/maximize</td>
   <td><a>Maximize Window</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/window/size</td>
+  <td>/session/{<var>session id</var>}/window/size</td>
   <td><a>Set Window Size</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/window/size</td>
+  <td>/session/{<var>session id</var>}/window/size</td>
   <td><a>Get Window Size</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/frame</td>
+  <td>/session/{<var>session id</var>}/frame</td>
   <td><a>Switch To Frame</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/frame/parent</td>
+  <td>/session/{<var>session id</var>}/frame/parent</td>
   <td><a>Switch To Parent Frame</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/element</td>
+  <td>/session/{<var>session id</var>}/element</td>
   <td><a>Find Element</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/elements</td>
+  <td>/session/{<var>session id</var>}/elements</td>
   <td><a>Find Elements</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/active</td>
+  <td>/session/{<var>session id</var>}/element/active</td>
   <td><a>Get Active Element</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/displayed</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/displayed</td>
   <td><a>Is Element Displayed</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/selected</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/selected</td>
   <td><a>Is Element Selected</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/attribute/{name}</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/attribute/{<var>name</var>}</td>
   <td><a>Get Element Attribute</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/property/{name}</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/property/{<var>name</var>}</td>
   <td><a>Get Element Property</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/css/{property name}</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/css/{<var>property name</var>}</td>
   <td><a>Get Element CSS Value</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/text</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/text</td>
   <td><a>Get Element Text</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/name</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/name</td>
   <td><a>Get Element Tag Name</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/rect</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/rect</td>
   <td><a>Get Element Rect</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/enabled</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/enabled</td>
   <td><a>Is Element Enabled</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/execute/sync</td>
+  <td>/session/{<var>session id</var>}/execute/sync</td>
   <td><a>Execute Script</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/execute/async</td>
+  <td>/session/{<var>session id</var>}/execute/async</td>
   <td><a>Execute Async Script</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/cookie/{name}</td>
+  <td>/session/{<var>session id</var>}/cookie/{<var>name</var>}</td>
   <td><a>Get Cookie</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/cookie</td>
+  <td>/session/{<var>session id</var>}/cookie</td>
   <td><a>Add Cookie</a></td>
  </tr>
 
  <tr>
   <td>DELETE</td>
-  <td>/session/{session id}/cookie/{name}</td>
+  <td>/session/{<var>session id</var>}/cookie/{<var>name</var>}</td>
   <td><a>Delete Cookie</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/timeouts</td>
+  <td>/session/{<var>session id</var>}/timeouts</td>
   <td><a>Set Timeout</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/actions</td>
+  <td>/session/{<var>session id</var>}/actions</td>
   <td><a>Actions</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/element/{element id}/click</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/click</td>
   <td><a>Element Click</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/element/{element id}/tap</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/tap</td>
   <td><a>Element Tap</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/element/{element id}/clear</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/clear</td>
   <td><a>Element Clear</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/element/{element id}/sendKeys</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/sendKeys</td>
   <td><a>Element Send Keys</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/alert/dismiss</td>
+  <td>/session/{<var>session id</var>}/alert/dismiss</td>
   <td><a>Dismiss Alert</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/alert/accept</td>
+  <td>/session/{<var>session id</var>}/alert/accept</td>
   <td><a>Accept Alert</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/alert/text</td>
+  <td>/session/{<var>session id</var>}/alert/text</td>
   <td><a>Get Alert Text</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/alert/text</td>
+  <td>/session/{<var>session id</var>}/alert/text</td>
   <td><a>Send Alert Text</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/screenshot</td>
+  <td>/session/{<var>session id</var>}/screenshot</td>
   <td><a>Take Screenshot</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/screenshot</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/screenshot</td>
   <td><a>Take Element Screenshot</a></td>
  </tr>
 </table>
@@ -1728,7 +1721,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>DELETE</td>
-  <td>/session/{session id}</td>
+  <td>/session/{<var>session id</var>}</td>
  </tr>
 </table>
 
@@ -1755,7 +1748,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/timeouts</td>
+  <td>/session/{<var>session id</var>}/timeouts</td>
  </tr>
 </table>
 
@@ -1853,7 +1846,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>POST</td>
-  <td id=post-url>/session/{session id}/url</td>
+  <td id=post-url>/session/{<var>session id</var>}/url</td>
  </tr>
 </table>
 
@@ -1939,7 +1932,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/url</td>
+  <td>/session/{<var>session id</var>}/url</td>
  </tr>
 </table>
 
@@ -1954,7 +1947,7 @@ var respecConfig = {
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>url</var> be the <a data-lt="url serializer">serialization</a>
+ <li><p>Let <var>url</var> be the <a data-lt="url serialiser">serialisation</a>
   of the <a>current top-level browsing context</a>’s
   <a>active document</a>’s <a>document URL</a>.
 
@@ -1975,7 +1968,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/back</td>
+  <td>/session/{<var>session id</var>}/back</td>
  </tr>
 </table>
 
@@ -2025,7 +2018,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/forward</td>
+  <td>/session/{<var>session id</var>}/forward</td>
  </tr>
 </table>
 
@@ -2076,7 +2069,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/refresh</td>
+  <td>/session/{<var>session id</var>}/refresh</td>
  </tr>
 </table>
 
@@ -2133,7 +2126,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/title</td>
+  <td>/session/{<var>session id</var>}/title</td>
  </tr>
 </table>
 
@@ -2230,7 +2223,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/window</td>
+  <td>/session/{<var>session id</var>}/window</td>
  </tr>
 </table>
 
@@ -2264,7 +2257,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>DELETE</td>
-  <td>/session/{session id}/window</td>
+  <td>/session/{<var>session id</var>}/window</td>
  </tr>
 </table>
 
@@ -2297,7 +2290,7 @@ var respecConfig = {
   </tr>
   <tr>
     <td>POST</td>
-    <td>/session/{session id}/window</td>
+    <td>/session/{<var>session id</var>}/window</td>
   </tr>
 </table>
 
@@ -2334,7 +2327,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/window/handles</td>
+  <td>/session/{<var>session id</var>}/window/handles</td>
  </tr>
 </table>
 
@@ -2375,7 +2368,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/frame</td>
+  <td>/session/{<var>session id</var>}/frame</td>
  </tr>
 </table>
 
@@ -2469,7 +2462,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/frame/parent</td>
+  <td>/session/{<var>session id</var>}/frame/parent</td>
  </tr>
 </table>
 
@@ -2572,7 +2565,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/window/size</td>
+  <td>/session/{<var>session id</var>}/window/size</td>
  </tr>
 </table>
 
@@ -2643,7 +2636,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/window/maximize</td>
+  <td>/session/{<var>session id</var>}/window/maximize</td>
  </tr>
 </table>
 
@@ -2685,7 +2678,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/window/fullscreen</td>
+  <td>/session/{<var>session id</var>}/window/fullscreen</td>
  </tr>
 </table>
 
@@ -3048,7 +3041,7 @@ var respecConfig = {
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/active</td>
+  <td>/session/{<var>session id</var>}/element/active</td>
  </tr>
 </table>
 
@@ -3200,7 +3193,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/element</td>
+  <td>/session/{<var>session id</var>}/element</td>
  </tr>
 </table>
 
@@ -3237,7 +3230,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
    <td>POST</td>
-   <td>/session/{session id}/element/{element id}/element</td>
+   <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/element</td>
  </tr>
 </table>
 
@@ -3281,7 +3274,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
    <td>POST</td>
-   <td>/session/{session id}/elements</td>
+   <td>/session/{<var>session id</var>}/elements</td>
  </tr>
 </table>
 
@@ -3310,7 +3303,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
    <td>POST</td>
-   <td>/session/{session id}/element/{element id}/elements</td>
+   <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/elements</td>
  </tr>
 </table>
 
@@ -3383,7 +3376,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/displayed</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/displayed</td>
  </tr>
 </table>
 
@@ -3440,7 +3433,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/selected</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/selected</td>
  </tr>
 </table>
 
@@ -3504,7 +3497,7 @@ following must be <var>parameters</var> after the local end has made a request t
   </tr>
   <tr>
     <td>GET</td>
-    <td>/session/{session id}/element/{element id}/attribute/{name}</td>
+    <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/attribute/{<var>name</var>}</td>
   </tr>
 </table>
 
@@ -3530,9 +3523,9 @@ following must be <var>parameters</var> after the local end has made a request t
  <li><p>If <a>element</a> <a>is stale</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
- <li><p>Let <var>name</var> be equal to "name" from <a>match a request</a>.
-   if <var>name</var> is undefined return <a>error</a> with <a>error code</a>
-   <a>invalid argument</a>.
+ <li><p>If <var>name</var> is undefined,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
   <li>Let <var>result</var> be the result of the first appropriate step below:
 
    <dl class=switch>
@@ -3564,7 +3557,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/property/{name}</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/property/{<var>name</var>}</td>
  </tr>
 </table>
 
@@ -3615,7 +3608,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/css/{property name}</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/css/{<var>property name</var>}</td>
  </tr>
 </table>
 
@@ -3671,7 +3664,7 @@ following must be <var>parameters</var> after the local end has made a request t
               </tr>
               <tr>
                 <td>GET</td>
-                <td>/session/{session id}/element/{element id}/text</td>
+                <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/text</td>
               </tr>
             </table>
             <p>The following definitions are used in this section:
@@ -3736,7 +3729,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/name</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/name</td>
  </tr>
 </table>
 
@@ -3783,7 +3776,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/rect</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/rect</td>
  </tr>
 </table>
 
@@ -3867,7 +3860,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/enabled</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/enabled</td>
  </tr>
 </table>
 
@@ -3932,7 +3925,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/click</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/click</td>
  </tr>
 </table>
 
@@ -3978,7 +3971,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/tap</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/tap</td>
  </tr>
 </table>
 
@@ -4024,7 +4017,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/clear</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/clear</td>
  </tr>
 </table>
 
@@ -4070,7 +4063,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/sendKeys</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/sendKeys</td>
  </tr>
 </table>
 
@@ -4357,7 +4350,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/execute/sync</td>
+  <td>/session/{<var>session id</var>}/execute/sync</td>
  </tr>
 </table>
 
@@ -4409,7 +4402,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/execute/async</td>
+  <td>/session/{<var>session id</var>}/execute/async</td>
  </tr>
 </table>
 
@@ -4554,7 +4547,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/cookie/{name}</td>
+  <td>/session/{<var>session id</var>}/cookie/{<var>name</var>}</td>
  </tr>
 </table>
 
@@ -4604,7 +4597,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/cookie</td>
+  <td>/session/{<var>session id</var>}/cookie</td>
  </tr>
 </table>
 
@@ -4675,7 +4668,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>DELETE</td>
-  <td>/session/{session id}/cookie/{name}</td>
+  <td>/session/{<var>session id</var>}/cookie/{<var>name</var>}</td>
   </tr>
 </table>
 
@@ -4790,7 +4783,7 @@ following must be <var>parameters</var> after the local end has made a request t
             </tr>
             <tr>
               <td>POST</td>
-              <td>/session/{session id}/actions</td>
+              <td>/session/{<var>session id</var>}/actions</td>
             </tr>
           </table>
           <br>
@@ -4844,7 +4837,7 @@ following must be <var>parameters</var> after the local end has made a request t
             </tr>
             <tr>
               <td>DELETE</td>
-              <td>/session/{session id}/actions</td>
+              <td>/session/{<var>session id</var>}/actions</td>
             </tr>
           </table>
           <br>
@@ -5111,7 +5104,7 @@ following must be <var>parameters</var> after the local end has made a request t
               </tr>
               <tr>
                 <td>POST</td>
-                <td>/session/{session id}/element/{element id}/click</td>
+                <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/click</td>
               </tr>
             </table>
             <p>Click in the middle of the WebElement instance. The middle of the element is defined as the middle of the box returned by
@@ -5181,7 +5174,7 @@ following must be <var>parameters</var> after the local end has made a request t
               </tr>
               <tr>
                 <td>POST</td>
-                <td>/session/{session id}/element/{element id}/tap</td>
+                <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/tap</td>
               </tr>
             </table>
             <p>Tap in the middle of the WebElement. The middle of the element is defined as the middle of the box returned by
@@ -5245,7 +5238,7 @@ following must be <var>parameters</var> after the local end has made a request t
               </tr>
               <tr>
                 <td>POST</td>
-                <td>/session/{session id}/element/{element id}/clear</td>
+                <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/clear</td>
               </tr>
             </table>
         </section>
@@ -5260,7 +5253,7 @@ following must be <var>parameters</var> after the local end has made a request t
               </tr>
               <tr>
                 <td>POST</td>
-                <td>/session/{session id}/element/{element id}/value</td>
+                <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/value</td>
               </tr>
             </table>
             <p> Let <var>value</var> be an array of characters that will be typed into a WebElement.
@@ -5624,7 +5617,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/alert/dismiss</td>
+  <td>/session/{<var>session id</var>}/alert/dismiss</td>
  </tr>
 </table>
 
@@ -5660,7 +5653,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/alert/accept</td>
+  <td>/session/{<var>session id</var>}/alert/accept</td>
  </tr>
 </table>
 
@@ -5693,7 +5686,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/alert/text</td>
+  <td>/session/{<var>session id</var>}/alert/text</td>
  </tr>
 </table>
 
@@ -5731,7 +5724,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{session id}/alert/text</td>
+  <td>/session/{<var>session id</var>}/alert/text</td>
  </tr>
 </table>
 
@@ -5854,7 +5847,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/screenshot</td>
+  <td>/session/{<var>session id</var>}/screenshot</td>
  </tr>
 </table>
 
@@ -5901,7 +5894,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/element/{element id}/screenshot</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/screenshot</td>
  </tr>
 </table>
 
