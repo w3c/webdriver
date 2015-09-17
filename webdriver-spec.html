@@ -1872,22 +1872,22 @@ var respecConfig = {
  </tr>
 </table>
 
-<p>The <dfn>Get</dfn> command is used
+<p>The <dfn>Get</dfn> <a>command</a> is used
  to cause the user agent to navigate
  the <a>current top-level browsing context</a> a new location.
  From a user’s point of view,
- it is as if they have entered a URL into the address bar
+ it is as if they have entered a <a>URL</a> into the address bar
  of the browser’s chrome.</p>
 
 <aside class=example>
- <p>To navigate the current <a>top-level browsing context</a>
+ <p>To navigate the <a>current top-level browsing context</a>
   of the <a>session</a> with ID <i>1</i> to <code>http://example.com/</code>,
-  the local end would send a POST to <i>/session/1/url</i> with the body:
+  the <a>local end</a> would POST to <i>/session/1/url</i> with the body:
 
  <pre class=highlight>{"url": "http://example.com/"}</pre>
 </aside>
 
-<p>The <a>remote end steps</a> for the <a>Get</a> command are:
+<p>The <a>remote end steps</a> are:
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
@@ -1895,7 +1895,8 @@ var respecConfig = {
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>url</var> be the result of <a>getting a property</a> named "url"
+ <li><p>Let <var>url</var> be the result of
+  <a>getting a property</a> named "<code>url</code>"
   from the <var>parameters</var> argument.
 
  <li><p>If <var>url</var> is undefined,
@@ -1925,6 +1926,9 @@ var respecConfig = {
     <!-- perhaps? Not sure if this is what the spec is trying to say -->
     return <a>error</a> with <a>error code</a> <a>timeout</a>.
   </ol>
+
+ <li><p>Set the <a>current browsing context</a>
+  to the <a>current top-level browsing context</a>.
 
  <li><p>Return <a>success</a> with data null.
 </ol>
@@ -2316,12 +2320,14 @@ var respecConfig = {
   </tr>
 </table>
 
-<p>The <dfn>Switch To Window</dfn> command is used
- to select the <a>current top-level browsing context</a>
+<p>The <dfn>Switch To Window</dfn> <a>command</a>
+ is used to select the <a>current top-level browsing context</a>
  for the current <a>session</a>,
- i.e. the one that will be used for processing commands.
+ i.e. the one that will be used for processing <a>commands</a>.
 
 <p>The <a>remote end steps</a> are:
+
+<p class=issue>This needs further work:
 
 <ol>
  <li><p>Let <var>handle</var> be the result of
@@ -2329,11 +2335,10 @@ var respecConfig = {
   from the <var>parameters</var> argument.
 
  <li><p>If <var>handle</var> is equal to the associated <a>window handle</a>
-  for some <a>top-level browsing context</a>
-  in the <a>current session</a>,
-  set the session's <a>current top-level browsing context</a>
-  to that browsing context,
-  and return <a>success</a> with data null.
+  for some <a>top-level browsing context</a> in the <a>current session</a>.
+
+ <li><p>Set the <a>session</a>’s <a>current top-level browsing context</a>
+  to that browsing context, and return <a>success</a> with data null.
 
  <li><p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such window</a>.
 </ol>
