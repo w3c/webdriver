@@ -3662,20 +3662,21 @@ following must be <var>parameters</var> after the local end has made a request t
 <h3>Get Element Attribute</h3>
 
 <table class="simple jsoncommand">
-  <tr>
-    <th>HTTP Method</th>
-    <th>Path Template</th>
-  </tr>
-  <tr>
-    <td>GET</td>
-    <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/attribute/{<var>name</var>}</td>
-  </tr>
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/attribute/{<var>name</var>}</td>
+ </tr>
 </table>
 
 <p>The <dfn>Get Element Attribute</dfn> <a>command</a>
- will return the <a>attribute</a> of a <a>web element</a>.
+ will return the <a>attribute</a> of the given <a>element</a>.
 
 <p>The <a>remote end steps</a> are:
+
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
@@ -3691,30 +3692,23 @@ following must be <var>parameters</var> after the local end has made a request t
 
   <p>Otherwise, return <var>element result</var>.
 
- <li><p>If <a>element</a> <a>is stale</a>,
+ <li><p>If <var>element</var> <a>is stale</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
  <li><p>If <var>name</var> is undefined,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-  <li>Let <var>result</var> be the result of the first appropriate step below:
+ <li><p>Let <var>attribute</var> be the result of
+  <a href=https://dom.spec.whatwg.org/#concept-element-attributes-get-by-name>getting an attribute</a>
+  given <var>name</var> and <var>element</var>.
 
-   <dl class=switch>
-     <dt><p>If <var>name</var> is a <a>boolean attribute</a>:
-     <dd><p>The first matching statement if the element <a>has the attribute</a>:
-       <dl class=switch>
-         <dt><code>true</code>
-         <dd><p>'true'.
-         <dt>Otherwise
-         <dd><p><code>Null</code>.
-      </dl>
-      <dt><p>Otherwise:
-      <dd><p>The result of <a>getting an attribute by name</a> <var>name</var>.
-   </dl>
-   <li><p>Let <var>body</var> be a JSON Object
-    with the "<code>value</code>" member set to <var>result</var>.
+ <li><p>Let <var>result</var> be the value of <var>attribute</var>
+  if its value is not undefined, and null otherwise.
 
-   <li><p>Return <a>success</a> with data <var>body</var>.
+ <li><p>Let <var>body</var> be a JSON Object
+  with the "<code>value</code>" property set to <var>result</var>.
+
+ <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
 </section> <!-- /Get Element Attribute -->
 
