@@ -1602,9 +1602,6 @@ var respecConfig = {
  A <a>remote end</a> that is not an <a>intermediary node</a>
  has at most one <a>active session</a> at a given time.
 
-<p class=issue>Need to explain that there must be a relationship
- between the current session and the browser state.
-
 <p>The <a>session</a> is set up at the invocation of a <a>New Session</a>,
  and torn down at some later point;
  either explicitly by invoking <a>Delete Session</a>,
@@ -2107,9 +2104,7 @@ var respecConfig = {
   <p class=issue>This doesn’t actually wait for the page to load
    if traversing the session history kicks off a navigation.
 
- <li><p class=issue>Perhaps? Not sure if this is what the spec is trying to say?
-
-  <p>If the previous step completed by the <a>session page load timeout</a> being reached,
+ <li><p>If the previous step completed by the <a>session page load timeout</a> being reached,
    and the browser is not currently displaying an alert,
    return <a>error</a> with <a>error code</a> <a>timeout</a>.
 
@@ -2158,9 +2153,7 @@ var respecConfig = {
   <p class=issue>This doesn't actually wait for the page to load
    if traversing the session history kicks off a navigation.
 
- <li><p class=issue>Perhaps? Not sure if this is what the spec is trying to say.
-
-  <p>If the previous step completed by the <a>session page load timeout</a> being reached,
+ <li><p>If the previous step completed by the <a>session page load timeout</a> being reached,
    and the browser is not currently displaying an alert,
    return <a>error</a> with <a>error code</a> <a>timeout</a>.
 
@@ -2214,9 +2207,7 @@ var respecConfig = {
     or for the <a>session page load timeout</a> milliseconds to pass,
     whichever occurs sooner.
 
-   <li><p class=issue>Perhaps? Not sure if this is what the spec is trying to say.
-
-    <p>If the previous step completed by the <a>load timeout</a> being reached,
+   <li><p>If the previous step completed by the <a>load timeout</a> being reached,
      and the browser is not currently displaying an alert,
      return <a>error</a> with <a>error code</a> <a>timeout</a>.
   </ol>
@@ -2410,8 +2401,6 @@ var respecConfig = {
 
 <p>The <a>remote end steps</a> are:
 
-<p class=issue>This needs further work:
-
 <ol>
  <li><p>Let <var>handle</var> be the result of
   <a>getting a property</a> named "<code>handle</code>"
@@ -2420,7 +2409,7 @@ var respecConfig = {
  <li><p>If <var>handle</var> is equal to the associated <a>window handle</a>
   for some <a>top-level browsing context</a> in the <a>current session</a>.
 
- <li><p>Set the <a>session</a>’s <a>current top-level browsing context</a>
+ <p>Set the <a>session</a>’s <a>current top-level browsing context</a>
   to that browsing context, and return <a>success</a> with data null.
 
  <li><p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such window</a>.
@@ -2626,8 +2615,6 @@ var respecConfig = {
  returns the size of the operating system window corresponding
  to the <a>current top-level browsing context</a>.
 
-<p class=issue>Can this whole operation be unsupported?
-
 <p>The <a>remote end steps</a> are:
 
 <ol>
@@ -2700,17 +2687,9 @@ var respecConfig = {
   <a>getting a property</a> named <code>width</code>
   from the <var>parameters</var> argument.
 
- <li><p>If <var>width</var> is not an integer, or is less than 0,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
  <li><p>Let <var>height</var> be the result of
   <a>getting a property</a> named <code>height</code>
   from the <var>parameters</var> argument.
-
- <li><p>If <var>height</var> is not an integer, or is less than 0,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
- <p class=issue>Window sizes outside the allowed range.
 
  <li><p>Set the width, in <a>CSS reference pixels</a>,
   of the operating system window containing
@@ -4307,12 +4286,6 @@ following must be <var>parameters</var> after the local end has made a request t
  <p>Open questions: What happens if a user's JS triggers a modal dialog?
   Blocking seems like a reasonable idea,
   but there is an assumption that WebDriver is not threadsafe.
-
- <p>What happens to unhandled JS errors?
-  Caused by a user's JS?
-  Caused by JS on a page?
-  How does a user of the API obtain the list of errors?
-  Is that list cleared upon read?
 </aside>
 
 <p>When required to <dfn>JSON deserialize</dfn>
@@ -6175,20 +6148,6 @@ following must be <var>parameters</var> after the local end has made a request t
 </ol>
 </section> <!-- /Take Element Screenshot -->
 </section> <!-- /Screen Capture -->
-
-
-<section class=appendix>
-<h2>Thread Safety</h2>
-
-<p class=issue><strong>Warning:</strong>
- This section has not yet been redefined to match the <a>routing requests</a> model,
- and uses old concepts and definitions.
- Please do not rely on it yet.
-
-<p>There is no requirement for <a>local</a>
- or <a>remote</a> implementations to be thread safe.
- <a>Local ends</a> SHOULD support serialized access from multiple threads.
-</section>
 
 <section class=appendix>
 <h3>Privacy</h3>
