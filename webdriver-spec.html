@@ -415,7 +415,7 @@ var respecConfig = {
  <dd>The following terms are defined in
   the CSS Device Adaptation Module Level 1 specification: [[!CSS-DEVICE-ADAPT]]
    <ul>
-    <li><dfn><a href=https://drafts.csswg.org/css-device-adapt/#initial-viewport>Initial viewport</a></dfn>
+    <li><dfn data-lt=viewport><a href=https://drafts.csswg.org/css-device-adapt/#initial-viewport>Initial viewport</a></dfn>
    </ul>
 
  <dd>The following properties are defined in
@@ -430,8 +430,8 @@ var respecConfig = {
    <!-- Rectangle --> <li><dfn data-lt="bounding rectangle"><a href=https://drafts.fxtf.org/geometry/#rectangle>Rectangle</a></dfn>
    <!-- Rectangle height dimension --> <li><dfn data-lt="height dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-height-dimension>Rectangle height dimension</a></dfn>
    <!-- Rectangle width dimension --> <li><dfn data-lt="width dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-width-dimension>Rectangle width dimension</a></dfn>
-   <!-- Rectangle x coordinate --> <li><dfn><a href=https://drafts.fxtf.org/geometry/#rectangle-x-coordinate>Rectangle x coordinate</a></dfn>
-   <!-- Rectangle y coordinate --> <li><dfn><a href=https://drafts.fxtf.org/geometry/#rectangle-y-coordinate>Rectangle y coordinate</a></dfn>
+   <!-- Rectangle x coordinate --> <li><dfn data-lt="x coordinate"><a href=https://drafts.fxtf.org/geometry/#rectangle-x-coordinate>Rectangle x coordinate</a></dfn>
+   <!-- Rectangle y coordinate --> <li><dfn data-lt="y coordinate"><a href=https://drafts.fxtf.org/geometry/#rectangle-y-coordinate>Rectangle y coordinate</a></dfn>
   </ul>
 
  <dd>The following terms are defined in
@@ -448,7 +448,10 @@ var respecConfig = {
  <dd>The following functions are defined in
   the CSSOM View Module: [[!CSSOM-VIEW]]:
   <ul>
+   <!-- elementsFromPoint --> <li><dfn>Elements from point</dfn> as <a href=https://drafts.csswg.org/cssom-view/#dom-document-elementsfrompoint>elementsFromPoint()</a>
    <!-- getClientRects --> <li><dfn><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></dfn>
+   <!-- innerHeight --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerheight>innerHeight</a></dfn>
+   <!-- innerWidth --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerwidth>innerWidth</a></dfn>
    <!-- offsetLeft --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetleft>offsetLeft</a></dfn>
    <!-- offsetParent --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetparent>offsetParent</a></dfn>
    <!-- offsetTop --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsettop>offsetTop</a></dfn>
@@ -491,6 +494,9 @@ var respecConfig = {
 <p>The shorthand
  <dfn>min</dfn>(<var>value</var>, <var>value</var>[, <var>value</var>])
  returns the smallest item of two or more values.
+ Conversely, the shorthand
+ <dfn>max</dfn>(<var>value</var>, <var>value</var>[, <var>value</var>])
+ returns the largest item of two or more values.
 
 <p>An <dfn>ASCII string</dfn> is a string
  in the range U+0000 to U+007F, inclusive.
@@ -2880,6 +2886,73 @@ var respecConfig = {
 <p>An <a>element</a> is to be considered <dfn>read only</dfn>
  if it is an <a><code>input</code> element</a>
  whose <a><code>readOnly</code> attribute</a> is set.
+
+<section>
+<h3>Element Interactibility</h3>
+
+<p>In order to determine if an element
+ can be interacted with using pointer actions,
+ WebDriver performs hit-testing to find
+ if the interaction will be able to reach the requested element.
+
+<p>An <dfn>interactible element</dfn>
+ is an <a>element</a> which is either
+ <a>pointer-interactible</a> or <a>keyboard-interactible</a>.
+
+<p>A <dfn data-lt="pointer-interactible">pointer-interactible element</dfn>
+ is defined to be the first non-transparent <a>element</a>,
+ defined by the paint order found at the centre point
+ of its rectangle that is inside the <a>viewport</a>,
+ excluding the size of any rendered scrollbars.
+
+<p>In order to produce an <dfn>pointer-interactible elements tree</dfn>
+ from an <var><a>element</a></var>:
+
+<ol>
+ <li><p>If <var>element</var> is <a>not in the same tree</a>
+  as the <a>current browsing context</a>’s <a>active document</a>,
+  return an empty sequence.
+
+ <!--
+  no need to care for scroll bars here
+  because elementsFromPoint takes care of it
+
+  this is the same as
+
+    rect.width - (rect.right - innerWidth)
+    rect.height - (rect.bottom - innerHeight)
+ -->
+ <li><p>Let <var>visible width</var> be
+  <var>element</var>’s <a>bounding rectangle</a>’s
+  (<a>max</a>(<a>x coordinate</a>, <a>x coordinate</a> + <a>width dimension</a>) –
+  the <a>current browsing context</a>’s <a>innerWidth</a>).
+
+ <li><p>Let <var>visible height</var> be
+  <var>element</var>’s <a>bounding rectangle</a>’s
+  (<a>max</a>(<a>y coordinate</a>, <a>y coordinate</a> + <a>height dimension</a>) –
+  the <a>current browsing context</a>’s <a>innerWidth</a>).
+
+ <li><p>Let <var>vertical centre offset</var>
+  be (<var>visible width</var> / 2.0).
+
+ <li><p>Let <var>horizontal centre offset</var>
+  be (<var>visible height</var> / 2.0).
+
+ <li><p>Let <var>centre point</var> be a pair of <var>element</var>’s
+  (<a>rectangle x coordinate</a> + <var>horizontal centre offset</var>)
+  and (<a>rectangle y coordinate</a> + <var>vertical centre offset</var>).
+
+ <li><p>Return the <a>elements from point</a>
+  given the coordinates <var>centre point</var>.
+</ol>
+
+<p>To <dfn>get the first pointer-interactible element</dfn>
+ given an <a>pointer-interactible elements tree</a>,
+ return with <a>success</a> the first <a>element</a>
+ which style property <code>opacity</code>
+ has the <a>computed value</a> of "1";
+ otherwise return an <a>error</a>.
+</section>
 
 <section>
 <h3>Element Displayedness</h3>
@@ -5915,11 +5988,11 @@ following must be <var>parameters</var> after the local end has made a request t
   return <a>error</a> with <a>error code</a> <a>unable to capture screen</a>.
 
  <li><p>Let <var>paint width</var> be the <a>initial viewport</a>’s width –
-  min(<a>rectangle x coordinate</a>,
+  <a>min</a>(<a>rectangle x coordinate</a>,
   <a>rectangle x coordinate</a> + <a>rectangle width dimension</a>).
 
  <li><p>Let <var>paint height</var> be the <a>initial viewport</a>’s height –
-  min(<a>rectangle y coordinate</a>,
+  <a>min</a>(<a>rectangle y coordinate</a>,
   <a>rectangle y coordinate</a> + <a>rectangle height dimension</a>).
 
  <li><p>Let <var>canvas</var> be a new <a><code>canvas</code> element</a>,
