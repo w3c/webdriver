@@ -6069,16 +6069,17 @@ following must be <var>parameters</var> after the local end has made a request t
 
 <p>The <dfn>Take Element Screenshot</dfn> <a>command</a>
  takes a screenshot of the visible region encompassed
- by the <a>bounding rectangle</a> of an <a>element</a>,
- after it has been scrolled into view.
-
-<p class=issue>Microsoft have requested previously
- that there be a parameter to prevent scrolling.
- Not sure if this is still a requirement.
+ by the <a>bounding rectangle</a> of an <a>element</a>.
+ If given a parameter argument <code>scroll</code>
+ that evaluates to false,
+ the <a>element</a> will not be <a>scrolled into view</a>.
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>Let <var>scroll</var> be the value of the parameter <var>scroll</var>,
+  or true if undefined.
 
  <li><p>Let <var>element result</var> be the result of
   <a>getting a known element</a> by
@@ -6092,7 +6093,8 @@ following must be <var>parameters</var> after the local end has made a request t
  <li><p>Let <var>element rect</var> be <var>element</var>’s
   <a href=https://drafts.fxtf.org/geometry/#rectangle>rectangle</a>.
 
- <li><p><a>Scroll into view</a> the <var>element</var>.
+ <li><p>If asked to <var>scroll</var>,
+  <a>scroll into view</a> the <var>element</var>.
 
  <li><p>Let <var>screenshot result</var> be the result of calling
   <a>draw a bounding box from the framebuffer</a>,
