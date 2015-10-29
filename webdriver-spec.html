@@ -919,12 +919,6 @@ var respecConfig = {
 
  <tr>
   <td>GET</td>
-  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/displayed</td>
-  <td><a>Is Element Displayed</a></td>
- </tr>
-
- <tr>
-  <td>GET</td>
   <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/selected</td>
   <td><a>Is Element Selected</a></td>
  </tr>
@@ -2953,210 +2947,6 @@ var respecConfig = {
 </section>
 
 <section>
-<h3>Element Displayedness</h3>
-
-<p>The visibility of an <a>element</a> is guided
- by what is perceptually visible to the human eye.
- In this context, an <a>element</a>'s displayedness
- does not relate to the <a><code>visibility</code></a>
- or <a><code>display</code></a> style properties.
-
-<p>The approach used by WebDriver to ascertain an <a>element</a>'s visibility
- is based on crude approximations about its nature and relationship in the tree.
- An <a>element</a> is in general to be considered visible
- if any part of it is drawn on the canvas within the bounderies of the viewport.
-
-<p>When asked to
- <dfn data-lt="normalize style pixel values to floating point|normalized style pixel float value">normalize style pixel values to floating point</dfn>
- for a value <var>s</var> of the type string:
-
-<ol>
- <li><p>Let <var>trimmed string</var> be a substring of <var>s</var>
-  where the suffix "<code>px</code>" is removed.
-
- <li><p>Let <var>pixels</var> be the result of parsing
-  <var>trimmed string</var> as a float.
-
- <li><p>If <var>pixels</var> is not a valid float
-  or the previous operation did not succeed, return <code>0.0</code>.
-
- <li><p>Round off <var>pixels</var> using a ceiling function
-  so that it has no more than four decimals.
-
- <li><p>Return <var>pixels</var>.
-</ol>
-
-<p class=note>To <a>normalize style pixel values to floating point</a>
- is almost equivalent to calling <a>parseFloat</a>
- from [[!ECMA-262]] with the exception that
- non-valid float return values are returned as <code>0.0</code>.
-
-<p>The <dfn data-lt="element displayed|element displayedness|not displayed">element displayed</dfn> algorithm
- is a boolean state where true signifies that the element is displayed
- and false signifies that the element is not displayed.
- To compute the state on <var>element</var>:
-
-<ol>
- <li><p>If the attribute <code>hidden</code> is set, return false.
-
- <li><p>If the computed value of the <code>display</code> style
-  property is "none", return false.
-
-    <li><p class=issue>Not really sure what this means, needs review:
-
-     <p>If it has a [[!CSS3-2D-TRANSFORMS]] or [[!CSS3-3D-TRANSFORMS]]
-      style property that gives a negative X or Y coordinates to the canvas, return false.
-
- <li><p>If <var>element</var> is the document's root element,
-  that is <code>document.documentElement</code>:
-
-  <ol>
-   <li><p>If the computed value of the <code>background-color</code>
-    property is "transparent", run these substeps:
-
-    <ol>
-     <li><p>If <var>element</var> is an HTML <code>HTML</code>
-      element [[!HTML]], and the computed value of the
-      <code>background-color</code> style property of the first
-      <code>body</code> element descendant of the element in
-      <a>tree order</a>, relative to that element, is also "transparent",
-      return false.
-
-      Otherwise return true.
-    </ol>
-  </ol>
-
- <li><p>If <var>element</var> is an <code>option</code>
-  or <code>optgroup</code> element,
-  and <var>element</var>'s parent node is a <code>select</code> element:
-
-  <ol>
-   <li><p>Apply the <a>element displayed</a> algorithm
-    on <var>element</var>'s parent node.
-
-   <li><p>If the return value is false, abort these steps and return that value.
-  </ol>
-
- <li><p>If <var>element</var> is a <code>map</code> element:
-
-  <ol>
-   <li><p>Let <var>any images visible</var> be a boolean
-    initially set to false.
-
-   <li><p>For each <code>img</code> element, <var>image element</var>,
-    in the document with a <code>name</code> attribute matching
-    the value of <var>element</var>'s <code>usemap</code>
-    attribute, run these substeps:
-
-    <ol>
-     <li><p>Run the <a>element displayed</a> algorithm on <var>image element</var>
-      and set <var>any images visible</var> to <var>any images visible</var> bitwise OR its return value.
-    </ol>
-
-   <li><p>If <var>any images visible</var> is true,
-    abort these steps and return its value.
- </ol>
-
- <li><p>If <var>element</var> is an <code>area</code> element:
-
-  <ol>
-   <li><p>For each ancestral element <var>parent</var>,
-    in <a>tree order</a>:
-
-   <ol>
-    <li><p>If <var>parent</var> is a <code>map</code> element,
-     apply the <a>element displayed</a> algorithm on it.
-
-    <li><p>If the return value is false,
-     abort these steps and return that value.
-
-    <li><p>Otherwise apply step 7.1 on <var>parent</var>.
-   </ol>
-  </ol>
-
- <li><p>If <var>element</var> is a [[!DOM]] <a>text node</a>,
-  return true.
-
- <li><p>If it has equal to or more than one direct descendant elements:
-
-  <ol>
-   <li><p>Let <var>visible children</var> be a boolean initially set to false.
-
-   <li><p>For each direct descendant element <var>child</var>:
-
-   <ol>
-    <li><p>Let <var>rectangle</var> be <var>child</var>’s <a>bounding rectangle</a>.
-
-    <li><p>If the value of the <code>height</code> property of <var>rectangle</var> is
-     greater than zero <a>CSS reference pixels</a>,
-     and the value of the <code>width</code> property of <var>rectangle</var>
-     is greater than zero <a>CSS reference pixels</a>:
-
-     <ol>
-      <li><p>Set <var>visible children</var> to <var>visible children</var> bitwise OR true.
-     </ol>
-   </ol>
-  </ol>
-
- <li><p>For each ancestral element <var>parent</var>, in <a>tree order</a>:
-
-  <ol>
-   <li><p>Apply the <a>element displayed</a> algorithm to <var>parent</var>.
-
-   <li><p>If the return value is false, abort these steps and return that value.
-
-   <li><p>If <var>parent</var> is a block element box and the
-    computed values of either <code>overflow-x</code>
-    or <code>overflow-y</code> is "hidden":
-
-   <ol>
-    <li><p class=issue><code>DOMRectList</code> has disappeared from [[GEOMETRY-1]]
-     and been replaced by <code>ArrayClass</code>,
-     but there is no reference to it.
-
-     <p>Let <var>parent dimensions</var> be the <a>rectangle</a>
-     that is the first element of the <code>DOMRectList</code>
-     array returned by calling <a>getClientRects</a> on <var>parent</var>.
-
-    <li><p>Let <var>element dimensions</var> be the <a>rectangle</a>
-     that is the first element of the <code>DOMRectList</code>
-     array returned by calling <a>getClientRects</a> on <var>element</var>.
-
-    <li><p>Let <var>parent style</var> be the computed style of <var>parent</var>.
-
-    <li><p>Return false if any the following conditions evaluate to false:
-
-    <ul>
-     <li><p><var>element dimension</var>'s <code>top</code>
-      is less than (<var>parent dimension</var>'s <code>bottom</code>
-      − the <a>normalized style pixel float value</a>
-      of <var>parent style</var>'s <code>borderBottomWidth</code>).
-
-     <li><p><var>element dimension</var>'s <code>bottom</code>
-      is less than (<var>parent dimension</var>'s <code>top</code>
-      − the <a>normalized style pixel float value</a>
-      of <var>parent style</var>'s <code>borderTopWidth</code>).
-
-     <li><p><var>element dimension</var>'s <code>left</code>
-      is less than (<var>parent dimension</var>'s <code>right</code>
-      − the <a>normalized style pixel float value</a>
-      of <var>parent style</var>'s <code>borderRightWidth</code> casted as a float).
-
-     <li><p><var>element dimension</var>'s <code>right</code>
-      is less than (<var>parent dimension</var>'s <code>left</code>
-      − the <a>normalized style pixel float value</a>
-      of <var>parent style</var>'s <code>borderLeftWidth</code> casted as a float).
-   </ul>
-
-   <li><p>Run step 10 on the parent elements of <var>parent</var>, if any.
-  </ol>
- </ol>
-
- <li><p>Return true.
-</ol>
-</section> <!-- /Element Displayedness -->
-
-<section>
 <h3>Get Active Element</h3>
 
 <table class="simple jsoncommand">
@@ -3521,74 +3311,6 @@ following must be <var>parameters</var> after the local end has made a request t
 
  <li><p>Return false.
 </ol>
-
-<section>
-<h3>Is Element Displayed</h3>
-
-<div class=issue>
- <p>There is concern that WebDriver should not involve itself
-  in determining <a>element displayedness</a>
-  for reasons concerning the inability to guarantee correctness
-  and that the definitions will work on future platform features.
-
- <p>Specifically this relates to the lack of hit-testing primitives
-  for the web platform, and to emerging technologies such as
-  web components and shadow DOM.
-</div>
-
-<table class="simple jsoncommand">
- <tr>
-  <th>HTTP Method</th>
-  <th>Path Template</th>
- </tr>
- <tr>
-  <td>GET</td>
-  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/displayed</td>
- </tr>
-</table>
-
-<p>The <dfn>Is Element Displayed</dfn> <a>command</a>
- is used to determine the <a>element displayedness</a>
- of a <a>web element</a>.
-
-<p>The <a>remote end steps</a> are:
-
-<ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
-
- <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
-
- <li><p>If the <a>current browsing context</a>’s <a>document</a>
-  <a data-lt="document type">type</a> is not
-  "<code>xml</code>", let <var>visible</var> be a boolean initially set to false
-
- <p>Otherwise Let <var>visible</var> be equal to true and jump to the last step
-    of this algorithm.
-
- <li><p>Let <var>element result</var> be the result of
-  <a>getting a known element</a> by
-  <a>UUID</a> parameter <var>element id</var>.
-
- <li><p>If <var>element result</var> is a <a>success</a>,
-  let <var>element</var> be <var>element result</var>’s data.
-
-  <p>Otherwise, return <var>element result</var>.
-
- <li><p>If <var>element</var> <a>is stale</a>,
-  return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
-
- <li><p>Apply the <a>element displayed</a> algorithm to
-  <var>element</var> and set <var>visible</var> to its
-  return value.
-
- <li><p>Let <var>body</var> be a new JSON Object
-  with the "<code>value</code>" member
-  set to <var>element displayed</var>.
-
- <li><p>Return <a>success</a> with data <var>body</var>.
-</ol>
-</section> <!-- /Is Element Displayed -->
 
 <section>
 <h3>Is Element Selected</h3>
@@ -6153,6 +5875,225 @@ following must be <var>parameters</var> after the local end has made a request t
  to limit connections to the IPv4 localhost CIDR range <code>127.0.0.0/8</code>
  and the IPv6 localhost address <code>::1</code>. [[!RFC4632]]
 </section>
+
+<section class=appendix>
+<h2>Element Displayedness</h2>
+
+<p>Although WebDriver does not define a primitive
+ to ascertain the visibility of an <a>element</a> in the <a>viewport</a>,
+ we acknowledge that it is an important feature for many users.
+ Here we include a recommended approach
+ which will give a simplified approximation of an <a>element</a>’s visibility,
+ but please note that it relies only on tree-traversal,
+ and only covers a subset of visibility checks.
+
+<p>The visibility of an <a>element</a> is guided
+ by what is perceptually visible to the human eye.
+ In this context, an <a>element</a>'s displayedness
+ does not relate to the <a><code>visibility</code></a>
+ or <a><code>display</code></a> style properties.
+
+<p>The approach recommended to implementors
+ to ascertain an <a>element</a>'s visibility
+ is based on crude approximations about its nature and relationship in the tree.
+ An <a>element</a> is in general to be considered visible
+ if any part of it is drawn on the canvas within the bounderies of the viewport.
+
+<p>When asked to
+ <dfn data-lt="normalize style pixel values to floating point|normalized style pixel float value">normalize style pixel values to floating point</dfn>
+ for a value <var>s</var> of the type string:
+
+<ol>
+ <li><p>Let <var>trimmed string</var> be a substring of <var>s</var>
+  where the suffix "<code>px</code>" is removed.
+
+ <li><p>Let <var>pixels</var> be the result of parsing
+  <var>trimmed string</var> as a float.
+
+ <li><p>If <var>pixels</var> is not a valid float
+  or the previous operation did not succeed, return <code>0.0</code>.
+
+ <li><p>Round off <var>pixels</var> using a ceiling function
+  so that it has no more than four decimals.
+
+ <li><p>Return <var>pixels</var>.
+</ol>
+
+<p class=note>To <a>normalize style pixel values to floating point</a>
+ is almost equivalent to calling <a>parseFloat</a>
+ from [[!ECMA-262]] with the exception that
+ non-valid float return values are returned as <code>0.0</code>.
+
+<p class=issue>This algorithm is <em>not</em> the same
+ as the one used by Selenium.
+ To provide backwards compatibility,
+ we should change it to be an accurate description
+ of what Selenium does.
+
+<p>The <dfn data-lt="element displayed|element displayedness|not displayed">element displayed</dfn> algorithm
+ is a boolean state where true signifies that the element is displayed
+ and false signifies that the element is not displayed.
+ To compute the state on <var>element</var>:
+
+<ol>
+ <li><p>If the attribute <code>hidden</code> is set, return false.
+
+ <li><p>If the computed value of the <code>display</code> style
+  property is "none", return false.
+
+    <li><p class=issue>Not really sure what this means, needs review:
+
+     <p>If it has a [[!CSS3-2D-TRANSFORMS]] or [[!CSS3-3D-TRANSFORMS]]
+      style property that gives a negative X or Y coordinates to the canvas, return false.
+
+ <li><p>If <var>element</var> is the document's root element,
+  that is <code>document.documentElement</code>:
+
+  <ol>
+   <li><p>If the computed value of the <code>background-color</code>
+    property is "transparent", run these substeps:
+
+    <ol>
+     <li><p>If <var>element</var> is an HTML <code>HTML</code>
+      element [[!HTML]], and the computed value of the
+      <code>background-color</code> style property of the first
+      <code>body</code> element descendant of the element in
+      <a>tree order</a>, relative to that element, is also "transparent",
+      return false.
+
+      Otherwise return true.
+    </ol>
+  </ol>
+
+ <li><p>If <var>element</var> is an <code>option</code>
+  or <code>optgroup</code> element,
+  and <var>element</var>'s parent node is a <code>select</code> element:
+
+  <ol>
+   <li><p>Apply the <a>element displayed</a> algorithm
+    on <var>element</var>'s parent node.
+
+   <li><p>If the return value is false, abort these steps and return that value.
+  </ol>
+
+ <li><p>If <var>element</var> is a <code>map</code> element:
+
+  <ol>
+   <li><p>Let <var>any images visible</var> be a boolean
+    initially set to false.
+
+   <li><p>For each <code>img</code> element, <var>image element</var>,
+    in the document with a <code>name</code> attribute matching
+    the value of <var>element</var>'s <code>usemap</code>
+    attribute, run these substeps:
+
+    <ol>
+     <li><p>Run the <a>element displayed</a> algorithm on <var>image element</var>
+      and set <var>any images visible</var> to <var>any images visible</var> bitwise OR its return value.
+    </ol>
+
+   <li><p>If <var>any images visible</var> is true,
+    abort these steps and return its value.
+ </ol>
+
+ <li><p>If <var>element</var> is an <code>area</code> element:
+
+  <ol>
+   <li><p>For each ancestral element <var>parent</var>,
+    in <a>tree order</a>:
+
+   <ol>
+    <li><p>If <var>parent</var> is a <code>map</code> element,
+     apply the <a>element displayed</a> algorithm on it.
+
+    <li><p>If the return value is false,
+     abort these steps and return that value.
+
+    <li><p>Otherwise apply step 7.1 on <var>parent</var>.
+   </ol>
+  </ol>
+
+ <li><p>If <var>element</var> is a [[!DOM]] <a>text node</a>,
+  return true.
+
+ <li><p>If it has equal to or more than one direct descendant elements:
+
+  <ol>
+   <li><p>Let <var>visible children</var> be a boolean initially set to false.
+
+   <li><p>For each direct descendant element <var>child</var>:
+
+   <ol>
+    <li><p>Let <var>rectangle</var> be <var>child</var>’s <a>bounding rectangle</a>.
+
+    <li><p>If the value of the <code>height</code> property of <var>rectangle</var> is
+     greater than zero <a>CSS reference pixels</a>,
+     and the value of the <code>width</code> property of <var>rectangle</var>
+     is greater than zero <a>CSS reference pixels</a>:
+
+     <ol>
+      <li><p>Set <var>visible children</var> to <var>visible children</var> bitwise OR true.
+     </ol>
+   </ol>
+  </ol>
+
+ <li><p>For each ancestral element <var>parent</var>, in <a>tree order</a>:
+
+  <ol>
+   <li><p>Apply the <a>element displayed</a> algorithm to <var>parent</var>.
+
+   <li><p>If the return value is false, abort these steps and return that value.
+
+   <li><p>If <var>parent</var> is a block element box and the
+    computed values of either <code>overflow-x</code>
+    or <code>overflow-y</code> is "hidden":
+
+   <ol>
+    <li><p class=issue><code>DOMRectList</code> has disappeared from [[GEOMETRY-1]]
+     and been replaced by <code>ArrayClass</code>,
+     but there is no reference to it.
+
+     <p>Let <var>parent dimensions</var> be the <a>rectangle</a>
+     that is the first element of the <code>DOMRectList</code>
+     array returned by calling <a>getClientRects</a> on <var>parent</var>.
+
+    <li><p>Let <var>element dimensions</var> be the <a>rectangle</a>
+     that is the first element of the <code>DOMRectList</code>
+     array returned by calling <a>getClientRects</a> on <var>element</var>.
+
+    <li><p>Let <var>parent style</var> be the computed style of <var>parent</var>.
+
+    <li><p>Return false if any the following conditions evaluate to false:
+
+    <ul>
+     <li><p><var>element dimension</var>'s <code>top</code>
+      is less than (<var>parent dimension</var>'s <code>bottom</code>
+      − the <a>normalized style pixel float value</a>
+      of <var>parent style</var>'s <code>borderBottomWidth</code>).
+
+     <li><p><var>element dimension</var>'s <code>bottom</code>
+      is less than (<var>parent dimension</var>'s <code>top</code>
+      − the <a>normalized style pixel float value</a>
+      of <var>parent style</var>'s <code>borderTopWidth</code>).
+
+     <li><p><var>element dimension</var>'s <code>left</code>
+      is less than (<var>parent dimension</var>'s <code>right</code>
+      − the <a>normalized style pixel float value</a>
+      of <var>parent style</var>'s <code>borderRightWidth</code> casted as a float).
+
+     <li><p><var>element dimension</var>'s <code>right</code>
+      is less than (<var>parent dimension</var>'s <code>left</code>
+      − the <a>normalized style pixel float value</a>
+      of <var>parent style</var>'s <code>borderLeftWidth</code> casted as a float).
+   </ul>
+
+   <li><p>Run step 10 on the parent elements of <var>parent</var>, if any.
+  </ol>
+ </ol>
+
+ <li><p>Return true.
+</ol>
+</section> <!-- /Element Displayedness -->
 
 <section class=appendix>
 <h2>Acknowledgements</h2>
