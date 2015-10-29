@@ -1021,12 +1021,6 @@ var respecConfig = {
 
  <tr>
   <td>POST</td>
-  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/tap</td>
-  <td><a>Element Tap</a></td>
- </tr>
-
- <tr>
-  <td>POST</td>
   <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/clear</td>
   <td><a>Element Clear</a></td>
  </tr>
@@ -4140,52 +4134,6 @@ following must be <var>parameters</var> after the local end has made a request t
  <li><p>Return <a>success</a> with data null.
 </ol>
 </section> <!-- /Element Click -->
-
-<section>
-<h3>Element Tap</h3>
-
-<table class="simple jsoncommand">
- <tr>
-  <th>HTTP Method</th>
-  <th>Path Template</th>
- </tr>
- <tr>
-  <td>POST</td>
-  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/tap</td>
- </tr>
-</table>
-
-<p>The <dfn>Element Tap</dfn> <a>command</a>
- <a>scrolls into view</a> the <a>element</a>
- and then attempts to tap the centre of its visible area.
- In case the <a>element</a> is <a>not displayed</a>,
- an <a>element not visible</a> <a>error</a> is returned.
-
-<p>The <a>remote end steps</a> are:
-
-<ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
-
- <li><p>Let <var>element result</var> be the result of <a>getting a known element</a>
-  by <a>UUID</a> reference <var>element id</var>.
-
- <lI><p>Let <var>element</var> be <var>element result</var>’s data
-  if it is a <a>success</a>.
-  Otherwise return <var>element result</var>.
-
- <li><p>If <var>element</var> is <a>not displayed</a>,
-  return <a>error</a> with <a>error code</a> <a>element not visible</a>.
-
- <li><p><a>Scroll into view</a> the <var>element</var>.
-
- <li><p class=issue>Get the element’s bounding box and calculate centre position.
-
- <li><p class=issue>Run interaction steps on coordinate.
-
- <li><p>Return <a>success</a> with data null.
-</ol>
-</section> <!-- /Element Tap -->
 
 <section>
 <h3>Element Clear</h3>
