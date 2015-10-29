@@ -3404,6 +3404,7 @@ following must be <var>parameters</var> after the local end has made a request t
  will return the <a>attribute</a> of a <a>web element</a>.
 
 <p>The <a>remote end steps</a> are:
+
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
@@ -3428,21 +3429,20 @@ following must be <var>parameters</var> after the local end has made a request t
   <li>Let <var>result</var> be the result of the first appropriate step below:
 
    <dl class=switch>
-     <dt><p>If <var>name</var> is a <a>boolean attribute</a>:
-     <dd><p>The first matching statement if the element <a>has the attribute</a>:
-       <dl class=switch>
-         <dt><code>true</code>
-         <dd><p>'true'.
-         <dt>Otherwise
-         <dd><p><code>Null</code>.
-      </dl>
-      <dt><p>Otherwise:
-      <dd><p>The result of <a>getting an attribute by name</a> <var>name</var>.
-   </dl>
-   <li><p>Let <var>body</var> be a JSON Object
-    with the "<code>value</code>" member set to <var>result</var>.
+    <dt>If <var>name</var> is a <a>boolean attribute</a>
+    <dd><p>"<code>true</code>" (string)
+     if the <a>element</a> <a>has the attribute</a>,
+     otherwise null.
 
-   <li><p>Return <a>success</a> with data <var>body</var>.
+    <dt>Otherwise
+    <dd><p>The result of <a>getting an attribute by name</a>
+     <var>name</var>.
+   </dl>
+
+  <li><p>Let <var>body</var> be a JSON Object
+   with the "<code>value</code>" member set to <var>result</var>.
+
+  <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
 </section> <!-- /Get Element Attribute -->
 
