@@ -4990,58 +4990,7 @@ following must be <var>parameters</var> after the local end has made a request t
         <p>These higher level commands SHOULD be built on top of the low level commands, and implement a user friendly way of interacting with a page in a way that models common user expectations.
 
         <section>
-        <section>
-          <h2>Touch</h2>
-          <p>This section defines the low level commands used when manipulating touch-enabled devices. These are the building blocks of touch interaction chains.</p>
-          <!--<p>NOTE: would like to add pressure/tilt, but that isn't in Touch Events (http://www.w3.org/TR/touch-events/), will have to wait for Pointer Event adoption</p>-->
-          <table class="simple">
-            <tr><td>Capability Name</td><td>Type</td></tr>
-            <tr><td><span id="capability-touchEnabled">touchEnabled</span></td><td>boolean</td></tr>
-          </table>
-          <br>
-          <br>
-          <section>
-            <!-- Tap -->
-            <h3>void tap ()</h3>
-            <table class="simple jsoncommand">
-              <tr>
-                <th>HTTP Method</th>
-                <th>Path Template</th>
-              </tr>
-              <tr>
-                <td>POST</td>
-                <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/tap</td>
-              </tr>
-            </table>
-            <p>Tap in the middle of the WebElement. The middle of the element is defined as the middle of the box returned by
-              calling <code><a
-                href="http://www.w3.org/TR/cssom-view/#the-getclientrects()-and-getboundingclientrect()-methods">getBoundingClientRect</a></code>
-              on the underlying document Element, according to the [[!CSSOM-VIEW]] spec. If
-              the element is outside the <a
-                href="http://www.w3.org/TR/CSS21/visuren.html#viewport">viewport</a>
-              (according to the [[!CSS21]] spec), the implementation SHOULD bring the
-              element into view first. The implementation MAY invoke <code>scrollIntoView</code> on
-              the underlying document Element.
-              Exceptions:
-              <ul>
-                <li>Links (A elements): Clicking happens in the middle of the first
-                  <a href="#determining-if-displayed">displayed</a> bounding client rectangle. This is to overcome overflowing links where the middle of the bounding client rectangle does not actually fall on a clickable part of the link.</li>
-                <li>SELECT elements without the &quot;multiple&quot; attribute set.
-                  Clicking on the select element SHOULD open the drop down menu. The next
-                  click, on any element, MUST close this menu.</li>
-                <li>Clicking directly on an OPTION element (without clicking on the
-                  parent SELECT element previously) MUST open a selection menu, as if the
-                  SELECT option was clicked first, then click on the OPTION before finally
-                  closing the SELECT element's menu. The SELECT menu MUST be closed
-                  once the action is complete.</li>
-              </ul>
-              <p>The possible errors for this command:
-              <ul>
-                <li><code><a href="#status-stale-element-reference">stale element reference</a></code> if the given element is no longer in the <a href="http://dom.spec.whatwg.org/#in-a-document">document</a>.</li>
-                <li><code><a href="#status-move-target-out-of-bounds">move target out of bounds</a></code> if the element cannot be scrolled into view.</li>
-              </ul>
-            </section>
-        </section>
+
       <section>
         <h2 id='typing_keys'>Typing keys</h2>
         <p>A requirement for key-based interaction with an element is that it is
