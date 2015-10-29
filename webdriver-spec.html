@@ -996,6 +996,12 @@ var respecConfig = {
  </tr>
 
  <tr>
+  <td>DELETE</td>
+  <td>/session/{<var>session id</var>)/cookie</td>
+  <td><a>Delete All Cookies</a></td>
+ </tr>
+
+ <tr>
   <td>POST</td>
   <td>/session/{<var>session id</var>}/timeouts</td>
   <td><a>Set Timeout</a></td>
@@ -4402,6 +4408,21 @@ following must be <var>parameters</var> after the local end has made a request t
  <dd><p><a>cookie http only</a>
 </dl>
 
+<p>To <dfn>delete cookies</dfn> given an optional filter argument
+ <var>name</var> that is a string:
+
+<ol>
+ <li><p>For each <var>cookie</var> among <a>all associated cookies</a> of
+  the <a>current top-level browsing context</a>’s <a>active document</a>, if:
+
+  <dl class=switch>
+   <dt><var>name</var> is undefined
+   <dt><var>name</var> is equal to <var>cookie</var>’s <code>cookie-name</code>
+   <dd><p>Add an attribute to the <code>attribute-list</code> of <var>cookie</var>
+    with <code>attribute-name</code> of <code>Expires</code>,
+    and set its value to a time in the past.
+  </dl>
+</ol>
 
 <section>
 <h3>Get Cookie</h3>
@@ -4552,20 +4573,43 @@ following must be <var>parameters</var> after the local end has made a request t
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
- <li><p>For each <var>cookie</var> among <a>all associated cookies</a> of
-  the <a>current top-level browsing context</a>’s <a>active document</a>, if:
-
-  <dl class=switch>
-   <dt><var>name</var> is undefined
-   <dt><var>name</var> is equal to <var>cookie</var>’s <code>cookie-name</code>
-   <dd><p>Add an attribute to the <code>attribute-list</code> of <var>cookie</var>
-    with <code>attribute-name</code> of <code>Expires</code>,
-    and set its value to a time in the past.
-  </dl>
+ <li><p><a>Delete cookies</a> using
+  the <var>name</var> parameter as the filter argument.
 
  <li><p>Return <a>success</a> with data null.
 </ol>
 </section> <!-- /Delete Cookie -->
+
+<section>
+<h3>Delete All Cookies</h3>
+
+<table class=simple>
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>DELETE</td>
+  <td>/session/{<var>session id</var>}/cookie
+ </tr>
+</table>
+
+<p>The <dfn>Delete All Cookies</dfn> <a>command</a>
+ allows deletion of all cookies associated with
+ the <a>active document</a>’s <a>address</a>.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
+
+ <li><p><a>Delete cookies</a>, giving no filtering argument.
+
+ <li><p>Return <a>success</a> with data null.
+</section> <!-- /Delete All Cookies -->
 </section> <!-- /Cookies -->
 
 <section>
