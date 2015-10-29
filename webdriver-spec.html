@@ -2348,17 +2348,21 @@ var respecConfig = {
 <p>The <a>remote end steps</a> are:
 
 <ol>
+ <li><p>If there is an <a>active user prompt</a>,
+  that due to the uniqueness of the user agent
+  prevents the focussing of another <a>top-level browsing context</a>,
+  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+
  <li><p>Let <var>handle</var> be the result of
   <a>getting a property</a> named "<code>handle</code>"
   from the <var>parameters</var> argument.
 
  <li><p>If <var>handle</var> is equal to the associated <a>window handle</a>
-  for some <a>top-level browsing context</a> in the <a>current session</a>.
-
- <p>Set the <a>session</a>’s <a>current top-level browsing context</a>
+  for some <a>top-level browsing context</a> in the <a>current session</a>,
+  set the <a>session</a>’s <a>current top-level browsing context</a>
   to that browsing context, and return <a>success</a> with data null.
 
- <li><p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such window</a>.
+  <p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such window</a>.
 </ol>
 </section> <!-- /Switch To Window -->
 
@@ -5678,10 +5682,6 @@ following must be <var>parameters</var> after the local end has made a request t
    <a>Send Alert Text</a>
  </tr>
 </table>
-
-<p class=issue>It’s not clear what interoperability looks like
- for the ability to switch top-level browsing contexts
- whilst a user prompt is present.
 
 <p>The <dfn>current user prompt</dfn> is said to be the active <a>user prompt</a>,
  which can be one of the entries on the <a>table of simple dialogues</a>,
