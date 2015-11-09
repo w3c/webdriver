@@ -197,23 +197,24 @@ var respecConfig = {
  <dd><p>The following terms are defined in the Document Object Model specification: [[!DOM]]
   <ul>
    <!-- Attribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-attribute>Attribute</a></dfn>
-   <!-- DOCUMENT_POSITION_DISCONNECTED --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-document_position_disconnected>DOCUMENT_POSITION_DISCONNECTED</a></dfn> (1)
-   <!-- Document --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document>Document</a></dfn>
-   <!-- Document URL --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-url>Document URL</a></dfn>
+   <!-- comapreDocumentPosition --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-comparedocumentposition>compareDocumentPosition</a></dfn>
    <!-- Document element --> <li><dfn><a href=https://dom.spec.whatwg.org/#document-element>Document element</a></dfn>
+   <!-- Document --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document>Document</a></dfn>
+   <!-- DOCUMENT_POSITION_DISCONNECTED --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-document_position_disconnected>DOCUMENT_POSITION_DISCONNECTED</a></dfn> (1)
    <!-- Document type --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-type>Document type</a></dfn>
+   <!-- Document URL --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-url>Document URL</a></dfn>
    <!-- Element --> <li><dfn data-lt=elements><a href=https://dom.spec.whatwg.org/#concept-element>Element</a></dfn>
    <!-- Equals --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node-equals>Equals</a></dfn>
    <!-- Event --> <li><dfn><a href=https://dom.spec.whatwg.org/#event>Event</a></dfn>
    <!-- Get an attribute by name --> <li><dfn data-lt="getting an attribute by name"><a href=https://dom.spec.whatwg.org/#concept-element-attributes-get-by-name>Get an attribute by name</a></dfn>
+   <!-- getAttribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-getattribute>getAttribute</a></dfn>
+   <!-- hasAttribute --> <li><dfn data-lt="has the attribute"><a href=https://dom.spec.whatwg.org/#dom-element-hasattribute>hasAttribute</a></dfn>
    <!-- Node --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node>Node</a></dfn>
    <!-- NodeList --> <li><dfn><a href=https://dom.spec.whatwg.org/#nodelist><code>NodeList</code></a></dfn>
-   <!-- Text content --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-textcontent>Text content</a></dfn>
-   <!-- Text node --> <li><dfn><a href=https://dom.spec.whatwg.org/#text><code>Text</code> node</a></dfn>
-   <!-- comapreDocumentPosition --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-comparedocumentposition>compareDocumentPosition</a></dfn>
-   <!-- hasAttribute --> <li><dfn data-lt="has the attribute"><a href=https://dom.spec.whatwg.org/#dom-element-hasattribute>hasAttribute</a></dfn>
    <!-- ownerDocument --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-ownerdocument>ownerDocument</a></dfn>
    <!-- tagName --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-tagname>tagName</a></dfn>
+   <!-- Text content --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-textcontent>Text content</a></dfn>
+   <!-- Text node --> <li><dfn><a href=https://dom.spec.whatwg.org/#text><code>Text</code> node</a></dfn>
   </ul>
 
  <dd><p>The following attributes are defined in
@@ -3442,6 +3443,14 @@ following must be <var>parameters</var> after the local end has made a request t
 
   <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
+
+<p class=note>Please note that the behaviour of this command
+ deviates from the behaviour of <a>getAttribute</a> in [[DOM]],
+ which in the case of a set <a>boolean attribute</a>
+ would return an empty string.
+ The reason this command returns true as a string
+ is because this evaluates to true in most dynamically typed programming languages,
+ but still preserves the expected type information.
 </section> <!-- /Get Element Attribute -->
 
 <section>
