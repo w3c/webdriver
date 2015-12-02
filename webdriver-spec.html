@@ -372,17 +372,10 @@ var respecConfig = {
  <dt>HTTP and related specifications
  <dd><p>The following terms are defined in the Cookie specification: [[!RFC6265]]
   <ul>
-   <li><dfn><a href=https://tools.ietf.org/html/rfc6265#section-5.4>Compute <code>cookie-string</code></a></dfn>
-   <li><dfn data-lt=cookies><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Cookie</a></dfn>
-   <li><dfn><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Cookie store</a></dfn>
-   <li><dfn>Cookie name</dfn> as a <a>cookie</a>’s <code>name</code> field
-   <li><dfn>Cookie value</dfn> as a <a>cookie</a>’s <code>value</code> field
-   <li><dfn>Cookie expiry time</dfn> a <a>cookie</a>’s <code>expiry-time</code> field
-   <li><dfn>Cookie domain</dfn> as a <a>cookie</a>’s <code>domain</code> field
-   <li><dfn>Cookie path</dfn> as a a <a>cookie</a>’s <code>path</code> field
-   <li><dfn>Cookie secure only</dfn> as a <a>cookie</a>’s <code>secure-only-flag</code> field
-   <li><dfn>Cookie http only</dfn> as a <a>cookie</a>’s <code>http-only-flag</code>
-   <li><dfn>Storage Model</dfn>
+   <!-- Compute cookie-string --> <li><dfn><a href=https://tools.ietf.org/html/rfc6265#section-5.4>Compute <code>cookie-string</code></a></dfn>
+   <!-- Cookie --> <li><dfn data-lt=cookies><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Cookie</a></dfn>
+   <!-- Cookie store --> <li><dfn><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Cookie store</a></dfn>
+   <!-- Receives a cookie --> <li><dfn data-lt="receiving a cookie"><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Receives a cookie</a></dfn>
   </ul>
 
  <dd><p>The following terms are defined in
@@ -500,6 +493,12 @@ var respecConfig = {
 
 <p>A <dfn data-lt=uuid>Universally Unique IDentifier (UUID)</dfn> is
  a 128 bits long URN that requires no central registration process. [[!RFC4122]]
+
+<p>The <dfn data-lt="Unix timestamp">Unix Epoch</dfn>
+ is a value that approximates the number of seconds
+ that have elapsed since the Epoch,
+ as described by The Open Group Base Specifications Issue 7
+ <a href=http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html#tag_04_15>section 4.15</a> (IEEE Std 1003.1).
 </section> <!-- /Terminology -->
 
 <section>
@@ -549,8 +548,8 @@ var respecConfig = {
  which encapsulates the value returned,
  whereas an <a>error</a> response has an associated <a>error code</a>.
 
-<p>The result of <dfn>getting a property</dfn> with <var>name</var>
- from an <a>Object</a> is defined as
+<p>The result of <dfn data-lt="getting properties">getting a property</dfn>
+ with <var>name</var> from an <a>Object</a> is defined as
  the result of calling the <a>[[\GetOwnProperty]]</a>
  internal method of with property name <var>name</var>.
 </section> <!-- /Algorithms -->
@@ -4383,55 +4382,142 @@ following must be <var>parameters</var> after the local end has made a request t
 <h2>Cookies</h2>
 
 <p>This section describes the interaction with <a>cookies</a>
- as described in the [[!HTML]].
+ as described in [[!RFC6265]].
+
+<p>A <a>cookie</a> is described in [[!RFC6265]]
+ by a name-value pair holding the cookie’s data,
+ followed by zero or more attribute-value pairs describing its characteristics.
+
+<p>The following <dfn>table for cookie conversion</dfn>
+ defines the cookie concepts relevant to WebDriver,
+ how these are referred to in [[!RFC6265]],
+ what keys they map to in a <a>serialised cookie</a>,
+ as well as the attribute-value keys needed
+ when constructing a list of arguments for <a>creating a cookie</a>.
+
+<p>For informational purposes,
+ the table includes a legend of whether the field is optional
+ in the <a>serialised cookie</a> structure provided to <a>Add Cookie</a>,
+ and a brief non-normative description of the field
+ and the expected input type of its associated value.
+
+<table class=simple>
+ <tr>
+  <th>Concept
+  <th>RFC 6265 Field
+  <th>JSON Key
+  <th>Attribute Key
+  <th>Optional
+  <th>Description
+ </tr>
+
+ <tr>
+  <td><dfn>Cookie name</dfn>
+  <td><code>name</code>
+  <td>"<code>name</code>"
+  <td>
+  <td>
+  <td>The name of the cookie.
+ </tr>
+
+ <tr>
+  <td><dfn>Cookie value</dfn>
+  <td><code>value</code>
+  <td>"<code>value</code>"
+  <td>
+  <td>
+  <td>The cookie value.
+ </tr>
+
+ <tr>
+  <td><dfn>Cookie path</dfn>
+  <td><code>path</code>
+  <td>"<code>path</code>"
+  <td>"<code>Path</code>"
+  <td>✓
+  <td>The cookie path.
+   Defaults to "<code>/</code>"
+   if omitted when <a>adding a cookie</a>.
+ </tr>
+
+ <tr>
+  <td><dfn>Cookie domain</dfn>
+  <td><code>domain</code>
+  <td>"<code>domain</code>"
+  <td>"<code>Domain</code>"
+  <td>✓
+  <td>The domain the cookie is visible to.
+   Defaults to the <a>current browsing context</a>’s
+   <a>document</a>’s <a>URL</a> <a>domain</a>
+   if omitted when <a>adding a cookie</a>.
+ </tr>
+
+ <tr>
+  <td><dfn>Cookie secure only</dfn>
+  <td><code>secure-only-flag</code>
+  <td>"<code>secure</code>"
+  <td>"<code>Secure</code>"
+  <td>✓
+  <td>Whether the cookie is a secure cookie.
+   Defaults to false if omitted when <a>adding a cookie</a>.
+ </tr>
+
+ <tr>
+  <td><dfn>Cookie HTTP only</dfn>
+  <td><code>http-only-flag</code>
+  <td>"<code>httpOnly</code>"
+  <td>"<code>HttpOnly</code>"
+  <td>✓
+  <td>Whether the cookie is an HTTP only cookie.
+   Defaults to false if omitted when <a>adding a cookie</a>.
+ </tr>
+
+ <tr>
+  <td><dfn>Cookie expiry time</dfn>
+  <td><code>expiry-time</code>
+  <td>"<code>expiry</code>"
+  <td>"<code>Max-Age</code>"
+  <td>✓
+  <td>When the cookie expires,
+   specified in seconds since <a>Unix Epoch</a>.
+   Defaults to 20 years into the future
+   if omitted when <a>adding a cookie</a>.
+ </tr>
+</table>
+
+<p>A <dfn>serialised cookie</dfn> is a JSON Object structure
+ where a <a>cookie</a>’s [[!RFC6265]] fields
+ listed in the <a>table for cookie conversion</a>
+ is mapped using the <i>JSON Key</i>
+ and the associated field’s value from the <a>cookie store</a>.
+ The optional fields may be omitted.
 
 <p>To get <dfn>all associated cookies</dfn> to a <a>document</a>,
  the user agent must return the enumerated set of cookies
  that meet the requirements set out in the first step of the algorithm in [[RFC6265]] to
- <a>compute <code>cookie-string</code></a>
- for the <a>current browsing context</a>’s
- <a>document</a>’s <a>address</a> for an ‘HTTP API’.
+ <a>compute <code>cookie-string</code></a> for an ‘HTTP API’,
+ from the <a>cookie store</a> of the given <a>document</a>’s <a>address</a>.
 
-<p>A <dfn>serialized cookie</dfn> is created by
- assigning the fields of a <a>cookie</a>
- to properties of a new JSON Object:
-
-<dl>
- <dt>"<code>name</code>"
- <dd><p><a>cookie name</a>
-
- <dt>"<code>value</code>"
- <dd><p><a>cookie value</a>
-
- <dt>"<code>expiry</code>"
- <dd><p><a>cookie expiry time</a>
-
- <dt>"<code>domain</code>"
- <dd><p><a>cookie domain</a>
-
- <dt>"<code>path</code>"
- <dd><p><a>cookie path</a>
-
- <dt>"<code>secure</code>"
- <dd><p><a>cookie secure only</a>
-
- <dt>"<code>http</code>"
- <dd><p><a>cookie http only</a>
-</dl>
+<p>When the <a>remote end</a> is instructed
+ to <dfn data-lt="creating a cookie">create a cookie</dfn>,
+ this is synonymous to carrying out the steps described in [[!RFC6265]]
+ <a href=https://tools.ietf.org/html/rfc6265#section-5.3>section 5.3</a>,
+ under <a>receiving a cookie</a>,
+ except the user agent may not ignore the received cookie in its entirety
+ (disregard step 1).
 
 <p>To <dfn>delete cookies</dfn> given an optional filter argument
  <var>name</var> that is a string:
 
 <ol>
- <li><p>For each <var>cookie</var> among <a>all associated cookies</a> of
+ <li><p>For each <a>cookie</a> among <a>all associated cookies</a> of
   the <a>current top-level browsing context</a>’s <a>active document</a>, if:
 
   <dl class=switch>
    <dt><var>name</var> is undefined
-   <dt><var>name</var> is equal to <var>cookie</var>’s <code>cookie-name</code>
-   <dd><p>Add an attribute to the <code>attribute-list</code> of <var>cookie</var>
-    with <code>attribute-name</code> of <code>Expires</code>,
-    and set its value to a time in the past.
+   <dt><var>name</var> is equal to <a>cookie name</a>
+   <dd><p>Set the <a>cookie expiry time</a>
+    to a <a>Unix timestamp</a> in the past.
   </dl>
 </ol>
 
@@ -4473,12 +4559,12 @@ following must be <var>parameters</var> after the local end has made a request t
   <a>active document</a>, matching on <var>name</var>:
 
   <dl class=switch>
-   <dt><var>cookie</var>’s <code>cookie-name</code>
-   <dd><p>Append a <a>serialized cookie</a> of <var>cookie</var> to <var>result</var>,
+   <dt><a>cookie name</a>
+   <dd><p>Append the <a>serialised cookie</a> to <var>result</var>,
     and break out of the loop.
 
    <dt>undefined
-   <dd><p>Append a <a>serialized cookie</a> of <var>cookie</var> to <var>result</var>.
+   <dd><p>Append the <a>serialised cookie</a> to <var>result</var>.
   </dl>
 
  <li><p>Return <a>success</a> with data <var>result</var>.
@@ -4499,9 +4585,9 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
 </table>
 
-<p>The <dfn>Add Cookie</dfn> <a>command</a>
- adds a single cookie to the cookie storage associated with
- the <a>active document</a>’s <a>address</a>.
+<p>The <dfn data-lt="adding a cookie">Add Cookie</dfn> <a>command</a>
+ adds a single <a>cookie</a> to the <a>cookie store</a>
+ associated with the <a>active document</a>’s <a>address</a>.
 
 <p>The <a>remote end steps</a> are:
 
@@ -4511,46 +4597,56 @@ following must be <var>parameters</var> after the local end has made a request t
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>cookie</var> be the result of <a>getting a property</a>
-  named "<code>cookie</code>" from the <var>parameters</var> argument.
-
- <li><p>If <var>cookie</var> is not a JSON Object,
-  return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
-
  <li><p>If the <a>current top-level browsing context</a>’s <a>document element</a>
   is a <a>cookie-averse <code>Document</code> object</a>,
   return <a>error</a> with <a>error code</a> <a>invalid cookie domain</a>.
 
- <li><p>Set the value is <var>cookie-name</var>,
-  as defined in [[!RFC6265]], to the value of entry with key <var>name</var>.
-  If <var>name</var>is undefined,
+ <li><p>Let <var>data</var> be the result of <a>getting a property</a>
+  named "<code>cookie</code>" from the <var>parameters</var> argument.
+
+ <li><p>If <var>data</var> is not a JSON Object
+  with all the required (non-optional) JSON keys
+  listed in the <a>table for cookie conversion</a>,
   return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
 
- <li><p>Set the value is <var>cookie-value</var>,
-  as defined in [[!RFC6265]], to the value of entry with key <var>value</var>.
-  If <var>value</var>is undefined,
+ <li><p>If <a>cookie name</a> or <a>cookie value</a> is null,
+  <a>cookie domain</a> is not equal to
+  the <a>current browsing context</a>’s <a>active document</a>’s <a>domain</a>,
+  <a>cookie secure only</a> or <a>cookie HTTP only</a> are not boolean types,
+  or <a>cookie expiry time</a> is not an integer type,
   return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
 
- <li><p>If <var>cookie</var> has an entry with key <var>path</var>
-  set attribute-value of the last attribute in the cookie-attribute-list
-  with an attribute-name of "Path".
+ <li><p><a>Create a cookie</a> in
+  the <a>cookie store</a> associated with
+  the <a>active document</a>’s <a>address</a>
+  using <a>cookie name</a> <var>name</var>,
+  <a>cookie value</a> <var>value</var>,
+  and an attribute-value list of the following <a>properties</a>
+  from <var>data</var>:
 
- <li><p>If <var>cookie</var> has an entry with key <var>domain</var>
-  set attribute-value of the last attribute in the cookie-attribute-list
-  with an attribute-name of "Domain".
+  <dl>
+   <dt><a>Cookie path</a>
+   <dd><p>The value if the entry exists, otherwise "<code>/</code>".
 
- <li><p>If <var>cookie</var> has an entry with key <var>secure</var>
-  set attribute-value of the last attribute in the cookie-attribute-list
-  with an attribute-name of "Secure".
+   <dt><a>Cookie domain</a>
+   <dd><p>The value if the entry exists,
+    otherwise the <a>current browsing context</a>’s
+    <a>active document</a>’s <a>domain</a>.
 
- <li><p>If <var>cookie</var> has an entry with key <var>expiry</var>
-  set attribute-value of the last attribute in the cookie-attribute-list
-  with an attribute-name of "Expires".
+   <dt><a>Cookie secure only</a>
+   <dd><p>The value if the entry exists, otherwise false.
 
- <li><p>Store the contents <var>cookie</var> in the user agent cookie manager
-  following the steps described under <a>Storage Model</a> in [[!RFC6265]].
-  If there is an <a>error</a> during this step,
-  return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
+   <dt><a>Cookie HTTP only</a>
+   <dd><p>The value if the entry exists, otherwise false.
+
+   <dt><a>Cookie expiry time</a>
+   <dd><p>The value if the entry exists,
+    otherwise a <a>Unix timestamp</a> 20 years into the future from now.
+  </dl>
+
+  <p>If there is an <a>error</a> during this step,
+   return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
+
 
  <li><p>Return <a>success</a> with data null.
 </ol>
