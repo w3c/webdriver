@@ -2551,19 +2551,6 @@ var respecConfig = {
  Where a <a>command</a> is not supported,
  an <a>unsupported operation</a> <a>error</a> is returned.
 
-<p>A <a>top-level browsing context</a>’s <dfn>window dimensinos</dfn>
- are its window’s outer dimensions,
- including any browser chrome
- and externally drawn window decorations,
- provided as a JSON Object
- with "<code>width</code>" and "<code>height</code>" properties
- in <a>CSS reference pixels</a>.
-
-<p class=note>In some user agents the OS window dimensions,
- including its decorations,
- are provided by the proprietary <code>window.outerWidth</code>
- and <code>window.outerHeight</code> properties.
-
 <section>
 <h3>Get Window Size</h3>
 
@@ -2591,8 +2578,25 @@ var respecConfig = {
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Return <a>success</a>
-  with the value of the <a>window dimensions</a>.
+  with the following JSON Object:
+  
+  <dl>
+   <dt>"<code>width</code>"
+   <dd>The width of the <a>top-level browsing context</a>’s outer dimensions,
+    including any browser chrome and externally drawn window decorations
+    in <a>CSS reference pixels</a>.
+
+   <dt>"<code>height</code>"
+   <dd>The height of the <a>top-level browsing context</a>’s outer dimensions,
+    including any browser chrome and externally drawn window decorations
+    in <a>CSS reference pixels</a>.
+  </dl>
 </ol>
+
+<p class=note>In some user agents the OS window dimensions,
+ including its decorations,
+ are provided by the proprietary <code>window.outerWidth</code>
+ and <code>window.outerHeight</code> properties.
 </section> <!-- /Get Window Size -->
 
 <section>
@@ -2646,8 +2650,7 @@ var respecConfig = {
   including any browser chrome and externally drawn window decorations
   to a value that is as close as possible to <var>height</var>.
 
- <li><p>Return <a>success</a>
-  with the value of the <a>window dimensions</a>.
+ <li><p>Return the value of runnign <a>Get Window Size</a>.
 </ol>
 
 <p class=note>The specification does not guarantee
