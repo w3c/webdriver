@@ -2551,6 +2551,17 @@ var respecConfig = {
  Where a <a>command</a> is not supported,
  an <a>unsupported operation</a> <a>error</a> is returned.
 
+<p>A user agent’s <dfn>window dimensions</dfn>
+ are the outer dimensions of the given window,
+ including any browser chrome
+ and externally drawn window decorations,
+ provided as a width/height tuple in <a>CSS reference pixels</a>.
+
+<p class=note>In some user agents the dimensions of the browser
+ including window decorations are provided by
+ the proprietary <code>window.outerWidth</code>
+ and <code>window.outerHeight</code> properties.
+
 <section>
 <h3>Get Window Size</h3>
 
@@ -2577,33 +2588,21 @@ var respecConfig = {
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>width</var> be the width in <a>CSS reference pixels</a>
-  of the operating system window containing
-  the <a>current top-level browsing context</a>,
-  including any browser chrome and externally drawn window decorations.
-
- <li><p>Let <var>height</var> be the height in <a>CSS reference pixels</a>
-  of the operating system window containing
-  the <a>current top-level browsing context</a>,
-  including any browser chrome and any externally drawn window decorations.
+ <li><p>Let <var>dimensions</a> be the <a>window dimensions</a>
+  of the <a>current top-level browsing context</a>.
 
  <li><p>Let <var>body</var> be a new JSON Object initialised with:
 
   <dl>
    <dt>"<code>width</code>"
-   <dd>The value of <var>width</var>.
+   <dd>The first value of the tuple <var>dimensions</var>.
 
    <dt>"<code>height</code>"
-   <dd>The value of <var>height</var>.
+   <dd>The second value of the tuple <var>dimensions</var>.
   </dl>
 
  <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
-
-<p class=note>In some user agents the dimensions of the browser
- including window decorations are provided by
- the proprietary <code>window.outerWidth</code>
- and <code>window.outerHeight</code> properties.
 </section> <!-- /Get Window Size -->
 
 <section>
@@ -2657,7 +2656,20 @@ var respecConfig = {
   including any browser chrome and externally drawn window decorations
   to a value that is as close as possible to <var>height</var>.
 
- <li><p>Return <a>success</a> with data null.
+ <li><p>Let <var>dimensions</a> be the <a>window dimensions</a>
+  of the <a>current top-level browsing context</a>.
+
+ <li><p>Let <var>body</var> be a new JSON Object initialised with:
+
+  <dl>
+   <dt>"<code>width</code>"
+   <dd>The first value of the tuple <var>dimensions</var>.
+
+   <dt>"<code>height</code>"
+   <dd>The second value of the tuple <var>dimensions</var>.
+  </dl>
+
+ <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
 
 <p class=note>The specification does not guarantee
