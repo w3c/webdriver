@@ -4681,7 +4681,7 @@ following must be <var>parameters</var> after the local end has made a request t
 
     <p><dfn>input source</dfn> The source from which the inputs will originate. MUST support 'keyboard' and 'pointer'.
     </section>
-    <section>
+    <section><!-- Creating Actions -->
     <h2>Creating Actions</h2>
 
     <p>The <dfn>Perform Actions</dfn> <a>command</a> allows you to create <dfn>sequential
@@ -4760,7 +4760,7 @@ following must be <var>parameters</var> after the local end has made a request t
     <a>commands</a>
     <table>
       <tr>
-        <th>Action
+        <th>Actions
         <th>Input Type
       </tr>
 
@@ -4815,7 +4815,7 @@ following must be <var>parameters</var> after the local end has made a request t
           named "<code>actions</code>" from the <var>parameters</var> argument.
 
         <li><p>If <var>actions</var> is not a JSON List, return <a>error code</a>
-          with error code <a>invalid argument</a>.
+          with <a>error code</a> <a>invalid argument</a>.
 
         <li><p>Let <var>length</var> be the length of <var>actions</var>.
 
@@ -4856,8 +4856,8 @@ following must be <var>parameters</var> after the local end has made a request t
 
         <li><p>Return <a>success</a> with data null.
       </ol>
-    </section>
-    <section>
+    </section><!-- /Creating Actions -->
+    <section><!-- Releasing Actions -->
     <h2>Releasing Actions</h2>
   <table class="simple jsoncommand">
     <tr>
@@ -4879,17 +4879,10 @@ following must be <var>parameters</var> after the local end has made a request t
 
         <li><p>Return <a>success</a> with data null.
       </ol>
-    </section>
-    To be able to <dfn>dispatch commands</dfn> on the remote end we need
-    to perform the following steps:
-    <ol>
-      <li>Let <var>command</var> be the value from <a>getting a property</a>
-        <code>name</code>.
-      <li>Match <var>command</var> against <a>Keyboard</a> or <a>Pointer</a>
-        actions, passing in values on <code>parameters</code> JSON Object.
-    </ol>
+    </section><!-- /Releasing Actions -->
+
   <section> <!-- Commands -->
-    <h2>Action Commands</h2>
+    <h2>Actions</h2>
     <section><!-- General Actions -->
       <h2><dfn>General Actions</dfn></h2>
       <p>The <dfn>pause</dfn> command:
@@ -4956,10 +4949,8 @@ following must be <var>parameters</var> after the local end has made a request t
       </ol>
 
 
-    <p>The steps for <dfn>processing keystrokes</dfn> are:
+    <p>The steps for <dfn data-lt='processing keys'>processing keystrokes</dfn> are:
       <ol>
-        <li><p class=issue>This needs to be made smaller only handle getting
-          the keys from PUA and setting modifier. NOT RESETTING Modifier
         <li><p>Run the <a>focusing steps</a> for the element.
 
         <li><p>Let <var>modifiers</var> be equal to:
@@ -4976,6 +4967,7 @@ following must be <var>parameters</var> after the local end has made a request t
             <dt><code>meta</code>
             <dd>false
           </dl>
+          <p class=issue>This needs to be a global
 
         <li><p>Let <var>length</var> be the length of <var>keys</var>.
 
@@ -4990,7 +4982,7 @@ following must be <var>parameters</var> after the local end has made a request t
               <code>code</code> set <var>key</var> to be equal to the
               value <a>Character Types</a> <code>Key</code>.
 
-            <li><p>If <var>key</var> is equal to <a>Character Types</a> <code>Key</code> in
+            <li><p>If <var>key</var> is equal to <a>Character Types</a> <code>Key</code>
                and <a>Character Types</a> <code>Type</code> is equal to
               "<code>Modifier</code>" set <var>modifiers</var> key with name
               equal to <code>Key</code> to true
@@ -5001,9 +4993,25 @@ following must be <var>parameters</var> after the local end has made a request t
 
             <li><p>Increase <var>k</var> by 1.
           </ol>
-
-          <li><p>Set all values of keys in <var>modifiers</var> to false.
       </ol>
+
+      <p>The steps for <dfn>releasing modifiers</dfn> are:
+        <ol>
+          <li><p>Set <var>modifiers</var> be equal to:
+            <dl>
+              <dt><code>control</code>
+              <dd>false
+
+              <dt><code>shift</code>
+              <dd>false
+
+              <dt><code>alt</code>
+              <dd>false
+
+              <dt><code>meta</code>
+              <dd>false
+            </dl>
+        </ol>
 
       <section><!-- Character Types -->
 
