@@ -2577,33 +2577,26 @@ var respecConfig = {
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>width</var> be the width in <a>CSS reference pixels</a>
-  of the operating system window containing
-  the <a>current top-level browsing context</a>,
-  including any browser chrome and externally drawn window decorations.
-
- <li><p>Let <var>height</var> be the height in <a>CSS reference pixels</a>
-  of the operating system window containing
-  the <a>current top-level browsing context</a>,
-  including any browser chrome and any externally drawn window decorations.
-
- <li><p>Let <var>body</var> be a new JSON Object initialised with:
-
+ <li><p>Return <a>success</a>
+  with the following JSON Object:
+  
   <dl>
    <dt>"<code>width</code>"
-   <dd>The value of <var>width</var>.
+   <dd>The width of the <a>top-level browsing context</a>’s outer dimensions,
+    including any browser chrome and externally drawn window decorations
+    in <a>CSS reference pixels</a>.
 
    <dt>"<code>height</code>"
-   <dd>The value of <var>height</var>.
+   <dd>The height of the <a>top-level browsing context</a>’s outer dimensions,
+    including any browser chrome and externally drawn window decorations
+    in <a>CSS reference pixels</a>.
   </dl>
-
- <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
 
-<p class=note>In some user agents the dimensions of the browser
- including window decorations are provided by
- the proprietary <code>window.outerWidth</code>
- and <code>window.outerHeight</code> properties.
+<p class=note>In some user agents the operating system’s
+ window dimensions including decorations,
+ are provided by the proprietary <code>window.outerWidth</code>
+ and <code>window.outerHeight</code> [[!DOM]] properties.
 </section> <!-- /Get Window Size -->
 
 <section>
@@ -2657,7 +2650,7 @@ var respecConfig = {
   including any browser chrome and externally drawn window decorations
   to a value that is as close as possible to <var>height</var>.
 
- <li><p>Return <a>success</a> with data null.
+ <li><p>Return the value of running <a>Get Window Size</a>.
 </ol>
 
 <p class=note>The specification does not guarantee
