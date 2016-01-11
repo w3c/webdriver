@@ -222,6 +222,9 @@ var respecConfig = {
   the DOM Parsing and Serialisation specification: [[!DOM-PARSING]]
   <ul>
    <li><dfn><a href=https://w3c.github.io/DOM-Parsing/#widl-Element-innerHTML><code>innerHTML</code> IDL attribute</a></dfn>
+   <li><dfn><a href=https://w3c.github.io/DOM-Parsing/#widl-Element-outerHTML><code>outerHTML</code> IDL attribute</a></dfn>
+   <li><dfn><a data-lt="xmlserializer" href=https://w3c.github.io/DOM-Parsing/#the-xmlserializer-interface><code>XMLSerializer</code> Interface</a></dfn>
+   <li><dfn><a href=https://w3c.github.io/DOM-Parsing/#widl-XMLSerializer-serializeToString-DOMString-Node-root><code>serializeToString</code></a></dfn>
   </ul>
 
   <dd><p>The following attributes are defined in the UI Events
@@ -985,6 +988,12 @@ var respecConfig = {
   <td>GET</td>
   <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/enabled</td>
   <td><a>Is Element Enabled</a></td>
+ </tr>
+
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/source</td>
+  <td><a>Get Page Source</a></td>
  </tr>
 
  <tr>
@@ -4010,7 +4019,43 @@ following must be <var>parameters</var> after the local end has made a request t
 </section> <!-- /Element Interaction -->
 
 <section>
-<h2>Executing Script</h2>
+<h2>Document Handling</h2>
+<section>
+<h3>Getting Page Source</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/source</td>
+ </tr>
+</table>
+
+<p>The <dfn>Get Page source</dfn> <a>command</a> returns the HTML source of the
+  document as it is at the time of the call.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>Let <var>source</var> be the result returned from the
+   <a><code>outerHTML<code> IDL Attribute</a> of the <a>Document Element</a>.
+
+ <li><p>If <var>source</var> is <a>null</a>:
+   <p>Let <var>source</var> be the result of calling <code>serializeToString()</code>
+     on the <code>XMLSerializer</code> Interface.
+
+ <li><p>Return <a>success</a> with data <var>source</var>.
+</ol>
+
+</section> <!-- /Get Page Source -->
+<section>
+<h3>Executing Script</h3>
 
 <aside class=issue>
  <p>Open questions: What happens if a user's JS triggers a modal dialog?
@@ -4398,7 +4443,7 @@ following must be <var>parameters</var> after the local end has made a request t
 </ol>
 </section> <!-- /Execute Async Script -->
 </section> <!-- /Executing Script -->
-
+</section> <!-- /Document Handling -->
 <section>
 <h2>Cookies</h2>
 
