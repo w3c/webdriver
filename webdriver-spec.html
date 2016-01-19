@@ -3876,7 +3876,8 @@ following must be <var>parameters</var> after the local end has made a request t
 
 <p>The <dfn>Element Click</dfn> <a>command</a>
  <a>scrolls into view</a> the <a>element</a>
- and then attempts to click the centre of its visible area.
+ and then attempts to click the centre of the visible area of the first element of the
+   <code>DOMRectList</code> array.
  In case the <a>element</a> is <a>not displayed</a>,
  an <a>element not visible</a> <a>error</a> is returned.
 
@@ -3898,7 +3899,31 @@ following must be <var>parameters</var> after the local end has made a request t
 
  <li><p><a>Scroll into view</a> the <var>element</var>.
 
- <li><p class=issue>Get the element’s bounding box and calculate centre position.
+ <li><p class=issue><code>DOMRectList</code> has disappeared from [[GEOMETRY-1]]
+  and been replaced by <code>ArrayClass</code>,
+  but there is no reference to it
+
+ <li><p>Let <var>rect</var> be the rectangle that is the first element of the
+   <code>DOMRectList</code> array returned by calling <a>getClientRects</a>
+   on <var>element</var>.
+
+ <li><p>Let <var>visible width</var> be
+  <var>rect</var>’s <a>bounding rectangle</a>’s
+  (<a>max</a>(<a>x coordinate</a>, <a>x coordinate</a> + <a>width dimension</a>)).
+
+ <li><p>Let <var>visible height</var> be
+  <var>element</var>’s <a>bounding rectangle</a>’s
+  (<a>max</a>(<a>y coordinate</a>, <a>y coordinate</a> + <a>height dimension</a>)).
+
+ <li><p>Let <var>vertical centre offset</var>
+  be (<var>visible width</var> / 2.0).
+
+ <li><p>Let <var>horizontal centre offset</var>
+  be (<var>visible height</var> / 2.0).
+
+ <li><p>Let <var>centre point</var> be a pair of <var>rect</var>’s
+  (<a>rectangle x coordinate</a> + <var>horizontal centre offset</var>)
+  and (<a>rectangle y coordinate</a> + <var>vertical centre offset</var>)
 
  <li><p class=issue>Run interaction steps on coordinate.
 
