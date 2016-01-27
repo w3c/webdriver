@@ -1394,8 +1394,78 @@ var respecConfig = {
 <h2>Capabilities</h2>
 
 <p>WebDriver <dfn>capabilities</dfn> allow the <a>local end</a>
- to specify what features it requires the <a>remote end</a> to fulfill
+ to specify what features it desires or requires the <a>remote end</a> to fulfill
  to be able to create a <a>new session</a>.
+
+<p>The following table provides an overview
+ of recognised capabilities, and their usage and effect:
+
+<table class=simple>
+ <tr>
+  <th>Capability
+  <th>Key
+  <th>Value Type
+  <th>Description
+ </tr>
+
+ <tr>
+  <td><dfn>Browser name</dfn>
+  <td>"<code>browserName</code>"
+  <td>string
+  <td>Identifies the user agent.
+ </tr>
+
+ <tr>
+  <td><dfn>Browser version</dfn>
+  <td>"<code>browserVersion</code>"
+  <td>string
+  <td>Identifies the version of the user agent.
+ </tr>
+
+ <tr>
+  <td><dfn>Platform name</dfn>
+  <td>"<code>platformName</code>"
+  <td>string
+  <td>Identifies the system or operating system
+   of the <a>endpoint node</a>.
+ </tr>
+
+ <tr>
+  <td><dfn>Platform version</dfn>
+  <td>"<code>platformVersion</code>"
+  <td>string
+  <td>Identifies the system version of the <a>endpoint node</a>.
+ </tr>
+
+ <tr>
+  <td><dfn>Accept SSL certificates</dfn>
+  <td>"<code>acceptSslCerts</code>"
+  <td>boolean
+  <td>Indicates that the <a>endpoint node</a>
+   support invalid SSL certificates.
+ </tr>
+</table>
+
+<p>Implementations are free to use the <a>capabilities</a> dictionary
+ passed in the request to create a <a>new session</a>
+ to provide additional feature requests
+ from any of the <a>remote ends</a>, including the <a>endpoint node</a>.
+ Likewise the <a>remote end</a> may supply additional entries
+ on the <a>capabilities</a> object returned
+ from creating a <a>new session</a>.
+
+<aside class=example>
+ <p>Capabilities may for example be used
+  to provide a serialised profile for a <a>remote end</a> to use
+  during startup of the user agent binary.
+
+ <p>A fictive example of this:
+
+ <pre><code>capabilities := {}
+profile := serialise_profile("/path/to/profile")
+capabilities["profile"] = profile
+session := new_session(capabilities)</code></pre>
+</aside>
 
 <p>When <dfn>processing capabilities</dfn> with argument <var>parameters</var>
  a <a>remote end</a> must run the following steps:
