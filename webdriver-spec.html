@@ -2525,11 +2525,17 @@ session := new_session(capabilities)</code></pre>
    <dt><var>id</var> <a>represents a web element</a>
    <dd>
     <ol>
-     <li><p class=issue>Note that representing a web element
-      will have to do the same document checks, or something.
+     <li><p>Let <var>element result</var> be the result of
+      <a>getting a known element</a> by
+      <a>UUID</a> reference <var>id</var>.
 
-      <p>Let <var>element</var> be the result of <a>getting a known element</a>
-       by <a>UUID</a> <var>id</var>.
+     <li><p>If <var>element result</var> is a <a>success</a>,
+      let <var>element</var> be <var>element result</var>’s data.
+
+      <p>Otherwise, return <var>element result</var>.
+
+     <li><p>If <var>element</var> <a>is stale</a>,
+      return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
      <li><p>If <var>element</var> is not a <code>frame</code>
       or <code>iframe</code> element,
