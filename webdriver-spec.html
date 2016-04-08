@@ -2802,7 +2802,8 @@ session := new_session(capabilities)</code></pre>
 <section>
 <h2>Elements</h2>
 
-<p>A <dfn>web element</dfn> is an abstraction used to identify an <a>element</a>
+<p>A <dfn data-lt="web elements">web element</dfn>
+ is an abstraction used to identify an <a>element</a>
  when it is transported across the <a href=#protocol>protocol</a>,
  between <a>remote</a>- and <a>local</a> ends.
 
@@ -3039,16 +3040,18 @@ session := new_session(capabilities)</code></pre>
 <section>
 <h2>Element Retrieval</h2>
 
-<p>The <a>Find Element</a> and <a>Find Elements</a> <a>commands</a>
- allows look up of individual and a collection of <a>elements</a>, respectively.
+<p>The <a>Find Element</a> and <a>Find Elements</a> commands
+ allow look up of individual- and collections of <a>elements</a>.
+ Element retrieval searches are performed
+ using pre-order traversal of the document’s nodes
+ that match the provided selector’s expression.
  Elements are <a data-lt="serialize the element">serialised</a>
  and returned as <a>web elements</a>.
- <a>Web element</a> references are needed to interact with individual elements.
 
 <p>An <dfn data-lt=strategy>element location strategy</dfn>
  is an <a>enumerated attribute</a>
- which decides what technique should be used
- to search for <a>elements</a> in the <a>current browsing context</a>.
+ deciding what technique should be used
+ to search for elements in the <a>current browsing context</a>.
  The following table lists the keywords and states defined for this attribute:
 
 <table class=simple>
