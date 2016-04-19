@@ -265,6 +265,7 @@ var respecConfig = {
    <!-- Event loop --> <li><dfn><a href=https://html.spec.whatwg.org/#event-loop>Event loop</a></dfn>
    <!-- Focusing steps --> <li><dfn><a href="https://html.spec.whatwg.org/#focusing-steps">Focusing steps</a></dfn>
    <!-- Hidden --> <li><dfn><a href="https://html.spec.whatwg.org/#hidden-state-%28type=hidden%29">Hidden</a></dfn> state
+   <!-- Input type file selected --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-input-type-file-selected">Selected Files</a></dfn>
    <!-- File --> <li><dfn><a href="https://html.spec.whatwg.org/#file-upload-state-%28type=file%29">File</a></dfn> state
    <!-- Image Button --> <li><dfn><a href="https://html.spec.whatwg.org/#image-button-state-%28type=image%29">Image Button</a></dfn> state
    <!-- Joint session history --> <li><dfn><a href=https://html.spec.whatwg.org/multipage/browsers.html#joint-session-history>Joint session history</a></dfn>
@@ -4059,13 +4060,16 @@ following must be <var>parameters</var> after the local end has made a request t
  <li><p>Let <var>character array</var> be the result of <a>getting a property</a>
     <code>text</code> from the <var>parameters</var> argument.
 
- <li><p>If <var>element</var> is a <a><code>input</code></a> whose
+ <li><p>If <var>element</var> is an <a><code>input</code></a> whose
    <a><code>type</code> attribute</a> is <a>File</a>:
    <ol>
      <li><p>Let <var>text</var> be the result of
       joining together each element in <var>character array</var> to a string.
 
-     <li><p>Set the <a><code>value</code> Attribute</a> to <var>text</var>.
+     <li><p>Complete implementation specific steps equivalent to setting the
+       <a>selected files</a> on the <a><code>input</code></a>.
+
+     <li><p class=issue>Need to handle <code>&lt;input type=file multiple&gt;</code>
 
      <li><p>Jump to the last step in this overall set of steps.
    </ol>
