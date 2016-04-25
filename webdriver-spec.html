@@ -184,6 +184,19 @@ var respecConfig = {
       <li><dfn><a href="https://w3c.github.io/uievents/#events-mouse-event-order">Mouse Event Order</a></dfn>
     </ul>
 
+  <dd><p>he following attributes are defined in the UI Events Code
+    specification: [[!UIEVENTS-CODE]]
+    <ul>
+      <li><dfn data-lt="keyboard event code"><a href="https://www.w3.org/TR/uievents-code/#code-value-tables">Keyboard Event Code Tables</a></dfn>
+    </ul>
+
+  <dd><p>he following attributes are defined in the UI Events Code
+    specification: [[!UIEVENTS-KEY]]
+    <ul>
+      <li><dfn data-lt="modifier key"><a href="https://www.w3.org/TR/uievents-key/#keys-modifier">Keyboard Modifier Keys</a></dfn>
+    </ul>
+
+
  <dt>ECMAScript
  <dd><p>The following terms are defined in the ECMAScript Language Specification: [[!ECMA-262]]
   <ul>
@@ -4091,14 +4104,21 @@ following must be <var>parameters</var> after the local end has made a request t
       <li><p>Let <var>key to type</var> be the result of <a>processing keys</a>
         with argument <var>key</var>.
 
-      <li><p>Generate <a data-lt=keyDown-Event>keyDown</a> <a>Keyboard Event</a> against
-        <var>active element</var> for <var>key to type</var>.
+      <li><p>If the <var>key to type</var> is a <a>modifier key</a> then set the relevant
+        attribute on <a>Keyboard Event</a> to true for the rest of this loop.
 
-      <li><p>Generate <a data-lt=keyPress-Event>keyPress</a> <a>Keyboard Event</a> against
-        <var>active element</var> for <var>key to type</var>.
 
-      <li><p>Generate <a data-lt=keyUp-Event>keyUp</a> <a>Keyboard Event</a> against
-        <var>active element</var> for <var>key to type</var>.
+      <li><p>Generate <a data-lt=keyDown-Event>keyDown</a> <a>Keyboard Event</a>
+        with the relevant <a>keyboard event code</a> for <var>key to type</var>
+        against <var>active element</var>.
+
+      <li><p>Generate <a data-lt=keyPress-Event>keyPress</a> <a>Keyboard Event</a>
+        with the relevant <a>keyboard event code</a> for <var>key to type</var>
+        against <var>active element</var>.
+
+      <li><p>Generate <a data-lt=keyUp-Event>keyUp</a> <a>Keyboard Event</a>
+        with the relevant <a>keyboard event code</a> for <var>key to type</var>
+        against <var>active element</var>.
     </ol>
 
  <li><p>Return <a>success</a> with data null.
@@ -5212,6 +5232,8 @@ following must be <var>parameters</var> after the local end has made a request t
 
     <p>The steps for <dfn data-lt='processing keys'>processing keystrokes</dfn> are:
       <ol>
+        <li><p class=issue>This just needs to be about calculating the keys and
+          arguments and we need to remove event generation
         <li><p>Run the <a>focusing steps</a> for the element.
 
         <li><p>Let <var>modifiers</var> be equal to:
