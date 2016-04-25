@@ -296,6 +296,8 @@ var respecConfig = {
   which this specification has special-cased behaviour for:
   <ul>
    <!-- canvas element --> <li><dfn><a href=https://html.spec.whatwg.org/multipage/scripting.html#the-canvas-element><code>canvas</code> element</a></dfn>
+   <!-- frame element --> <li><a href=https://html.spec.whatwg.org/#frame><dfn><code>frame</code></dfn> element</a>
+   <!-- iframe element --> <li><a href=https://html.spec.whatwg.org/#the-iframe-element><dfn><code>iframe</code></dfn> element</a>
    <!-- input element --> <li><a href=https://html.spec.whatwg.org/#the-input-element><dfn><code>input</code></dfn> element</a>
    <!-- option element --> <li><a href=https://html.spec.whatwg.org/#the-option-element><dfn><code>option</code></dfn> element</a>
    <!-- textarea element --> <li><a href=https://html.spec.whatwg.org/#the-textarea-element><dfn><code>textarea</code></dfn> element</a>
@@ -307,6 +309,7 @@ var respecConfig = {
    <!-- Canvas height atribute --> <li><dfn><a href=https://html.spec.whatwg.org/multipage/scripting.html#attr-canvas-height><code>canvas</code>’s height attribute</a></dfn>
    <!-- Canvas width attribute --> <li><dfn><a href=https://html.spec.whatwg.org/multipage/scripting.html#attr-canvas-width><code>canvas</code>’ width attribute</a></dfn>
    <!-- Window object --> <li><dfn><a href=https://html.spec.whatwg.org/#the-window-object><code>Window</code></a></dfn> object
+   <!-- WindowProxy exotic object --> <li><dfn><a href=https://html.spec.whatwg.org/#windowproxy><code>WindowProxy</code></a></dfn> exotic object
    <!-- readOnly attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#the-readonly-attribute><code>readOnly</code> attribute</a></dfn>
    <!-- showModalDialog --> <li><dfn><a href=https://html.spec.whatwg.org/#dom-showmodaldialog><code>showModalDialog()</code></a></dfn>
    <!-- type attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-input-type><code>type</code> attribute</a></dfn>
@@ -2514,7 +2517,8 @@ session := new_session(capabilities)</code></pre>
       a <a>supported property index</a> of <var>window</var>,
       return <a>error</a> with <a>error code</a> <a>no such frame</a>.
 
-     <li><p>Let <var>child window</var> be the <code>WindowProxy</code> object
+     <li><p>Let <var>child window</var> be
+      the <a><code>WindowProxy</code></a> object
       obtained by <a>determining the value of an indexed property</a>
       of <var>window</var> with index <var>id</var>.
 
@@ -2525,14 +2529,20 @@ session := new_session(capabilities)</code></pre>
    <dt><var>id</var> <a>represents a web element</a>
    <dd>
     <ol>
-     <li><p class=issue>Note that representing a web element
-      will have to do the same document checks, or something.
+     <li><p>Let <var>element result</var> be the result of
+      <a>getting a known element</a> by
+      <a>UUID</a> reference <var>id</var>.
 
-      <p>Let <var>element</var> be the result of <a>getting a known element</a>
-       by <a>UUID</a> <var>id</var>.
+     <li><p>If <var>element result</var> is a <a>success</a>,
+      let <var>element</var> be <var>element result</var>’s data.
 
-     <li><p>If <var>element</var> is not a <code>frame</code>
-      or <code>iframe</code> element,
+      <p>Otherwise, return <var>element result</var>.
+
+     <li><p>If <var>element</var> <a>is stale</a>,
+      return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
+
+     <li><p>If <var>element</var> is not a <a><code>frame</code></a>
+      or <a><code>iframe</code></a> element,
       return <a>error</a> with <a>error code</a> <a>no such frame</a>.
 
      <li><p>Set the <a>current browsing context</a> to element’s
