@@ -154,6 +154,7 @@ var respecConfig = {
    <!-- isTrusted --> <li><dfn data-lt='is trusted'><a href="http://dom.spec.whatwg.org/#dom-event-istrusted">isTrusted</a></dfn>
    <!-- Node --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node>Node</a></dfn>
    <!-- NodeList --> <li><dfn><a href=https://dom.spec.whatwg.org/#nodelist><code>NodeList</code></a></dfn>
+   <!-- Node length --> <li><dfn><a href="https://dom.spec.whatwg.org/#concept-node-length">Node Length</a></dfn>
    <!-- ownerDocument --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-ownerdocument>ownerDocument</a></dfn>
    <!-- tagName --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-tagname>tagName</a></dfn>
    <!-- Text content --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-textcontent>Text content</a></dfn>
@@ -174,6 +175,7 @@ var respecConfig = {
       <li><dfn><a href="https://w3c.github.io/uievents/#glossary-activation-trigger">Activation Trigger</a></dfn>
       <li><dfn><a href="https://w3c.github.io/uievents/#interface-KeyboardEvent">Keyboard Event</a></dfn>
       <li><dfn data-lt="keyUp-Event"><a href="https://w3c.github.io/uievents/#event-type-keyup">keyUp Event</a></dfn>
+      <li><dfn data-lt="keyPress-Event"><a href="https://w3c.github.io/uievents/#event-type-keypress">keyPress Event</a></dfn>
       <li><dfn data-lt="keyDown-Event"><a href="https://w3c.github.io/uievents/#event-type-keydown">keyDown Event</a></dfn>
       <li><dfn><a href="https://w3c.github.io/uievents/#events-keyboard-event-order">Keyboard Event Order</a></dfn>
       <li><dfn><a href="https://w3c.github.io/uievents/#interface-MouseEvent">Mouse Event</a></dfn>
@@ -181,6 +183,19 @@ var respecConfig = {
       <li><dfn><a href="https://w3c.github.io/uievents/#event-type-mousedown">mouseup Event</a></dfn>
       <li><dfn><a href="https://w3c.github.io/uievents/#events-mouse-event-order">Mouse Event Order</a></dfn>
     </ul>
+
+  <dd><p>he following attributes are defined in the UI Events Code
+    specification: [[!UIEVENTS-CODE]]
+    <ul>
+      <li><dfn data-lt="keyboard event code"><a href="https://www.w3.org/TR/uievents-code/#code-value-tables">Keyboard Event Code Tables</a></dfn>
+    </ul>
+
+  <dd><p>he following attributes are defined in the UI Events Code
+    specification: [[!UIEVENTS-KEY]]
+    <ul>
+      <li><dfn data-lt="modifier key"><a href="https://www.w3.org/TR/uievents-key/#keys-modifier">Keyboard Modifier Keys</a></dfn>
+    </ul>
+
 
  <dt>ECMAScript
  <dd><p>The following terms are defined in the ECMAScript Language Specification: [[!ECMA-262]]
@@ -263,6 +278,8 @@ var respecConfig = {
    <!-- Event loop --> <li><dfn><a href=https://html.spec.whatwg.org/#event-loop>Event loop</a></dfn>
    <!-- Focusing steps --> <li><dfn><a href="https://html.spec.whatwg.org/#focusing-steps">Focusing steps</a></dfn>
    <!-- Hidden --> <li><dfn><a href="https://html.spec.whatwg.org/#hidden-state-%28type=hidden%29">Hidden</a></dfn> state
+   <!-- Input type file selected --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-input-type-file-selected">Selected Files</a></dfn>
+   <!-- File --> <li><dfn><a href="https://html.spec.whatwg.org/#file-upload-state-%28type=file%29">File</a></dfn> state
    <!-- Image Button --> <li><dfn><a href="https://html.spec.whatwg.org/#image-button-state-%28type=image%29">Image Button</a></dfn> state
    <!-- Joint session history --> <li><dfn><a href=https://html.spec.whatwg.org/multipage/browsers.html#joint-session-history>Joint session history</a></dfn>
    <!-- Missing value default state --> <li><dfn><a href=https://html.spec.whatwg.org/#missing-value-default>Missing value default state</a></dfn>
@@ -278,6 +295,7 @@ var respecConfig = {
    <!-- Script --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-script>Script</a></dfn>
    <!-- Script execution environment --> <li><dfn><a href=https://html.spec.whatwg.org/#script-execution-environment>Script execution environment</a></dfn>
    <!-- Selectedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-option-selectedness>Selectedness</a></dfn>
+   <!-- setSelectionRange --> <li><dfn data-lt="set selection range"><a href=https://html.spec.whatwg.org/#dom-textarea/input-setselectionrange><code>setSelectionRange</code></a></dfn>
    <!-- Settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#settings-object>Settings object</a></dfn>
    <!-- Simple dialogues --> <li><dfn data-lt="simple dialogue"><a href=https://html.spec.whatwg.org/#simple-dialogs>Simple dialogues</a></dfn>
    <!-- Submit Button --> <li><dfn><a href="https://html.spec.whatwg.org/#submit-button-state-%28type=submit%29">Submit Button</a></dfn> state
@@ -288,6 +306,7 @@ var respecConfig = {
    <!-- Tree order --> <li><dfn><a href=https://html.spec.whatwg.org/#tree-order>Tree order</a></dfn>
    <!-- User prompt --> <li><dfn data-lt="user prompts"><a href=https://html.spec.whatwg.org/#user-prompts>User prompt</a></dfn>
    <!-- Value --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-value>Value</a></dfn>
+   <!-- Value - Input --><li><dfn><a href="https://html.spec.whatwg.org/#dom-input-value"><code>value</code> Attribute</a></dfn>
   <!-- 2D context creation algorithm --> <li><dfn><a href=https://html.spec.whatwg.org/multipage/scripting.html#2d-context-creation-algorithm>2D context creation algorithm</a></dfn>
 
   </ul>
@@ -4041,18 +4060,18 @@ following must be <var>parameters</var> after the local end has made a request t
  In case the <a>element</a> is <a>not displayed</a>,
  an <a>element not visible</a> <a>error</a> is returned.
 
-<p class=issue>Should this also work for <code>contenteditable</code> elements?
-
 <p>The <a>remote end steps</a> are:
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
+<li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
+
  <li><p>Let <var>element result</var> be the result of <a>getting a known element</a>
   by <a>UUID</a> reference <var>element id</var>.
 
- <lI><p>Let <var>element</var> be <var>element result</var>’s data
+ <li><p>Let <var>element</var> be <var>element result</var>’s data
   if it is a <a>success</a>.
   Otherwise return <var>element result</var>.
 
@@ -4061,7 +4080,58 @@ following must be <var>parameters</var> after the local end has made a request t
 
  <li><p><a>Scroll into view</a> the <var>element</var>.
 
- <li><p class=issue>Interact with the element.
+ <li><p>Let <var>current text length</var> be the <a>Node Length</a>.
+
+ <li><p>Set the text insertion caret using <a>set selection range</a>
+   with using <var>current text length</var> as the 2 parameters passed in.
+
+ <li><p>Run the <a>focusing steps</a> for the <a>element</a>.
+
+ <li><p>Let <var>character array</var> be the result of <a>getting a property</a>
+    <code>text</code> from the <var>parameters</var> argument.
+
+ <li><p>If <var>element</var> is an <a><code>input</code></a> whose
+   <a><code>type</code> attribute</a> is <a>File</a>:
+   <ol>
+     <li><p>Let <var>text</var> be the result of
+      joining together each element in <var>character array</var> to a string.
+
+     <li><p>Complete implementation specific steps equivalent to setting the
+       <a>selected files</a> on the <a><code>input</code></a>.
+
+     <li><p class=issue>Need to handle <code>&lt;input type=file multiple&gt;</code>
+
+     <li><p>Jump to the last step in this overall set of steps.
+   </ol>
+
+  <li><p>Let <var>i</var> be 0.
+
+  <li><p>Let <var>length</var> be the length of <var>character array</var>.
+
+  <li><p>While <var>i</var> &lt; <var>length</var>:
+
+    <ol>
+      <li><p>Let <var>char</var> be the entry in <var>character array</var> at
+        index <var>i</var>.
+
+      <li><p>Let <var>key to type</var> be the result of <a>processing keys</a>
+        with argument <var>key</var>.
+
+      <li><p>If the <var>key to type</var> is a <a>modifier key</a> then set the relevant
+        attribute on <a>Keyboard Event</a> to true for the rest of this loop.
+
+      <li><p>Generate <a data-lt=keyDown-Event>keyDown</a> <a>Keyboard Event</a>
+        with the relevant <a>keyboard event code</a> for <var>key to type</var>
+        against <var>active element</var>.
+
+      <li><p>Generate <a data-lt=keyPress-Event>keyPress</a> <a>Keyboard Event</a>
+        with the relevant <a>keyboard event code</a> for <var>key to type</var>
+        against <var>active element</var>.
+
+      <li><p>Generate <a data-lt=keyUp-Event>keyUp</a> <a>Keyboard Event</a>
+        with the relevant <a>keyboard event code</a> for <var>key to type</var>
+        against <var>active element</var>.
+    </ol>
 
  <li><p>Return <a>success</a> with data null.
 </ol>
@@ -5174,6 +5244,8 @@ following must be <var>parameters</var> after the local end has made a request t
 
     <p>The steps for <dfn data-lt='processing keys'>processing keystrokes</dfn> are:
       <ol>
+        <li><p class=issue>This just needs to be about calculating the keys and
+          arguments and we need to remove event generation
         <li><p>Run the <a>focusing steps</a> for the element.
 
         <li><p>Let <var>modifiers</var> be equal to:
