@@ -139,6 +139,7 @@ var respecConfig = {
  <dd><p>The following terms are defined in the Document Object Model specification: [[!DOM]]
   <ul>
    <!-- Attribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-attribute>Attribute</a></dfn>
+   <!-- context object --><li><dfn><a href="https://dom.spec.whatwg.org/#context-object">context object</a></dfn>
    <!-- comapreDocumentPosition --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-comparedocumentposition>compareDocumentPosition</a></dfn>
    <!-- Document element --> <li><dfn><a href=https://dom.spec.whatwg.org/#document-element>Document element</a></dfn>
    <!-- Document --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document>Document</a></dfn>
@@ -157,6 +158,8 @@ var respecConfig = {
    <!-- NodeList --> <li><dfn><a href=https://dom.spec.whatwg.org/#nodelist><code>NodeList</code></a></dfn>
    <!-- Node length --> <li><dfn><a href="https://dom.spec.whatwg.org/#concept-node-length">Node Length</a></dfn>
    <!-- ownerDocument --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-ownerdocument>ownerDocument</a></dfn>
+   <!-- querySelector --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselector"><code>querySelector</code></a></dfn>
+   <!-- querySelectorAll --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall"><code>querySelectorAll</code></a></dfn>
    <!-- tagName --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-tagname>tagName</a></dfn>
    <!-- Text content --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-textcontent>Text content</a></dfn>
    <!-- Text node --> <li><dfn><a href=https://dom.spec.whatwg.org/#text><code>Text</code> node</a></dfn>
@@ -319,6 +322,7 @@ var respecConfig = {
    <!-- frame element --> <li><a href=https://html.spec.whatwg.org/#frame><dfn><code>frame</code></dfn> element</a>
    <!-- iframe element --> <li><a href=https://html.spec.whatwg.org/#the-iframe-element><dfn><code>iframe</code></dfn> element</a>
    <!-- canvas element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-canvas-element><code>canvas</code> element</a></dfn>
+   <!-- HTML Element --> <li><dfn><a href="https://html.spec.whatwg.org/#the-html-element"><code>html</code> element</a></dfn>
    <!-- input element --> <li><a href=https://html.spec.whatwg.org/#the-input-element><dfn data-lt="input elements|input"><code>input</code> element</dfn></a>
    <!-- option element --> <li><a href=https://html.spec.whatwg.org/#the-option-element><dfn><code>option</code></dfn> element</a>
    <!-- textarea element --> <li><a href=https://html.spec.whatwg.org/#the-textarea-element><dfn><code>textarea</code> element</dfn></a>
@@ -3113,21 +3117,34 @@ session := new_session(capabilities)</code></pre>
  </tr>
 </table>
 
-<p class=issue><strong>Warning:</strong>
- This rest of this section has not yet been redefined to match the <a>routing requests</a> model,
- and uses old concepts and definitions.
- Please do not rely on it yet.
+
 
 <section>
 <h3>CSS Selectors</h3>
 
-<p>Strategy name: css selector</p>
+<p>To find a <a>WebElement</a> with the <dfn>CSS Selector</dfn> <a>strategy</a>
+  the following steps need to be completed:
 
-<p>If a browser supports the
-<a href="http://dev.w3.org/2006/webapi/selectors-api/">CSS Selectors API</a> ([[!SELECTORS-API]]) it MUST support locating elements by
-CSS Selector. If the browser does not support the browser CSS Selector spec it MAY choose to implement locating
-by this mechanism. If the browser can support locating elements by CSS Selector, it MUST set the "cssSelector" capability to boolean true when responding to the <a href="#newsession">newSession()</a>. Elements MUST be returned in the same order as if "<code>querySelectorAll</code>" had been called with the <code>Locator</code>'s <code>value</code>. Compound selectors are allowed.</p>
+  <ul>
+    <li><p>Match on <var>all</var>:
+      <dl class="switch">
+        <dt>true
+        <dd>Let <var>elements</var> be the result of
+          calling <a>querySelectorAll</a> with <var>selector</var> with the
+          <a>context object</a> equal to the <var>start node</var>.
+        <dt>false
+        <dd>let <var>elements</var> be the result of calling <a>querySelector</a>
+          with the <a>context object</a> equal to the <var>start node</var>.
+      </dl>
+    <li><p>Return <var>elements</var>.
+
+  </ul>
 </section> <!-- /CSS Selector -->
+
+<p class=issue><strong>Warning:</strong>
+ This rest of this section has not yet been redefined to match the <a>routing requests</a> model,
+ and uses old concepts and definitions.
+ Please do not rely on it yet.
 
 <section>
 <h3>ECMAScript</h3>
