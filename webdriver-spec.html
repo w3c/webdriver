@@ -3228,12 +3228,7 @@ following must be <var>parameters</var> after the local end has made a request t
 </ol>
 
 <section>
-<h3>Find Element</h3>
-
-<p class=issue><strong>Warning:</strong>
- This section has not yet been redefined to match the <a>routing requests</a> model,
- and uses old concepts and definitions.
- Please do not rely on it yet.
+<h3>Finding Elements to interact</h3>
 
 <p>
 <table class="simple jsoncommand">
@@ -3247,132 +3242,144 @@ following must be <var>parameters</var> after the local end has made a request t
  </tr>
 </table>
 
+<p>The <dfn>Find Element</dfn> <a>command</a> is used
+  to find an element in the <a>current browsing context</a> that can be used for
+  future <a>commands</a>.
+
+<p>The <a>remote end steps</a> are:
+
 <ol>
- <li>Let <var>id</var> be an identifier for a DOMElement returned from <a href='#element-location-strategies'>Element Location Strategy</a>.
-   If a NodeList is returned, the first element in the NodeList MUST be used.
-   <p>If <var>id</var> is empty:
-     <ul>
-       <li>Let the HTTP response status code be 501</li>
-       <li>Let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
-       <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
-     </ul>
-   <p>If an error is returned from <a href='#element-location-strategies'>Element Location Strategy</a> do the following.(todo describe how the error is returned)
-     <ul>
-       <li>Let the HTTP response status code be 501</li>
-       <li>Let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
-       <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
-     </ul>
- </li>
- <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
- <li>Return <var>result</var>. The object returned will look like the following:
-<pre>{
-"value": {"element-6066-11e4-a52e-4f735466cecf": id}
-}</pre>
- </li>
+ <li><p>Let <var>all</var> be equal to false.
+
+ <li><p>Let <var>start node </var> be <a><code>html</code> element</a>.
+
+ <li><p>Let <var>location strategy</var> be the result of <a>getting a property</a> called "<code>using</code>".
+
+ <li><p>Let <var>selector</var> be the result of <a>getting a property</a> called "<code>value</code>".
+
+ <li>Return the result of <a>Find</a> with <var>all</var>, <var>start node</var>,
+   <var>location strategy</var>, and <var>selector</var>.
 </ol>
 
-<p>When searching from an element from another element the following algorithm should be used:
-
+<p>
 <table class="simple jsoncommand">
  <tr>
-   <th>HTTP Method</th>
-   <th>Path Template</th>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
  </tr>
  <tr>
-   <td>POST</td>
-   <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/element</td>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/elements</td>
  </tr>
 </table>
 
-<ol>
- <li>Let <var><a href="#uri-template-element">element</a></var> be the start node for the query in the <a href='#element-location-strategies'>Element Location Strategy</a></li>
- <li>Let <var>id</var> be a <a href='#webelement-unique-identifier'>unique identifier</a> for the DOMElement returned from <a href='#element-location-strategies'>Element Location Strategy</a>.
-   If a NodeList is returned, the first DOMElement in the NodeList MUST be used.
-   <p>If <var>id</var> is empty:
-     <ul>
-       <li>Let the HTTP response status code be 501</li>
-       <li>Let <var>status</var> contain the error <code><a href="#status-no-such-element">no such element</a></code></li>
-       <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
-     </ul>
-   <p>If an error is returned from <a href='#element-location-strategies'>Element Location Strategy</a> do the following.(todo describe how the error is returned)
-     <ul>
-       <li>Let the HTTP response status code be 501</li>
-       <li>Let <var>status</var> contain the error <code><a href="#status-invalid-selector">invalid selector</a></code></li>
-       <li>Let <var>value</var> contain the details of the search contained in <var>using</var> and <var>value</var> above.</li>
-     </ul>
- </li>
- <li>Let <var>result</var> be equal to <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code></li>
- <li>Return <var>result</var>. The object returned will look like the following:
-<pre>{
-"value": {"element-6066-11e4-a52e-4f735466cecf": id}
-}</pre>
- </li>
-</ol>
+<p>The <dfn>Find Elements</dfn> <a>command</a> is used
+  to find an elements in the <a>current browsing context</a> that can be used for
+  future <a>commands</a>.
+
+  <ol>
+   <li><p>Let <var>all</var> be equal to true.
+
+   <li><p>Let <var>start node </var> be <a><code>html</code> element</a>.
+
+   <li><p>Let <var>location strategy</var> be the result of <a>getting a property</a> called "<code>using</code>".
+
+   <li><p>Let <var>selector</var> be the result of <a>getting a property</a> called "<code>value</code>".
+
+   <li>Return the result of <a>Find</a> with <var>all</var>, <var>start node</var>,
+     <var>location strategy</var>, and <var>selector</var>.
+  </ol>
+
+  <table class="simple jsoncommand">
+   <tr>
+     <th>HTTP Method</th>
+     <th>Path Template</th>
+   </tr>
+   <tr>
+     <td>POST</td>
+     <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/element</td>
+   </tr>
+ </table>
+
+ <p>The <dfn>Find Element from element</dfn> <a>command</a> is used
+   to find an element from a current <a>WebElement</a> in the <a>current browsing context</a>
+   that can be used for future <a>commands</a>.
+
+   <ol>
+    <li><p>Let <var>all</var> be equal to false.
+
+    <li><p>Let <var>start node </var> be the result of
+     <a>getting a known element</a> by <a>UUID</a> <var>reference</var>.
+
+    <li><p>Let <var>location strategy</var> be the result of <a>getting a property</a> called "<code>using</code>".
+
+    <li><p>Let <var>selector</var> be the result of <a>getting a property</a> called "<code>value</code>".
+
+    <li>Return the result of <a>Find</a> with <var>all</var>, <var>start node</var>,
+      <var>location strategy</var>, and <var>selector</var>.
+   </ol>
+
+   <table class="simple jsoncommand">
+    <tr>
+      <th>HTTP Method</th>
+      <th>Path Template</th>
+    </tr>
+    <tr>
+      <td>POST</td>
+      <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/elements</td>
+    </tr>
+   </table>
+
+   <p>The <dfn>Find Elements from element</dfn> <a>command</a> is used
+    to find elements from a current <a>WebElement</a> in the <a>current browsing context</a>
+    that can be used for future <a>commands</a>.
+
+    <ol>
+     <li><p>Let <var>all</var> be equal to true.
+
+     <li><p>Let <var>start node </var> be the result of
+      <a>getting a known element</a> by <a>UUID</a> <var>reference</var>.
+
+     <li><p>Let <var>location strategy</var> be the result of <a>getting a property</a> called "<code>using</code>".
+
+     <li><p>Let <var>selector</var> be the result of <a>getting a property</a> called "<code>value</code>".
+
+     <li>Return the result of <a>Find</a> with <var>all</var>, <var>start node</var>,
+       <var>location strategy</var>, and <var>selector</var>.
+    </ol>
+
+
+<p>When required to <dfn>find</dfn> with arguments <var>all</var>, <var>start node</var>,
+  <var>using</var> and <var>value</var>, a <a>remote end</a> must run the following steps:
+
+<ul>
+  <li><p>Let <var>location strategy</var> be equal to <var>using</var>.
+
+  <li><p>Let <var>selector</var> be equal to <var>value</var>.
+
+  <li><p>Let <var>result</var> be an empty JSON list.
+
+  <li><p>Let <var>elements returned</var> be the result of the relevant <a href='#element-location-strategies'>Element Location Strategy</a>
+    call with arguments <var>all</var>, <var>start node</var>, .
+
+  <li><p>If <var>elements returned</var> is an empty <a>NodeList</a>, match on <var>all</var>:
+    <dl class=switch>
+      <dt>true
+      <dd>Return <a>success</a> with empty JSON List.
+      <dt>false
+      <dd>Return an <a>error</a> <code><a href="#status-no-such-element">no such element</a></code>.
+      <dt>otherwise
+      <dd>Return an <a>error</a> <code><a href="#status-invalid-selector">invalid selector</a></code>.
+    </dl>
+  <li><p>Let <var>result</var> be an empty JSON list.
+  <li><p>For each <var>element</var> in <var>elements returned</var>:
+    <ul>
+      <li><p><a>Serialize the element</a> <var>element</var> and append to <var>result</var>.
+    </ul>
+  <li><p>Return <var>result</var>.
+</ul>
+
 </section> <!-- /Find Element -->
-
-<section>
-<h3>Find Elements</h3>
-
-<p class=issue><strong>Warning:</strong> This section has not yet been redefined to match the <a>routing requests</a> model, and uses old concepts and definitions.  Please do not rely on it yet.
-
-<p>When there is a need to find multiple elements on a document that we can return to the local end we use the following algorithm:
-
-<table class="simple jsoncommand">
- <tr>
-   <th>HTTP Method</th>
-   <th>Path Template</th>
- </tr>
- <tr>
-   <td>POST</td>
-   <td>/session/{<var>session id</var>}/elements</td>
- </tr>
-</table>
-
-<ol>
- <li>Let <var>result</var> be equal to an empty list</li>
- <li>Let <var>queryResult</var> be a NodeList returned from <a href='#element-location-strategies'>Element Location Strategy</a></li>
- <li>Repeat for every value in <var>queryResult</var> if not an empty set else return <var>result</var>
-     <ol>
-       <li>Let <var>id</var> be the <a href='#webelement-unique-identifier'>unique identifier</a> for the DOMElement.</li>
-       <li>Append <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code> to <var>result</var></li>
-     </ol>
- </li>
- <li>Return <var>result</var>. The object returned will look like the following:
-<pre>{
-"value": [{"element-6066-11e4-a52e-4f735466cecf": id}, {"element-6066-11e4-a52e-4f735466cecf": id}]
-}</pre>
- </li>
-</ol>
-
-<p>When there is a need to search from an element to find the next WebElement we use the following algorithm:
-
-<table class="simple jsoncommand">
- <tr>
-   <th>HTTP Method</th>
-   <th>Path Template</th>
- </tr>
- <tr>
-   <td>POST</td>
-   <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/elements</td>
- </tr>
-</table>
-
-<ol>
- <li>Let <var>result</var> be equal to an empty list.</li>
- <li>Let <var><a href="#uri-template-element">element</a></var> be the start node for the query in the <a href='#element-location-strategies'>Element Location Strategy</a></li>
- <li>Let <var>queryResult</var> be a NodeList returned from <a href='#element-location-strategies'>Element Location Strategy</a></li>
- <li>Repeat for every value in <var>queryResult</var> if not an empty set else return <var>result</var>
-     <ol>
-       <li>Let <var>id</var> be the <a href='#webelement-unique-identifier'>unique identifier</a> for the DOMElement.</li>
-       <li>Append <code>{"element-6066-11e4-a52e-4f735466cecf": <var>id</var>}</code> to <var>result</var></li>
-     </ol>
- </li>
- <li>Return <var>result</var>. The object returned will look like the following:
-<pre>{
-"value": [{"element-6066-11e4-a52e-4f735466cecf": id}, {"element-6066-11e4-a52e-4f735466cecf": id}]
-}</pre></li>
-</ol>
-</section> <!-- /Find Elements -->
 </section> <!-- /Element Retrieval -->
 
 <section>
