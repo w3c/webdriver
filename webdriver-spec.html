@@ -3139,28 +3139,30 @@ session := new_session(capabilities)</code></pre>
     <li><p>Return <var>elements</var>.
   </ol>
 
-<section>
 <h3>Link Text</h3>
+<p>To find a <a>Web Element</a> with the <dfn data-lt="link text selector">Link Text</dfn>
+   <a>strategy</a> the following steps need to be completed:
 
-<p>Strategy name: link text</p>
+<ol>
+  <li><p>Let <var>elements</var> be the result of calling <a>querySelectorAll</a>,
+    with argument <a><code>a</code> elements</a>, with the <a>context object</a> equal to the
+    <var>start node</var>.
 
-<p>This strategy MUST be supported by all WebDriver implementations. </p>
+  <li><p>Let <var>result</var> be an empty <a>NodeList</a>.
 
-<p>This strategy MUST return all <a href="http://www.w3.org/TR/html5/text-level-semantics.html#the-a-element">"a"</a> elements with visible text exactly and case sensitively equal to the term being searched for.</p>
+  <li><p>For each <var>element</var> in <var>elements</var>:
+    <ol>
+      <li><p>Let <var>rendered text</var> be
+       the result of <a>getting <code>innerText</code></a>
+       of <var>element</var>.
 
-<div class="note">
-      <p>This is equivalent to:</p>
-      <pre>
-            elements = driver.find_elements(by = By.TAG_NAME, value = "a")
-            result = []
-            for element in elements:
-              text = element.text
-              if text == search_term:
-                result.append(element)
-          </pre>
-          <p>Where "search_term" is the link text being searched for, and "result" contains the list of elements to return.</p>
-    </div>
-</section> <!-- /Link Text -->
+      <li><p>If <var>rendered text</var> equals <var>selector</var>, append
+        <var>element</var> to <var>result</var>.
+    </ol>
+
+  <li><p>Return <var>result</var>.
+</ol>
+
 
 <section>
 <h2>Partial Link Text</h2>
