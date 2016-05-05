@@ -459,7 +459,15 @@ var respecConfig = {
   <ul>
    <li><dfn data-lt="supported property index"><a href=http://heycam.github.io/webidl/#dfn-supported-property-indices>Supported property indices</a></dfn>
    <li><dfn><a href="https://heycam.github.io/webidl/#syntaxerror"><code>SyntaxError</code></a></dfn></li>
+   <!-- DOMException --><li><a href="https://heycam.github.io/webidl/#dfn-DOMException"><dfn><code>DOMException</code></dfn></a>
   </ul>
+
+  <dt>XPATH
+  <dd><p>The following terms are defined in the Document Object Model XPath standard [[!XPATH]]
+    <ul>
+      <!-- evaluate --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate"><dfn><code>evaluate</code></dfn></a>
+      <!-- XPathException --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathException"><dfn><code>XPathException</code></dfn></a>
+    </ul>
 </dl>
 </section> <!-- /Dependencies -->
 </section> <!-- /Conformance -->
@@ -3196,34 +3204,15 @@ session := new_session(capabilities)</code></pre>
   </ol>
 
 
-<section>
-<h2>XPath</h2>
-<p>Strategy name: xpath</p>
-<p>All WebDriver implementations MUST support finding elements by XPath 1.0 [[!XPATH]] with the <a href="http://dev.w3.org/html5/spec/Overview.html#interactions-with-xpath-and-xslt">edits from section 3.3</a> of the [[!html51]] specification made. If no native support is present in the browser, a pure JS implementation MAY be used. When called, the returned values MUST be equivalent of calling "<a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate">evaluate</a>" function from [[!DOM-LEVEL-3-XPATH]] with the result type set to <a href="http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE">ORDERED_NODE_SNAPSHOT_TYPE</a> (7).</p>
-</section> <!-- /XPath -->
+<h3>XPath</h3>
+<p>To find a <a>Web Element</a> with the <dfn>XPath Selector</dfn> <a>strategy</a>
+  the following steps need to be completed:
 
-<p>When the <a href='#findelement'>findElement()</a> or <a href='#findelements'>findElements()</a> WebDriver Command is called the
-following must be <var>parameters</var> after the local end has made a request to the remote end:
-
-<ol>
- <li>Let <var>using</var> contain the <a href='#element-location-strategies'>Element Location Strategy</a>.
- If it is not a valid strategy:
-  <ul>
-   <li>Set the HTTP Response status code to 500</li>
-   <li>Let <var>status</var> be equal to <code><a href='#status-invalid-selector'>Invalid Selector</a></code></li>
-   <li>Let <var>value</var> be a statement that the strategy is invalid. It MAY return a list of valid search strategies.</li>
-  </ul>
- </li>
- <li>Let <var>value</var> contain a string that will be passed to the <a href='#element-location-strategies'>Element Location Strategy</a> call.
- If <var>value</var> is an empty string or null:
-  <ul>
-   <li>Set the HTTP Response status code to 500</li>
-   <li>Let <var>status</var> be equal to <a href='#status-invalid-selector'>Invalid Selector</a></li>
-   <li>Let <var>value</var> to a stating that the strategy is invalid. It MAY return a list of valid search strategies.</li>
-  </ul>
- </li>
- <li>Call the relevant <a href='#element-location-strategies'>Element Location Strategy</a> and return what is described in <a href='#findelement'>findElement()</a> or <a href='#findelements'>findElements()</a> WebDriver Command described below.</li>
-</ol>
+  <ol>
+    <li><p>Return the result of calling <a><code>evaluate</code></a>,
+      with arguments <var>selector</var>, <a>context object</a> equal to the
+      <var>start node</var>.
+  </ol>
 </section> <!-- /Locator Strategies -->
 <section>
 <h3>Finding Elements to interact</h3>
@@ -3366,7 +3355,9 @@ following must be <var>parameters</var> after the local end has made a request t
       <dd>Return <a>success</a> with empty JSON List.
       <dt>false
       <dd>Return an <a>error</a> <code><a href="#status-no-such-element">no such element</a></code>.
+      <dt><a><code>DOMException</code></a>
       <dt><a><code>SyntaxError</code></a>
+      <dt><a><code>XPathException</code></a>
       <dd>Return an <a>error</a> <code><a href="#status-invalid-selector">invalid selector</a></code>.
     </dl>
   <li><p>Let <var>result</var> be an empty JSON list.
