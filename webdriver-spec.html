@@ -3085,6 +3085,8 @@ session := new_session(capabilities)</code></pre>
  Elements are <a data-lt="serialize the element">serialised</a>
  and returned as <a>web elements</a>.
 
+<section>
+<h3>Locator Strategies</h3>
 <p>An <dfn data-lt=strategy>element location strategy</dfn>
  is an <a>enumerated attribute</a>
  deciding what technique should be used
@@ -3163,29 +3165,36 @@ session := new_session(capabilities)</code></pre>
   <li><p>Return <var>result</var>.
 </ol>
 
+<h3>Partial Link Text</h3>
 
-<section>
-<h2>Partial Link Text</h2>
+<p>The <dfn data-lt="partial link text selector">Partial link text</dfn> <a>strategy</a>
+  is very similar to the <a>Link Text</a> <a>strategy</a>, but rather than matching
+  the entire string, only a substring needs to match. That is, return all
+  <a><code>a</code> elements</a> with rendered text that contains the selector expression.
 
-<p>Strategy name: partial link text</p>
+<p>To find a <a>Web Element</a> with the <a>Partial Link Text</a> <a>strategy</a>
+  the following steps need to be completed:
 
-<p>This strategy MUST be supported by all WebDriver implementations.</p>
+  <ol>
+    <li><p>Let <var>elements</var> be the result of calling <a>querySelectorAll</a>,
+      with argument <a><code>a</code> elements</a>, with the <a>context object</a> equal to the
+      <var>start node</var>.
 
-<p>This strategy is very similar to <a href="#link-text">link text</a>, but rather than matching the entire string, only a subset needs to match. That is, this MUST return all <a href="http://www.w3.org/TR/html5/text-level-semantics.html#the-a-element">"a"</a> elements with visible text that partially or completely and case sensitively matches the term being searched for.</p>
+    <li><p>Let <var>result</var> be an empty <a>NodeList</a>.
 
-<div class="note">
-      <p>This is equivalent to:</p>
-      <pre>
-            elements = driver.find_elements(by = By.TAG_NAME, value = "a")
-            result = []
-            for element in elements:
-              text = element.text
-              if text.search(search_term) != -1:
-                result.append(element)
-          </pre>
-          <p>Where "search_term" is the link text being searched for, and "result" contains the list of elements to return.</p>
-    </div>
-</section> <!-- /Partial Link Text -->
+    <li><p>For each <var>element</var> in <var>elements</var>:
+      <ol>
+        <li><p>Let <var>rendered text</var> be
+         the result of <a>getting <code>innerText</code></a>
+         of <var>element</var>.
+
+        <li><p>If <var>rendered text</var> contains <var>selector</var>, append
+          <var>element</var> to <var>result</var>.
+      </ol>
+
+    <li><p>Return <var>result</var>.
+  </ol>
+
 
 <section>
 <h2>XPath</h2>
@@ -3215,7 +3224,7 @@ following must be <var>parameters</var> after the local end has made a request t
  </li>
  <li>Call the relevant <a href='#element-location-strategies'>Element Location Strategy</a> and return what is described in <a href='#findelement'>findElement()</a> or <a href='#findelements'>findElements()</a> WebDriver Command described below.</li>
 </ol>
-
+</section> <!-- /Locator Strategies -->
 <section>
 <h3>Finding Elements to interact</h3>
 
