@@ -412,6 +412,7 @@ var respecConfig = {
  <dd>The following terms are defined in
   the Geometry Interfaces Module Level 1 specification: [[!GEOMETRY-1]]
   <ul>
+   <!-- DOMRect --> <li><a href="https://www.w3.org/TR/geometry-1/#dom-domrect"><dfn><code>DOMRect</code></dfn></a>
    <!-- Rectangle --> <li><dfn data-lt="bounding rectangle"><a href=https://drafts.fxtf.org/geometry/#rectangle>Rectangle</a></dfn>
    <!-- Rectangle height dimension --> <li><dfn data-lt="height dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-height-dimension>Rectangle height dimension</a></dfn>
    <!-- Rectangle width dimension --> <li><dfn data-lt="width dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-width-dimension>Rectangle width dimension</a></dfn>
@@ -457,6 +458,7 @@ var respecConfig = {
   must be interpreted as required for conforming IDL fragments,
   as described in the Web IDL specification. [[!WEBIDL]]
   <ul>
+   <!-- Sequence --><li><a href="https://heycam.github.io/webidl/#idl-sequence"><dfn>Sequence</dfn></a>
    <li><dfn data-lt="supported property index"><a href=http://heycam.github.io/webidl/#dfn-supported-property-indices>Supported property indices</a></dfn>
    <li><dfn><a href="https://heycam.github.io/webidl/#syntaxerror"><code>SyntaxError</code></a></dfn></li>
    <!-- DOMException --><li><a href="https://heycam.github.io/webidl/#dfn-DOMException"><dfn><code>DOMException</code></dfn></a>
@@ -3922,7 +3924,7 @@ session := new_session(capabilities)</code></pre>
 <p>The <dfn>Element Click</dfn> <a>command</a>
  <a>scrolls into view</a> the <a>element</a>
  and then attempts to click the centre of the visible area of the first element of the
-   <code>DOMRectList</code> array.
+   <a><code>DOMRect</code></a> <a>sequence</a>.
  In case the <a>element</a> is <a>not displayed</a>,
  an <a>element not visible</a> <a>error</a> is returned.
 
@@ -3944,12 +3946,8 @@ session := new_session(capabilities)</code></pre>
 
  <li><p><a>Scroll into view</a> the <var>element</var>.
 
- <li><p class=issue><code>DOMRectList</code> has disappeared from [[GEOMETRY-1]]
-  and been replaced by <code>ArrayClass</code>,
-  but there is no reference to it
-
  <li><p>Let <var>rect</var> be the rectangle that is the first element of the
-   <code>DOMRectList</code> array returned by calling <a>getClientRects</a>
+   <a><code>DOMRect</code></a> <a>sequence</a> returned by calling <a>getClientRects</a>
    on <var>element</var>.
 
  <li><p>Let <var>visible width</var> be
@@ -6266,17 +6264,13 @@ session := new_session(capabilities)</code></pre>
     or <code>overflow-y</code> is "hidden":
 
    <ol>
-    <li><p class=issue><code>DOMRectList</code> has disappeared from [[GEOMETRY-1]]
-     and been replaced by <code>ArrayClass</code>,
-     but there is no reference to it.
-
      <p>Let <var>parent dimensions</var> be the <a>rectangle</a>
-     that is the first element of the <code>DOMRectList</code>
-     array returned by calling <a>getClientRects</a> on <var>parent</var>.
+     that is the first element of the <a><code>DOMRect</code></a>
+     <a>sequence</a> returned by calling <a>getClientRects</a> on <var>parent</var>.
 
     <li><p>Let <var>element dimensions</var> be the <a>rectangle</a>
-     that is the first element of the <code>DOMRectList</code>
-     array returned by calling <a>getClientRects</a> on <var>element</var>.
+     that is the first element of the <code>DOMRect</code>
+     <a>sequence</a> returned by calling <a>getClientRects</a> on <var>element</var>.
 
     <li><p>Let <var>parent style</var> be the computed style of <var>parent</var>.
 
