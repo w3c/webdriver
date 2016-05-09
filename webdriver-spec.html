@@ -2372,6 +2372,40 @@ session := new_session(capabilities)</code></pre>
   </dl>
 </ol>
 
+<p>The <a>top-level browsing context</a> is said
+ to be <dfn>no longer open</dfn> if it has been <a>discarded</a>.
+
+<p>Each <a>browsing context</a> has an associated
+ <dfn data-lt="window handle|window handles">window handle</dfn> (string)
+ uniquely identifying it.
+ It must not be "<code>current</code>".
+
+<p>The <dfn>web window identifier</dfn>
+ is the string constant "<code>window-fcc6-11e5-b4f8-330a88ab9d7f</code>".
+
+<p>The <dfn>web frame identifier</dfn>
+ is the string constant "<code>frame-075b-4da1-b6ba-e579c2d3230a</code>".
+
+<p>The <dfn>JSON serialisation of the <code>WindowProxy</code> object</dfn>
+ is the JSON Object obtained by applying the following algorithm
+ to the given <a><code>WindowProxy</code> object</a> <var>window</var>:
+
+<ol>
+ <li><p>Let <var>identifier</var> be the <a>web window identifier</a>
+  if the associated <a>browsing context</a> of <var>window</var>
+  is a <a>top-level browsing context</a>.
+
+  <p>Otherwise let it be the <a>web frame identifier</a>.
+
+ <li><p>Return a JSON Object initialised with the following properties:
+ 
+  <dl>
+   <dt><var>identifier</var>
+   <dd><p>Associated <a>window handle</a>
+    of the <var>window</var>’s <a>browsing context</a>.
+  </dl>
+</ol>
+
 <p class=note>In accordance with
  the <a href=http://www.w3.org/TR/html5/editing.html#focus>focus</a>
  section of the [[!HTML]] specification,
