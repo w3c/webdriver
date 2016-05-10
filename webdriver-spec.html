@@ -1216,6 +1216,15 @@ var respecConfig = {
  </tr>
 
  <tr>
+  <td><dfn>no such cookie</dfn>
+  <td>404
+  <td><code>no such cookie</code>
+  <td>Caused when attempting to
+   <a data-lt="delete cookie">delete a specific cookie</a>
+   and it does not exist.
+ </tr>
+
+ <tr>
   <td><dfn>no such element</dfn>
   <td>404
   <td><code>no such element</code>
@@ -4728,6 +4737,8 @@ session := new_session(capabilities)</code></pre>
  <var>name</var> that is a string:
 
 <ol>
+ <li><p>Let <var>deleted cookies</var> be an integer counter.
+
  <li><p>For each <a>cookie</a> among <a>all associated cookies</a> of
   the <a>current browsing context</a>’s <a>active document</a>, if:
 
@@ -4735,8 +4746,11 @@ session := new_session(capabilities)</code></pre>
    <dt><var>name</var> is undefined
    <dt><var>name</var> is equal to <a>cookie name</a>
    <dd><p>Set the <a>cookie expiry time</a>
-    to a <a>Unix timestamp</a> in the past.
+    to a <a>Unix timestamp</a> in the past,
+    and increase <var>deleted cookies</var> by 1.
   </dl>
+
+ <li><p>Return <var>deleted cookies</var>.
 </ol>
 
 <section>
@@ -4899,7 +4913,11 @@ session := new_session(capabilities)</code></pre>
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
  <li><p><a>Delete cookies</a> using
-  the <var>name</var> parameter as the filter argument.
+  the <var>name</var> parameter as the filter argument,
+  assigning its return value to <var>deleted cookies</var>.
+
+ <li><p>If the number of <var>deleted cookies</var> is 0,
+  return <a>error</a> with <a>error code</a> <a>no such cookie</a>.
 
  <li><p>Return <a>success</a> with data null.
 </ol>
