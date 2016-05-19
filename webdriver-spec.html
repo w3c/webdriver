@@ -2928,20 +2928,9 @@ session := new_session(capabilities)</code></pre>
   <var>element</var>’s <a>web element reference</a>.
 </ol>
 
-<p>When asked to
- <dfn data-lt="serialize the element|serialization of the element">serialize the element</dfn>
- <var>element</var>:
-
-<ol>
- <li><p>Let <var>object</var> be a new JSON Object with properties:
-
-  <dl>
-   <dt><a>web element identifier</a>
-   <dd><p>Value of <var>element</var>’s <a>web element reference</a>.
-  </dl>
-
- <li><p>Return <var>object</var>.
-</ol>
+<p>The <dfn>JSON serialisation of an element</dfn>
+ is a JSON Object where the <a>web element identifier</a> key
+ is mapped to the <a>element</a>’s <a>web element reference</a>.
 
 <p>When required to <dfn>deserialize the web element</dfn>
  by a JSON Object <var>object</var> that <a>represents a web element</a>:
@@ -3102,8 +3091,9 @@ session := new_session(capabilities)</code></pre>
  <li><p>Let <var>active element</var> be the <a>active element</a>
   of the <a>current browsing context</a>’s <a>document element</a>.
 
- <li><p>Let <var>active web element</var> be the
-  <a>serialization of the element</a> <var>active element</var>.
+ <li><p>Let <var>active web element</var>
+  be the <a data-lt="JSON serialisation of an element">JSON serialisation</a>
+  of <var>active element</var>.
 
  <li><p>Return <a>success</a> with data <var>active web element</var>.
 </ol>
@@ -3118,7 +3108,7 @@ session := new_session(capabilities)</code></pre>
  Element retrieval searches are performed
  using pre-order traversal of the document’s nodes
  that match the provided selector’s expression.
- Elements are <a data-lt="serialize the element">serialised</a>
+ Elements are <a data-lt="JSON serialisation of an element">serialised</a>
  and returned as <a>web elements</a>.
 
 <section>
@@ -3391,7 +3381,9 @@ session := new_session(capabilities)</code></pre>
   <li><p>Let <var>result</var> be an empty JSON list.
   <li><p>For each <var>element</var> in <var>elements returned</var>:
     <ul>
-      <li><p><a>Serialize the element</a> <var>element</var> and append to <var>result</var>.
+      <li><p>Append to <var>result</var>
+       the <a data-lt="JSON serialisation of an element">JSON serialisation</a>
+       of the <var>element</var>.
     </ul>
   <li><p>Return <var>result</var>.
 </ol>
@@ -4271,7 +4263,9 @@ session := new_session(capabilities)</code></pre>
  <dd><p><a>Success</a> with data <var>value</var>.
 
  <dt>instance of <a>element</a>
- <dd><p><a>Serialize the element</a> with argument <var>value</var>.
+ <dd><p><a>Success</a> with
+  the <a data-lt="JSON serialisation of an element">JSON serialisation</a>
+  of the <a>web element</a> <var>value</var>.
 
  <dt>a <a><code>WindowProxy</code> object</a>
  <dd><p><a>Success</a> with
