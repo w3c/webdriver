@@ -2896,11 +2896,17 @@ session := new_session(capabilities)</code></pre>
   the <a>current top-level browsing context</a> for any reason,
   return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
 
+ <li><p>If the <code>x</code> or <code>y</code> properties
+  are missing from the <var>parameters</var> argument,
+  or they are not integers,
+  or less than 0 or greater than 2<sup>64</sup> – 1,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
  <li><p>Let <var>x</var> be the result of <a>getting a property</a>
-  named "<code>y</code>" from the <var>parameters</var> argument.
+  named <code>y</code> from the <var>parameters</var> argument.
 
  <li><p>Let <var>y</var> be the result of <a>getting a property</a>
-  named "<code>x</code>" from the <var>parameters</var> argument.
+  named <code>x</code> from the <var>parameters</var> argument.
 
  <li><p>Run the implementation-specific steps
   to set the position of the operating system level window
