@@ -2671,15 +2671,27 @@ session := new_session(capabilities)</code></pre>
  Where a <a>command</a> is not supported,
  an <a>unsupported operation</a> <a>error</a> is returned.
 
-<p>The <dfn data-lt="window dimension">window dimensions</dfn>
- of a <a>top-level browsing context</a>
- denotes the outer dimensions,
- including any browser chrome and externally drawn window decorations
- in <a>CSS reference pixels</a>.
+<p>A <a>top-level browsing context</a>’s <dfn>window size</dfn>
+ are the outer dimensions, including any browser chrome
+ externally drawn window decorations in <a>CSS reference pixels</a>
+ of the operating system window corresponding to it.
+ Its <a>JSON representation</a> is the following:
+
+<dl>
+ <dt>"<code>width</code>"
+ <dd>Width of the <a>top-level browsing context</a>’s outer dimensions,
+  including any browser chrome and externally drawn window decorations
+  in <a>CSS reference pixels</a>.
+
+ <dt>"<code>height</code>"
+ <dd>Height of the <a>top-level browsing context</a>’s outer dimensions,
+  including any browser chrome and externally drawn window decorations
+  in <a>CSS reference pixels</a>.
+</dl>
 
 <p class=note>In some user agents the operating system’s
- <a>window dimensions</a>, including decorations,
- is provided by the proprietary <code>window.outerWidth</code>
+ window dimensions including decorations,
+ are provided by the proprietary <code>window.outerWidth</code>
  and <code>window.outerHeight</code> [[!DOM]] properties.
 
 <section>
@@ -2708,18 +2720,8 @@ session := new_session(capabilities)</code></pre>
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p>Return <a>success</a>
-  with the following JSON Object:
-
-  <dl>
-   <dt>"<code>width</code>"
-   <dd><a>Current top-level browsing context</a>’s
-    <a>window dimension</a> width.
-
-   <dt>"<code>height</code>"
-   <dd><a>Current top-level browsing context</a>’s
-    <a>window dimension</a> height.
-  </dl>
+ <li><p>Return <a>success</a> with the <a>JSON serialisation</a>
+  of the <a>current top-level browsing context</a>’s <a>window size</a>.
 </ol>
 </section> <!-- /Get Window Size -->
 
@@ -2779,18 +2781,8 @@ session := new_session(capabilities)</code></pre>
   including any browser chrome and externally drawn window decorations
   to a value that is as close as possible to <var>height</var>.
 
- <li><p>Return <a>success</a>
-  with the following JSON Object:
-
-  <dl>
-   <dt>"<code>width</code>"
-   <dd><a>Current top-level browsing context</a>’s
-    <a>window dimension</a> width.
-
-   <dt>"<code>height</code>"
-   <dd><a>Current top-level browsing context</a>’s
-    <a>window dimension</a> height.
-  </dl>
+ <li><p>Return <a>success</a> with the <a>JSON serialisation</a>
+  of the <a>current top-level browsing context</a>’s <a>window size</a>.
 </ol>
 
 <aside class=note>
