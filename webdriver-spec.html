@@ -1926,18 +1926,16 @@ session := new_session(capabilities)</code></pre>
     an <a>own property</a> <var>identifier</var>,
     continue to the next entry.
 
+   <li><p>If <var>parameters</var>’ <a>own property</a> <var>identifier</var>
+    is not an integer, or it is less than 0 or greater than 2<sup>64</sup> – 1,
+    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
    <li><p>Let <var>timeout</var> be the result of
     <a>getting a property</a> using <var>identifier</var>
     from <var>parameters</var>.
 
-   <li><p>If <var>timeout</var> is of the
-   <code><a>Number</a></code> type
-   and a non-negative integer,
-   set the <var>type</var> timeout to
-   <var>timeout</var>’s value in milliseconds.
-
-   <p>Otherwise, return <a>error</a> with
-    <a>error code</a> <a>invalid argument</a>.
+   <li><p>Set the <var>type</var> timeout
+    to <var>timeout</var>’s value in milliseconds.
   </ol>
 
  <li><p>Return <a>success</a> with data null.
@@ -2755,6 +2753,11 @@ session := new_session(capabilities)</code></pre>
   the <a>Set Window Size</a> <a>command</a> for
   the <a>current top-level browsing context</a> for any reason,
   return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+
+ <li><p>If the properties <code>width</code> or <code>height</code>
+  are missing from the <var>parameters</var> argument,
+  or they are not integers, or less than 0 or greater than 2<sup>64</sup> – 1,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>width</var> be the result of
   <a>getting a property</a> named <code>width</code>
@@ -4854,19 +4857,20 @@ session := new_session(capabilities)</code></pre>
   return <a>error</a> with <a>error code</a> <a>invalid cookie domain</a>.
 
  <li><p>Let <var>data</var> be the result of <a>getting a property</a>
-  named "<code>cookie</code>" from the <var>parameters</var> argument.
+  named <code>cookie</code> from the <var>parameters</var> argument.
 
  <li><p>If <var>data</var> is not a JSON Object
   with all the required (non-optional) JSON keys
   listed in the <a>table for cookie conversion</a>,
-  return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>If <a>cookie name</a> or <a>cookie value</a> is null,
   <a>cookie domain</a> is not equal to
   the <a>current browsing context</a>’s <a>active document</a>’s <a>domain</a>,
   <a>cookie secure only</a> or <a>cookie HTTP only</a> are not boolean types,
   or <a>cookie expiry time</a> is not an integer type,
-  return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
+  or it less than 0 or greater than 2<sup>64</sup> – 1,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p><a>Create a cookie</a> in
   the <a>cookie store</a> associated with
