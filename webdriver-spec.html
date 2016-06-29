@@ -438,9 +438,12 @@ var respecConfig = {
    <!-- getClientRects --> <li><dfn><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></dfn>
    <!-- innerHeight --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerheight>innerHeight</a></dfn>
    <!-- innerWidth --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerwidth>innerWidth</a></dfn>
+   <!-- moveTo --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-moveto>moveTo(x, y)</a></dfn>
    <!-- offsetLeft --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetleft>offsetLeft</a></dfn>
    <!-- offsetParent --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetparent>offsetParent</a></dfn>
    <!-- offsetTop --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsettop>offsetTop</a></dfn>
+   <!-- screenX --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-screenx>screenX</a></dfn>
+   <!-- screenY --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-screeny>screenY</a></dfn>
    <!-- scrollIntoView --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-element-scrollintoview>scrollIntoView()</a></dfn>
   </ul>
 
@@ -874,6 +877,18 @@ var respecConfig = {
   <td>POST</td>
   <td>/session/{<var>session id</var>}/window/size</td>
   <td><a>Set Window Size</a></td>
+ </tr>
+
+ <tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/window/position</td>
+  <td><a>Get Window Position</a></td>
+ </tr>
+
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/window/position</td>
+  <td><a>Set Window Position</a></td>
  </tr>
 
  <tr>
@@ -2665,8 +2680,8 @@ session := new_session(capabilities)</code></pre>
 
 <p>WebDriver provides <a>commands</a>
  for interacting with the operating system window
- containing the current browsing context.
- Because different operating system's window managers provide different abilities,
+ containing the <a>current top-level browsing context</a>.
+ Because different operating system’s window managers provide different abilities,
  not all of the commands in this section can be supported by all <a>remote ends</a>.
  Where a <a>command</a> is not supported,
  an <a>unsupported operation</a> <a>error</a> is returned.
@@ -2693,6 +2708,21 @@ session := new_session(capabilities)</code></pre>
  window dimensions including decorations,
  are provided by the proprietary <code>window.outerWidth</code>
  and <code>window.outerHeight</code> [[!DOM]] properties.
+
+<p>A <a>top-level browsing context</a>’s <dfn>window position</dfn>
+ is defined as a dictionary of the <a>screenX</a> and <a>screenY</a> attributes
+ on the <a><code>WindowProxy</code></a> it corresponds to.
+ Its <a>JSON representation</a> is the following:
+
+<dl>
+ <dt>"<code>x</code>"
+ <dd><a>screenX</a> attribute of the <a><code>WindowProxy</code></a>
+  for the <a>current top-level browsing context</a>.
+
+ <dt>"<code>y</code>"
+ <dd><a>screenY</a> attribute of the <a><code>WindowProxy</code></a>
+  for the <a>current top-level browsing context</a>.
+</dl>
 
 <section>
 <h3>Get Window Size</h3>
@@ -2796,6 +2826,112 @@ session := new_session(capabilities)</code></pre>
  such as not being able to resize in single-pixel increments.
 </aside>
 </section> <!-- /Set Window Size -->
+
+<section>
+<h3>Get Window Position</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/window/position</td>
+ </tr>
+</table>
+
+<p>The <dfn>Get Window Position</dfn> <a>command</a>
+ returns the position on the screen
+ of the operating system window
+ corresponding to the <a>current top-level browsing context</a>.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
+ <li><p>If the <a>remote end</a> does not support
+  the <a>Get Window Position</a> <a>command</a> for
+  the <a>current top-level browsing context</a> for any reason,
+  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+
+ <li><p>Return <a>success</a> with the <a>JSON serialisation</a>
+  of the <a>current top-level browsing context</a>’s <a>window position</a>.
+</ol>
+</section> <!-- /Get Window Position -->
+
+<section>
+<h3>Set Window Position</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/window/position</td>
+ </tr>
+</table>
+
+<p>The <dfn>Set Window Position</dfn> <a>command</a>
+ sets the position on the screen
+ of the operating system window
+ corresponding to the <a>current top-level browsing context</a>.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
+ <li><p>If the <a>remote end</a> does not support
+  the <a>Set Window Position</a> <a>command</a> for
+  the <a>current top-level browsing context</a> for any reason,
+  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+
+ <li><p>If the <code>x</code> or <code>y</code> properties
+  are missing from the <var>parameters</var> argument,
+  or they are not integers,
+  or less than 0 or greater than 2<sup>64</sup> – 1,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Let <var>x</var> be the result of <a>getting a property</a>
+  named <code>y</code> from the <var>parameters</var> argument.
+
+ <li><p>Let <var>y</var> be the result of <a>getting a property</a>
+  named <code>x</code> from the <var>parameters</var> argument.
+
+ <li><p>Run the implementation-specific steps
+  to set the position of the operating system level window
+  containing the <a>current top-level browsing context</a>
+  to the position given by the <var>x</var> and <var>y</var> coordinates.
+
+ <div class=note>
+  <p>Note that this step is similar
+   to calling the <a>moveTo(x, y)</a> method
+   on the <a><code>WindowProxy</code></a> object
+   associated with the <a>current top-level browsing context</a>,
+   but without the <a href=https://developer.mozilla.org/en-US/docs/Web/API/Window/moveTo>security restrictions</a> that you
+  
+  <ol type=a>
+   <li>cannot move a window or tab
+    that was not created by <code>window.open</code>.
+   <li>cannot move a window or tab
+    when it is in a window with more than one tab.
+  </ol>
+ </div>
+
+ <li>Return <a>success</a> with the <a>JSON serialisation</a>
+  of the <a>current top-level browsing context</a>’s <a>window position</a>.
+</ol>
+</section> <!-- /Set Window Position -->
 
 <section>
 <h3>Maximize Window</h3>
