@@ -1595,9 +1595,13 @@ session := new_session(capabilities)</code></pre>
 
   <dl class=switch>
    <dt>"<code>pac</code>"
-   <dd><p>If the implementation supports <a>proxy autoconfiguration</a>,
-    set the implementation’s autoproxy configuration URL
-    to <var>proxy autoconfiguration url</var>.
+   <dd>Let <var>proxy autoconfiguration url</var> be the result of <a>getting a
+    property</a> named <code>proxyAutoconfigUrl</code> from <var>proxy</var>.
+
+    <p>If the implementation supports <a>proxy autoconfiguration</a>
+    and <var>proxy autoconfiguration url</var> is defined, set the
+    implementation’s autoproxy configuration URL to <var>proxy autoconfiguration
+    url</var>.
 
     <p>Otherwise return an <a>error</a>
      with <a>error code</a> <a>invalid argument</a>.
