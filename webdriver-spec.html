@@ -304,6 +304,7 @@ var respecConfig = {
    <!-- setSelectionRange --> <li><dfn data-lt="set selection range"><a href=https://html.spec.whatwg.org/#dom-textarea/input-setselectionrange><code>setSelectionRange</code></a></dfn>
    <!-- Settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#settings-object>Settings object</a></dfn>
    <!-- Simple dialogues --> <li><dfn data-lt="simple dialogue"><a href=https://html.spec.whatwg.org/#simple-dialogs>Simple dialogues</a></dfn>
+   <!-- Strip leading and trailing white space --><li><dfn data-lt="stripping leading and trailing whitespace"><a href="https://html.spec.whatwg.org/#strip-leading-and-trailing-whitespace">Strip leading and trailing whitespace</a></dfn>
    <!-- Submit Button --> <li><dfn><a href="https://html.spec.whatwg.org/#submit-button-state-%28type=submit%29">Submit Button</a></dfn> state
    <!-- Submittable elements --> <li><dfn data-lt="submittable element"><a href=https://html.spec.whatwg.org/#category-submit>Submittable elements</a></dfn>
    <!-- Top-level browsing context --> <li><dfn data-lt="top-level browsing context|top-level browsing contexts"><a href=https://html.spec.whatwg.org/#top-level-browsing-context>Top-level browsing context</a></dfn>
@@ -2381,7 +2382,7 @@ session := new_session(capabilities)</code></pre>
   <p>Otherwise let it be the <a>web frame identifier</a>.
 
  <li><p>Return a JSON Object initialised with the following properties:
- 
+
   <dl>
    <dt><var>identifier</var>
    <dd><p>Associated <a>window handle</a>
@@ -2923,7 +2924,7 @@ session := new_session(capabilities)</code></pre>
    on the <a><code>WindowProxy</code></a> object
    associated with the <a>current top-level browsing context</a>,
    but without the <a href=https://developer.mozilla.org/en-US/docs/Web/API/Window/moveTo>security restrictions</a> that you
-  
+
   <ol type=a>
    <li>cannot move a window or tab
     that was not created by <code>window.open</code>.
@@ -3359,7 +3360,10 @@ session := new_session(capabilities)</code></pre>
        the result of <a>getting <code>innerText</code></a>
        of <var>element</var>.
 
-      <li><p>If <var>rendered text</var> equals <var>selector</var>, append
+      <li><p>Let <var>trimmed text</var> be the result of
+        <a>stripping leading and trailing whitespace</a> from <var>rendered text</var>.
+
+      <li><p>If <var>trimmed text</var> equals <var>selector</var>, append
         <var>element</var> to <var>result</var>.
     </ol>
 
