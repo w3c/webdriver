@@ -1507,6 +1507,8 @@ session := new_session(capabilities)</code></pre>
 
  <li><p>Let <var>length</var> be the length of <var>required capabilities</var>.
 
+ <li><p>Let <var>unmet capabilities</var> be an empty JSON List.
+
  <li><p>Let <var>k</var> be 0.
 
  <li><p>While <var>k</var> &lt; <var>length</var>:
@@ -1519,10 +1521,17 @@ session := new_session(capabilities)</code></pre>
     the names of entries in <var>desired capabilities</var>,
     remove the corresponding entry from <var>desired capabilities</var>.
 
+   <li><p>If the name of the <var>capability</var> is among
+    the names of entries in <var>server capabilities</var>,
+    and the values do not match, do the following:
+
+    <ol>
+     <li><p>Append a string to <var>unmet capabilities</var> containing the
+      property name and the differences between the values.
+    </ol>
+
    <li>Increase <var>k</var> by 1.
   </ol>
-
- <li><p>Let <var>unmet capabilities</var> be an empty JSON List.
 
  <li><p>Let <var>unprocessed capabilities</var> be a JSON Object
   that contains all entries from <var>required capabilities</var>
@@ -1538,17 +1547,6 @@ session := new_session(capabilities)</code></pre>
   <ol>
    <li><p>Let <var>unprocessed capability</var> be the entry at index <var>j</var>
     in <var>unprocessed capabilities</var>.
-
-   <li><p>If during the steps below the <var>unprocessed capability</var>
-    equals an entry in <var>required capabilities</var>
-    and name of <var>unprocessed capability</var> entry among the names
-    of entries in <var>server capabilities</var>
-    and the values do not match do the following:
-
-    <ol>
-     <li><p>Append a string containing the property name
-      and the differences between the values.
-    </ol>
 
    <li><p>Let <var>browser name</var> be the result of <a>getting a property</a>
     named <code>browserName</code> from <var>unprocessed capability</var>.
@@ -1569,9 +1567,9 @@ session := new_session(capabilities)</code></pre>
    <li><p>Let <var>proxy</var> be the result of <a>getting a property</a>
     named <code>proxy</code> from <var>unprocessed capability</var>.
     If <var>proxy</var> is undefined move to the next step.
-    If <var>proxy</var> is defined and not a map,
-    append a string saying that a JSON Object is required,
-    else call <a>set the proxy</a> passing in <var>proxy</var>.
+    If <var>proxy</var> is defined and not a map, append a string to <var>unmet
+    capabilities</var> saying that a JSON Object is required, else call <a>set
+    the proxy</a> passing in <var>proxy</var>.
 
    <li><p>Let <var>page load strategy</var> be the result of <a>getting a property</a>
     named <code>pageLoadStrategy</code> from <var>unprocessed capability</var>.
