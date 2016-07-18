@@ -2024,12 +2024,14 @@ session := new_session(capabilities)</code></pre>
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>url</var> be the result of
-  <a>getting a property</a> named "<code>url</code>"
-  from the <var>parameters</var> argument.
-
- <li><p>If <var>url</var> is undefined,
+ <li><p>If the <code>url</code> property
+  is missing from the <var>parameters</var> argument
+  or it is not a string,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Let <var>url</var> be the result of
+  <a>getting a property</a> named <code>url</code>
+  from the <var>parameters</var> argument.
 
  <li><p><a>Navigate</a> the <a>current top-level browsing context</a> to <var>url</var>.
   If this navigation results in a HTTP 401 response,
