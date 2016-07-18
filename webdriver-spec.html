@@ -1444,8 +1444,9 @@ var respecConfig = {
   <td><dfn>Accept SSL certificates</dfn>
   <td>"<code>acceptSslCerts</code>"
   <td>boolean
-  <td>Indicates that the <a>endpoint node</a>
-   support invalid SSL certificates.
+  <td>Indicates that untrusted and self-signed SSL certificates
+   are trusted implicitly on <a data-lt=go>navigation</a>
+   for the duration of the session.
  </tr>
 </table>
 
@@ -1479,22 +1480,19 @@ session := new_session(capabilities)</code></pre>
 
   <dl>
    <dt>"<code>browserName</code>"
-   <dd>The lowercase name of the user agent.
+   <dd>Lowercase name of the user agent
 
    <dt>"<code>browserVersion</code>"
-   <dd>The version of the user agent.
+   <dd>Version of the user agent
 
    <dt>"<code>platformName</code>"
-   <dd>The lowercase name of the platform.
+   <dd>Lowercase name of the platform
 
    <dt>"<code>platformVersion</code>"
-   <dd>The version of the platform.
+   <dd>Version of the platform
 
    <dt>"<code>acceptSslCerts</code>"
-   <dd>Be true if the User Agent can handle
-    <a>invalid SSL certifications</a>
-    else let it be false.
-
+   <dd>False
   </dl>
 
  <li><p>Let <var>required capabilities</var> be the result of <a>getting a property</a>
@@ -1569,6 +1567,13 @@ session := new_session(capabilities)</code></pre>
    <li><p>Let <var>platform version</var> be the result of <a>getting a property</a>
     named <code>platformVersion</code> from <var>unprocessed capability</var>.
     If <var>platform version</var> is undefined move to the next step.
+
+   <li><p>Let <var>insecure ssl</var> be the result of <a>getting a property</a>
+    named <code>acceptSslCerts</code> from <var>unprocessed capability</var>.
+
+    <p>If <var>insecure ssl</var> is defined,
+     unset the <a>active session</a>’s <a>secure SSL</a> state.
+     Otherwise move to the next step.
 
    <li><p>Let <var>proxy</var> be the result of <a>getting a property</a>
     named <code>proxy</code> from <var>unprocessed capability</var>.
@@ -1749,6 +1754,15 @@ session := new_session(capabilities)</code></pre>
 <p>A <a>session</a> has an associated <dfn>page loading strategy</dfn>,
  which is one of <i>none</i>, <i>normal</i>, and <i>eager</i>.
  Unless stated otherwise, it is <i>normal</i>.
+
+<p>A <a>session</a> has an associated <dfn>secure SSL</dfn> state
+ that indicates whether untrusted or self-signed SSL certificates
+ should be trusted for the duration of the WebDriver session.
+ If it is unset, this indicates that certificate- or SSL errors
+ that occur upon <a data-lt=go>navigation</a> should be suppressed.
+ The state can be unset by providing
+ an "<code>acceptSslCerts</code>" <a>capability</a> with the value true.
+ Unless stated otherwise, it is set.
 
 <p>A <a>session</a> has an associated <a>user prompt handler</a>.
 
@@ -2005,6 +2019,11 @@ session := new_session(capabilities)</code></pre>
  to cause the user agent to <a>navigate</a>
  the <a>current top-level browsing context</a> a new location.
 
+<p>If the <a>session</a> is not in a <a>secure SSL</a> state,
+ no certificate errors that would normally
+ cause the user agent to abort and show a security warning
+ are to be hinder navigation to the requested address.
+
 <aside class=example>
  <p>To navigate the <a>current top-level browsing context</a>
   of the <a>session</a> with ID <i>1</i> to <code>https://example.com</code>,
@@ -2031,9 +2050,20 @@ session := new_session(capabilities)</code></pre>
   from the <var>parameters</var> argument.
 
  <li><p><a>Navigate</a> the <a>current top-level browsing context</a> to <var>url</var>.
-  If this navigation results in a HTTP 401 response,
-  the <a>remote end</a> must proceed with the steps below,
-  irrespective of how the authentication challenge is handled.
+
+  <p>If this navigation’s HTTP request
+   results in a HTTP 401 response,
+   the <a>remote end</a> must proceed with the steps below,
+   irrespective of how the authentication challenge is handled.
+
+  <p>If this navigation’s HTTP request
+   results in a TLS client certificate negotiation
+   and the certificate is found to not be valid
+   and the <a>active session</a>’s <a>secure SSL</a> state is disabled,
+   take implementation specific steps to ensure
+   the navigation is not aborted
+   and that the untrusted- or invalid SSL certificate error
+   that would normally occur under these circumstances, are suppressed.
 
  <li><p>If the <a>current session</a>’s <a>page loading strategy</a>
   is <a>none</a> jump to the next step in this overall set of steps.
@@ -2305,41 +2335,7 @@ session := new_session(capabilities)</code></pre>
  <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
 </section> <!-- /Get Title -->
-</section>
-
-<section>
-<h2>Invalid SSL Certificates</h2>
-
-<p class=issue><strong>Warning:</strong>
- This section has not yet been redefined to match the <a>routing requests</a> model,
- and uses old concepts and definitions.
- Please do not rely on it yet.
-
-<table class=simple>
- <tr><td>Capability Name</td> <td>Type</td></tr>
- <tr><td>secureSsl</td> <td>boolean</td></tr>
-</table>
-
-<p>WebDriver implementations MUST support users
- accessing sites served via HTTPS.
- Access to those sites using self-signed or invalid certificates,
- and where the certificate does not match the serving domain
- MUST be the same as if the HTTPS was configured properly.
-
-<p class=note>The reason for this is that implementations of this spec are often used for testing.
- It's a sorry fact that many QA engineers and testers are asked
- to verify that apps work on sites that have insecure HTTPS configurations.
-
-<p>The exception to requirement is if the <a>Capabilities</a>
- used to initialize has the WebDriver session had
- the capability <code>secureSsl</code> set to true.
- In this case, implementations MAY choose to make accessing a site
- with bad HTTPS configurations cause a <code>WebDriverException</code> to be thrown.
- Remote end implementations MUST
- return an <a>unknown error</a> <a>error code</a> in this case.
- If this is the case, the <a>Capabilities</a> describing the session
- MUST also set the <code>secureSsl</code> capability to "true".
-</section> <!-- /Invalid SSL Certificates -->
+</section> <!-- /Navigation -->
 
 <section>
 <h2>Command Contexts</h2>
