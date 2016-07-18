@@ -4547,9 +4547,20 @@ session := new_session(capabilities)</code></pre>
   and <var>arguments</var>.
 </ol>
 
-<p>When required to <dfn>execute a function body</dfn>
- with arguments <var>body</var> and <var>arguments</var>,
- a <a>remote end</a> must run the following steps:
+<p>The rules to <dfn>execute a function body</dfn> are as follows.
+ The algorithm will return <a>success</a>
+ with the <a data-lt="clone an object">JSON representation</a>
+ of the function’s return value,
+ or an <a>error</a> if the evaluation of the function
+ results in a JavaScript exception being thrown
+ or at any point during its execution
+ an <a data-lt="missing value default state">unhandled</a> <a>user prompt</a> appears.
+
+<p>If at any point during the algorithm a <a>user prompt</a> appears,
+ the <a>user prompt handler</a> must be invoked.
+ If its return value is an <a>error</a>,
+ it must immediately return with that error
+ and abort all subsequent substeps of this algorithm.
 
 <ol>
  <li><p>Let <var>window</var> be the <a>associated window</a>
@@ -5276,6 +5287,11 @@ session := new_session(capabilities)</code></pre>
         <td>/session/{<var>session id</var>}/actions</td>
       </tr>
     </table>
+
+    <p class=issue>For all commands that spin the event loop, such as this one,
+     <a data-lt="user prompt handler">user prompt handling</a> should be invoked
+     if a <a>user prompt</a> appears at any point during the execution of the algorithm.
+
     <p>The <a>remote end steps</a> are:
       <ol>
         <li><p>Let <var>actions</var> be the result of <a>getting a property</a>
