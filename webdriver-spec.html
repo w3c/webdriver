@@ -277,7 +277,7 @@ var respecConfig = {
    <!-- Determine the value of an indexed property --> <li><dfn data-lt="determining the value of an indexed property"><a href=https://html.spec.whatwg.org/#dom-window-item>Determine the value of an indexed property</a></dfn> of a <a><code>Window</code></a> object
    <!-- Disabled --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-disabled>Disabled</a></dfn>
    <!-- Document address --> <li><dfn data-lt=address><a href=https://dom.spec.whatwg.org/#concept-document-url>Document address</a></dfn>
-   <!-- Document title --> <li><dfn data-lt=title><a href=https://html.spec.whatwg.org/#dom-title-text>Document title</a></dfn>
+   <!-- Document title --> <li><dfn data-lt=title><a href=https://html.spec.whatwg.org/#document.title>Document title</a></dfn>
    <!-- Enumerated attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#enumerated-attribute>Enumerated attribute</a></dfn>
    <!-- Environment settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#environment-settings-object>Environment settings object</a></dfn>
    <!-- Event loop --> <li><dfn><a href=https://html.spec.whatwg.org/#event-loop>Event loop</a></dfn>
@@ -511,6 +511,11 @@ var respecConfig = {
  that have elapsed since the Epoch,
  as described by The Open Group Base Specifications Issue 7
  <a href=http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html#tag_04_15>section 4.15</a> (IEEE Std 1003.1).
+
+<p>The <dfn>initial value</dfn> of a javascript property is the value
+  defined by the platform for that property i.e. the value it would
+  have in the absence of any shadowing by content script.
+
 </section> <!-- /Terminology -->
 
 <section>
@@ -2339,7 +2344,7 @@ session := new_session(capabilities)</code></pre>
 
 <p>The <dfn>Get Title</dfn> command returns the <a>document title</a>
  of the <a>current top-level browsing context</a>,
- equivalent to calling <code>window.top.document.title</code>.
+ equivalent to calling <code>document.title</code>.
 
 <p>The <a>remote end steps</a> are:
 
@@ -2349,8 +2354,9 @@ session := new_session(capabilities)</code></pre>
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>title</var> be the value of the <a>current top-level browsing context</a>'s
-  <a>active document</a>'s <a>title</a>.
+ <li><p>Let <var>title</var> be the <a>initial value</a> of
+ the <a>title</a> IDL attribute of the <a>current top-level browsing
+ context</a>'s <a>active document</a>.
 
  <li><p>Let <var>body</var> be a new JSON Object.
 
