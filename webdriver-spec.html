@@ -1196,6 +1196,15 @@ var respecConfig = {
    e.g. attempting to click an element
    that is no longer attached to the <a>document</a>.
  </tr>
+ 
+ <tr>
+  <td><dfn>element intercepting click</dfn>
+  <td>400
+  <td><code>element intercepting click</code>
+  <td>An element <a>command</a> could not be completed
+   because there is an element in front of it intercepting
+   the command.
+ </tr>
 
  <tr>
   <td><dfn>invalid selector</dfn>
@@ -4163,6 +4172,9 @@ session := new_session(capabilities)</code></pre>
  <li><p>Let <var>centre point</var> be a pair of <var>rect</var>’s
   (<a>rectangle x coordinate</a> + <var>horizontal centre offset</var>)
   and (<a>rectangle y coordinate</a> + <var>vertical centre offset</var>)
+  
+ <li><p>If <a>command</a> is intercepted by an <var>element</var> with a higher 
+  z-index, an <a>element intercepting click</a> <a>error</a> is returned.
 
  <li><p class=issue>Run interaction steps on coordinate.
 
