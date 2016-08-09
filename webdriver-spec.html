@@ -1170,11 +1170,13 @@ var respecConfig = {
  </tr>
 
  <tr>
-  <td><dfn>element not visible</dfn>
+  <td><dfn>element not interactable</dfn>
   <td>400
-  <td><code>element not visible</code>
+  <td><code>element not interactable</code>
   <td>An element <a>command</a> could not be completed
-   because the element is not visible on the page.
+   because the element is not
+   <a data-lt="pointer interactable">pointer</a>- or
+   <a data-lt="keyboard interactable">keyboard</a> <a>interactable</a>.
  </tr>
 
  <tr>
@@ -3208,7 +3210,7 @@ session := new_session(capabilities)</code></pre>
  WebDriver performs hit-testing to find
  if the interaction will be able to reach the requested element.
 
-<p>An <dfn>interactable element</dfn>
+<p>An <dfn data-lt=interactable>interactable element</dfn>
  is an <a>element</a> which is either
  <a>pointer-interactable</a> or <a>keyboard-interactable</a>.
 
@@ -3218,13 +3220,16 @@ session := new_session(capabilities)</code></pre>
  of its rectangle that is inside the <a>viewport</a>,
  excluding the size of any rendered scrollbars.
 
-<p>In order to produce a <dfn>pointer-interactable elements tree</dfn>
- from an <var><a>element</a></var>:
+<p>An <a>element</a>’s <dfn>in-view centre point</dfn>
+ is the centre point of the area
+ of the first <a data-lt="getClientRects">DOM client rectangle</a>
+ that is inside the <a>viewport</a>.
+ It can be calculated this way:
 
 <ol>
- <li><p>If <var>element</var> is <a>not in the same tree</a>
-  as the <a>current browsing context</a>’s <a>active document</a>,
-  return an empty sequence.
+ <li><p>Let <var>rectangle</var> be
+  the first element of the <a><code>DOMRect</code></a> sequence
+  returned by calling <a>getClientRects</a> on <var><a>element</a></var>.
 
  <!--
   no need to care for scroll bars here
@@ -3235,25 +3240,35 @@ session := new_session(capabilities)</code></pre>
     rect.width - (rect.right - innerWidth)
     rect.height - (rect.bottom - innerHeight)
  -->
- <li><p>Let <var>visible width</var> be
-  <var>element</var>’s <a>bounding rectangle</a>’s
-  (<a>max</a>(<a>x coordinate</a>, <a>x coordinate</a> + <a>width dimension</a>) –
-  the <a>current browsing context</a>’s <a>innerWidth</a>).
+ <li><p>Let <var>visible width</var> be the <var>rectangle</var>’s
+  (<a>max</a>(<a>x coordinate</a>, <a>x coordinate</a> + <a>width dimension</a>)).
 
- <li><p>Let <var>visible height</var> be
-  <var>element</var>’s <a>bounding rectangle</a>’s
-  (<a>max</a>(<a>y coordinate</a>, <a>y coordinate</a> + <a>height dimension</a>) –
-  the <a>current browsing context</a>’s <a>innerWidth</a>).
+ <li><p>Let <var>visible height</var> be the <var>rectangle</var>’s
+  (<a>max</a>(<a>y coordinate</a>, <a>y coordinate</a> + <a>height dimension</a>)).
 
- <li><p>Let <var>vertical centre offset</var>
-  be (<var>visible width</var> / 2.0).
+ <li>Let <var>vertical centre offset</var> be
+  (<var>visible width</var> / 2.0).
 
- <li><p>Let <var>horizontal centre offset</var>
-  be (<var>visible height</var> / 2.0).
+ <li>Let <var>horizontal centre offset</var> be
+  (<var>visible height</var> / 2.0).
 
- <li><p>Let <var>centre point</var> be a pair of <var>element</var>’s
-  (<a>rectangle x coordinate</a> + <var>horizontal centre offset</var>)
-  and (<a>rectangle y coordinate</a> + <var>vertical centre offset</var>).
+ <li>Let <var>centre point</var> be a pair
+  of the <var>rectangle</var>’s (<a>x coordinate</a> + <var>horizontal centre offset</var>)
+  and (<a>y coordinate</a> + <var>vertical centre offset</var>).
+
+ <li>Return <var>centre point</var>.
+</ol>
+
+<p>In order to produce a <dfn>pointer-interactable elements tree</dfn>
+ from an <var><a>element</a></var>:
+
+<ol>
+ <li><p>If <var>element</var> is <a>not in the same tree</a>
+  as the <a>current browsing context</a>’s <a>active document</a>,
+  return an empty sequence.
+
+ <li><p>Let <var>centre point</var> be
+  the <a>in-view centre point</a> of <var>element</var>.
 
  <li><p>Return the <a>elements from point</a>
   given the coordinates <var>centre point</var>.
@@ -3265,7 +3280,7 @@ session := new_session(capabilities)</code></pre>
  which style property <code>opacity</code>
  has the <a>computed value</a> of "1";
  otherwise return an <a>error</a>.
-</section>
+</section> <!-- /Element Interactability -->
 
 <section>
 <h3>Get Active Element</h3>
@@ -4150,10 +4165,9 @@ session := new_session(capabilities)</code></pre>
 
 <p>The <dfn>Element Click</dfn> <a>command</a>
  <a>scrolls into view</a> the <a>element</a>
- and then attempts to click the centre of the visible area of the first element of the
-   <a><code>DOMRect</code></a> <a>sequence</a>.
- In case the <a>element</a> is <a>not displayed</a>,
- an <a>element not visible</a> <a>error</a> is returned.
+ and clicks the <a>in-view centre point</a>.
+ If the element is not <a>pointer-interactable</a>,
+ an <a>element not interactable</a> <a>error</a> is returned.
 
 <p>The <a>remote end steps</a> are:
 
@@ -4168,32 +4182,13 @@ session := new_session(capabilities)</code></pre>
   if it is a <a>success</a>.
   Otherwise return <var>element result</var>.
 
- <li><p>If <var>element</var> is <a>not displayed</a>,
-  return <a>error</a> with <a>error code</a> <a>element not visible</a>.
+ <li><p>If <var>element</var> is not <a>pointer-interactable</a>,
+  return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
 
  <li><p><a>Scroll into view</a> the <var>element</var>.
 
- <li><p>Let <var>rect</var> be the rectangle that is the first element of the
-   <a><code>DOMRect</code></a> <a>sequence</a> returned by calling <a>getClientRects</a>
-   on <var>element</var>.
-
- <li><p>Let <var>visible width</var> be
-  <var>rect</var>’s <a>bounding rectangle</a>’s
-  (<a>max</a>(<a>x coordinate</a>, <a>x coordinate</a> + <a>width dimension</a>)).
-
- <li><p>Let <var>visible height</var> be
-  <var>element</var>’s <a>bounding rectangle</a>’s
-  (<a>max</a>(<a>y coordinate</a>, <a>y coordinate</a> + <a>height dimension</a>)).
-
- <li><p>Let <var>vertical centre offset</var>
-  be (<var>visible width</var> / 2.0).
-
- <li><p>Let <var>horizontal centre offset</var>
-  be (<var>visible height</var> / 2.0).
-
- <li><p>Let <var>centre point</var> be a pair of <var>rect</var>’s
-  (<a>rectangle x coordinate</a> + <var>horizontal centre offset</var>)
-  and (<a>rectangle y coordinate</a> + <var>vertical centre offset</var>)
+ <li><p>Let <var>coordinates</var> be the
+  <a>in-view centre point</a> of <a>element</a>.
 
  <li><p class=issue>Run interaction steps on coordinate.
 
@@ -4233,8 +4228,8 @@ session := new_session(capabilities)</code></pre>
   if it is a <a>success</a>.
   Otherwise return <var>element result</var>.
 
- <li><p>If <var>element</var> is <a>not displayed</a>,
-  return <a>error</a> with <a>error code</a> <a>element not visible</a>.
+ <li><p>If <var>element</var> is not <a>interactable</a>,
+  return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
 
  <li><p>If <var>element</var> is <a>disabled</a>, non-<a>editable</a>,
   <a>read only</a>, or has <a>pointer events disabled</a>,
@@ -4282,8 +4277,8 @@ session := new_session(capabilities)</code></pre>
 <p>The <dfn>Element Send Keys</dfn> <a>command</a>
  <a>scrolls into view</a> the form control <a>element</a>
  and then sends the provided keys to the element.
- In case the <a>element</a> is <a>not displayed</a>,
- an <a>element not visible</a> <a>error</a> is returned.
+ In case the <a>element</a> is not <a>keyboard interactable</a>,
+ an <a>element not interactable</a> <a>error</a> is returned.
 
 <p>The <a>remote end steps</a> are:
 
@@ -4300,8 +4295,8 @@ session := new_session(capabilities)</code></pre>
   if it is a <a>success</a>.
   Otherwise return <var>element result</var>.
 
- <li><p>If <var>element</var> is <a>not displayed</a>,
-  return <a>error</a> with <a>error code</a> <a>element not visible</a>.
+ <li><p>If <var>element</var> is not <a>keyboard interactable</a>,
+  return <a>error</a> with <a>error code</a> <a>element not inteactable</a>.
 
  <li><p><a>Scroll into view</a> the <var>element</var>.
 
@@ -6107,7 +6102,7 @@ session := new_session(capabilities)</code></pre>
    <dt><a>alert</a>
    <dt><a>confirm</a>
    <dd><p>Return <a>error</a> with
-    <a>error code</a> <a>element not visible</a>.
+    <a>error code</a> <a>element not interactable</a>.
 
    <dt><a>prompt</a>
    <dd><p>Do nothing.
