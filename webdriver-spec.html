@@ -1012,8 +1012,14 @@ var respecConfig = {
 
  <tr>
   <td>GET</td>
+  <td>/session/{<var>session id</var>}/cookie</td>
+  <td><a>Get All Cookies</a></td>
+ </tr>
+
+ <tr>
+  <td>GET</td>
   <td>/session/{<var>session id</var>}/cookie/{<var>name</var>}</td>
-  <td><a>Get Cookie</a></td>
+  <td><a>Get Named Cookie</a></td>
  </tr>
 
  <tr>
@@ -1233,6 +1239,15 @@ var respecConfig = {
   <td><code>no such alert</code>
   <td>An attempt was made to operate on a modal dialog
    when one was not open.
+ </tr>
+
+ <tr>
+  <td><dfn>no such cookie</dfn>
+  <td>404
+  <td><code>no such cookie</code>
+  <td>No cookie matching the given path name
+   was found amongst the <a>associated cookies</a>
+   of the <a>current browsing context</a>’s <a>active document</a>.
  </tr>
 
  <tr>
@@ -4901,8 +4916,8 @@ session := new_session(capabilities)</code></pre>
  and the associated field’s value from the <a>cookie store</a>.
  The optional fields may be omitted.
 
-<p>To get <dfn>all associated cookies</dfn> to a <a>document</a>,
- the user agent must return the enumerated set of cookies
+<p>To get <dfn data-lt="associated cookies">all associated cookies</dfn> to a <a>document</a>,
+ the user agent must return the enumerated set of <a>cookies</a>
  that meet the requirements set out in the first step of the algorithm in [[RFC6265]] to
  <a>compute <code>cookie-string</code></a> for an ‘HTTP API’,
  from the <a>cookie store</a> of the given <a>document</a>’s <a>address</a>.
@@ -4931,7 +4946,7 @@ session := new_session(capabilities)</code></pre>
 </ol>
 
 <section>
-<h3>Get Cookie</h3>
+<h3>Get All Cookies</h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -4940,18 +4955,13 @@ session := new_session(capabilities)</code></pre>
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{<var>session id</var>}/cookie/{<var>name</var>}</td>
+  <td>/session/{<var>session id</var>}/cookie</td>
  </tr>
 </table>
 
-<p>The <dfn>Get Cookie</dfn> <a>command</a>
+<p>The <dfn>Get All Cookies</dfn> <a>command</a>
  returns all <a>cookies</a> associated with the <a>address</a>
  of the <a>current browsing context</a>’s <a>active document</a>.
-
-<p>Provided with an optional <var>name</var> parameter,
- the returned set will consist of only a single <a>cookie</a>
- matching an entry’s <a>cookie name</a> in the <a>cookie store</a>,
- or be empty.
 
 <p>The <a>remote end steps</a> are:
 
@@ -4961,24 +4971,52 @@ session := new_session(capabilities)</code></pre>
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>result</var> be an initially empty JSON List.
+ <li><p>Let <var>cookies</var> be a JSON List
+  containing <a>all associated cookies</a>
+  of the <a>current browsing context</a>’s <a>active document</a>.
 
- <li><p>For each <var>cookie</var> among <a>all associated cookies</a> of
-  the <a>current browsing context</a>’s
-  <a>active document</a>, matching on <var>name</var>:
-
-  <dl class=switch>
-   <dt><a>cookie name</a>
-   <dd><p>Append the <a>serialised cookie</a> to <var>result</var>,
-    and break out of the loop.
-
-   <dt>undefined
-   <dd><p>Append the <a>serialised cookie</a> to <var>result</var>.
-  </dl>
-
- <li><p>Return <a>success</a> with data <var>result</var>.
+ <li><p>Return <a>success</a> with data <var>cookies</var>.
 </ol>
-</section> <!-- /Get Cookie -->
+</section> <!-- /Get All Cookies -->
+
+<section>
+<h3>Get Named Cookie</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/cookie/{<var>path</var>}</td>
+ </tr>
+</table>
+
+<p>The <dfn>Get Named Cookie</dfn> <a>command</a>
+ returns the <a>cookie</a> with the requested path
+ from the <a>associated cookies</a> in the <a>cookie store</a>
+ of the <a>current browsing context</a>’s <a>active document</a>.
+ If no cookie is found,
+ a <a>no such cookie</a> <a>error</a> is returned.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
+
+ <li><p>If the <var>path</var> matches a <a>cookie</a>’s <a>cookie name</a>
+  amongst <a>all associated cookies</a>
+  of the <a>current browsing context</a>’s <a>active document</a>,
+  return <a>success</a> with the <a>serialised cookie</a> as data.
+
+  <p>Otherwise, return <a>error</a>
+   with <a>error code</a> <a>no such cookie</a>.
+</ol>
+</section> <!-- /Get Named Cookie -->
 
 <section>
 <h3>Add Cookie</h3>
