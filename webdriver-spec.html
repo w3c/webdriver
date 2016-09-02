@@ -6880,23 +6880,24 @@ session := new_session(capabilities)</code></pre>
 <section class=appendix>
 <h2>Security</h2>
 
-<p>A user agent may rely on a command-line flag
- or a configuration option to test whether to enable WebDriver.
- Another option is to make the user agent initiate or confirm
- the connection through a privileged content document or control widget,
- in case the user agent does not directly implement the HTTP endpoints.
+<p>The following suggestions are made to implementors to increase the
+ security of users of WebDriver:
 
-<p>To prevent arbitrary machines from connecting and creating <a>sessions</a>,
- only connections from loopback devices are allowed by default.
- <a>Remote ends</a> do however support a scenario
- where the <a>local end</a> runs on a different machine
- from the <a>remote end</a>.
+ <ul>
+  <li>Provide a command-line flag or configuration option to enable
+   WebDriver.
+  <li>Only listen on loopback devices for requests for
+   new <a>sessions</a>.
+  <li>Provide a configuration option to limit the accepted IP range
+   allowed to connect and make requests, such as the IPv4 localhost
+   CIDR range <code>127.0.0.0/8</code> and the IPv6 localhost
+   address <code>::1</code>. [[!RFC4632]]
+ </ul>
 
-<p>The <a>remote end</a> must include a configuration option
- to limit the accepted IP range allowed to connect and make requests.
- The default setting for this should be
- to limit connections to the IPv4 localhost CIDR range <code>127.0.0.0/8</code>
- and the IPv6 localhost address <code>::1</code>. [[!RFC4632]]
+<p>It is assumed that users who are worried about security will take
+ additional measures to ensure that WebDriver sessions are secure,
+ such as configuring firewalls.
+
 </section>
 
 <section class=appendix>
