@@ -1850,9 +1850,13 @@ entries:
 
     <dl class=switch>
       <dt>"<code>browserName</code>"
-      <dd><p>If <var>capability value</var> is not equal to
-      "<code>browserName</code>" entry in <var>matched capabilities</var>,
-      return null.
+      <dd><p>If <var>capability value</var> is <a>null</a>, <a>undefined</a>,
+        or equal to the string "<code>*</code>", it <em>MUST</em> be considered
+        a match for the entry in <var>matched capabilities</var>.
+
+        <p>Otherwise, if <var>capability value</var> is not a string equal to
+        the "<code>browserName</code>" entry in <var>matched capabilities</var>,
+        return null.
 
       <dt>"<code>browserVersion</code>"
       <dd><p>Compare <var>capability value</var> to the
