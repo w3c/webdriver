@@ -1792,8 +1792,11 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   <li><p>Let <var>entry</var> be the entry in <var>secondary</var> at index
   <var>k</var>.
 
-  <li><p>If the name of <var>entry</var> is <em>not</em> the name of an entry
-  in <var>result</var>, add <var>entry</var> to <var>result</var>.
+  <li><p>If the name of <var>entry</var> is also the name of an entry in
+  <var>result</var>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+  <li><p>Otherwise, add <var>entry</var> to <var>result</var>.
 
   <li><p>Increment <var>k</var> by 1.
   </ol>
@@ -1851,7 +1854,7 @@ entries:
       <dt>"<code>browserVersion</code>"
       <dd><p>Compare <var>capability value</var> to the
       "<code>browserVersion</code>" entry in <var>matched capabilities</var>
-      using an implementation defined comparison algorithm. The comparison
+      using an implementation-defined comparison algorithm. The comparison
       <em>SHOULD</em> accept a <var>capability value</var> that places
       constraints on the version using the "<code>&lt;</code>",
       "<code>&lt;=</code>", "<code>&gt;</code>", and "<code>&gt;=</code>"
