@@ -1734,7 +1734,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
   <ol>
   <li><p>If <var>desired capabilities</var> is <a>null</a> or <a>undefined</a>,
-  set the value to an empty JSON List.
+  set the value to a JSON List with a single entry: an empty JSON Object.
 
   <li><p>If <var>desired capabilities</var> is not a JSON List,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
@@ -2100,7 +2100,9 @@ entries:
  forwarded to the <a>endpoint node</a>. Furthermore, if the
  <a>intermediary node</a> requires additional information unrelated to user
  agent features, it is <em>RECOMMENDED</em> that this information be passed as
- top-level parameters and not part of the requested <a>capabilities</a>.
+ top-level parameters and not part of the requested <a>capabilities</a>. An
+ <a>intermediary node</a> <em>MAY</em> forward custom, top-level parameters
+ (i.e. non-<a>capabilities</a>) to subsequent <a>remote end</a> nodes.
 
 <aside class=example>
  <p>An <a>intermediary node</a> <em>MAY</em> require authentication on all new
