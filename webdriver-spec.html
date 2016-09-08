@@ -1850,7 +1850,8 @@ entries:
 
     <dl class=switch>
       <dt>"<code>browserName</code>"
-      <dd><p>If <var>capability value</var> is <a>null</a>, <a>undefined</a>,
+      <dd>
+        <p>If <var>capability value</var> is <a>null</a>, <a>undefined</a>,
         or equal to the string "<code>*</code>", it <em>MUST</em> be considered
         a match for the entry in <var>matched capabilities</var>.
 
@@ -1859,30 +1860,45 @@ entries:
         return null.
 
       <dt>"<code>browserVersion</code>"
-      <dd><p>Compare <var>capability value</var> to the
-      "<code>browserVersion</code>" entry in <var>matched capabilities</var>
-      using an implementation-defined comparison algorithm. The comparison
-      <em>SHOULD</em> accept a <var>capability value</var> that places
-      constraints on the version using the "<code>&lt;</code>",
-      "<code>&lt;=</code>", "<code>&gt;</code>", and "<code>&gt;=</code>"
-      operators.
+      <dd>
+        <p>If <var>capability value</var> is <a>null</a>, <a>undefined</a>,
+        or equal to the string "<code>*</code>", it <em>MUST</em> be considered
+        a match for the entry in <var>matched capabilities</var>.
 
-      <p>If the two values do not match, return null.
+        <p>Otherwise, compare <var>capability value</var> to the
+        "<code>browserVersion</code>" entry in <var>matched capabilities</var>
+        using an implementation-defined comparison algorithm. The comparison
+        <em>SHOULD</em> accept a <var>capability value</var> that places
+        constraints on the version using the "<code>&lt;</code>",
+        "<code>&lt;=</code>", "<code>&gt;</code>", and "<code>&gt;=</code>"
+        operators.
 
-      <p class=note>Version comparison is left as an implementation detail since
-      each user agent will likely have conflicting methods of encoding the
-      user agent version and standardizing these schemes is beyond the scope of
-      this specification.
+        <p>If the two values do not match, return null.
+
+        <p class=note>Version comparison is left as an implementation detail
+        since each user agent will likely have conflicting methods of encoding
+        the user agent version and standardizing these schemes is beyond the
+        scope of this specification.
 
       <dt>"<code>platformName</code>"
-      <dd><p>If <var>capability value</var> is not equal to
-      "<code>platformName</code>" entry in <var>matched capabilities</var>,
-      return null.
+      <dd>
+        <p>If <var>capability value</var> is <a>null</a>, <a>undefined</a>,
+        or equal to the string "<code>*</code>", it <em>MUST</em> be considered
+        a match for the entry in <var>matched capabilities</var>.
+
+        <p>Otherwise, if <var>capability value</var> is not a string equal to
+        the "<code>platformName</code>" entry in
+        <var>matched capabilities</var>, return null.
 
       <dt>"<code>platformVersion</code>"
-      <dd><p>If <var>capability value</var> is not equal to
-      "<code>platformVersion</code>" entry in <var>matched capabilities</var>,
-      return null.
+      <dd>
+        <p>If <var>capability value</var> is <a>null</a>, <a>undefined</a>,
+        or equal to the string "<code>*</code>", it <em>MUST</em> be considered
+        a match for the entry in <var>matched capabilities</var>.
+
+        <p>Otherwise, if <var>capability value</var> is not a string equal to
+        the "<code>platformVersion</code>" entry in
+        <var>matched capabilities</var>, return null.
 
       <dt>"<code>acceptSslCerts</code>"
       <dd>
