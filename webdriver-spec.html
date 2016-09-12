@@ -5320,7 +5320,7 @@ session := new_session(capabilities)</code></pre>
           <th>Non-normative Description
         </tr>
         <tr>
-          <td><a>pause</a></td>
+          <td><dfn>pause</dfn></td>
           <td>Used with an integer argument to specify the duration of
           a <a>tick</a>, or as a placeholder to indicate that
           an <a>input source</a> does nothing during a particular
@@ -5339,11 +5339,11 @@ session := new_session(capabilities)</code></pre>
           <th>Non-normative Description
         </tr>
         <tr>
-          <td><a>keyDown</a></td>
+          <td><dfn>keyDown</dfn></td>
           <td>Used to indicate that a particular key should be held down.</td>
         </tr>
         <tr>
-          <td><a>keyUp</a></td>
+          <td><dfn>keyUp</dfn></td>
           <td>Used to indicate that a depressed key should be released.</td>
         </tr>
       </table>
@@ -5361,14 +5361,14 @@ session := new_session(capabilities)</code></pre>
           <th>Non-normative Description
         </tr>
         <tr>
-          <td><a>pointerDown</a></td>
+          <td><dfn>pointerDown</dfn></td>
           <td>Used to indicate that a pointer should be depressed in
           some way e.g. by holding a button down (for a mouse) or by
           coming into contact with the active surface (for a touch or
           pen device).</td>
         </tr>
         <tr>
-          <td><a>pointerUp</a></td>
+          <td><dfn>pointerUp</dfn></td>
           <td>Used to indicate that a pointer should be released in
           some way e.g. by releasing a mouse button or moving a pen
           or touch device away from the active surface.</td>
@@ -5380,7 +5380,7 @@ session := new_session(capabilities)</code></pre>
           inactive state.</td>
         </tr>
         <tr>
-          <td><a>pointerCancel</a></td>
+          <td><dfn>pointerCancel</dfn></td>
           <td>Used to cancel a pointer action.</td>
         </tr>
       </table>
@@ -5396,6 +5396,23 @@ session := new_session(capabilities)</code></pre>
     <p>A <dfn>microtick</dfn> is a subdivision of a <a>tick</a> used
       to describe single actions, notably <a>pointerMove</a>, that
       occur in stages across a defined wall time interval.
+
+    <p>At the lowest level, the behaviour of actions is intended to
+    mimic the remote end's behaviour with an actual input device as
+    closely as possible, and the implementation strategy may involve
+    e.g. injecting synthesized events into a browser event
+    loop. Therefore the steps to dispatch an action will inevitably
+    end up in implementation-specific territory. However there are
+    certain content observable effects that must be consistent across
+    implementations. To accomodate this, the specification requires
+    that remote ends <dfn id="perform-actions">perform
+    implementation-specific action dispatch steps</dfn>, along with a
+    list of events and their properties. This list is not
+    comprehensive; in particular the default action of the input
+    source may cause additional events to be generated depending on
+    the implementation and the state of the browser (e.g. input events
+    relating to key actions when the focus is on an editable element,
+    scroll events, etc.).
 
       <!-- todo: define generating DOM events from an input somewhere -->
   </section> <!-- /Terminology -->
@@ -5420,14 +5437,18 @@ session := new_session(capabilities)</code></pre>
     state</dfn> object. This is always an empty object.
 
     <p>A <a>key input source</a> has a corresponding <dfn>key input
-    state</dfn> object. This is an object with a single
-    poperty, <code>pressed</code>, which is a set of strings
-    representing currently pressed keys.
+    state</dfn> object. This is an object with a
+    property, <code>pressed</code>, which is a set of strings
+    representing currently pressed keys and
+    properties <code>alt</code>, <code>shift</code>, <code>ctrl</code>,
+    and <code>meta</code>, which are <a>Boolean</a>s.
 
     <p>When required to <dfn>create a new key input state
     object</dfn>, an implementation must return a <a>key input
     state</a> object with the <code>pressed</code> property set to the
-    empty set.
+    empty set
+    and <code>alt</code>, <code>shift</code>, <code>ctrl</code>,
+    and <code>meta</code> all set to <code>false</code>.
 
     <p>A <a>pointer input source</a> has a corresponding <dfn>pointer
     input state</dfn> object. This consists of a <code>subtype</code>
@@ -5581,7 +5602,8 @@ session := new_session(capabilities)</code></pre>
         items</var>:
             <ol>
               <li><p>If <var>action item</var> is not an <a>Object</a>
-                  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.</li>
+                  return <a>error</a> with <a>error
+                  code</a> <a>invalid argument</a>.</li>
 
               <li><p>If <var>type</var> is <code>"none"</code>
                 let <var>action</var> be the result of <a>trying</a>
@@ -5832,9 +5854,6 @@ session := new_session(capabilities)</code></pre>
           property named <code>duration</code> from <var>action
           item</var>.</li>
 
-      <li><p>If <var>duration</var> is <a>undefined</a>, let duration
-      be 0.</li>
-
       <li><p>If <var>duration</var> is not an <a>Integer</a> greater
           than or equal to 0 return <a>error</a> with <a>error
           code</a> <a>invalid argument</a>.</li>
@@ -5884,241 +5903,651 @@ session := new_session(capabilities)</code></pre>
 
   <section> <!-- Dispatching Actions -->
     <h2>Dispatching Actions</h2>
-    <section><!-- General Actions -->
-      <h2><dfn>General Actions</dfn></h2>
-      <p>The <dfn>pause</dfn> command:
-        <ol>
-          <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>
-            , return <a>error</a> with <a>error code</a> <a>no such window</a>.
+    <p>The algorithm to <a>dispatch actions</a> takes a list of
+    actions grouped by <a>tick</a>, and then causes each action to be
+    run at the appropriate point in the sequence.
 
-          <li><p><a>Handle any user prompts</a> and return its value if it is an
-            <a>error</a>.
+    <p>When asked to <dfn>dispatch actions</dfn> with
+    argument <var>actions by tick</var>, a <a>remote end</a> must run the
+    following steps:</p>
 
-          <li><p>Let <var>duration</var> be the result of <a>getting a property</a>
-            named "<code>duration</code>".
+    <ol>
+      <li><p>For each item <var>tick actions</var> in <var>actions by
+      tick</var>:
+          <ol>
+            <li><p>Let <var>tick duration</var> be the result
+            of <a>computing the tick duration</a> with
+            argument <var>tick actions</var>.</li>
 
-          <li><p>If <var>duration</var> is not a <a>Number</a> return <a>error</a>
-            with <a>error code</a> <a>invalid argument</a>.
+            <li><p><a>Dispatch tick actions</a> with
+            arguments <var>tick actions</var> and <var>tick
+            duration</var>. If this results in an <a>error</a> return
+            that error.</li>
 
-          <li><p>Wait until <var>duration</var> milliseconds have passed.
+            <li><p>Wait until the following conditions are all met:
 
-        </ol>
-    </section><!-- /General Actions -->
+                <ul>
+                  <li><p>The user agent event loop has spun enough times
+                  to process the DOM events generated by the previous
+                  step in this algorithm.</li>
+
+                  <li><p>At least <var>tick duration</var>
+                  milliseconds have passed.</li>
+                </ul>
+            </li>
+          </ol>
+      </li>
+
+      <li><p>Return success with data null.</li>
+    </ol>
+
+    <p>When required to
+      <dfn data-lt="computing the tick duration">compute the tick
+        duration</dfn> with argument <var>tick actions</var>,
+        a <a>remote end</a> must take the following steps:</p>
+
+    <ol>
+      <li><p>Let <var>max duration</var> be 0.</li>
+
+      <li><p>For each <var>action object</var> in <var>tick actions</var>:
+          <ol>
+            <li><p>let <var>duration</var> be <a>undefined</a>.</li>
+
+            <li><p>If <var>action object</var> has <code>type</code>
+                property set to <code>"none"</code>
+                and <code>subtype</code> property set
+                to <code>"pause"</code> or <var>action object</var>
+                has <code>type</code> property set
+                to <code>"pointer"</code> and <code>subtype</code>
+                property set to <code>"pointerMove"</code>,
+                let <var>duration</var> be equal to
+                the <code>duration</code> property of <var>action
+                object</var>.</li>
+
+            <li><p>If <var>duration</var> is not <a>undefined</a>, and
+                <var>duration</var> is greater than <var>max
+                duration</var> let <var>max duration</var> be equal to
+                duration.</li>
+          </ol>
+      </li>
+
+      <li><p>Return <var>max duration</var>.</li>
+
+    </ol>
+
+    <p>When required to <dfn>dispatch tick actions</dfn> with
+    arguments <var>tick actions</var> and <var>tick duration</var>,
+    a <a>remote end</a> must run the following steps:</p>
+
+    <ol>
+      <li><p>For each <var>action object</var> in <var>tick actions</var>:
+          <ol>
+
+            <li><p>Let <var>source id</var> be equal to the value
+                of <var>action object</var>'s <code>id</code>
+                property.</li>
+
+            <li><p>Let <var>source type</var> be equal to the value
+                of <var>action object</var>'s <code>type</code>
+                property.</li>
+
+            <!-- TODO: this next bit doesn't really link to the right
+            point in the spec for creating objects of the right type -->
+
+            <li><p>If the <a>current session</a>'s <a>input
+                state</a> doesn't have a property corresponding
+                to <var>source id</var>, then let the property
+                corresponding to <var>source id</var> be a new
+                object of the <a>corresponding input state type</a>
+                for <var>source type</var>.
+
+            <li><p>Let <var>device state</var> be the device state
+                corresponding to <var>source id</var> in
+                the <a>current session</a>'s <a>input state</a>
+                object.</li>
+
+            <li><p>Let <var>algorithm</var> be the algorithm in the
+                right hand column of the table below such that the
+                value in the first column matches <var>source
+                type</var> and the value in the second column
+                matches <var>action
+                object</var>'s <code>subtype</code> property.</p>
+
+              <table class=simple>
+                <tr>
+                  <td><code>"none"</code>
+                  <td><code>"pause"</code>
+                  <td><a>Dispatch a pause action</a>
+                </tr>
+                <tr>
+                  <td><code>"key"</code>
+                  <td><code>"pause"</code>
+                  <td><a>Dispatch a pause action</a>
+                </tr>
+                <tr>
+                  <td><code>"key"</code>
+                  <td><code>"keyDown"</code>
+                  <td><a>Dispatch a keyDown action</a>
+                </tr>
+                <tr>
+                  <td><code>"key"</code>
+                  <td><code>"keyUp"</code>
+                  <td><a>Dispatch a keyUp action</a>
+                </tr>
+                <tr>
+                  <td><code>"pointer"</code>
+                  <td><code>"pause"</code>
+                  <td><a>Dispatch a pause action</a>
+                </tr>
+                <tr>
+                  <td><code>"pointer"</code>
+                  <td><code>"pointerDown"</code>
+                  <td><a>Dispatch a pointerDown action</a>
+                </tr>
+                <tr>
+                  <td><code>"pointer"</code>
+                  <td><code>"pointerUp"</code>
+                  <td><a>Dispatch a pointerUp action</a>
+                </tr>
+                <tr>
+                  <td><code>"pointer"</code>
+                  <td><code>"pointerMove"</code>
+                  <td><a>Dispatch a pointerMove action</a>
+                </tr>
+                <tr>
+                  <td><code>"pointer"</code>
+                  <td><code>"pointerCancel"</code>
+                  <td><a>Dispatch a pointerCancel action</a>
+                </tr>
+              </table>
+            </li>
+          </ol>
+
+          <li><p>Return the result of running <var>algorithm</var>
+              with arguments <var>action object</var>, <var>device
+                state</var> and <var>tick duration</var></li>
+
+    </ol>
+
+    <section> <!-- General Actions -->
+      <h2>General Actions</h2>
+      <p>When required to <dfn>dispatch a pause action</dfn> with
+        arguments <var>action object</var>, <var>input state</var>
+        and <var>tick duration</var> a <a>remote end</a> must run the
+        following steps:</p>
+
+      <ol>
+        <li><p>Return <a>success</a> with data null.</li>
+      </ol>
+    </section> <!-- /General Actions -->
 
     <section> <!-- Keyboard Actions -->
-    <h2><dfn data-lt=keyboard>Keyboard Actions</dfn></h2>
-    <p>The <dfn>keyUp</dfn> command:
-      <ol>
-        <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>
-          , return <a>error</a> with <a>error code</a> <a>no such window</a>.
+      <h2>Keyboard Actions</h2>
 
-        <li><p><a>Handle any user prompts</a> and return its value if it is an
-          <a>error</a>.
+      <p>The <dfn>normalised key value</dfn> for a raw
+        key <var>key</var> is, if <var>key</var> appears in the table
+        below, the string value in the second column on the row
+        containing <var>key</var>'s unicode codepoint in the first
+        column, otherwise it is <var>key</var>.
 
-        <li><p>Let <var>key</var> be the result of <a>getting a property</a>
-          named "<code>value</code>".
-
-        <li><p>If <var>element id</var> is <a>undefined</a> jump to step 9.
-
-        <li><p>Let <var>element result</var> be the result of
-         <a>getting a known element</a> by
-         <a>UUID</a> reference <var>element id</var>.
-
-        <li><p>If <var>element result</var> is a <a>success</a>,
-         let <var>element</var> be <var>element result</var>’s data.
-
-        <li><p>If <a>element</a> <a>is stale</a>,
-         return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
-
-        <li><p>Run the <a>focusing steps</a> for the <a>element</a>.
-
-        <li><p>Let <var>active element</var> be the <a>active element</a> of
-          the <a>current browsing context</a>’s <a>document element</a>.
-
-        <li><p>Let <var>key to type</var> be the result of <a>processing keys</a>
-          with argument <var>key</var>.
-
-        <li><p>Generate <a data-lt=keyUp-Event>keyUp</a> <a>Keyboard Event</a> against
-          <var>active element</var> for <var>key to type</var>.
-      </ol>
-
-    <p>The <dfn>keyDown</dfn> command:
-      <ol>
-        <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>
-          , return <a>error</a> with <a>error code</a> <a>no such window</a>.
-
-        <li><p><a>Handle any user prompts</a> and return its value if it is an
-          <a>error</a>.
-
-        <li><p>Let <var>key</var> be the result of <a>getting a property</a>
-          named "<code>value</code>".
-
-        <li><p>If <var>element id</var> is <a>undefined</a> jump to step 9.
-
-        <li><p>Let <var>element result</var> be the result of
-         <a>getting a known element</a> by
-         <a>UUID</a> reference <var>element id</var>.
-
-        <li><p>If <var>element result</var> is a <a>success</a>,
-         let <var>element</var> be <var>element result</var>’s data.
-
-        <li><p>If <a>element</a> <a>is stale</a>,
-         return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
-
-        <li><p>Run the <a>focusing steps</a> for the <a>element</a>.
-
-        <li><p>Let <var>active element</var> be the <a>active element</a> of
-          the <a>current browsing context</a>’s <a>document element</a>.
-
-        <li><p>Let <var>key to type</var> be the result of <a>processing keys</a>
-          with argument <var>key</var>.
-
-        <li><p>Generate <a data-lt=keyDown-Event>keyDown</a> <a>Keyboard Event</a> against
-          <var>active element</var> for <var>key to type</var>.
-      </ol>
-
-
-    <p>The steps for <dfn data-lt='processing keys'>processing keystrokes</dfn> are:
-      <ol>
-        <li><p class=issue>This just needs to be about calculating the keys and
-          arguments and we need to remove event generation
-        <li><p>Run the <a>focusing steps</a> for the element.
-
-        <li><p>Let <var>modifiers</var> be equal to:
-          <dl>
-            <dt><code>control</code>
-            <dd>false
-
-            <dt><code>shift</code>
-            <dd>false
-
-            <dt><code>alt</code>
-            <dd>false
-
-            <dt><code>meta</code>
-            <dd>false
-          </dl>
-          <p class=issue>This needs to be a global
-
-        <li><p>Let <var>length</var> be the length of <var>keys</var>.
-
-        <li><p>Let <var>k</var> be 0.
-
-        <li><p>While <var>k</var> &lt; <var>length</var>
-          <ol>
-            <li><p>Let <var>key</var> be the entry in <var>keys</var> at
-              index <var>k</var>.
-
-            <li><p>If <var>key</var> is equal to the <a>Character Types</a>
-              <code>code</code> set <var>key</var> to be equal to the
-              value <a>Character Types</a> <code>Key</code>.
-
-            <li><p>If <var>key</var> is equal to <a>Character Types</a> <code>Key</code>
-               and <a>Character Types</a> <code>Type</code> is equal to
-              "<code>Modifier</code>" set <var>modifiers</var> key with name
-              equal to <code>Key</code> to true
-
-            <li><p>Generate <a>keyboard event order</a> against <a>Web Element</a>
-              using <var>key</var>. Set the according modifier on <a>Keyboard Event</a>
-              from values in <var>modifier</var>.
-
-            <li><p>Increase <var>k</var> by 1.
-          </ol>
-      </ol>
-
-      <p>The steps for <dfn>releasing modifiers</dfn> are:
-        <ol>
-          <li><p>Set <var>modifiers</var> be equal to:
-            <dl>
-              <dt><code>control</code>
-              <dd>false
-
-              <dt><code>shift</code>
-              <dd>false
-
-              <dt><code>alt</code>
-              <dd>false
-
-              <dt><code>meta</code>
-              <dd>false
-            </dl>
-        </ol>
-
-      <section><!-- Character Types -->
-
-        <dfn>Character Types</dfn>
-        <p>The <var>value</var> parameter contains a mix of printable
-        characters and pressable keys that aren't text. Pressable keys that aren't
-        text are stored in the Unicode PUA (Private Use Area) code points,
-        0xE000-0xF8FF. The following table describes the mapping between PUA and
-        key:
-        <table class="simple">
+        <table class=simple>
           <tr>
-            <th>Key</th>
-            <th>Code</th>
-            <th>Type</th>
+            <th><var>key</var>'s codepoint
+            <th>Normalised key value
           </tr>
-          <tr><td>NULL</td><td>\uE000</td><td>NULL</td></tr>
-          <tr><td>CANCEL</td><td>\uE001</td><td>Special key</td></tr>
-          <tr><td>HELP</td><td>\uE002</td><td>Special key</td></tr>
-          <tr><td>BACK_SPACE</td><td>\uE003</td><td>Special key</td></tr>
-          <tr><td>TAB</td><td>\uE004</td><td>Special key</td></tr>
-          <tr><td>CLEAR</td><td>\uE005</td><td>Special key</td></tr>
-          <tr><td>RETURN</td><td>\uE006</td><td>Special key</td></tr>
-          <tr><td>ENTER</td><td>\uE007</td><td>Special key</td></tr>
-          <tr><td>SHIFT</td><td>\uE008</td><td>Modifier</td></tr>
-          <tr><td>CONTROL</td><td>\uE009</td><td>Modifier</td></tr>
-          <tr><td>ALT</td><td>\uE00A</td><td>Modifier</td></tr>
-          <tr><td>PAUSE</td><td>\uE00B</td><td>Special key</td></tr>
-          <tr><td>ESCAPE</td><td>\uE00C</td><td>Special key</td></tr>
-          <tr><td>SPACE</td><td>\uE00D</td><td>Special key</td></tr>
-          <tr><td>PAGE_UP</td><td>\uE00E</td><td>Special key</td></tr>
-          <tr><td>PAGE_DOWN</td><td>\uE00F</td><td>Special key</td></tr>
-          <tr><td>END</td><td>\uE010</td><td>Special key</td></tr>
-          <tr><td>HOME</td><td>\uE011</td><td>Special key</td></tr>
-          <tr><td>ARROW_LEFT</td><td>\uE012</td><td>Special key</td></tr>
-          <tr><td>ARROW_UP</td><td>\uE013</td><td>Special key</td></tr>
-          <tr><td>ARROW_RIGHT</td><td>\uE014</td><td>Special key</td></tr>
-          <tr><td>ARROW_DOWN</td><td>\uE015</td><td>Special key</td></tr>
-          <tr><td>INSERT</td><td>\uE016</td><td>Special key</td></tr>
-          <tr><td>DELETE</td><td>\uE017</td><td>Special key</td></tr>
-          <tr><td>SEMICOLON</td><td>\uE018</td><td>Special key</td></tr>
-          <tr><td>EQUALS</td><td>\uE019</td><td>Special key</td></tr>
-          <tr><td>NUMPAD0</td><td>\uE01A</td><td>Special key</td></tr>
-          <tr><td>NUMPAD1</td><td>\uE01B</td><td>Special key</td></tr>
-          <tr><td>NUMPAD2</td><td>\uE01C</td><td>Special key</td></tr>
-          <tr><td>NUMPAD3</td><td>\uE01D</td><td>Special key</td></tr>
-          <tr><td>NUMPAD4</td><td>\uE01E</td><td>Special key</td></tr>
-          <tr><td>NUMPAD5</td><td>\uE01F</td><td>Special key</td></tr>
-          <tr><td>NUMPAD6</td><td>\uE020</td><td>Special key</td></tr>
-          <tr><td>NUMPAD7</td><td>\uE021</td><td>Special key</td></tr>
-          <tr><td>NUMPAD8</td><td>\uE022</td><td>Special key</td></tr>
-          <tr><td>NUMPAD9</td><td>\uE023</td><td>Special key</td></tr>
-          <tr><td>MULTIPLY</td><td>\uE024</td><td>Special key</td></tr>
-          <tr><td>ADD</td><td>\uE025</td><td>Special key</td></tr>
-          <tr><td>SEPARATOR</td><td>\uE026</td><td>Special key</td></tr>
-          <tr><td>SUBTRACT</td><td>\uE027</td><td>Special key</td></tr>
-          <tr><td>DECIMAL</td><td>\uE028</td><td>Special key</td></tr>
-          <tr><td>DIVIDE</td><td>\uE029</td><td>Special key</td></tr>
-          <tr><td>F1</td><td>\uE031</td><td>Special key</td></tr>
-          <tr><td>F2</td><td>\uE032</td><td>Special key</td></tr>
-          <tr><td>F3</td><td>\uE033</td><td>Special key</td></tr>
-          <tr><td>F4</td><td>\uE034</td><td>Special key</td></tr>
-          <tr><td>F5</td><td>\uE035</td><td>Special key</td></tr>
-          <tr><td>F6</td><td>\uE036</td><td>Special key</td></tr>
-          <tr><td>F7</td><td>\uE037</td><td>Special key</td></tr>
-          <tr><td>F8</td><td>\uE038</td><td>Special key</td></tr>
-          <tr><td>F9</td><td>\uE039</td><td>Special key</td></tr>
-          <tr><td>F10</td><td>\uE03A</td><td>Special key</td></tr>
-          <tr><td>F11</td><td>\uE03B</td><td>Special key</td></tr>
-          <tr><td>F12</td><td>\uE03C</td><td>Special key</td></tr>
-          <tr><td>META</td><td>\uE03D</td><td>Special key</td></tr>
-          <tr><td>COMMAND</td><td>\uE03D</td><td>Special key</td></tr>
-          <tr><td>ZENKAKU_HANKAKU</td><td>\uE040</td><td>Special key</td></tr>
+          <tr><td><code>\uE000</code></td><td><code>"Unidentified"</code></td></tr>
+          <tr><td><code>\uE001</code></td><td><code>"Cancel"</code></td></tr>
+          <tr><td><code>\uE002</code></td><td><code>"Help"</code></td></tr>
+          <tr><td><code>\uE003</code></td><td><code>"Backspace"</code></td></tr>
+          <tr><td><code>\uE004</code></td><td><code>"Tab"</code></td></tr>
+          <tr><td><code>\uE005</code></td><td><code>"Clear"</code></td></tr>
+          <tr><td><code>\uE006</code></td><td><code>"Return"</code></td></tr>
+          <tr><td><code>\uE007</code></td><td><code>"Enter"</code></td></tr>
+          <tr><td><code>\uE008</code></td><td><code>"Shift"</code></td></tr>
+          <tr><td><code>\uE009</code></td><td><code>"Control"</code></td></tr>
+          <tr><td><code>\uE00A</code></td><td><code>"Alt"</code></td></tr>
+          <tr><td><code>\uE00B</code></td><td><code>"Pause"</code></td></tr>
+          <tr><td><code>\uE00C</code></td><td><code>"Escape"</code></td></tr>
+          <tr><td><code>\uE00D</code></td><td><code>" "</code></td></tr>
+          <tr><td><code>\uE00E</code></td><td><code>"PageUp"</code></td></tr>
+          <tr><td><code>\uE00F</code></td><td><code>"PageDown"</code></td></tr>
+          <tr><td><code>\uE010</code></td><td><code>"End"</code></td></tr>
+          <tr><td><code>\uE011</code></td><td><code>"Home"</code></td></tr>
+          <tr><td><code>\uE012</code></td><td><code>"ArrowLeft"</code></td></tr>
+          <tr><td><code>\uE013</code></td><td><code>"ArrowUp"</code></td></tr>
+          <tr><td><code>\uE014</code></td><td><code>"ArrowRight"</code></td></tr>
+          <tr><td><code>\uE015</code></td><td><code>"ArrowDown"</code></td></tr>
+          <tr><td><code>\uE016</code></td><td><code>"Insert"</code></td></tr>
+          <tr><td><code>\uE017</code></td><td><code>"Delete"</code></td></tr>
+          <tr><td><code>\uE018</code></td><td><code>";"</code></td></tr>
+          <tr><td><code>\uE019</code></td><td><code>"="</code></td></tr>
+          <tr><td><code>\uE01A</code></td><td><code>"0"</code></td></tr>
+          <tr><td><code>\uE01B</code></td><td><code>"1"</code></td></tr>
+          <tr><td><code>\uE01C</code></td><td><code>"2"</code></td></tr>
+          <tr><td><code>\uE01D</code></td><td><code>"3"</code></td></tr>
+          <tr><td><code>\uE01E</code></td><td><code>"4"</code></td></tr>
+          <tr><td><code>\uE01F</code></td><td><code>"5"</code></td></tr>
+          <tr><td><code>\uE020</code></td><td><code>"6"</code></td></tr>
+          <tr><td><code>\uE021</code></td><td><code>"7"</code></td></tr>
+          <tr><td><code>\uE022</code></td><td><code>"8"</code></td></tr>
+          <tr><td><code>\uE023</code></td><td><code>"9"</code></td></tr>
+          <tr><td><code>\uE024</code></td><td><code>"*"</code></td></tr>
+          <tr><td><code>\uE025</code></td><td><code>"+"</code></td></tr>
+          <tr><td><code>\uE026</code></td><td><code>","</code></td></tr>
+          <tr><td><code>\uE027</code></td><td><code>"-"</code></td></tr>
+          <tr><td><code>\uE028</code></td><td><code>"."</code></td></tr>
+          <tr><td><code>\uE029</code></td><td><code>"/"</code></td></tr>
+          <tr><td><code>\uE031</code></td><td><code>"F1"</code></td></tr>
+          <tr><td><code>\uE032</code></td><td><code>"F2"</code></td></tr>
+          <tr><td><code>\uE033</code></td><td><code>"F3"</code></td></tr>
+          <tr><td><code>\uE034</code></td><td><code>"F4"</code></td></tr>
+          <tr><td><code>\uE035</code></td><td><code>"F5"</code></td></tr>
+          <tr><td><code>\uE036</code></td><td><code>"F6"</code></td></tr>
+          <tr><td><code>\uE037</code></td><td><code>"F7"</code></td></tr>
+          <tr><td><code>\uE038</code></td><td><code>"F8"</code></td></tr>
+          <tr><td><code>\uE039</code></td><td><code>"F9"</code></td></tr>
+          <tr><td><code>\uE03A</code></td><td><code>"F10"</code></td></tr>
+          <tr><td><code>\uE03B</code></td><td><code>"F11"</code></td></tr>
+          <tr><td><code>\uE03C</code></td><td><code>"F12"</code></td></tr>
+          <tr><td><code>\uE03D</code></td><td><code>"Meta"</code></td></tr>
+          <tr><td><code>\uE040</code></td><td><code>"ZenkakuHankaku"</code></td></tr>
+          <!-- Right position variants -->
+          <tr><td><code>\uE050</code></td><td><code>"Shift"</code></td></tr>
+          <tr><td><code>\uE051</code></td><td><code>"Control"</code></td></tr>
+          <tr><td><code>\uE052</code></td><td><code>"Alt"</code></td></tr>
+          <tr><td><code>\uE053</code></td><td><code>"Meta"</code></td></tr>
+          <!-- Numpad Variants -->
+          <tr><td><code>\uE054</code></td><td><code>"PageUp"</code></td></tr>
+          <tr><td><code>\uE055</code></td><td><code>"PageDown"</code></td></tr>
+          <tr><td><code>\uE056</code></td><td><code>"End"</code></td></tr>
+          <tr><td><code>\uE057</code></td><td><code>"Home"</code></td></tr>
+          <tr><td><code>\uE058</code></td><td><code>"ArrowLeft"</code></td></tr>
+          <tr><td><code>\uE059</code></td><td><code>"ArrowUp"</code></td></tr>
+          <tr><td><code>\uE05A</code></td><td><code>"ArrowRight"</code></td></tr>
+          <tr><td><code>\uE05B</code></td><td><code>"ArrowDown"</code></td></tr>
+          <tr><td><code>\uE05C</code></td><td><code>"Insert"</code></td></tr>
+          <tr><td><code>\uE05D</code></td><td><code>"Delete"</code></td></tr>
         </table>
-      </section><!-- /Character Types -->
 
-  </section><!-- /Keyboard Actions -->
+      <p>The <dfn>code</dfn> for <var>key</var> is the value in the
+      last column of the following table on the row with <var>key</var> in
+      either the first or second column, if any such row exists,
+      otherwise it is <code>undefined</code>.
+
+        <!-- TODO This should perhaps return undefined when the shift
+        key doesn't match the requirement for producing the character?
+        -->
+
+        <table class=simple>
+          <tr>
+            <th>Key
+            <th>Alternate Key
+            <th>code
+          </tr>
+          <tr><td><code>"`"</code></td><td><code>"~"</code></td><td><code>"Backquote"</code></td></tr>
+          <tr><td><code>"\"</code></td><td><code>"|"</code></td><td><code>"Backslash"</code></td></tr>
+          <tr><td><code>"\uE003"</code></td><td><code></code></td><td><code>"Backspace"</code></td></tr>
+          <tr><td><code>"["</code></td><td><code>"{"</code></td><td><code>"BracketLeft"</code></td></tr>
+          <tr><td><code>"}"</code></td><td><code>"]"</code></td><td><code>"BracketRight"</code></td></tr>
+          <tr><td><code>","</code></td><td><code>"&lt;"</code></td><td><code>"Comma"</code></td></tr>
+          <tr><td><code>"0"</code></td><td><code>")"</code></td><td><code>"Digit0"</code></td></tr>
+          <tr><td><code>"1"</code></td><td><code>"!"</code></td><td><code>"Digit1"</code></td></tr>
+          <tr><td><code>"2"</code></td><td><code>"@"</code></td><td><code>"Digit2"</code></td></tr>
+          <tr><td><code>"3"</code></td><td><code>"#"</code></td><td><code>"Digit3"</code></td></tr>
+          <tr><td><code>"4"</code></td><td><code>"$"</code></td><td><code>"Digit4"</code></td></tr>
+          <tr><td><code>"5"</code></td><td><code>"%"</code></td><td><code>"Digit5"</code></td></tr>
+          <tr><td><code>"6"</code></td><td><code>"^"</code></td><td><code>"Digit6"</code></td></tr>
+          <tr><td><code>"7"</code></td><td><code>"&amp;"</code></td><td><code>"Digit7"</code></td></tr>
+          <tr><td><code>"8"</code></td><td><code>"*"</code></td><td><code>"Digit8"</code></td></tr>
+          <tr><td><code>"9"</code></td><td><code>"("</code></td><td><code>"Digit9"</code></td></tr>
+          <tr><td><code>"="</code></td><td><code>"+"</code></td><td><code>"Equal"</code></td></tr>
+          <tr><td><code>"&lt;"</code></td><td><code>"&gt;"</code></td><td><code>"IntlBackslash"</code></td></tr>
+          <tr><td><code>"a"</code></td><td><code>"A"</code></td><td><code>"KeyA"</code></td></tr>
+          <tr><td><code>"b"</code></td><td><code>"B"</code></td><td><code>"KeyB"</code></td></tr>
+          <tr><td><code>"c"</code></td><td><code>"C"</code></td><td><code>"KeyC"</code></td></tr>
+          <tr><td><code>"d"</code></td><td><code>"D"</code></td><td><code>"KeyD"</code></td></tr>
+          <tr><td><code>"e"</code></td><td><code>"E"</code></td><td><code>"KeyE"</code></td></tr>
+          <tr><td><code>"f"</code></td><td><code>"F"</code></td><td><code>"KeyF"</code></td></tr>
+          <tr><td><code>"g"</code></td><td><code>"G"</code></td><td><code>"KeyG"</code></td></tr>
+          <tr><td><code>"h"</code></td><td><code>"H"</code></td><td><code>"KeyH"</code></td></tr>
+          <tr><td><code>"i"</code></td><td><code>"I"</code></td><td><code>"KeyI"</code></td></tr>
+          <tr><td><code>"j"</code></td><td><code>"J"</code></td><td><code>"KeyJ"</code></td></tr>
+          <tr><td><code>"k"</code></td><td><code>"K"</code></td><td><code>"KeyK"</code></td></tr>
+          <tr><td><code>"l"</code></td><td><code>"L"</code></td><td><code>"KeyL"</code></td></tr>
+          <tr><td><code>"m"</code></td><td><code>"M"</code></td><td><code>"KeyM"</code></td></tr>
+          <tr><td><code>"n"</code></td><td><code>"N"</code></td><td><code>"KeyN"</code></td></tr>
+          <tr><td><code>"o"</code></td><td><code>"O"</code></td><td><code>"KeyO"</code></td></tr>
+          <tr><td><code>"p"</code></td><td><code>"P"</code></td><td><code>"KeyP"</code></td></tr>
+          <tr><td><code>"q"</code></td><td><code>"Q"</code></td><td><code>"KeyQ"</code></td></tr>
+          <tr><td><code>"r"</code></td><td><code>"R"</code></td><td><code>"KeyR"</code></td></tr>
+          <tr><td><code>"s"</code></td><td><code>"S"</code></td><td><code>"KeyS"</code></td></tr>
+          <tr><td><code>"t"</code></td><td><code>"T"</code></td><td><code>"KeyT"</code></td></tr>
+          <tr><td><code>"u"</code></td><td><code>"U"</code></td><td><code>"KeyU"</code></td></tr>
+          <tr><td><code>"v"</code></td><td><code>"V"</code></td><td><code>"KeyV"</code></td></tr>
+          <tr><td><code>"w"</code></td><td><code>"W"</code></td><td><code>"KeyW"</code></td></tr>
+          <tr><td><code>"x"</code></td><td><code>"X"</code></td><td><code>"KeyX"</code></td></tr>
+          <tr><td><code>"y"</code></td><td><code>"Y"</code></td><td><code>"KeyY"</code></td></tr>
+          <tr><td><code>"z"</code></td><td><code>"Z"</code></td><td><code>"KeyZ"</code></td></tr>
+          <tr><td><code>"-"</code></td><td><code>"_"</code></td><td><code>"Minus"</code></td></tr>
+          <tr><td><code>"."</code></td><td><code>">"</code></td><td><code>"Period"</code></td></tr>
+          <tr><td><code>"'"</code></td><td><code>"&quot;"</code></td><td><code>"Quote"</code></td></tr>
+          <tr><td><code>";"</code></td><td><code>":"</code></td><td><code>"Semicolon"</code></td></tr>
+          <tr><td><code>"/"</code></td><td><code>"?"</code></td><td><code>"Slash"</code></td></tr>
+          <tr><td><code>"\uE00A"</code></td><td><code></code></td><td><code>"AltLeft"</code></td></tr>
+          <tr><td><code>"\uE052"</code></td><td><code></code></td><td><code>"AltRight"</code></td></tr>
+          <tr><td><code>"\uE009"</code></td><td><code></code></td><td><code>"ControlLeft"</code></td></tr>
+          <tr><td><code>"\uE051"</code></td><td><code></code></td><td><code>"ControlRight"</code></td></tr>
+          <tr><td><code>"\uE006"</code></td><td><code></code></td><td><code>"Enter"</code></td></tr>
+          <tr><td><code>"\uE03D"</code></td><td><code></code></td><td><code>"OSLeft"</code></td></tr>
+          <tr><td><code>"\uE053"</code></td><td><code></code></td><td><code>"OSRight"</code></td></tr>
+          <tr><td><code>"\uE008"</code></td><td><code></code></td><td><code>"ShiftLeft"</code></td></tr>
+          <tr><td><code>"\uE050"</code></td><td><code></code></td><td><code>"ShiftRight"</code></td></tr>
+          <tr><td><code>" "</code></td><td><code>"\uE00D"</code></td><td><code>"Space"</code></td></tr>
+          <tr><td><code>"\uE004"</code></td><td><code></code></td><td><code>"Tab"</code></td></tr>
+          <tr><td><code>"\uE017"</code></td><td><code></code></td><td><code>"Delete"</code></td></tr>
+          <tr><td><code>"\uE010"</code></td><td><code></code></td><td><code>"End"</code></td></tr>
+          <tr><td><code>"\uE002"</code></td><td><code></code></td><td><code>"Help"</code></td></tr>
+          <tr><td><code>"\uE011"</code></td><td><code></code></td><td><code>"Home"</code></td></tr>
+          <tr><td><code>"\uE016"</code></td><td><code></code></td><td><code>"Insert"</code></td></tr>
+          <tr><td><code>"\uE01E"</code></td><td><code></code></td><td><code>"PageDown"</code></td></tr>
+          <tr><td><code>"\uE01F"</code></td><td><code></code></td><td><code>"PageUp"</code></td></tr>
+          <tr><td><code>"\uE015"</code></td><td><code></code></td><td><code>"ArrowDown"</code></td></tr>
+          <tr><td><code>"\uE012"</code></td><td><code></code></td><td><code>"ArrowLeft"</code></td></tr>
+          <tr><td><code>"\uE014"</code></td><td><code></code></td><td><code>"ArrowRight"</code></td></tr>
+          <tr><td><code>"\uE013"</code></td><td><code></code></td><td><code>"ArrowUp"</code></td></tr>
+          <tr><td><code>"\uE00C"</code></td><td><code></code></td><td><code>"Escape"</code></td></tr>
+          <tr><td><code>"\uE031"</code></td><td><code></code></td><td><code>"F1"</code></td></tr>
+          <tr><td><code>"\uE032"</code></td><td><code></code></td><td><code>"F2"</code></td></tr>
+          <tr><td><code>"\uE033"</code></td><td><code></code></td><td><code>"F3"</code></td></tr>
+          <tr><td><code>"\uE034"</code></td><td><code></code></td><td><code>"F4"</code></td></tr>
+          <tr><td><code>"\uE035"</code></td><td><code></code></td><td><code>"F5"</code></td></tr>
+          <tr><td><code>"\uE036"</code></td><td><code></code></td><td><code>"F6"</code></td></tr>
+          <tr><td><code>"\uE037"</code></td><td><code></code></td><td><code>"F7"</code></td></tr>
+          <tr><td><code>"\uE038"</code></td><td><code></code></td><td><code>"F8"</code></td></tr>
+          <tr><td><code>"\uE039"</code></td><td><code></code></td><td><code>"F9"</code></td></tr>
+          <tr><td><code>"\uE03A"</code></td><td><code></code></td><td><code>"F10"</code></td></tr>
+          <tr><td><code>"\uE03B"</code></td><td><code></code></td><td><code>"F11"</code></td></tr>
+          <tr><td><code>"\uE03C"</code></td><td><code></code></td><td><code>"F12"</code></td></tr>
+          <tr><td><code>"\uE01A"</code></td><td><code>"\uE05C"</code></td><td><code>"Numpad0"</code></td></tr>
+          <tr><td><code>"\uE01B"</code></td><td><code>"\uE056"</code></td><td><code>"Numpad1"</code></td></tr>
+          <tr><td><code>"\uE01C"</code></td><td><code>"\uE05B"</code></td><td><code>"Numpad2"</code></td></tr>
+          <tr><td><code>"\uE01D"</code></td><td><code>"\uE055"</code></td><td><code>"Numpad3"</code></td></tr>
+          <tr><td><code>"\uE01E"</code></td><td><code>"\uE058"</code></td><td><code>"Numpad4"</code></td></tr>
+          <tr><td><code>"\uE01F"</code></td><td><code></code></td><td><code>"Numpad5"</code></td></tr>
+          <tr><td><code>"\uE020"</code></td><td><code>"\uE05A"</code></td><td><code>"Numpad6"</code></td></tr>
+          <tr><td><code>"\uE021"</code></td><td><code>"\uE057"</code></td><td><code>"Numpad7"</code></td></tr>
+          <tr><td><code>"\uE022"</code></td><td><code>"\uE059"</code></td><td><code>"Numpad8"</code></td></tr>
+          <tr><td><code>"\uE023"</code></td><td><code>"\uE054"</code></td><td><code>"Numpad9"</code></td></tr>
+          <tr><td><code>"\uE024"</code></td><td><code></code></td><td><code>"NumpadAdd"</code></td></tr>
+          <tr><td><code>"\uE026"</code></td><td><code></code></td><td><code>"NumpadComma"</code></td></tr>
+          <tr><td><code>"\uE028"</code></td><td><code>"\uE05D"</code></td><td><code>"NumpadDecimal"</code></td></tr>
+          <tr><td><code>"\uE029"</code></td><td><code></code></td><td><code>"NumpadDivide"</code></td></tr>
+          <tr><td><code>"\uE007"</code></td><td><code></code></td><td><code>"NumpadEnter"</code></td></tr>
+          <tr><td><code>"\uE024"</code></td><td><code></code></td><td><code>"NumpadMultiply"</code></td></tr>
+          <tr><td><code>"\uE026"</code></td><td><code></code></td><td><code>"NumpadSubtract"</code></td></tr>
+        </table>
+
+      <p>The <dfn>key location</dfn> for <var>key</var> is the value
+        in the last column in the table below on the row
+        with <var>key</var> appears in the first column, if such a
+        row exists, otherwise it is <code>0</code>.
+
+        <table class=simple>
+          <tr>
+            <th><var>key</var>'s codepoint
+            <th>Location
+            <th>Description
+          </tr>
+          <tr><td><code>\uE007</code></td><td>Enter</td><td><code>1</code></td></tr>
+          <tr><td><code>\uE008</code></td><td>Left Shift</td><td><code>1</code></td></tr>
+          <tr><td><code>\uE009</code></td><td>Left Control</td><td><code>1</code></td></tr>
+          <tr><td><code>\uE00A</code></td><td>Left Alt</td><td><code>1</code></td></tr>
+          <tr><td><code>\uE01A</code></td><td>Numpad 0</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE01B</code></td><td>Numpad 1</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE01C</code></td><td>Numpad 2</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE01D</code></td><td>Numpad 3</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE01E</code></td><td>Numpad 4</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE01F</code></td><td>Numpad 5</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE020</code></td><td>Numpad 6</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE021</code></td><td>Numpad 7</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE022</code></td><td>Numpad 8</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE023</code></td><td>Numpad 9</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE024</code></td><td>Numpad *</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE025</code></td><td>Numpad +</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE026</code></td><td>Numpad ,</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE027</code></td><td>Numpad -</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE028</code></td><td>Numpad .</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE029</code></td><td>Numpad /</td><td><code>3</code></td></tr>
+          <tr><td><code>\uE03D</code></td><td>Left Meta</td><td><code>1</code></td></tr>
+          <!-- Right position variants -->
+          <tr><td><code>\uE050</code></td><td>Right Shift</td><td><code>2</code></td></tr>
+          <tr><td><code>\uE051</code></td><td>Right Control</td><td><code>2</code></td></tr>
+          <tr><td><code>\uE052</code></td><td>Right
+              Alt</td><td><code>2</code></td></tr>
+          <tr><td><code>\uE053</code></td><td>Right Meta</td><td><code>2</code></td></tr>
+          <!-- Numpad Variants -->
+          <tr><td><code>\uE054</code></td><td>Numpad
+              PageUp<td><code>3</code></td></tr>
+          <tr><td><code>\uE055</code></td><td>Numpad
+              PageDown<td><code>3</code></td></tr>
+          <tr><td><code>\uE056</code></td><td>Numpad
+              End<td><code>3</code></td></tr>
+          <tr><td><code>\uE057</code></td><td>Numpad
+              Home<td><code>3</code></td></tr>
+          <tr><td><code>\uE058</code></td><td>Numpad
+              ArrowLeft<td><code>3</code></td></tr>
+          <tr><td><code>\uE059</code></td><td>Numpad
+              ArrowUp<td><code>3</code></td></tr>
+          <tr><td><code>\uE05A</code></td><td>Numpad
+              ArrowRight<td><code>3</code></td></tr>
+          <tr><td><code>\uE05B</code></td><td>Numpad
+              ArrowDown<td><code>3</code></td></tr>
+          <tr><td><code>\uE05C</code></td><td>Numpad
+              Insert<td><code>3</code></td></tr>
+          <tr><td><code>\uE05D</code></td><td>Numpad
+              Delete<td><code>3</code></td></tr>
+        </table>
+
+      <p>When required to <dfn>dispatch a keyDown action</dfn> with
+        arguments <var>action object</var>, <var>input state</var>
+        and <var>tick duration</var> a <a>remote end</a> must run the
+        following steps:</p>
+
+      <ol>
+        <li><p>Let <var>raw key</var> be equal to <var>action
+              object</var>'s <code>value</code> property.</li>
+
+        <li><p>Let <var>key</var> be equal to the <a>normalised key
+        value</a> for <var>raw key</var>.</li>
+
+        <li><p>If the <var>input state</var>'s <code>pressed</code>
+            property contains <var>key</var>, let <var>repeat</var>
+            be true, otherwise let <var>repeat</var> be false.</li>
+
+        <li><p>Let <var>code</var> be the <a>code</a>
+            for <var>raw key</var>.</li>
+
+        <li><p>Let <var>location</var> be the <a>key location</a>
+            for <var>raw key</var>.</li>
+
+        <li><p>Let <var>charCode</var>, <var>keyCode</var>
+            and <var>which</var> be the implementation-specific values of
+            the <code>charCode</code>, <code>keyCode</code>
+            and <code>which</code> properties appropriate for a key with
+            key <var>key</var> and location <var>location</var> on a 102
+            key US keyboard, following the guidelines in [[!UI-EVENTS]].</li>
+
+        <li><p>If <var>key</var> is <code>"Alt"</code>,
+            let <var>device state's</var> <code>alt</code> property
+            be true.</li>
+
+        <li><p>If <var>key</var> is <code>"Shift"</code>,
+            let <var>device state's</var> <code>shift</code> property
+            be true.</li>
+
+        <li><p>If <var>key</var> is <code>"Control"</code>,
+            let <var>device state's</var> <code>ctrl</code> property
+            be true.</li>
+
+        <li><p>If <var>key</var> is <code>"Meta"</code>,
+            let <var>device state's</var> <code>meta</code> property
+            be true.</li>
+
+        <li><p>Add <var>key</var> to the set corresponding
+        to <var>input state</var>'s <code>pressed</code> property.
+
+        <li><p><a href="perform-actions">Perform
+        implementation-specific action dispatch steps</a> equivalent
+        to pressing a key on the keyboard in accordance with the
+        requirements of [[!UI-EVENTS]], and producing at least the
+        following events with the specified properties:
+            <ul>
+              <li><a href="https://w3c.github.io/uievents/#keydown"><code>keyDown</code></a>
+              with properties:
+                  <table class=simple>
+                    <tr>
+                      <th>Attribute</th>
+                      <th>Value</th>
+                    </tr>
+                    <tr><td><code>key</code><td><var>key</var>
+                    <tr><td><code>code</code><td><var>code</var>
+                    <tr><td><code>location</code><td><var>location</var>
+                    <tr><td><code>altKey</code><td><var>device
+                    state</var>'s <code>alt</code> property
+                    <tr><td><code>shiftKey</code><td><var>device
+                    state</var>'s <code>shift</code> property
+                    <tr><td><code>ctrlKey</code><td><var>device
+                    state</var>'s <code>ctrl</code> property
+                    <tr><td><code>metaKey</code><td><var>device
+                    state</var>'s <code>meta</code> property
+                    <tr><td><code>repeat</code><td><var>repeat</var>
+                    <tr><td><code>isComposing</code><td><var>false</var>
+                    <tr><td><code>charCode</code><td><var>charCode</var>
+                    <tr><td><code>keyCode</code><td><var>keyCode</var>
+                    <tr><td><code>which</code><td><var>which</var>
+                  </table>
+              </li>
+              <li><a href="https://w3c.github.io/uievents/#keypress"><code>keyPress</code></a>,
+              with properties:
+                  <table class=simple>
+                    <tr>
+                      <th>Attribute</th>
+                      <th>Value</th>
+                    </tr>
+                    <tr><td><code>key</code><td><var>key</var>
+                    <tr><td><code>code</code><td><var>code</var>
+                    <tr><td><code>location</code><td><var>location</var>
+                    <tr><td><code>altKey</code><td><var>device
+                    state</var>'s <code>alt</code> property
+                    <tr><td><code>shiftKey</code><td><var>device
+                    state</var>'s <code>shift</code> property
+                    <tr><td><code>ctrlKey</code><td><var>device
+                    state</var>'s <code>ctrl</code> property
+                    <tr><td><code>metaKey</code><td><var>device
+                    state</var>'s <code>meta</code> property
+                    <tr><td><code>repeat</code><td><var>repeat</var>
+                    <tr><td><code>isComposing</code><td><var>false</var>
+                    <tr><td><code>charCode</code><td><var>charCode</var>
+                    <tr><td><code>keyCode</code><td><var>keyCode</var>
+                    <tr><td><code>which</code><td><var>which</var>
+                  </table>
+              </li>
+            </ul>
+        </li>
+
+        <li><p>Return <a>success</a> with data null.</li>
+      </ol>
+
+      <aside class=note>
+        <p>A single <a>keyDown</a> action produces a single key input,
+        irrespective of how long the key is held down; there is no
+        implicit key repetition.
+      </aside>
+
+      <p>When required to <dfn>dispatch a keyUp action</dfn> with
+        arguments <var>action object</var>, <var>input state</var>
+        and <var>tick duration</var> a <a>remote end</a> must run the
+        following steps:</p>
+
+      <ol>
+        <li><p>Let <var>raw key</var> be equal to <var>action
+              object</var>'s <code>value</code> property.</li>
+
+        <li><p>Let <var>key</var> be equal to the <a>normalised key
+              value</a> for <var>raw key</var>.</li>
+
+        <li><p>If the <var>input state</var>'s <code>pressed</code>
+            property does not contain <var>key</var>, return.</li>
+
+        <li><p>Let <var>code</var> be the <a>code</a>
+            for <var>raw key</var>.</li>
+
+        <li><p>Let <var>location</var> be the <a>key location</a>
+            for <var>raw key</var>.</li>
+
+        <li><p>Let <var>charCode</var>, <var>keyCode</var>
+            and <var>which</var> be the implementation-specific values
+            of the <code>charCode</code>, <code>keyCode</code>
+            and <code>which</code> properties appropriate for a key
+            with key <var>key</var> and location <var>location</var>
+            on a 102 key US keyboard, following the guidelines in
+            [[!UI-EVENTS]].</li>
+
+        <li><p>If <var>key</var> is <code>"Alt"</code>,
+            let <var>device state's</var> <code>alt</code> property
+            be true.</li>
+
+        <li><p>If <var>key</var> is <code>"Shift"</code>,
+            let <var>device state's</var> <code>shift</code> property
+            be false.</li>
+
+        <li><p>If <var>key</var> is <code>"Control"</code>,
+            let <var>device state's</var> <code>ctrl</code> property
+            be false.</li>
+
+        <li><p>If <var>key</var> is <code>"Meta"</code>,
+            let <var>device state's</var> <code>meta</code> property
+            be false.</li>
+
+        <li><p><a href="perform-actions">Perform
+            implementation-specific action dispatch steps</a>
+            equivalent to pressing a key on the keyboard in accordance
+            with the requirements of [[!UI-EVENTS]], and producing at
+            least the following events with the specified properties:
+            <ul>
+              <li><a href="https://w3c.github.io/uievents/#keyup"><code>keyup</code></a>,
+                with properties:
+                  <table class=simple>
+                    <tr>
+                      <th>Attribute</th>
+                      <th>Value</th>
+                    </tr>
+                    <tr><td><code>key</code><td><var>key</var></tr>
+                    <tr><td><code>code</code><td><var>code</var></tr>
+                    <tr><td><code>location</code><td><var>location</var></tr>
+                    <tr><td><code>altKey</code><td><var>device
+                          state</var>'s <code>alt</code> property</tr>
+                    <tr><td><code>shiftKey</code><td><var>device
+                          state</var>'s <code>shift</code> property</tr>
+                    <tr><td><code>ctrlKey</code><td><var>device
+                          state</var>'s <code>ctrl</code> property</tr>
+                    <tr><td><code>metaKey</code><td><var>device
+                          state</var>'s <code>meta</code> property</tr>
+                    <tr><td><code>repeat</code><td><var>repeat</var></tr>
+                    <tr><td><code>isComposing</code><td><var>false</var></tr>
+                    <tr><td><code>charCode</code><td><var>charCode</var></tr>
+                    <tr><td><code>keyCode</code><td><var>keyCode</var></tr>
+                    <tr><td><code>which</code><td><var>which</var></tr>
+                  </table>
+              </li>
+            </ul>
+        </li>
+        <li><p>Return <a>success</a> with data null.</li>
+      </ol>
+
+    </section>
+    <!-- <REMOVE> -->
+
   <section><!-- Pointer Actions -->
     <h2><dfn data-lt=pointer>Pointer Actions</dfn></h2>
     <p>The <dfn>pointerUp</dfn> command:
@@ -6291,6 +6720,9 @@ session := new_session(capabilities)</code></pre>
         <li><p class=issue>to be completed
       </ol>
   </section><!-- /Pointer Actions -->
+
+  <!-- </REMOVE> -->
+
   </section> <!-- /Dispatching Actions -->
   <section>
     <h2>Perform Actions</h2>
