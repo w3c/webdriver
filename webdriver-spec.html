@@ -1021,6 +1021,12 @@ var respecConfig = {
 
  <tr>
   <td>POST</td>
+  <td>/session/{<var>session id</var>}/window/minimize</td>
+  <td><a>Minimize Window</a></td>
+ </tr>
+
+ <tr>
+  <td>POST</td>
   <td>/session/{<var>session id</var>}/window/fullscreen</td>
   <td><a>Fullscreen Window</a></td>
  </tr>
@@ -3588,6 +3594,48 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   of the <a>current top-level browsing context</a>’s <a>window size</a>.
 </ol>
 </section> <!-- /Maximize Window -->
+
+
+<section>
+<h3>Minimize Window</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/window/minimize</td>
+ </tr>
+</table>
+
+<p>The <dfn>Minimize Window</dfn> command
+ invokes the window manager-specific “minimize” operation, if any,
+ on the window containing the <a>current top-level browsing context</a>.
+ This typically hides the window in the system tray.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
+ <li><p>If the <a>remote end</a> does not support
+  the <a>Minimize Window</a> command
+  for the <a>current top-level browsing context</a> for any reason,
+  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+
+ <li><p>Run the implementation-specific steps
+  to hide the <a>current top-level browsing context</a>
+  from the visible screen.
+
+ <li>Return <a>success</a> with the <a>JSON serialisation</a>
+  of the <a>current top-level browsing context</a>’s <a>window position</a>.
+</ol>
+</section> <!-- /Minimize Window -->
 
 <section>
 <h3>Fullscreen Window</h3>
