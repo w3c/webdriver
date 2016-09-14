@@ -1789,7 +1789,7 @@ session := new_session(capabilities)</code></pre>
 
 <p>A <a>session</a> has an associated <dfn>session implicit wait timeout</dfn>
  that specifies a time to wait for the <a>implicit element location strategy</a>
- when locating elements using <a>Find Element</a> and <a>Find Elements</a>.
+ when <a href=#element-retrieval>retreiving elements</a>.
  Unless stated otherwise it is zero milliseconds.
 
 <p>A <a>session</a> has an associated <dfn>page loading strategy</dfn>,
@@ -3343,16 +3343,64 @@ session := new_session(capabilities)</code></pre>
 <section>
 <h2>Element Retrieval</h2>
 
-<p>The <a>Find Element</a> and <a>Find Elements</a> commands
- allow look up of individual elements and collections of elements, respectively.
+<p>The <a>Find Element</a>,
+ <a>Find Elements</a>,
+ <a>Find Element From Element</a>,
+ and <a>Find Elements From Element</a> <a>commands</a>
+ allow lookup of individual elements and collections of elements.
  Element retrieval searches are performed
  using pre-order traversal of the document’s nodes
  that match the provided selector’s expression.
  Elements are <a data-lt="JSON serialisation of an element">serialised</a>
  and returned as <a>web elements</a>.
 
+<p>When required to <dfn>find</dfn> with arguments
+ <var>all</var>, <var>start node</var>, <var>using</var> and <var>value</var>,
+ a <a>remote end</a> must run the following steps:
+
+<ol>
+ <li><p>Let <var>location strategy</var> be equal to <var>using</var>.
+
+ <li><p>Let <var>selector</var> be equal to <var>value</var>.
+
+ <li><p>Let <var>result</var> be an empty JSON List.
+
+ <li><p>Let <var>elements returned</var> be the result
+  of the relevant <a href=#element-location-strategies>element location strategy</a>
+  call with arguments <var>all</var>, <var>start node</var>, .
+
+ <li><p>If <var>elements returned</var> is an empty <a>NodeList</a>, match on <var>all</var>:
+
+  <dl class=switch>
+   <dt>true
+   <dd>Return <a>success</a> with empty JSON List.
+
+   <dt>false
+   <dd>Return <a>error</a> <a>no such element</a>.
+
+   <dt><a><code>DOMException</code></a>
+   <dt><a><code>SyntaxError</code></a>
+
+   <dt><a><code>XPathException</code></a>
+   <dd>Return <a>error</a> <a>invalid selector</a>.
+  </dl>
+
+ <li><p>Let <var>result</var> be an empty JSON List.
+
+ <li><p>For each <var>element</var> in <var>elements returned</var>:
+
+  <ul>
+   <li><p>Append to <var>result</var>
+    the <a data-lt="JSON serialisation of an element">JSON serialisation</a>
+    of the <var>element</var>.
+  </ul>
+
+ <li><p>Return <var>result</var>.
+</ol>
+
 <section>
 <h3>Locator Strategies</h3>
+
 <p>An <dfn data-lt=strategy>element location strategy</dfn>
  is an <a>enumerated attribute</a>
  deciding what technique should be used
@@ -3386,99 +3434,118 @@ session := new_session(capabilities)</code></pre>
  </tr>
 </table>
 
+<section>
+<h4>CSS Selectors</h4>
 
-
-<h3>CSS Selectors</h3>
-
-<p>To find a <a>Web Element</a> with the <dfn>CSS Selector</dfn> <a>strategy</a>
-  the following steps need to be completed:
-
-  <ol>
-    <li><p>Match on <var>all</var>:
-      <dl class="switch">
-        <dt>true
-        <dd>Let <var>elements</var> be the result of
-          calling <a>querySelectorAll</a> with <var>selector</var> with the
-          <a>context object</a> equal to the <var>start node</var>.
-        <dt>false
-        <dd>let <var>elements</var> be the result of calling <a>querySelector</a>
-          with the <a>context object</a> equal to the <var>start node</var>.
-      </dl>
-    <li><p>Return <var>elements</var>.
-  </ol>
-
-<h3>Link Text</h3>
-<p>To find a <a>Web Element</a> with the <dfn data-lt="link text selector">Link Text</dfn>
-   <a>strategy</a> the following steps need to be completed:
+<p>To find a <a>web element</a> with
+ the <dfn>CSS Selector</dfn> <a>strategy</a>
+ the following steps need to be completed:
 
 <ol>
-  <li><p>Let <var>elements</var> be the result of calling <a>querySelectorAll</a>,
-    with argument <a><code>a</code> elements</a>, with the <a>context object</a> equal to the
-    <var>start node</var>.
+ <li><p>Match on <var>all</var>:
 
-  <li><p>Let <var>result</var> be an empty <a>NodeList</a>.
+  <dl class=switch>
+   <dt>true
+   <dd>Let <var>elements</var> be the result
+    of calling <a>querySelectorAll</a> with <var>selector</var>
+    with the <a>context object</a> equal to the <var>start node</var>.
 
-  <li><p>For each <var>element</var> in <var>elements</var>:
-    <ol>
-      <li><p>Let <var>rendered text</var> be
-       the result of <a>getting <code>innerText</code></a>
-       of <var>element</var>.
+   <dt>false
+   <dd>Let <var>elements</var> be the result
+    of calling <a>querySelector</a> with the <a>context object</a>
+    equal to the <var>start node</var>.
+  </dl>
 
-      <li><p>Let <var>trimmed text</var> be the result of
-        <a>stripping leading and trailing whitespace</a> from <var>rendered text</var>.
-
-      <li><p>If <var>trimmed text</var> equals <var>selector</var>, append
-        <var>element</var> to <var>result</var>.
-    </ol>
-
-  <li><p>Return <var>result</var>.
+ <li><p>Return <var>elements</var>.
 </ol>
+</section> <!-- /CSS Selectors -->
 
-<h3>Partial Link Text</h3>
+<section>
+<h4>Link Text</h4>
+
+<p>To find a <a>web element</a>
+ with the <dfn data-lt="link text selector">Link Text</dfn> <a>strategy</a>
+ the following steps need to be completed:
+
+<ol>
+ <li><p>Let <var>elements</var> be the result of calling <a>querySelectorAll</a>,
+  with argument <a><code>a</code> elements</a>,
+  with the <a>context object</a> equal to the <var>start node</var>.
+
+ <li><p>Let <var>result</var> be an empty <a>NodeList</a>.
+
+ <li><p>For each <var>element</var> in <var>elements</var>:
+
+  <ol>
+   <li><p>Let <var>rendered text</var> be
+    the result of <a>getting <code>innerText</code></a>
+    of <var>element</var>.
+
+   <li><p>Let <var>trimmed text</var> be the result of
+    <a>stripping leading and trailing whitespace</a>
+    from <var>rendered text</var>.
+
+   <li><p>If <var>trimmed text</var> equals <var>selector</var>,
+    append <var>element</var> to <var>result</var>.
+  </ol>
+
+ <li><p>Return <var>result</var>.
+</ol>
+</section> <!-- /Link Text -->
+
+<section>
+<h4>Partial Link Text</h4>
 
 <p>The <dfn data-lt="partial link text selector">Partial link text</dfn> <a>strategy</a>
-  is very similar to the <a>Link Text</a> <a>strategy</a>, but rather than matching
-  the entire string, only a substring needs to match. That is, return all
-  <a><code>a</code> elements</a> with rendered text that contains the selector expression.
+ is very similar to the <a>Link Text</a> <a>strategy</a>,
+ but rather than matching the entire string,
+ only a substring needs to match.
+ That is, return all <a><code>a</code> elements</a>
+ with rendered text that contains the selector expression.
 
-<p>To find a <a>Web Element</a> with the <a>Partial Link Text</a> <a>strategy</a>
-  the following steps need to be completed:
+<p>To find a <a>web element</a>
+ with the <a>Partial Link Text</a> <a>strategy</a>
+ the following steps need to be completed:
 
-  <ol>
-    <li><p>Let <var>elements</var> be the result of calling <a>querySelectorAll</a>,
-      with argument <a><code>a</code> elements</a>, with the <a>context object</a> equal to the
-      <var>start node</var>.
+<ol>
+ <li><p>Let <var>elements</var> be the result of calling <a>querySelectorAll</a>,
+  with argument <a><code>a</code> elements</a>,
+  with the <a>context object</a> equal to the <var>start node</var>.
 
-    <li><p>Let <var>result</var> be an empty <a>NodeList</a>.
+ <li><p>Let <var>result</var> be an empty <a>NodeList</a>.
 
-    <li><p>For each <var>element</var> in <var>elements</var>:
-      <ol>
-        <li><p>Let <var>rendered text</var> be
-         the result of <a>getting <code>innerText</code></a>
-         of <var>element</var>.
-
-        <li><p>If <var>rendered text</var> contains <var>selector</var>, append
-          <var>element</var> to <var>result</var>.
-      </ol>
-
-    <li><p>Return <var>result</var>.
-  </ol>
-
-
-<h3>XPath</h3>
-<p>To find a <a>Web Element</a> with the <dfn>XPath Selector</dfn> <a>strategy</a>
-  the following steps need to be completed:
+ <li><p>For each <var>element</var> in <var>elements</var>:
 
   <ol>
-    <li><p>Return the result of calling <a><code>evaluate</code></a>,
-      with arguments <var>selector</var>, <a>context object</a> equal to the
-      <var>start node</var>.
+   <li><p>Let <var>rendered text</var> be the result
+    of <a>getting <code>innerText</code></a> of <var>element</var>.
+
+   <li><p>If <var>rendered text</var> contains <var>selector</var>,
+    append <var>element</var> to <var>result</var>.
   </ol>
-</section> <!-- /Locator Strategies -->
+
+ <li><p>Return <var>result</var>.
+</ol>
+</section> <!-- /Partial Link Text -->
+
 <section>
-<h3>Finding Elements to interact</h3>
+<h4>XPath</h4>
 
-<p>
+<p>To find a <a>web element</a> with
+ the <dfn>XPath Selector</dfn> <a>strategy</a>
+ the following steps need to be completed:
+
+<ol>
+ <li><p>Return the result of calling <a><code>evaluate</code></a>,
+  with arguments <var>selector</var>, <a>context object</a>
+  equal to the <var>start node</var>.
+</ol>
+</section> <!-- /XPath -->
+</section> <!-- /Locator Strategies -->
+
+<section>
+<h3>Find Element</h3>
+
 <table class="simple jsoncommand">
  <tr>
   <th>HTTP Method</th>
@@ -3508,8 +3575,11 @@ session := new_session(capabilities)</code></pre>
  <li>Return the result of <a>Find</a> with <var>all</var>, <var>start node</var>,
    <var>location strategy</var>, and <var>selector</var>.
 </ol>
+</section> <!-- /Find Element -->
 
-<p>
+<section>
+<h3>Find Elements</h3>
+
 <table class="simple jsoncommand">
  <tr>
   <th>HTTP Method</th>
@@ -3521,118 +3591,103 @@ session := new_session(capabilities)</code></pre>
  </tr>
 </table>
 
-<p>The <dfn>Find Elements</dfn> <a>command</a> is used
-  to find an elements in the <a>current browsing context</a> that can be used for
-  future <a>commands</a>.
-
-  <ol>
-   <li><p>Let <var>all</var> be equal to true.
-
-   <li><p>Let <var>start node </var> be <a><code>html</code> element</a>.
-
-   <li><p>Let <var>location strategy</var> be the result of <a>getting a property</a> called "<code>using</code>".
-
-   <li><p>Let <var>selector</var> be the result of <a>getting a property</a> called "<code>value</code>".
-
-   <li>Return the result of <a>Find</a> with <var>all</var>, <var>start node</var>,
-     <var>location strategy</var>, and <var>selector</var>.
-  </ol>
-
-  <table class="simple jsoncommand">
-   <tr>
-     <th>HTTP Method</th>
-     <th>Path Template</th>
-   </tr>
-   <tr>
-     <td>POST</td>
-     <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/element</td>
-   </tr>
- </table>
-
- <p>The <dfn>Find Element from element</dfn> <a>command</a> is used
-   to find an element from a current <a>Web Element</a> in the <a>current browsing context</a>
-   that can be used for future <a>commands</a>.
-
-   <ol>
-    <li><p>Let <var>all</var> be equal to false.
-
-    <li><p>Let <var>start node </var> be the result of
-     <a>getting a known element</a> by <a>UUID</a> <var>reference</var>.
-
-    <li><p>Let <var>location strategy</var> be the result of <a>getting a property</a> called "<code>using</code>".
-
-    <li><p>Let <var>selector</var> be the result of <a>getting a property</a> called "<code>value</code>".
-
-    <li>Return the result of <a>Find</a> with <var>all</var>, <var>start node</var>,
-      <var>location strategy</var>, and <var>selector</var>.
-   </ol>
-
-   <table class="simple jsoncommand">
-    <tr>
-      <th>HTTP Method</th>
-      <th>Path Template</th>
-    </tr>
-    <tr>
-      <td>POST</td>
-      <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/elements</td>
-    </tr>
-   </table>
-
-   <p>The <dfn>Find Elements from element</dfn> <a>command</a> is used
-    to find elements from a current <a>Web Element</a> in the <a>current browsing context</a>
-    that can be used for future <a>commands</a>.
-
-    <ol>
-     <li><p>Let <var>all</var> be equal to true.
-
-     <li><p>Let <var>start node </var> be the result of
-      <a>getting a known element</a> by <a>UUID</a> <var>reference</var>.
-
-     <li><p>Let <var>location strategy</var> be the result of <a>getting a property</a> called "<code>using</code>".
-
-     <li><p>Let <var>selector</var> be the result of <a>getting a property</a> called "<code>value</code>".
-
-     <li>Return the result of <a>Find</a> with <var>all</var>, <var>start node</var>,
-       <var>location strategy</var>, and <var>selector</var>.
-    </ol>
-
-
-<p>When required to <dfn>find</dfn> with arguments <var>all</var>, <var>start node</var>,
-  <var>using</var> and <var>value</var>, a <a>remote end</a> must run the following steps:
+<p>The <dfn>Find Elements</dfn> <a>command</a>
+ is used to find an elements in the <a>current browsing context</a>
+ that can be used for future <a>commands</a>.
 
 <ol>
-  <li><p>Let <var>location strategy</var> be equal to <var>using</var>.
+ <li><p>Let <var>all</var> be equal to true.
 
-  <li><p>Let <var>selector</var> be equal to <var>value</var>.
+ <li><p>Let <var>start node </var> be <a><code>html</code> element</a>.
 
-  <li><p>Let <var>result</var> be an empty JSON list.
+ <li><p>Let <var>location strategy</var> be the result
+  of <a>getting a property</a> called "<code>using</code>".
 
-  <li><p>Let <var>elements returned</var> be the result of the relevant <a href='#element-location-strategies'>Element Location Strategy</a>
-    call with arguments <var>all</var>, <var>start node</var>, .
+ <li><p>Let <var>selector</var> be the result
+  of <a>getting a property</a> called "<code>value</code>".
 
-  <li><p>If <var>elements returned</var> is an empty <a>NodeList</a>, match on <var>all</var>:
-    <dl class=switch>
-      <dt>true
-      <dd>Return <a>success</a> with empty JSON List.
-      <dt>false
-      <dd>Return an <a>error</a> <code><a href="#status-no-such-element">no such element</a></code>.
-      <dt><a><code>DOMException</code></a>
-      <dt><a><code>SyntaxError</code></a>
-      <dt><a><code>XPathException</code></a>
-      <dd>Return an <a>error</a> <code><a href="#status-invalid-selector">invalid selector</a></code>.
-    </dl>
-  <li><p>Let <var>result</var> be an empty JSON list.
-  <li><p>For each <var>element</var> in <var>elements returned</var>:
-    <ul>
-      <li><p>Append to <var>result</var>
-       the <a data-lt="JSON serialisation of an element">JSON serialisation</a>
-       of the <var>element</var>.
-    </ul>
-  <li><p>Return <var>result</var>.
+ <li>Return the result of <a>Find</a> with
+  <var>all</var>, <var>start node</var>,
+  <var>location strategy</var>, and <var>selector</var>.
 </ol>
+</section> <!-- /Find Elements -->
 
-</section> <!-- /Find Element -->
+<section>
+<h3>Find Element From Element</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/element</td>
+ </tr>
+</table>
+
+<p>The <dfn>Find Element From Element</dfn> <a>command</a>
+ is used to find an element from a <a>web element</a>
+ in the <a>current browsing context</a>
+ that can be used for future <a>commands</a>.
+
+<ol>
+ <li><p>Let <var>all</var> be equal to false.
+
+ <li><p>Let <var>start node </var> be the result of
+  <a>getting a known element</a> by <a>UUID</a> <var>reference</var>.
+
+ <li><p>Let <var>location strategy</var> be the result
+  of <a>getting a property</a> called "<code>using</code>".
+
+ <li><p>Let <var>selector</var> be the result
+  of <a>getting a property</a> called "<code>value</code>".
+
+ <li>Return the result of <a>Find</a> with
+  <var>all</var>, <var>start node</var>,
+  <var>location strategy</var>, and <var>selector</var>.
+</ol>
+</section> <!-- /Find Element From Element -->
+
+<section>
+<h3>Find Elements From Element</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/elements</td>
+ </tr>
+</table>
+
+<p>The <dfn>Find Elements From Element</dfn> <a>command</a>
+ is used to find elements from a <a>web element</a>
+ in the <a>current browsing context</a>
+ that can be used for future <a>commands</a>.
+
+<ol>
+ <li><p>Let <var>all</var> be equal to true.
+
+ <li><p>Let <var>start node </var> be the result
+  of <a>getting a known element</a> by <a>UUID</a> <var>reference</var>.
+
+ <li><p>Let <var>location strategy</var> be the result
+  of <a>getting a property</a> called "<code>using</code>".
+
+ <li><p>Let <var>selector</var> be the result
+  of <a>getting a property</a> called "<code>value</code>".
+
+ <li>Return the result of <a>Find</a> with
+  <var>all</var>, <var>start node</var>,
+  <var>location strategy</var>, and <var>selector</var>.
+</ol>
+</section> <!-- /Find Elements From Element -->
+
 </section> <!-- /Element Retrieval -->
+
 
 <section>
 <h2>Element State</h2>
