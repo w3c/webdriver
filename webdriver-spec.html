@@ -200,7 +200,6 @@ var respecConfig = {
       <li><dfn data-lt="modifier key"><a href="https://www.w3.org/TR/uievents-key/#keys-modifier">Keyboard Modifier Keys</a></dfn>
     </ul>
 
-
  <dt>ECMAScript
  <dd><p>The following terms are defined in the ECMAScript Language Specification: [[!ECMA-262]]
   <ul>
@@ -210,7 +209,7 @@ var respecConfig = {
    <!-- FunctionBody --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-13>FunctionBody</a></dfn>
    <!-- Function --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24>Function</a></dfn>
    <!-- Global environment --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-10.2.3>Global environment</a></dfn>
-   <!-- Own Property --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>Own property</a></dfn>
+   <!-- Own property --> <li><dfn data-lt="own properties"><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>Own property</a></dfn>
    <!-- parseFloat --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></dfn>
    <!-- Use strict directive --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Use strict directive</a></dfn>
   </ul>
@@ -1065,7 +1064,7 @@ var respecConfig = {
  <tr>
   <td>POST</td>
   <td>/session/{<var>session id</var>}/timeouts</td>
-  <td><a>Set Timeout</a></td>
+  <td><a>Set Timeouts</a></td>
  </tr>
 
  <tr>
@@ -1949,7 +1948,7 @@ session := new_session(capabilities)</code></pre>
 </section> <!-- /Delete Session -->
 
 <section>
-<h3>Set Timeout</h3>
+<h3>Set Timeouts</h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -1962,61 +1961,66 @@ session := new_session(capabilities)</code></pre>
  </tr>
 </table>
 
-<p>The <dfn>Set Timeout</dfn> command sets timeouts
+<p>The <dfn>Set Timeouts</dfn> command sets timeouts
  associated with the <a>current session</a>.
  The timeouts that can be controlled are
- the <a>session script timeout</a>,
- the <a>session page load timeout</a>,
- and the <a>session implicit wait timeout</a>.
+ listed in the <a>table of session timeouts</a> below.
 
 <p>The following <dfn>table of session timeouts</dfn>
- lists pairs of different timeouts that may be changed
- with the string codes used to identify them:
+ enumerates the different timeout types that may be set.
+ The keywords given in the first column
+ maps to the timeout type given in the second.
 
 <table class=simple>
  <tr>
+  <th>Keyword
   <th>Type
-  <th>Identifier
+  <th>Brief description
  </tr>
 
  <tr>
-  <td><a>session script timeout</a>
   <td>"<code>script</code>"
+  <td><a>session script timeout</a>
+  <td>Determines when to interrupt a script that is being
+   <a href=#executing-script>evaluated</a>.
  </tr>
 
  <tr>
-  <td><a>session page load timeout</a>
   <td>"<code>page load</code>"
+  <td><a>session page load timeout</a>
+  <td>Provides the timeout limit used to interrupt
+  <a data-lt=navigate>navigation</a> of the <a>browsing context</a>.
  </tr>
 
  <tr>
-  <td><a>session implicit wait timeout</a>
   <td>"<code>implicit</code>"
+  <td><a>session implicit wait timeout</a>
+  <td>Gives the timeout of when to abort
+   <a href=#element-retrieval>locating an element</a>.
  </tr>
 </table>
 
-<p>The <a>remote end steps</a> for
- the <a>Set Timeout</a> command are:
+<p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>For each row in the <a>table of session timeouts</a>,
-  enumerated as <var>type</var> and <var>identifier</var>:
+ <li><p>If <var>parameters</var> is not a JSON Object,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>For each <var>key</var> and <var>value</var>
+  of <var>parameters</var>’s <a>own properties</a>:
 
   <ol>
-   <li><p>If <var>parameters</var> does not have
-    an <a>own property</a> <var>identifier</var>,
-    continue to the next entry.
+   <li><p>Find the <var>timeout type</var> from the <a>table of session timeouts</a>
+    by looking it up by its keyword <var>key</var>.
+    
+    <p>If no keyword matches <var>key</var>,
+     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-   <li><p>If <var>parameters</var>’ <a>own property</a> <var>identifier</var>
-    is not an integer, or it is less than 0 or greater than 2<sup>64</sup> – 1,
+   <li><p>If <var>value</var> is not an integer,
+    or it is less than 0 or greater than 2<sup>64</sup> – 1,
     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-   <li><p>Let <var>timeout</var> be the result of
-    <a>getting a property</a> using <var>identifier</var>
-    from <var>parameters</var>.
-
-   <li><p>Set the <var>type</var> timeout
-    to <var>timeout</var>’s value in milliseconds.
+   <li><p>Set <var>timeout type</var>’s <var>value</var>.
   </ol>
 
  <li><p>Return <a>success</a> with data null.
