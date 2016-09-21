@@ -828,6 +828,12 @@ var respecConfig = {
  </tr>
 
  <tr>
+  <td>GET</td>
+  <td>/status</td>
+  <td><a>Status</a></td>
+ </tr>
+
+ <tr>
   <td>POST</td>
   <td>/session/{<var>session id</var>}/url</td>
   <td><a>Go</a></td>
@@ -1946,6 +1952,57 @@ session := new_session(capabilities)</code></pre>
   <li><p>Return <a>success</a> with data null.
 </ol>
 </section> <!-- /Delete Session -->
+
+<section>
+<h3>Status</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>STATUS</td>
+  <td>/status</td>
+ </tr>
+</table>
+
+<p>The <dfn>Status</dfn> <a>command</a> returns information about
+  whether a remote end is in a state in which it can create a new
+  session. This is represented by the <code>ready</code> property of the
+  response body, which has a value of <code>false</code> if attempting
+  to create a session at the current time would fail. A value
+  of <code>true</code> does not guarantee a new session request would
+  succeed.
+
+<p>The <a>remote end steps</a> are:</p>
+
+<ol>
+  <li><p>Let <var>body</var> be a new JSON <a>Object</a>.</li>
+
+  <li><p>Let <var>ready</var> be a boolean which is <code>false</code>
+  if the node is known to be in a state in which attempting to create
+  a <a>New Session</a> would fail, otherwise let it
+  be <code>true</code>. For an endpoint node <var>ready</var> must
+  be <code>false</code> when the <a>maximum active sessions</a> is
+  equal to the length of the list of <a>active sessions</a> or there
+  is an <a>active user prompt</a>, but there may be further
+  implementation-specific scenarios in which the value
+  is <code>false</code>.</li>
+
+  <li><p>Let <var>message</var> be an implementation-defined string
+  explaining the value given to <var>ready</var>.</li>
+
+  <li><p><a>Set a property</a> of <var>body</var> with
+  name <code>"ready"</code> and value <var>body</var>.
+
+  <li><p><a>Set a property</a> of <var>body</var> with
+  name <code>"message"</code> and value <var>message</var>.
+
+  <li><p>Return <a>success</a> with data <var>body</var>.
+
+</ol>
+</section>
 
 <section>
 <h3>Set Timeouts</h3>
