@@ -1968,42 +1968,72 @@ session := new_session(capabilities)</code></pre>
  </tr>
 </table>
 
-<p>The <dfn>Status</dfn> <a>command</a> returns information about
-  whether a remote end is in a state in which it can create a new
-  session. This is represented by the <code>ready</code> property of the
-  response body, which has a value of <code>false</code> if attempting
-  to create a session at the current time would fail. A value
-  of <code>true</code> does not guarantee a new session request would
-  succeed.
+<p>The <dfn>Status</dfn> <a>command</a>
+ returns information about whether a <a>remote end</a>
+ is in a state in which it can create <a data-lt="new session">new sessions</a>
+ and can additionally include arbitrary meta information
+ that is specific to the implementation.
+
+<p>The readiness state is represented
+ by the <code>ready</code> property of the body,
+ which is false if an attempt to <a data-lt="new session">create a session</a>
+ at the current time would fail.
+ However, the value true does not guarantee
+ that a new session request will succeed.
+
+<p>Implementations may optionally include
+ arbitrary other meta information as part of the body,
+ but the top-level properties
+ <code>ready</code> and <code>message</code>
+ are reserved and must not be overwritten.
 
 <p>The <a>remote end steps</a> are:</p>
 
 <ol>
-  <li><p>Let <var>body</var> be a new JSON <a>Object</a>.</li>
+ <li><p>Let <var>body</var> be a new JSON <a>Object</a>.
 
-  <li><p>Let <var>ready</var> be a boolean which is <code>false</code>
-  if the node is known to be in a state in which attempting to create
-  a <a>New Session</a> would fail, otherwise let it
-  be <code>true</code>. For an endpoint node <var>ready</var> must
-  be <code>false</code> when the <a>maximum active sessions</a> is
-  equal to the length of the list of <a>active sessions</a> or there
-  is an <a>active user prompt</a>, but there may be further
-  implementation-specific scenarios in which the value
-  is <code>false</code>.</li>
+ <li><p>Optionally run implemention-specific steps
+  to populate <var>body</var> with additional
+  JSON serialisable metadata.
 
-  <li><p>Let <var>message</var> be an implementation-defined string
-  explaining the value given to <var>ready</var>.</li>
+ <li>Let <var>readiness state</var> be the value
+  of the first matching statement,
+  switching on the node type of the <a>remote end</a>:
+ 
+  <dl class=switch>
+   <dt><a>intermediary node</a>
+   <dd><p>False if the node is known to be in a state
+    in which attempting to create a <a>new session</a> would fail.
 
-  <li><p><a>Set a property</a> of <var>body</var> with
-  name <code>"ready"</code> and value <var>body</var>.
+    <p>Otherwise true.
+ 
+   <dt><a>endpoint node</a>
+   <dd><p>False when the <a>maximum active sessions</a>
+    is equal to the length of the list of <a>active sessions</a>
+    or there is an <a>active user prompt</a>.
 
-  <li><p><a>Set a property</a> of <var>body</var> with
-  name <code>"message"</code> and value <var>message</var>.
+    <p>Otherwise true.
 
-  <li><p>Return <a>success</a> with data <var>body</var>.
+    <p>However, there may be further
+     implementation-specific scenarios
+     in which the value is false.
+   </dl>
 
+ <li><p>Let <var>readiness state message</var>
+  be an implementation-defined string
+  explaining the value given to <var>readiness state</var>.
+
+ <li><p>Set the property of <var>body</var>
+  with name <code>ready</code>
+  and value <var>readiness state</var>.
+
+ <li><p>Set the property of <var>body</var>
+  with name <code>message</code>
+  and value <var>readiness state message</var>.
+
+ <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
-</section>
+</section> <!-- /Status -->
 
 <section>
 <h3>Set Timeouts</h3>
