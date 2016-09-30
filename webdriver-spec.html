@@ -1405,7 +1405,7 @@ var respecConfig = {
  <a data-lt="extension command URL">URL</a>.
 
 <p>The <a>extension command</a>’s <dfn>extension command URL</dfn>
- is a <a>URL</a> composed of the <a>extension prefix</a>,
+ is a <a>URL</a> composed of the <a>extension command prefix</a>,
  followed by "<code>/</code>",
  and the <a>extension command</a>’s <a data-lt="extension command name">name</a>.
  The <a>extension command URL</a>,
@@ -1417,7 +1417,7 @@ var respecConfig = {
 <aside class=example>
  <p>This might lead to a URL of the form
   <code>/session/5d376174-36f0-11e5-9b9a-6bdf200a3f7f/<var>ms</var>/<var>edge</var>/<var>context</var></code>,
-  where <var>ms/edge</var> is an <a>extension prefix</a>
+  where <var>ms/edge</var> is an <a>extension command prefix</a>
   based on the vendor prefix associated with Microsoft,
   and <var>context</var> the <a>extension command name</a>
   that, in the context of Edge, allows a <a>local end</a>
@@ -1426,16 +1426,67 @@ var respecConfig = {
   <a>remote end steps</a>.
 </aside>
 
-<p>The <a>remote end</a>’s <dfn>extension prefix</dfn> is a
- lowercased <a>ASCII string</a> that forms a URL path element,
- separating <a>extension commands</a> from other <a>commands</a> in
- order to avoid potential resource conflicts with other
- implementations.  It is suggested that vendors use their vendor
- prefixes without additional characters as outlined in [[CSS21]],
- notably in
- <a href=http://www.w3.org/TR/CSS21/syndata.html#vendor-keywords>section
- 4.1.2.2 on <i>vendor keywords</i></a>, as the name for this path
- element, and include a vendor-chosen browser driver identifier.
+<p>An <dfn>extension command prefix</dfn>
+ is a lowercased <a>ASCII string</a> that forms a <a>URL</a> path element,
+ separating <a>extension commands</a> from other <a>commands</a>
+ in order to avoid potential resource conflicts with other implementations.
+ It is suggested that vendors use their vendor prefixes
+ without additional characters as outlined in [[CSS21]],
+ notably in <a href=http://www.w3.org/TR/CSS21/syndata.html#vendor-keywords>section 4.1.2.2 on <i>vendor keywords</i></a>,
+ as the name for this path element,
+ and include a vendor-chosen UA identifier.
+
+<p><a>Remote ends</a> may also introduce
+ <dfn data-lt="extension capability">extension capabilities</dfn>
+ that are extra <a>capabilities</a>
+ used to provide configuration or fulfill other vendor-specific needs.
+ Extension capabilities’ key
+ must contain a "<code>:</code>" (colon) character,
+ denoting an implementation specific namespace.
+ The value can be arbitrary <a>JSON</a> types.
+
+<p>As with <a>extension commands</a>,
+ it is suggested that the key used to denote
+ the <a>extension capability</a> namespace
+ is based on the <a href=http://www.w3.org/TR/CSS21/syndata.html#vendor-keywords>vendor keywords</a>
+ listed in [[!CSS21]]
+ and preceeds the first "<code>:</code>" character in the string.
+
+<aside class=example>
+ <p><a>Extension capabilities</a> are typically used
+  to provide UA or <a>intermediary node</a> specific configuration
+  that is not handled by the <a>table of capabilities</a>.
+
+ <p>An example <a>new session</a> request body
+  might look like this:
+
+ <pre>{
+	"alwaysMatch": {
+		// a cloud provider’s authentication token
+		"sauce:token": "b448b871-a526-4634-aefc-26df6eede519",
+
+		// an <a>intermediary node</a>’s access details
+		"intermediary:login": {
+			"username": "maja",
+			"password": "donut"
+		}
+	},
+	"firstMatch": {
+		// browser specific configuration
+		"moz:firefoxOptions": {
+			"binary": "/usr/bin/firefox",
+			"args": ["--no-remote"],
+			"prefs": {
+				"dom.ipc.processCount": "8"
+			},
+			"log": {
+				"level": "trace",
+				"file": "/tmp/geckodriver.log"
+			}
+		}
+	}
+}</pre>
+</aside>
 
 </section> <!-- /Protocol Extensions -->
 </section> <!-- /The WebDriver Protocol -->
