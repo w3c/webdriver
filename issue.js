@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		if (subchapter)
 			rv += `, section [${subchapter.text}](${subchapter.url}):`;
 		if (chapter || subchapter)
-			rv += "\n";
+			rv += ":\n";
 		return rv + desc;
 	}
 
