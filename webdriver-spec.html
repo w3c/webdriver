@@ -734,9 +734,8 @@ var respecConfig = {
   to the description of <var>status</var> in the <a>status code registry</a>.
 
  <li><p>If <var>data</var> is not null, let <var>response</var>’s
-  <a>body</a> be a JSON object with a top-level property
-  of <var>value</var>, the value of which is the result
-  of <a>serializing as JSON</a> with <var>data</var> as the argument.
+  <a>body</a> be a JSON <a>Object</a> with a key <code>value</code>
+  set to the <a>JSON serialisation</a> of <var>data</var>.
 
  <li><p>Let <var>response bytes</var> be the byte sequence resulting
   from serializing <var>response</var> according to the rules in [[!RFC7230]].
@@ -2249,8 +2248,7 @@ session := new_session(capabilities)</code></pre>
   of the <a>current top-level browsing context</a>’s
   <a>active document</a>’s <a>document URL</a>.
 
- <li><p>Return <a>success</a> with data set
-  to <var>url</var>.</p></li>
+ <li><p>Return <a>success</a> with data <var>url</var>.</p></li>
 </ol>
 </section>
 
@@ -2440,8 +2438,7 @@ session := new_session(capabilities)</code></pre>
  the <a>title</a> IDL attribute of the <a>current top-level browsing
  context</a>'s <a>active document</a>.
 
- <li><p>Return <a>success</a> with data being the value
- of <var>title</var>.
+ <li><p>Return <a>success</a> with data <var>title</var>.
 </ol>
 </section> <!-- /Get Title -->
 </section> <!-- /Navigation -->
@@ -2528,9 +2525,8 @@ session := new_session(capabilities)</code></pre>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p>Return <a>success</a> with data being set to the value of
-  the <a>window handle</a> associated with the <a>current top-level
-  browsing context</a>.
+ <li><p>Return <a>success</a> with data being the <a>window handle</a>
+  associated with the <a>current top-level browsing context</a>.
 </ol>
 </section> <!-- /Get Window Handle -->
 
