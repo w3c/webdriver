@@ -1079,6 +1079,12 @@ var respecConfig = {
  </tr>
 
  <tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/timeouts</td>
+  <td><a>Get Timeouts</a></td>
+ </tr>
+
+ <tr>
   <td>POST</td>
   <td>/session/{<var>session id</var>}/timeouts</td>
   <td><a>Set Timeouts</a></td>
@@ -2028,8 +2034,8 @@ session := new_session(capabilities)</code></pre>
 </section> <!-- /Delete Session -->
 
 <section>
-<h3>Status</h3>
 
+<h3>Status</h3>
 <table class="simple jsoncommand">
  <tr>
   <th>HTTP Method</th>
@@ -2077,6 +2083,45 @@ session := new_session(capabilities)</code></pre>
 
 </ol>
 </section>
+
+<section>
+
+<h3>Get Timeouts</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/timeouts</td>
+ </tr>
+</table>
+
+<p>The <dfn>Get Timeout</dfn> command gets timeouts
+ associated with the <a>current session</a>.
+
+<p>The <a>remote end steps</a> are:</p>
+
+<ol>
+  <li><p>Let <var>body</var> be a new JSON <a>Object</a>.</li>
+
+  <li><p><a>Set a property</a> of <var>body</var> with
+      name <code>"script"</code> and value equal to the <a>session
+      script timeout</a>.</li>
+
+  <li><p><a>Set a property</a> of <var>body</var> with
+      name <code>"page load"</code> and value equal to the <a>session
+      page load timeout</a>.</li>
+
+  <li><p><a>Set a property</a> of <var>body</var> with
+      name <code>"implicit"</code> and value equal to the <a>session
+      implicit wait timeout</a>.</li>
+
+  <li><p>Return <a>success</a> with data <var>body</var>.</li>
+</ol>
+</section> <!-- /Get Timeouts -->
 
 <section>
 <h3>Set Timeouts</h3>
@@ -2222,13 +2267,13 @@ session := new_session(capabilities)</code></pre>
    <li><p>Let <var>readiness target</var> be the <a>document readiness</a> state
     tied to the <a>current session</a>’s <a>page loading strategy</a>,
     which can be found in the <a>table of page load strategies</a>.
-   
+
    <li><p>Wait for the the <a>current browsing context</a>’s
     <a>document readiness</a> state
     to reach <var>readiness target</var>,
     or for the <a>session page load timeout</a> to pass,
     whichever occurs sooner.
-   
+
     <p class=example>This can typically be implemented
      by registering an event handler for
      the <a><code>DOMContentLoaded</code></a> event,
@@ -2236,7 +2281,7 @@ session := new_session(capabilities)</code></pre>
      against <var>readiness target</var> whenever it fires.
      When it reaches its designated <var>readiness target</var>,
      return from the overall step of this algorithm.
-  
+
    <li><p>If the previous step completed
     by the load timeout being reached
     and the browser is does not have an <a>active user prompt</a>,
