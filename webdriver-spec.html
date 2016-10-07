@@ -136,8 +136,16 @@ var respecConfig = {
 -->
 
 <dl>
+ <dt>Web App Security
+ <dd><p>The following terms are defined
+  in the Content Security Policy Level 3 specification: [[!CSP3]]
+  <ul>
+   <li><dfn data-lt="blocked by content security policy"><a href=https://w3c.github.io/webappsec-csp/#should-block-navigation-response>Should block navigation response</a></dfn>
+  </ul>
+
  <dt>DOM
- <dd><p>The following terms are defined in the Document Object Model specification: [[!DOM]]
+ <dd><p>The following terms are defined
+  in the Document Object Model specification: [[!DOM]]
   <ul>
    <!-- Attribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-attribute>Attribute</a></dfn>
    <!-- context object --><li><dfn><a href="https://dom.spec.whatwg.org/#context-object">context object</a></dfn>
@@ -279,6 +287,7 @@ var respecConfig = {
    <!-- Disabled --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-disabled>Disabled</a></dfn>
    <!-- Document address --> <li><dfn data-lt=address><a href=https://dom.spec.whatwg.org/#concept-document-url>Document address</a></dfn>
    <!-- Document title --> <li><dfn data-lt=title><a href=https://html.spec.whatwg.org/#document.title>Document title</a></dfn>
+   <!-- Document readiness --> <li><dfn><a href=https://html.spec.whatwg.org/#current-document-readiness>Document readiness</a></dfn>
    <!-- Enumerated attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#enumerated-attribute>Enumerated attribute</a></dfn>
    <!-- Environment settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#environment-settings-object>Environment settings object</a></dfn>
    <!-- Event loop --> <li><dfn><a href=https://html.spec.whatwg.org/#event-loop>Event loop</a></dfn>
@@ -290,7 +299,7 @@ var respecConfig = {
    <!-- Input type file selected --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-input-type-file-selected">Selected Files</a></dfn>
    <!-- Joint session history --> <li><dfn><a href=https://html.spec.whatwg.org/#joint-session-history>Joint session history</a></dfn>
    <!-- Missing value default state --> <li><dfn><a href=https://html.spec.whatwg.org/#missing-value-default>Missing value default state</a></dfn>
-   <!-- Navigate --> <li><dfn><a href=https://html.spec.whatwg.org/#navigate>Navigate</a></dfn>
+   <!-- Navigate --> <li><dfn data-lt="navigating|navigation"><a href=https://html.spec.whatwg.org/#navigate>Navigate</a></dfn>
    <!-- Nested browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#nested-browsing-context>Nested browsing context</a></dfn>
    <!-- Origin-clean --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-origin-clean>Origin-clean</a></dfn>
    <!-- Parent browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#parent-browsing-context>Parent browsing context</a></dfn>
@@ -354,6 +363,7 @@ var respecConfig = {
  <dd><p>The following events are also defined in the HTML specification:
   <ul>
    <!-- beforeunload --> <li><dfn><a href=https://html.spec.whatwg.org/#event-beforeunload><code>beforeunload</code></a></dfn>
+   <!-- DOMContentLoaded --> <li><dfn><a href=https://html.spec.whatwg.org/#event-domcontentloaded><code>DOMContentLoaded</code></a></dfn>
   </ul>
 
  <dd><p>The “data” URL scheme specification defines the following terms: [[!RFC2397]]
@@ -1201,6 +1211,14 @@ var respecConfig = {
  </tr>
 
  <tr>
+  <td><dfn>insecure certificate</dfn>
+  <td>400
+  <td><code>insecure certificate</code>
+  <td><a>Navigation</a> caused
+   the user agent to hit a certificate warning,
+   which is usually the result of an expired or invalid TLS certificate.
+
+ <tr>
   <td><dfn>invalid argument</dfn>
   <td>400
   <td><code>invalid argument</code>
@@ -1680,10 +1698,10 @@ session := new_session(capabilities)</code></pre>
     append a string saying that a JSON Object is required,
     else call <a>set the proxy</a> passing in <var>proxy</var>.
 
-   <li><p>Let <var>page load strategy</var> be the result of <a>getting a property</a>
-    named <code>pageLoadStrategy</code> from <var>unprocessed capability</var>.
-    If <var>page load strategy</var> is <a>undefined</a>,
-    then set the entry <code>pageLoadStrategy</code>
+   <li><p>Let <var>page loading strategy</var> be the result of <a>getting a property</a>
+    named <code>pageLoadingStrategy</code> from <var>unprocessed capability</var>.
+    If <var>page loading strategy</var> is <a>undefined</a>,
+    then set the entry <code>pageLoadingStrategy</code>
     in <var>server capabilities</var> to <a>normal</a>.
   </ol>
 
@@ -1850,8 +1868,8 @@ session := new_session(capabilities)</code></pre>
  Unless stated otherwise it is zero milliseconds.
 
 <p>A <a>session</a> has an associated <dfn>page loading strategy</dfn>,
- which is one of <i>none</i>, <i>normal</i>, and <i>eager</i>.
- Unless stated otherwise, it is <i>normal</i>.
+ which is one of <a>none</a>, <a>normal</a>, and <a>eager</a>.
+ Unless stated otherwise, it is <a>normal</a>.
 
 <p>A <a>session</a> has an associated <dfn>secure SSL</dfn> state
  that indicates whether untrusted or self-signed SSL certificates
@@ -2143,23 +2161,111 @@ session := new_session(capabilities)</code></pre>
 
 <section>
 <h2>Navigation</h2>
+
 <p>The <a>commands</a> in this section allow navigation of
  the <a>current top-level browsing context</a> to new URLs
  and introspection of the document currently loaded in this <a>browsing context</a>.
 
-<p>For commands that cause a new document to load,
- the point at which the <a>command</a> returns
- is determined by the session’s <a>page load strategy</a>.
- A value of <code>normal</code> causes the command
- to return after the <code>load</code> event fires on the new page,
- a value of <code>eager</code> causes it to return
- after <code>DOMContentLoaded</code> fires,
- and a value of <code>none</code> causes it to return immediately.
+<p>For <a>commands</a> that cause a new document to load,
+ the point at which the command returns
+ is determined by the session’s <a>page loading strategy</a>.
+ The <a>normal</a> state causes it
+ to return after the load event fires on the new page,
+ <a>eager</a> causes it to return
+ after the <a><code>DOMContentLoaded</code></a> event fires,
+ and <a>none</a> causes it to return immediately.
 
 <p>Navigation actions are also affected by the value of
  the <a>session page load timeout</a>,
  which determines the maximum time that commands will block
  before returning with a <a>timeout</a> <a>error</a>.
+
+<p>The following is the <dfn>table of page load strategies</dfn>
+ that links the <code>pageLoadingStrategy</code> <a>capability</a> keyword
+ to a <a>page loading strategy</a> state,
+ and shows which <a>document readiness</a> state
+ that corresponds to it:
+
+<table class=simple>
+ <tr>
+  <th>Keyword
+  <th>Page load strategy state
+  <th>Document readiness state
+ </tr>
+
+ <tr>
+  <td>"<code>none</code>"
+  <td><dfn data-lt="none page loading strategy">none</dfn>
+  <td>
+ </tr>
+
+ <tr>
+  <td>"<code>eager</code>"
+  <td><dfn data-lt="eager page loading strategy">eager</dfn>
+  <td>"<code>interactive</code>"
+ </tr>
+
+ <tr>
+  <td>"<code>normal</code>"
+  <td><dfn data-lt="normal page loading strategy">normal</dfn>
+  <td>"<code>complete</code>"
+ </tr>
+</table>
+
+<p>When asked to <dfn data-lt="waiting for the navigation to complete">wait for navigation to complete</dfn>,
+ run the following steps:
+
+<ol>
+ <li><p>If the <a>current session</a> has a <a>page loading strategy</a>:
+
+  <ol>
+   <li><p>Let <var>readiness target</var> be the <a>document readiness</a> state
+    tied to the <a>current session</a>’s <a>page loading strategy</a>,
+    which can be found in the <a>table of page load strategies</a>.
+   
+   <li><p>Wait for the the <a>current browsing context</a>’s
+    <a>document readiness</a> state
+    to reach <var>readiness target</var>,
+    or for the <a>session page load timeout</a> to pass,
+    whichever occurs sooner.
+   
+    <p class=example>This can typically be implemented
+     by registering an event handler for
+     the <a><code>DOMContentLoaded</code></a> event,
+     and comparing the <a>document readiness</a> state
+     against <var>readiness target</var> whenever it fires.
+     When it reaches its designated <var>readiness target</var>,
+     return from the overall step of this algorithm.
+  
+   <li><p>If the previous step completed
+    by the load timeout being reached
+    and the browser is does not have an <a>active user prompt</a>,
+    return <a>error</a> with <a>error code</a> <a>timeout</a>.
+  </ol>
+</ol>
+
+<p>When asked to run the <dfn>post-navigation checks</dfn>,
+ run the substeps of the first matching statement:
+
+<dl class=switch>
+ <dt><a>response</a> is a network error
+ <dd><p>Return <a>error</a> with <a>error code</a> <a>unknown error</a>.
+
+ <dt><a>response</a> be <a>blocked by content security policy</a>
+ <dd><p>If the <a>current session</a>’s <a>secure SSL</a> state is disabled,
+  take implementation specific steps to ensure
+  the navigation is not aborted
+  and that the untrusted- or invalid TLS certificate error
+  that would normally occur under these circumstances,
+  are suppressed.
+
+  <p>Otherwise return <a>error</a> with <a>error code</a> <a>insecure certificate</a>.
+
+ <dt><a>response</a>’s <a>HTTP status code</a> is 401
+ <dt>Otherwise
+ <dd><p>Irrespective of how a possible authentication challenge is handled,
+  return <a>success</a> with data null.
+</dl>
 
 <section>
 <h3>Go</h3>
@@ -2219,39 +2325,11 @@ session := new_session(capabilities)</code></pre>
 
  <li><p><a>Navigate</a> the <a>current top-level browsing context</a> to <var>url</var>.
 
-  <p>If this navigation’s HTTP request
-   results in a HTTP 401 response,
-   the <a>remote end</a> must proceed with the steps below,
-   irrespective of how the authentication challenge is handled.
+ <li><p>Run the <a>post-navigation checks</a>
+  and return its value if it is an <a>error</a>.
 
-  <p>If this navigation’s HTTP request
-   results in a TLS client certificate negotiation
-   and the certificate is found to not be valid
-   and the <a>active session</a>’s <a>secure SSL</a> state is disabled,
-   take implementation specific steps to ensure
-   the navigation is not aborted
-   and that the untrusted- or invalid SSL certificate error
-   that would normally occur under these circumstances, are suppressed.
-
- <li><p>If the <a>current session</a>’s <a>page loading strategy</a>
-  is <a>none</a> jump to the next step in this overall set of steps.
-
-  <p>Otherwise:
-
-  <ol>
-   <li><p>Let <var>readiness target</var> be "<code>interactive</code>"
-    if the <a>current session</a>’s <a>page loading strategy</a> is <a>eager</a>,
-    or "<code>complete</code>" if it is <a>normal</a>.
-
-   <li><p>Wait for the <a>current document readiness</a> to reach <var>readiness target</var>,
-    or for the <a>session page load timeout</a> milliseconds to pass,
-    whichever occurs sooner.
-
-   <li><p>If the previous step completed by the <a>load timeout</a> being reached,
-    and the browser is not currently displaying an alert,
-    <!-- perhaps? Not sure if this is what the spec is trying to say -->
-    return <a>error</a> with <a>error code</a> <a>timeout</a>.
-  </ol>
+ <li><p><a>Wait for navigation to complete</a>
+  and return its value if it is an <a>error</a>.
 
  <li><p>Set the <a>current browsing context</a>
   to the <a>current top-level browsing context</a>.
@@ -2436,31 +2514,19 @@ session := new_session(capabilities)</code></pre>
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p class=issue>Not sure if this needs to consider the reload override flag.
-
-  <p><a>Navigate</a> the <a>current top-level browsing context</a>
+ <li><p><a>Navigate</a> the <a>current top-level browsing context</a>
    to the same resource as its <a>active document</a>,
    with <a>replacement enabled</a>.
  </li>
 
- <li><p>If the <a>current session</a>’s <a>page load strategy</a> is <a>none</a>,
-  jump to the next step in this overall set of steps.
+ <li><p>Run the <a>post-navigation checks</a>
+  and return its value if it is an <a>error</a>.
 
-  <p>Otherwise:
+ <li><p><a>Wait for navigation to complete</a>
+  and return its value if it is an <a>error</a>.
 
-  <ol>
-   <li><p>Let <var>readiness target</var> be "<code>interactive</code>"
-    if the <a>current session</a>’s <a>page load strategy</a> is <a>eager</a>,
-    or "<code>complete</code>" if it is <a>normal</a>.
-
-   <li><p>Wait for the <a>current document readiness</a> to reach <var>readiness target</var>,
-    or for the <a>session page load timeout</a> milliseconds to pass,
-    whichever occurs sooner.
-
-   <li><p>If the previous step completed by the <a>load timeout</a> being reached,
-     and the browser is not currently displaying an alert,
-     return <a>error</a> with <a>error code</a> <a>timeout</a>.
-  </ol>
+ <li><p>Set the <a>current browsing context</a>
+  to the <a>current top-level browsing context</a>.
 
  <li><p>Return <a>success</a> with data null.
 </ol>
@@ -4382,6 +4448,22 @@ session := new_session(capabilities)</code></pre>
   <a>in-view centre point</a> of <a>element</a>.
 
  <li><p class=issue>Run interaction steps on coordinate.
+
+ <li><p>If the click causes <a>navigation</a>:
+
+  <ol>
+   <li><p>Run the <a>post-navigation checks</a>
+    and return its value if it is an <a>error</a>.
+
+   <li><p><a>Wait for navigation to complete</a>
+    and return its value if it is an <a>error</a>.
+  </ol>
+
+  <p class=example>Note that one may not know
+   if a click causes <a>navigation</a>.
+   It is safe to run the <a>post-navigation checks</a>
+   and <a>waiting for the navigation to complete</a>
+   even though navigation <em>did not</em> occur.
 
  <li><p>Return <a>success</a> with data null.
 </ol>
