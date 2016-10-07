@@ -744,8 +744,8 @@ var respecConfig = {
   to the description of <var>status</var> in the <a>status code registry</a>.
 
  <li><p>If <var>data</var> is not null, let <var>response</var>’s
-  <a>body</a> be the result of <a>serializing as JSON</a>
-  with <var>data</var> as the argument.
+  <a>body</a> be a JSON <a>Object</a> with a key <code>value</code>
+  set to the <a>JSON serialisation</a> of <var>data</var>.
 
  <li><p>Let <var>response bytes</var> be the byte sequence resulting
   from serializing <var>response</var> according to the rules in [[!RFC7230]].
@@ -2426,10 +2426,7 @@ session := new_session(capabilities)</code></pre>
   of the <a>current top-level browsing context</a>’s
   <a>active document</a>’s <a>document URL</a>.
 
- <li><p>Let <var>body</var> be a JSON Object
-  with the "<code>value</code>" property set to <var>url</var>.
-
- <li><p>Return <a>success</a> with data <var>body</var>.</p></li>
+ <li><p>Return <a>success</a> with data <var>url</var>.</p></li>
 </ol>
 </section>
 
@@ -2607,12 +2604,7 @@ session := new_session(capabilities)</code></pre>
  the <a>title</a> IDL attribute of the <a>current top-level browsing
  context</a>'s <a>active document</a>.
 
- <li><p>Let <var>body</var> be a new JSON Object.
-
- <li><p>Set the property "<code>value</code>" of <var>body</var>
-  to the value of <var>title</var>.
-
- <li><p>Return <a>success</a> with data <var>body</var>.
+ <li><p>Return <a>success</a> with data <var>title</var>.
 </ol>
 </section> <!-- /Get Title -->
 </section> <!-- /Navigation -->
@@ -2699,13 +2691,8 @@ session := new_session(capabilities)</code></pre>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p>Let <var>body</var> be a new JSON Object.
-
- <li><p>Set the property "<code>value</code>" on <var>body</var>
-  to the value of the <a>window handle</a> associated with
-  the <a>current top-level browsing context</a>.
-
- <li>Return <a>success</a> with data <var>body</var>.
+ <li><p>Return <a>success</a> with data being the <a>window handle</a>
+  associated with the <a>current top-level browsing context</a>.
 </ol>
 </section> <!-- /Get Window Handle -->
 
@@ -2809,10 +2796,7 @@ session := new_session(capabilities)</code></pre>
  <li><p>For each <a>top-level browsing context</a> in the <a>remote end</a>,
   push the associated <a>window handle</a> onto <var>handles</var>.
 
- <li><p>Let <var>body</var> be a JSON object
-  with the property "<code>value</code>" set to <var>handles</var>.
-
- <li>Return <a>success</a> with data <var>body</var>.
+ <li>Return <a>success</a> with data <var>handles</var>.
 </ol>
 
 <aside class=example>
@@ -4013,10 +3997,7 @@ session := new_session(capabilities)</code></pre>
    <dd>False.
   </dl>
 
- <li><p>Let <var>body</var> be a JSON Object
-  with the "<code>value</code>" member set to <var>selected</var>.
-
- <li><p>Return <a>success</a> with data <var>body</var>.
+ <li><p>Return <a>success</a> with data <var>selected</var>.
 </ol>
 </section> <!-- /Is Element Selected -->
 
@@ -4073,10 +4054,7 @@ session := new_session(capabilities)</code></pre>
      <var>name</var>.
    </dl>
 
-  <li><p>Let <var>body</var> be a JSON Object
-   with the "<code>value</code>" member set to <var>result</var>.
-
-  <li><p>Return <a>success</a> with data <var>body</var>.
+  <li><p>Return <a>success</a> with data <var>result</var>.
 </ol>
 
 <p class=note>Please note that the behaviour of this command
@@ -4132,10 +4110,7 @@ session := new_session(capabilities)</code></pre>
  <li><p>Let <var>result</var> be the value of
   <var>property</var> if not <a>undefined</a>, or null.
 
- <li><p>Let <var>body</var> be a JSON Object
-  with the "<code>value</code>" property set to <var>result</var>.
-
- <li><p>Return <a>success</a> with data <var>body</var>.
+ <li><p>Return <a>success</a> with data <var>result</var>.
 </ol>
 </section> <!-- /Get Element Property -->
 
@@ -4183,10 +4158,7 @@ session := new_session(capabilities)</code></pre>
    <a>document</a> <a data-lt="document type">type</a> is not "<code>xml</code>",
    else let it be "".
 
- <li><p>Let <var>body</var> be a JSON Object with
-  the "<code>value</code>" member set to <var>computed value</var>.
-
- <li>Return <a>success</a> with data <var>body</var>.
+ <li>Return <a>success</a> with data <var>computed value</var>.
 </ol>
 </section> <!-- /Get CSS Value -->
 
@@ -4247,11 +4219,7 @@ session := new_session(capabilities)</code></pre>
   the result of <a>getting <code>innerText</code></a>
   of <var>element</var>.
 
- <li><p>Let <var>body</var> be a JSON Object
-  with the "<code>value</code>" property
-  set to <var>rendered text</var>.
-
- <li><p>Return <a>success</a> with data <var>body</var>.
+ <li><p>Return <a>success</a> with data <var>rendered text</var>.
 </ol>
 </section> <!-- /Get Element Text -->
 
@@ -4295,10 +4263,7 @@ session := new_session(capabilities)</code></pre>
  <li><p>Let <var>qualified name</var> be the result of getting
   <var>element</var>’s <a>tagName</a> content <a>attribute</a>.
 
- <li><p>Let <var>body</var> be a JSON Object
-  with the "<code>value</code>" member set to <var>qualified name</var>.
-
- <li><p>Return <a>success</a> with data <var>body</var>.
+ <li><p>Return <a>success</a> with data <var>qualified name</var>.
 </ol>
 </section> <!-- /Get Element Tag Name -->
 
@@ -4434,10 +4399,7 @@ session := new_session(capabilities)</code></pre>
 
  <li><p>Set <var>enabled</var> to false if a form control is <a>disabled</a>.
 
- <li><p>Let <var>body</var> be a JSON object
-  with the "<code>value</code>" member set to <var>enabled</var>.
-
- <li><p>Return <a>success</a> with data <var>body</var>.
+ <li><p>Return <a>success</a> with data <var>enabled</var>.
 </ol>
 </section> <!-- /Is Element Enabled -->
 </section> <!-- /Element State -->
@@ -5018,12 +4980,7 @@ session := new_session(capabilities)</code></pre>
 
   <p>Otherwise let <var>value</var> be <var>result</var>’s data.
 
- <li><p>Let <var>body</var> be a new JSON Object.
-
- <li><p><a>Set the property</a> "<code>value</code>" of <var>body</var>
-  to <var>value</var>.
-
- <li><p>Return <a>success</a> with data <var>body</var>.
+ <li><p>Return <a>success</a> with data <var>value</var>.
 </ol>
 </section> <!-- /Execute Script -->
 
@@ -5100,12 +5057,7 @@ session := new_session(capabilities)</code></pre>
 
  <li><p>Let <var>value</var> be <var>result</var>’s data.
 
- <li><p>Let <var>body</var> be a new JSON Object.
-
- <li><p>Set the property <code>value</code> of <var>body</var>
-  to <var>value</var>.
-
- <li><p>Return <a>success</a> with data <var>body</var>.
+ <li><p>Return <a>success</a> with data <var>value</var>.
 </ol>
 
 <p>The <dfn>execute async script callback</dfn> algorithm
@@ -7530,10 +7482,7 @@ session := new_session(capabilities)</code></pre>
   associated with the <a>current user prompt</a>,
   or otherwise be null.
 
- <li><p>Let <var>body</var> be a JSON Object with the
-  "<code>value</code>" property set to <var>message</var>.
-
- <li><p>Return <a>success</a> with data <var>body</var>.
+ <li><p>Return <a>success</a> with data <var>message</var>.
 </ol>
 </section>
 
@@ -7729,10 +7678,7 @@ session := new_session(capabilities)</code></pre>
 
  <li><p>Let <var>encoded string</var> be <var>encoding result</var>’s data.
 
- <li><p>Let <var>body</var> be a JSON Object
-  with the "<code>value</code>" property set to <var>encoded string</var>.
-
- <li><p>Return <a>success</a> with data null.
+ <li><p>Return <a>success</a> with data <var>encoded string</var>.
 </ol>
 </section> <!-- /Take Screenshot -->
 
@@ -7795,10 +7741,7 @@ session := new_session(capabilities)</code></pre>
 
  <li><p>Let <var>encoded string</var> be <var>encoding result</var>’s data.
 
- <li><p>Let <var>body</var> be a JSON Object
-  with the "<code>value</code>" property set to <var>encoded string</var>.
-
- <li><p>Return <a>success</a> with data <var>body</var>.
+ <li><p>Return <a>success</a> with data <var>encoded string</var>.
 </ol>
 </section> <!-- /Take Element Screenshot -->
 </section> <!-- /Screen Capture -->
