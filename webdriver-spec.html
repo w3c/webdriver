@@ -5857,7 +5857,7 @@ session := new_session(capabilities)</code></pre>
         <li><p>If <var>type</var> is equal to <code>"pointer"</code>,
             let <var>parameters data</var> be the result of getting a
             property named <var>parameters</var>
-            from <var>action</var>. Then let <var>parameters</var> be
+            from <var>action sequence</var>. Then let <var>parameters</var> be
             the result of <a>trying</a> to <a>process pointer
             parameters</a> with argument <var>parameters
             data</var>.</li>
@@ -5951,7 +5951,7 @@ session := new_session(capabilities)</code></pre>
           </ol>
       </li>
 
-      <li><p>Return <a>success</a> with data <var>primary</var>.</li>
+      <li><p>Return <a>success</a> with data <var>parameters</var>.</li>
 
     </ol>
 
@@ -5980,7 +5980,7 @@ session := new_session(capabilities)</code></pre>
 
       <li><p>Let <var>result</var> be the result of <a>trying</a>
           to <a>process a pause action</a> with arguments <var>action
-          item</var>, and <var>action object</var>.</li>
+          item</var>, and <var>action</var>.</li>
 
       <li><p>Return <var>result</var>.</li>
 
@@ -6006,8 +6006,8 @@ session := new_session(capabilities)</code></pre>
       <li><p>If <var>subtype</var> is <code>"pause"</code>;
           let <var>result</var> be the result of <a>trying</a> to
           <a>process a pause action</a> with arguments <var>action
-          item</var>, and <var>action object</var>, and
-          return <var>result</var>.</li>
+          item</var>, and <var>action</var>, and return
+          <var>result</var>.</li>
 
       <li><p>Let <var>key</var> be the result of getting a property
       named <code>value</code> from <var>action item</var>.</li>
@@ -6052,8 +6052,8 @@ session := new_session(capabilities)</code></pre>
       <li><p>If <var>subtype</var> is <code>"pause"</code>;
           let <var>result</var> be the result of <a>trying</a> to
           <a>process a pause action</a> with arguments <var>action
-          item</var>, and <var>action object</var>, and
-          return <var>result</var>.</li>
+          item</var>, and <var>action</var>, and return
+          <var>result</var>.</li>
 
       <li><p>Set the <code>pointerType</code> property
           of <var>action</var> equal to the <code>pointerType</code>
@@ -6075,6 +6075,11 @@ session := new_session(capabilities)</code></pre>
             and <var>action</var>. If doing so results in an <a>error</a>,
             return that error</li>
 
+      <li><p>If <var>subtype</var>
+            is <code>"pointerCancel"</code> <span class="issue">process a
+            pointer cancel action</span>. If doing so results in an
+            <a>error</a>, return that error</li>
+
       <li><p>Return <a>success</a> with data <var>action</var>.</li>
 
     </ol>
@@ -6095,7 +6100,7 @@ session := new_session(capabilities)</code></pre>
       <li><p>Set the <code>duration</code> property
           of <var>action</var> to <var>duration</var>.</li>
 
-      <li><p>Return success with data null</li>
+      <li><p>Return success with data <var>action</var>.</li>
     </ol>
 
     <p>When required to <dfn>process a pointer up or pointer down
