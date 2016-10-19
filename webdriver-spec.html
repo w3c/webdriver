@@ -5978,13 +5978,11 @@ session := new_session(capabilities)</code></pre>
           constructed with arguments <var>id</var>,
           <code>"none"</code>, and <var>subtype</var>.</li>
 
-      <li><p>If <var>subtype</var> is <code>"pause"</code>;
-          let <var>result</var> be the result of <a>trying</a> to
-          <a>process a pause action</a> with arguments <var>action
-          item</var>, and <var>action</var>. If doing so results in
-          an <a>error</a>, return that error.</li>
+      <li><p>Let <var>result</var> be the result of <a>trying</a>
+          to <a>process a pause action</a> with arguments <var>action
+          item</var>, and <var>action</var>.</li>
 
-      <li><p>Return <a>success</a> with data <var>action</var>.</li>
+      <li><p>Return <var>result</var>.</li>
 
     </ol>
 
@@ -6008,9 +6006,8 @@ session := new_session(capabilities)</code></pre>
       <li><p>If <var>subtype</var> is <code>"pause"</code>;
           let <var>result</var> be the result of <a>trying</a> to
           <a>process a pause action</a> with arguments <var>action
-          item</var>, and <var>action</var>. If doing so results in
-          an <a>error</a>, return that error, otherwise return
-          <var>action</var>.</li>
+          item</var>, and <var>action</var>, and return
+          <var>result</var>.</li>
 
       <li><p>Let <var>key</var> be the result of getting a property
       named <code>value</code> from <var>action item</var>.</li>
@@ -6055,9 +6052,8 @@ session := new_session(capabilities)</code></pre>
       <li><p>If <var>subtype</var> is <code>"pause"</code>;
           let <var>result</var> be the result of <a>trying</a> to
           <a>process a pause action</a> with arguments <var>action
-          item</var>, and <var>action</var>. If doing so results in
-          an <a>error</a>, return that error, otherwise return
-          <var>action</var>.</li>
+          item</var>, and <var>action</var>, and return
+          <var>result</var>.</li>
 
       <li><p>Set the <code>pointerType</code> property
           of <var>action</var> equal to the <code>pointerType</code>
@@ -6104,7 +6100,7 @@ session := new_session(capabilities)</code></pre>
       <li><p>Set the <code>duration</code> property
           of <var>action</var> to <var>duration</var>.</li>
 
-      <li><p>Return success with data null</li>
+      <li><p>Return success with data <var>action</var>.</li>
     </ol>
 
     <p>When required to <dfn>process a pointer up or pointer down
