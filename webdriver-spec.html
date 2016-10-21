@@ -1518,288 +1518,535 @@ var respecConfig = {
 <section>
 <h2>Capabilities</h2>
 
-<p>WebDriver <dfn>capabilities</dfn> allow the <a>local end</a>
- to specify what features it desires or requires the <a>remote end</a> to fulfill
- to be able to create a <a>new session</a>.
+<p>WebDriver <dfn>capabilities</dfn> are used to communicate the features
+supported by a given implementation. The <a>local end</a> may use capabilities
+to define which features it requires the <a>remote end</a> to satisfy when
+creating a <a>new session</a>. Likewise, the <a>remote end</a> uses capabilities
+to describe the full feature set for a session.
 
-<p>The following table provides an overview
- of recognised capabilities, and their usage and effect:
+<p>The following table provides an overview of the standard capabilities that
+each implementation <em>MUST</em> support. An implementation <em>MAY</em> define
+additional capabilities, although it is <em>RECOMMENDED</em> that custom
+capabilities prepend the capability key with a vendor prefix, as outlined in
+[[CSS21]].
+
+<aside class="example">
+<p>As an example, Mozilla could elect to hide new features behind capabilities
+with a "-moz-" prefix:
+
+<pre class=highlight>{
+  "browserName": "firefox",
+  "browserVersion": "1234",
+  "-moz-experimental-webdriver": true
+}</pre>
+</aside>
 
 <table class=simple>
- <tr>
+<thead>
+  <tr>
   <th>Capability
   <th>Key
   <th>Value Type
   <th>Description
- </tr>
+  </tr>
+</thead>
 
- <tr>
+<tbody>
+  <tr>
   <td><dfn>Browser name</dfn>
   <td>"<code>browserName</code>"
   <td>string
   <td>Identifies the user agent.
- </tr>
+  </tr>
 
- <tr>
+  <tr>
   <td><dfn>Browser version</dfn>
   <td>"<code>browserVersion</code>"
   <td>string
   <td>Identifies the version of the user agent.
- </tr>
+  </tr>
 
- <tr>
+  <tr>
   <td><dfn>Platform name</dfn>
   <td>"<code>platformName</code>"
   <td>string
   <td>Identifies the system or operating system
-   of the <a>endpoint node</a>.
- </tr>
+  of the <a>endpoint node</a>.
+  </tr>
 
- <tr>
+  <tr>
   <td><dfn>Platform version</dfn>
   <td>"<code>platformVersion</code>"
   <td>string
   <td>Identifies the system version of the <a>endpoint node</a>.
- </tr>
+  </tr>
 
- <tr>
+  <tr>
   <td><dfn>Accept SSL certificates</dfn>
   <td>"<code>acceptSslCerts</code>"
   <td>boolean
-  <td>Indicates that untrusted and self-signed SSL certificates
-   are trusted implicitly on <a data-lt=go>navigation</a>
-   for the duration of the session.
- </tr>
+  <td>Indicates whether untrusted and self-signed SSL certificates are
+  implicitly trusted on <a data-lt=go>navigation</a> for the duration of the
+  session.
+  </tr>
+
+  <tr>
+  <td><dfn>Page Load Strategy</dfn>
+  <td>"<code>pageLoadStrategy</code>"
+  <td>string
+  <td>Defines the <a>current session</a>’s <a>page load strategy</a>.
+  </tr>
+
+  <tr>
+  <td><dfn>Proxy Configuration</dfn>
+  <td>"<code>proxy</code>"
+  <td>JSON Object
+  <td>Describes a session's proxy configuration.
+  </tr>
+
+  <tr>
+  <td><dfn>Session Timeouts Configuration</dfn>
+  <td>"<code>timeouts</code>"
+  <td>JSON Object
+  <td>Describes the <a>timeouts</a> imposed on certain session operations.
+  </tr>
+</tbody>
 </table>
 
-<p>Implementations are free to use the <a>capabilities</a> dictionary
- passed in the request to create a <a>new session</a>
- to provide additional feature requests
- from any of the <a>remote ends</a>, including the <a>endpoint node</a>.
- Likewise the <a>remote end</a> may supply additional entries
- on the <a>capabilities</a> object returned
- from creating a <a>new session</a>.
+<section>
+<h3>Proxy Configurations</h3>
+<p>The <a>Proxy Configuration</a> capability is a JSON Object nested within the
+primary <a>capabilities</a>. Implementations <em>MAY</em> define additional
+proxy configuration options, but they <em>MUST NOT</em> alter the
+semantics of those listed below.
 
-<aside class=example>
- <p>Capabilities may for example be used
-  to provide a serialised profile for a <a>remote end</a> to use
-  during startup of the user agent binary.
+<table class=simple>
+<thead>
+<tr>
+<th>Key
+<th>Value Type
+<th>Description
+</tr>
+</thead>
 
- <p>A fictive example of this:
+<tbody>
+<tr>
+<td>"<code>proxyType</code>"
+<td>string
+<td>Indicates the type of proxy configuration. This value <em>SHOULD</em> be one
+of the following: "<code>pac</code>", "<code>noproxy</code>",
+"<code>autodetect</code>", "<code>system</code>", or "<code>manual</code>".
+</tr>
 
- <pre><code>capabilities := {}
-profile := serialise_profile("/path/to/profile")
-capabilities["profile"] = profile
-session := new_session(capabilities)</code></pre>
-</aside>
+<tr>
+<td>"<code>proxyAutoconfigUrl</code>"
+<td>string
+<td>Defines the URL for a proxy auto-config file. [URL]
+  This property <em>SHOULD</em> only be set when the "<code>proxyType</code>" is
+  equal to "<code>pac</code>".
+</tr>
 
-<p>When <dfn>processing capabilities</dfn> with argument <var>parameters</var>
- a <a>remote end</a> must run the following steps:
+<tr>
+<td>"<code>ftpProxy</code>"
+<td>string
+<td>Defines the proxy <em>hostname</em> for FTP traffic. Alternatively, an
+  implementation <em>MAY</em> accept a hostname and port through this property.
+  This property <em>SHOULD</em> only be set when the "<code>proxyType</code>" is
+  equal to "<code>manual</code>".
+</tr>
+
+<tr>
+<td>"<code>ftpProxyPort</code>"
+<td>number
+<td>Defines the proxy <em>port</em> for FTP traffic.
+  This property <em>SHOULD</em> only be set when the "<code>proxyType</code>" is
+  equal to "<code>manual</code>".
+</tr>
+
+<tr>
+<td>"<code>httpProxy</code>"
+<td>string
+<td>Defines the proxy <em>hostname</em> for HTTP traffic. If a hostname and port
+  is passed through this property, set "<code>httpProxy</code>" to the hostname
+  and "<code>httpProxyPort</code>" to the port.
+  <p>This property <em>SHOULD</em> only be set when the "<code>proxyType</code>" is
+  equal to "<code>manual</code>".
+</tr>
+
+<tr>
+<td>"<code>httpProxyPort</code>"
+<td>number
+<td>Defines the proxy <em>port</em> for HTTP traffic. If "<code>httpProxyPort</code>"
+  is defined in "<code>httpProxy</code>" and from this property, return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  This property <em>SHOULD</em> only be set when the "<code>proxyType</code>" is
+  equal to "<code>manual</code>".
+</tr>
+
+<tr>
+<td>"<code>sslProxy</code>"
+<td>string
+<td>Defines the proxy <em>hostname</em> for encrypted SSL traffic. If a hostname and port
+  is passed through this property, set "<code>sslProxy</code>" to the hostname
+  and "<code>sslProxyPort</code>" to the port.
+  This property <em>SHOULD</em> only be set when the "<code>proxyType</code>" is
+  equal to "<code>manual</code>".
+</tr>
+
+<tr>
+<td>"<code>sslProxyPort</code>"
+<td>number
+<td>Defines the proxy <em>port</em> for ssl traffic. If "<code>sskProxyPort</code>"
+  is defined in "<code>sslProxy</code>" and from this property, return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  This property <em>SHOULD</em> only be set when the "<code>proxyType</code>" is
+  equal to "<code>manual</code>".
+</tr>
+
+<tr>
+<td>"<code>socksProxy</code>"
+<td>string
+<td>Defines the proxy <em>hostname</em> for a SOCKS proxy. [[RFC1928]]
+  Alternatively, an implementation <em>MAY</em> accept a hostname and port
+  through this property.
+  This property <em>SHOULD</em> only be set when the "<code>proxyType</code>" is
+  equal to "<code>manual</code>".
+</tr>
+
+<tr>
+<td>"<code>socksProxyPort</code>"
+<td>number
+<td>Defines the proxy <em>port</em> for a SOCKS proxy. [[RFC1928]]
+  This property <em>SHOULD</em> only be set when the "<code>proxyType</code>" is
+  equal to "<code>manual</code>".
+</tr>
+
+<tr>
+<td>"<code>socksVersion</code>"
+<td>number
+<td>Defines the SOCKS proxy version.
+  This property <em>SHOULD</em> only be set when the "<code>proxyType</code>" is
+  equal to "<code>manual</code>".
+</tr>
+
+<tr>
+<td>"<code>socksUsername</code>"
+<td>string
+<td>
+  Defines the username used when authenticating with a SOCKS proxy. [[RFC1928]]
+  This property <em>SHOULD</em> only be set when the "<code>proxyType</code>" is
+  equal to "<code>manual</code>".
+</tr>
+
+<tr>
+<td>"<code>socksPassword</code>"
+<td>string
+<td>
+  Defines the password used when authenticating with a SOCKS proxy. [[RFC1928]]
+  This property <em>SHOULD</em> only be set when the "<code>proxyType</code>" is
+  equal to "<code>manual</code>".
+  This property <em>MUST NOT</em> be set by a <a>remote end</a> when returning
+  <a>capabilities</a> to the <a>local end</a>.
+</tr>
+
+</tbody>
+</table>
+</section><!-- /Proxy Configurations -->
+
+<section>
+<h3>Session Timeouts Configuration</h3>
+<p>The <a>Session Timeouts Configuration</a> capability is a JSON Object nested
+within the primary capabilities. It consists of the properties listed in the
+table below. These values may be changed after creating a <a>new session</a>
+using the <a>Set Timeout</a> command.
+
+<table class=simple>
+<thead>
+<tr>
+<th>Key
+<th>Value Type
+<th>Description
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>"<code>implicit</code>"
+<td>number
+<td>Specifies the <a>session implicit wait timeout</a>.
+</tr>
+
+<tr>
+<td>"<code>page load</code>"
+<td>number
+<td>Specifies the <a>session page load timeout</a>.
+</tr>
+
+<tr>
+<td>"<code>script</code>"
+<td>number
+<td>Specifies the <a>session script timeout</a>.
+</tr>
+</table>
+
+</section><!-- /Session Timeouts Configuration -->
+
+<section>
+<h3>Processing Capabilities</h3>
+
+<p>When <dfn>processing capabilities</dfn> with argument <var>parameters</var>,
+  the <a>endpoint node</a> must take the following steps:
 
 <ol>
- <li><p>Let <var>server capabilities</var> be a JSON Object
-  with the following entries:
+<li><p>Let <var>capabilities request</var> be the result of getting a property
+named "<code>capabilities</code>" from <var>parameters</var>.
+
+  <ol>
+  <li><p>If <var>capabilities request</var> is not a JSON object,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  </ol>
+
+<li><p>Let <var>required capabilities</var> be the result of getting a property
+named "<code>alwaysMatch</code>" from <var>capabilities request</var>.
+
+  <ol>
+  <li><p>If <var>required capabilities</var> is <a>null</a> or <a>undefined</a>,
+  set the value to an empty JSON Object.
+
+  <li><p>If <var>required capabilities</var> is not a JSON Object,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  </ol>
+
+<li><p>Let <var>desired capabilities</var> be the result of getting a property
+named "<code>firstMatch</code>" from <var>capabilities request</var>.
+
+  <ol>
+  <li><p>If <var>desired capabilities</var> is <a>null</a> or <a>undefined</a>,
+  set the value to a JSON List with a single entry of an empty JSON Object.
+
+  <li><p>If <var>desired capabilities</var> is not a JSON List,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  </ol>
+
+<li><p>Let <var>length</var> be the length of <var>desired capabilities</var>.
+
+<li><p>Let <var>k</var> be 0.
+
+<li><p>Let <var>matched capabilities</var> be <a>null</a>.
+
+<li><p>While <var>k</var> &lt; <var>length</var> and
+<var>matched capabilities</var> is <a>null</a>:
+
+  <ol>
+  <li><p>Let <var>dc</var> be the entry in <var>desired capabilities</var> at
+  index <var>k</var>.
+
+  <li><p>If <var>dc</var> is not a JSON Object,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+  <li><p>Let <var>merged capabilities</var> be the result of
+  <a>merging capabilities</a> with <var>required capabilities</var> and
+  <var>dc</var> as arguments.
+
+  <li><p>If <var>merged capabilities</var> is an <a>error</a>,
+  return the <var>merged capabilities</var> error.
+
+  <li><p>Set <var>matched capabilities</var> to the result of
+  <a>matching capabilities</a> with <var>merged capabilities</var> as an
+  argument.
+
+  <li><p>Increment <var>k</var> by 1.
+  </ol>
+
+<li><p>Return <var>matched capabilities</var>.
+</ol>
+
+<p>When <dfn>merging capabilities</dfn> with JSON Object arguments
+  <var>primary</var> and <var>secondary</var>, an endpoint node
+  must take the following steps:
+
+<ol>
+<li><p>Let <var>result</var> be a JSON Object with the same entries as
+<var>primary</var>.
+
+<li><p>If <var>secondary</var> is <a>null</a> or <a>undefined</a>, return
+<var>result</var>.
+
+<li><p>Let <var>k</var> be 0.
+
+<li><p>Let <var>num entries</var> be the number of entries in
+<var>secondary</var>.
+
+<li><p>While <var>k</var> &lt; <var>num entries</var>:
+
+  <ol>
+  <li><p>Let <var>entry</var> be the entry in <var>secondary</var> at index
+  <var>k</var>.
+
+  <li><p>If the name of <var>entry</var> is also the name of an entry in
+  <var>result</var>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+  <p>Otherwise, add <var>entry</var> to <var>result</var>.
+
+  <li><p>Increment <var>k</var> by 1.
+  </ol>
+
+<li><p>Return <var>result</var>.
+</ol>
+
+<p>When <dfn>matching capabilities</dfn> with JSON Object argument
+  <var>capabilities</var>, an endpoint node must take the following
+  steps:
+
+<ol>
+<li><p>Let <var>matched capabilities</var> be a JSON Object with the following
+entries:
 
   <dl>
-   <dt>"<code>browserName</code>"
-   <dd>Lowercase name of the user agent
+  <dt>"<code>browserName</code>"
+  <dd>Lowercase name of the user agent.
 
-   <dt>"<code>browserVersion</code>"
-   <dd>Version of the user agent
+  <dt>"<code>browserVersion</code>"
+  <dd>The user agent version, as a string.
 
-   <dt>"<code>platformName</code>"
-   <dd>Lowercase name of the platform
+  <dt>"<code>platformName</code>"
+  <dd>Lowercase name of the current platform.
 
-   <dt>"<code>platformVersion</code>"
-   <dd>Version of the platform
+  <dt>"<code>platformVersion</code>"
+  <dd>The platform version, as a string.
 
-   <dt>"<code>acceptSslCerts</code>"
-   <dd>False
+  <dt>"<code>acceptSslCerts</code>"
+  <dd>Boolean initially set to false, indicating the session <em>will not</em> implicitly trust
+  untrusted or self-signed SSL certificates on <a data-lt=go>navigation</a>.
   </dl>
 
- <li><p>Let <var>required capabilities</var> be the result of <a>getting a property</a>
-  named <code>requiredCapabilities</code> from <var>capabilities</var>.
+<li><p>Let <var>capabilities length</var> be the number of entries in <var>capabilities</var>.
 
- <li>If <var>required capabilities</var> is not a JSON Object,
-  set the value to an empty JSON Object.
+<li><p>Let <var>k</var> be 0.
 
- <li><p>Let <var>desired capabilities</var> be the result of <a>getting a property</a>
-  named <code>desiredCapabilities</code> from <var>capabilities</var>.
-
- <li>If <var>desired capabilities</var> is not a JSON Object,
-  set the value to an empty JSON Object.
-
- <li><p>Let <var>length</var> be the length of <var>required capabilities</var>.
-
- <li><p>Let <var>k</var> be 0.
-
- <li><p>While <var>k</var> &lt; <var>length</var>:
+<li><p>While <var>k</var> &lt; <var>capabilities length</var>:
 
   <ol>
-   <li><p>Let <var>capability</var> be the entry
-    in <var>required capabilities</var> at index <var>k</var>.
+  <li><p>Let <var>capability name</var> be the name of the entry at index
+  <var>k</var> in <var>capabilities</var>.
 
-   <li><p>If the name of the <var>capability</var> is among
-    the names of entries in <var>desired capabilities</var>,
-    remove the corresponding entry from <var>desired capabilities</var>.
+  <li><p>Let <var>capability value</var> be the value of the entry at index
+  <var>k</var> in <var>capabilities</var>.
 
-   <li>Increase <var>k</var> by 1.
+  <li><p>Switch on <var>capability name</var>:
+
+    <dl class=switch>
+      <dt>"<code>browserName</code>"
+      <dd>
+        <p>If <var>capability value</var> is <a>null</a>, <a>undefined</a>,
+        or equal to the string "<code>*</code>", it is considered
+        a match for the entry in <var>matched capabilities</var>.
+
+        <p>Otherwise, if <var>capability value</var> is not a string equal to
+        the "<code>browserName</code>" entry in <var>matched capabilities</var>,
+        return null.
+
+      <dt>"<code>browserVersion</code>"
+      <dd>
+        <p>If <var>capability value</var> is <a>null</a>, <a>undefined</a>,
+        or equal to the string "<code>*</code>", it is to be considered
+        a match for the entry in <var>matched capabilities</var>.
+
+        <p>Otherwise, compare <var>capability value</var> to the
+        "<code>browserVersion</code>" entry in <var>matched capabilities</var>
+        using an implementation-defined comparison algorithm. The comparison
+        is to accept a <var>capability value</var> that places
+        constraints on the version using the "<code>&lt;</code>",
+        "<code>&lt;=</code>", "<code>&gt;</code>", and "<code>&gt;=</code>"
+        operators.
+
+        <p>If the two values do not match, return null.
+
+        <p class=note>Version comparison is left as an implementation detail
+        since each user agent will likely have conflicting methods of encoding
+        the user agent version and standardizing these schemes is beyond the
+        scope of this specification.
+
+      <dt>"<code>platformName</code>"
+      <dd>
+        <p>If <var>capability value</var> is <a>null</a>, <a>undefined</a>,
+        or equal to the string "<code>*</code>", it is considered
+        a match for the entry in <var>matched capabilities</var>.
+
+        <p>Otherwise, if <var>capability value</var> is not a string equal to
+        the "<code>platformName</code>" entry in
+        <var>matched capabilities</var>, return null.
+
+      <dt>"<code>platformVersion</code>"
+      <dd>
+        <p>If <var>capability value</var> is <a>null</a>, <a>undefined</a>,
+        or equal to the string "<code>*</code>", it is considered
+        a match for the entry in <var>matched capabilities</var>.
+
+        <p>Otherwise, if <var>capability value</var> is not a string equal to
+        the "<code>platformVersion</code>" entry in
+        <var>matched capabilities</var>, return null.
+
+      <dt>"<code>acceptSslCerts</code>"
+      <dd>
+        <p>If <var>capability value</var> is not a boolean,
+        return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+        <p>If <var>capability value</var> is <code>true</code> and the
+        <a>endpoint node</a> <em>does not</em> support insecure
+        SSL certificates, return null.
+
+        <p>Otherwise, set the "<code>acceptSslCerts</code>" entry in
+        <var>matched capabilities</var> to <var>capability value</var>.
+
+      <dt>"<code>pageLoadStrategy</code>"
+      <dd>
+        <p>If <var>capability value</var> is not a string,
+        return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+        <p>Otherwise, set the "<code>pageLoadStrategy</code>" entry in
+        <var>matched capabilities</var> to <var>capability value</var>.
+
+      <dt>"<code>proxy</code>"
+      <dd>
+        <p>If <var>capability value</var> is not a valid <a>Proxy Configuration</a>,
+        return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+        <p>If the <a>endpoint node</a> does not support the proxy configuration
+        defined in <var>capability value</var>, return null.
+
+        <p>Otherwise, set the "<code>proxy</code>" entry in
+        <var>matched capabilities</var> to <var>capability value</var>.
+
+      <dt>"<code>timeouts</code>"
+      <dd>
+        <p>If <var>capability value</var> is not a valid
+        <a>Session Timeouts Configuration</a> object,
+        return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+        <p>Otherwise, set the "<code>timeouts</code>" entry in
+        <var>matched capabilities</var> to <var>capability value</var>.
+
+      <dt><strong>Otherwise</strong>
+      <dd>
+        <p>If <var>capability name</var> is not recognized by the <a>endpoint node</a>,
+        return null.
+
+        <p>Let <var>processed value</var> be the result of implementation
+        specific steps to match on <var>capability name</var> with
+        <var>capability value</var>.
+
+        <p>If <var>processed value</var> is an error,
+        return <var>processed value</var>.
+
+        <p>Otherwise, create a new entry in <var>matched capabilities</var> with
+        name <var>capability name</var> and value <var>processed value</var>.
+    </dl>
   </ol>
 
- <li><p>Let <var>unmet capabilities</var> be an empty JSON List.
-
- <li><p>Let <var>unprocessed capabilities</var> be a JSON Object
-  that contains all entries from <var>required capabilities</var>
-  and all entries from <var>desired capabilities</var>.
-
- <li><p>Let <var>j</var> be 0.
-
- <li><p>Let <var>capabilities length</var> be
-  the length of <var>unprocessed capabilities</var>.
-
- <li><p>While <var>j</var> &lt; <var>capabilities length</var>:
-
-  <ol>
-   <li><p>Let <var>unprocessed capability</var> be the entry at index <var>j</var>
-    in <var>unprocessed capabilities</var>.
-
-   <li><p>If during the steps below the <var>unprocessed capability</var>
-    equals an entry in <var>required capabilities</var>
-    and name of <var>unprocessed capability</var> entry among the names
-    of entries in <var>server capabilities</var>
-    and the values do not match do the following:
-
-    <ol>
-     <li><p>Append a string containing the property name
-      and the differences between the values.
-    </ol>
-
-   <li><p>Let <var>browser name</var> be the result of <a>getting a property</a>
-    named <code>browserName</code> from <var>unprocessed capability</var>.
-    If <var>browser name</var> is <a>undefined</a> move to the next step.
-
-   <li><p>Let <var>browser version</var> be the result of <a>getting a property</a>
-    named <code>browserVersion</code> from <var>unprocessed capability</var>.
-    If <var>browser version</var> is <a>undefined</a> move to the next step.
-
-   <li><p>Let <var>platform name</var> be the result of <a>getting a property</a>
-    named <code>platformName</code> from <var>unprocessed capability</var>.
-    If <var>platform name</var> is <a>undefined</a> move to the next step.
-
-   <li><p>Let <var>platform version</var> be the result of <a>getting a property</a>
-    named <code>platformVersion</code> from <var>unprocessed capability</var>.
-    If <var>platform version</var> is <a>undefined</a> move to the next step.
-
-   <li><p>Let <var>insecure ssl</var> be the result of <a>getting a property</a>
-    named <code>acceptSslCerts</code> from <var>unprocessed capability</var>.
-
-    <p>If <var>insecure ssl</var> is defined,
-     unset the <a>active session</a>’s <a>secure SSL</a> state.
-     Otherwise move to the next step.
-
-   <li><p>Let <var>proxy</var> be the result of <a>getting a property</a>
-    named <code>proxy</code> from <var>unprocessed capability</var>.
-    If <var>proxy</var> is <a>undefined</a> move to the next step.
-    If <var>proxy</var> is defined and not a map,
-    append a string saying that a JSON Object is required,
-    else call <a>set the proxy</a> passing in <var>proxy</var>.
-
-   <li><p>Let <var>page loading strategy</var> be the result of <a>getting a property</a>
-    named <code>pageLoadingStrategy</code> from <var>unprocessed capability</var>.
-    If <var>page loading strategy</var> is <a>undefined</a>,
-    then set the entry <code>pageLoadingStrategy</code>
-    in <var>server capabilities</var> to <a>normal</a>.
-  </ol>
-
- <li><p>If the length of <var>unmet capabilities</var> is not equal to 0,
-  return <a>session not created</a> with data <var>unmet capabilities</var>.
-
- <li><p>Return <var>server capabilities</var>.
+<li><p>Return <var>matched capabilities</var>.
 </ol>
 
-<p>To <dfn>set the proxy</dfn> from a JSON Object <var>proxy</var>:
-
-<ol>
- <li><p>Let <var>proxy type</var> be the result of
-  <a>getting a property</a> named <code>proxyType</code> from <var>proxy</var>.
-
- <li><p>Switch on <var>proxy type</var>:
-
-  <dl class=switch>
-   <dt>"<code>pac</code>"
-   <dd>Let <var>proxy autoconfiguration url</var> be the result of <a>getting a
-    property</a> named <code>proxyAutoconfigUrl</code> from <var>proxy</var>.
-
-    <p>If the implementation supports <a>proxy autoconfiguration</a>
-    and <var>proxy autoconfiguration url</var> is defined, set the
-    implementation’s autoproxy configuration URL to <var>proxy autoconfiguration
-    url</var>.
-
-    <p>Otherwise return an <a>error</a>
-     with <a>error code</a> <a>invalid argument</a>.
-
-   <dt>"<code>noproxy</code>"
-   <dd><p>Set the proxy to No Proxy using implementation defined steps.
-    If this can not be set during this process return <a>error</a>.
-
-   <dt>"<code>autodetect</code>"
-   <dd><p>Set the proxy to Auto-Detect proxy setting from the network
-    using implementation defined steps.
-    If this can not be set during this process return <a>error</a>.
-
-   <dt>"<code>system</code>"
-   <dd><p>Set the proxy to use system proxy settings using implementation defined steps.
-    If this can not be set during this process return <a>error</a>.
-
-   <dt>"<code>manual</code>"
-   <dd>
-    <ol>
-     <li><p>Let <var>ftp proxy</var> be the result of <a>getting a property</a>
-      named <code>ftpProxy</code> from <var>proxy</var>.
-
-     <li><p>Let <var>ftp proxy port</var> be the result of <a>getting a property</a>
-      named <code>ftpProxyPort</code> from <var>proxy</var>.
-
-     <li><p>Let <var>http proxy</var> be the result of <a>getting a property</a>
-      named <code>httpProxy</code> from <var>proxy</var>.
-
-     <li><p>Let <var>http proxy port</var> be the result of <a>getting a property</a>
-      named <code>httpProxyPort</code> from <var>proxy</var>.
-
-     <li><p>Let <var>ssl proxy</var> be the result of <a>getting a property</a>
-      named <code>sslProxy</code> from <var>proxy</var>.
-
-     <li><p>Let <var>ssl proxy port</var> be the result of <a>getting a property</a>
-      named <code>sslProxyPort</code> from <var>proxy</var>.
-
-     <li><p>Let <var>socks proxy</var> be the result of <a>getting a property</a>
-      named <code>socksProxy</code> from <var>proxy</var>.
-
-     <li><p>Let <var>socks proxy port</var> be the result of <a>getting a property</a>
-      named <code>socksProxyPort</code> from <var>proxy</var>.
-
-     <li><p>If <var>socks proxy</var> and <var>socks proxy port</var> is defined:
-
-      <ol>
-        <li><p>Let <var>socks version</var> be the result of <a>getting a property</a>
-         named <code>socksVersion</code> from <var>proxy</var>.
-
-        <li><p>Let <var>socks username</var> be the result of <a>getting a property</a>
-         named <code>socksUsername</code> from <var>proxy</var>.
-
-        <li><p>Let <var>socks password</var> be the result of <a>getting a property</a>
-         named <code>socksPassword</code> from <var>proxy</var>.
-      </ol>
-
-     <li><p>Follow implementation defined steps to set the proxy
-      using defined variables from previous steps.
-      If there are items that can not be set during this process return <a>error</a>.
-    </ol>
-
-   <dt>Otherwise
-   <dd><p>Return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-  </dl>
-</ol>
+</section> <!-- /Processing Capabilities -->
 </section> <!-- /Capabilities -->
 
 <section>
@@ -1929,19 +2176,34 @@ session := new_session(capabilities)</code></pre>
 <p>The <dfn>New Session</dfn> <a>command</a>
  creates a new WebDriver <a>session</a> with the <a>endpoint node</a>.
  If the <a>maximum active sessions</a> has been reached,
- that is if the <a>endpoint node</a> already has a <a>current session</a>,
  there is a problem processing the given <a>capabilities</a>,
  or the provisioning of a <a>remote end</a> is impossible,
  a <a>session not created</a> <a>error</a> is returned.
 
 <p>If the <a>remote end</a> is an <a>intermediary node</a>,
- they are allowed to freely use the <a>capabilities</a> data
- e.g. to select a specific browser to test based on
- a combination of the <a data-lt="required-capabilities">required</a>
- and <a>desired capabilities</a>.
- Typically the <a>New Session</a> response from the <a>endpoint node</a>
- selected in this process will then be relayed directly to the <a>local end</a>,
- as outlined in step 1 of the <a>remote end steps</a>.
+ it <em>MAY</em> use the result of the <a>processing capabilities</a> algorithm
+ to route the new session request to the appropriate <a>endpoint node</a>.
+ An <a>intermediary node</a> <em>MAY</em> also define custom <a>capabilities</a>
+ to assist in this process, however, these capabilities <em>MUST NOT</em> be
+ forwarded to the <a>endpoint node</a>. Furthermore, if the
+ <a>intermediary node</a> requires additional information unrelated to user
+ agent features, it is <em>RECOMMENDED</em> that this information be passed as
+ top-level parameters and not part of the requested <a>capabilities</a>. An
+ <a>intermediary node</a> <em>MAY</em> forward custom, top-level parameters
+ (i.e. non-<a>capabilities</a>) to subsequent <a>remote end</a> nodes.
+
+<aside class=example>
+ <p>An <a>intermediary node</a> <em>MAY</em> require authentication on all new
+ session requests. This authentication is an argument to the new session command
+ itself and not the user agent's capabilities. Therefore, the authentication
+ should be passed as a top-level parameter and not embedded in capabilities:
+
+ <pre class=highlight>{
+    "user": "alice",
+    "password": "pw1234",
+    "capabilities": {...}
+}</pre>
+</aside>
 
 <p>The <a>remote end steps</a> are:
 
@@ -1960,13 +2222,14 @@ session := new_session(capabilities)</code></pre>
  <li><p>If there is a <a>current user prompt</a>,
   return <a>error</a> with <a>error code</a> <a>session not created</a>.
 
- <li><p>Let <var>capabilities</var> be the result of <a>getting a property</a>
-  named "<code>capabilities</code>" from the <var>parameters</var> argument.
-
- <li><p>Let <var>capabilities result</var> be the result of <a>processing capabilities</a>
-  with <var>capabilities</var> as an argument.
+ <li><p>Let <var>capabilities result</var> be the result of
+  <a>processing capabilities</a> with <var>parameters</var> as an argument.
 
  <li><p>If <var>capabilities result</var> is an <a>error</a>,
+  return <a>error</a> with <a>error code</a> <a>session not created</a> and
+  the error data from <var>capabilities result</var>.
+
+ <li><p>If <var>capabilities result</var> is <a>null</a>,
   return <a>error</a> with <a>error code</a> <a>session not created</a>.
 
  <li><p>Let <var>capabilities</var> be <var>capabilities result</var>’s data.
@@ -1990,21 +2253,61 @@ session := new_session(capabilities)</code></pre>
    <dd>The value of <var>capabilities result</var>.
   </dl>
 
- <li><p>Initialise the following if not set while <a>processing capabilities</a>:
+ <li><p>Initialise the following from <var>capabilities</var>:
 
   <ol>
-   <li><p>Set the <a>current session</a>’s <a>session script timeout</a> to 30,000 milliseconds.
-   <lI><p>Set the <a>current session</a>’s <a>session page load timeout</a> to 300,000 milliseconds.
-   <li><p>Set the <a>current session</a>’s <a>session implicit wait timeout</a> to 0 (zero) milliseconds.
-   <li><p>Set the <a>current session</a>’s <a>page loading strategy</a> to <a>normal</a>.
-   <li><p>Set the <a>webdriver-active flag</a> to true.</p>
-   <li><p>Set the <a>input state</a> to an empty map.</p>
-   <li><p>Set the <a>input cancel list</a> to an empty <a>List</a>.</p>
+    <li><p>Let <var>strategy</var> be the result of getting property
+      "<code>pageLoadStrategy</code>" from <var>capabilities</var>.
+
+    <li><p>If <var>strategy</var> is a string, set the <a>current session</a>'s
+      <a>page loading strategy</a> to <var>strategy</var>.
+      Otherwise, set the <a>page loading strategy</a> to <i>normal</i>.
+
+    <li><p>Let <var>proxy</var> be the result of getting property
+      "<code>proxy</code>" from <var>capabilities</var>.
+
+    <li><p>If <var>proxy</var> is a <a>Proxy Configuration</a> object, take
+      implementation-defined steps to set the user agent proxy using the
+      extracted <var>proxy</var> configuration. If the defined proxy cannot be
+      configured,
+      return <a>error</a> with <a>error code</a> <a>session not created</a>.
+
+    <li><p>Let <var>timeouts</var> be the result of getting property
+      "<code>timeouts</code>" from <var>capabilities</var>.
+
+    <li><p>If <var>timeouts</var> is a <a>Session Timeouts Configuration</a>
+      object:
+
+      <ol>
+        <li><p>If <var>timeouts</var> has a numeric property with key
+         "<code>implicit</code>", set the <a>current session</a>'s
+         <a>session implicit wait timeout</a> to the value of property
+         "<code>implicit</code>". Otherwise, set the
+         <a>session implicit wait timeout</a> to 0 (zero) milliseconds.
+
+        <li><p>If <var>timeouts</var> has a numeric property with key
+         "<code>page load</code>", set the <a>current session</a>'s
+         <a>session page load timeout</a> to the value of property
+         "<code>page load</code>". Otherwise, set the
+         <a>session page load timeout</a> to 300,000 milliseconds.
+
+        <li><p>If <var>timeouts</var> has a numeric property with key
+         "<code>script</code>", set the <a>current session</a>'s
+         <a>session script timeout</a> to the value of property
+         "<code>script</code>". Otherwise, set the
+         <a>session script timeout</a> to 30,000 milliseconds.
+      </ol>
+
+    <li><p>Apply changes to the user agent for any implementation defined
+      capabilities selected during the <a>processing capabilities</a> step.
   </ol>
+
+ <li><p>Set the <a>webdriver-active flag</a> to true.</p>
 
  <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
 </section>
+
 
 <section>
 <h3>Delete Session</h3>
@@ -2137,7 +2440,7 @@ session := new_session(capabilities)</code></pre>
  </tr>
 </table>
 
-<p>The <dfn>Set Timeouts</dfn> command sets timeouts
+<p>The <dfn data-lt=timeouts>Set Timeouts</dfn> command sets timeouts
  associated with the <a>current session</a>.
  The timeouts that can be controlled are
  listed in the <a>table of session timeouts</a> below.
