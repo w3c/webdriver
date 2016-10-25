@@ -90,39 +90,6 @@ var respecConfig = {
  or specific steps may be implemented in any manner,
  so long as the end result is equivalent.
 
-<p>The standard defines four broad conformance classes:
-
-<dl>
- <dt><dfn data-lt="local end|local ends|local">Local End</dfn>
- <dd><p>The local end represents the client side of the protocol,
-  which is usually in the form of language-specific libraries
-  providing an API on top of the WebDriver <a href=#protocol>protocol</a>.
-  This specification does not place any restrictions on the details of those libraries
-  above the level of the wire protocol.
-
-  <p class=issue>Define the requirements on the local end somewhere.
-
- <dt><dfn data-lt="remote end|remote ends|remote">Remote End</dfn>
- <dd>The remote end hosts the server side of the <a href=#protocol>protocol</a>.
-  Defining the behaviour of a remote end in response to the WebDriver protocol
-  forms the largest part of this specification.
-
- <dt><dfn data-lt="intermediary node|intermediary nodes">Intermediary Node</dfn>
- <dd>Intermediary nodes are those that act as proxies,
-  implementing both the client and server sides of the <a href=#protocol>protocol</a>.
-  Intermediary nodes must be black-box indistinguishable from a <a>remote end</a>
-  from the point of view of <a>local end</a>,
-  and so are bound by the requirements on a <a>remote end</a> in terms of the wire protocol.
-  However they are not expected to implement <a>remote end steps</a> directly.
-
- <dt><dfn>Endpoint Node</dfn>
- <dd>An endpoint node is the final <a>remote end</a>
-  in a chain of nodes that is not an <a>intermediary node</a>.
-  The endpoint node is implemented by a user agent or a similar program.
-  An endpoint node must be, like <a>intermediary nodes</a>,
-  indistinguishable from a <a>remote end</a>.
-</dl>
-
 <section>
 <h3>Dependencies</h3>
 
@@ -553,6 +520,66 @@ var respecConfig = {
  and can be used to help mitigate
  <a href=https://en.wikipedia.org/wiki/Denial-of-service_attack>denial-of-service attacks</a>.
 </section>
+
+<section>
+<h2>Nodes</h2>
+
+<p>The standard defines four broad conformance classes,
+ known as <dfn data-lt="node type">node types</dfn>:
+
+<dl>
+ <dt><dfn data-lt="local end|local ends|local">Local End</dfn>
+ <dd><p>The local end represents the client side of the protocol,
+  which is usually in the form of language-specific libraries
+  providing an API on top of the WebDriver <a href=#protocol>protocol</a>.
+  This specification does not place any restrictions on the details of those libraries
+  above the level of the wire protocol.
+
+  <p class=issue>Define the requirements on the local end somewhere.
+
+ <dt><dfn data-lt="remote end|remote ends|remote">Remote End</dfn>
+ <dd>The remote end hosts the server side of the <a href=#protocol>protocol</a>.
+  Defining the behaviour of a remote end in response to the WebDriver protocol
+  forms the largest part of this specification.
+
+ <dt><dfn data-lt="intermediary node|intermediary nodes">Intermediary Node</dfn>
+ <dd>Intermediary nodes are those that act as proxies,
+  implementing both the client and server sides of the <a href=#protocol>protocol</a>.
+  Intermediary nodes must be black-box indistinguishable from a <a>remote end</a>
+  from the point of view of <a>local end</a>,
+  and so are bound by the requirements on a <a>remote end</a> in terms of the wire protocol.
+  However they are not expected to implement <a>remote end steps</a> directly.
+
+ <dt><dfn>Endpoint Node</dfn>
+ <dd>An endpoint node is the final <a>remote end</a>
+  in a chain of nodes that is not an <a>intermediary node</a>.
+  The endpoint node is implemented by a user agent or a similar program.
+  An endpoint node must be, like <a>intermediary nodes</a>,
+  indistinguishable from a <a>remote end</a>.
+</dl>
+
+<p>A <a>remote end</a>’s <dfn>readiness state</dfn> is
+ for each <a>node type</a> said to be:
+
+<dl class=switch>
+ <dt><a>intermediary node</a>
+ <dd><p>False if it is known to be in a state
+  in which attempting to create a <a>new session</a> would fail.
+  Otherwise true.
+
+ <dt><a>endpoint node</a>
+ <dd><p>False if the <a>maximum active sessions</a>
+  is equal to the length of the list of <a>active sessions</a>
+  or there is a <a>current user prompt</a> present.
+  Otherwise true.
+</dl>
+
+<p class=example>If the <a>intermediary node</a>
+ is a multiplexer that manages
+ multiple <a data-lt="endpoint node">endpoint nodes</a>,
+ this might indicate its ability to purvey more <a>sessions</a>,
+ for example if it has hit its maximum capacity.
+</section> <!-- /Nodes -->
 
 <section>
 <h2>Protocol</h2>
@@ -2356,42 +2383,43 @@ entries:
  </tr>
 </table>
 
-<p>The <dfn>Status</dfn> <a>command</a> returns information about
-  whether a remote end is in a state in which it can create a new
-  session. This is represented by the <code>ready</code> property of the
-  response body, which has a value of <code>false</code> if attempting
-  to create a session at the current time would fail. A value
-  of <code>true</code> does not guarantee a new session request would
-  succeed.
+<p>The <dfn>Status</dfn> <a>command</a>
+ returns information about whether a <a>remote end</a>
+ is in a state in which it can create <a data-lt="new session">new sessions</a>
+ and can additionally include arbitrary meta information
+ that is specific to the implementation.
+
+<p>The readiness state is represented
+ by the <code>ready</code> property of the body,
+ which is false if an attempt to <a data-lt="new session">create a session</a>
+ at the current time would fail.
+ However, the value true does not guarantee
+ that a new session request will succeed.
+
+<p>Implementations may optionally include
+ additional meta information as part of the body,
+ but the top-level properties
+ <code>ready</code> and <code>message</code>
+ are reserved and must not be overwritten.
 
 <p>The <a>remote end steps</a> are:</p>
 
 <ol>
-  <li><p>Let <var>body</var> be a new JSON <a>Object</a>.</li>
+ <li><p>Let <var>body</var> be a new JSON <a>Object</a>
+  with the following properties:
 
-  <li><p>Let <var>ready</var> be a boolean which is <code>false</code>
-  if the node is known to be in a state in which attempting to create
-  a <a>New Session</a> would fail, otherwise let it
-  be <code>true</code>. For an endpoint node <var>ready</var> must
-  be <code>false</code> when the <a>maximum active sessions</a> is
-  equal to the length of the list of <a>active sessions</a> or there
-  is an <a>active user prompt</a>, but there may be further
-  implementation-specific scenarios in which the value
-  is <code>false</code>.</li>
+  <dl>
+   <dt><code>ready</code>
+   <dd><p>The <a>remote end</a>’s <a>readiness state</a>.
 
-  <li><p>Let <var>message</var> be an implementation-defined string
-  explaining the value given to <var>ready</var>.</li>
+   <dt><code>message</code>
+   <dd><p>An implementation-defined string
+    explaining the <a>remote end</a>’s <a>readiness state</a>.
+  </dl>
 
-  <li><p><a>Set a property</a> of <var>body</var> with
-  name <code>"ready"</code> and value <var>body</var>.
-
-  <li><p><a>Set a property</a> of <var>body</var> with
-  name <code>"message"</code> and value <var>message</var>.
-
-  <li><p>Return <a>success</a> with data <var>body</var>.
-
+ <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
-</section>
+</section> <!-- /Status -->
 
 <section>
 
