@@ -747,18 +747,18 @@ var respecConfig = {
 
  <li><p class=issue>Really need a better way to construct JSON literals.
 
-  <p>Let <var>data</var> be a new JSON Object
-  initialised with the following properties:
+  <p>Let <var>data</var> be a new JSON <a>Object</a>
+   initialised with the following properties:
 
   <dl>
-   <dt>"<code>error</code>"
-   <dd>Value of <var>name</var>.
+   <dt><code>error</code>
+   <dd><var>name</var>
 
-   <dt>"<code>message</code>"
-   <dd>Value of <var>message</var>.
+   <dt><code>message</code>
+   <dd><var>message</var>
 
-   <dt>"<code>stacktrace</code>"
-   <dd>Value of <var>stacktrace</var>.
+   <dt><code>stacktrace</code>
+   <dd><var>stacktrace</var>
   </dl>
 
  <li><p><a>Send a response</a> with <var>status</var>
@@ -1633,7 +1633,7 @@ with a "-moz-" prefix:
   <tr>
   <td><dfn>Proxy Configuration</dfn>
   <td>"<code>proxy</code>"
-  <td>JSON Object
+  <td>JSON <a>Object</a>
   <td>Describes a session's proxy configuration.
   </tr>
 
@@ -1647,11 +1647,13 @@ with a "-moz-" prefix:
 </table>
 
 <section>
-<h3>Proxy Configurations</h3>
-<p>The <a>Proxy Configuration</a> capability is a JSON Object nested within the
-primary <a>capabilities</a>. Implementations <em>MAY</em> define additional
-proxy configuration options, but they <em>MUST NOT</em> alter the
-semantics of those listed below.
+<h3>Proxy</h3>
+
+<p>The <a>proxy configuration</a> capability
+ is a JSON <a>Object</a> nested
+ within the primary <a>capabilities</a>.
+ Implementations may define additional proxy configuration options,
+ but they must not alter the semantics of those listed below.
 
 <table class=simple>
 <thead>
@@ -1782,14 +1784,16 @@ of the following: "<code>pac</code>", "<code>noproxy</code>",
 
 </tbody>
 </table>
-</section><!-- /Proxy Configurations -->
+</section><!-- /Proxy configuration -->
 
 <section>
-<h3>Session Timeouts Configuration</h3>
-<p>The <a>Session Timeouts Configuration</a> capability is a JSON Object nested
-within the primary capabilities. It consists of the properties listed in the
-table below. These values may be changed after creating a <a>new session</a>
-using the <a>Set Timeout</a> command.
+<h3>Timeouts</h3>
+
+<p>The <a>session timeouts configuration</a> capability
+ is a JSON <a>Object</a> nested within the primary capabilities.
+ It consists of the properties listed in the table below.
+ These values may be changed after creating a <a>new session</a>
+ using the <a>Set Timeout</a> command.
 
 <table class=simple>
 <thead>
@@ -1842,9 +1846,9 @@ named "<code>alwaysMatch</code>" from <var>capabilities request</var>.
 
   <ol>
   <li><p>If <var>required capabilities</var> is <a>null</a> or <a>undefined</a>,
-  set the value to an empty JSON Object.
+  set the value to an empty JSON <a>Object</a>.
 
-  <li><p>If <var>required capabilities</var> is not a JSON Object,
+  <li><p>If <var>required capabilities</var> is not a JSON <a>Object</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
   </ol>
 
@@ -1853,9 +1857,9 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
   <ol>
   <li><p>If <var>desired capabilities</var> is <a>null</a> or <a>undefined</a>,
-  set the value to a JSON List with a single entry of an empty JSON Object.
+  set the value to a JSON <a>List</a> with a single entry of an empty JSON <a>Object</a>.
 
-  <li><p>If <var>desired capabilities</var> is not a JSON List,
+  <li><p>If <var>desired capabilities</var> is not a JSON <a>List</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
   </ol>
 
@@ -1872,7 +1876,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   <li><p>Let <var>dc</var> be the entry in <var>desired capabilities</var> at
   index <var>k</var>.
 
-  <li><p>If <var>dc</var> is not a JSON Object,
+  <li><p>If <var>dc</var> is not a JSON <a>Object</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
   <li><p>Let <var>merged capabilities</var> be the result of
@@ -1892,12 +1896,12 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 <li><p>Return <var>matched capabilities</var>.
 </ol>
 
-<p>When <dfn>merging capabilities</dfn> with JSON Object arguments
+<p>When <dfn>merging capabilities</dfn> with JSON <a>Object</a> arguments
   <var>primary</var> and <var>secondary</var>, an endpoint node
   must take the following steps:
 
 <ol>
-<li><p>Let <var>result</var> be a JSON Object with the same entries as
+<li><p>Let <var>result</var> be a JSON <a>Object</a> with the same entries as
 <var>primary</var>.
 
 <li><p>If <var>secondary</var> is <a>null</a> or <a>undefined</a>, return
@@ -1926,13 +1930,13 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 <li><p>Return <var>result</var>.
 </ol>
 
-<p>When <dfn>matching capabilities</dfn> with JSON Object argument
+<p>When <dfn>matching capabilities</dfn> with JSON <a>Object</a> argument
   <var>capabilities</var>, an endpoint node must take the following
   steps:
 
 <ol>
-<li><p>Let <var>matched capabilities</var> be a JSON Object with the following
-entries:
+ <li><p>Let <var>matched capabilities</var> be a JSON <a>Object</a>
+  with the following entries:
 
   <dl>
   <dt>"<code>browserName</code>"
@@ -2276,14 +2280,14 @@ entries:
 
  <li><p>Append <var>session</var> to <a>active sessions</a>.
 
- <li><p>Let <var>body</var> be a JSON Object initialised with:
+ <li><p>Let <var>body</var> be a JSON <a>Object</a> initialised with:
 
   <dl>
-   <dt>"<code>sessionId</code>"
-   <dd>The value of <var>session id</var>.
+   <dt><code>sessionId</code>
+   <dd><var>session id</var>
 
-   <dt>"<code>capabilities</code>"
-   <dd>The value of <var>capabilities result</var>.
+   <dt><code>capabilities</code>
+   <dd><var>capabilities result</var>
   </dl>
 
  <li><p>Initialise the following from <var>capabilities</var>:
@@ -2516,7 +2520,7 @@ entries:
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If <var>parameters</var> is not a JSON Object,
+ <li><p>If <var>parameters</var> is not a JSON <a>Object</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>For each <var>key</var> and <var>value</var>
@@ -2979,7 +2983,7 @@ entries:
  is the string constant "<code>frame-075b-4da1-b6ba-e579c2d3230a</code>".
 
 <p>The <dfn>JSON serialisation of the <code>WindowProxy</code> object</dfn>
- is the JSON Object obtained by applying the following algorithm
+ is the JSON <a>Object</a> obtained by applying the following algorithm
  to the given <a><code>WindowProxy</code></a> object <var>window</var>:
 
 <ol>
@@ -2989,7 +2993,7 @@ entries:
 
   <p>Otherwise let it be the <a>web frame identifier</a>.
 
- <li><p>Return a JSON Object initialised with the following properties:
+ <li><p>Return a JSON <a>Object</a> initialised with the following properties:
 
   <dl>
    <dt><var>identifier</var>
@@ -3128,7 +3132,7 @@ entries:
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>Let <var>handles</var> be a JSON List.
+ <li><p>Let <var>handles</var> be a JSON <a>List</a>.
 
  <li><p>For each <a>top-level browsing context</a> in the <a>remote end</a>,
   push the associated <a>window handle</a> onto <var>handles</var>.
@@ -3577,14 +3581,14 @@ entries:
   to the maximum available size allowed by the window manager.
 
  <li><p>Return <a>success</a>
-  with the following JSON Object:
+  with the a new JSON <a>Object</a>:
 
   <dl>
-   <dt>"<code>width</code>"
+   <dt><code>width</code>
    <dd><a>Current top-level browsing context</a>’s
     <a>window dimension</a> width.
 
-   <dt>"<code>height</code>"
+   <dt><code>height</code>
    <dd><a>Current top-level browsing context</a>’s
     <a>window dimension</a> height.
   </dl>
@@ -3631,14 +3635,14 @@ entries:
    and may hide browser-provided UI such as toolbars.
 
  <li><p>Return <a>success</a>
-  with the following JSON Object:
+  with a new JSON <a>Object</a>:
 
   <dl>
-   <dt>"<code>width</code>"
+   <dt><code>width</code>
    <dd><a>Current top-level browsing context</a>’s
     <a>window dimension</a> width.
 
-   <dt>"<code>height</code>"
+   <dt><code>height</code>
    <dd><a>Current top-level browsing context</a>’s
     <a>window dimension</a> height.
   </dl>
@@ -3705,7 +3709,7 @@ entries:
 </ol>
 
 <p>The <dfn>JSON serialisation of an element</dfn>
- is a JSON Object where the <a>web element identifier</a> key
+ is a JSON <a>Object</a> where the <a>web element identifier</a> key
  is mapped to the <a>element</a>’s <a>web element reference</a>.
 
 <p>When required to <dfn>deserialise a web element</dfn>
@@ -3912,7 +3916,7 @@ entries:
 
  <li><p>Let <var>selector</var> be equal to <var>value</var>.
 
- <li><p>Let <var>result</var> be an empty JSON List.
+ <li><p>Let <var>result</var> be an empty JSON <a>List</a>.
 
  <li><p>Let <var>elements returned</var> be the result
   of the relevant <a href=#element-location-strategies>element location strategy</a>
@@ -3922,7 +3926,7 @@ entries:
 
   <dl class=switch>
    <dt>true
-   <dd>Return <a>success</a> with empty JSON List.
+   <dd>Return <a>success</a> with empty JSON <a>List</a>.
 
    <dt>false
    <dd>Return <a>error</a> <a>no such element</a>.
@@ -3934,7 +3938,7 @@ entries:
    <dd>Return <a>error</a> <a>invalid selector</a>.
   </dl>
 
- <li><p>Let <var>result</var> be an empty JSON List.
+ <li><p>Let <var>result</var> be an empty JSON <a>List</a>.
 
  <li><p>For each <var>element</var> in <var>elements returned</var>:
 
@@ -4694,19 +4698,19 @@ entries:
  <li><p>Let <var>rect</var> be <var>element</var>’s
   <a>bounding rectangle</a>.
 
- <li><p>Let <var>body</var> be a new JSON Object initialised with:
+ <li><p>Let <var>body</var> be a new JSON <a>Object</a> initialised with:
 
   <dl>
-   <dt>"<code>x</code>"
+   <dt><code>x</code>
    <dd>The first value of <var>coordinates</var>.
 
-   <dt>"<code>y</code>"
+   <dt><code>y</code>
    <dd>The second value of <var>coordinates</var>.
 
-   <dt>"<code>width</code>"
+   <dt><code>width</code>
    <dd>Value of <var>rect</var>’s <a>width dimension</a>.
 
-   <dt>"<code>height</code>"
+   <dt><code>height</code>
    <dd>Value of <var>rect</var>’s <a>height dimension</a>.
   </dl>
 
@@ -5554,7 +5558,7 @@ entries:
  </tr>
 </table>
 
-<p>A <dfn>serialised cookie</dfn> is a JSON Object structure
+<p>A <dfn>serialised cookie</dfn> is a JSON <a>Object</a> structure
  where a <a>cookie</a>’s [[!RFC6265]] fields
  listed in the <a>table for cookie conversion</a>
  is mapped using the <i>JSON Key</i>
@@ -5616,7 +5620,7 @@ entries:
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>cookies</var> be a JSON List
+ <li><p>Let <var>cookies</var> be a JSON <a>List</a>
   containing <a>all associated cookies</a>
   of the <a>current browsing context</a>’s <a>active document</a>.
 
@@ -5696,7 +5700,7 @@ entries:
  <li><p>Let <var>data</var> be the result of <a>getting a property</a>
   named <code>cookie</code> from the <var>parameters</var> argument.
 
- <li><p>If <var>data</var> is not a JSON Object
+ <li><p>If <var>data</var> is not a JSON <a>Object</a>
   with all the required (non-optional) JSON keys
   listed in the <a>table for cookie conversion</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
