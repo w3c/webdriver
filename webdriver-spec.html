@@ -1615,12 +1615,12 @@ with a "-moz-" prefix:
   </tr>
 
   <tr>
-  <td><dfn>Accept SSL certificates</dfn>
-  <td>"<code>acceptSslCerts</code>"
+  <td><dfn>Accept insecure TLS certificates</dfn>
+  <td>"<code>acceptInsecureCerts</code>"
   <td>boolean
-  <td>Indicates whether untrusted and self-signed SSL certificates are
-  implicitly trusted on <a data-lt=go>navigation</a> for the duration of the
-  session.
+  <td>Indicates whether untrusted and self-signed TLS certificates
+   are implicitly trusted on <a data-lt=go>navigation</a>
+   for the duration of the <a>session</a>.
   </tr>
 
   <tr>
@@ -1951,18 +1951,20 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   <dt>"<code>platformVersion</code>"
   <dd>The platform version, as a string.
 
-  <dt>"<code>acceptSslCerts</code>"
-  <dd>Boolean initially set to false, indicating the session <em>will not</em> implicitly trust
-  untrusted or self-signed SSL certificates on <a data-lt=go>navigation</a>.
+  <dt>"<code>acceptInsecureCerts</code>"
+  <dd>Boolean initially set to false,
+   indicating the session will not implicitly trust untrusted
+   or self-signed TLS certificates on <a data-lt=go>navigation</a>.
   </dl>
 
-<li><p>Let <var>capabilities length</var> be the number of entries in <var>capabilities</var>.
+<li><p>Let <var>capabilities length</var> be
+ the number of entries in <var>capabilities</var>.
 
 <li><p>Let <var>k</var> be 0.
 
 <li><p>While <var>k</var> &lt; <var>capabilities length</var>:
 
-  <ol>
+ <ol>
   <li><p>Let <var>capability name</var> be the name of the entry at index
   <var>k</var> in <var>capabilities</var>.
 
@@ -2023,16 +2025,15 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
         the "<code>platformVersion</code>" entry in
         <var>matched capabilities</var>, return null.
 
-      <dt>"<code>acceptSslCerts</code>"
-      <dd>
-        <p>If <var>capability value</var> is not a boolean,
-        return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+      <dt>"<code>acceptInsecureCerts</code>"
+      <dd><p>If <var>capability value</var> is not a boolean,
+       return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-        <p>If <var>capability value</var> is <code>true</code> and the
-        <a>endpoint node</a> <em>does not</em> support insecure
-        SSL certificates, return null.
+       <p>If <var>capability value</var> is <code>true</code>
+        and the <a>endpoint node</a> does not support insecure TLS certificates,
+        return null.
 
-        <p>Otherwise, set the "<code>acceptSslCerts</code>" entry in
+       <p>Otherwise, set the "<code>acceptInsecureCerts</code>" entry in
         <var>matched capabilities</var> to <var>capability value</var>.
 
       <dt>"<code>pageLoadStrategy</code>"
@@ -2167,7 +2168,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  If it is unset, this indicates that certificate- or SSL errors
  that occur upon <a data-lt=go>navigation</a> should be suppressed.
  The state can be unset by providing
- an "<code>acceptSslCerts</code>" <a>capability</a> with the value true.
+ an "<code>acceptInsecureCerts</code>" <a>capability</a> with the value true.
  Unless stated otherwise, it is set.
 
 <p>A <a>session</a> has an associated <a>user prompt handler</a>.
