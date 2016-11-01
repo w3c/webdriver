@@ -1720,7 +1720,7 @@ of the following: "<code>pac</code>", "<code>noproxy</code>",
 <tr>
 <td>"<code>sslProxy</code>"
 <td>string
-<td>Defines the proxy <em>hostname</em> for encrypted SSL traffic. If a hostname and port
+<td>Defines the proxy <em>hostname</em> for encrypted TLS traffic. If a hostname and port
   is passed through this property, set "<code>sslProxy</code>" to the hostname
   and "<code>sslProxyPort</code>" to the port.
   This property <em>SHOULD</em> only be set when the "<code>proxyType</code>" is
@@ -2162,10 +2162,10 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  which is one of <a>none</a>, <a>normal</a>, and <a>eager</a>.
  Unless stated otherwise, it is <a>normal</a>.
 
-<p>A <a>session</a> has an associated <dfn>secure SSL</dfn> state
- that indicates whether untrusted or self-signed SSL certificates
+<p>A <a>session</a> has an associated <dfn>secure TLS</dfn> state
+ that indicates whether untrusted or self-signed TLS certificates
  should be trusted for the duration of the WebDriver session.
- If it is unset, this indicates that certificate- or SSL errors
+ If it is unset, this indicates that certificate- or TLS errors
  that occur upon <a data-lt=go>navigation</a> should be suppressed.
  The state can be unset by providing
  an "<code>acceptInsecureCerts</code>" <a>capability</a> with the value true.
@@ -2639,7 +2639,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <dd><p>Return <a>error</a> with <a>error code</a> <a>unknown error</a>.
 
  <dt><a>response</a> be <a>blocked by content security policy</a>
- <dd><p>If the <a>current session</a>’s <a>secure SSL</a> state is disabled,
+ <dd><p>If the <a>current session</a>’s <a>secure TLS</a> state is disabled,
   take implementation specific steps to ensure
   the navigation is not aborted
   and that the untrusted- or invalid TLS certificate error
@@ -2672,7 +2672,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  to cause the user agent to <a>navigate</a>
  the <a>current top-level browsing context</a> a new location.
 
-<p>If the <a>session</a> is not in a <a>secure SSL</a> state,
+<p>If the <a>session</a> is not in a <a>secure TLS</a> state,
  no certificate errors that would normally
  cause the user agent to abort and show a security warning
  are to be hinder navigation to the requested address.
