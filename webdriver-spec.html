@@ -3797,13 +3797,11 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  is the centre point of the area
  of the first <a data-lt="getClientRects">DOM client rectangle</a>
  that is inside the <a>viewport</a>.
- It can be calculated this way:
+ It can be calculated this way,
+ given an element, here called <var>rectangle</var>,
+ off a <a><code>DOMRect</code></a> sequence:
 
 <ol>
- <li><p>Let <var>rectangle</var> be
-  the first element of the <a><code>DOMRect</code></a> sequence
-  returned by calling <a>getClientRects</a> on <var><a>element</a></var>.
-
  <!--
   no need to care for scroll bars here
   because elementsFromPoint takes care of it
@@ -3840,8 +3838,20 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   as the <a>current browsing context</a>’s <a>active document</a>,
   return an empty sequence.
 
+ <li><p>Let <var>rectangles</var> be
+  the <a><code>DOMRect</code></a> sequence
+  returned by calling <a>getClientRects</a> on <var><a>element</a></var>.
+
+ <!--
+  An element which style property `display` is "none"
+  returns an empty DOMRect sequence.
+ -->
+ <li><p>If <var>rectangles</var> has the length of 0,
+  return an empty sequence.
+
  <li><p>Let <var>centre point</var> be
-  the <a>in-view centre point</a> of <var>element</var>.
+  the <a>in-view centre point</a> of <var>element</var>
+  given the first indexed element of <var>rectangles</var>.
 
  <li><p>Return the <a>elements from point</a>
   given the coordinates <var>centre point</var>.
