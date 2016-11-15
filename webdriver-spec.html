@@ -3805,32 +3805,33 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  off a <a><code>DOMRect</code></a> sequence:
 
 <ol>
- <!--
-  no need to care for scroll bars here
-  because elementsFromPoint takes care of it
+ <li><p>Let <var>rectangle</var> be
+  the first element of the <a><code>DOMRect</code></a> sequence
+  returned by calling <a>getClientRects</a> on <var><a>element</a></var>.
 
-  this is the same as
+ <li><p>Let <var>left</var> be
+  (<a>max</a>(0, <a>min</a>(<a>x coordinate</a>,
+  <a>x coordinate</a> + <a>width dimension</a>))).
 
-    rect.width - (rect.right - innerWidth)
-    rect.height - (rect.bottom - innerHeight)
- -->
- <li><p>Let <var>visible width</var> be the <var>rectangle</var>’s
-  (<a>max</a>(<a>x coordinate</a>, <a>x coordinate</a> + <a>width dimension</a>)).
+ <li><p>Let <var>right</var> be
+  (<a>min</a>(<a>innerWidth</a>,
+  <a>max</a>(<a>x coordinate</a>,
+  <a>x coordinate</a> + <a>width dimension</a>))).
 
- <li><p>Let <var>visible height</var> be the <var>rectangle</var>’s
-  (<a>max</a>(<a>y coordinate</a>, <a>y coordinate</a> + <a>height dimension</a>)).
+ <li><p>Let <var>top</var> be
+  (<a>max</a>(0, <a>min</a>(<a>y coordinate</a>,
+  <a>y coordinate</a> + <a>width dimension</a>))).
 
- <li>Let <var>horizontal centre offset</var> be
-  (<var>visible width</var> / 2.0).
+ <li><p>Let <var>bottom</var> be
+  (<a>min</a>(<a>innerHeight</a>,
+  <a>max</a>(<a>y coordinate</a>,
+  <a>y coordinate</a> + <a>height dimension</a>))).
 
- <li>Let <var>vertical centre offset</var> be
-  (<var>visible height</var> / 2.0).
+ <li><p>Let <var>x</var> be (0.5 × (<var>left</var> + <var>right</var>).
 
- <li>Let <var>centre point</var> be a pair
-  of the <var>rectangle</var>’s (<a>x coordinate</a> + <var>horizontal centre offset</var>)
-  and (<a>y coordinate</a> + <var>vertical centre offset</var>).
+ <li><p>Let <var>y</var> be (0.5 × (<var>top</var> + <var>bottom</var>).
 
- <li>Return <var>centre point</var>.
+ <li><p>Return <var>x</var> and <var>y</var> as a pair.
 </ol>
 
 <p>In order to produce a <dfn>pointer-interactable elements tree</dfn>
@@ -8401,7 +8402,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  Thanks to Jason Leyba, Malcolm Rowe, Ross Patterson, Andrey Botalov, and Berge Schwebs Bjørlo for proof reading
  and suggesting areas for improvement.
  Thanks to Jason Leyba, Eran Messeri, Daniel Wagner-Hall, Malini Das, Luke Inman-Semerau,
- Andreas Tolfsen, James Graham, John Jansen, Maja Frydrychowicz and Gábor Csárdi for contributing sections to this document.
+ Andreas Tolfsen, James Graham, John Jansen, Maja Frydrychowicz, Gábor Csárdi, and Aleksey Chemakin for contributing sections to this document.
  Also thanks to the following people for their contribution of patches and test cases:
 
  <ul>
