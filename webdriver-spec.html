@@ -6617,11 +6617,9 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
           <ol>
             <li><p>let <var>duration</var> be <a>undefined</a>.</li>
 
-            <li><p>If <var>action object</var> has <code>type</code>
-                property set to <code>"none"</code>
-                and <code>subtype</code> property set
-                to <code>"pause"</code> or <var>action object</var>
-                has <code>type</code> property set
+            <li><p>If <var>action object</var> has <code>subtype</code>
+                property set to <code>"pause"</code> or
+                <var>action object</var> has <code>type</code> property set
                 to <code>"pointer"</code> and <code>subtype</code>
                 property set to <code>"pointerMove"</code>,
                 let <var>duration</var> be equal to
@@ -6961,8 +6959,8 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
         <table class=simple>
           <tr>
             <th><var>key</var>'s codepoint
-            <th>Location
             <th>Description
+            <th>Location
           </tr>
           <tr><td><code>\uE007</code></td><td>Enter</td><td><code>1</code></td></tr>
           <tr><td><code>\uE008</code></td><td>Left Shift</td><td><code>1</code></td></tr>
@@ -7014,11 +7012,9 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
               Delete<td><code>3</code></td></tr>
         </table>
 
-      <p>When required to <dfn>dispatch a keyDown action</dfn> with
-        arguments <var>source id</var>, <var>action
-        object</var>, <var>input state</var> and <var>tick
-        duration</var> a <a>remote end</a> must run the following
-        steps:</p>
+      <p>When required to <dfn>dispatch a keyDown action</dfn> with arguments
+        <var>action object</var> and <var>input state</var> a <a>remote end</a>
+        must run the following steps:</p>
 
       <ol>
         <li><p>Let <var>raw key</var> be equal to <var>action
@@ -7067,11 +7063,13 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
         the <var>subtype</var> property changed to <var>keyUp</var>
         to <a>current session</a>'s <a>input cancel list</a>.</li>
 
-        <li><p><a href="perform-actions">Perform
+        <li><p><a data-lt="perform-actions">Perform
         implementation-specific action dispatch steps</a> equivalent
         to pressing a key on the keyboard in accordance with the
-        requirements of [[!UI-EVENTS]], and producing at least the
-        following events with the specified properties:
+        requirements of [[!UI-EVENTS]], and producing the
+        following events, as appropriate, with the specified properties.
+        This will always produce events including at least a <code>keyDown</code>
+        event.
             <ul>
               <li><a href="https://w3c.github.io/uievents/#keydown"><code>keyDown</code></a>
               with properties:
@@ -7136,10 +7134,8 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
       </aside>
 
       <p>When required to <dfn>dispatch a keyUp action</dfn> with
-        arguments <var>source id</var>, <var>action
-        object</var>, <var>input state</var> and <var>tick
-        duration</var> a <a>remote end</a> must run the following
-        steps:</p>
+        arguments <var>action object</var> and <var>input state</var>
+        a <a>remote end</a> must run the following steps:</p>
 
       <ol>
         <li><p>Let <var>raw key</var> be equal to <var>action
@@ -7181,9 +7177,12 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
             let <var>device state's</var> <code>meta</code> property
             be false.</li>
 
-        <li><p><a href="perform-actions">Perform
+        <li><p>Remove <var>key</var> from the set corresponding
+            to <var>input state</var>'s <code>pressed</code> property.</li>
+
+        <li><p><a data-lt="perform-actions">Perform
             implementation-specific action dispatch steps</a>
-            equivalent to pressing a key on the keyboard in accordance
+            equivalent to releasing a key on the keyboard in accordance
             with the requirements of [[!UI-EVENTS]], and producing at
             least the following events with the specified properties:
             <ul>
@@ -7205,7 +7204,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
                           state</var>'s <code>ctrl</code> property</tr>
                     <tr><td><code>metaKey</code><td><var>device
                           state</var>'s <code>meta</code> property</tr>
-                    <tr><td><code>repeat</code><td><var>repeat</var></tr>
+                    <tr><td><code>repeat</code><td><var>false</var></tr>
                     <tr><td><code>isComposing</code><td><var>false</var></tr>
                     <tr><td><code>charCode</code><td><var>charCode</var></tr>
                     <tr><td><code>keyCode</code><td><var>keyCode</var></tr>
@@ -7277,7 +7276,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
         the <var>subtype</var> property changed to <var>pointerUp</var>
         to the <a>current session</a>'s <a>input cancel list</a>.</li>
 
-        <li><p><a href="perform-actions">Perform
+        <li><p><a data-lt="perform-actions">Perform
             implementation-specific action dispatch steps</a>
             equivalent to pressing the button
             numbered <var>button</var> on the pointer with
@@ -7347,7 +7346,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
             property, and let <var>buttons</var> be the resulting
             value of that property.</li>
 
-        <li><p><a href="perform-actions">Perform
+        <li><p><a data-lt="perform-actions">Perform
             implementation-specific action dispatch steps</a>
             equivalent to releasing the button
             numbered <var>button</var> on the pointer of
