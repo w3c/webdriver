@@ -861,6 +861,12 @@ var respecConfig = {
  </tr>
 
  <tr>
+  <td>GET</td>
+  <td>/status</td>
+  <td><a>Status</a></td>
+ </tr>
+
+ <tr>
   <td>POST</td>
   <td>/session</td>
   <td><a>New Session</a></td>
@@ -2197,7 +2203,45 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  It is assumed that any implementation-specific cleanup steps
  are performed <em>after</em> the response has been sent back to the client
  so that the <a>connection</a> is not prematurely closed.
+<section>
+  <h3>Status</h3>
+  <table class="simple jsoncommand">
+   <tr>
+    <th>HTTP Method</th>
+    <th>Path Template</th>
+   </tr>
+   <tr>
+    <td>GET</td>
+    <td>/status</td>
+   </tr>
+  </table>
 
+  <p>The <dfn>Status</dfn> <a>command</a> returns details of host of the
+    <a>remote end</a>. This allows the <a>local end</a> to know that the
+     <a>remote end</a> is alive and accepting <a data-lt=command>commands</a>.
+
+    <p>The <a>remote end steps</a> are:
+      <ol>
+        <li><p>Let <var>os details</var> be a JSON Object initialised with:
+          <dl>
+            <dt>"<code>arch</code>
+            <dd>The current platform architecture.
+
+            <dt>"<code>name</code>"
+            <dd>The name of the platform the <a>remote end</a> is currently running on.
+
+            <dt>"<code>version</code>"
+            <dd>The operating system version
+          </dl>
+
+        <li><p>Let <var>body</var> be a JSON Object initialised with:
+          <dl>
+           <dt>"<code>os</code>"
+           <dd>The value of <var>os details</var>.
+          </dl>
+        <li><p>Return <a>success</a> with data <var>body</var>.
+      </ol>
+</section>
 <section>
 <h3>New Session</h3>
 
