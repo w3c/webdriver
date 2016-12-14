@@ -877,6 +877,18 @@ var respecConfig = {
   <td>/status</td>
   <td><a>Status</a></td>
  </tr>
+ 
+ <tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/timeouts</td>
+  <td><a>Get Timeouts</a></td>
+ </tr>
+
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/timeouts</td>
+  <td><a>Set Timeouts</a></td>
+ </tr>
 
  <tr>
   <td>POST</td>
@@ -937,17 +949,23 @@ var respecConfig = {
   <td>/session/{<var>session id</var>}/window/handles</td>
   <td><a>Get Window Handles</a></td>
  </tr>
-
+ 
  <tr>
   <td>POST</td>
-  <td>/session/{<var>session id</var>}/window/fullscreen</td>
-  <td><a>Fullscreen Window</a></td>
+  <td>/session/{<var>session id</var>}/frame</td>
+  <td><a>Switch To Frame</a></td>
+ </tr>
+ 
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/frame/parent</td>
+  <td><a>Switch To Parent Frame</a></td>
  </tr>
 
  <tr>
-  <td>POST</td>
-  <td>/session/{<var>session id</var>}/window/maximize</td>
-  <td><a>Maximize Window</a></td>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/window/size</td>
+  <td><a>Get Window Size</a></td>
  </tr>
 
  <tr>
@@ -969,21 +987,21 @@ var respecConfig = {
  </tr>
 
  <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/window/maximize</td>
+  <td><a>Maximize Window</a></td>
+ </tr>
+
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/window/fullscreen</td>
+  <td><a>Fullscreen Window</a></td>
+ </tr>
+
+ <tr>
   <td>GET</td>
-  <td>/session/{<var>session id</var>}/window/size</td>
-  <td><a>Get Window Size</a></td>
- </tr>
-
- <tr>
-  <td>POST</td>
-  <td>/session/{<var>session id</var>}/frame</td>
-  <td><a>Switch To Frame</a></td>
- </tr>
-
- <tr>
-  <td>POST</td>
-  <td>/session/{<var>session id</var>}/frame/parent</td>
-  <td><a>Switch To Parent Frame</a></td>
+  <td>/session/{<var>session id</var>}/element/active</td>
+  <td><a>Get Active Element</a></td>
  </tr>
 
  <tr>
@@ -994,26 +1012,20 @@ var respecConfig = {
 
  <tr>
   <td>POST</td>
-  <td>/session/{<var>session id</var>}/element/{element id}/element</td>
-  <td><a>Find Element From Element</a></td>
- </tr>
-
- <tr>
-  <td>POST</td>
   <td>/session/{<var>session id</var>}/elements</td>
   <td><a>Find Elements</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{<var>session id</var>}/element/{element id}/elements</td>
-  <td><a>Find Elements From Element</a></td>
+  <td>/session/{<var>session id</var>}/element/{element id}/element</td>
+  <td><a>Find Element From Element</a></td>
  </tr>
 
  <tr>
-  <td>GET</td>
-  <td>/session/{<var>session id</var>}/element/active</td>
-  <td><a>Get Active Element</a></td>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/element/{element id}/elements</td>
+  <td><a>Find Elements From Element</a></td>
  </tr>
 
  <tr>
@@ -1065,6 +1077,24 @@ var respecConfig = {
  </tr>
 
  <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/click</td>
+  <td><a>Element Click</a></td>
+ </tr>
+
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/clear</td>
+  <td><a>Element Clear</a></td>
+ </tr>
+
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/value</td>
+  <td><a>Element Send Keys</a></td>
+ </tr>
+
+ <tr>
   <td>GET</td>
   <td>/session/{<var>session id</var>}/source</td>
   <td><a>Get Page Source</a></td>
@@ -1113,18 +1143,6 @@ var respecConfig = {
  </tr>
 
  <tr>
-  <td>GET</td>
-  <td>/session/{<var>session id</var>}/timeouts</td>
-  <td><a>Get Timeouts</a></td>
- </tr>
-
- <tr>
-  <td>POST</td>
-  <td>/session/{<var>session id</var>}/timeouts</td>
-  <td><a>Set Timeouts</a></td>
- </tr>
-
- <tr>
   <td>POST</td>
   <td>/session/{<var>session id</var>}/actions</td>
   <td><a>Perform Actions</a></td>
@@ -1134,24 +1152,6 @@ var respecConfig = {
   <td>DELETE</td>
   <td>/session/{<var>session id</var>}/actions</td>
   <td><a>Releasing Actions</a></td>
- </tr>
-
- <tr>
-  <td>POST</td>
-  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/click</td>
-  <td><a>Element Click</a></td>
- </tr>
-
- <tr>
-  <td>POST</td>
-  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/clear</td>
-  <td><a>Element Clear</a></td>
- </tr>
-
- <tr>
-  <td>POST</td>
-  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/value</td>
-  <td><a>Element Send Keys</a></td>
  </tr>
 
  <tr>
