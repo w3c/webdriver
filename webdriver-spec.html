@@ -658,7 +658,7 @@ var respecConfig = {
  and how it is established are out of scope.
 
 <p>After such a <a>connection</a> has been established,
- a remote end MUST run the following steps:</p>
+ a <a>remote end</a> MUST run the following steps:</p>
 
 <p class=issue>Should mention what happens if it can’t be decoded as HTTP.
  Note that <a href=https://fetch.spec.whatwg.org/>Fetch</a> isn’t quite right
@@ -798,7 +798,7 @@ var respecConfig = {
  to implement the <a>command</a> represented by that request.
 
 <p>A <a>remote end</a> has an associated <dfn>URL prefix</dfn>,
- which is used as a prefix on all WebDriver-defined URLs on that remote end.
+ which is used as a prefix on all WebDriver-defined URLs on that <a>remote end</a>.
  This must either be <a>undefined</a> or an <a>path-absolute URL</a>.
 
 <aside class=example>
@@ -1898,7 +1898,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 </ol>
 
 <p>When <dfn>merging capabilities</dfn> with JSON <a>Object</a> arguments
-  <var>primary</var> and <var>secondary</var>, an endpoint node
+  <var>primary</var> and <var>secondary</var>, an <a>endpoint node</a>
   must take the following steps:
 
 <ol>
@@ -1932,7 +1932,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 </ol>
 
 <p>When <dfn>matching capabilities</dfn> with JSON <a>Object</a> argument
-  <var>capabilities</var>, an endpoint node must take the following
+  <var>capabilities</var>, an <a>endpoint node</a> must take the following
   steps:
 
 <ol>
@@ -5840,7 +5840,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 <p>The Actions API provides a low-level interface
  for providing virtualised device input to the web browser.
  Conceptually, the actions API divides time into a series of <a>ticks</a>.
- The local end sends a series of actions
+ The <a>local end</a> sends a series of actions
  which correspond to the change in state, if any,
  of each input device during each tick.
  For example, pressing a key
@@ -5924,14 +5924,14 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
  <p><img src=graphics/note2actions.svg alt="">
 
- <p>The remote end will dispatch
+ <p>The <a>remote end</a> will dispatch
   the <a>pointerDown</a> action in the first tick.
   In the second tick, since source 1 declares a <a>pause</a> of 5 seconds,
-  the remote end will dispatch the <a>pointerUp</a> event for source 2,
+  the <a>remote end</a> will dispatch the <a>pointerUp</a> event for source 2,
   and will wait 5 seconds before moving on to executing the third tick.
 
  <p>In the event that one tick contains multiple <a>pause</a> durations,
-  the remote end will wait the maximum duration
+  the <a>remote end</a> will wait the maximum duration
   before moving on to executing the next tick.
 
  <p>As noted before, <a>pause</a> can be used to signify inaction during a tick.
@@ -6045,14 +6045,14 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
       loop</a>.
 
     <p>At the lowest level, the behaviour of actions is intended to
-    mimic the remote end's behaviour with an actual input device as
+    mimic the <a>remote end</a>'s behaviour with an actual input device as
     closely as possible, and the implementation strategy may involve
     e.g. injecting synthesized events into a browser event
     loop. Therefore the steps to dispatch an action will inevitably
     end up in implementation-specific territory. However there are
     certain content observable effects that must be consistent across
     implementations. To accomodate this, the specification requires
-    that remote ends <dfn id="perform-actions">perform
+    that <a>remote ends</a> <dfn id="perform-actions">perform
     implementation-specific action dispatch steps</dfn>, along with a
     list of events and their properties. This list is not
     comprehensive; in particular the default action of the input
@@ -7222,7 +7222,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
       <h2>Pointer Actions</h2>
 
       <p>When required to <dfn data-lt="key-state">get a global key
-        state</dfn> with argument <var>key</var>, a remote end must
+        state</dfn> with argument <var>key</var>, a <a>remote end</a> must
         run the following steps:
         <ol>
           <li>Let <var>input state</var> be the <a>current
