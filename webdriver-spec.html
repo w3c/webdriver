@@ -3924,7 +3924,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  and returned as <a>web elements</a>.
 
 <p>When required to <dfn>find</dfn> with arguments
- <var>all</var>, <var>start node</var>, <var>using</var> and <var>value</var>,
+ <var>start node</var>, <var>using</var> and <var>value</var>,
  a <a>remote end</a> must run the following steps:
 
 <ol>
@@ -3936,23 +3936,13 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
  <li><p>Let <var>elements returned</var> be the result
   of the relevant <a href=#element-location-strategies>element location strategy</a>
-  call with arguments <var>all</var>, <var>start node</var>, .
+  call with arguments <var>start node</var>, and <var>selector</var>.
 
- <li><p>If <var>elements returned</var> is an empty <a>NodeList</a>, match on <var>all</var>:
-
-  <dl class=switch>
-   <dt>true
-   <dd>Return <a>success</a> with empty JSON <a>List</a>.
-
-   <dt>false
-   <dd>Return <a>error</a> <a>no such element</a>.
-
-   <dt><a><code>DOMException</code></a>
-   <dt><a><code>SyntaxError</code></a>
-
-   <dt><a><code>XPathException</code></a>
-   <dd>Return <a>error</a> <a>invalid selector</a>.
-  </dl>
+ <li>If
+ a <a><code>DOMException</code></a>, <a><code>SyntaxError</code></a>, 
+ <a><code>XPathException</code></a>, or other error occurs during the
+ execution of the <a href="#element-location-strategies">element
+ location stratgey</a>, return <a>error</a> <a>invalid selector</a>.
 
  <li><p>Let <var>result</var> be an empty JSON <a>List</a>.
 
@@ -4011,19 +4001,9 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  the following steps need to be completed:
 
 <ol>
- <li><p>Match on <var>all</var>:
-
-  <dl class=switch>
-   <dt>true
-   <dd>Let <var>elements</var> be the result
-    of calling <a>querySelectorAll</a> with <var>selector</var>
-    with the <a>context object</a> equal to the <var>start node</var>.
-
-   <dt>false
-   <dd>Let <var>elements</var> be the result
-    of calling <a>querySelector</a> with the <a>context object</a>
-    equal to the <var>start node</var>.
-  </dl>
+ <li>Let <var>elements</var> be the result of
+ calling <a>querySelectorAll</a> with <var>selector</var> with
+ the <a>context object</a> equal to the <var>start node</var>.
 
  <li><p>Return <var>elements</var>.
 </ol>
@@ -4046,9 +4026,9 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p>For each <var>element</var> in <var>elements</var>:
 
   <ol>
-   <li><p>Let <var>rendered text</var> be
-    the result of <a>getting <code>innerText</code></a>
-    of <var>element</var>.
+   <li><p>Let <var>rendered text</var> be the value that would be
+    returned via a call to <a>Get Element Text</a>
+    for <var>element</var>.
 
    <li><p>Let <var>trimmed text</var> be the result of
     <a>stripping leading and trailing whitespace</a>
@@ -4086,8 +4066,9 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p>For each <var>element</var> in <var>elements</var>:
 
   <ol>
-   <li><p>Let <var>rendered text</var> be the result
-    of <a>getting <code>innerText</code></a> of <var>element</var>.
+   <li><p>Let <var>rendered text</var> be the value that would be
+    returned via a call to <a>Get Element Text</a>
+    for <var>element</var>.
 
    <li><p>If <var>rendered text</var> contains <var>selector</var>,
     append <var>element</var> to <var>result</var>.
@@ -4133,8 +4114,6 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>Let <var>all</var> be false.
-
  <li><p>Let <var>start node</var> be
   the <a>current browsing context</a>’s <a>document element</a>.
 
@@ -4150,8 +4129,13 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li>Return the result of <a>Find</a> with <var>all</var>, <var>start node</var>,
-   <var>location strategy</var>, and <var>selector</var>.
+ <li><p>Let <var>result</var> be the result of <a>Find</a>
+  with <var>start node</var>, <var>location strategy</var>,
+  and <var>selector</var>.
+
+ <li><p>If <var>result</var> is empty, return <a>error</a>
+ with <a>error code</a> <a>no such element</a>. Otherwise, return the
+ first element of <var>result</var>.
 </ol>
 </section> <!-- /Find Element -->
 
@@ -4174,8 +4158,6 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  that can be used for future <a>commands</a>.
 
 <ol>
- <li><p>Let <var>all</var> be true.
-
  <li><p>Let <var>start node</var> be
   the <a>current browsing context</a>’s <a>document element</a>.
 
@@ -4217,8 +4199,6 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  that can be used for future <a>commands</a>.
 
 <ol>
- <li><p>Let <var>all</var> be equal to false.
-
  <li><p>Let <var>start node</var> be the result of
   <a>getting a known element</a> by <a>UUID</a> <var>reference</var>.
 
@@ -4234,9 +4214,13 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li>Return the result of <a>Find</a> with
-  <var>all</var>, <var>start node</var>,
-  <var>location strategy</var>, and <var>selector</var>.
+ <li>Let <var>result</var> be the value of calling <a>Find</a> with
+  <var>start node</var>, <var>location strategy</var>,
+  and <var>selector</var>.
+
+ <li><p>If <var>result</var> is empty, return <a>error</a>
+  with <a>error code</a> <a>no such element</a>. Otherwise, return the
+  first element of <var>result</var>.
 </ol>
 </section> <!-- /Find Element From Element -->
 
@@ -4260,8 +4244,6 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  that can be used for future <a>commands</a>.
 
 <ol>
- <li><p>Let <var>all</var> be equal to true.
-
  <li><p>Let <var>start node</var> be the result
   of <a>getting a known element</a> by <a>UUID</a> <var>reference</var>.
 
