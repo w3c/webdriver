@@ -6522,40 +6522,73 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
       <li><p>Set the <code>duration</code> property
        of <var>action</var> to <var>duration</var>.
 
-      <li><p>Let <var>element</var> be the result of getting a
-       property named <code>element</code> from <var>action item</var>.
+      <li><p>Let <var>origin</var> be the result of getting a property
+      named <code>origin</code> from <var>action item</var>. If
+      the <code>origin</code> property is not defined,
+      let <var>origin</var> be set to <code>"document"</code>.
 
-      <li><p>If <var>element</var> is not <a>undefined</a>
-          and <var>element</var> is not an <a>Object</a>
-          that <a>represents a web element</a>, return <a>error</a> with
+      <li><p>If <var>origin</var> is not <a>undefined</a>
+      and <var>origin</var> is not one
+      of <code>"document"</code>, <code>"pointer"</code>, <code>"viewport"</code>
+      or is not a <a>String</a> return <a>error</a> with <a>error
+      code</a> <a>invalid argument</a>.</li>
+
+      <li><p>If <var>origin</var> is <code>"document"</code>
+      let <var>x</var> be set to 0, and <var>y</var> be set to 0.
+
+      <li><p>Otherwise, if <var>origin</var>
+      is <code>"viewport"</code>, let <var>x</var> be set to the
+      current viewport x coordinate, and <var>y</var> be set to the
+      current viewport y coordinate.
+
+      <li>Otherwise, if <var>origin</var> is <code>"pointer"</code>
+      let <var>x</var> be equal to the <var>input
+      state</var>'s <code>x</code> property, and <var>y</var> be equal
+      to the <var>input state</var>'s <code>y</code> property.
+
+      <li><p>Otherwise
+
+        <ol>
+          <li><p>let <var>element</var> equal the result
+           of <a href="#dfn-trying" class="internalDFN"
+           data-link-type="dfn">trying</a> to <var>get a known
+           element</var> with argument <var>origin</var>.
+
+           <li><p>Let <var>rect</var> be equal to the dimensions and
+           coordinates of <var>element</var> as
+           if <a href="#dfn-get-element-rect" class="internalDFN"
+           data-link-type="dfn">Get Element Rect</a> had been called.
+
+           <li>Let <var>x<var> and <var>y</var> equal
+           the <code>x</code> and <code>y</code> properties
+           of <var>rect</var>.
+
+           <li><p>Set the <code>element</code> property
+           of <var>action</var> to <var>element</var>.
+        </ol>
+      </li>
+
+      <li><p>Let <var>xOffset</var> be the result of getting a
+          property named <code>xOffset</code> from <var>action
+          item</var></li>
+
+      <li><p>If <var>xOffset</var> is not <a>undefined</a> or is not
+          an <a>Integer</a> return <a>error</a> with
           <a>error code</a> <a>invalid argument</a>.</li>
 
-      <li><p>Set the <code>element</code> property
-          of <var>action</var> to <var>element</var>.</li>
+      <li><p>Set the <code>x</code> property of <var>action</var>
+          to <var>x</var> + <var>xOffset</var>.</li>
 
-      <li><p>Let <var>x</var> be the result of getting a
-          property named <code>x</code> from <var>action
-            item</var>.</li>
-
-      <li><p>If <var>x</var> is not <a>undefined</a> or is not
-          an <a>Integer</a> greater than or equal to 0,
-          return <a>error</a> with
-          <a>error code</a> <a>invalid argument</a>.</li>
-
-      <li><p>Set the <code>x</code> property
-          of <var>action</var> to <var>x</var>.</li>
-
-      <li><p>Let <var>y</var> be the result of getting a
-          property named <code>y</code> from <var>action
+      <li><p>Let <var>yOffset</var> be the result of getting a
+          property named <code>yOffset</code> from <var>action
             item</var>.</li>
 
       <li><p>If <var>y</var> is not <a>undefined</a> or is not
-          an <a>Integer</a> greater than or equal to 0,
-          return <a>error</a> with
+          an <a>Integer</a> return <a>error</a> with
           <a>error code</a> <a>invalid argument</a>.</li>
 
-      <li><p>Set the <code>y</code> property
-          of <var>action</var> to <var>y</var>.</li>
+      <li><p>Set the <code>y</code> property of <var>action</var>
+          to <var>y</var> + </var>yOffset</var>.</li>
 
       <li><p>Return success with data null.</li>
     </ol>
