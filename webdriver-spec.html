@@ -3936,6 +3936,9 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  a <a>remote end</a> must run the following steps:
 
 <ol>
+ <li><p>Let <var>end time</var> be the current time plus
+  the <a>session implicit wait timeout</a>.
+
  <li><p>Let <var>location strategy</var> be equal to <var>using</var>.
 
  <li><p>Let <var>selector</var> be equal to <var>value</var>.
@@ -3951,6 +3954,10 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <a><code>XPathException</code></a>, or other error occurs during the
  execution of the <a href="#element-location-strategies">element
  location stratgey</a>, return <a>error</a> <a>invalid selector</a>.
+
+ <li><p>If <var>elements returned</var> is empty and the current time
+  is less than <var>end time</var> return to step 5. Otherwise,
+  continue to the next step.
 
  <li><p>Let <var>result</var> be an empty JSON <a>List</a>.
 
