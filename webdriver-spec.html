@@ -222,9 +222,13 @@ var respecConfig = {
  <dd><p>The following terms are defined in the WHATWG Fetch specification: [[!FETCH]]
   <ul>
    <!-- Body --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-body>Body</a></dfn>
+   <!-- Header --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header">Header</a></dfn>
+   <!-- Header Name --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header-name">Header Name</a></dfn>
+   <!-- Header Value --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header-value">Header Value</a></dfn>
    <!-- Method --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-method>Method</a></dfn>
    <!-- Response --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response>Response</a></dfn>
    <!-- Request --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request>Request</a></dfn>
+   <!-- Set Header --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header-list-set">Set Header</a></dfn>
    <!-- Status --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response-status>HTTP Status</a></dfn>
    <!-- Status message --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response-status-message>Status message</a></dfn>
    <!-- URL --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-url>URL</a></dfn>
@@ -777,6 +781,10 @@ var respecConfig = {
  <li><p>Set <var>response</var>’s <a>HTTP status</a> to <var>status</var>,
   and <a>status message</a> to the string corresponding
   to the description of <var>status</var> in the <a>status code registry</a>.
+
+ <li><p><a data-lt='set header'>Set</a> the <var>response</var>'s <a>header</a>
+   with <a data-lt='header name'>name</a> equal to "<code>Content-Type</code>" and
+   <a data-lt="header value">value</a> equal to "<code>application/json</code>".
 
  <li><p>If <var>data</var> is not null, let <var>response</var>’s
   <a>body</a> be a JSON <a>Object</a> with a key <code>value</code>
@@ -3939,7 +3947,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   call with arguments <var>start node</var>, and <var>selector</var>.
 
  <li>If
- a <a><code>DOMException</code></a>, <a><code>SyntaxError</code></a>, 
+ a <a><code>DOMException</code></a>, <a><code>SyntaxError</code></a>,
  <a><code>XPathException</code></a>, or other error occurs during the
  execution of the <a href="#element-location-strategies">element
  location stratgey</a>, return <a>error</a> <a>invalid selector</a>.
