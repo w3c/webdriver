@@ -6526,30 +6526,32 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
           item</var>.</li>
 
       <li><p>If <var>duration</var> is not <a>undefined</a>
-       and <var>duration</var> is not an <a>Integer</a> greater than or equal to 0,
-       return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+          and <var>duration</var> is not an <a>Integer</a> greater than or equal to 0,
+          return <a>error</a> with <a>error code</a> <a>invalid argument</a>.</li>
 
       <li><p>Set the <code>duration</code> property
-       of <var>action</var> to <var>duration</var>.
+          of <var>action</var> to <var>duration</var>.</li>
 
-      <li><p>Let <var>element</var> be the result of getting a
-       property named <code>element</code> from <var>action item</var>.
+      <li><p>Let <var>origin</var> be the result of getting a
+          property named <code>origin</code> from <var>action item</var>.</li>
 
-      <li><p>If <var>element</var> is not <a>undefined</a>
-          and <var>element</var> is not an <a>Object</a>
+      <li><p>If <var>origin</var> is <a>undefined</a> let
+          <var>origin</var> equal <code>"viewport"</code>.</li>
+
+      <li><p>If <var>origin</var> is not equal to <code>"viewport"</code> or
+          <code>"pointer"</code> and <var>origin</var> is not an <a>Object</a>
           that <a>represents a web element</a>, return <a>error</a> with
           <a>error code</a> <a>invalid argument</a>.</li>
 
-      <li><p>Set the <code>element</code> property
-          of <var>action</var> to <var>element</var>.</li>
+      <li><p>Set the <code>origin</code> property
+          of <var>action</var> to <var>origin</var>.</li>
 
       <li><p>Let <var>x</var> be the result of getting a
           property named <code>x</code> from <var>action
             item</var>.</li>
 
       <li><p>If <var>x</var> is not <a>undefined</a> or is not
-          an <a>Integer</a> greater than or equal to 0,
-          return <a>error</a> with
+          an <a>Integer</a> return <a>error</a> with
           <a>error code</a> <a>invalid argument</a>.</li>
 
       <li><p>Set the <code>x</code> property
@@ -6560,8 +6562,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
             item</var>.</li>
 
       <li><p>If <var>y</var> is not <a>undefined</a> or is not
-          an <a>Integer</a> greater than or equal to 0,
-          return <a>error</a> with
+          an <a>Integer</a> return <a>error</a> with
           <a>error code</a> <a>invalid argument</a>.</li>
 
       <li><p>Set the <code>y</code> property
@@ -7388,10 +7389,10 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
         steps:</p>
 
       <ol>
-        <li><p>Let <var>x</var> be equal to the <code>x</code>
+        <li><p>Let <var>x offset</var> be equal to the <code>x</code>
             property of <var>action object</var>.</li>
 
-        <li><p>Let <var>y</var> be equal to the <code>y</code>
+        <li><p>Let <var>y offset</var> be equal to the <code>y</code>
             property of <var>action object</var>.</li>
 
         <li><p>Let <var>start x</var> be equal to the <code>x</code>
@@ -7400,22 +7401,53 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
         <li><p>Let <var>start y</var> be equal to the <code>y</code>
             property of <var>input state</var>.</li>
 
-        <li><p>Let <var>element id</var> be equal to
-            the <code>element</code> property of <var>action
+        <li><p>Let <var>origin</var> be equal to
+            the <code>origin</code> property of <var>action
             object</var>.</li>
 
-        <li><p>If <var>element id</var> is not undefined:
+        <li><p>Match on the value of <var>origin</var>:
+            <dl>
+              <dt><code>"viewport"</code></dt>
+              <dd><p>Let <var>x</var> equal <var>x offset</var> and
+                  <var>y</var> equal <var>y offset</var>.</dd>
 
-            <ol>
-              <li><p>Let <var>element</var> be equal to the result
-                  of <a>trying</a> to <var>get a known element</var> with
-                  argument <var>element</var>.</li>
+              <dt><code>"pointer"</code></dt>
+              <dd><p>Let <var>x</var> equal <var>start x</var>
+              + <var>x offset</var> and
+                  <var>y</var> equal <var>start y</var> + <var>y
+                  offset</var>.</dd>
 
-              <li><p>If <var>x</var> and <var>y</var> are <a>undefined</a>,
-                let <var>x</var> and <var>y</var> be the result of calculating the
-                <a>in-view centre point</a> of <var>element</var>.
-            </ol>
+              <dt>An object that <a>represents a web element</a></dt>
+              <dd>
+                <ol>
+                  <li><p>Let <var>element</var> be equal to the result
+                      of <a>trying</a> to <var>get a known
+                      element</var> with
+                      argument <var>origin</var>.</li>
+
+                  <li><p>Let <var>x element</var> and <var>y
+                  element</var> be the result of calculating the
+                    <a>in-view centre point</a>
+                    of <var>element</var>.</li>
+
+                  <li><p>Let <var>x</var> equal <var>x element</var>
+                      + <var>x offset</var>, and <var>y</var>
+                      equal <var>y element</var> + <var>y
+                      offset</var>.</li>
+                </ol>
+              </dd>
+            </dl>
         </li>
+
+        <li><p>If <var>x</var> is less than 0 or greater than the width
+            of the viewport in <a>CSS reference pixels</a>, then
+            return <a>error</a> with error code <a>move target out of
+              bounds</a>.</li>
+
+        <li><p>If <var>y</var> is less than 0 or greater than the height
+            of the viewport in <a>CSS reference pixels</a>, then
+            return <a>error</a> with error code <a>move target out of
+              bounds</a>.</li>
 
         <li><p>Let <var>duration</var> be equal to <var>action
             object</var>'s <code>duration</code> property if it is
@@ -7429,8 +7461,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
             <aside><p>This wait allows the implementation to model the
             overall pointer move as a series of small movements
             occuring at an implementation defined rate (e.g. one
-            movement per vsync).</p></aside>
-
+            movement per vsync).</p></aside></li>
 
         <li><p><a>Perform a pointer move</a> with
               arguments <var>source id</var>, <var>input
