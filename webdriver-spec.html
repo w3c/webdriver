@@ -308,9 +308,11 @@ var respecConfig = {
    <!-- frame element --> <li><a href=https://html.spec.whatwg.org/#frame><dfn><code>frame</code></dfn> element</a>
    <!-- iframe element --> <li><a href=https://html.spec.whatwg.org/#the-iframe-element><dfn><code>iframe</code></dfn> element</a>
    <!-- canvas element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-canvas-element><code>canvas</code> element</a></dfn>
+   <!-- datalist element --> <li><a href=https://html.spec.whatwg.org/#the-datalist-element><dfn><code>datalist</code></dfn> element</a>
    <!-- HTML Element --> <li><dfn><a href="https://html.spec.whatwg.org/#the-html-element"><code>html</code> element</a></dfn>
    <!-- input element --> <li><a href=https://html.spec.whatwg.org/#the-input-element><dfn data-lt="input elements|input"><code>input</code> element</dfn></a>
    <!-- option element --> <li><a href=https://html.spec.whatwg.org/#the-option-element><dfn><code>option</code></dfn> element</a>
+   <!-- select element --> <li><a href=https://html.spec.whatwg.org/#the-select-element><dfn><code>select</code></dfn> element</a>
    <!-- textarea element --> <li><a href=https://html.spec.whatwg.org/#the-textarea-element><dfn><code>textarea</code> element</dfn></a>
   </ul>
 
@@ -4787,19 +4789,52 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   if it is a <a>success</a>.
   Otherwise return <var>element result</var>.
 
- <li><p><a>Scroll into view</a> the <var>element</var>.
+ <li><p>Match case-insensitively on the <var>element</var>'s tag name:
+
+  <dl class=switch>
+   <dt><code>"input"</code>
+   <dd><p>If the <a><code>type</code> attribute</a>
+    is <code>"file"</code> return an <a>error</a> with <a>error
+    code</a> <a>invalid argument</a>. Otherwise,
+    let <var>container</var> equal <var>element</var>.
+
+   <dt><code>"option"</code>
+   <dd><p>Let <var>container</var> equal the <a><code>datalist</code>
+    element</a> or <a><code>select</code> element</a> of
+    which <var>element</var> is a child. If <var>container</var> is
+    undefined, return <a>error</a> with <a>error code</a> <a>invalid
+    argument</a>.
+
+   <dt>Otherwise
+   <dd><p>Let <var>container</var> equal <var>element</var>.
+  </dl>
+  </li>
+
+ <li><p><a>Scroll into view</a> the <var>container</var>.
 
  <li><p>Wait in an implementation-specific way up to the <a>session
-  implicit wait timeout</a> for <var>element</var> to
+  implicit wait timeout</a> for <var>container</var> to
   become <a>pointer-interactable</a>.
 
- <li><p>If <var>element</var> is not <a>pointer-interactable</a>,
+ <li><p>If <var>container</var> is not <a>pointer-interactable</a>,
   return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
 
  <li><p>Let <var>coordinates</var> be the
   <a>in-view centre point</a> of <a>element</a>.
 
- <li><p class=issue>Run interaction steps on coordinate.
+ <li><p>Match case-insensively on <var>element</var>'s tag name:
+  <dl>
+   <dt><code>option</code>
+   <dd><p>If <var>container</var> <code><a>hasAttribute</a>
+   "multiple"</code>, toggle the <a>selectedness</a>
+   of <var>element</var>. Otherwise, set the <a>selectedness</a>
+   of <var>element</var> to <code>true</code>.
+   <!-- TODO: ensure all correct events are fired -->
+
+   <dt>Otherwise
+   <dd><p class=issue>Run interaction steps on coordinate.
+  </dl>
+ </li>
 
  <li><p>If the click causes <a>navigation</a>:
 
