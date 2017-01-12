@@ -4879,6 +4879,9 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
    <dt><a>Radio Button</a> state
    <dd><p>Set the <a>checkedness</a> to false.
 
+   <dt><a>File</a> state
+   <dd><p>Remove all items from <a>selected files</a>.
+
    <dt>Otherwise
    <dd><p>Set the <a>value</a> to an empty string.
   </dl>
@@ -4949,10 +4952,26 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
      <li><p>Let <var>text</var> be the result of
       joining together each element in <var>character array</var> to a string.
 
-     <li><p>Complete implementation specific steps equivalent to setting the
-       <a>selected files</a> on the <a><code>input</code></a>.
+     <li><p>Let <var>files</var> be the result of
+      splitting <var>text</var> on the newline (<code>'\n'</code>)
+      character.
 
-     <li><p class=issue>Need to handle <code>&lt;input type=file multiple&gt;</code>
+     <li><p>If <var>files</var> is of 0 length, return an <a>error</a>
+      with <a>error code</a> <a>invalid argument</a>.
+
+     <li><p>Let <var>multiple</var> equal the result of
+      calling <code><a>hasAttribute</a>("multiple")</code>
+      on <var>element</var>.
+
+     <li><p>if <var>multiple</var> is <code>false</code> and the
+      length of <var>files</var> is not equal to 1 return
+      an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+     <li><p>Complete implementation specific steps equivalent to setting the
+       <a>selected files</a> on
+       the <a><code>input</code></a>. If <var>multiple</var>
+       is <code>true</code> <var>files</var> are be appended
+       to <var>element</var>'s <a>selected files</a>.
 
      <li><p>Jump to the last step in this overall set of steps.
    </ol>
