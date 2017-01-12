@@ -2163,10 +2163,13 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  that specifies a time to wait for the page loading to complete.
  Unless stated otherwise it is 300,000 milliseconds.
 
-<p>A <a>session</a> has an associated <dfn>session implicit wait timeout</dfn>
- that specifies a time to wait for the <a>element location strategy</a>
- when <a href=#element-retrieval>retreiving elements</a>.
- Unless stated otherwise it is zero milliseconds.
+<p>A <a>session</a> has an associated <dfn>session implicit wait
+ timeout</dfn> that specifies a time to wait in milliseconds for
+ the <a>element location strategy</a>
+ when <a href=#element-retrieval>retreiving elements</a> and when
+ waiting for an element to become <a>interactable</a> when
+ performing <a>element interaction</a> . Unless stated otherwise it is
+ zero milliseconds.
 
 <p>A <a>session</a> has an associated <dfn>page loading strategy</dfn>,
  which is one of <a>none</a>, <a>normal</a>, and <a>eager</a>.
@@ -4766,11 +4769,11 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 </section> <!-- /Element State -->
 
 <section>
-<h2>Element Interaction</h2>
+<h2><dfn>Element Interaction</dfn></h2>
 
 <p>The element interaction <a>commands</a>
  provide a high-level instruction set for manipulating form controls.
- Unlike the <a>Actions</a> interface,
+ Unlike <a>Actions</a>,
  they will implicitly <a data-lt="scroll into view">scroll elements into view</a>
  and check that it is an <a>interactable element</a>.
 
@@ -4808,6 +4811,10 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   Otherwise return <var>element result</var>.
 
  <li><p><a>Scroll into view</a> the <var>element</var>.
+
+ <li><p>Wait in an implementation-specific way up to the <a>session
+  implicit wait timeout</a> for <var>element</var> to
+  become <a>pointer-interactable</a>.
 
  <li><p>If <var>element</var> is not <a>pointer-interactable</a>,
   return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
@@ -4868,6 +4875,10 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <lI><p>Let <var>element</var> be <var>element result</var>’s data
   if it is a <a>success</a>.
   Otherwise return <var>element result</var>.
+
+ <li><p>Wait in an implementation-specific way up to the <a>session
+  implicit wait timeout</a> for <var>element</var> to
+  become <a>interactable</a>.
 
  <li><p>If <var>element</var> is not <a>interactable</a>,
   return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
@@ -4935,6 +4946,10 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p>Let <var>element</var> be <var>element result</var>’s data
   if it is a <a>success</a>.
   Otherwise return <var>element result</var>.
+
+ <li><p>Wait in an implementation-specific way up to the <a>session
+  implicit wait timeout</a> for <var>element</var> to
+  become <a>keyboard interactable</a>.
 
  <li><p>If <var>element</var> is not <a>keyboard interactable</a>,
   return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
@@ -5813,7 +5828,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 </section> <!-- /Cookies -->
 
 <section>
-<h2>Actions</h2>
+<h2><dfn>Actions</dfn></h2>
 
 <p class=issue>Expand these examples
 
