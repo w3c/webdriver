@@ -975,26 +975,14 @@ var respecConfig = {
 
  <tr>
   <td>GET</td>
-  <td>/session/{<var>session id</var>}/window/size</td>
-  <td><a>Get Window Size</a></td>
+  <td>/session/{<var>session id</var>}/window/rect</td>
+  <td><a>Get Window Rect</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{<var>session id</var>}/window/size</td>
-  <td><a>Set Window Size</a></td>
- </tr>
-
- <tr>
-  <td>GET</td>
-  <td>/session/{<var>session id</var>}/window/position</td>
-  <td><a>Get Window Position</a></td>
- </tr>
-
- <tr>
-  <td>POST</td>
-  <td>/session/{<var>session id</var>}/window/position</td>
-  <td><a>Set Window Position</a></td>
+  <td>/session/{<var>session id</var>}/window/rect</td>
+  <td><a>Set Window Rect</a></td>
  </tr>
 
  <tr>
@@ -3317,18 +3305,6 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  of the operating system window corresponding to it.
  Its <a>JSON representation</a> is the following:
 
-<dl>
- <dt>"<code>width</code>"
- <dd>Width of the <a>top-level browsing context</a>’s outer dimensions,
-  including any browser chrome and externally drawn window decorations
-  in <a>CSS reference pixels</a>.
-
- <dt>"<code>height</code>"
- <dd>Height of the <a>top-level browsing context</a>’s outer dimensions,
-  including any browser chrome and externally drawn window decorations
-  in <a>CSS reference pixels</a>.
-</dl>
-
 <p class=note>In some user agents the operating system’s
  window dimensions including decorations,
  are provided by the proprietary <code>window.outerWidth</code>
@@ -3339,18 +3315,9 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  on the <a><code>WindowProxy</code></a> it corresponds to.
  Its <a>JSON representation</a> is the following:
 
-<dl>
- <dt>"<code>x</code>"
- <dd><a>screenX</a> attribute of the <a><code>WindowProxy</code></a>
-  for the <a>current top-level browsing context</a>.
-
- <dt>"<code>y</code>"
- <dd><a>screenY</a> attribute of the <a><code>WindowProxy</code></a>
-  for the <a>current top-level browsing context</a>.
-</dl>
 
 <section>
-<h3>Get Window Size</h3>
+<h3>Get Window Rect</h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -3359,13 +3326,35 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  </tr>
  <tr>
   <td>GET</td>
-  <td>/session/{session id}/window/size</td>
+  <td>/session/{session id}/window/rect</td>
  </tr>
 </table>
 
-<p>The <dfn>Get Window Size</dfn> <a>command</a>
- returns the size of the operating system window corresponding
+<p>The <dfn>Get Window Rect</dfn> <a>command</a>
+ returns the size and position on the screen
+ of the operating system window corresponding
  to the <a>current top-level browsing context</a>.
+ The returned value is a dictionary with the following members:
+
+ <dl>
+  <dt>x
+  <dd><a>screenX</a> attribute of the <a><code>WindowProxy</code></a>
+   for the <a>current top-level browsing context</a> in <a>CSS reference pixels</a>.
+
+  <dt>y
+  <dd><a>screenY</a> attribute of the <a><code>WindowProxy</code></a>
+   for the <a>current top-level browsing context</a> in <a>CSS reference pixels</a>.
+
+  <dt>height
+  <dd>Height of the <a>top-level browsing context</a>’s outer dimensions,
+   including any browser chrome and externally drawn window decorations
+   in <a>CSS reference pixels</a>.
+
+  <dt>width
+  <dd>Width of the <a>top-level browsing context</a>’s outer dimensions,
+   including any browser chrome and externally drawn window decorations
+   in <a>CSS reference pixels</a>.
+ </dl>
 
 <p>The <a>remote end steps</a> are:
 
@@ -3375,13 +3364,36 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p>Return <a>success</a> with the <a>JSON serialisation</a>
-  of the <a>current top-level browsing context</a>’s <a>window size</a>.
+ <li><p>Let <var>body</var> be a new JSON <a>Object</a> initialised with:
+
+  <dl>
+   <dt><code>x</code>
+   <dd>The value of <a>screenX</a> attribute of the
+     <a><code>WindowProxy</code></a> for the <a>current
+       top-level browsing context</a> in <a>CSS reference pixels</a>.
+
+   <dt><code>y</code>
+   <dd>The value of <a>screenY</a> attribute of the
+     <a><code>WindowProxy</code></a> for the <a>current
+       top-level browsing context</a> in <a>CSS reference pixels</a>.
+
+   <dt><code>width</code>
+   <dd>Width of the <a>top-level browsing context</a>’s outer dimensions,
+    including any browser chrome and externally drawn window decorations
+    in <a>CSS reference pixels</a>.
+
+   <dt><code>height</code>
+   <dd>Height of the <a>top-level browsing context</a>’s outer dimensions,
+    including any browser chrome and externally drawn window decorations
+    in <a>CSS reference pixels</a>.
+  </dl>
+
+   <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
-</section> <!-- /Get Window Size -->
+</section> <!-- /Get Window rect -->
 
 <section>
-<h3>Set Window Size</h3>
+<h3>Set Window Rect</h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -3390,12 +3402,12 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{<var>session id</var>}/window/size</td>
+  <td>/session/{<var>session id</var>}/window/Rect</td>
  </tr>
 </table>
 
-<p>The <dfn>Set Window Size</dfn> <a>command</a>
- alters the size of the operating system window
+<p>The <dfn>Set Window Rect</dfn> <a>command</a>
+ alters the size and the position of the operating system window
  corresponding to the <a>current top-level browsing context</a>.
 
 <p>The <a>remote end steps</a> are:
@@ -3407,24 +3419,32 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>If the <a>remote end</a> does not support
-  the <a>Set Window Size</a> <a>command</a> for
+  the <a>Set Window Rect</a> <a>command</a> for
   the <a>current top-level browsing context</a> for any reason,
   return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
 
- <li><p>If the properties <code>width</code> or <code>height</code>
-  are missing from the <var>parameters</var> argument,
-  or they are not integers, or less than 0 or greater than 2<sup>64</sup> – 1,
+ <li><p>If the properties <code>width</code> or <code>height</code> or
+  <code>x</code> or <code>y</code> from the <var>parameters</var>
+   are not integers, or less than 0 or greater than 2<sup>64</sup> – 1,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>width</var> be the result of
   <a>getting a property</a> named <code>width</code>
-  from the <var>parameters</var> argument.
+  from the <var>parameters</var> argument, else let it be <code>null</code>.
 
  <li><p>Let <var>height</var> be the result of
   <a>getting a property</a> named <code>height</code>
-  from the <var>parameters</var> argument.
+  from the <var>parameters</var> argument, else let it be <code>null</code>.
 
- <li><p>Set the width, in <a>CSS reference pixels</a>,
+  <li><p>Let <var>x</var> be the result of <a>getting a property</a>
+   named <code>y</code> from the <var>parameters</var> argument, else let it be null.
+
+  <li><p>Let <var>y</var> be the result of <a>getting a property</a>
+   named <code>x</code> from the <var>parameters</var> argument, else let it be null.
+
+ <li><p>If <var>width</var> and <var>height</var> are not null:
+ <ol>
+  <li><p>Set the width, in <a>CSS reference pixels</a>,
   of the operating system window containing
   the <a>current top-level browsing context</a>,
   including any browser chrome and externally drawn window decorations
@@ -3436,127 +3456,67 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   including any browser chrome and externally drawn window decorations
   to a value that is as close as possible to <var>height</var>.
 
- <li><p>Return <a>success</a> with the <a>JSON serialisation</a>
-  of the <a>current top-level browsing context</a>’s <a>window size</a>.
-</ol>
+  <aside class=note>
+   <p>The specification does not guarantee
+    that the resulting window size will exactly match that which was requested.
+    In particular the implementation is expected to clamp values
+    that are larger than the physical screen dimensions,
+    or smaller than the minimum window size.
 
-<aside class=note>
- <p>The specification does not guarantee
-  that the resulting window size will exactly match that which was requested.
-  In particular the implementation is expected to clamp values
-  that are larger than the physical screen dimensions,
-  or smaller than the minimum window size.
+   <p>Particular implementations may have other limitations
+   such as not being able to resize in single-pixel increments.
+ </aside>
+ </ol>
+ <li><p>If <var>x</var> and <var>y</var> are not null:
+  <ol>
+  <li><p>Run the implementation-specific steps
+   to set the position of the operating system level window
+   containing the <a>current top-level browsing context</a>
+   to the position given by the <var>x</var> and <var>y</var> coordinates.
 
- <p>Particular implementations may have other limitations
- such as not being able to resize in single-pixel increments.
-</aside>
-</section> <!-- /Set Window Size -->
+ <aside class=note>
+   <p>Note that this step is similar
+    to calling the <a>moveTo(x, y)</a> method
+    on the <a><code>WindowProxy</code></a> object
+    associated with the <a>current top-level browsing context</a>,
+    but without the <a href=https://developer.mozilla.org/en-US/docs/Web/API/Window/moveTo>security restrictions</a> that you
 
-<section>
-<h3>Get Window Position</h3>
-
-<table class="simple jsoncommand">
- <tr>
-  <th>HTTP Method</th>
-  <th>Path Template</th>
- </tr>
- <tr>
-  <td>GET</td>
-  <td>/session/{<var>session id</var>}/window/position</td>
- </tr>
-</table>
-
-<p>The <dfn>Get Window Position</dfn> <a>command</a>
- returns the position on the screen
- of the operating system window
- corresponding to the <a>current top-level browsing context</a>.
-
-<p>The <a>remote end steps</a> are:
-
-<ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
-
- <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
-
- <li><p>If the <a>remote end</a> does not support
-  the <a>Get Window Position</a> <a>command</a> for
-  the <a>current top-level browsing context</a> for any reason,
-  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
-
- <li><p>Return <a>success</a> with the <a>JSON serialisation</a>
-  of the <a>current top-level browsing context</a>’s <a>window position</a>.
-</ol>
-</section> <!-- /Get Window Position -->
-
-<section>
-<h3>Set Window Position</h3>
-
-<table class="simple jsoncommand">
- <tr>
-  <th>HTTP Method</th>
-  <th>Path Template</th>
- </tr>
- <tr>
-  <td>POST</td>
-  <td>/session/{<var>session id</var>}/window/position</td>
- </tr>
-</table>
-
-<p>The <dfn>Set Window Position</dfn> <a>command</a>
- sets the position on the screen
- of the operating system window
- corresponding to the <a>current top-level browsing context</a>.
-
-<p>The <a>remote end steps</a> are:
-
-<ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
-
- <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
-
- <li><p>If the <a>remote end</a> does not support
-  the <a>Set Window Position</a> <a>command</a> for
-  the <a>current top-level browsing context</a> for any reason,
-  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
-
- <li><p>If the <code>x</code> or <code>y</code> properties
-  are missing from the <var>parameters</var> argument,
-  or they are not integers,
-  or less than 0 or greater than 2<sup>64</sup> – 1,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
- <li><p>Let <var>x</var> be the result of <a>getting a property</a>
-  named <code>y</code> from the <var>parameters</var> argument.
-
- <li><p>Let <var>y</var> be the result of <a>getting a property</a>
-  named <code>x</code> from the <var>parameters</var> argument.
-
- <li><p>Run the implementation-specific steps
-  to set the position of the operating system level window
-  containing the <a>current top-level browsing context</a>
-  to the position given by the <var>x</var> and <var>y</var> coordinates.
-
- <div class=note>
-  <p>Note that this step is similar
-   to calling the <a>moveTo(x, y)</a> method
-   on the <a><code>WindowProxy</code></a> object
-   associated with the <a>current top-level browsing context</a>,
-   but without the <a href=https://developer.mozilla.org/en-US/docs/Web/API/Window/moveTo>security restrictions</a> that you
-
-  <ol type=a>
-   <li>cannot move a window or tab
-    that was not created by <code>window.open</code>.
-   <li>cannot move a window or tab
-    when it is in a window with more than one tab.
+   <ol type=a>
+    <li>cannot move a window or tab
+     that was not created by <code>window.open</code>.
+    <li>cannot move a window or tab
+     when it is in a window with more than one tab.
+   </ol>
+ </aside>
   </ol>
- </div>
+  <li><p>Let <var>body</var> be a new JSON <a>Object</a> initialised with:
 
- <li>Return <a>success</a> with the <a>JSON serialisation</a>
-  of the <a>current top-level browsing context</a>’s <a>window position</a>.
+   <dl>
+    <dt><code>x</code>
+    <dd>The value of <a>screenX</a> attribute of the
+      <a><code>WindowProxy</code></a> for the <a>current
+        top-level browsing context</a>.
+
+    <dt><code>y</code>
+    <dd>The value of <a>screenY</a> attribute of the
+      <a><code>WindowProxy</code></a> for the <a>current
+        top-level browsing context</a>.
+
+    <dt><code>width</code>
+    <dd>Width of the <a>top-level browsing context</a>’s outer dimensions,
+     including any browser chrome and externally drawn window decorations
+     in <a>CSS reference pixels</a>.
+
+    <dt><code>height</code>
+    <dd>Height of the <a>top-level browsing context</a>’s outer dimensions,
+     including any browser chrome and externally drawn window decorations
+     in <a>CSS reference pixels</a>.
+   </dl>
+
+    <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
-</section> <!-- /Set Window Position -->
+
+</section> <!-- /Set Window Rect -->
 
 <section>
 <h3>Maximize Window</h3>
