@@ -431,6 +431,7 @@ var respecConfig = {
  <dd>The following functions are defined in
   the CSSOM View Module: [[!CSSOM-VIEW]]:
   <ul>
+   <!-- elementFromPoint --> <li><dfn>Element from point</dfn> as <a href="https://drafts.csswg.org/cssom-view/#dom-document-elementfrompoint">elementFromPoint()</a>
    <!-- elementsFromPoint --> <li><dfn>Elements from point</dfn> as <a href=https://drafts.csswg.org/cssom-view/#dom-document-elementsfrompoint>elementsFromPoint()</a>
    <!-- getClientRects --> <li><dfn><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></dfn>
    <!-- innerHeight --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerheight>innerHeight</a></dfn>
@@ -1260,6 +1261,15 @@ var respecConfig = {
    <a data-lt="pointer-interactable">pointer</a>- or
    <a data-lt="keyboard interactable">keyboard</a> <a>interactable</a>.
  </tr>
+
+ <tr>
+  <td><dfn>element intercepting click</dfn>
+  <td>400
+  <td><code>element intercepting click</code>
+  <td>An element <a>command</a> could not be completed
+    because the element receiving the events is not the
+    original element requested in <a>Element Click</a>.
+</tr>
 
  <tr>
   <td><dfn>insecure certificate</dfn>
@@ -4831,6 +4841,10 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
  <li><p>Let <var>coordinates</var> be the
   <a>in-view centre point</a> of <a>element</a>.
+
+ <li><p>If <a>element from point</a> for <var>coordinates</var>
+   is not equal to <var>container</var> return <a>error</a> with
+   <a>error code</a> <a>element intercepting click</a>.
 
  <li><p>Match case-insensively on <var>element</var>'s tag name:
   <dl>
