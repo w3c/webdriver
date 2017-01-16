@@ -249,7 +249,6 @@ var respecConfig = {
    <!-- Button --> <li><dfn><a href="https://html.spec.whatwg.org/#button-state-%28type=button%29">Button</a></dfn> state
    <!-- Buttons --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-button>Buttons</a></dfn>
    <!-- Canvas context mode --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-context-mode>Canvas context mode</a></dfn>
-   <!-- Change event --> <li><dfn><a href=https://html.spec.whatwg.org/#event-change>Change</a></dfn> event
    <!-- Checkbox --> <li><dfn><a href="https://html.spec.whatwg.org/#checkbox-state-%28type=checkbox%29">Checkbox</a></dfn> state
    <!-- Checkedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-checked>Checkedness</a></dfn>
    <!-- Child browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#child-browsing-context>Child browsing context</a></dfn>
@@ -270,6 +269,7 @@ var respecConfig = {
    <!-- Getting innerText --> <li><dfn><a href=http://rocallahan.github.io/innerText-spec/index.html#setting-innertext>Getting <code>innerText</code></a></dfn>
    <!-- Hidden --> <li><dfn><a href="https://html.spec.whatwg.org/#hidden-state-%28type=hidden%29">Hidden</a></dfn> state
    <!-- Image Button --> <li><dfn><a href="https://html.spec.whatwg.org/#image-button-state-%28type=image%29">Image Button</a></dfn> state
+   <!-- Input event --> <li><dfn><a href=https://html.spec.whatwg.org/#event-input><code>input</code></a> event</dfn>
    <!-- Input type file selected --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-input-type-file-selected">Selected Files</a></dfn>
    <!-- Joint session history --> <li><dfn><a href=https://html.spec.whatwg.org/#joint-session-history>Joint session history</a></dfn>
    <!-- Missing value default state --> <li><dfn><a href=https://html.spec.whatwg.org/#missing-value-default>Missing value default state</a></dfn>
@@ -296,6 +296,7 @@ var respecConfig = {
    <!-- Traverse the history by a delta --> <li><dfn><a href=https://html.spec.whatwg.org/#traverse-the-history-by-a-delta>Traverse the history by a delta</a></dfn>
    <!-- Traverse the history --> <li><dfn data-lt="traverse the history|traversing the history"><a href=https://html.spec.whatwg.org/#traverse-the-history>Traverse the history</a></dfn>
    <!-- Tree order --> <li><dfn><a href=https://html.spec.whatwg.org/#tree-order>Tree order</a></dfn>
+   <!-- Unfocusing steps --><li><dfn><a href=https://html.spec.whatwg.org/#unfocusing-steps>unfocusing steps</a></dfn>
    <!-- User prompt --> <li><dfn data-lt="user prompts"><a href=https://html.spec.whatwg.org/#user-prompts>User prompt</a></dfn>
    <!-- Value attribute --><li><dfn><a href=https://html.spec.whatwg.org/#dom-input-value><code>value</code> attribute</a></dfn>
    <!-- Value --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-value>Value</a></dfn>
@@ -4880,9 +4881,10 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 </table>
 
 <p>The <dfn>Element Clear</dfn> <a>command</a>
- <a>scrolls into view</a> a <a>submittable element</a> excluding <a>buttons</a>
- or <a>editable</a> <a>element</a>,
- and then attempts to clear its <a>value</a>, <a>checkedness</a>, or <a>text content</a>.
+ <a>scrolls into view</a> a <a>submittable element</a> &mdash;
+  excluding <a>buttons</a> &mdash; or
+  an <a>editable</a> <a>element</a>, and then attempts to clear
+  its <a>value</a>, <a>checkedness</a>, or <a>text content</a>.
 
 <p>The <a>remote end steps</a> are:
 
@@ -4897,6 +4899,8 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   if it is a <a>success</a>.
   Otherwise return <var>element result</var>.
 
+ <li><p><a>Scroll into view</a> the <var>element</var>.
+
  <li><p>Wait in an implementation-specific way up to the <a>session
   implicit wait timeout</a> for <var>element</var> to
   become <a>interactable</a>.
@@ -4908,32 +4912,76 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   <a>read only</a>, or has <a>pointer events disabled</a>,
   return <a>error</a> with <a>error code</a> <a>invalid element state</a>.
 
- <li><p><a>Scroll into view</a> the <var>element</var>.
+ <li><p>If <var>element</var> is <a>editable</a> then follow the steps
+  required to <a>clear an editable element</a>.
 
- <li><p>If <var>element</var> is <a>editable</a>,
-  set its <a><code>innerHTML</code> IDL attribute</a> to an empty string.
-
-  <p>Otherwise:
-
-  <ol>
-   <li>Match on <var>element</var>’s <a><code>type</code> attribute</a>:
+  <p>Otherwise match on <var>element</var>’s <a><code>type</code>
+   attribute</a>:
 
   <dl class=switch>
    <dt><a>Checkbox</a> state
    <dt><a>Radio Button</a> state
-   <dd><p>Set the <a>checkedness</a> to false.
+   <dd><p>Follow the steps required to <a>clear a checked element</a> for <var>element</var>.
 
    <dt><a>File</a> state
-   <dd><p>Remove all items from <a>selected files</a>.
+   <dd><p>Follow the steps required to <a>clear a file input element</a>.
 
    <dt>Otherwise
    <dd><p>Set the <a>value</a> to an empty string.
   </dl>
-   <li><p><a>Fire</a> a <a>change</a> <a>event</a>.
-  </ol>
 
  <li><p>Return <a>success</a> with data null.
 </ol>
+
+<p>When required to <dfn>clear an editable element</dfn> a <a>remote
+ end</a> must run the following steps:
+
+<ol>
+ <li><p>If <var>element</var>'s <a><code>innerHTML</code> IDL
+  attribute</a> is an empty string do nothing and return.
+
+ <li><p>Run the <a>focusing steps</a> for <var>element</var>.
+
+ <li><p>Set <var>elemnent</var>'s <a><code>innerHTML</code> IDL
+  attribute</a> to an empty string.
+
+ <li><p>Fire an <a><code>input</code> event</a>.
+
+ <li><p>Run the <a>unfocusing steps</a> for the <var>element</var>.
+</ol> <!-- /clearing an editable element -->
+
+<p>When required to <dfn>clear a checked element</dfn>
+ for <var>element</var> a <a>remote end</a> must run the following
+ steps:
+
+<ol>
+ <li><p>If the <var>element</var> <a>checkedness</a>
+  is <code>false</code> do nothing and return.
+
+ <li><p>Run the <a>focusing steps</a> for <var>element</var>.
+
+ <li><p>Set the <a>checkedness</a> to <code>false</code>.
+
+ <li><p>Run the <a>unfocusing steps</a> for the <var>element</var>.
+</ol> <!-- /clearing checked element -->
+
+<p>When required to <dfn>clear a file input element</dfn>
+ for <var>element</var> a <a>remote end</a> must run the following
+ steps:
+
+<ol>
+ <li><p>If there are no items in <var>element</var>'s <a>selected
+  files</a> do nothing and return.
+
+ <li><p>Run the <a>focusing steps</a> for <var>element</var>.
+
+ <li><p>Remove all items from <a>selected files</a>.
+
+ <li><p>Fire an <a><code>input</code> event</a>.
+
+ <li><p>Run the <a>unfocusing steps</a> for the <var>element</var>.
+</ol> <!-- /clearing file input element inputs -->
+
 </section> <!-- /Element Clear -->
 
 <section>
