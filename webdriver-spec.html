@@ -5435,9 +5435,16 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p>Let <var>result</var> be the result of calling <a>execute a function body</a>,
   with arguments <var>body</var> and <var>arguments</var>.
 
+ <li><p>Wait for <a>execute a function body</a> to return
+  or for <a>session script timeout</a> milliseconds to expire,
+  whichever happens sooner.
+
+ <li><p>If the previous step completed due the <a>session script timeout</a> being reached,
+    return <a>error</a> with <a>error code</a> <a>script timeout</a>.
+
  <li><p>If <var>result</var> is an <a>error</a>, return result.
 
-  <p>Otherwise let <var>value</var> be <var>result</var>’s data.
+ <li><p>Otherwise let <var>value</var> be <var>result</var>’s data.
 
  <li><p>Return <a>success</a> with data <var>value</var>.
 </ol>
