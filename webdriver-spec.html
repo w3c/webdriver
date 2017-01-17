@@ -244,6 +244,7 @@ var respecConfig = {
    <!-- Active element --> <li><dfn>Active element</dfn> being the <a href=https://html.spec.whatwg.org/#dom-document-activeelement><code>activeElement</code></a> attribute on <a href=https://html.spec.whatwg.org/#document><code>Document</code></a>
    <!-- A serialization of the bitmap as a file --> <li><dfn data-lt="a serialisation of the canvas element’s bitmap as a file"><a href=https://html.spec.whatwg.org/#a-serialisation-of-the-bitmap-as-a-file>A serialisation of the bitmap as a file</a></dfn>
    <!-- Associated window --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-document-window>Associated window</a></dfn>
+   <!-- Body element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-body-element><code>body</code> element</a></dfn>
    <!-- Boolean attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#boolean-attribute>Boolean attribute</a></dfn>
    <!-- Browsing context --> <li><dfn data-lt="browsing contexts"><a href=https://html.spec.whatwg.org/#browsing-context>Browsing context</a></dfn>
    <!-- Button --> <li><dfn><a href="https://html.spec.whatwg.org/#button-state-%28type=button%29">Button</a></dfn> state
@@ -265,6 +266,7 @@ var respecConfig = {
    <!-- Environment settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#environment-settings-object>Environment settings object</a></dfn>
    <!-- Event loop --> <li><dfn><a href=https://html.spec.whatwg.org/#event-loop>Event loop</a></dfn>
    <!-- File --> <li><dfn><a href="https://html.spec.whatwg.org/#file-upload-state-%28type=file%29">File</a></dfn> state
+   <!-- Fousable area --><li><dfn><a href=https://html.spec.whatwg.org/#focusable-area>Focusable area</a></dfn>
    <!-- Focusing steps --> <li><dfn><a href="https://html.spec.whatwg.org/#focusing-steps">Focusing steps</a></dfn>
    <!-- Getting innerText --> <li><dfn><a href=http://rocallahan.github.io/innerText-spec/index.html#setting-innertext>Getting <code>innerText</code></a></dfn>
    <!-- Hidden --> <li><dfn><a href="https://html.spec.whatwg.org/#hidden-state-%28type=hidden%29">Hidden</a></dfn> state
@@ -1265,7 +1267,7 @@ var respecConfig = {
   <td>An element <a>command</a> could not be completed
    because the element is not
    <a data-lt="pointer-interactable">pointer</a>- or
-   <a data-lt="keyboard interactable">keyboard</a> <a>interactable</a>.
+   <a data-lt="keyboard-interactable">keyboard</a> <a>interactable</a>.
  </tr>
 
  <tr>
@@ -3782,6 +3784,13 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  of its rectangle that is inside the <a>viewport</a>,
  excluding the size of any rendered scrollbars.
 
+<p>A <dfn data-lt="keyboard-interactable">keyboard-interactable
+ element</dfn> is defined to be any <a>element</a> that has
+ a <a>focusable area</a>, or is the <a><code>body</code>
+ element</a>. In the case of the <a><code>body</code> element</a> all
+ keyboard interactions must be targeted to
+ its <a><code>ownerDocument</code></a>.
+
 <p>An <a>element</a>’s <dfn>in-view centre point</dfn>
  is the centre point of the area
  of the first <a data-lt="getClientRects">DOM client rectangle</a>
@@ -4998,7 +5007,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 <p>The <dfn>Element Send Keys</dfn> <a>command</a>
  <a>scrolls into view</a> the form control <a>element</a>
  and then sends the provided keys to the <a>element</a>.
- In case the <a>element</a> is not <a>keyboard interactable</a>,
+ In case the <a>element</a> is not <a>keyboard-interactable</a>,
  an <a>element not interactable</a> <a>error</a> is returned.
 
 <p>The <a>remote end steps</a> are:
@@ -5018,9 +5027,9 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
  <li><p>Wait in an implementation-specific way up to the <a>session
   implicit wait timeout</a> for <var>element</var> to
-  become <a>keyboard interactable</a>.
+  become <a>keyboard-interactable</a>.
 
- <li><p>If <var>element</var> is not <a>keyboard interactable</a>,
+ <li><p>If <var>element</var> is not <a>keyboard-interactable</a>,
   return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
 
  <li><p><a>Scroll into view</a> the <var>element</var>.
