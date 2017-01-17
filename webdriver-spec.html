@@ -270,6 +270,7 @@ var respecConfig = {
    <!-- Hidden --> <li><dfn><a href="https://html.spec.whatwg.org/#hidden-state-%28type=hidden%29">Hidden</a></dfn> state
    <!-- Image Button --> <li><dfn><a href="https://html.spec.whatwg.org/#image-button-state-%28type=image%29">Image Button</a></dfn> state
    <!-- Input event --> <li><dfn><a href=https://html.spec.whatwg.org/#event-input><code>input</code></a> event</dfn>
+   <!-- Input event applies --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-input-apply><code>input</code> event applies</a></dfn>
    <!-- Input type file selected --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-input-type-file-selected">Selected Files</a></dfn>
    <!-- Joint session history --> <li><dfn><a href=https://html.spec.whatwg.org/#joint-session-history>Joint session history</a></dfn>
    <!-- Missing value default state --> <li><dfn><a href=https://html.spec.whatwg.org/#missing-value-default>Missing value default state</a></dfn>
@@ -282,6 +283,7 @@ var respecConfig = {
    <!-- Prompt to unload a document --> <li><dfn data-lt="prompting to unload"><a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>Prompt to unload a document</a></dfn>
    <!-- Radio button --> <li><dfn><a href="https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29">Radio Button</a></dfn> state
    <!-- Replacement enabled --> <li><dfn><a href=https://html.spec.whatwg.org/#replacement-enabled>Replacement enabled</a></dfn>
+   <!-- Reset algorithm --><li><dfn><a href=https://html.spec.whatwg.org/#concept-form-reset-control>Reset algorithm</a></dfn>
    <!-- Reset Button --> <li><dfn><a href="https://html.spec.whatwg.org/#reset-button-state-%28type=reset%29">Reset Button</a></dfn> state
    <!-- Script execution environment --> <li><dfn><a href=https://html.spec.whatwg.org/#script-execution-environment>Script execution environment</a></dfn>
    <!-- Script --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-script>Script</a></dfn>
@@ -3737,15 +3739,18 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <code>{block: "end", inline: "nearest"}</code>.
 
 <p>An <a>element</a> is considered <dfn>editable</dfn>
- if it is either an <a><code>input</code> element</a>
- whose <a><code>type</code> attribute</a> is not in the
- <a>Button</a>,
- <a>Hidden</a>,
- <a>Image Button</a>,
- <a>Reset Button</a>,
- or <a>Submit Button</a> states,
- or a <a><code>textarea</code> element</a>,
- or is <a>content editable</a>.
+ if one or more of the following conditions are met:
+ <ul>
+  <li><p><var>element</var> is an <a><code>input</code> element</a>
+   for which <a><code>hasAttribute</code></a> <code>"checked"</code>
+   is <code>false</code> and for which the <a><code>input</code>
+   event applies</a>.
+
+  <li><p><var>element</var> is a <a><code>textarea</code> element</a>.
+
+  <li><p><var>element</var> is <a>content editable</a>.
+ </ul> <!-- /editable -->
+
 
 <p>An <a>element</a> is said to have <dfn>pointer events disabled</dfn>
  if the <a>resolved value</a> of its "<code>pointer-events</code>" style property
@@ -4895,10 +4900,10 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 </table>
 
 <p>The <dfn>Element Clear</dfn> <a>command</a>
- <a>scrolls into view</a> a <a>submittable element</a> &mdash;
-  excluding <a>buttons</a> &mdash; or
-  an <a>editable</a> <a>element</a>, and then attempts to clear
-  its <a>value</a>, <a>checkedness</a>, or <a>text content</a>.
+ <a>scrolls into view</a> an <a>editable</a> <a>element</a>, or
+  an <a><code>input</code> element</a> whose <a><code>type</code>
+  attribute</a> is <a>File</a> and then attempts to clear
+  its <a>selected files</a> or <a>text content</a>.
 
 <p>The <a>remote end steps</a> are:
 
@@ -4913,6 +4918,9 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   if it is a <a>success</a>.
   Otherwise return <var>element result</var>.
 
+ <li><p>If <var>element</var> is not <a>editable</a> return
+  an <a>error</a> with <a>error code</a> <a>invalid element state</a>.
+
  <li><p><a>Scroll into view</a> the <var>element</var>.
 
  <li><p>Wait in an implementation-specific way up to the <a>session
@@ -4922,29 +4930,19 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p>If <var>element</var> is not <a>interactable</a>,
   return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
 
- <li><p>If <var>element</var> is <a>disabled</a>, non-<a>editable</a>,
+ <li><p>If <var>element</var> is <a>disabled</a>,
   <a>read only</a>, or has <a>pointer events disabled</a>,
   return <a>error</a> with <a>error code</a> <a>invalid element state</a>.
 
- <li><p>If <var>element</var> is <a>editable</a> then follow the steps
-  required to <a>clear an editable element</a>.
-
-  <p>Otherwise match on <var>element</var>’s <a><code>type</code>
-   attribute</a>:
-
-  <dl class=switch>
-   <dt><a>File</a> state
-   <dd><p>Follow the steps required to <a>clear a file input element</a>.
-
-   <dt>Otherwise
-   <dd><p>Set the <a>value</a> to an empty string.
-  </dl>
+ <li>If <var>element</var> is <a>content editable</a> follow the steps
+  required to <a>clear a content editable element</a>. Otherwise,
+  follow the steps required to <a>clear an editable element</a>.
 
  <li><p>Return <a>success</a> with data null.
 </ol>
 
-<p>When required to <dfn>clear an editable element</dfn> a <a>remote
- end</a> must run the following steps:
+<p>When required to <dfn>clear a content editable element</dfn>
+ a <a>remote end</a> must run the following steps:
 
 <ol>
  <li><p>If <var>element</var>'s <a><code>innerHTML</code> IDL
@@ -4952,30 +4950,30 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
  <li><p>Run the <a>focusing steps</a> for <var>element</var>.
 
- <li><p>Set <var>elemnent</var>'s <a><code>innerHTML</code> IDL
+ <li><p>Set <var>element</var>'s <a><code>innerHTML</code> IDL
   attribute</a> to an empty string.
+
+ <li><p>Fire an <a><code>input</code> event</a>.
+
+ <li><p>Run the <a>unfocusing steps</a> for the <var>element</var>.
+</ol> <!-- /clearing a content editable element -->
+
+<p>When required to <dfn>clear an editable element</dfn> a <a>remote
+ end</a> must run the following steps:
+ 
+<ol>
+ <li><p>If <var>element</var>'s <a>value</a> is an empty string do
+ nothing and return.
+
+ <li><p>Run the <a>focusing steps</a> for <var>element</var>.
+
+ <li><p>Run <var>element</var>'s <a>reset algorithm</a>.
 
  <li><p>Fire an <a><code>input</code> event</a>.
 
  <li><p>Run the <a>unfocusing steps</a> for the <var>element</var>.
 </ol> <!-- /clearing an editable element -->
 
-<p>When required to <dfn>clear a file input element</dfn>
- for <var>element</var> a <a>remote end</a> must run the following
- steps:
-
-<ol>
- <li><p>If there are no items in <var>element</var>'s <a>selected
-  files</a> do nothing and return.
-
- <li><p>Run the <a>focusing steps</a> for <var>element</var>.
-
- <li><p>Remove all items from <a>selected files</a>.
-
- <li><p>Fire an <a><code>input</code> event</a>.
-
- <li><p>Run the <a>unfocusing steps</a> for the <var>element</var>.
-</ol> <!-- /clearing file input element inputs -->
 
 </section> <!-- /Element Clear -->
 
