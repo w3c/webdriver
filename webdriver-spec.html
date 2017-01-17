@@ -5005,7 +5005,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
-<li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
+ <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element result</var> be the result of <a>getting a known element</a>
   by <a>UUID</a> reference <var>element id</var>.
@@ -5062,6 +5062,16 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
      <li><p>Jump to the last step in this overall set of steps.
    </ol>
+
+   <li><p>Let <var>undo actions</var> be equal to the <a>current
+    session</a>'s <a>input cancel list</a> where the <a>action
+    type</a> is <code>"key"</code> in reverse order.
+
+   <li><p><a>Dispatch tick actions</a> with arguments <var>undo
+    actions</var> and <var>duration</var> <code>0</code>.
+
+   <li><p>Remove all <var>undo actions</var> from the <a>current
+    session</a>'s <a>input cancel list</a>.
 
   <li><p>Let <var>i</var> be 0.
 
