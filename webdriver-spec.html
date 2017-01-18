@@ -766,6 +766,9 @@ var respecConfig = {
 
   <p>Otherwise, let <var>parameters</var> be null.</p>
 
+ <li><p>If a <a>navigation</a> is currently underway <a>wait for
+  navigation to complete</a>.
+
  <li><p>Let <var>response result</var> be the return value
   obtained by running the <a>remote end steps</a> for <var>command</var>
   with <var>url variables</var> as arguments.
@@ -2872,12 +2875,15 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   or for the <a>session page load timeout</a> milliseconds to pass,
   whichever occurs sooner.
 
-  <p class=issue>This doesn’t actually wait for the page to load
-   if traversing the <a>session history</a> kicks off a navigation.
+  <li><p>If traversing the session history causes <a>navigation</a>:
 
- <li><p>If the previous step completed by the <a>session page load timeout</a> being reached,
-   and the browser is not currently displaying an alert,
-   return <a>error</a> with <a>error code</a> <a>timeout</a>.
+  <ol>
+   <li><p>Run the <a>post-navigation checks</a>
+    and return its value if it is an <a>error</a>.
+
+   <li><p><a>Wait for navigation to complete</a>
+    and return its value if it is an <a>error</a>.
+  </ol>
 
  <li><p>Return <a>success</a> with data null.
 </ol>
@@ -2921,12 +2927,20 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   or for the <a>session page load timeout</a> milliseconds to pass,
   whichever occurs sooner.
 
-  <p class=issue>This doesn't actually wait for the page to load
-   if traversing the session history kicks off a navigation.
+  <li><p>If traversing the session history causes <a>navigation</a>:
 
- <li><p>If the previous step completed by the <a>session page load timeout</a> being reached,
-   and the browser is not currently displaying an alert,
-   return <a>error</a> with <a>error code</a> <a>timeout</a>.
+  <ol>
+   <li><p>Run the <a>post-navigation checks</a>
+    and return its value if it is an <a>error</a>.
+
+   <li><p><a>Wait for navigation to complete</a>
+    and return its value if it is an <a>error</a>.
+  </ol>
+
+ <li><p>If the previous step completed by the <a>session page load
+   timeout</a> being reached, and the browser is not currently
+   displaying an alert, return <a>error</a> with <a>error
+   code</a> <a>timeout</a>.
 
  <li><p>Return <a>success</a> with data null.
 </ol>
