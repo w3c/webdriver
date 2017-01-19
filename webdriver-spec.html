@@ -4185,6 +4185,9 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 <p>The <a>remote end steps</a> are:
 
 <ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
  <li><p>Let <var>start node</var> be
   the <a>current browsing context</a>’s <a>document element</a>.
 
@@ -4228,7 +4231,12 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  is used to find <a>elements</a> in the <a>current browsing context</a>
  that can be used for future <a>commands</a>.
 
+<p>The <a>remote end steps</a> are:
+
 <ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
  <li><p>Let <var>start node</var> be
   the <a>current browsing context</a>’s <a>document element</a>.
 
@@ -4269,7 +4277,12 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  in the <a>current browsing context</a>
  that can be used for future <a>commands</a>.
 
+<p>The <a>remote end steps</a> are:
+
 <ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
  <li><p>Let <var>start node</var> be the result of
   <a>getting a known element</a> by <a>UUID</a> <var>reference</var>.
 
@@ -4314,7 +4327,12 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  in the <a>current browsing context</a>
  that can be used for future <a>commands</a>.
 
+<p>The <a>remote end steps</a> are:
+
 <ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
  <li><p>Let <var>start node</var> be the result
   of <a>getting a known element</a> by <a>UUID</a> <var>reference</var>.
 
@@ -7830,13 +7848,15 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
     <p>The <a>remote end steps</a> are:
       <ol>
+        <li><p>If the <a>current top-level browsing context</a> is <a>no longer
+            open</a>, return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
         <li><p>Let <var>undo actions</var> be equal to the <a>current
-              session</a>'s <a>input cancel list</a> in reverse
-              order.</li>
+            session</a>'s <a>input cancel list</a> in reverse
+            order.</li>
 
         <li><p><a>Dispatch tick actions</a> with arguments <var>undo
-              actions</var> and duration 0.</li>
+            actions</var> and duration 0.</li>
 
         <li><p>Let the <a>current session</a>'s <a>input cancel list</a> be
             an empty <a>List</a>.</li>
@@ -8303,6 +8323,8 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  If given a parameter argument <code>scroll</code>
  that evaluates to false,
  the <a>element</a> will not be <a>scrolled into view</a>.
+
+<p>The <a>remote end steps</a> are:
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
