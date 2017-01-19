@@ -3345,22 +3345,38 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  Where a <a>command</a> is not supported,
  an <a>unsupported operation</a> <a>error</a> is returned.
 
-<p>A <a>top-level browsing context</a>’s <dfn>window size</dfn>
- are the outer dimensions, including any browser chrome
- externally drawn window decorations in <a>CSS reference pixels</a>
- of the operating system window corresponding to it.
- Its <a>JSON representation</a> is the following:
-
 <p class=note>In some user agents the operating system’s
  window dimensions including decorations,
  are provided by the proprietary <code>window.outerWidth</code>
  and <code>window.outerHeight</code> [[!DOM]] properties.
 
-<p>A <a>top-level browsing context</a>’s <dfn>window position</dfn>
- is defined as a dictionary of the <a>screenX</a> and <a>screenY</a> attributes
+<p>A <a>top-level browsing context</a>’s <dfn>window rect</dfn>
+ is defined as a dictionary of the <a>screenX</a>, <a>screenY</a>,
+ <code>width</code> and <code>height</code> attributes
  on the <a><code>WindowProxy</code></a> it corresponds to.
  Its <a>JSON representation</a> is the following:
 
+  <dl>
+   <dt><code>x</code>
+   <dd>The value of <a>screenX</a> attribute of the
+     <a><code>WindowProxy</code></a> for the <a>current
+       top-level browsing context</a>.
+
+   <dt><code>y</code>
+   <dd>The value of <a>screenY</a> attribute of the
+     <a><code>WindowProxy</code></a> for the <a>current
+       top-level browsing context</a>.
+
+   <dt><code>width</code>
+   <dd>Width of the <a>top-level browsing context</a>’s outer dimensions,
+    including any browser chrome and externally drawn window decorations
+    in <a>CSS reference pixels</a>.
+
+   <dt><code>height</code>
+   <dd>Height of the <a>top-level browsing context</a>’s outer dimensions,
+    including any browser chrome and externally drawn window decorations
+    in <a>CSS reference pixels</a>.
+  </dl>
 
 <section>
 <h3>Get Window Rect</h3>
@@ -3380,27 +3396,6 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  returns the size and position on the screen
  of the operating system window corresponding
  to the <a>current top-level browsing context</a>.
- The returned value is a dictionary with the following members:
-
- <dl>
-  <dt>x
-  <dd><a>screenX</a> attribute of the <a><code>WindowProxy</code></a>
-   for the <a>current top-level browsing context</a> in <a>CSS reference pixels</a>.
-
-  <dt>y
-  <dd><a>screenY</a> attribute of the <a><code>WindowProxy</code></a>
-   for the <a>current top-level browsing context</a> in <a>CSS reference pixels</a>.
-
-  <dt>height
-  <dd>Height of the <a>top-level browsing context</a>’s outer dimensions,
-   including any browser chrome and externally drawn window decorations
-   in <a>CSS reference pixels</a>.
-
-  <dt>width
-  <dd>Width of the <a>top-level browsing context</a>’s outer dimensions,
-   including any browser chrome and externally drawn window decorations
-   in <a>CSS reference pixels</a>.
- </dl>
 
 <p>The <a>remote end steps</a> are:
 
@@ -3434,7 +3429,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
     in <a>CSS reference pixels</a>.
   </dl>
 
-   <li><p>Return <a>success</a> with data <var>body</var>.
+   <li><p>Return <a>success</a> with a <a>JSON serialisation</a> of <a>window rect</a>.
 </ol>
 </section> <!-- /Get Window rect -->
 
@@ -3535,31 +3530,8 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
    </ol>
  </aside>
   </ol>
-  <li><p>Let <var>body</var> be a new JSON <a>Object</a> initialised with:
 
-   <dl>
-    <dt><code>x</code>
-    <dd>The value of <a>screenX</a> attribute of the
-      <a><code>WindowProxy</code></a> for the <a>current
-        top-level browsing context</a>.
-
-    <dt><code>y</code>
-    <dd>The value of <a>screenY</a> attribute of the
-      <a><code>WindowProxy</code></a> for the <a>current
-        top-level browsing context</a>.
-
-    <dt><code>width</code>
-    <dd>Width of the <a>top-level browsing context</a>’s outer dimensions,
-     including any browser chrome and externally drawn window decorations
-     in <a>CSS reference pixels</a>.
-
-    <dt><code>height</code>
-    <dd>Height of the <a>top-level browsing context</a>’s outer dimensions,
-     including any browser chrome and externally drawn window decorations
-     in <a>CSS reference pixels</a>.
-   </dl>
-
-    <li><p>Return <a>success</a> with data <var>body</var>.
+    <li><p>Return <a>success</a> with a <a>JSON serialisation</a> of <a>window rect</a>.
 </ol>
 
 </section> <!-- /Set Window Rect -->
@@ -3602,8 +3574,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   containing the <a>current top-level browsing context</a>
   to the maximum available size allowed by the window manager.
 
- <li><p>Return <a>success</a> with the <a>JSON serialisation</a>
-  of the <a>current top-level browsing context</a>’s <a>window size</a>.
+ <li><p>Return <a>success</a> with a <a>JSON serialisation</a> of <a>window rect</a>.
 </ol>
 </section> <!-- /Maximize Window -->
 
@@ -3644,8 +3615,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   to hide the <a>current top-level browsing context</a>
   from the visible screen.
 
- <li>Return <a>success</a> with the <a>JSON serialisation</a>
-  of the <a>current top-level browsing context</a>’s <a>window position</a>.
+ <li>Return <a>success</a> with a <a>JSON serialisation</a> of <a>window rect</a>.
 </ol>
 </section> <!-- /Minimize Window -->
 
@@ -3688,8 +3658,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
    as close as possible to the dimensions of the display containing the window,
    and may hide browser chrome elements such as toolbars.
 
- <li><p>Return <a>success</a> with the <a>JSON serialisation</a>
-  of the <a>current top-level browsing context</a>’s <a>window size</a>.
+ <li><p>Return <a>success</a> with with a <a>JSON serialisation</a> of <a>window rect</a>.
 
 </ol>
 </section> <!-- /Fullscreen Window -->
