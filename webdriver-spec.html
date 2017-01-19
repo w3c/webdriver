@@ -5148,34 +5148,64 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
    <li><p>Remove all <var>undo actions</var> from the <a>current
     session</a>'s <a>input cancel list</a>.
 
-  <li><p>Let <var>i</var> be 0.
+   <li><p>Let <var>keyboard</var> be the first found <a>key input
+    source</a> in the <a>current session</a>'s <a>input state</a>
+    or <code>undefined</code> if no <a>key input source</a> can be
+    found.
 
-  <li><p>Let <var>length</var> be the length of <var>character array</var>.
+   <li><p>If <var>keyboard</var> is <code>undefined</code> <a>create a
+    new key input state object</a> and add it to the <a>current
+    session</a>'s <a>input state</a>. Let <var>keyboard</var> equal
+    this newly created <a>key input state</a>.
 
-  <li><p>While <var>i</var> &lt; <var>length</var>:
+   <li><p>Let <var>undo actions</var> be an empty list.
+
+   <li><p>For each <var>char</var> corresponding to an indexed property in <var>character array</var>.
 
     <ol>
-      <li><p>Let <var>char</var> be the entry in <var>character array</var> at
-        index <var>i</var>.
+     <li><p>Let <var>key to type</var> be the result of <a>processing keys</a> with argument <var>char</var>.
 
-      <li><p>Let <var>key to type</var> be the result of <a>processing keys</a>
-        with argument <var>key</var>.
+     <li><p>Let <var>action</var> be an <a>action object</a>
+      constructed with
+      arguments <var>keyboard</var>'s <var>id</var>, <code>"key"</code>,
+      and <code>"keyDown"</code>.
 
-      <li><p>If the <var>key to type</var> is a <a>modifier key</a> then set the relevant
-        attribute on <a>Keyboard Event</a> to true for the rest of this loop.
+     <li><p>Set the <code>value</code> property of <var>action</var> to <var>key to type</var>.
 
-      <li><p>Generate <a data-lt=keyDown-Event>keyDown</a> <a>Keyboard Event</a>
-        with the relevant <a>keyboard event code</a> for <var>key to type</var>
-        against <var>active element</var>.
+     <li><p><a>Dispatch a keyDown action</a> with
+     arguments <var>action</var> and <var>keyboard</var>.
 
-      <li><p>Generate <a data-lt=keyPress-Event>keyPress</a> <a>Keyboard Event</a>
-        with the relevant <a>keyboard event code</a> for <var>key to type</var>
-        against <var>active element</var>.
+     <li><p>Let <var>action</var> be an <a>action object</a>
+      constructed with
+      arguments <var>keyboard</var>'s <var>id</var>, <code>"key"</code>,
+      and <code>"keyUp"</code>.
 
-      <li><p>Generate <a data-lt=keyUp-Event>keyUp</a> <a>Keyboard Event</a>
-        with the relevant <a>keyboard event code</a> for <var>key to type</var>
-        against <var>active element</var>.
+     <li><p>Set the <code>value</code> property of <var>action</var>
+      to <var>key to type</var>.
+
+     <li><p>Run the substeps in the first matching statement:
+      <dl>
+       <dt><var>key to type</var> is a <a>modifier key</a>
+       <dd>Prepend <var>action</var> to <var>cancel
+        actions</var>.
+
+        <dt><var>char</var> is <code>\uE000</code>
+        <dd>For each <var>action</var> corresponding to an indexed
+          property in <var>unfo actions</var> <a>dispatch a keyUp
+          action</a> with arguments <var>action</var>
+          and <var>keyboard</var>. Let <var>undo actions</var> be an
+          empty list.
+ 
+       <dt>Otherwise
+       <dd><a>Dispatch a keyUp action</a> with
+        arguments <var>action</var> and <var>keyboard</var>.
+
+      </dl>
     </ol>
+
+ <li><p>For each <var>action</var> corresponding to an indexed property
+  in <var>undo actions</var> <a>dispatch a keyUp action</a> with
+  arguments <var>action</var> and <var>keyboard</var>.
 
  <li><p>Return <a>success</a> with data null.
 </ol>
