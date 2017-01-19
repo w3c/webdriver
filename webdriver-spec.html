@@ -5064,6 +5064,34 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  In case the <a>element</a> is not <a>keyboard-interactable</a>,
  an <a>element not interactable</a> <a>error</a> is returned.
 
+<p>The <a>key input state</a> used for
+ input by the command may be cleared mid-way through
+ &quot;typing&quot; by sending the <dfn>null key</dfn>, which
+ is &quot;U+E000 (NULL)&quot;.
+
+<p>When required to <dfn>clear the modifier key state</dfn> with an
+ argument of <var>undo actions</var> and <var>keyboard</var>
+ a <a>remote end</a> must run the following steps:
+
+<ol>
+ <li><p>If <var>keyboard</var> is not a <a>key input source</a> return
+  an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p><p>For each <var>action</var> corresponding to an indexed
+  property in <var>undo actions</var>:
+
+ <ol>
+  <li><p>If <var>action</var> is not an <a>action object</a>
+   of <code>type</code> <code>"key"</code>
+   and <code>subtype</code> <code>"keyUp"</code> return
+   an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+  <li><p><a>Dispatch a keyUp action</a> with
+   arguments <var>action</var> and <var>keyboard</var>'s <a>key input
+   state</a>.
+ </ol>
+</ol> <!-- /clear modifier key state -->
+
 <p>The <a>remote end steps</a> are:
 
 <ol>
@@ -5140,44 +5168,57 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
       <li><p>Jump to the last step in this overall set of steps.
    </ol>
 
-   <li><p>Let <var>undo actions</var> be equal to the <a>current
-    session</a>'s <a>input cancel list</a> where the <a>action
-    type</a> is <code>"key"</code> in reverse order.
+   <li><p>Let <var>keyboard</var> be a new <a>key input source</a>.
 
-   <li><p><a>Dispatch tick actions</a> with arguments <var>undo
-    actions</var> and <var>duration</var> <code>0</code>.
+   <li><p>Let <var>undo actions</var> be an empty list.
 
-   <li><p>Remove all <var>undo actions</var> from the <a>current
-    session</a>'s <a>input cancel list</a>.
-
-  <li><p>Let <var>i</var> be 0.
-
-  <li><p>Let <var>length</var> be the length of <var>text</var>.
-
-  <li><p>While <var>i</var> &lt; <var>length</var>:
+   <li><p>For each <var><a>grapheme cluster</a></var> in <var>text</var>:
 
     <ol>
-      <li><p>Let <var>char</var> be the entry in <var>text</var> at
-        index <var>i</var>.
+     <li><p>Let <var>key to type</var> be the result of <a>processing
+      keys</a> with argument <var>grapheme cluster</var>.
 
-      <li><p>Let <var>key to type</var> be the result of <a>processing keys</a>
-        with argument <var>key</var>.
+     <li><p>Let <var>keydown action</var> be an <a>action object</a>
+      constructed with
+      arguments <var>keyboard</var>'s <var>id</var>, <code>"key"</code>,
+      and <code>"keyDown"</code>.
 
-      <li><p>If the <var>key to type</var> is a <a>modifier key</a> then set the relevant
-        attribute on <a>Keyboard Event</a> to true for the rest of this loop.
+     <li><p>Set the <code>value</code> property of <var>keydown
+      action</var> to <var>key to type</var>.
 
-      <li><p>Generate <a data-lt=keyDown-Event>keyDown</a> <a>Keyboard Event</a>
-        with the relevant <a>keyboard event code</a> for <var>key to type</var>
-        against <var>active element</var>.
+     <li><p><a>Dispatch a keyDown action</a> with
+      arguments <var>keydown action</var>
+      and <var>keyboard</var>'s <a>key input state</a>.
 
-      <li><p>Generate <a data-lt=keyPress-Event>keyPress</a> <a>Keyboard Event</a>
-        with the relevant <a>keyboard event code</a> for <var>key to type</var>
-        against <var>active element</var>.
+     <li><p>Let <var>keyup action</var> be a copy of <var>keydown
+      action</var> with the <var>subtype</var> property changed
+      to <code>"keyUp"</code>.
 
-      <li><p>Generate <a data-lt=keyUp-Event>keyUp</a> <a>Keyboard Event</a>
-        with the relevant <a>keyboard event code</a> for <var>key to type</var>
-        against <var>active element</var>.
+     <li><p>Run the substeps in the first matching statement:
+      <dl class="switch">
+       <dt><var>key to type</var> is a <a>modifier key</a>
+       <dd>Prepend <var>keyup action</var> to <var>cancel
+        actions</var>.
+
+        <dt><var>grapheme cluster</var> is the <a>null key</a>
+        <dd><a>Clear the modifier key state</a> with
+         arguments <var>undo actions</var> and <var>keyboard</var>. If
+         an <a>error</a> is returned, return
+         that <a>error</a>. Reset <var>undo actions</var> to an empty
+         list.
+ 
+       <dt>Otherwise
+       <dd><a>Dispatch a keyUp action</a> with arguments <var>keyup
+        action</var> and <var>keyboard</var>'s <a>key input state</a>.
+
+      </dl>
     </ol>
+
+ <li><p><a>Clear the modifier key state</a> with arguments <var>undo
+  actions</var> and <var>keyboard</var>. If an <a>error</a> is
+  returned, return that <a>error</a>.
+
+ <li><p>Remove <var>keyboard</var> from the <a>current session</a>'s <a>input state</a>
 
  <li><p>Return <a>success</a> with data null.
 </ol>
