@@ -250,6 +250,7 @@ var respecConfig = {
    <!-- Button --> <li><dfn><a href="https://html.spec.whatwg.org/#button-state-%28type=button%29">Button</a></dfn> state
    <!-- Buttons --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-button>Buttons</a></dfn>
    <!-- Canvas context mode --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-context-mode>Canvas context mode</a></dfn>
+   <!-- Multiple --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-input-multiple><code>multiple</code> attribute</a></dfn>
    <!-- Checkbox --> <li><dfn><a href="https://html.spec.whatwg.org/#checkbox-state-%28type=checkbox%29">Checkbox</a></dfn> state
    <!-- Checkedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-checked>Checkedness</a></dfn>
    <!-- Child browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#child-browsing-context>Child browsing context</a></dfn>
@@ -260,19 +261,21 @@ var respecConfig = {
    <!-- Determine the value of an indexed property --> <li><dfn data-lt="determining the value of an indexed property"><a href=https://html.spec.whatwg.org/#dom-window-item>Determine the value of an indexed property</a></dfn> of a <a><code>Window</code></a> object
    <!-- Disabled --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-disabled>Disabled</a></dfn>
    <!-- Document address --> <li><dfn data-lt=address><a href=https://dom.spec.whatwg.org/#concept-document-url>Document address</a></dfn>
-   <!-- Document title --> <li><dfn data-lt=title><a href=https://html.spec.whatwg.org/#document.title>Document title</a></dfn>
    <!-- Document readiness --> <li><dfn><a href=https://html.spec.whatwg.org/#current-document-readiness>Document readiness</a></dfn>
+   <!-- Document title --> <li><dfn data-lt=title><a href=https://html.spec.whatwg.org/#document.title>Document title</a></dfn>
+   <!-- Element contexts --> <li><dfn data-lt="element context"><a href=https://html.spec.whatwg.org/#concept-element-contexts>Element contexts</a></dfn>
    <!-- Enumerated attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#enumerated-attribute>Enumerated attribute</a></dfn>
    <!-- Environment settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#environment-settings-object>Environment settings object</a></dfn>
    <!-- Event loop --> <li><dfn><a href=https://html.spec.whatwg.org/#event-loop>Event loop</a></dfn>
    <!-- File --> <li><dfn><a href="https://html.spec.whatwg.org/#file-upload-state-%28type=file%29">File</a></dfn> state
-   <!-- Fousable area --><li><dfn><a href=https://html.spec.whatwg.org/#focusable-area>Focusable area</a></dfn>
+   <!-- File upload state --> <li><dfn><a href="https://html.spec.whatwg.org/#file-upload-state-(type=file)">File upload state</a></dfn>
    <!-- Focusing steps --> <li><dfn><a href="https://html.spec.whatwg.org/#focusing-steps">Focusing steps</a></dfn>
+   <!-- Fousable area --><li><dfn><a href=https://html.spec.whatwg.org/#focusable-area>Focusable area</a></dfn>
    <!-- Getting innerText --> <li><dfn><a href=http://rocallahan.github.io/innerText-spec/index.html#setting-innertext>Getting <code>innerText</code></a></dfn>
    <!-- Hidden --> <li><dfn><a href="https://html.spec.whatwg.org/#hidden-state-%28type=hidden%29">Hidden</a></dfn> state
    <!-- Image Button --> <li><dfn><a href="https://html.spec.whatwg.org/#image-button-state-%28type=image%29">Image Button</a></dfn> state
-   <!-- Input event --> <li><dfn><a href=https://html.spec.whatwg.org/#event-input><code>input</code></a> event</dfn>
    <!-- Input event applies --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-input-apply><code>input</code> event applies</a></dfn>
+   <!-- Input event --> <li><dfn><a href=https://html.spec.whatwg.org/#event-input><code>input</code></a> event</dfn>
    <!-- Input type file selected --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-input-type-file-selected">Selected Files</a></dfn>
    <!-- Joint session history --> <li><dfn><a href=https://html.spec.whatwg.org/#joint-session-history>Joint session history</a></dfn>
    <!-- Missing value default state --> <li><dfn><a href=https://html.spec.whatwg.org/#missing-value-default>Missing value default state</a></dfn>
@@ -4376,6 +4379,25 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p>Return false.
 </ol>
 
+<p>An <a>element</a>’s <dfn>container</dfn> is:
+
+<dl class=switch>
+ <dt><a><code>option</code> element</a> in a valid <a>element context</a>
+ <dd><a><code>optgroup</code> element</a> in a valid <a>element context</a>
+ <dd><p>The <a>element</a>’s <a>element context</a>,
+  meaning its immediate parent node
+  in reverse tree-order originating from <a>element</a>
+  that is either a <a><code>datalist</code> element</a>
+  or a <a><code>select</code> element</a>.
+
+ <dt><a><code>option</code> element</a> in an invalid <a>element context</a>
+ <dd><p>The element does not have a container.
+
+ <dt>Otherwise
+ <dd><p>The container is the <a>element</a> itself.
+</dl>
+
+
 <section>
 <h3>Is Element Selected</h3>
 
@@ -4882,59 +4904,47 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   if it is a <a>success</a>.
   Otherwise return <var>element result</var>.
 
- <li><p>Run the substeps of the first step that case-insensitively
-  matches the <var>element</var>'s tag name:
+ <li><p>If the <var>element</var> is
+  an <a><code>input</code> element</a> in the <a>file upload state</a>
+  or it does not have a <a>container</a> <a>element</a>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-  <dl class=switch>
-   <dt><code>"input"</code>
-   <dd><p>If the <a><code>type</code> attribute</a>
-    is <code>"file"</code> return an <a>error</a> with <a>error
-    code</a> <a>invalid argument</a>. Otherwise,
-    let <var>container</var> equal <var>element</var>.
-
-   <dt><code>"option"</code>
-   <dd><p>Let <var>container</var> equal the <a><code>datalist</code>
-    element</a> or <a><code>select</code> element</a> of
-    which <var>element</var> is a child. If <var>container</var> is
-    undefined, return <a>error</a> with <a>error code</a> <a>invalid
-    argument</a>.
-
-   <dt>Otherwise
-   <dd><p>Let <var>container</var> equal <var>element</var>.
-  </dl>
-  </li>
-
- <li><p><a>Scroll into view</a> the <var>container</var>.
+ <li><p><a>Scroll into view</a>
+  the <var><a>element</a></var>’s <a>container</a> <a>element</a>.
 
  <li><p>Wait in an implementation-specific way up to the <a>session
-  implicit wait timeout</a> for <var>container</var> to
+  implicit wait timeout</a> for the <a>container</a> to
   become <a>pointer-interactable</a>.
 
- <li><p>If <var>container</var> is not <a>pointer-interactable</a>,
+ <li><p>If <var><a>element</a></var>’s <a>container</a>
+  is not <a>pointer-interactable</a>,
   return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
 
  <li><p>Let <var>coordinates</var> be the
   <a>in-view centre point</a> of <a>element</a>.
 
  <li><p>If <a>element from point</a> for <var>coordinates</var>
-   is not equal to <var>container</var> return <a>error</a> with
-   <a>error code</a> <a>element click intercepted</a>.
+   is not equal to the <var>element</var>’s <a>container</a>,
+   return <a>error</a> with <a>error code</a> <a>element click intercepted</a>.
 
  <li><p>Run the substeps of the first step that case-insensitively
   matches the <var>element</var>'s tag name:
 
-  <dl>
-   <dt><code>option</code>
-   <dd><p>If <var>container</var> <code><a>hasAttribute</a>
-   "multiple"</code>, toggle the <a>selectedness</a>
-   of <var>element</var>. Otherwise, set the <a>selectedness</a>
-   of <var>element</var> to <code>true</code>.
-   <!-- TODO: ensure all correct events are fired -->
+ <li><p>Matching on <var>element</var>:
+
+  <dl class=switch>
+   <dt><a><code>option</code> element</a>
+    with a <a><code>multiple</code> attribute</a>
+   <dd><p>Toggle <var>element</var>’s <a>selectedness</a> state.
+
+   <dt><a><code>option</code> element</a>
+   <dd><p>Set <var>element</var>’s <a>selectedness</a> state to true.
+
+    <p class=issue>Ensure all correct events are fired.
 
    <dt>Otherwise
    <dd><p class=issue>Run interaction steps on coordinate.
   </dl>
- </li>
 
  <li><p>If the click causes <a>navigation</a>:
 
