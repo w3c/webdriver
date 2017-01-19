@@ -214,9 +214,11 @@ var respecConfig = {
    <!-- null --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.11>Null</a></dfn>
    <!-- Number --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.19>Number</a></dfn>
    <!-- Object --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.2.1>Object</a></dfn>
+   <!-- Parse --> <li><dfn><a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.2">[[\Parse]]</a></dfn>
    <!-- String --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.18>String</a></dfn>
-   <!-- undefined --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.9>Undefined</a></dfn>
+   <!-- Stringify --> <li><dfn><a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.3">[[\Stringify]]</a></dfn>
    <!-- ToInteger --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger>ToInteger</a></dfn>
+   <!-- undefined --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.9>Undefined</a></dfn>
   </ul>
 
  <dt>Fetch
@@ -670,6 +672,12 @@ var respecConfig = {
   with <var>name</var> and <var>value</var> to an <a>Object</a> is defined
   as calling the <a>[[\Put]]</a> internal method with name <var>name</var>
   and value <var>value</var>.
+
+<p>The result of <dfn>JSON serialization</dfn> with <var>object</var> of type JSON <a>Object</a>
+  and calling the <a>[[\Stringify]]</a> method on <var>object</var>.
+
+<p>The result of <dfn>JSON deserialization</dfn> with <var>text</var> is defined as
+  the result of calling the <a>[[\Parse]]</a> method.
 </section> <!-- /Algorithms -->
 
 <section>
@@ -832,7 +840,7 @@ var respecConfig = {
 
  <li><p>If <var>data</var> is not null, let <var>response</var>’s
   <a>body</a> be a JSON <a>Object</a> with a key <code>value</code>
-  set to the <a>JSON serialisation</a> of <var>data</var>.
+  set to the <a>JSON Serialization</a> of <var>data</var>.
 
  <li><p>Let <var>response bytes</var> be the byte sequence resulting
   from serializing <var>response</var> according to the rules in [[!RFC7230]].
@@ -3032,7 +3040,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 <p>The <dfn>web frame identifier</dfn>
  is the string constant "<code>frame-075b-4da1-b6ba-e579c2d3230a</code>".
 
-<p>The <dfn>JSON serialisation of the <code>WindowProxy</code> object</dfn>
+<p>The <dfn>JSON Serialization of the <code>WindowProxy</code> object</dfn>
  is the JSON <a>Object</a> obtained by applying the following algorithm
  to the given <a><code>WindowProxy</code></a> object <var>window</var>:
 
@@ -3602,7 +3610,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   containing the <a>current top-level browsing context</a>
   to the maximum available size allowed by the window manager.
 
- <li><p>Return <a>success</a> with the <a>JSON serialisation</a>
+ <li><p>Return <a>success</a> with the <a>JSON Serialization</a>
   of the <a>current top-level browsing context</a>’s <a>window size</a>.
 </ol>
 </section> <!-- /Maximize Window -->
@@ -3644,7 +3652,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   to hide the <a>current top-level browsing context</a>
   from the visible screen.
 
- <li>Return <a>success</a> with the <a>JSON serialisation</a>
+ <li>Return <a>success</a> with the <a>JSON Serialization</a>
   of the <a>current top-level browsing context</a>’s <a>window position</a>.
 </ol>
 </section> <!-- /Minimize Window -->
@@ -3688,7 +3696,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
    as close as possible to the dimensions of the display containing the window,
    and may hide browser chrome elements such as toolbars.
 
- <li><p>Return <a>success</a> with the <a>JSON serialisation</a>
+ <li><p>Return <a>success</a> with the <a>JSON Serialization</a>
   of the <a>current top-level browsing context</a>’s <a>window size</a>.
 
 </ol>
@@ -3753,7 +3761,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   <var>element</var>’s <a>web element reference</a>.
 </ol>
 
-<p>The <dfn>JSON serialisation of an element</dfn>
+<p>The <dfn>JSON Serialization of an element</dfn>
  is a JSON <a>Object</a> where the <a>web element identifier</a> key
  is mapped to the <a>element</a>’s <a>web element reference</a>.
 
@@ -3954,7 +3962,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   of the <a>current browsing context</a>’s <a>document element</a>.
 
  <li><p>Let <var>active web element</var>
-  be the <a data-lt="JSON serialisation of an element">JSON serialisation</a>
+  be the <a data-lt="JSON Serialization of an element">JSON Serialization</a>
   of <var>active element</var>.
 
  <li><p>Return <a>success</a> with data <var>active web element</var>.
@@ -3973,7 +3981,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  Element retrieval searches are performed
  using pre-order traversal of the document’s nodes
  that match the provided selector’s expression.
- Elements are <a data-lt="JSON serialisation of an element">serialised</a>
+ Elements are <a data-lt="JSON Serialization of an element">serialised</a>
  and returned as <a>web elements</a>.
 
 <p>When required to <dfn>find</dfn> with arguments
@@ -4010,7 +4018,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
   <ul>
    <li><p>Append to <var>result</var>
-    the <a data-lt="JSON serialisation of an element">JSON serialisation</a>
+    the <a data-lt="JSON Serialization of an element">JSON Serialization</a>
     of the <var>element</var>.
   </ul>
 
@@ -5328,7 +5336,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
   <p>Otherwise, return <a>success</a>
-   with the <a data-lt="JSON serialisation of an element">JSON serialisation</a>
+   with the <a data-lt="JSON Serialization of an element">JSON Serialization</a>
    of the <a>web element</a> <var>value</var>.
 
  <dt>a <a><code>WindowProxy</code></a> object
@@ -5338,7 +5346,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
   <p>Otherwise return <a>success</a>
-   with the <a data-lt="JSON serialisation of the WindowProxy object">JSON serialisation</a>
+   with the <a data-lt="JSON Serialization of the WindowProxy object">JSON Serialization</a>
    of <var>value</var>.
 
  <dt>instance of <a>NodeList</a>
