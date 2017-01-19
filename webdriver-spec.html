@@ -235,6 +235,15 @@ var respecConfig = {
    <!-- URL --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-url>URL</a></dfn>
   </ul>
 
+ <dt>Fullscreen
+ <dd><p>The following terms are defined in the WHATWG Fullscreen specification: [[!FULLSCREEN]]
+   <ul>
+     <!-- Fullscreen element --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fullscreen-element">Fullscreen element</a></dfn>
+     <!-- Fullscreen an element --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fullscreen-an-element">Fullscreen an element</a></dfn>
+     <!-- Fullscreen is supported --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fullscreen-is-supported" data-lt='support fullscreen'>Fullscreen is supported</a></dfn>
+     <!-- Unfullscreen a document --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#unfullscreen-a-document">unfullscreen a document</a></dfn>
+   </ul>
+
  <dt>HTML
  <dd><p>The following terms are defined in the HTML specification: [[!HTML]]
   <ul>
@@ -3647,16 +3656,13 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p>If the <a>remote end</a> does not support
-  the <a>Fullscreen Window</a> command
-  for the <a>current top-level browsing context</a> for any reason,
+ <li><p>If the <a>remote end</a> does not <a>support fullscreen</a>
   return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
 
- <li><p>Run the implementation-specific steps,
-   which should have the effect of making the dimensions of
-   the window containing the <a>current top-level browsing context</a>
-   as close as possible to the dimensions of the display containing the window,
-   and may hide browser chrome elements such as toolbars.
+ <li><p>Let <var>element</var> be the document's root element,
+   that is <code>document.documentElement</code>.
+
+ <li><p>Call <a>fullscreen an element</a> with <var>element</var>.
 
  <li><p>Return <a>success</a> with with a <a>JSON serialisation</a> of <a>window rect</a>.
 
