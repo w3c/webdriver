@@ -5092,12 +5092,18 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
  <li><p><a>Scroll into view</a> the <var>element</var>.
 
- <li><p>Let <var>current text length</var> be the <a>Node Length</a>.
+ <li><p>If <var>element</var> is not the <a>active element</a>:
 
- <li><p>Set the text insertion caret using <a>set selection range</a>
-   with using <var>current text length</var> as the 2 parameters passed in.
+  <ol>
+   <li><p>Run the <a>focusing steps</a> for the <var>element</var>.
 
- <li><p>Run the <a>focusing steps</a> for the <var>element</var>.
+   <li><p>Let <var>current text length</var> be
+    the <var><a>element</a></var>’s <a data-lt="node
+    length">length</a>.
+
+   <li><p>Set the text insertion caret using <a>set selection range</a>
+    with using <var>current text length</var> as the 2 parameters passed in.
+  </ol>
 
  <li><p>Let <var>character array</var> be the result of <a>getting a property</a>
     <code>text</code> from the <var>parameters</var> argument.
