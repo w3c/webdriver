@@ -1913,34 +1913,29 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
   </ol>
 
-<li><p>Let <var>length</var> be the length of <var>desired capabilities</var>.
+<li><p>Let <var>matched capabilities</var> be <code>null</code>.
 
-<li><p>Let <var>k</var> be 0.
-
-<li><p>Let <var>matched capabilities</var> be <a>null</a>.
-
-<li><p>While <var>k</var> &lt; <var>length</var> and
-<var>matched capabilities</var> is <a>null</a>:
+<li><p>For each <var>current desired capabilities</var> corresponding
+ to an indexed property in <var>desired capabilities</var>
+ until <var>matched capabilities</var> is no longer <code>null</code>
+ or there are no longer any entries to process:
 
   <ol>
-  <li><p>Let <var>dc</var> be the entry in <var>desired capabilities</var> at
-  index <var>k</var>.
+   <li><p>If <var>current desired capabilities</var> is not a
+    JSON <a>Object</a>, return <a>error</a> with <a>error
+    code</a> <a>invalid argument</a>.
 
-  <li><p>If <var>dc</var> is not a JSON <a>Object</a>,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+   <li><p>Let <var>merged capabilities</var> be the result of
+    <a>merging capabilities</a> with <var>required capabilities</var>
+    and <var>current desired capabilities</var> as arguments.
 
-  <li><p>Let <var>merged capabilities</var> be the result of
-  <a>merging capabilities</a> with <var>required capabilities</var> and
-  <var>dc</var> as arguments.
+   <li><p>If <var>merged capabilities</var> is an <a>error</a>,
+    return the <var>merged capabilities</var> error.
 
-  <li><p>If <var>merged capabilities</var> is an <a>error</a>,
-  return the <var>merged capabilities</var> error.
+   <li><p>Set <var>matched capabilities</var> to the result of
+    <a>matching capabilities</a> with <var>merged capabilities</var>
+  as an argument.
 
-  <li><p>Set <var>matched capabilities</var> to the result of
-  <a>matching capabilities</a> with <var>merged capabilities</var> as an
-  argument.
-
-  <li><p>Increment <var>k</var> by 1.
   </ol>
 
 <li><p>Return <var>matched capabilities</var>.
@@ -1951,33 +1946,19 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   must take the following steps:
 
 <ol>
-<li><p>Let <var>result</var> be a JSON <a>Object</a> with the same entries as
-<var>primary</var>.
+ <li><p>Let <var>result</var> be a JSON <a>Object</a> with the same
+  entries as <var>primary</var>.
 
-<li><p>If <var>secondary</var> is <a>undefined</a>, return
-<var>result</var>.
+  <li><p>If <var>secondary</var> is <a>undefined</a>,
+   return <var>result</var>.
 
-<li><p>Let <var>k</var> be 0.
+  <li><p>For each <var>entry</var> corresponding to an indexed
+   property in <var>secondary</var>, if the name of <var>entry</var>
+   is also the name of an entry in <var>result</var>,
+   return <a>error</a> with <a>error code</a> <a>invalid
+   argument</a>. Otherwise, add <var>entry</var> to <var>result</var>.
 
-<li><p>Let <var>num entries</var> be the number of entries in
-<var>secondary</var>.
-
-<li><p>While <var>k</var> &lt; <var>num entries</var>:
-
-  <ol>
-  <li><p>Let <var>entry</var> be the entry in <var>secondary</var> at index
-  <var>k</var>.
-
-  <li><p>If the name of <var>entry</var> is also the name of an entry in
-  <var>result</var>,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
-  <p>Otherwise, add <var>entry</var> to <var>result</var>.
-
-  <li><p>Increment <var>k</var> by 1.
-  </ol>
-
-<li><p>Return <var>result</var>.
+  <li><p>Return <var>result</var>.
 </ol>
 
 <p>When <dfn>matching capabilities</dfn> with JSON <a>Object</a> argument
@@ -2007,21 +1988,14 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
    or self-signed TLS certificates on <a data-lt=go>navigation</a>.
   </dl>
 
-<li><p>Let <var>capabilities length</var> be
- the number of entries in <var>capabilities</var>.
+ <li><p>For each <var>capability name</var> corresponding to a
+  property in <var>capabilities</var>:
 
-<li><p>Let <var>k</var> be 0.
+  <ol>
+   <li><p>Let <var>capability value</var> be the value of
+    property <var>capability name</var> in <var>capabilities</var>.
 
-<li><p>While <var>k</var> &lt; <var>capabilities length</var>:
-
- <ol>
-  <li><p>Let <var>capability name</var> be the name of the entry at index
-  <var>k</var> in <var>capabilities</var>.
-
-  <li><p>Let <var>capability value</var> be the value of the entry at index
-  <var>k</var> in <var>capabilities</var>.
-
-  <li><p>Run the substeps of the first matching <var>capability name</var>:
+   <li><p>Run the substeps of the first matching <var>capability name</var>:
 
     <dl class=switch>
       <dt>"<code>browserName</code>"
