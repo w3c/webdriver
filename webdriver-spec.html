@@ -5093,15 +5093,15 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
     with using <var>current text length</var> as the 2 parameters passed in.
   </ol>
 
- <li><p>Let <var>character array</var> be the result of <a>getting a property</a>
+ <li><p>Let <var>text</var> be the result of <a>getting a property</a>
     <code>text</code> from the <var>parameters</var> argument.
+
+ <li><p>If <var>text</var> is not a string, return an <a>error</a>
+  with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>If <var>element</var> is an <a><code>input</code> element</a> whose
    <a><code>type</code> attribute</a> is <a>File</a>:
    <ol>
-     <li><p>Let <var>text</var> be the result of
-      joining together each item in <var>character array</var> to a string.
-
      <li><p>Let <var>files</var> be the result of
       splitting <var>text</var> on the newline (<code>'\n'</code>)
       character.
@@ -5144,12 +5144,12 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
   <li><p>Let <var>i</var> be 0.
 
-  <li><p>Let <var>length</var> be the length of <var>character array</var>.
+  <li><p>Let <var>length</var> be the length of <var>text</var>.
 
   <li><p>While <var>i</var> &lt; <var>length</var>:
 
     <ol>
-      <li><p>Let <var>char</var> be the entry in <var>character array</var> at
+      <li><p>Let <var>char</var> be the entry in <var>text</var> at
         index <var>i</var>.
 
       <li><p>Let <var>key to type</var> be the result of <a>processing keys</a>
