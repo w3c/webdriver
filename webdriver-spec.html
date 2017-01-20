@@ -3290,7 +3290,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
       or <a><code>iframe</code></a> element,
       return <a>error</a> with <a>error code</a> <a>no such frame</a>.
 
-     <li><p>Set the <a>current browsing context</a> to element’s
+     <li><p>Set the <a>current browsing context</a> to <var>element</var>’s
       <a>nested browsing context</a>.
     </ol>
 
@@ -3821,8 +3821,8 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
 <ol>
  <li><p>Let <var>rectangle</var> be
-  the first element of the <a><code>DOMRect</code></a> sequence
-  returned by calling <a>getClientRects</a> on <var><a>element</a></var>.
+  the first <a>element</a> of the <a><code>DOMRect</code></a> sequence
+  returned by calling <a>getClientRects</a> on <a><var>element</var></a>.
 
  <li><p>Let <var>left</var> be
   (<a>max</a>(0, <a>min</a>(<a>x coordinate</a>,
@@ -5101,7 +5101,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
    <a><code>type</code> attribute</a> is <a>File</a>:
    <ol>
      <li><p>Let <var>text</var> be the result of
-      joining together each element in <var>character array</var> to a string.
+      joining together each item in <var>character array</var> to a string.
 
      <li><p>Let <var>files</var> be the result of
       splitting <var>text</var> on the newline (<code>'\n'</code>)
@@ -8124,7 +8124,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   from the <var>parameters</var> argument.
 
  <li><p>Let <var>text</var> be the result of
-  joining together each element in <var>character array</var> to a string.
+  joining together each item in <var>character array</var> to a string.
 
  <li><p>Set the <a>current user prompt</a>’s text field value
   to the value of <var>text</var>.
@@ -8258,10 +8258,11 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p>If <var>screenshot result</var> is an <a>error</a>,
   return <var>screenshot result</var>.
 
- <li><p>Let <var>canvas</var> be <var>screenshot result</var>’s data.
+ <li><p>Let <var>canvas</var> be a <a><code>canvas</code> element</a>
+  of <var>screenshot result</var>’s data.
 
  <li><p>Let <var>encoding result</var> be the result of
-  <a>encoding as Base64</a> the <var>canvas</var> element.
+  <a>encoding as Base64</a> <var>canvas</var>.
 
  <li><p>If <var>encoding result</var> is an <a>error</a>,
   return <var>encoding result</var>.
@@ -8321,10 +8322,12 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p>If <var>screenshot result</var> is an <a>error</a>,
   return <var>screenshot result</var>.
 
- <li><p>Let <var>canvas</var> be <var>screenshot result</var>’s data.
+ <li><p>Let <var>canvas</var> be a <a><code>canvas</code> element</a>
+  of <var>screenshot result</var>’s data.
 
  <li><p>Let <var>encoding result</var> be the result of
-  <a>encoding as Base64</a> the <var>canvas</var> element.
+  <a>encoding as Base64</a> <var>canvas</var>.
+
 
  <li><p>If <var>encoding result</var> is an <a>error</a>,
   return <var>encoding result</var>.
