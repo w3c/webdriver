@@ -287,6 +287,7 @@ var respecConfig = {
    <!-- Input event --> <li><dfn><a href=https://html.spec.whatwg.org/#event-input><code>input</code></a> event</dfn>
    <!-- Input type file selected --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-input-type-file-selected">Selected Files</a></dfn>
    <!-- Joint session history --> <li><dfn><a href=https://html.spec.whatwg.org/#joint-session-history>Joint session history</a></dfn>
+   <!-- Mature (navigation) --> <li><dfn data-lt="matured"><a href=https://html.spec.whatwg.org/#concept-navigate-mature>Mature</a></dfn> navigation.
    <!-- Missing value default state --> <li><dfn><a href=https://html.spec.whatwg.org/#missing-value-default>Missing value default state</a></dfn>
    <!-- Navigate --> <li><dfn data-lt="navigating|navigation"><a href=https://html.spec.whatwg.org/#navigate>Navigate</a></dfn>
    <!-- Navigator --> <li><dfn data-lt="navigator"><a href=https://html.spec.whatwg.org/#navigator>Navigator object</a></dfn>
@@ -766,8 +767,9 @@ var respecConfig = {
 
   <p>Otherwise, let <var>parameters</var> be null.</p>
 
- <li><p>If a <a>navigation</a> is currently underway <a>wait for
-  navigation to complete</a>.
+ <li><p><a>Wait for navigation to complete</a>. If this returns
+  an <a>error</a> <a data-lt="send an error">return its value</a> and
+  jump to step 1 in this overall algorithm, otherwise continue.
 
  <li><p>Let <var>response result</var> be the return value
   obtained by running the <a>remote end steps</a> for <var>command</var>
@@ -2673,6 +2675,11 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  run the following steps:
 
 <ol>
+ <li><p>If the <a>current session</a>'s <a>page loading strategy</a>
+  is not <code>"none"</code> and if there is an ongoing attempt to
+  <a>navigate</a> the <a>current browsing context</a> that has not
+  yet <a>matured</a>, wait for navigation to complete.
+
  <li><p>If the <a>current session</a> has a <a>page loading strategy</a>:
 
   <ol>
@@ -2875,15 +2882,10 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   or for the <a>session page load timeout</a> milliseconds to pass,
   whichever occurs sooner.
 
-  <li><p>If traversing the session history causes <a>navigation</a>:
-
-  <ol>
-   <li><p>Run the <a>post-navigation checks</a>
-    and return its value if it is an <a>error</a>.
-
-   <li><p><a>Wait for navigation to complete</a>
-    and return its value if it is an <a>error</a>.
-  </ol>
+ <li><p>If the previous step completed by the <a>session page load
+   timeout</a> being reached, and the browser is not currently
+   displaying an alert, return <a>error</a> with <a>error
+   code</a> <a>timeout</a>.
 
  <li><p>Return <a>success</a> with data null.
 </ol>
@@ -2926,16 +2928,6 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   in the <a>session history</a> has changed,
   or for the <a>session page load timeout</a> milliseconds to pass,
   whichever occurs sooner.
-
-  <li><p>If traversing the session history causes <a>navigation</a>:
-
-  <ol>
-   <li><p>Run the <a>post-navigation checks</a>
-    and return its value if it is an <a>error</a>.
-
-   <li><p><a>Wait for navigation to complete</a>
-    and return its value if it is an <a>error</a>.
-  </ol>
 
  <li><p>If the previous step completed by the <a>session page load
    timeout</a> being reached, and the browser is not currently
