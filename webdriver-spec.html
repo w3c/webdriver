@@ -5068,6 +5068,12 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  In case the <a>element</a> is not <a>keyboard-interactable</a>,
  an <a>element not interactable</a> <a>error</a> is returned.
 
+<p>Calling this command effectively clears the <a>current
+ session</a>'s <a>input state</a>. The <a>key input state</a> used for
+ input by the command may be cleared mid-way through
+ &quot;typing&quot; by sending the <dfn>null key</dfn>, which
+ is <code>\uE000</code>.
+
 <p>The <a>remote end steps</a> are:
 
 <ol>
@@ -5148,57 +5154,56 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
    <li><p>Remove all <var>undo actions</var> from the <a>current
     session</a>'s <a>input cancel list</a>.
 
-   <li><p>Let <var>keyboard</var> be the first found <a>key input
-    source</a> in the <a>current session</a>'s <a>input state</a>
-    or <code>undefined</code> if no <a>key input source</a> can be
-    found.
+   <li><p>Remove all <a>key input source</a>s from the <a>current
+    session</a>'s <a>input state</a>.
 
-   <li><p>If <var>keyboard</var> is <code>undefined</code> <a>create a
-    new key input state object</a> and add it to the <a>current
-    session</a>'s <a>input state</a>. Let <var>keyboard</var> equal
-    this newly created <a>key input state</a>.
+   <li><p><a>Create a new key input state
+    object</a>. Let <var>keyboard</var> equal this newly
+    created <a>key input state</a>.
 
    <li><p>Let <var>undo actions</var> be an empty list.
 
    <li><p>For each <var>grapheme cluster</var> in <var>value</var>:
 
     <ol>
-     <li><p>Let <var>key to type</var> be the result of <a>processing keys</a> with argument <var>char</var>.
+     <li><p>Let <var>key to type</var> be the result of <a>processing
+      keys</a> with argument <var>char</var>.
 
-     <li><p>Let <var>action</var> be an <a>action object</a>
+     <li><p>Let <var>keydown action</var> be an <a>action object</a>
       constructed with
       arguments <var>keyboard</var>'s <var>id</var>, <code>"key"</code>,
       and <code>"keyDown"</code>.
 
-     <li><p>Set the <code>value</code> property of <var>action</var> to <var>key to type</var>.
+     <li><p>Set the <code>value</code> property of <var>keydown
+      action</var> to <var>key to type</var>.
 
      <li><p><a>Dispatch a keyDown action</a> with
-     arguments <var>action</var> and <var>keyboard</var>.
+     arguments <var>keydown action</var> and <var>keyboard</var>.
 
-     <li><p>Let <var>action</var> be an <a>action object</a>
+     <li><p>Let <var>keyup action</var> be an <a>action object</a>
       constructed with
       arguments <var>keyboard</var>'s <var>id</var>, <code>"key"</code>,
       and <code>"keyUp"</code>.
 
-     <li><p>Set the <code>value</code> property of <var>action</var>
-      to <var>key to type</var>.
+     <li><p>Set the <code>value</code> property of <var>keyup
+      action</var> to <var>key to type</var>.
 
      <li><p>Run the substeps in the first matching statement:
-      <dl>
+      <dl class="switch">
        <dt><var>key to type</var> is a <a>modifier key</a>
-       <dd>Prepend <var>action</var> to <var>cancel
+       <dd>Prepend <var>keyup action</var> to <var>cancel
         actions</var>.
 
-        <dt><var>char</var> is <code>\uE000</code>
+        <dt><var>char</var> is the <a>null key</a>
         <dd>For each <var>action</var> corresponding to an indexed
-          property in <var>unfo actions</var> <a>dispatch a keyUp
+          property in <var>undo actions</var> <a>dispatch a keyUp
           action</a> with arguments <var>action</var>
-          and <var>keyboard</var>. Let <var>undo actions</var> be an
+          and <var>keyboard</var>. Reset <var>undo actions</var> to an
           empty list.
  
        <dt>Otherwise
        <dd><a>Dispatch a keyUp action</a> with
-        arguments <var>action</var> and <var>keyboard</var>.
+        arguments <var>keyup action</var> and <var>keyboard</var>.
 
       </dl>
     </ol>
