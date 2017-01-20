@@ -3354,7 +3354,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  is defined as a dictionary of the <a>screenX</a>, <a>screenY</a>,
  <code>width</code> and <code>height</code> attributes
  on the <a><code>WindowProxy</code></a> it corresponds to.
- Its <a>JSON representation</a> is the following:
+ Its <dfn data-lt="json serialization of window rect">JSON representation</a> is the following:
 
   <dl>
    <dt><code>x</code>
@@ -3405,31 +3405,10 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>body</var> be a new JSON <a>Object</a> initialised with:
-
-  <dl>
-   <dt><code>x</code>
-   <dd>The value of <a>screenX</a> attribute of the
-     <a><code>WindowProxy</code></a> for the <a>current
-       top-level browsing context</a> in <a>CSS reference pixels</a>.
-
-   <dt><code>y</code>
-   <dd>The value of <a>screenY</a> attribute of the
-     <a><code>WindowProxy</code></a> for the <a>current
-       top-level browsing context</a> in <a>CSS reference pixels</a>.
-
-   <dt><code>width</code>
-   <dd>Width of the <a>top-level browsing context</a>’s outer dimensions,
-    including any browser chrome and externally drawn window decorations
-    in <a>CSS reference pixels</a>.
-
-   <dt><code>height</code>
-   <dd>Height of the <a>top-level browsing context</a>’s outer dimensions,
-    including any browser chrome and externally drawn window decorations
-    in <a>CSS reference pixels</a>.
-  </dl>
-
-   <li><p>Return <a>success</a> with a <a>JSON serialisation</a> of <a>window rect</a>.
+ <li><p>Return <a>success</a>
+  with the <a data-lt="json serialization of window rect">JSON serialization</a>
+  of the <a>current top-level browsing context</a>’s
+  <a>window rect</a>.
 </ol>
 </section> <!-- /Get Window rect -->
 
