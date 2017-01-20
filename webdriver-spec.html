@@ -227,8 +227,8 @@ var respecConfig = {
    <!-- Header Name --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header-name">Header Name</a></dfn>
    <!-- Header Value --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header-value">Header Value</a></dfn>
    <!-- Method --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-method>Method</a></dfn>
-   <!-- Response --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response>Response</a></dfn>
-   <!-- Request --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request>Request</a></dfn>
+   <!-- Response --> <li><dfn data-lt="http response"><a href=https://fetch.spec.whatwg.org/#concept-response>Response</a></dfn>
+   <!-- Request --> <li><dfn data-lt="http request"><a href=https://fetch.spec.whatwg.org/#concept-request>Request</a></dfn>
    <!-- Set Header --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header-list-set">Set Header</a></dfn>
    <!-- Status --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response-status>HTTP Status</a></dfn>
    <!-- Status message --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response-status-message>Status message</a></dfn>
@@ -686,9 +686,9 @@ var respecConfig = {
 <h3>Commands</h3>
 
 <p>The WebDriver protocol is organised into <a>commands</a>.
- Each HTTP request with a method and template defined in this specification
+ Each <a>HTTP request</a> with a method and template defined in this specification
  represents a single <dfn data-lt="commands">command</dfn>
- and therefore each command produces a single HTTP response.
+ and therefore each command produces a single <a>HTTP response</a>.
  In response to a <a>command</a>,
  a <a>remote end</a> will run a series of actions against the remote browser.
 
@@ -718,7 +718,7 @@ var respecConfig = {
 
 <ol>
  <li><p><a>Read bytes</a> from the connection
-  until a complete HTTP request can be constructed from the data.
+  until a complete <a>HTTP request</a> can be constructed from the data.
   Let <var>request</var> be a <a>request</a>
   constructed from the received data,
   according to the requirements of [[!RFC7230]].
@@ -856,7 +856,7 @@ var respecConfig = {
 <h3>Routing Requests</h3>
 
 <p><dfn data-lt="routing requests">Request routing</dfn>
- is the process of going from a HTTP request
+ is the process of going from a <a>HTTP request</a>
  to the <a data-lt="remote end steps">series of steps</a> needed
  to implement the <a>command</a> represented by that request.
 
@@ -1253,7 +1253,7 @@ var respecConfig = {
 <h3>Handling Errors</h3>
 
 <p>Errors are represented in the WebDriver protocol
- with a HTTP response with a <a>HTTP status</a> in the 4xx or 5xx range,
+ with a <a>HTTP response</a> with a <a>HTTP status</a> in the 4xx or 5xx range,
  and a JSON body containing details of the error.
  This JSON body has three fields:
  <code>error</code>, containing a string indicating the error type;
@@ -1265,7 +1265,7 @@ var respecConfig = {
 <aside class=example>
  <p>A <code>DELETE</code> request to <code>/session/1234</code>,
  where <code>1234</code> is not the <a>session id</a> of a <a>current session</a>
- would return an HTTP response with the status 404 and a body of the form:
+ would return an <a>HTTP response</a> with the status 404 and a body of the form:
 
  <pre class=highlight>{
   "error": "invalid session id",
