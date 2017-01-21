@@ -492,6 +492,13 @@ var respecConfig = {
  <dd>The following terms are defined in the  standard: [[!Unicode]]
   <ul>
    <!-- Code point --> <li><dfn data-lt="unicode code point"><a href=http://www.unicode.org/versions/Unicode9.0.0/ch03.pdf#G2212>Code Point</a></dfn>
+   <!-- Extended grapheme cluster --> <li><dfn data-lt="grapheme cluster"><a href=http://www.unicode.org/versions/Unicode9.0.0/ch03.pdf#G2213>Extended Grapheme Cluster</a></dfn>
+  </ul>
+
+ <dt>Unicode Standard Annex #29
+ <dd>The following terms are defined in the standard: [[!UAX29]]
+  <ul>
+   <!-- Breaking text into extended grapheme clusters --><li><dfn data-lt="breaking text into extended grapheme clusters"><a href=http://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries>Grapheme cluster boundaries</a></dfn>
   </ul>
 
  <dt>URLs
@@ -5139,22 +5146,193 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p>If <var>keyboard</var> is not a <a>key input source</a> return
   an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p><p>For each <var>action</var> corresponding to an indexed
-  property in <var>undo actions</var>:
+ <li><p>For each <var>entry key</var> in the lexically sorted keys of <var>undo actions</var>:
+ 
+  <ol>
+   <li><p>Let <var>action</var> be the value of <var>undo
+    actions</var> matching key <var>entry key</var>.
 
- <ol>
-  <li><p>If <var>action</var> is not an <a>action object</a>
-   of <code>type</code> <code>"key"</code>
-   and <code>subtype</code> <code>"keyUp"</code> return
-   an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+   <li><p>If <var>action</var> is not an <a>action object</a>
+    of <code>type</code> <code>"key"</code>
+    and <code>subtype</code> <code>"keyUp"</code> return
+    an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-  <li><p><a>Dispatch a keyUp action</a> with
+   <li><p><a>Dispatch a keyUp action</a> with
    arguments <var>action</var> and <var>keyboard</var>'s <a>key input
    state</a>.
- </ol>
+  </ol>
 </ol> <!-- /clear modifier key state -->
 
-<p>The <a>remote end steps</a> are:
+<p>An <a>extended grapheme cluster</a> is <dfn>typeable</dfn> if it
+consists of a single <a>unicode code point</a> and the <a>code</a> for
+that <a>unicode code point</a> is not <code>undefined</code>.
+
+<p>The <dfn>shifted state</dfn> for <var>keyboard</var> is the
+ value of <var>keyboard</var>'s <a>key input
+ state</a>'s <code>shift</code> property.
+
+<p>In order to <dfn>dispatch the events for a typeable string</dfn>
+with arguments <var>text</var> and <var>keyboard</var>, a <a>remote
+end</a> must for each <var>char</var> corresponding to an indexed
+property in <var>text</var>:
+ 
+  <ol>
+   <li><p>If <var>char</var> is a <a>shifted character</a> and
+    the <a>shifted state</a> of <var>keyboard</var>
+    is <code>false</code>, create a new <a>action object</a>
+    with <var>keyboard</var>'s <code>id</code>, <code>"key"</code>,
+    and <code>"keyDown"</code>, and set its <code>value</code>
+    property to <code>U+E008</code> ("left shift"). <a>Dispatch a
+    keyDown action</a> with this <a>action object</a>
+    and <var>keyboard</var>'s <a>key input state</a>.
+
+   <li><p>If <var>char</var> is not a <a>shifted character</a> and
+    the <a>shifted state</a> of <var>keyboard</var>
+    is <code>true</code>, create a new <a>action object</a>
+    with <var>keyboard</var>'s <code>id</code>, <code>"key"</code>,
+    and <code>"keyUp"</code>, and set its <code>value</code>
+    property to <code>U+E008</code> ("left shift"). <a>Dispatch a
+    keyUp action</a> with this <a>action object</a>
+    and <var>keyboard</var>'s <a>key input state</a>.
+
+   <li><p>Let <var>keydown action</var> be a new <a>action object</a>
+    constructed with
+    arguments <var>keyboard</var>'s <code>id</code>, <code>"key"</code>,
+    and <code>"keyDown"</code>.
+
+   <li><p>Set the <code>value</code> property of <var>keydown
+    action</var> to <var>char</var>
+
+   <li><p><a>Dispatch a keyDown action</a> with arguments <var>keydown
+    action</var> and <var>keyboard</var>'s <a>key input state</a>.
+
+   <li><p>Let <var>keyup action</var> be a copy of <var>keydown
+    action</var> with the <code>subtype</code> property changed
+    to <code>"keyUp"</code>.
+
+   <li><p><a>Dispatch a keyUp action</a> with arguments <var>keyup
+    action</var> and <var>keyboard</var>'s <a>key input state</a>.
+</ol> <!-- /dispatch events for a typeable grapheme cluster -->
+
+<p>When required to <dfn>dispatch a <code>composition
+event</code></dfn> with arguments <var>type</var>
+and <var>cluster</var> the <a>remote end</a> must <a>perform
+implementation-specific action dispatch steps</a> equivalent to
+sending composition events in accordance with the requirements of
+[[!UI-EVENTS]], and producing the following event with the specified
+properties.
+
+<ul>
+ <li><a href=https://www.w3.org/TR/uievents/#events-compositionevents><code>composition event</code></a> with properties:
+  <table class=simple>
+   <tr>
+    <th>Attribute</th>
+    <th>Value</th>
+   </tr>
+   <tr>
+    <td><code>type</code></td>
+    <td><var>type</var></td>
+   </tr>
+   <tr>
+    <td><code>data</code></td>
+    <td><var>cluster</var></td>
+   </tr>
+ </table>
+</ul>
+
+<p>When required to <dfn>dispatch actions for a string</dfn> with
+arguments <var>text</var> and <var>keyboard</var>, a <a>remote end</a>
+must run the following steps:
+
+<ol>
+ <li><p>Let <var>clusters</var> be an array created by
+  <a>breaking <var>text</var> into extended grapheme clusters</a>.
+
+ <li><p>Let <var>undo actions</var> be an empty dictionary.
+
+ <li><p>Let <var>current typeable text</var> be an empty string.
+
+ <li><p>For each <var>cluster</var> corresponding to an indexed
+  property in <var>clusters</var> run the substeps of the first
+  matching statement:
+
+ <dl class="switch">
+  <dt><var>cluster</var> is the <a>null key</a>
+  <dd>
+   <ol>
+    <li><p><a>Dispatch the events for a typeable string</a> with
+     arguments <var>current typeable text</var>
+     and <var>keyboard</var>. Reset <var>current typeable text</var> to
+     an empty string.
+
+    <li><a>Clear the modifier key state</a> with arguments
+     being <var>undo actions</var>
+     and <var>keyboard</var>.
+    <li><p>If the previous step returns an <a>error</a> return that to
+     the user.
+    <li>Reset <var>undo actions</var> to be an empty dictionary.
+   </ol>
+
+  <dt><var>cluster</var> is a <a>modifier key</a>
+  <dd>
+   <ol>
+    <li><p><a>Dispatch the events for a typeable string</a> with
+     arguments <var>current typeable text</var>
+     and <var>keyboard</var>. Reset <var>current typeable text</var> to
+     an empty string.
+
+    <li><p>Let <var>keydown action</var> be an <a>action object</a>
+     constructed with arguments <var>keyboard</var>'s
+     id, <code>"key"</code>, and <code>"keyDown"</code>.
+
+    <li><p>Set the <code>value</code> property of <var>keydown
+     action</var> to <var>cluster</var>.
+
+    <li><p><a>Dispatch a keyDown action</a> with
+     arguments <var>keydown action</var>
+     and <var>keyboard</var>'s <a>key input state</a>.
+
+    <li><p>Add an entry to <var>undo actions</var> with
+     key <var>cluster</var> and value being a copy of <var>keydown
+     action</var> with the <code>subtype</code> modified
+     to <code>"keyUp"</code>.
+   </ol>
+
+  <dt><var>cluster</var> is <a>typeable</a>
+  <dd>Append <var>cluster</var> to <var>current typeable text</var>.
+
+  <dt>Otherwise
+  <dd>
+   <ol>
+    <li><p><a>Dispatch the events for a typeable string</a> with
+     arguments <var>current typeable text</var>
+     and <var>keyboard</var>. Reset <var>current typeable text</var> to
+     an empty string.
+
+    <li><p><a>Dispatch a <code>composition event</code></a> with
+     arguments <code>"compositionstart"</code>
+     and <code>undefined</code>.
+
+    <li><p><a>Dispatch a <code>composition event</code></a> with
+     arguments <code>"compositionupdate"</code>
+     and <var>cluster</var>.
+
+    <li><p><a>Dispatch a <code>composition event</code></a> with
+     arguments <code>"compositionend"</code>
+     and <var>cluster</var>.
+   </ol>
+ </dl>
+
+ <li><p><a>Dispatch the events for a typeable string</a> with
+  arguments <var>current typeable text</var>
+  and <var>keyboard</var>.
+
+ <li><p><a>Clear the modifier key state</a> with arguments <var>undo
+  actions</var> and <var>keyboard</var>.  If an <a>error</a> is
+  returned, return that <a>error</a>
+</ol> <!-- /create actions from a string -->
+
+<p>The <a>remote end steps</a> for <a>Element Send Keys</a> are:
 
 <ol>
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
@@ -5232,55 +5410,11 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
    <li><p>Let <var>keyboard</var> be a new <a>key input source</a>.
 
-   <li><p>Let <var>undo actions</var> be an empty list.
+   <li><p><a>Dispatch actions for a string</a> with
+    arguments <var>text</var> and <var>keyboard</var>.
 
-   <li><p>For each <var><a>grapheme cluster</a></var> in <var>text</var>:
-
-    <ol>
-     <li><p>Let <var>key to type</var> be the result of <a>processing
-      keys</a> with argument <var>grapheme cluster</var>.
-
-     <li><p>Let <var>keydown action</var> be an <a>action object</a>
-      constructed with
-      arguments <var>keyboard</var>'s <var>id</var>, <code>"key"</code>,
-      and <code>"keyDown"</code>.
-
-     <li><p>Set the <code>value</code> property of <var>keydown
-      action</var> to <var>key to type</var>.
-
-     <li><p><a>Dispatch a keyDown action</a> with
-      arguments <var>keydown action</var>
-      and <var>keyboard</var>'s <a>key input state</a>.
-
-     <li><p>Let <var>keyup action</var> be a copy of <var>keydown
-      action</var> with the <var>subtype</var> property changed
-      to <code>"keyUp"</code>.
-
-     <li><p>Run the substeps in the first matching statement:
-      <dl class="switch">
-       <dt><var>key to type</var> is a <a>modifier key</a>
-       <dd>Prepend <var>keyup action</var> to <var>cancel
-        actions</var>.
-
-        <dt><var>grapheme cluster</var> is the <a>null key</a>
-        <dd><a>Clear the modifier key state</a> with
-         arguments <var>undo actions</var> and <var>keyboard</var>. If
-         an <a>error</a> is returned, return
-         that <a>error</a>. Reset <var>undo actions</var> to an empty
-         list.
-
-       <dt>Otherwise
-       <dd><a>Dispatch a keyUp action</a> with arguments <var>keyup
-        action</var> and <var>keyboard</var>'s <a>key input state</a>.
-
-      </dl>
-    </ol>
-
- <li><p><a>Clear the modifier key state</a> with arguments <var>undo
-  actions</var> and <var>keyboard</var>. If an <a>error</a> is
-  returned, return that <a>error</a>.
-
- <li><p>Remove <var>keyboard</var> from the <a>current session</a>'s <a>input state</a>
+ <li><p>Remove <var>keyboard</var> from the <a>current
+  session</a>'s <a>input state</a>
 
  <li><p>Return <a>success</a> with data null.
 </ol>
@@ -7119,6 +7253,9 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
       last column of the following table on the row with <var>key</var> in
       either the first or second column, if any such row exists,
       otherwise it is <code>undefined</code>.
+
+      <p>A <dfn>shifted character</dfn> is one that appears in the
+      second column of the following table.
 
         <!-- TODO This should perhaps return undefined when the shift
         key doesn't match the requirement for producing the character?
