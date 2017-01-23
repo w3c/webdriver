@@ -469,7 +469,7 @@ var respecConfig = {
   the CSSOM View Module: [[!CSSOM-VIEW]]:
   <ul>
    <!-- elementFromPoint --> <li><dfn>Element from point</dfn> as <a href="https://drafts.csswg.org/cssom-view/#dom-document-elementfrompoint">elementFromPoint()</a>
-   <!-- elementsFromPoint --> <li><dfn>Elements from point</dfn> as <a href=https://drafts.csswg.org/cssom-view/#dom-document-elementsfrompoint>elementsFromPoint()</a>
+   <!-- elementsFromPoint --> <li><dfn data-lt="paint order">Elements from point</dfn> as <a href=https://drafts.csswg.org/cssom-view/#dom-document-elementsfrompoint>elementsFromPoint()</a>
    <!-- getClientRects --> <li><dfn data-lt="DOM client rectangle"><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></dfn>
    <!-- innerHeight --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerheight>innerHeight</a></dfn>
    <!-- innerWidth --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerwidth>innerWidth</a></dfn>
@@ -1385,7 +1385,7 @@ var respecConfig = {
   <td><code>element click intercepted</code>
   <td>The <a>Element Click</a> <a>command</a> could not be completed
    because the <a>element</a> receiving the events
-   is not the same element that was requested clicked.
+   is <a>obscuring</a> the element that was requested clicked.
  </tr>
 
  <tr>
@@ -3889,7 +3889,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  keyboard interactions must be targeted to
  its <a><code>ownerDocument</code></a>.
 
-<p>An <a>element</a>’s <dfn>in-view centerpoint</dfn>
+<p>An <a>element</a>’s <dfn data-lt=centerpoint>in-view centerpoint</dfn>
  is the origin position of the rectangle
  that is the intersection between
  the element’s first <a>DOM client rectangle</a>
@@ -3927,6 +3927,11 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p>Return <var>x</var> and <var>y</var> as a pair.
 </ol>
 
+<p>An <a>element</a> is said to be <dfn data-lt=obscuring>obscured</dfn>
+ if it is not <a>pointer-interactable</a>
+ and the <a>first pointer-interactable element</a>
+ at its <a>centerpoint</a> is not itself.
+
 <p>In order to produce a <dfn>pointer-interactable elements tree</dfn>
  from an <var><a>element</a></var>:
 
@@ -3954,7 +3959,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   given the coordinates <var>centre point</var>.
 </ol>
 
-<p>To <dfn>get the first pointer-interactable element</dfn>
+<p>To <dfn data-lt="first pointer-interactable element">get the first pointer-interactable element</dfn>
  given a <a>pointer-interactable elements tree</a>,
  return with <a>success</a> the first <a>element</a>
  which style property <code>opacity</code>
@@ -4944,8 +4949,12 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
 <p>The <dfn>Element Click</dfn> <a>command</a>
  <a>scrolls into view</a> the <a>element</a>
- and clicks the <a>in-view centerpoint</a>.
- If the <a>element</a> is not <a>pointer-interactable</a>,
+ if it is not already <a>pointer-interactable</a>,
+ and clicks its <a>in-view centerpoint</a>.
+ If the <a>element</a>’s <a>centerpoint</a>
+ is <a>obscured</a> by another element,
+ an <a>element click intercepted</a> <a>error</a> is returned.
+ If the element is outside the <a>viewport</a>,
  an <a>element not interactable</a> <a>error</a> is returned.
 
 <p>The <a>remote end steps</a> are:
