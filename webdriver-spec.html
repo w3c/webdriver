@@ -433,7 +433,7 @@ var respecConfig = {
  <dd>The following terms are defined in
   the CSS Device Adaptation Module Level 1 specification: [[!CSS-DEVICE-ADAPT]]
    <ul>
-    <!-- Initial viewport --><li><dfn data-lt=viewport><a href=https://drafts.csswg.org/css-device-adapt/#initial-viewport>Initial viewport</a></dfn>,
+    <!-- Initial viewport --><li><dfn data-lt="viewport|in view"><a href=https://drafts.csswg.org/css-device-adapt/#initial-viewport>Initial viewport</a></dfn>,
      sometimes here referred to as the <i>viewport</i>.
    </ul>
 
@@ -470,7 +470,7 @@ var respecConfig = {
   <ul>
    <!-- elementFromPoint --> <li><dfn>Element from point</dfn> as <a href="https://drafts.csswg.org/cssom-view/#dom-document-elementfrompoint">elementFromPoint()</a>
    <!-- elementsFromPoint --> <li><dfn>Elements from point</dfn> as <a href=https://drafts.csswg.org/cssom-view/#dom-document-elementsfrompoint>elementsFromPoint()</a>
-   <!-- getClientRects --> <li><dfn><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></dfn>
+   <!-- getClientRects --> <li><dfn data-lt="DOM client rectangle"><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></dfn>
    <!-- innerHeight --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerheight>innerHeight</a></dfn>
    <!-- innerWidth --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerwidth>innerWidth</a></dfn>
    <!-- moveTo --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-moveto>moveTo(x, y)</a></dfn>
@@ -3887,13 +3887,13 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  keyboard interactions must be targeted to
  its <a><code>ownerDocument</code></a>.
 
-<p>An <a>element</a>’s <dfn>in-view centre point</dfn>
- is the centre point of the area
- of the first <a data-lt="getClientRects">DOM client rectangle</a>
- that is inside the <a>viewport</a>.
- It can be calculated this way,
- given an element, here called <var>rectangle</var>,
- off a <a><code>DOMRect</code></a> sequence:
+<p>An <a>element</a>’s <dfn>in-view centerpoint</dfn>
+ is the origin position of the rectangle
+ that is the intersection between
+ the element’s first <a>DOM client rectangle</a>
+ and the <a>initial viewport</a>.
+ Given an <a>element</a> that is known to be <a>in view</a>,
+ it can be calculated this way:
 
 <ol>
  <li><p>Let <var>rectangle</var> be
@@ -3945,7 +3945,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   return an empty sequence.
 
  <li><p>Let <var>centre point</var> be
-  the <a>in-view centre point</a> of <var>element</var>
+  the <a>in-view centerpoint</a> of <var>element</var>
   given the first indexed element of <var>rectangles</var>.
 
  <li><p>Return the <a>elements from point</a>
@@ -4942,7 +4942,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
 <p>The <dfn>Element Click</dfn> <a>command</a>
  <a>scrolls into view</a> the <a>element</a>
- and clicks the <a>in-view centre point</a>.
+ and clicks the <a>in-view centerpoint</a>.
  If the <a>element</a> is not <a>pointer-interactable</a>,
  an <a>element not interactable</a> <a>error</a> is returned.
 
@@ -4972,7 +4972,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   for the <a>container</a> to become <a>pointer-interactable</a>.
 
  <li><p>If <a>element from point</a> for
-  the <a>in-view centre point</a> of <var>element</var>
+  the <a>in-view centerpoint</a> of <var>element</var>
   is not equal to the <var>element</var>’s <a>container</a>,
   return <a>error</a> with <a>error code</a> <a>element click intercepted</a>.
 
@@ -7818,7 +7818,7 @@ must run the following steps:
 
                   <li><p>Let <var>x element</var> and <var>y
                   element</var> be the result of calculating the
-                    <a>in-view centre point</a>
+                    <a>in-view centerpoint</a>
                     of <var>element</var>.</li>
 
                   <li><p>Let <var>x</var> equal <var>x element</var>
