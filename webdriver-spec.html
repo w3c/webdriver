@@ -4949,7 +4949,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <a>scrolls into view</a> the <a>element</a>
  if it is not already <a>pointer-interactable</a>,
  and clicks its <a>in-view centerpoint</a>.
- If the <a>element</a>’s <a>centerpoint</a>
+ If the element’s <a>centerpoint</a>
  is <a>obscured</a> by another element,
  an <a>element click intercepted</a> <a>error</a> is returned.
  If the element is outside the <a>viewport</a>,
@@ -4969,22 +4969,15 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
   or it does not have a <a>container</a> <a>element</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>Let <var>container element</var> be
-  the <a>element</a>’s <a>container</a> <a>element</a>.
+ <li><p><a>Scroll into view</a> <var>element</var>’s <a>container</a>
+  if it is not <a>pointer-interactable</a>.
 
- <li><p>If <var>container element</var> is not <a>pointer-interactable</a>,
-  <a>scroll into view</a> <var>container element</var>.
-
- <li><p>If <var>container element</var> is still not <a>pointer-interactable</a>,
+ <li><p>If <var>element</var>’s <a>container</a> is still not <a>in view</a>,
   return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
 
- <li><p>If <a>element from point</a> for
-  the <a>in-view centerpoint</a> of <var>element</var>
-  is not equal to the <var>container element</var>,
+ <li><p>If <var>element</var>’s <a>container</a>
+  is <a>obscured</a> by another <a>element</a>,
   return <a>error</a> with <a>error code</a> <a>element click intercepted</a>.
-
- <li><p>Run the substeps of the first step that case-insensitively
-  matches the <var>element</var>'s tag name:
 
  <li><p>Matching on <var>element</var>:
 
