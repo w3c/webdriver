@@ -3876,7 +3876,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
 <p>A <dfn data-lt="pointer-interactable">pointer-interactable element</dfn>
  is defined to be the first non-transparent <a>element</a>,
- defined by the paint order found at the centre point
+ defined by the paint order found at the centerpoint
  of its rectangle that is inside the <a>viewport</a>,
  excluding the size of any rendered scrollbars.
 
@@ -3926,14 +3926,14 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 </ol>
 
 <p>An <a>element</a> is <dfn>in view</dfn>
- if it is a member of its own <a>pointer-interactable elements tree</a>.
+ if it is a member of its own <a>pointer-interactable paint tree</a>.
 
 <p>An <a>element</a> is <dfn data-lt=obscuring>obscured</dfn>
  if it is not <a>pointer-interactable</a>
  and the <a>first pointer-interactable element</a>
  at its <a>centerpoint</a> is not itself.
 
-<p>In order to produce a <dfn>pointer-interactable elements tree</dfn>
+<p>In order to produce a <dfn>pointer-interactable paint tree</dfn>
  from an <var><a>element</a></var>:
 
 <ol>
@@ -3943,7 +3943,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
  <li><p>Let <var>rectangles</var> be
   the <a><code>DOMRect</code></a> sequence
-  returned by calling <a>getClientRects</a> on <var><a>element</a></var>.
+  returned by calling <var>element</var>’s <a>getClientRects</a>.
 
  <!--
   An element which style property `display` is "none"
@@ -3952,16 +3952,16 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p>If <var>rectangles</var> has the length of 0,
   return an empty sequence.
 
- <li><p>Let <var>centre point</var> be
+ <li><p>Let <var>center point</var> be
   the <a>in-view centerpoint</a> of <var>element</var>
   given the first indexed element of <var>rectangles</var>.
 
  <li><p>Return the <a>elements from point</a>
-  given the coordinates <var>centre point</var>.
+  given the coordinates <var>center point</var>.
 </ol>
 
 <p>To <dfn data-lt="first pointer-interactable element">get the first pointer-interactable element</dfn>
- given a <a>pointer-interactable elements tree</a>,
+ given a <a>pointer-interactable paint tree</a>,
  return with <a>success</a> the first <a>element</a>
  which style property <code>opacity</code>
  has the <a>computed value</a> of "1";
