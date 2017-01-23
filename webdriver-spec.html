@@ -3123,10 +3123,9 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p class=issue>This can prompt unload,
-  in which case the operation really failed.
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
-  <p><a>Close</a> the <a>current top-level browsing context</a>.
+ <li><p><a>Close</a> the <a>current top-level browsing context</a>.
 
  <li><p>If there are no more open <a>top-level browsing contexts</a>,
   then <a>close the session</a>.
@@ -5211,7 +5210,7 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
          an <a>error</a> is returned, return
          that <a>error</a>. Reset <var>undo actions</var> to an empty
          list.
- 
+
        <dt>Otherwise
        <dd><a>Dispatch a keyUp action</a> with arguments <var>keyup
         action</var> and <var>keyboard</var>'s <a>key input state</a>.
@@ -7916,7 +7915,8 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
 <p><a>User prompts</a> that are spawned
  from <a><code>beforeunload</code></a> event handlers,
- are <a>dismissed</a> implicitly upon <a data-lt=go>navigation</a>,
+ are <a>dismissed</a> implicitly upon <a data-lt=go>navigation</a> or
+ or <a>close window</a>,
  regardless of the defined <a>user prompt handler</a>.
 
 <p>The following <dfn>table of simple dialogs</dfn>
