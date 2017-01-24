@@ -736,7 +736,7 @@ var respecConfig = {
 
 <p>Where algorithms that return values are fallible,
  they are written in terms of returning either
- <dfn>success</dfn> or <dfn>error</dfn>.
+ <dfn>success</dfn> or <dfn data-lt=errors>error</dfn>.
  A <a>success</a> value has an associated <var>data</var> field
  which encapsulates the value returned,
  whereas an <a>error</a> response has an associated <a>error code</a>.
@@ -1345,9 +1345,9 @@ var respecConfig = {
 <section>
 <h3>Handling Errors</h3>
 
-<p>Errors are represented in the WebDriver protocol
- with a <a>HTTP response</a> with a <a>HTTP status</a> in the 4xx or 5xx range,
- and a JSON body containing details of the error.
+<p><a>Errors</a> are represented in the WebDriver protocol
+ by an <a>HTTP response</a> with an <a>HTTP status</a> in the 4xx- or 5xx range,
+ and a JSON body containing details of the <a>error</a>.
  This JSON body has three fields:
  <code>error</code>, containing a string indicating the error type;
  <code>message</code>, containing an implementation-defined string
@@ -1361,9 +1361,9 @@ var respecConfig = {
  would return an <a>HTTP response</a> with the status 404 and a body of the form:
 
  <pre class=highlight>{
-  "error": "invalid session id",
-  "message": "No active session with ID 1234",
-  "stacktrace": ""
+	"error": "invalid session id",
+	"message": "No active session with ID 1234",
+	"stacktrace": ""
 }</pre>
 </aside>
 
