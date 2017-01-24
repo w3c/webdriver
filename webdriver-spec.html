@@ -5133,43 +5133,43 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
  In case the <a>element</a> is not <a>keyboard-interactable</a>,
  an <a>element not interactable</a> <a>error</a> is returned.
 
-<p>The <a>key input state</a> used for
- input by the command may be cleared mid-way through
- &quot;typing&quot; by sending the <dfn>null key</dfn>, which
- is &quot;U+E000 (NULL)&quot;.
+<p>The <a>key input state</a> used for input
+ may be cleared mid-way through “typing”
+ by sending the <dfn>null key</dfn>,
+ which is U+E000 (NULL).
 
 <p>When required to <dfn>clear the modifier key state</dfn> with an
  argument of <var>undo actions</var> and <var>keyboard</var>
  a <a>remote end</a> must run the following steps:
 
 <ol>
- <li><p>If <var>keyboard</var> is not a <a>key input source</a> return
-  an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+ <li><p>If <var>keyboard</var> is not a <a>key input source</a>
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>For each <var>entry key</var> in the lexically sorted keys of <var>undo actions</var>:
- 
+ <li><p>For each <var>entry key</var>
+  in the lexically sorted keys of <var>undo actions</var>:
+
   <ol>
-   <li><p>Let <var>action</var> be the value of <var>undo
-    actions</var> matching key <var>entry key</var>.
+   <li><p>Let <var>action</var> be the value of <var>undo actions</var>
+    matching key <var>entry key</var>.
 
    <li><p>If <var>action</var> is not an <a>action object</a>
-    of <code>type</code> <code>"key"</code>
-    and <code>subtype</code> <code>"keyUp"</code> return
-    an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+    of <code>type</code> "<code>key</code>"
+    and <code>subtype</code> "<code>keyUp</code>",
+    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-   <li><p><a>Dispatch a keyUp action</a> with
-   arguments <var>action</var> and <var>keyboard</var>'s <a>key input
-   state</a>.
+   <li><p><a>Dispatch a keyUp action</a> with arguments
+    <var>action</var> and <var>keyboard</var>’s <a>key input state</a>.
   </ol>
-</ol> <!-- /clear modifier key state -->
+</ol>
 
-<p>An <a>extended grapheme cluster</a> is <dfn>typeable</dfn> if it
-consists of a single <a>unicode code point</a> and the <a>code</a> for
-that <a>unicode code point</a> is not <code>undefined</code>.
+<p>An <a>extended grapheme cluster</a> is <dfn>typeable</dfn>
+ if it consists of a single <a>unicode code point</a>
+ and the <a>code</a> is not <code>undefined</code>.
 
-<p>The <dfn>shifted state</dfn> for <var>keyboard</var> is the
- value of <var>keyboard</var>'s <a>key input
- state</a>'s <code>shift</code> property.
+<p>The <dfn>shifted state</dfn> for <var>keyboard</var>
+ is the value of <var>keyboard</var>’s
+ <a>key input state</a>’s <code>shift</code> property.
 
 <p>In order to <dfn>dispatch the events for a typeable string</dfn>
 with arguments <var>text</var> and <var>keyboard</var>, a <a>remote
