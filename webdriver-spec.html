@@ -734,12 +734,17 @@ var respecConfig = {
  which encapsulates the value returned,
  whereas an <a>error</a> response has an associated <a>error code</a>.
 
-<p>When calling a fallible algorithm, the construct
-  "Let <var>result</var> be the result of <dfn>trying</dfn> to
-  call <var>algorithm</var>" is equivalent to "Let <var>temp</var> be
-  the result of calling <var>algorithm</var>. If <var>temp</var> is
-  an <a>error</a> return <var>temp</var>, otherwise
-  let <var>result</var> be <var>temp</var>'s <var>data</var> field.
+<p>When calling a fallible algorithm,
+ the construct “Let <var>result</var> be the result
+ of <dfn>trying</dfn> to call <var>algorithm</var>”
+ is equivalent to
+
+<ol>
+ <li><p>Let <var>temp</var> be the result of calling <var>algorithm</var>.
+
+ <li><p>If <var>temp</var> is an <a>error</a> return <var>temp</var>,
+  otherwise let <var>result</var> be <var>temp</var>’s <var>data</var> field.
+</ol>
 
 <p>The result of <dfn data-lt="getting properties">getting a property</dfn>
  with <var>name</var> from an <a>Object</a> is defined as
