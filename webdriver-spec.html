@@ -2356,7 +2356,7 @@ with a "<code>moz:</code>" prefix:
 
 <p>If the <a>remote end</a> is an <a>intermediary node</a>,
  it MAY use the result of the <a>processing capabilities</a> algorithm
- to route the <a<new session</a> request to the appropriate <a>endpoint node</a>.
+ to route the <a>new session</a> request to the appropriate <a>endpoint node</a>.
  An <a>intermediary node</a> MAY also define custom <a>capabilities</a>
  to assist in this process, however, these capabilities MUST NOT be
  forwarded to the <a>endpoint node</a>.
@@ -2431,61 +2431,56 @@ with a "<code>moz:</code>" prefix:
    <dd><var>capabilities result</var>
   </dl>
 
- <li><p>Initialise the following from <var>capabilities</var>:
+ <li><p>Initialize the following from <var>capabilities</var>:
 
   <ol>
-    <li><p>Let <var>strategy</var> be the result of getting property
-      "<code>pageLoadStrategy</code>" from <var>capabilities</var>.
+   <li><p>Let <var>strategy</var> be the result of getting property
+    "<code>pageLoadStrategy</code>" from <var>capabilities</var>.
 
-    <li><p>If <var>strategy</var> is a string, set the <a>current session</a>'s
-      <a>page loading strategy</a> to <var>strategy</var>.
-      Otherwise, set the <a>page loading strategy</a> to <i>normal</i>.
+   <li><p>If <var>strategy</var> is a string, set the <a>current session</a>’s
+    <a>page loading strategy</a> to <var>strategy</var>.
+    Otherwise, set the <a>page loading strategy</a> to <i>normal</i>.
 
-    <li><p>Let <var>proxy</var> be the result of getting property
-      "<code>proxy</code>" from <var>capabilities</var>.
+   <li><p>Let <var>proxy</var> be the result of getting property
+    "<code>proxy</code>" from <var>capabilities</var>.
 
-    <li><p>If <var>proxy</var> is a <a>proxy configuration</a> object, take
-      implementation-defined steps to set the user agent proxy using the
-      extracted <var>proxy</var> configuration. If the defined proxy cannot be
-      configured,
-      return <a>error</a> with <a>error code</a> <a>session not created</a>.
+   <li><p>If <var>proxy</var> is a <a>proxy configuration</a> object,
+    take implementation-defined steps to set the user agent proxy
+    using the extracted <var>proxy</var> configuration.
+    If the defined proxy cannot be configured,
+    return <a>error</a> with <a>error code</a> <a>session not created</a>.
 
-    <li><p>Let <var>timeouts</var> be the result of getting property
-      "<code>timeouts</code>" from <var>capabilities</var>.
+   <li><p>Let <var>timeouts</var> be the result of getting property
+    "<code>timeouts</code>" from <var>capabilities</var>.
 
-    <li><p>If <var>timeouts</var> is a <a>session timeouts configuration</a>
-      object:
+   <li><p>If <var>timeouts</var> is a <a>session timeouts configuration</a> object:
 
-      <ol>
-        <li><p>If <var>timeouts</var> has a numeric property with key
-         "<code>implicit</code>", set the <a>current session</a>'s
-         <a>session implicit wait timeout</a> to the value of property
-         "<code>implicit</code>". Otherwise, set the
-         <a>session implicit wait timeout</a> to 0 (zero) milliseconds.
+    <ol>
+      <li><p>If <var>timeouts</var> has a numeric property with key "<code>implicit</code>",
+      set the <a>current session</a>’s <a>session implicit wait timeout</a>
+      to the value of property "<code>implicit</code>".
+      Otherwise, set the <a>session implicit wait timeout</a> to 0 (zero) milliseconds.
 
-        <li><p>If <var>timeouts</var> has a numeric property with key
-         "<code>page load</code>", set the <a>current session</a>'s
-         <a>session page load timeout</a> to the value of property
-         "<code>page load</code>". Otherwise, set the
-         <a>session page load timeout</a> to 300,000 milliseconds.
+     <li><p>If <var>timeouts</var> has a numeric property with key "<code>page load</code>",
+      set the <a>current session</a>’s <a>session page load timeout</a>
+      to the value of property "<code>page load</code>".
+      Otherwise, set the <a>session page load timeout</a> to 300,000 milliseconds.
 
-        <li><p>If <var>timeouts</var> has a numeric property with key
-         "<code>script</code>", set the <a>current session</a>'s
-         <a>session script timeout</a> to the value of property
-         "<code>script</code>". Otherwise, set the
-         <a>session script timeout</a> to 30,000 milliseconds.
-      </ol>
+     <li><p>If <var>timeouts</var> has a numeric property with key "<code>script</code>",
+      set the <a>current session</a>’s <a>session script timeout</a>
+      to the value of property "<code>script</code>".
+      Otherwise, set the <a>session script timeout</a> to 30,000 milliseconds.
+    </ol>
 
-    <li><p>Apply changes to the user agent for any implementation defined
-      capabilities selected during the <a>processing capabilities</a> step.
+   <li><p>Apply changes to the user agent for any implementation-defined capabilities
+    selected during the <a>processing capabilities</a> step.
   </ol>
 
  <li><p>Set the <a>webdriver-active flag</a> to true.</p>
 
  <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
-</section>
-
+</section> <!-- /New Session -->
 
 <section>
 <h3>Delete Session</h3>
