@@ -2005,42 +2005,42 @@ with a "<code>moz:</code>" prefix:
   the <a>endpoint node</a> must take the following steps:
 
 <ol>
-<li><p>Let <var>capabilities request</var> be the result of <a>getting a property</a>
-named "<code>capabilities</code>" from <var>parameters</var>.
+ <li><p>Let <var>capabilities request</var> be the result of <a>getting a property</a>
+  named "<code>capabilities</code>" from <var>parameters</var>.
 
   <ol>
-  <li><p>If <var>capabilities request</var> is not a JSON object,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-  </ol>
+   <li><p>If <var>capabilities request</var> is not a JSON object,
+    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+ </ol>
 
-<li><p>Let <var>required capabilities</var> be the result of <a>getting a property</a>
-named "<code>alwaysMatch</code>" from <var>capabilities request</var>.
-
-  <ol>
-  <li><p>If <var>required capabilities</var> is <a>undefined</a>,
-  set the value to an empty JSON <a>Object</a>.
-
-  <li><p>If <var>required capabilities</var> is not a JSON <a>Object</a>,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-  </ol>
-
-<li><p>Let <var>desired capabilities</var> be the result of <a>getting a property</a>
-named "<code>firstMatch</code>" from <var>capabilities request</var>.
+ <li><p>Let <var>required capabilities</var> be the result of <a>getting a property</a>
+  named "<code>alwaysMatch</code>" from <var>capabilities request</var>.
 
   <ol>
-  <li><p>If <var>desired capabilities</var> is <a>undefined</a>,
-  set the value to a JSON <a>List</a> with a single entry of an empty JSON <a>Object</a>.
+   <li><p>If <var>required capabilities</var> is <a>undefined</a>,
+    set the value to an empty JSON <a>Object</a>.
 
-  <li><p>If <var>desired capabilities</var> is not a JSON <a>List</a>,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+   <li><p>If <var>required capabilities</var> is not a JSON <a>Object</a>,
+    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
   </ol>
 
-<li><p>Let <var>matched capabilities</var> be <code>null</code>.
+ <li><p>Let <var>desired capabilities</var> be the result of <a>getting a property</a>
+  named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
-<li><p>For each <var>current desired capabilities</var> corresponding
- to an indexed property in <var>desired capabilities</var>
- until <var>matched capabilities</var> is no longer <code>null</code>
- or there are no longer any entries to process:
+  <ol>
+   <li><p>If <var>desired capabilities</var> is <a>undefined</a>,
+    set the value to a JSON <a>List</a> with a single entry of an empty JSON <a>Object</a>.
+
+   <li><p>If <var>desired capabilities</var> is not a JSON <a>List</a>,
+   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  </ol>
+
+ <li><p>Let <var>matched capabilities</var> be <code>null</code>.
+
+ <li><p>For each <var>current desired capabilities</var> corresponding
+  to an indexed property in <var>desired capabilities</var>
+  until <var>matched capabilities</var> is no longer <code>null</code>
+  or there are no longer any entries to process:
 
   <ol>
    <li><p>If <var>current desired capabilities</var> is not a
@@ -2055,59 +2055,57 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
     return the <var>merged capabilities</var> error.
 
    <li><p>Set <var>matched capabilities</var> to the result of
-    <a>matching capabilities</a> with <var>merged capabilities</var>
-  as an argument.
-
+    <a>matching capabilities</a> with <var>merged capabilities</var> as an argument.
   </ol>
 
-<li><p>Return <var>matched capabilities</var>.
+ <li><p>Return <var>matched capabilities</var>.
 </ol>
 
 <p>When <dfn>merging capabilities</dfn> with JSON <a>Object</a> arguments
-  <var>primary</var> and <var>secondary</var>, an <a>endpoint node</a>
-  must take the following steps:
+ <var>primary</var> and <var>secondary</var>,
+ an <a>endpoint node</a> must take the following steps:
 
 <ol>
- <li><p>Let <var>result</var> be a JSON <a>Object</a> with the same
-  entries as <var>primary</var>.
+ <li><p>Let <var>result</var> be a JSON <a>Object</a>
+  with the same entries as <var>primary</var>.
 
-  <li><p>If <var>secondary</var> is <a>undefined</a>,
-   return <var>result</var>.
+ <li><p>If <var>secondary</var> is <a>undefined</a>, return <var>result</var>.
 
-  <li><p>For each <var>entry</var> corresponding to an indexed
-   property in <var>secondary</var>, if the name of <var>entry</var>
-   is also the name of an entry in <var>result</var>,
-   return <a>error</a> with <a>error code</a> <a>invalid
-   argument</a>. Otherwise, add <var>entry</var> to <var>result</var>.
+ <li><p>For each <var>entry</var> corresponding
+  to an indexed property in <var>secondary</var>,
+  if the name of <var>entry</var> is also the name of an entry in <var>result</var>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-  <li><p>Return <var>result</var>.
+  <p>Otherwise, add <var>entry</var> to <var>result</var>.
+
+ <li><p>Return <var>result</var>.
 </ol>
 
-<p>When <dfn>matching capabilities</dfn> with JSON <a>Object</a> argument
-  <var>capabilities</var>, an <a>endpoint node</a> must take the following
-  steps:
+<p>When <dfn>matching capabilities</dfn>
+ with JSON <a>Object</a> argument <var>capabilities</var>,
+ an <a>endpoint node</a> must take the following steps:
 
 <ol>
  <li><p>Let <var>matched capabilities</var> be a JSON <a>Object</a>
   with the following entries:
 
   <dl>
-  <dt>"<code>browserName</code>"
-  <dd>Lowercase name of the user agent.
+   <dt>"<code>browserName</code>"
+   <dd>Lowercase name of the user agent.
 
-  <dt>"<code>browserVersion</code>"
-  <dd>The user agent version, as a string.
+   <dt>"<code>browserVersion</code>"
+   <dd>The user agent version, as a string.
 
-  <dt>"<code>platformName</code>"
-  <dd>Lowercase name of the current platform.
+   <dt>"<code>platformName</code>"
+   <dd>Lowercase name of the current platform.
 
-  <dt>"<code>platformVersion</code>"
-  <dd>The platform version, as a string.
+   <dt>"<code>platformVersion</code>"
+   <dd>The platform version, as a string.
 
-  <dt>"<code>acceptInsecureCerts</code>"
-  <dd>Boolean initially set to false,
-   indicating the session will not implicitly trust untrusted
-   or self-signed TLS certificates on <a data-lt=go>navigation</a>.
+   <dt>"<code>acceptInsecureCerts</code>"
+   <dd>Boolean initially set to false,
+    indicating the session will not implicitly trust untrusted
+    or self-signed TLS certificates on <a data-lt=go>navigation</a>.
   </dl>
 
  <li><p>For each <var>capability name</var> corresponding to a
@@ -2120,116 +2118,104 @@ named "<code>firstMatch</code>" from <var>capabilities request</var>.
    <li><p>Run the substeps of the first matching <var>capability name</var>:
 
     <dl class=switch>
-      <dt>"<code>browserName</code>"
-      <dd>
-        <p>If <var>capability value</var> is <a>null</a>, <a>undefined</a>,
-        or equal to the string "<code>*</code>", it is considered
-        a match for the entry in <var>matched capabilities</var>.
+     <dt>"<code>browserName</code>"
+     <dd><p>If <var>capability value</var> is
+      <a>null</a>, <a>undefined</a>, or equal to the string "<code>*</code>",
+      it is considered a match for the entry in <var>matched capabilities</var>.
 
-        <p>Otherwise, if <var>capability value</var> is not a string equal to
-        the "<code>browserName</code>" entry in <var>matched capabilities</var>,
-        return null.
+      <p>Otherwise, if <var>capability value</var> is not a string equal
+       to the "<code>browserName</code>" entry in <var>matched capabilities</var>,
+       return null.
 
-      <dt>"<code>browserVersion</code>"
-      <dd>
-        <p>If <var>capability value</var> is <a>null</a>, <a>undefined</a>,
-        or equal to the string "<code>*</code>", it is to be considered
-        a match for the entry in <var>matched capabilities</var>.
+     <dt>"<code>browserVersion</code>"
+     <dd><p>If <var>capability value</var> is
+      <a>null</a>, <a>undefined</a>, or equal to the string "<code>*</code>",
+      it is to be considered a match for the entry in <var>matched capabilities</var>.
+ 
+      <p>Otherwise, compare <var>capability value</var>
+       to the "<code>browserVersion</code>" entry in <var>matched capabilities</var>
+       using an implementation-defined comparison algorithm.
+       The comparison is to accept a <var>capability value</var>
+       that places constraints on the version using
+       the "<code>&lt;</code>", "<code>&lt;=</code>", "<code>&gt;</code>", and "<code>&gt;=</code>" operators.
 
-        <p>Otherwise, compare <var>capability value</var> to the
-        "<code>browserVersion</code>" entry in <var>matched capabilities</var>
-        using an implementation-defined comparison algorithm. The comparison
-        is to accept a <var>capability value</var> that places
-        constraints on the version using the "<code>&lt;</code>",
-        "<code>&lt;=</code>", "<code>&gt;</code>", and "<code>&gt;=</code>"
-        operators.
+      <p>If the two values do not match, return null.
 
-        <p>If the two values do not match, return null.
+      <p class=note>Version comparison is left as an implementation detail
+       since each user agent will likely have conflicting methods
+       of encoding the user agent version,
+       and standardizing these schemes is beyond the scope of this standard.
 
-        <p class=note>Version comparison is left as an implementation detail
-        since each user agent will likely have conflicting methods of encoding
-        the user agent version and standardizing these schemes is beyond the
-        scope of this specification.
+     <dt>"<code>platformName</code>"
+     <dd><p>If <var>capability value</var> is
+      <a>null</a>, <a>undefined</a>, or equal to the string "<code>*</code>",
+      it is considered a match for the entry in <var>matched capabilities</var>.
 
-      <dt>"<code>platformName</code>"
-      <dd>
-        <p>If <var>capability value</var> is <a>null</a>, <a>undefined</a>,
-        or equal to the string "<code>*</code>", it is considered
-        a match for the entry in <var>matched capabilities</var>.
+      <p>Otherwise, if <var>capability value</var> is not a string equal
+       to the "<code>platformName</code>" entry in <var>matched capabilities</var>,
+       return null.
 
-        <p>Otherwise, if <var>capability value</var> is not a string equal to
-        the "<code>platformName</code>" entry in
-        <var>matched capabilities</var>, return null.
+     <dt>"<code>platformVersion</code>"
+     <dd><p>If <var>capability value</var> is
+      <a>null</a>, <a>undefined</a>, or equal to the string "<code>*</code>",
+      it is considered a match for the entry in <var>matched capabilities</var>.
 
-      <dt>"<code>platformVersion</code>"
-      <dd>
-        <p>If <var>capability value</var> is <a>null</a>, <a>undefined</a>,
-        or equal to the string "<code>*</code>", it is considered
-        a match for the entry in <var>matched capabilities</var>.
+      <p>Otherwise, if <var>capability value</var> is not a string equal
+       to the "<code>platformVersion</code>" entry in <var>matched capabilities</var>,
+       return null.
 
-        <p>Otherwise, if <var>capability value</var> is not a string equal to
-        the "<code>platformVersion</code>" entry in
-        <var>matched capabilities</var>, return null.
+     <dt>"<code>acceptInsecureCerts</code>"
+     <dd><p>If <var>capability value</var> is not a boolean,
+      return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-      <dt>"<code>acceptInsecureCerts</code>"
-      <dd><p>If <var>capability value</var> is not a boolean,
-       return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+      <p>If <var>capability value</var> is <code>true</code>
+       and the <a>endpoint node</a> does not support <a>insecure TLS certificates</a>,
+       return null.
 
-       <p>If <var>capability value</var> is <code>true</code>
-        and the <a>endpoint node</a> does not support <a>insecure TLS certificates</a>,
-        return null.
+      <p>Otherwise, set the "<code>acceptInsecureCerts</code>" entry
+       in <var>matched capabilities</var> to <var>capability value</var>.
 
-       <p>Otherwise, set the "<code>acceptInsecureCerts</code>" entry in
-        <var>matched capabilities</var> to <var>capability value</var>.
+     <dt>"<code>pageLoadStrategy</code>"
+     <dd><p>If <var>capability value</var> is not a string,
+      return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-      <dt>"<code>pageLoadStrategy</code>"
-      <dd>
-        <p>If <var>capability value</var> is not a string,
-        return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+      <p>Otherwise, set the "<code>pageLoadStrategy</code>" entry
+       in <var>matched capabilities</var> to <var>capability value</var>.
 
-        <p>Otherwise, set the "<code>pageLoadStrategy</code>" entry in
-        <var>matched capabilities</var> to <var>capability value</var>.
+     <dt>"<code>proxy</code>"
+     <dd><p>If <var>capability value</var> is not a <a>proxy configuration</a>,
+      return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-      <dt>"<code>proxy</code>"
-      <dd>
-        <p>If <var>capability value</var> is not a <a>proxy configuration</a>,
-        return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+      <p>If the <a>endpoint node</a> does not support
+       the proxy configuration defined in <var>capability value</var>, return null.
 
-        <p>If the <a>endpoint node</a> does not support the proxy configuration
-        defined in <var>capability value</var>, return null.
+      <p>Otherwise, set the "<code>proxy</code>" entry
+       in <var>matched capabilities</var> to <var>capability value</var>.
 
-        <p>Otherwise, set the "<code>proxy</code>" entry in
-        <var>matched capabilities</var> to <var>capability value</var>.
+     <dt>"<code>timeouts</code>"
+     <dd><p>If <var>capability value</var>
+      is not a <a>session timeouts configuration</a> object,
+      return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-      <dt>"<code>timeouts</code>"
-      <dd>
-        <p>If <var>capability value</var> is not a
-        <a>session timeouts configuration</a> object,
-        return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+      <p>Otherwise, set the "<code>timeouts</code>" entry
+       in <var>matched capabilities</var> to <var>capability value</var>.
 
-        <p>Otherwise, set the "<code>timeouts</code>" entry in
-        <var>matched capabilities</var> to <var>capability value</var>.
+     <dt><strong>Otherwise</strong>
+     <dd><p>If <var>capability name</var> is not recognized
+      by the <a>endpoint node</a>, return null.
 
-      <dt><strong>Otherwise</strong>
-      <dd>
-        <p>If <var>capability name</var> is not recognized by the <a>endpoint node</a>,
-        return null.
+      <p>Let <var>processed value</var> be the result of implementation-specific steps
+       to match on <var>capability name</var> with <var>capability value</var>.
 
-        <p>Let <var>processed value</var> be the result of implementation
-        specific steps to match on <var>capability name</var> with
-        <var>capability value</var>.
+      <p>If <var>processed value</var> is an error, return <var>processed value</var>.
 
-        <p>If <var>processed value</var> is an error,
-        return <var>processed value</var>.
-
-        <p>Otherwise, create a new entry in <var>matched capabilities</var> with
-        name <var>capability name</var> and value <var>processed value</var>.
+      <p>Otherwise, create a new entry in <var>matched capabilities</var>
+       with name <var>capability name</var> and value <var>processed value</var>.
     </dl>
-  </ol>
+</ol>
 
 <li><p>Return <var>matched capabilities</var>.
 </ol>
-
 </section> <!-- /Processing Capabilities -->
 </section> <!-- /Capabilities -->
 
