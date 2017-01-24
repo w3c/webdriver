@@ -484,7 +484,8 @@ var respecConfig = {
   </ul>
 
  <dt>SOCKS Proxy and related specification:
- <dd><p>To be <dfn>SOCKS Proxy</dfn> and <dfn>SOCKS authentication</dfn> compliant,
+ <dd><p>To be <dfn>SOCKS Proxy</dfn>
+  and <dfn data-lt=authenticating>SOCKS authentication</dfn> compliant,
   it is supposed that the implementation supports the relevant subsets of
   [[!RFC1928]] and [[!RFC1929]].
 
@@ -1819,133 +1820,146 @@ with a "<code>moz:</code>" prefix:
  but they must not alter the semantics of those listed below.
 
 <table class=simple>
-<thead>
-<tr>
-<th>Key
-<th>Value Type
-<th>Description
-<th>Valid values
-</tr>
-</thead>
+ <thead>
+  <tr>
+   <th>Key
+   <th>Value Type
+   <th>Description
+   <th>Valid values
+ </tr>
+ </thead>
 
-<tbody>
-<tr>
-<td><dfn>"<code>proxyType</code>"</dfn>
-<td>string
-<td>Indicates the type of proxy configuration.
-<td>"<code>pac</code>", "<code>noproxy</code>",
-"<code>autodetect</code>", "<code>system</code>", or "<code>manual</code>".
-</tr>
-
-<tr>
-<td>"<code>proxyAutoconfigUrl</code>"
-<td>string
-<td>Defines the URL for a proxy auto-config file if <a>"<code>proxyType</code>"</a>
-  is equal to "<code>pac</code>". [URL]
-<td>
+ <tr>
+  <td><dfn>"<code>proxyType</code>"</dfn>
+  <td>string
+  <td>Indicates the type of proxy configuration.
+  <td>"<code>pac</code>",
+   "<code>noproxy</code>",
+   "<code>autodetect</code>",
+   "<code>system</code>",
+   or "<code>manual</code>".
 </tr>
 
-<tr>
-<td>"<code>ftpProxy</code>"
-<td>string
-<td>Defines the proxy <a>host</a> for FTP traffic when the <a>"<code>proxyType</code>"</a> is
-  equal to "<code>manual</code>".
-<td>
-</tr>
+ <tr>
+  <td>"<code>proxyAutoconfigUrl</code>"
+  <td>string
+  <td>Defines the URL for a proxy auto-config file
+   if <a><code>proxyType</code></a>
+   is equal to "<code>pac</code>". [URL]
+  <td>
+ </tr>
 
-<tr>
-<td>"<code>ftpProxyPort</code>"
-<td>number
-<td>Defines the proxy <a>port</a> for FTP traffic when the <a>"<code>proxyType</code>"</a> is
-  equal to "<code>manual</code>".
-<td>
-</tr>
-
-<tr>
-<td>"<code>httpProxy</code>"
-<td>string
-<td>Defines the proxy <a>host</a> for HTTP traffic. If a <a>URL</a>
-  is passed through this property, set "<code>httpProxy</code>" to the <a>host</a>
-  and "<code>httpProxyPort</code>" to the <a>port</a> when the <a>"<code>proxyType</code>"</a>
+ <tr>
+  <td>"<code>ftpProxy</code>"
+  <td>string
+  <td>Defines the proxy <a>host</a> for FTP traffic
+   when the <a><code>proxyType</code></a>
    is equal to "<code>manual</code>".
-<td>
-</tr>
+  <td>
+ </tr>
 
-<tr>
-<td>"<code>httpProxyPort</code>"
-<td>number
-<td>Defines the proxy <a>port</a> for HTTP traffic when the "<code>proxyType</code>" is
-equal to "<code>manual</code>". If "<code>httpProxyPort</code>"
-  is defined in "<code>httpProxy</code>" and from this property, return <a>error</a>
-  with <a>error code</a> <a>invalid argument</a>.
-<td>
-</tr>
+ <tr>
+  <td>"<code>ftpProxyPort</code>"
+  <td>number
+  <td>Defines the proxy <a>port</a> for FTP traffic
+   when the <a><code>proxyType</code></a>
+   is equal to "<code>manual</code>".
+  <td>
+ </tr>
 
-<tr>
-<td>"<code>sslProxy</code>"
-<td>string
-<td>Defines the proxy <a>host</a> for encrypted TLS traffic when the "<code>proxyType</code>" is
-equal to "<code>manual</code>". If a <a>URL</a> is passed through this property,
-set "<code>sslProxy</code>" to the <a>host</a> and "<code>sslProxyPort</code>" to the <a>port</a>.
-<td>
-</tr>
+ <tr>
+  <td>"<code>httpProxy</code>"
+  <td>string
+  <td>Defines the proxy <a>host</a> for HTTP traffic.
+   If a <a>URL</a> is passed through this property,
+   set <a><code>httpProxy</code></a> to the <a>host</a>
+   and <a><code>httpProxyPort</code></a> to the <a>port</a>
+   when the <a><code>proxyType</code></a>
+   is equal to "<code>manual</code>".
+  <td>
+ </tr>
 
-<tr>
-<td>"<code>sslProxyPort</code>"
-<td>number
-<td>Defines the proxy <a>port</a> for ssl traffic when the "<code>proxyType</code>" is
-equal to "<code>manual</code>". If "<code>sslProxyPort</code>" is defined in "<code>sslProxy</code>"
- and from this property, return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-<td>
-</tr>
+ <tr>
+  <td>"<code>httpProxyPort</code>"
+  <td>number
+  <td>Defines the proxy <a>port</a> for HTTP traffic
+   when the <a><code>proxyType</code></a> is "<code>manual</code>".
+   If <a><code>httpProxyPort</code></a> is defined in <a><code>httpProxy</code></a>
+   and from this property,
+   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  <td>
+ </tr>
 
-<tr>
-<td>"<code>socksProxy</code>"
-<td>string
-<td>Defines the proxy <a>host</a> for a <a>SOCKS proxy</a> when the "<code>proxyType</code>" is
-equal to "<code>manual</code>".
-If a <a>URL</a> is passed through this property,
-set "<code>socksProxy</code>" to the <a>host</a> and "<code>socksProxyPort</code>" to the <a>port</a>.
-<td>
-</tr>
+ <tr>
+  <td>"<code>sslProxy</code>"
+  <td>string
+  <td>Defines the proxy <a>host</a> for encrypted TLS traffic
+   when the <a><code>proxyType</code></a> is "<code>manual</code>".
+   If a <a>URL</a> is passed through this property,
+   set <a><code>sslProxy</code></a> to the <a>host</a>
+   and <a><code>sslProxyPort</code></a> to the <a>port</a>.
+  <td>
+ </tr>
 
-<tr>
-<td>"<code>socksProxyPort</code>"
-<td>number
-<td>Defines the proxy <a>port</a> for a <a>SOCKS proxy</a> when the "<code>proxyType</code>" is
-equal to "<code>manual</code>".
-If "<code>socksProxyPort</code>" is defined in "<code>socksProxyPort</code>"
- and from this property, return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-<td>
-</tr>
+ <tr>
+  <td>"<code>sslProxyPort</code>"
+  <td>number
+  <td>Defines the proxy <a>port</a> for SSL traffic
+   when the <a><code>proxyType</code></a> is "<code>manual</code>".
+   If <a><code>sslProxyPort</code></a> is defined in <a><code>sslProxy</code></a>
+   and from this property,
+   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  <td>
+ </tr>
 
-<tr>
-<td>"<code>socksVersion</code>"
-<td>number
-<td>Defines the <a>SOCKS proxy</a> version when the "<code>proxyType</code>" is
+ <tr>
+  <td>"<code>socksProxy</code>"
+  <td>string
+  <td>Defines the proxy <a>host</a> for a <a>SOCKS proxy</a>
+   when the <a><code>proxyType</code></a> is "<code>manual</code>".
+   If a <a>URL</a> is passed through this property,
+   set <a><code>socksProxy</code></a> to the <a>host</a>
+   and <a><code>socksProxyPort</code></a> to the <a>port</a>.
+  <td>
+ </tr>
+
+ <tr>
+  <td>"<code>socksProxyPort</code>"
+  <td>number
+  <td>Defines the proxy <a>port</a> for a <a>SOCKS proxy</a>
+   when the <a><code>proxyType</code></a> is "<code>manual</code>".
+   If <a><code>socksProxyPort</code></a> is defined in <a><code>socksProxyPort</code></a>
+   and from this property,
+   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  <td>
+ </tr>
+
+ <tr>
+  <td>"<code>socksVersion</code>"
+  <td>number
+  <td>Defines the <a>SOCKS proxy</a> version
+   when the <a><code>proxyType</code></a> is "<code>manual</code>".
+  <td>
+  </tr>
+
+ <tr>
+  <td>"<code>socksUsername</code>"
+  <td>string
+  <td>Defines the username used when <a data-lt="S authentication">authenticating</a> with a <a>SOCKS proxy</a> when the "<code>proxyType</code>" is
   equal to "<code>manual</code>".
 <td>
 </tr>
 
-<tr>
-<td>"<code>socksUsername</code>"
-<td>string
-<td>Defines the username used when <a data-lt='socks authentication'>authenticating</a> with a <a>SOCKS proxy</a> when the "<code>proxyType</code>" is
-  equal to "<code>manual</code>".
-<td>
-</tr>
-
-<tr>
-<td>"<code>socksPassword</code>"
-<td>string
-<td>Defines the password used when <a data-lt='socks authentication'>authenticating</a> with a <a>SOCKS proxy</a>, when the "<code>proxyType</code>" is
-  equal to "<code>manual</code>", and is not returned with <a>capabilities</a> to the <a>local end</a>.
-<td>
-</tr>
-
-</tbody>
+ <tr>
+  <td>"<code>socksPassword</code>"
+  <td>string
+  <td>Defines the password used when <a>authenticating</a> with a <a>SOCKS proxy</a>,
+   when the <a><code>proxyType</code></a> is "<code>manual</code>",
+   and is not returned with <a>capabilities</a> to the <a>local end</a>.
+  <td>
+ </tr>
 </table>
-</section><!-- /Proxy configuration -->
+</section> <!-- /Proxy -->
 
 <section>
 <h3>Timeouts</h3>
