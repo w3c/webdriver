@@ -2002,8 +2002,9 @@ with a "<code>moz:</code>" prefix:
 <section>
 <h3>Processing Capabilities</h3>
 
-<p>When <dfn>processing capabilities</dfn> with argument <var>parameters</var>,
-  the <a>endpoint node</a> must take the following steps:
+<p>To <dfn data-lt="capabilities processing">process capabilities</dfn>
+ with argument <var>parameters</var>,
+ the <a>endpoint node</a> must take the following steps:
 
 <ol>
  <li><p>Let <var>capabilities request</var> be the result of <a>getting a property</a>
@@ -2012,7 +2013,7 @@ with a "<code>moz:</code>" prefix:
   <ol>
    <li><p>If <var>capabilities request</var> is not a JSON object,
     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
- </ol>
+  </ol>
 
  <li><p>Let <var>required capabilities</var> be the result of <a>getting a property</a>
   named "<code>alwaysMatch</code>" from <var>capabilities request</var>.
@@ -2356,7 +2357,7 @@ with a "<code>moz:</code>" prefix:
  a <a>session not created</a> <a>error</a> is returned.
 
 <p>If the <a>remote end</a> is an <a>intermediary node</a>,
- it MAY use the result of the <a>processing capabilities</a> algorithm
+ it MAY use the result of the <a>capabilities processing</a> algorithm
  to route the <a>new session</a> request to the appropriate <a>endpoint node</a>.
  An <a>intermediary node</a> MAY also define custom <a>capabilities</a>
  to assist in this process, however, these capabilities MUST NOT be
@@ -2401,8 +2402,9 @@ with a "<code>moz:</code>" prefix:
  <li><p>If there is a <a>current user prompt</a>,
   return <a>error</a> with <a>error code</a> <a>session not created</a>.
 
- <li><p>Let <var>capabilities result</var> be the result of
-  <a>processing capabilities</a> with <var>parameters</var> as an argument.
+ <li><p>Let <var>capabilities</var> be the result
+  of <a>trying</a> to <a>process capabilities</a>
+  with <var>parameters</var> as an argument.
 
  <li><p>If <var>capabilities result</var> is an <a>error</a>,
   return <a>error</a> with <a>error code</a> <a>session not created</a> and
@@ -2474,7 +2476,7 @@ with a "<code>moz:</code>" prefix:
     </ol>
 
    <li><p>Apply changes to the user agent for any implementation-defined capabilities
-    selected during the <a>processing capabilities</a> step.
+    selected during the <a>capabilities processing</a> step.
   </ol>
 
  <li><p>Set the <a>webdriver-active flag</a> to true.</p>
