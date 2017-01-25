@@ -3875,7 +3875,7 @@ with a "<code>moz:</code>" prefix:
  <a>pointer-interactable</a> or <a>keyboard-interactable</a>.
 
 <p>A <dfn data-lt="pointer-interactable">pointer-interactable element</dfn>
- is defined to be the first non-transparent <a>element</a>,
+ is defined to be the first <a>non-transparent</a> <a>element</a>,
  defined by the <a>paint order</a> found at the <a>center point</a>
  of its rectangle that is inside the <a>viewport</a>,
  excluding the size of any rendered scrollbars.
@@ -3925,6 +3925,10 @@ with a "<code>moz:</code>" prefix:
  <li><p>Return <var>x</var> and <var>y</var> as a pair.
 </ol>
 
+<p>An <a>element</a> is considered <dfn data-lt="non-transparent">transparent</dfn>
+ if its <code>opacity</code> style property
+ has the <a>computed value</a> of "1".
+
 <p>An <a>element</a> is <dfn>in view</dfn>
  if it is a member of its own <a>pointer-interactable paint tree</a>.
 
@@ -3962,10 +3966,8 @@ with a "<code>moz:</code>" prefix:
 
 <p>To <dfn data-lt="first pointer-interactable element">get the first pointer-interactable element</dfn>
  given a <a>pointer-interactable paint tree</a>,
- return with <a>success</a> the first <a>element</a>
- which style property <code>opacity</code>
- has the <a>computed value</a> of "1";
- otherwise return an <a>error</a>.
+ return with <a>success</a> the first <a>transparent</a> <a>element</a>.
+ Otherwise, if there are no such elements, return an <a>error</a>.
 </section> <!-- /Element Interactability -->
 
 <section>
