@@ -149,7 +149,7 @@ var respecConfig = {
   <ul>
    <!-- innerHTML IDL Attribute--> <li><dfn><a href=https://w3c.github.io/DOM-Parsing/#dom-element-innerhtml><code>innerHTML</code> IDL attribute</a></dfn>
    <!-- outerHTML IDL Attribute--> <li><dfn><a href=https://w3c.github.io/DOM-Parsing/#dom-element-outerhtml><code>outerHTML</code> IDL attribute</a></dfn>
-   <!-- serializeToString --> <li><dfn data-lt="serialising to string"><a href=https://w3c.github.io/DOM-Parsing/#dom-xmlserializer-serializetostring><code>serializeToString</code></a></dfn>
+   <!-- serializeToString --> <li><dfn data-lt="serializing to string"><a href=https://w3c.github.io/DOM-Parsing/#dom-xmlserializer-serializetostring><code>serializeToString</code></a></dfn>
   </ul>
 
  <dd><p>The following attributes are defined
@@ -255,7 +255,7 @@ var respecConfig = {
    <!-- A browsing context is discarded --> <li><dfn data-lt=discarded><a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>A browsing context is discarded</a></dfn>
    <!-- Active document --> <li><dfn><a href=https://html.spec.whatwg.org/#active-document>Active document</a></dfn>
    <!-- Active element --> <li><dfn>Active element</dfn> being the <a href=https://html.spec.whatwg.org/#dom-document-activeelement><code>activeElement</code></a> attribute on <a href=https://html.spec.whatwg.org/#document><code>Document</code></a>
-   <!-- A serialization of the bitmap as a file --> <li><dfn data-lt="a serialisation of the canvas element’s bitmap as a file"><a href=https://html.spec.whatwg.org/#a-serialisation-of-the-bitmap-as-a-file>A serialisation of the bitmap as a file</a></dfn>
+   <!-- A serialization of the bitmap as a file --> <li><dfn data-lt="a serialization of the canvas element’s bitmap as a file"><a href=https://html.spec.whatwg.org/#a-serialisation-of-the-bitmap-as-a-file>A serialization of the bitmap as a file</a></dfn>
    <!-- Associated window --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-document-window>Associated window</a></dfn>
    <!-- Body element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-body-element><code>body</code> element</a></dfn>
    <!-- Boolean attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#boolean-attribute>Boolean attribute</a></dfn>
@@ -5438,8 +5438,9 @@ must run the following steps:
  </tr>
 </table>
 
-<p>The <dfn>Get Page Source</dfn> <a>command</a> returns a string serialisation of the DOM
-  of the <a>current browsing context</a> <a>active document</a>.
+<p>The <dfn>Get Page Source</dfn> <a>command</a>
+ returns a string serialization of the DOM
+ of the <a>current browsing context</a> <a>active document</a>.
 
 <p>The <a>remote end steps</a> are:
 
@@ -5450,12 +5451,12 @@ must run the following steps:
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>source</var> be the result returned from the
-   <a><code>outerHTML</code> IDL Attribute</a> of the <a>document element</a> of
-   the <a>current browsing context</a> <a>active document</a>.
+  <a><code>outerHTML</code> IDL Attribute</a> of the <a>document element</a> of
+  the <a>current browsing context</a> <a>active document</a>.
 
- <li><p>If <var>source</var> is <a>null</a>:
-   <p>Let <var>source</var> be the result of <a>serialising to string</a>
-     the the <a>current browsing context</a> <a>active document</a>.
+ <li><p>Let <var>source</var> be the result of <a>serializing to string</a>
+  the <a>current browsing context</a> <a>active document</a>,
+  if <var>source</var> is <a>null</a>.
 
  <li><p>Return <a>success</a> with data <var>source</var>.
 </ol>
@@ -8439,7 +8440,7 @@ must run the following steps:
   then return <a>error</a> with <a>error code</a> <a>unable to capture screen</a>.
 
  <li><p>Let <var>file</var> be
-  <a>a serialisation of the <code>canvas</code> element’s bitmap as a file</a>,
+  <a>a serialization of the <code>canvas</code> element’s bitmap as a file</a>,
   using "<code>image/png</code>" as an argument.
 
  <li><p>Let <var>data url</var> be a <a><code>data:</code> URL</a>
