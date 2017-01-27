@@ -3759,11 +3759,15 @@ with a "<code>moz:</code>" prefix:
  the list of <a>known elements</a> is discarded along with it.
 
 <p>To <dfn>get a known element</dfn>
- by a <a>UUID</a> <var>reference</var>,
- return <a>success</a> with the <a>known element</a>
+ with argument <var>reference</var>,
+ let <var>element</var> be the <a>known element</a>
  which <a>web element reference</a> matches <var>reference</var>.
  If there are none, return <a>error</a>
- with <a>error code</a> <a>no such element</a>.
+ with <a>error code</a> <a>no such element</a>. 
+ If <var>element</var> <a>is stale</a>, return
+ <a>error</a> with <a>error code</a>
+ <a>stale element reference</a>. Otherwise return
+ <a>success</a> with <var>element</var>.
 
 <p>To <dfn data-lt="create an element">create a web element reference</dfn>
  for an <a><var>element</var></a>:
