@@ -3744,14 +3744,19 @@ with a "<code>moz:</code>" prefix:
 <p>The <dfn>web element identifier</dfn> is a constant
  with the string "<code>element-6066-11e4-a52e-4f735466cecf</code>".
 
-<p>Each <a>element</a> has an associated <dfn>web element reference</dfn> (a <a>UUID</a>)
- that uniquely identifies the <a>element</a> across all <a>browsing contexts</a>.
- The <a>web element reference</a> for every <a>element</a>
- representing the same <a>element</a> is the same.
+<p>Each <a>element</a> has an associated <dfn>web element
+ reference</dfn> that uniquely identifies the <a>element</a> across
+ all <a>browsing contexts</a>.  The <a>web element reference</a> for
+ every <a>element</a> representing the same <a>element</a> is the
+ same. The <a>web element reference</a> should be a <a>UUID</a>.
 
 <p>An ECMAScript <a>Object</a> <dfn>represents a web element</dfn>
- if it has a <a>web element identifier</a> <a>own property</a>
- holding a <a>UUID</a> value.
+ if it has a <a>web element identifier</a> <a>own property</a>.
+
+<p>The process of <dfn>generating a web element reference</dfn> must
+ return a <a>web element reference</a> that is unique within
+ the <a>current session</a>. It should be created by <a>generating a
+ UUID</a>.
 
 <p>Each <a>browsing context</a> has an associated list of
  <dfn data-lt="known element">known elements</dfn>.
@@ -3781,7 +3786,8 @@ with a "<code>moz:</code>" prefix:
     return <a>success</a> with <var>known element</var>’s <a>web element reference</a>.
   </ol>
 
- <li><p>Let <var>new reference</var> be the result of <a>generating a UUID</a>.
+ <li><p>Let <var>new reference</var> be the result of <a>generating a
+  web element reference</a>.
 
  <li><p>Set <var>element</var>’s <a>web element reference</a>
   to <var>new reference</var>.
@@ -3811,7 +3817,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  by <a>UUID</a> <var>reference</var>.
+  with argument <var>reference</var>.
 
  <li><p>Return <a>success</a> with data <var>element</var>.
 </ol>
@@ -4335,7 +4341,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>Let <var>start node</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  by <a>UUID</a> reference <var>element id</var>.
+  with argument <var>element id</var>.
 
  <li><p>Let <var>location strategy</var> be the result
   of <a>getting a property</a> called "<code>using</code>".
@@ -4386,7 +4392,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>Let <var>start node</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  by <a>UUID</a> reference <var>element id</var>.
+  with argument <var>element id</var>.
 
  <li><p>Let <var>location strategy</var> be the result
   of <a>getting a property</a> called "<code>using</code>".
@@ -4495,7 +4501,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  by <a>UUID</a> reference <var>element id</var>.
+  with argument <var>element id</var>.
 
  <li><p>If <var>element</var> <a>is stale</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
@@ -4548,7 +4554,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  by <a>UUID</a> reference <var>element id</var>.
+  with argument <var>element id</var>.
 
  <li><p>If <var>element</var> <a>is stale</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
@@ -4608,7 +4614,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  by <a>UUID</a> reference <var>element id</var>.
+  with argument <var>element id</var>.
 
  <li><p>If <var>element</var> <a>is stale</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
@@ -4652,7 +4658,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  by <a>UUID</a> parameter <var>element id</var>.
+  with argument <var>element id</var>.
 
  <li><p>If <var>element</var> <a>is stale</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
@@ -4709,8 +4715,8 @@ with a "<code>moz:</code>" prefix:
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known element</a> by
-  <a>UUID</a> parameter <var>element id</var>.
+  of <a>trying</a> to <a>get a known element</a>
+  with argument <var>element id</var>.
 
  <li><p>If <var>element</var> <a>is stale</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
@@ -4750,7 +4756,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  by <a>UUID</a> reference parameter <var>element id</var>.
+  with argument <var>element id</var>.
 
  <li><p>If <var>element</var> <a>is stale</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
@@ -4810,7 +4816,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  by <a>UUID</a> reference parameter <var>element id</var>.
+  with argument <var>element id</var>.
 
  <li><p>If the <var>element</var> <a>is stale</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
@@ -4870,7 +4876,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  by <a>UUID</a> reference <var>element id</var>.
+  with argument <var>element id</var>.
 
  <li><p>If <var>element</var> <a>is stale</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
@@ -4930,7 +4936,7 @@ with a "<code>moz:</code>" prefix:
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>element</var> be the result of <a>trying</a>
-  to <a>get a known element</a> by <a>UUID</a> reference <var>element id</var>.
+  to <a>get a known element</a> by reference <var>element id</var>.
 
  <li><p>If the <var>element</var> is
   an <a><code>input</code> element</a> in the <a>file upload state</a>
@@ -5015,7 +5021,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  by <a>UUID</a> reference <var>element id</var>.
+  with argument <var>element id</var>.
 
  <li><p>If <var>element</var> is not <a>editable</a> return
   an <a>error</a> with <a>error code</a> <a>invalid element state</a>.
@@ -5305,7 +5311,7 @@ must run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  by <a>UUID</a> reference <var>element id</var>.
+  with argument <var>element id</var>.
 
  <li><p>Wait in an implementation-specific way up to the <a>session
   implicit wait timeout</a> for <var>element</var> to
@@ -8465,8 +8471,8 @@ must run the following steps:
  <li><p>Let <var>scroll</var> be true if it is <a>undefined</a>.
 
  <li><p>Let <var>element</var> be the result of
-  <a>trying</a> to <a>get a known element</a> by
-  <a>UUID</a> reference parameter <var>element id</var>.
+  <a>trying</a> to <a>get a known element</a> 
+  with argument <var>element id</var>.
 
  <li><p>Let <var>element rect</var> be <var>element</var>’s
   <a href=https://drafts.fxtf.org/geometry/#rectangle>rectangle</a>.
