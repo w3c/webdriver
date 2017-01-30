@@ -6321,13 +6321,14 @@ must run the following steps:
 <section>
 <h2>Terminology</h2>
 
-<p>An <dfn>input source</dfn> is a virtual device providing input events.
+<p>An <dfn data-lt="input sources">input source</dfn> is a
+ virtual device providing input events.
  Each input source has an associated <dfn>input id</dfn>,
  which is a string that identifies the particular device,
  and a <dfn>source type</dfn> which determines
  the kind of input the device can provide.
  As with real devices, virtual devices are stateful;
- this state is recorded in an <a>input state table</a>
+ this state is recorded in a <dfn>device state</dfn>
  associated with each device.
 
     <p>A <dfn>null input source</dfn> is an <a>input source</a> that
@@ -6458,8 +6459,6 @@ must run the following steps:
     source</a>s. For simplicity the algorithms described here only
     append actions to the list and rely on the fact that the reset
     operations are idempotent.
-
-    <p>Each <a>input source</a> has a corresponding <dfn>device state</dfn>:
 
     <p>A <a>null input source</a> has a corresponding <dfn>null input
     state</dfn> object. This is always an empty object.
@@ -7036,7 +7035,7 @@ must run the following steps:
             point in the spec for creating objects of the right type -->
 
             <li><p>If the <a>current session</a>'s <a>input
-                state</a> doesn't have a property corresponding
+                state table</a> doesn't have a property corresponding
                 to <var>source id</var>, then let the property
                 corresponding to <var>source id</var> be a new
                 object of the <a>corresponding input state type</a>
