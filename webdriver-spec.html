@@ -2311,7 +2311,7 @@ with a "<code>moz:</code>" prefix:
 
 <p>A <a>session</a> has an associated <a>user prompt handler</a>.
 
-<p>A <a>session</a> has an associated <a>input state</a>.
+<p>A <a>session</a> has an associated <a>input state table</a>.
 
 <p>A <a>session</a> has an associated <a>input cancel list</a>.
 
@@ -5380,7 +5380,7 @@ must run the following steps:
     arguments <var>text</var> and <var>keyboard</var>.
 
  <li><p>Remove <var>keyboard</var> from the <a>current
-  session</a>'s <a>input state</a>
+  session</a>'s <a>input state table</a>
 
  <li><p>Return <a>success</a> with data null.
 </ol>
@@ -6327,7 +6327,7 @@ must run the following steps:
  and a <dfn>source type</dfn> which determines
  the kind of input the device can provide.
  As with real devices, virtual devices are stateful;
- this state is recorded in an <a data-lt="input state">input device state</a> object
+ this state is recorded in an <a>input state table</a>
  associated with each device.
 
     <p>A <dfn>null input source</dfn> is an <a>input source</a> that
@@ -6447,9 +6447,9 @@ must run the following steps:
  and do not correspond to ECMAScript objects.
  For convenience the same terminology is used for their manipulation.
 
-<p>Each <a>session</a> has an associated <dfn>input state</dfn> table.
+<p>Each <a>session</a> has an associated <dfn>input state table</dfn>.
  This is a map between <a>input id</a>
- and the <a data-lt="input state">device state</a> for that <a>input source</a>,
+ and the <a>device state</a> for that <a>input source</a>,
  with one entry for each active <a>input source</a>.
 
     <p>Each <a>session</a> also has an associated <dfn>input cancel
@@ -6458,6 +6458,8 @@ must run the following steps:
     source</a>s. For simplicity the algorithms described here only
     append actions to the list and rely on the fact that the reset
     operations are idempotent.
+
+    <p>Each <a>input source</a> has a corresponding <dfn>device state</dfn>:
 
     <p>A <a>null input source</a> has a corresponding <dfn>null input
     state</dfn> object. This is always an empty object.
@@ -6620,7 +6622,7 @@ must run the following steps:
             parameters</a> with argument <var>parameters
             data</var>.</li>
 
-        <li><p>If the <a>current session</a>'s <a>input state</a>
+        <li><p>If the <a>current session</a>'s <a>input state table</a>
             already has an entry corresponding to <a>input
             id</a> <var>id</var> and that entry has a type different
             to the <a>corresponding input state type</a>
@@ -6796,7 +6798,7 @@ must run the following steps:
           or <code>"pointerCancel"</code> return an <a>error</a> with
           <a>error code</a> <a>invalid argument</a>.</li>
 
-      <li><p>If the <a>current session</a>'s <a>input state</a>
+      <li><p>If the <a>current session</a>'s <a>input state table</a>
           already has an entry corresponding to <a>input
           id</a> <var>id</var> and that entry has
           a <code>subtype</code> property with value different
@@ -7042,7 +7044,7 @@ must run the following steps:
 
             <li><p>Let <var>device state</var> be the <a>device state</a>
              corresponding to <var>source id</var>
-             in the <a>current session</a>’s <a>input state</a> object.
+             in the <a>current session</a>’s <a>input state table</a>.
 
             <li><p>Let <var>algorithm</var> be the value of the column
                 <i>dispatch action algorithm</i> from the following table
@@ -8004,7 +8006,7 @@ must run the following steps:
         <li><p>Let the <a>current session</a>'s <a>input cancel list</a> be
             an empty <a>List</a>.</li>
 
-        <li><p>Let the <a>current session</a>'s <a>input state</a> be
+        <li><p>Let the <a>current session</a>'s <a>input state table</a> be
             an empty map.</li>
 
         <li><p>Return <a>success</a> with data null.
