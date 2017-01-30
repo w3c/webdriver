@@ -4073,13 +4073,9 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>Let <var>result</var> be an empty JSON <a>List</a>.
 
- <li><p>For each <var>element</var> in <var>elements returned</var>:
-
-  <ul>
-   <li><p>Append to <var>result</var>
-    the <a data-lt="JSON Serialization of an element">JSON Serialization</a>
-    of the <var>element</var>.
-  </ul>
+ <li><p>For each <var>element</var> in <var>elements returned</var>,
+  append the <a data-lt="JSON serialization of an element">serialization</a>
+  of <var>element</var> to <var>result</var>.
 
  <li><p>Return <var>result</var>.
 </ol>
@@ -4229,9 +4225,17 @@ with a "<code>moz:</code>" prefix:
  the following steps need to be completed:
 
 <ol>
- <li><p>Return the result of calling <a><code>evaluate</code></a>,
-  with arguments <var>selector</var>, <a>context object</a>
-  equal to the <var>start node</var>.
+ <li><p>Let <var>result</var> be Return the result of
+  calling <a><code>evaluate</code></a>, with
+  arguments <var>selector</var>, <a>context object</a> equal to
+  the <var>start node</var>.
+
+ <li><p>If any item in <var>result</var> is not an <a>element</a>
+  return an <a>error</a> with <a>error code</a> <a>invalid
+  selector</a>.
+
+ <li><p>Return <var>result</var>.
+
 </ol>
 </section> <!-- /XPath -->
 </section> <!-- /Locator Strategies -->
