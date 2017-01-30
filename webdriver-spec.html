@@ -6233,12 +6233,12 @@ must run the following steps:
  which correspond to the change in state, if any,
  of each input device during each tick.
  For example, pressing a key
- is represented by an action chain
+ is represented by an action sequence
  consisting of a single key input device and two ticks,
  the first containing a <a>keyDown</a> action,
  and the second a <a>keyUp</a> action,
  whereas a pinch-zoom input is represented
- by an action chain consisting of a three ticks
+ by an action sequence consisting of a three ticks
  and two pointer input devices of type touch,
  each performing a sequence of actions <a>pointerDown</a>,
  followed by <a>pointerMove</a>, and then <a>pointerUp</a>.
@@ -6542,13 +6542,13 @@ must run the following steps:
     <h2>Processing Actions Requests</h2>
 
     <p>The algorithm for <a data-lt="extract an action
-    chain">extracting an action chain from a request</a> takes the
-    JSON <a>Object</a> representing an action chain, validates the input, and
-    returns a data structure that is the transpose of the input JSON,
-    such that the actions to be performed in a single tick are grouped
-    together.
+    sequence">extracting an action sequence from a request</a> takes
+    the JSON <a>Object</a> representing an action sequence, validates
+    the input, and returns a data structure that is the transpose of
+    the input JSON, such that the actions to be performed in a single
+    tick are grouped together.
 
-    <p>When required to <dfn>extract an action chain</dfn> with
+    <p>When required to <dfn>extract an action sequence</dfn> with
     argument <var>parameters</var>, a <a>remote end</a> must run the
     following steps:
 
@@ -7978,7 +7978,7 @@ must run the following steps:
               an <a>error</a>, return that <a>error</a>.</li>
 
           <li><p>Let <var>actions by tick</var> be the result
-          of <a>trying</a> to <a>extract an action chain</a> with
+          of <a>trying</a> to <a>extract an action sequence</a> with
           argument <var>parameters</var>.</li>
 
           <li><p><a>Dispatch actions</a> with argument <var>actions by
