@@ -3759,13 +3759,7 @@ with a "<code>moz:</code>" prefix:
  representing the same <a>element</a> is the same.
 
 <p>An ECMAScript <a>Object</a> <dfn>represents a web element</dfn>
- if it has a <a>web element identifier</a> <a>own property</a>
- holding a <a>UUID</a> as value.
-
-<p>The process of <dfn>generating a web element reference</dfn> must
- return a <a>web element reference</a> that is unique within
- the <a>current session</a>. It should be created by <a>generating a
- UUID</a>.
+ if it has a <a>web element identifier</a> <a>own property</a>.
 
 <p>Each <a>browsing context</a> has an associated list of
  <dfn data-lt="known element">known elements</dfn>.
@@ -3795,16 +3789,10 @@ with a "<code>moz:</code>" prefix:
     return <a>success</a> with <var>known element</var>’s <a>web element reference</a>.
   </ol>
 
- <li><p>Let <var>new reference</var> be the result of <a>generating a
-  web element reference</a>.
-
- <li><p>Set <var>element</var>’s <a>web element reference</a>
-  to <var>new reference</var>.
-
- <li><p>Append <var>element</var> to
+ <li><p>Add <var>element</var> to
   the <a>known elements</a> of the <a>current browsing context</a>.
 
- <li><p>Return <a>success</a> with data
+ <li><p>Return <a>success</a> with the
   <var>element</var>’s <a>web element reference</a>.
 </ol>
 
