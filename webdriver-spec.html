@@ -2308,8 +2308,8 @@ with a "<code>moz:</code>" prefix:
  but must be exactly one for a <a>remote end</a> that is an <a>endpoint node</a>.
 
 <p>A <a>session</a> has an associated <dfn>session ID</dfn>
- (a <a>UUID</a>) used to uniquely identify this session.  Unless
- stated otherwise it is null.
+ (a <a>UUID</a>) used to uniquely identify this session.
+ Unless stated otherwise it is null.
 
 <p>A <a>session</a> has an associated <dfn>current browsing context</dfn>,
  which is the <a>browsing context</a> against which <a>commands</a> will run.
@@ -2457,7 +2457,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>Let <var>capabilities</var> be <var>capabilities result</var>’s data.
 
- <li><p>Let <var>session id</var> be the result of <a>generating a UUID</a>.
+ <li><p>Let <var>session id</var> be a <a>UUID</a>.
 
  <li><p>Let <var>session</var> be a new <a>session</a>
   with the <a>session ID</a> of <var>session id</var>.
@@ -3403,7 +3403,7 @@ with a "<code>moz:</code>" prefix:
     <ol>
      <li><p>Let <var>element</var> be the result
       of <a>trying</a> to <a>get a known element</a>
-      by <a>UUID</a> reference <var>id</var>.
+      by <a>web element reference</a> <var>id</var>.
 
      <li><p>If <var>element</var> <a>is stale</a>,
       return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
@@ -3801,18 +3801,13 @@ with a "<code>moz:</code>" prefix:
  with the string "<code>element-6066-11e4-a52e-4f735466cecf</code>".
 
 <p>Each <a>element</a> has an associated <dfn>web element
- reference</dfn> that uniquely identifies the <a>element</a> across
- all <a>browsing contexts</a>.  The <a>web element reference</a> for
- every <a>element</a> representing the same <a>element</a> is the
- same. The <a>web element reference</a> should be a <a>UUID</a>.
+ reference</dfn>
+ that uniquely identifies the <a>element</a> across all <a>browsing contexts</a>.
+ The <a>web element reference</a> for every <a>element</a>
+ representing the same <a>element</a> is the same.
 
 <p>An ECMAScript <a>Object</a> <dfn>represents a web element</dfn>
  if it has a <a>web element identifier</a> <a>own property</a>.
-
-<p>The process of <dfn>generating a web element reference</dfn> must
- return a <a>web element reference</a> that is unique within
- the <a>current session</a>. It should be created by <a>generating a
- UUID</a>.
 
 <p>Each <a>browsing context</a> has an associated list of
  <dfn data-lt="known element">known elements</dfn>.
@@ -3842,16 +3837,10 @@ with a "<code>moz:</code>" prefix:
     return <a>success</a> with <var>known element</var>’s <a>web element reference</a>.
   </ol>
 
- <li><p>Let <var>new reference</var> be the result of <a>generating a
-  web element reference</a>.
-
- <li><p>Set <var>element</var>’s <a>web element reference</a>
-  to <var>new reference</var>.
-
- <li><p>Append <var>element</var> to
+ <li><p>Add <var>element</var> to
   the <a>known elements</a> of the <a>current browsing context</a>.
 
- <li><p>Return <a>success</a> with data
+ <li><p>Return <a>success</a> with the
   <var>element</var>’s <a>web element reference</a>.
 </ol>
 
