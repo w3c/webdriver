@@ -6346,114 +6346,111 @@ must run the following steps:
  this state is recorded in an <a data-lt="input state">input device state</a> object
  associated with each device.
 
-    <p>A <dfn>null input source</dfn> is an <a>input source</a> that
-      is not associated with a specific physical device. Null input
-      sources support the following actions:
+<p>A <dfn>null input source</dfn> is an <a>input source</a> that is
+ not associated with a specific physical device. Null input sources
+ support the following actions:
 
-      <table class=simple>
-        <tr>
-          <th>Action
-          <th>Non-normative Description
-        </tr>
-        <tr>
-          <td><dfn>pause</dfn></td>
-          <td>Used with an integer argument to specify the duration of
-          a <a>tick</a>, or as a placeholder to indicate that
-          an <a>input source</a> does nothing during a particular
-          tick.</td>
-        </tr>
-      </table>
+<table class=simple>
+ <tr>
+  <th>Action
+  <th>Non-normative Description
+ </tr>
+ <tr>
+  <td><dfn>pause</dfn></td>
+  <td>Used with an integer argument to specify the duration of
+   a <a>tick</a>, or as a placeholder to indicate that an <a>input
+   source</a> does nothing during a particular tick.</td>
+ </tr>
+</table>
 
 <p>A <dfn>key input source</dfn> is an <a>input source</a>
  that is associated with a keyboard-type device.
  A key input source supports the same <a>pause</a> action
  as a <a>null input source</a> plus the following actions:
 
-      <table class=simple>
-        <tr>
-          <th>Action
-          <th>Non-normative Description
-        </tr>
-        <tr>
-          <td><dfn>keyDown</dfn></td>
-          <td>Used to indicate that a particular key should be held down.</td>
-        </tr>
-        <tr>
-          <td><dfn>keyUp</dfn></td>
-          <td>Used to indicate that a depressed key should be released.</td>
-        </tr>
-      </table>
+ <table class=simple>
+  <tr>
+   <th>Action
+   <th>Non-normative Description
+  </tr>
+  <tr>
+   <td><dfn>keyDown</dfn></td>
+   <td>Used to indicate that a particular key should be held down.</td>
+  </tr>
+  <tr>
+   <td><dfn>keyUp</dfn></td>
+   <td>Used to indicate that a depressed key should be released.</td>
+  </tr>
+ </table>
 
-    <p>A <dfn>pointer input source</dfn> is an <a>input source</a>
-      that is associated with a pointer-type input device. Such an
-      input source has an associated subtype specifying exactly which
-      kind of pointing device it is associated with. A pointer input
-      source supports the same <a>pause</a> action as a <a>null input
-      source</a> plus the following actions:
+<p>A <dfn>pointer input source</dfn> is an <a>input source</a> that is
+ associated with a pointer-type input device. Such an input source has
+ an associated subtype specifying exactly which kind of pointing
+ device it is associated with. A pointer input source supports the
+ same <a>pause</a> action as a <a>null input source</a> plus the
+ following actions:
 
-      <table class=simple>
-        <tr>
-          <th>Action
-          <th>Non-normative Description
-        </tr>
-        <tr>
-          <td><dfn>pointerDown</dfn></td>
-          <td>Used to indicate that a pointer should be depressed in
-          some way e.g. by holding a button down (for a mouse) or by
-          coming into contact with the active surface (for a touch or
-          pen device).</td>
-        </tr>
-        <tr>
-          <td><dfn>pointerUp</dfn></td>
-          <td>Used to indicate that a pointer should be released in
-          some way e.g. by releasing a mouse button or moving a pen
-          or touch device away from the active surface.</td>
-        </tr>
-        <tr>
-          <td><dfn>pointerMove</dfn></td>
-          <td>Used to indicate a location on the screen that a
-          pointer should move to, either in its active (pressed) or
-          inactive state.</td>
-        </tr>
-        <tr>
-          <td><dfn>pointerCancel</dfn></td>
-          <td>Used to cancel a pointer action.</td>
-        </tr>
-      </table>
+<table class=simple>
+ <tr>
+  <th>Action
+  <th>Non-normative Description
+ </tr>
+ <tr>
+  <td><dfn>pointerDown</dfn></td>
+  <td>Used to indicate that a pointer should be depressed in some way
+   e.g. by holding a button down (for a mouse) or by coming into
+   contact with the active surface (for a touch or pen device).</td>
+ </tr>
+ <tr>
+  <td><dfn>pointerUp</dfn></td>
+  <td>Used to indicate that a pointer should be released in some way
+   e.g. by releasing a mouse button or moving a pen or touch device
+   away from the active surface.</td>
+ </tr>
+ <tr>
+  <td><dfn>pointerMove</dfn></td>
+  <td>Used to indicate a location on the screen that a pointer should
+   move to, either in its active (pressed) or inactive state.</td>
+ </tr>
+ <tr>
+  <td><dfn>pointerCancel</dfn></td>
+  <td>Used to cancel a pointer action.</td>
+ </tr>
+</table>
 
-    <p>A <dfn data-lt="ticks">tick</dfn> is the basic unit of time over which actions
-      can be performed. During a tick, each input source has an assigned
-      action — possibly a noop <a>pause</a> action — which may
-      result in changes to the user agent internal state and eventually
-      cause DOM events to be <a>fired</a> at the page. The next tick begins
-      after the user agent has had a chance to process all DOM events
-      generated in the current tick.
+<p>A <dfn data-lt="ticks">tick</dfn> is the basic unit of time over
+ which actions can be performed. During a tick, each input source has
+ an assigned action — possibly a noop <a>pause</a> action — which may
+ result in changes to the user agent internal state and eventually
+ cause DOM events to be <a>fired</a> at the page. The next tick begins
+ after the user agent has had a chance to process all DOM events
+ generated in the current tick.
 
-    <p><dfn data-lt="asynchronously wait|asynchronous waits">Waiting
-      asynchronously</dfn> means waiting for something to occur whilst
-      allowing the browser to continue processing
-      the <a href="https://html.spec.whatwg.org/#event-loop">event
-      loop</a>.
+<p><dfn data-lt="asynchronously wait|asynchronous waits">Waiting
+ asynchronously</dfn> means waiting for something to occur whilst
+ allowing the browser to continue processing
+ the <a href="https://html.spec.whatwg.org/#event-loop">event
+ loop</a>.
 
-    <p>At the lowest level, the behavior of actions is intended to
-    mimic the <a>remote end</a>'s behavior with an actual input device as
-    closely as possible, and the implementation strategy may involve
-    e.g. injecting synthesized events into a browser event
-    loop. Therefore the steps to dispatch an action will inevitably
-    end up in implementation-specific territory. However there are
-    certain content observable effects that must be consistent across
-    implementations. To accomodate this, the specification requires
-    that <a>remote ends</a> <dfn data-lt="perform-actions|perform actions">
-    perform implementation-specific action dispatch steps</dfn>, along with a
-    list of events and their properties. This list is not
-    comprehensive; in particular the default action of the input
-    source may cause additional events to be generated depending on
-    the implementation and the state of the browser (e.g. input events
-    relating to key actions when the focus is on an editable <a>element</a>,
-    scroll events, etc.).
+<p>At the lowest level, the behavior of actions is intended to mimic
+ the <a>remote end</a>'s behavior with an actual input device as
+ closely as possible, and the implementation strategy may involve
+ e.g. injecting synthesized events into a browser event
+ loop. Therefore the steps to dispatch an action will inevitably end
+ up in implementation-specific territory. However there are certain
+ content observable effects that must be consistent across
+ implementations. To accomodate this, the specification requires
+ that <a>remote ends</a> <dfn data-lt="perform-actions|perform
+ actions"> perform implementation-specific action dispatch
+ steps</dfn>, along with a list of events and their properties. This
+ list is not comprehensive; in particular the default action of the
+ input source may cause additional events to be generated depending on
+ the implementation and the state of the browser (e.g. input events
+ relating to key actions when the focus is on an
+ editable <a>element</a>, scroll events, etc.).
 
-      <!-- todo: define generating DOM events from an input somewhere -->
-  </section> <!-- /Terminology -->
+ <!-- todo: define generating DOM events from an input somewhere -->
+</section> <!-- /Terminology -->
 
 <section>
 <h2>Input State</h2>
@@ -6468,47 +6465,45 @@ must run the following steps:
  and the <a data-lt="input state">device state</a> for that <a>input source</a>,
  with one entry for each active <a>input source</a>.
 
-    <p>Each <a>session</a> also has an associated <dfn>input cancel
-    list</dfn>, which is a list of actions. This list is used to
-    manage dispatching events when resetting the state of the <a>input
-    source</a>s. For simplicity the algorithms described here only
-    append actions to the list and rely on the fact that the reset
-    operations are idempotent.
+<p>Each <a>session</a> also has an associated <dfn>input cancel
+ list</dfn>, which is a list of actions. This list is used to manage
+ dispatching events when resetting the state of the <a>input
+ source</a>s. For simplicity the algorithms described here only append
+ actions to the list and rely on the fact that the reset operations
+ are idempotent.
 
-    <p>A <a>null input source</a> has a corresponding <dfn>null input
-    state</dfn> object. This is always an empty object.
+<p>A <a>null input source</a> has a corresponding <dfn>null input
+ state</dfn> object. This is always an empty object.
 
-    <p>A <a>key input source</a> has a corresponding <dfn>key input
-    state</dfn> object. This is an object with a
-    property, <code>pressed</code>, which is a set of strings
-    representing currently pressed keys and
-    properties <code>alt</code>, <code>shift</code>, <code>ctrl</code>,
-    and <code>meta</code>, which are <a>Boolean</a>s.
+<p>A <a>key input source</a> has a corresponding <dfn>key input
+ state</dfn> object. This is an object with a
+ property, <code>pressed</code>, which is a set of strings
+ representing currently pressed keys and
+ properties <code>alt</code>, <code>shift</code>, <code>ctrl</code>,
+ and <code>meta</code>, which are <a>Boolean</a>s.
 
-    <p>When required to <dfn>create a new key input state
-    object</dfn>, an implementation must return a <a>key input
-    state</a> object with the <code>pressed</code> property set to the
-    empty set
-    and <code>alt</code>, <code>shift</code>, <code>ctrl</code>,
-    and <code>meta</code> all set to <code>false</code>.
+<p>When required to <dfn>create a new key input state object</dfn>, an
+ implementation must return a <a>key input state</a> object with
+ the <code>pressed</code> property set to the empty set
+ and <code>alt</code>, <code>shift</code>, <code>ctrl</code>,
+ and <code>meta</code> all set to <code>false</code>.
 
-    <p>A <a>pointer input source</a> has a corresponding <dfn>pointer
-    input state</dfn> object. This consists of a <code>subtype</code>
-    property, which has the possible
-    values <code>"mouse"</code>, <code>"pen"</code>,
-    and <code>"touch"</code>, a <code>primary</code> property which is
-    a boolean, a <code>pressed</code> property which is a set of
-    unsigned integers, an <code>x</code> property which is an unsigned
-    integer, and a <code>y</code> property which is an unsigned
-    integer.
+<p>A <a>pointer input source</a> has a corresponding <dfn>pointer
+ input state</dfn> object. This consists of a <code>subtype</code>
+ property, which has the possible
+ values <code>"mouse"</code>, <code>"pen"</code>,
+ and <code>"touch"</code>, a <code>primary</code> property which is a
+ boolean, a <code>pressed</code> property which is a set of unsigned
+ integers, an <code>x</code> property which is an unsigned integer,
+ and a <code>y</code> property which is an unsigned integer.
 
-    <p>When required to <dfn>create a new pointer input state</dfn>
-    object with arguments <var>subtype</var> and <var>primary</var> an
-    implementation must return a <a>pointer input state</a> object
-    with <code>subtype</code> set
-    to <var>subtype</var>, <code>primary</code> set
-    to <var>primary</var>, <code>pressed</code> set to an empty set
-    and both <code>x</code> and <code>y</code> set to <code>0</code>.
+<p>When required to <dfn>create a new pointer input state</dfn> object
+ with arguments <var>subtype</var> and <var>primary</var> an
+ implementation must return a <a>pointer input state</a> object
+ with <code>subtype</code> set
+ to <var>subtype</var>, <code>primary</code> set
+ to <var>primary</var>, <code>pressed</code> set to an empty set and
+ both <code>x</code> and <code>y</code> set to <code>0</code>.
 
 <p>The <dfn>corresponding input state type</dfn>
  for a label <var>action type</var> is given by the following table:
@@ -6538,1496 +6533,1399 @@ must run the following steps:
 </table>
 </section><!-- /Input State -->
 
-  <section> <!-- Processing Actions Requests -->
-    <h2>Processing Actions Requests</h2>
+<section> <!-- Processing Actions Requests -->
+<h2>Processing Actions Requests</h2>
 
-    <p>The algorithm for <a data-lt="extract an action
-    sequence">extracting an action sequence from a request</a> takes
-    the JSON <a>Object</a> representing an action sequence, validates
-    the input, and returns a data structure that is the transpose of
-    the input JSON, such that the actions to be performed in a single
-    tick are grouped together.
+<p>The algorithm for <a data-lt="extract an action sequence">
+ extracting an action sequence from a request</a> takes the
+ JSON <a>Object</a> representing an action sequence, validates the
+ input, and returns a data structure that is the transpose of the
+ input JSON, such that the actions to be performed in a single tick
+ are grouped together.
 
-    <p>When required to <dfn>extract an action sequence</dfn> with
-    argument <var>parameters</var>, a <a>remote end</a> must run the
-    following steps:
+<p>When required to <dfn>extract an action sequence</dfn> with
+ argument <var>parameters</var>, a <a>remote end</a> must run the
+ following steps:
 
-      <ol>
-        <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-            return <a>error</a> with <a>error code</a> <a>no such window</a>.</li>
+<ol>
+ <li><p>If the <a>current browsing context</a> is <a>no longer
+  open</a>, return <a>error</a> with <a>error code</a>
+  <a>no such window</a>.
 
-        <li><p>Let <var>actions</var> be the result of getting a
-            property from <var>parameters</var> named <code>actions</code>.</li>
+ <li><p>Let <var>actions</var> be the result of getting a property
+  from <var>parameters</var> named <code>actions</code>.
 
-        <li><p>If <var>actions</var> is <a>undefined</a> or
-            is not an <a>Array</a>, return <a>error</a> with <a>error
-            code</a> <a>invalid argument</a>.</li>
+ <li><p>If <var>actions</var> is <a>undefined</a> or is not
+  an <a>Array</a>, return <a>error</a> with <a>error
+  code</a> <a>invalid argument</a>.
 
-        <!-- TODO: not sure if reusing the ES definition of List works here-->
-        <li><p>Let <var>actions by tick</var> be an
-        empty <a>List</a>.</li>
+ <!-- TODO: not sure if reusing the ES definition of List works here-->
+ <li><p>Let <var>actions by tick</var> be an empty <a>List</a>.</li>
 
-        <li><p>For each value <var>action sequence</var> corresponding
-        to an indexed property in <var>actions</var>:
+ <li><p>For each value <var>action sequence</var> corresponding to an
+  indexed property in <var>actions</var>:
 
-          <ol>
-            <li><p>Let <var>input source actions</var> be the result
-                  of <a>trying</a> to <a>process an input source action
-                  sequence</a> with argument <var>action sequence</var>.</li>
+  <ol>
+   <li><p>Let <var>input source actions</var> be the result
+    of <a>trying</a> to <a>process an input source action sequence</a>
+    with argument <var>action sequence</var>.
 
-            <li><p>For each <var>action</var> in <var>input source actions</var>:
+   <li><p>For each <var>action</var> in <var>input source actions</var>:
 
-                <ol>
-                  <li><p>Let <var>i</var> be the zero-based index
-                      of <var>action</var> in <var>input source
-                      actions</var>.</li>
+    <ol>
+     <li><p>Let <var>i</var> be the zero-based index
+      of <var>action</var> in <var>input source actions</var>.
 
-                  <li><p>If the length of <var>actions by tick</var>
-                  is less than <var>i + 1</var>, append a
-                  new <a>List</a> to <var>actions by tick</var>.</li>
+     <li><p>If the length of <var>actions by tick</var> is less
+      than <var>i + 1</var>, append a new <a>List</a> to
+      <var>actions by tick</var>.</li>
 
-                  <li><p>Append <var>action</var> to the <a>List</a>
-                  at index <var>i</var> in <var>actions by
-                  tick</var>.</li>
+     <li><p>Append <var>action</var> to the <a>List</a> at
+      index <var>i</var> in <var>actions by tick</var>.</li>
 
-                </ol></li>
-        </ol></li>
+    </ol>
+  </ol>
 
-        <li><p>Return <a>success</a> with data <var>actions by
-        tick</var>.</li>
-      </ol>
+ <li><p>Return <a>success</a> with data
+  <var>actions by tick</var>.
+</ol>
 
-    <p>When required to <dfn>process an input source action sequence</dfn>, with
-      argument <var>action sequence</var>, a <a>remote end</a> must run the
-      following steps:
+<p>When required to <dfn>process an input source action sequence</dfn>,
+ with argument <var>action sequence</var>, a <a>remote end</a>
+ must run the following steps:
 
-      <ol>
-        <li><p>Let <var>type</var> be the result of <a>getting a property</a>
-        named <code>type</code> from <var>actions sequence</var>.</li>
+<ol>
+ <li><p>Let <var>type</var> be the result of <a>getting a property</a>
+  named <code>type</code> from <var>actions sequence</var>.
 
-        <li><p>If <var>type</var> is
-            not <code>"key"</code>, <code>"pointer"</code>,
-            or <code>"none"</code>, return an <a>error</a> with
-            <a>error code</a> <a>invalid argument</a>.</li>
+ <li><p>If <var>type</var> is
+  not <code>"key"</code>, <code>"pointer"</code>,
+  or <code>"none"</code>, return an <a>error</a> with
+  <a>error code</a> <a>invalid argument</a>.
 
-        <li><p>Let <var>id</var> be the result of <a>getting a
-        property</a> named <code>id</code> from <var>actions
-        sequence</var>.</li>
+ <li><p>Let <var>id</var> be the result of
+  <a>getting a property</a> named <code>id</code> from
+  <var>action sequence</var>.
 
-        <!-- TODO: consider picking the current input of the right
-        type if one exists -->
-        <li><p>If <var>id</var> is <a>undefined</a>
-            let <var>id</var> be a new <a>UUID</a>. Otherwise
-            if <var>id</var> is not a <a>String</a> return <a>error</a>
-            with <a>error code</a> <a>invalid argument</a>.</li>
+ <!-- TODO: consider picking the current input of the right
+  type if one exists -->
+ <li><p>If <var>id</var> is <a>undefined</a> let <var>id</var> be a
+  new <a>UUID</a>. Otherwise if <var>id</var> is not a <a>String</a>
+  return <a>error</a> with <a>error code</a> <a>invalid
+  argument</a>.
 
-        <li><p>Let <var>action items</var> be the result
-            of <a>getting a property</a> named <code>actions</code>
-            from <var>action sequence</var>.</li>
+ <li><p>Let <var>action items</var> be the result of <a>getting a
+  property</a> named <code>actions</code> from
+  <var>action sequence</var>.
 
-        <li><p>If <var>action items</var> is not an <a>Array</a>,
-            return <a>error</a> with <a>error code</a> <a>invalid argument</a>.</li>
+ <li><p>If <var>action items</var> is not an <a>Array</a>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-        <li><p>If <var>type</var> is equal to <code>"pointer"</code>,
-            let <var>parameters data</var> be the result of getting a
-            property named <var>parameters</var>
-            from <var>action sequence</var>. Then let <var>parameters</var> be
-            the result of <a>trying</a> to <a>process pointer
-            parameters</a> with argument <var>parameters
-            data</var>.</li>
+ <li><p>If <var>type</var> is equal to <code>"pointer"</code>,
+  let <var>parameters data</var> be the result of getting a property
+  named <var>parameters</var> from <var>action sequence</var>. Then
+  let <var>parameters</var> be the result of <a>trying</a>
+  to <a>process pointer parameters</a> with argument
+  <var>parameters data</var>.
 
-        <li><p>If the <a>current session</a>'s <a>input state</a>
-            already has an entry corresponding to <a>input
-            id</a> <var>id</var> and that entry has a type different
-            to the <a>corresponding input state type</a>
-            for <var>type</var>, then return <a>error</a> with
-            <a>error code</a> <a>invalid argument</a>.</li>
+ <li><p>If the <a>current session</a>'s <a>input state</a> already has
+  an entry corresponding to <a>input id</a> <var>id</var> and that
+  entry has a type different to the <a>corresponding input state
+  type</a> for <var>type</var>, then return <a>error</a> with
+  <a>error code</a> <a>invalid argument</a>.
 
-        <li><p>Let <var>actions</var> be a new list.</li>
+ <li><p>Let <var>actions</var> be a new list.
 
-        <li><p>For each <var>action item</var> in <var>action
-        items</var>:
-            <ol>
-              <li><p>If <var>action item</var> is not an <a>Object</a>
-                  return <a>error</a> with <a>error
-                  code</a> <a>invalid argument</a>.</li>
+ <li><p>For each <var>action item</var> in <var>action items</var>:
 
-              <li><p>If <var>type</var> is <code>"none"</code>
-                let <var>action</var> be the result of <a>trying</a>
-                to <a>process a null action</a> with
-                parameters <var>id</var>, and <var>action item</var>.</li>
+  <ol>
+   <li><p>If <var>action item</var> is not an <a>Object</a>
+    return <a>error</a> with <a>error code</a>
+    <a>invalid argument</a>.
 
-              <li><p>Otherwise, if <var>type</var> is <code>"key"</code>
-                let <var>action</var> be the result of <a>trying</a>
-                to <a>process a key action</a> with
-                parameters <var>id</var>, and <var>action item</var>.</li>
+   <li><p>If <var>type</var> is <code>"none"</code>
+    let <var>action</var> be the result of <a>trying</a> to <a>process
+    a null action</a> with parameters <var>id</var>, and
+    <var>action item</var>.
 
-              <li><p>Otherwise, if <var>type</var>
-                is <code>"pointer"</code> let <var>action</var> be the
-                result of <a>trying</a> to <a>process a pointer
-                action</a> with parameters <var>id</var>, <var>parameters</var>,
-                and <var>action item</var>.</li>
+   <li><p>Otherwise, if <var>type</var> is <code>"key"</code>
+    let <var>action</var> be the result of <a>trying</a> to <a>process
+    a key action</a> with parameters <var>id</var>, and
+    <var>action item</var>.
 
-              <li><p>Append <var>action</var> to <var>actions</var>.</li>
-            </ol>
-        </li>
+   <li><p>Otherwise, if <var>type</var> is <code>"pointer"</code>
+    let <var>action</var> be the result of <a>trying</a> to <a>process
+    a pointer action</a> with parameters <var>id</var>,
+    <var>parameters</var>, and <var>action item</var>.
 
-        <li><p>Return <a>success</a> with data <var>actions</var>.
+   <li><p>Append <var>action</var> to <var>actions</var>.
+  </ol>
 
-      </ol>
+ <li><p>Return <a>success</a> with data <var>actions</var>.
+</ol>
 
-    <p>The <dfn>default pointer parameters</dfn> consist of an object
-    with property <code>pointerType</code> set to <code>mouse</code>
+<p>The <dfn>default pointer parameters</dfn> consist of an object with
+ property <code>pointerType</code> set to <code>mouse</code>
     and <code>primary</code> set to <code>true</code>.
 
-    <p>When required to <dfn>process pointer parameters</dfn> with
-    argument <var>parameters data</var>, a <a>remote end</a> must perform the
-    following steps:</p>
-
-    <ol>
-      <li><p>Let <var>parameters</var> be the <a>default pointer
-            parameters</a>.</li>
-
-      <li><p>If <var>parameters data</var> is <a>undefined</a>,
-            return <a>success</a> with data <var>parameters</var>.</li>
-
-      <li><p>If <var>parameters data</var> is not an <a>Object</a>
-          return <a>error</a> with <a>error code</a> <a>invalid argument</a>.</li>
-
-      <li><p>Let <var>pointer type</var> be the result of <a>getting
-            a property</a> named <code>pointerType</code>
-          from <var>parameters data</var>.</li>
-
-      <li><p>If <var>pointer type</var> is not <a>undefined</a>:
-          <ol>
-            <li><p>If <var>pointer type</var> does not have one of the
-                values <code>"mouse"</code>, <code>"pen"</code>,
-                or <code>"touch"</code> return <a>error</a> with
-                <a>error code</a> <a>invalid argument</a>.</li>
+<p>When required to <dfn>process pointer parameters</dfn> with
+ argument <var>parameters data</var>, a <a>remote end</a> must perform
+ the following steps:
 
-            <li><p>Set the <code>pointerType</code> property
-            of <var>parameters</var> to <var>pointer type</var>.</li>
-          </ol>
-      </li>
-
-      <li><p>Let <var>primary</var> be the result of getting a
-      property named <code>primary</code> from <var>parameters
-      data</var>.</li>
-
-      <li><p>If <var>primary</var> is not <a>undefined</a>:
-          <ol>
-            <li><p>If <var>primary</var> is not a <a>Boolean</a>
-                return <a>error</a> with <a>error code</a> <a>invalid
-                argument</a>.</li>
-
-            <li><p>Set the <code>primary</code> property
-            of <var>parameters</var> to <var>primary</var>.</li>
-          </ol>
-      </li>
-
-      <li><p>Return <a>success</a> with data <var>parameters</var>.</li>
-
-    </ol>
-
-    <p>A <dfn>action object</dfn> constructed with
-      arguments <var>id</var>, <var>type</var>, and <var>subtype</var>
-      is an object with property <code>id</code> set to <var>id</var>,
-      <code>type</code> set to <var>type</var>
-      and <code>subtype</code> set to <var>subtype</var>. Specific
-      action objects have further properties added by other algorithms
-      in this specification.
-
-    <p>When required to <dfn>process a null action</dfn> with
-    arguments <var>id</var> and <var>action item</var>, a <a>remote end</a>
-    must perform the following steps:</p>
-
-    <ol>
-      <li><p>Let <var>subtype</var> be the result of <a>getting a property</a>
-          named <code>type</code> from <var>action item</var>.</li>
-
-      <li><p>If <var>subtype</var> is not <code>"pause"</code>
-          return <a>error</a> with <a>error code</a> <a>invalid argument</a>.</li>
-
-      <li><p>Let <var>action</var> be an <a>action object</a>
-          constructed with arguments <var>id</var>,
-          <code>"none"</code>, and <var>subtype</var>.</li>
-
-      <li><p>Let <var>result</var> be the result of <a>trying</a>
-          to <a>process a pause action</a> with arguments <var>action
-          item</var>, and <var>action</var>.</li>
-
-      <li><p>Return <var>result</var>.</li>
-
-    </ol>
-
-    <p>When required to <dfn>process a key action</dfn> with
-    arguments <var>id</var> and <var>action item</var>, a <a>remote end</a>
-    must perform the following steps:</p>
-
-    <ol>
-      <li><p>Let <var>subtype</var> be the result of <a>getting a property</a>
-          named <code>type</code> from <var>action item</var>.</li>
-
-      <li><p>If <var>subtype</var> is not one of the
-          values <code>"keyUp"</code>, <code>"keyDown"</code>,
-          or <code>"pause"</code>, return an <a>error</a> with
-          <a>error code</a> <a>invalid argument</a>.</li>
-
-      <li><p>Let <var>action</var> be an <a>action object</a>
-          constructed with arguments <var>id</var>,
-          <code>"key"</code>, and <var>subtype</var>.</li>
-
-      <li><p>If <var>subtype</var> is <code>"pause"</code>;
-          let <var>result</var> be the result of <a>trying</a> to
-          <a>process a pause action</a> with arguments <var>action
-          item</var>, and <var>action</var>, and return
-          <var>result</var>.</li>
-
-      <li><p>Let <var>key</var> be the result of <a>getting a property</a>
-      named <code>value</code> from <var>action item</var>.</li>
-
-      <li><p>If <var>key</var> is not a <a>String</a> containing a
-          single <a>unicode code point</a> <span class="issue">or grapheme
-          cluster?</span> return <a>error</a> with <a>error
-          code</a> <a>invalid argument</a>.</li>
-
-      <li><p>Set the <code>value</code> property on <var>action</var>
-      to <var>key</var>.</li>
-
-      <li><p>Return success with data <var>action</var>.</li>
-
-    </ol>
-
-    <p>When required to <dfn>process a pointer action</dfn> with
-    arguments <var>id</var>, <var>parameters</var>, and <var>action
-    item</var>, a <a>remote end</a> must perform the following steps:</p>
-
-    <ol>
-      <li><p>Let <var>subtype</var> be the result of <a>getting a property</a>
-          named <code>type</code> from <var>action item</var>.</li>
-
-      <li><p>If <var>subtype</var> is not one of the
-          values <code>pause</code>, <code>"pointerUp"</code>,
-          <code>"pointerDown"</code>, <code>"pointerMove"</code>,
-          or <code>"pointerCancel"</code> return an <a>error</a> with
-          <a>error code</a> <a>invalid argument</a>.</li>
-
-      <li><p>If the <a>current session</a>'s <a>input state</a>
-          already has an entry corresponding to <a>input
-          id</a> <var>id</var> and that entry has
-          a <code>subtype</code> property with value different
-          to <var>subtype</var> return <a>error</a> with
-          <a>error code</a> <a>invalid argument</a>.</li>
-
-      <li><p>Let <var>action</var> be an <a>action object</a>
-          constructed with arguments <var>id</var>,
-          <code>"pointer"</code>, and <var>subtype</var>.</li>
-
-      <li><p>If <var>subtype</var> is <code>"pause"</code>;
-          let <var>result</var> be the result of <a>trying</a> to
-          <a>process a pause action</a> with arguments <var>action
-          item</var>, and <var>action</var>, and return
-          <var>result</var>.</li>
+<ol>
+  <li><p>Let <var>parameters</var> be the
+   <a>default pointer parameters</a>.
 
-      <li><p>Set the <code>pointerType</code> property
-          of <var>action</var> equal to the <code>pointerType</code>
-          property of <var>parameters</var>.</li>
+  <li><p>If <var>parameters data</var> is <a>undefined</a>,
+   return <a>success</a> with data <var>parameters</var>.
 
-      <li><p>Set the <code>primary</code> property
-          of <var>action</var> equal to the <code>primary</code>
-          property of <var>parameters</var>.</li>
+  <li><p>If <var>parameters data</var> is not an <a>Object</a>
+   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-      <li><p>If <var>subtype</var> is <code>"pointerUp"</code>
-            or <code>"pointerDown"</code>, <a>process a pointer up or
-            pointer down action</a> with arguments <var>action
-            item</var>, and <var>action</var>. If doing so results in
-            an <a>error</a>, return that <a>error</a>.</li>
+  <li><p>Let <var>pointer type</var> be the result of <a>getting a
+   property</a> named <code>pointerType</code> from
+   <var>parameters data</var>.
 
-      <li><p>If <var>subtype</var>
-            is <code>"pointerMove"</code> <a>process a pointer move
-            action</a> with arguments <var>action item</var>,
-            and <var>action</var>. If doing so results in an <a>error</a>,
-            return that <a>error</a></li>
+  <li><p>If <var>pointer type</var> is not <a>undefined</a>:
 
-      <li><p>If <var>subtype</var>
-            is <code>"pointerCancel"</code> <span class="issue">process a
-            pointer cancel action</span>. If doing so results in an
-            <a>error</a>, return that <a>error</a></li>
+   <ol>
+    <li><p>If <var>pointer type</var> does not have one of the
+     values <code>"mouse"</code>, <code>"pen"</code>,
+     or <code>"touch"</code> return <a>error</a> with
+     <a>error code</a> <a>invalid argument</a>.
 
-      <li><p>Return <a>success</a> with data <var>action</var>.</li>
+    <li><p>Set the <code>pointerType</code> property
+     of <var>parameters</var> to <var>pointer type</var>.
+   </ol>
 
-    </ol>
-
-    <p>When required to <dfn>process a pause action</dfn> with
-      arguments <var>action item</var>, and <var>action</var>, a <a>remote
-      end</a> must run the following steps:</p>
+  <li><p>Let <var>primary</var> be the result of getting a property
+   named <code>primary</code> from <var>parameters data</var>.
 
-    <ol>
-      <li><p>Let <var>duration</var> be the result of getting a
-          property named <code>duration</code> from <var>action
-            item</var>.</li>
+  <li><p>If <var>primary</var> is not <a>undefined</a>:
 
-      <li><p>If <var>duration</var> is not <a>undefined</a>
-       and <var>duration</var> is not an <a>Integer</a> greater than or equal to 0,
-       return <a>error</a> with <a>error code</a> <a>invalid argument</a>.</li>
+   <ol>
+    <li><p>If <var>primary</var> is not a <a>Boolean</a>
+     return <a>error</a> with <a>error code</a>
+     <a>invalid argument</a>.
 
-      <li><p>Set the <code>duration</code> property
-          of <var>action</var> to <var>duration</var>.</li>
+    <li><p>Set the <code>primary</code> property
+     of <var>parameters</var> to <var>primary</var>.
+   </ol>
 
-      <li><p>Return success with data <var>action</var>.</li>
-    </ol>
+  <li><p>Return <a>success</a> with data <var>parameters</var>.
 
-    <p>When required to <dfn>process a pointer up or pointer down
-        action</dfn> with arguments <var>action item</var>,
-        and <var>action</var>, a <a>remote end</a> must run the following
-        steps:</p>
+</ol>
 
-    <ol>
-      <li><p>Let <var>button</var> be the result of getting a
-          property named <code>button</code> from <var>action
-            item</var>.</li>
+<p>An <dfn>action object</dfn> constructed with
+ arguments <var>id</var>, <var>type</var>, and <var>subtype</var> is
+ an object with property <code>id</code> set to <var>id</var>,
+ <code>type</code> set to <var>type</var> and <code>subtype</code> set
+ to <var>subtype</var>. Specific action objects have further
+ properties added by other algorithms in this specification.
 
-      <li><p>If <var>button</var> is not an <a>Integer</a> greater
-          than or equal to 0 return <a>error</a> with <a>error
-          code</a> <a>invalid argument</a>.</li>
+<p>When required to <dfn>process a null action</dfn> with
+ arguments <var>id</var> and <var>action item</var>, a <a>remote
+ end</a> must perform the following steps:</p>
 
-      <li><p>Set the <code>button</code> property
-          of <var>action</var> to <var>button</var>.</li>
+<ol>
+ <li><p>Let <var>subtype</var> be the result of <a>getting a property</a>
+  named <code>type</code> from <var>action item</var>.
 
-      <li><p>Return success with data null</li>
-    </ol>
+ <li><p>If <var>subtype</var> is not <code>"pause"</code>
+  return <a>error</a> with <a>error code</a>
+  <a>invalid argument</a>.
+
+ <li><p>Let <var>action</var> be an <a>action object</a> constructed
+  with arguments <var>id</var>, <code>"none"</code>, and
+  <var>subtype</var>.
+
+ <li><p>Let <var>result</var> be the result of <a>trying</a>
+  to <a>process a pause action</a> with arguments
+  <var>action item</var>, and <var>action</var>.
 
-    <p>When required to <dfn>process a pointer move action</dfn> with
-      arguments <var>action item</var>, and <var>action</var>, a <a>remote
-      end</a> must run the following steps:</p>
+ <li><p>Return <var>result</var>.
 
-    <ol>
-      <li><p>Let <var>duration</var> be the result of getting a
-          property named <code>duration</code> from <var>action
-          item</var>.</li>
+</ol>
 
-      <li><p>If <var>duration</var> is not <a>undefined</a>
-          and <var>duration</var> is not an <a>Integer</a> greater than or equal to 0,
-          return <a>error</a> with <a>error code</a> <a>invalid argument</a>.</li>
+<p>When required to <dfn>process a key action</dfn> with
+ arguments <var>id</var> and <var>action item</var>, a <a>remote
+ end</a> must perform the following steps:</p>
 
-      <li><p>Set the <code>duration</code> property
-          of <var>action</var> to <var>duration</var>.</li>
+<ol>
+ <li><p>Let <var>subtype</var> be the result of <a>getting a property</a>
+  named <code>type</code> from <var>action item</var>.
 
-      <li><p>Let <var>origin</var> be the result of getting a
-          property named <code>origin</code> from <var>action item</var>.</li>
+ <li><p>If <var>subtype</var> is not one of the
+  values <code>"keyUp"</code>, <code>"keyDown"</code>,
+  or <code>"pause"</code>, return an <a>error</a> with
+  <a>error code</a> <a>invalid argument</a>.
 
-      <li><p>If <var>origin</var> is <a>undefined</a> let
-          <var>origin</var> equal <code>"viewport"</code>.</li>
+ <li><p>Let <var>action</var> be an <a>action object</a>
+  constructed with arguments <var>id</var>,
+  <code>"key"</code>, and <var>subtype</var>.
 
-      <li><p>If <var>origin</var> is not equal to <code>"viewport"</code> or
-          <code>"pointer"</code> and <var>origin</var> is not an <a>Object</a>
-          that <a>represents a web element</a>, return <a>error</a> with
-          <a>error code</a> <a>invalid argument</a>.</li>
+ <li><p>If <var>subtype</var> is <code>"pause"</code>;
+  let <var>result</var> be the result of <a>trying</a> to
+  <a>process a pause action</a> with arguments
+  <var>action item</var>, and <var>action</var>, and return
+  <var>result</var>.
+
+ <li><p>Let <var>key</var> be the result of <a>getting a property</a>
+  named <code>value</code> from <var>action item</var>.
 
-      <li><p>Set the <code>origin</code> property
-          of <var>action</var> to <var>origin</var>.</li>
+ <li><p>If <var>key</var> is not a <a>String</a> containing a
+  single <a>unicode code point</a> <span class="issue">or grapheme
+  cluster?</span> return <a>error</a> with
+  <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Set the <code>value</code> property on <var>action</var>
+  to <var>key</var>.
 
-      <li><p>Let <var>x</var> be the result of getting a
-          property named <code>x</code> from <var>action
-            item</var>.</li>
+ <li><p>Return success with data <var>action</var>.
 
-      <li><p>If <var>x</var> is not <a>undefined</a> or is not
-          an <a>Integer</a> return <a>error</a> with
-          <a>error code</a> <a>invalid argument</a>.</li>
+</ol>
 
-      <li><p>Set the <code>x</code> property
-          of <var>action</var> to <var>x</var>.</li>
+<p>When required to <dfn>process a pointer action</dfn> with
+ arguments <var>id</var>, <var>parameters</var>, and
+ <var>action item</var>, a <a>remote end</a> must perform the
+ following steps:</p>
 
-      <li><p>Let <var>y</var> be the result of getting a
-          property named <code>y</code> from <var>action
-            item</var>.</li>
+<ol>
+ <li><p>Let <var>subtype</var> be the result of <a>getting a property</a>
+  named <code>type</code> from <var>action item</var>.
+
+ <li><p>If <var>subtype</var> is not one of the
+  values <code>pause</code>, <code>"pointerUp"</code>,
+  <code>"pointerDown"</code>, <code>"pointerMove"</code>,
+  or <code>"pointerCancel"</code> return an <a>error</a> with
+  <a>error code</a> <a>invalid argument</a>.
 
-      <li><p>If <var>y</var> is not <a>undefined</a> or is not
-          an <a>Integer</a> return <a>error</a> with
-          <a>error code</a> <a>invalid argument</a>.</li>
+ <li><p>If the <a>current session</a>'s <a>input state</a> already has
+  an entry corresponding to <a>input id</a> <var>id</var> and that
+  entry has a <code>subtype</code> property with value different
+  to <var>subtype</var> return <a>error</a> with <a>error code</a>
+  <a>invalid argument</a>.
 
-      <li><p>Set the <code>y</code> property
-          of <var>action</var> to <var>y</var>.</li>
+ <li><p>Let <var>action</var> be an <a>action object</a> constructed
+  with arguments <var>id</var>, <code>"pointer"</code>, and
+  <var>subtype</var>.
 
-      <li><p>Return success with data null.</li>
-    </ol>
-  </section> <!-- /Processing Actions Requests -->
+ <li><p>If <var>subtype</var> is <code>"pause"</code>;
+  let <var>result</var> be the result of <a>trying</a> to
+  <a>process a pause action</a> with arguments
+  <var>action item</var>, and <var>action</var>, and return
+  <var>result</var>.
 
-  <section> <!-- Dispatching Actions -->
-    <h2>Dispatching Actions</h2>
-    <p>The algorithm to <a>dispatch actions</a> takes a list of
-    actions grouped by <a>tick</a>, and then causes each action to be
-    run at the appropriate point in the sequence.
+ <li><p>Set the <code>pointerType</code> property of <var>action</var>
+  equal to the <code>pointerType</code> property
+  of <var>parameters</var>.
 
-    <p>When asked to <dfn>dispatch actions</dfn> with
+ <li><p>Set the <code>primary</code> property of <var>action</var>
+  equal to the <code>primary</code> property
+  of <var>parameters</var>.
+
+ <li><p>If <var>subtype</var> is <code>"pointerUp"</code>
+  or <code>"pointerDown"</code>, <a>process a pointer up or pointer
+  down action</a> with arguments <var>action item</var>,
+  and <var>action</var>. If doing so results in an <a>error</a>,
+  return that <a>error</a>.
+
+ <li><p>If <var>subtype</var> is <code>"pointerMove"</code>
+  <a>process a pointer move action</a> with arguments
+  <var>action item</var>, and <var>action</var>. If doing so results
+  in an <a>error</a>, return that <a>error</a>.
+
+ <li><p>If <var>subtype</var>
+  is <code>"pointerCancel"</code>
+  <span class="issue">process a pointer cancel action</span>. If doing
+  so results in an <a>error</a>, return that <a>error</a>.
+
+ <li><p>Return <a>success</a> with data <var>action</var>.
+
+</ol>
+
+<p>When required to <dfn>process a pause action</dfn> with
+ arguments <var>action item</var>, and <var>action</var>, a
+ <a>remote end</a> must run the following steps:</p>
+
+<ol>
+ <li><p>Let <var>duration</var> be the result of getting a property
+  named <code>duration</code> from <var>action item</var>.
+
+ <li><p>If <var>duration</var> is not <a>undefined</a>
+  and <var>duration</var> is not an <a>Integer</a> greater than or
+  equal to 0, return <a>error</a> with <a>error code</a> <a>invalid
+  argument</a>.
+
+ <li><p>Set the <code>duration</code> property of <var>action</var>
+ to <var>duration</var>.
+
+ <li><p>Return success with data <var>action</var>.
+</ol>
+
+<p>When required to <dfn>process a pointer up or pointer down action</dfn>
+ with arguments <var>action item</var>, and <var>action</var>, a
+ <a>remote end</a> must run the following steps:</p>
+
+<ol>
+ <li><p>Let <var>button</var> be the result of getting a property
+  named <code>button</code> from <var>action item</var>.
+
+ <li><p>If <var>button</var> is not an <a>Integer</a> greater than or
+  equal to 0 return <a>error</a> with <a>error code</a>
+  <a>invalid argument</a>.
+
+ <li><p>Set the <code>button</code> property of <var>action</var>
+  to <var>button</var>.
+
+ <li><p>Return success with data null.
+</ol>
+
+<p>When required to <dfn>process a pointer move action</dfn> with
+ arguments <var>action item</var>, and <var>action</var>, a
+ <a>remote end</a> must run the following steps:</p>
+
+<ol>
+ <li><p>Let <var>duration</var> be the result of getting a property
+  named <code>duration</code> from <var>action item</var>.
+
+ <li><p>If <var>duration</var> is not <a>undefined</a>
+  and <var>duration</var> is not an <a>Integer</a> greater than or
+  equal to 0, return <a>error</a> with <a>error code</a> <a>invalid
+  argument</a>.
+
+ <li><p>Set the <code>duration</code> property of <var>action</var>
+  to <var>duration</var>.
+
+ <li><p>Let <var>origin</var> be the result of getting a property
+  named <code>origin</code> from <var>action item</var>.
+
+ <li><p>If <var>origin</var> is <a>undefined</a> let
+  <var>origin</var> equal <code>"viewport"</code>.
+
+ <li><p>If <var>origin</var> is not equal to <code>"viewport"</code> or
+  <code>"pointer"</code> and <var>origin</var> is not an <a>Object</a>
+  that <a>represents a web element</a>, return <a>error</a> with
+  <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Set the <code>origin</code> property of <var>action</var>
+  to <var>origin</var>.
+
+ <li><p>Let <var>x</var> be the result of getting a property
+ named <code>x</code> from <var>action item</var>.
+
+ <li><p>If <var>x</var> is not <a>undefined</a> or is not
+  an <a>Integer</a> return <a>error</a> with
+  <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Set the <code>x</code> property of <var>action</var>
+  to <var>x</var>.
+
+ <li><p>Let <var>y</var> be the result of getting a property
+  named <code>y</code> from <var>action item</var>.
+
+ <li><p>If <var>y</var> is not <a>undefined</a> or is not
+  an <a>Integer</a> return <a>error</a> with
+  <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Set the <code>y</code> property of <var>action</var>
+  to <var>y</var>.
+
+ <li><p>Return success with data null.
+</ol>
+</section> <!-- /Processing Actions Requests -->
+
+<section> <!-- Dispatching Actions -->
+<h2>Dispatching Actions</h2>
+
+<p>The algorithm to <a>dispatch actions</a> takes a list of actions
+ grouped by <a>tick</a>, and then causes each action to be run at the
+ appropriate point in the sequence.
+
+<p>When asked to <dfn>dispatch actions</dfn> with
     argument <var>actions by tick</var>, a <a>remote end</a> must run the
     following steps:</p>
 
-    <ol>
-      <li><p>For each item <var>tick actions</var> in <var>actions by
-      tick</var>:
-          <ol>
-            <li><p>Let <var>tick duration</var> be the result
-            of <a>computing the tick duration</a> with
-            argument <var>tick actions</var>.</li>
+<ol>
+ <li><p>For each item <var>tick actions</var> in
+  <var>actions by tick</var>:
 
-            <li><p><a>Dispatch tick actions</a> with
-            arguments <var>tick actions</var> and <var>tick
-            duration</var>. If this results in an <a>error</a> return
-            that error.</li>
+  <ol>
+   <li><p>Let <var>tick duration</var> be the result of <a>computing
+    the tick duration</a> with argument <var>tick actions</var>.
 
-            <li><p>Wait until the following conditions are all met:
+   <li><p><a>Dispatch tick actions</a> with arguments <var>tick
+    actions</var> and <var>tick duration</var>. If this results in
+    an <a>error</a> return that error.
 
-                <ul>
-                  <li><p>There are no pending <a>asynchronous
-                  waits</a> arising from the last invocation of
-                  the <a>dispatch tick actions</a> steps.</li>
+   <li><p>Wait until the following conditions are all met:
 
-                  <li><p>The user agent event loop has spun enough
-                   times to process the DOM events generated by the
-                   last invocation of the <a>dispatch tick
-                   actions</a> steps.</li>
+    <ul>
+     <li><p>There are no pending <a>asynchronous waits</a> arising
+      from the last invocation of the <a>dispatch tick actions</a>
+      steps.
 
-                  <li><p>At least <var>tick duration</var>
-                      milliseconds have passed.</li>
-                </ul>
-            </li>
-          </ol>
-      </li>
+     <li><p>The user agent event loop has spun enough times to process
+      the DOM events generated by the last invocation of
+      the <a>dispatch tick actions</a> steps.
 
-      <li><p>Return success with data null.</li>
-    </ol>
+     <li><p>At least <var>tick duration</var> milliseconds have
+      passed.
+    </ul>
+  </ol>
 
-    <p>When required to
-      <dfn data-lt="computing the tick duration">compute the tick
-        duration</dfn> with argument <var>tick actions</var>,
-        a <a>remote end</a> must take the following steps:</p>
+ <li><p>Return success with data null.
+</ol>
 
-    <ol>
-      <li><p>Let <var>max duration</var> be 0.</li>
+<p>When required to
+ <dfn data-lt="computing the tick duration">compute the tick duration</dfn>
+ with argument <var>tick actions</var>, a <a>remote end</a>
+ must take the following steps:</p>
 
-      <li><p>For each <var>action object</var> in <var>tick actions</var>:
-          <ol>
-            <li><p>let <var>duration</var> be <a>undefined</a>.</li>
+<ol>
+ <li><p>Let <var>max duration</var> be 0.
 
-            <li><p>If <var>action object</var> has <code>subtype</code>
-                property set to <code>"pause"</code> or
-                <var>action object</var> has <code>type</code> property set
-                to <code>"pointer"</code> and <code>subtype</code>
-                property set to <code>"pointerMove"</code>,
-                let <var>duration</var> be equal to
-                the <code>duration</code> property of <var>action
-                object</var>.</li>
+ <li><p>For each <var>action object</var> in <var>tick actions</var>:
 
-            <li><p>If <var>duration</var> is not <a>undefined</a>, and
-                <var>duration</var> is greater than <var>max
-                duration</var> let <var>max duration</var> be equal to
-                duration.</li>
-          </ol>
-      </li>
+  <ol>
+   <li><p>let <var>duration</var> be <a>undefined</a>.
 
-      <li><p>Return <var>max duration</var>.</li>
+   <li><p>If <var>action object</var> has <code>subtype</code>
+    property set to <code>"pause"</code> or
+    <var>action object</var> has <code>type</code> property set
+    to <code>"pointer"</code> and <code>subtype</code> property set
+    to <code>"pointerMove"</code>, let <var>duration</var> be equal to
+    the <code>duration</code> property of
+    <var>action object</var>.
 
-    </ol>
+   <li><p>If <var>duration</var> is not <a>undefined</a>, and
+    <var>duration</var> is greater than <var>max duration</var>
+    let <var>max duration</var> be equal to duration.
+  </ol>
 
-    <p>When required to <dfn>dispatch tick actions</dfn> with
-    arguments <var>tick actions</var> and <var>tick duration</var>,
-    a <a>remote end</a> must run the following steps:</p>
+ <li><p>Return <var>max duration</var>.
 
-    <ol>
-      <li><p>For each <var>action object</var> in <var>tick actions</var>:
-          <ol>
+</ol>
 
-            <li><p>Let <var>source id</var> be equal to the value
-                of <var>action object</var>'s <code>id</code>
-                property.</li>
+<p>When required to <dfn>dispatch tick actions</dfn> with
+ arguments <var>tick actions</var> and <var>tick duration</var>,
+ a <a>remote end</a> must run the following steps:
 
-            <li><p>Let <var>source type</var> be equal to the value
-                of <var>action object</var>'s <code>type</code>
-                property.</li>
+<ol>
+ <li><p>For each <var>action object</var> in <var>tick actions</var>:
 
-            <!-- TODO: this next bit doesn't really link to the right
-            point in the spec for creating objects of the right type -->
+  <ol>
+   <li><p>Let <var>source id</var> be equal to the value
+    of <var>action object</var>'s <code>id</code> property.
 
-            <li><p>If the <a>current session</a>'s <a>input
-                state</a> doesn't have a property corresponding
-                to <var>source id</var>, then let the property
-                corresponding to <var>source id</var> be a new
-                object of the <a>corresponding input state type</a>
-                for <var>source type</var>.
+   <li><p>Let <var>source type</var> be equal to the value
+    of <var>action object</var>'s <code>type</code> property.
 
-            <li><p>Let <var>device state</var> be the <a>device state</a>
-             corresponding to <var>source id</var>
-             in the <a>current session</a>’s <a>input state</a> object.
+   <!-- TODO: this next bit doesn't really link to the right
+    point in the spec for creating objects of the right type -->
 
-            <li><p>Let <var>algorithm</var> be the value of the column
-                <i>dispatch action algorithm</i> from the following table
-                of <dfn> dispatch action algorithms</dfn> that matches the
-                <var>source type</var> and the <var>action object</var>'s
-                <code>subtype</code> property, to a dispatch action
-                algorithm.
-              <table class=simple>
-                <thead>
-                  <tr>
-                  <th><var>source type</var>
-                  <th><code>subtype</code> property
-                  <th>Dispatch action algorithm
-                  </tr>
-                </thead>
-                <tr>
-                  <td><code>"none"</code>
-                  <td><code>"pause"</code>
-                  <td><a>Dispatch a pause action</a>
-                </tr>
-                <tr>
-                  <td><code>"key"</code>
-                  <td><code>"pause"</code>
-                  <td><a>Dispatch a pause action</a>
-                </tr>
-                <tr>
-                  <td><code>"key"</code>
-                  <td><code>"keyDown"</code>
-                  <td><a>Dispatch a keyDown action</a>
-                </tr>
-                <tr>
-                  <td><code>"key"</code>
-                  <td><code>"keyUp"</code>
-                  <td><a>Dispatch a keyUp action</a>
-                </tr>
-                <tr>
-                  <td><code>"pointer"</code>
-                  <td><code>"pause"</code>
-                  <td><a>Dispatch a pause action</a>
-                </tr>
-                <tr>
-                  <td><code>"pointer"</code>
-                  <td><code>"pointerDown"</code>
-                  <td><a>Dispatch a pointerDown action</a>
-                </tr>
-                <tr>
-                  <td><code>"pointer"</code>
-                  <td><code>"pointerUp"</code>
-                  <td><a>Dispatch a pointerUp action</a>
-                </tr>
-                <tr>
-                  <td><code>"pointer"</code>
-                  <td><code>"pointerMove"</code>
-                  <td><a>Dispatch a pointerMove action</a>
-                </tr>
-                <tr>
-                  <td><code>"pointer"</code>
-                  <td><code>"pointerCancel"</code>
-                  <td><a>Dispatch a pointerCancel action</a>
-                </tr>
-              </table>
-            </li>
-          </ol>
+   <li><p>If the <a>current session</a>'s <a>input state</a> doesn't
+    have a property corresponding to <var>source id</var>, then let
+    the property corresponding to <var>source id</var> be a new object
+    of the <a>corresponding input state type</a> for
+    <var>source type</var>.
 
-          <li><p>Return the result of running <var>algorithm</var>
-              with arguments <var>source id</var>, <var>action
-              object</var>, <var>device state</var> and <var>tick
-              duration</var></li>
+   <li><p>Let <var>device state</var> be the <a>device state</a>
+    corresponding to <var>source id</var> in the
+    <a>current session</a>’s <a>input state</a> object.
 
-    </ol>
+   <li><p>Let <var>algorithm</var> be the value of the column
+    <i>dispatch action algorithm</i> from the following table of
+    <dfn>dispatch action algorithms</dfn> that matches the
+    <var>source type</var> and the <var>action object</var>'s
+    <code>subtype</code> property, to a dispatch action algorithm.
 
-    <section> <!-- General Actions -->
-      <h2>General Actions</h2>
-      <p>When required to <dfn>dispatch a pause action</dfn> with
-        arguments <var>source id</var>, <var>action
-        object</var>, <var>input state</var> and <var>tick
-        duration</var> a <a>remote end</a> must run the following
-        steps:</p>
+    <table class=simple>
+     <tr>
+      <th><var>source type</var>
+      <th><code>subtype</code> property
+      <th>Dispatch action algorithm
+     </tr>
+     <tr>
+      <td><code>"none"</code>
+      <td><code>"pause"</code>
+      <td><a>Dispatch a pause action</a>
+     </tr>
+     <tr>
+      <td><code>"key"</code>
+      <td><code>"pause"</code>
+      <td><a>Dispatch a pause action</a>
+     </tr>
+     <tr>
+      <td><code>"key"</code>
+      <td><code>"keyDown"</code>
+      <td><a>Dispatch a keyDown action</a>
+     </tr>
+     <tr>
+      <td><code>"key"</code>
+      <td><code>"keyUp"</code>
+      <td><a>Dispatch a keyUp action</a>
+     </tr>
+     <tr>
+      <td><code>"pointer"</code>
+      <td><code>"pause"</code>
+      <td><a>Dispatch a pause action</a>
+     </tr>
+     <tr>
+      <td><code>"pointer"</code>
+      <td><code>"pointerDown"</code>
+      <td><a>Dispatch a pointerDown action</a>
+     </tr>
+     <tr>
+      <td><code>"pointer"</code>
+      <td><code>"pointerUp"</code>
+      <td><a>Dispatch a pointerUp action</a>
+     </tr>
+     <tr>
+      <td><code>"pointer"</code>
+      <td><code>"pointerMove"</code>
+      <td><a>Dispatch a pointerMove action</a>
+     </tr>
+     <tr>
+      <td><code>"pointer"</code>
+      <td><code>"pointerCancel"</code>
+      <td><a>Dispatch a pointerCancel action</a>
+     </tr>
+    </table>
+  </ol>
 
-      <ol>
-        <li><p>Return <a>success</a> with data null.</li>
-      </ol>
-    </section> <!-- /General Actions -->
+ <li><p>Return the result of running <var>algorithm</var> with
+  arguments <var>source id</var>, <var>action object</var>,
+  <var>device state</var> and <var>tick duration</var>.
 
-    <section> <!-- Keyboard Actions -->
-      <h2>Keyboard Actions</h2>
+</ol>
 
-      <p>The <dfn>normalised key value</dfn> for a raw
-        key <var>key</var> is, if <var>key</var> appears in the table
-        below, the string value in the second column on the row
-        containing <var>key</var>'s <a>unicode code point</a> in the first
-        column, otherwise it is <var>key</var>.
+<section> <!-- General Actions -->
+<h2>General Actions</h2>
 
-        <table class=simple>
-          <tr>
-            <th><var>key</var>'s codepoint
-            <th>Normalised key value
-          </tr>
-          <tr><td><code>\uE000</code></td><td><code>"Unidentified"</code></td></tr>
-          <tr><td><code>\uE001</code></td><td><code>"Cancel"</code></td></tr>
-          <tr><td><code>\uE002</code></td><td><code>"Help"</code></td></tr>
-          <tr><td><code>\uE003</code></td><td><code>"Backspace"</code></td></tr>
-          <tr><td><code>\uE004</code></td><td><code>"Tab"</code></td></tr>
-          <tr><td><code>\uE005</code></td><td><code>"Clear"</code></td></tr>
-          <tr><td><code>\uE006</code></td><td><code>"Return"</code></td></tr>
-          <tr><td><code>\uE007</code></td><td><code>"Enter"</code></td></tr>
-          <tr><td><code>\uE008</code></td><td><code>"Shift"</code></td></tr>
-          <tr><td><code>\uE009</code></td><td><code>"Control"</code></td></tr>
-          <tr><td><code>\uE00A</code></td><td><code>"Alt"</code></td></tr>
-          <tr><td><code>\uE00B</code></td><td><code>"Pause"</code></td></tr>
-          <tr><td><code>\uE00C</code></td><td><code>"Escape"</code></td></tr>
-          <tr><td><code>\uE00D</code></td><td><code>" "</code></td></tr>
-          <tr><td><code>\uE00E</code></td><td><code>"PageUp"</code></td></tr>
-          <tr><td><code>\uE00F</code></td><td><code>"PageDown"</code></td></tr>
-          <tr><td><code>\uE010</code></td><td><code>"End"</code></td></tr>
-          <tr><td><code>\uE011</code></td><td><code>"Home"</code></td></tr>
-          <tr><td><code>\uE012</code></td><td><code>"ArrowLeft"</code></td></tr>
-          <tr><td><code>\uE013</code></td><td><code>"ArrowUp"</code></td></tr>
-          <tr><td><code>\uE014</code></td><td><code>"ArrowRight"</code></td></tr>
-          <tr><td><code>\uE015</code></td><td><code>"ArrowDown"</code></td></tr>
-          <tr><td><code>\uE016</code></td><td><code>"Insert"</code></td></tr>
-          <tr><td><code>\uE017</code></td><td><code>"Delete"</code></td></tr>
-          <tr><td><code>\uE018</code></td><td><code>";"</code></td></tr>
-          <tr><td><code>\uE019</code></td><td><code>"="</code></td></tr>
-          <tr><td><code>\uE01A</code></td><td><code>"0"</code></td></tr>
-          <tr><td><code>\uE01B</code></td><td><code>"1"</code></td></tr>
-          <tr><td><code>\uE01C</code></td><td><code>"2"</code></td></tr>
-          <tr><td><code>\uE01D</code></td><td><code>"3"</code></td></tr>
-          <tr><td><code>\uE01E</code></td><td><code>"4"</code></td></tr>
-          <tr><td><code>\uE01F</code></td><td><code>"5"</code></td></tr>
-          <tr><td><code>\uE020</code></td><td><code>"6"</code></td></tr>
-          <tr><td><code>\uE021</code></td><td><code>"7"</code></td></tr>
-          <tr><td><code>\uE022</code></td><td><code>"8"</code></td></tr>
-          <tr><td><code>\uE023</code></td><td><code>"9"</code></td></tr>
-          <tr><td><code>\uE024</code></td><td><code>"*"</code></td></tr>
-          <tr><td><code>\uE025</code></td><td><code>"+"</code></td></tr>
-          <tr><td><code>\uE026</code></td><td><code>","</code></td></tr>
-          <tr><td><code>\uE027</code></td><td><code>"-"</code></td></tr>
-          <tr><td><code>\uE028</code></td><td><code>"."</code></td></tr>
-          <tr><td><code>\uE029</code></td><td><code>"/"</code></td></tr>
-          <tr><td><code>\uE031</code></td><td><code>"F1"</code></td></tr>
-          <tr><td><code>\uE032</code></td><td><code>"F2"</code></td></tr>
-          <tr><td><code>\uE033</code></td><td><code>"F3"</code></td></tr>
-          <tr><td><code>\uE034</code></td><td><code>"F4"</code></td></tr>
-          <tr><td><code>\uE035</code></td><td><code>"F5"</code></td></tr>
-          <tr><td><code>\uE036</code></td><td><code>"F6"</code></td></tr>
-          <tr><td><code>\uE037</code></td><td><code>"F7"</code></td></tr>
-          <tr><td><code>\uE038</code></td><td><code>"F8"</code></td></tr>
-          <tr><td><code>\uE039</code></td><td><code>"F9"</code></td></tr>
-          <tr><td><code>\uE03A</code></td><td><code>"F10"</code></td></tr>
-          <tr><td><code>\uE03B</code></td><td><code>"F11"</code></td></tr>
-          <tr><td><code>\uE03C</code></td><td><code>"F12"</code></td></tr>
-          <tr><td><code>\uE03D</code></td><td><code>"Meta"</code></td></tr>
-          <tr><td><code>\uE040</code></td><td><code>"ZenkakuHankaku"</code></td></tr>
-          <!-- Right position variants -->
-          <tr><td><code>\uE050</code></td><td><code>"Shift"</code></td></tr>
-          <tr><td><code>\uE051</code></td><td><code>"Control"</code></td></tr>
-          <tr><td><code>\uE052</code></td><td><code>"Alt"</code></td></tr>
-          <tr><td><code>\uE053</code></td><td><code>"Meta"</code></td></tr>
-          <!-- Numpad Variants -->
-          <tr><td><code>\uE054</code></td><td><code>"PageUp"</code></td></tr>
-          <tr><td><code>\uE055</code></td><td><code>"PageDown"</code></td></tr>
-          <tr><td><code>\uE056</code></td><td><code>"End"</code></td></tr>
-          <tr><td><code>\uE057</code></td><td><code>"Home"</code></td></tr>
-          <tr><td><code>\uE058</code></td><td><code>"ArrowLeft"</code></td></tr>
-          <tr><td><code>\uE059</code></td><td><code>"ArrowUp"</code></td></tr>
-          <tr><td><code>\uE05A</code></td><td><code>"ArrowRight"</code></td></tr>
-          <tr><td><code>\uE05B</code></td><td><code>"ArrowDown"</code></td></tr>
-          <tr><td><code>\uE05C</code></td><td><code>"Insert"</code></td></tr>
-          <tr><td><code>\uE05D</code></td><td><code>"Delete"</code></td></tr>
-        </table>
+<p>When required to <dfn>dispatch a pause action</dfn> with
+ arguments <var>source id</var>, <var>action object</var>,
+ <var>input state</var> and <var>tick duration</var> a
+ <a>remote end</a> must run the following steps:
 
-      <p>The <dfn>code</dfn> for <var>key</var> is the value in the
-      last column of the following table on the row with <var>key</var> in
-      either the first or second column, if any such row exists,
-      otherwise it is <code>undefined</code>.
+<ol>
+ <li><p>Return <a>success</a> with data null.
+</ol>
+</section> <!-- /General Actions -->
 
-      <p>A <dfn>shifted character</dfn> is one that appears in the
-      second column of the following table.
+<section> <!-- Keyboard Actions -->
+<h2>Keyboard Actions</h2>
 
-        <!-- TODO This should perhaps return undefined when the shift
-        key doesn't match the requirement for producing the character?
-        -->
+<p>The <dfn>normalised key value</dfn> for a raw key <var>key</var>
+ is, if <var>key</var> appears in the table below, the string value in
+ the second column on the row containing <var>key</var>'s <a>unicode
+ code point</a> in the first column, otherwise it is <var>key</var>.
 
-        <table class=simple>
-          <tr>
-            <th>Key
-            <th>Alternate Key
-            <th>code
-          </tr>
-          <tr><td><code>"`"</code></td><td><code>"~"</code></td><td><code>"Backquote"</code></td></tr>
-          <tr><td><code>"\"</code></td><td><code>"|"</code></td><td><code>"Backslash"</code></td></tr>
-          <tr><td><code>"\uE003"</code></td><td><code></code></td><td><code>"Backspace"</code></td></tr>
-          <tr><td><code>"["</code></td><td><code>"{"</code></td><td><code>"BracketLeft"</code></td></tr>
-          <tr><td><code>"}"</code></td><td><code>"]"</code></td><td><code>"BracketRight"</code></td></tr>
-          <tr><td><code>","</code></td><td><code>"&lt;"</code></td><td><code>"Comma"</code></td></tr>
-          <tr><td><code>"0"</code></td><td><code>")"</code></td><td><code>"Digit0"</code></td></tr>
-          <tr><td><code>"1"</code></td><td><code>"!"</code></td><td><code>"Digit1"</code></td></tr>
-          <tr><td><code>"2"</code></td><td><code>"@"</code></td><td><code>"Digit2"</code></td></tr>
-          <tr><td><code>"3"</code></td><td><code>"#"</code></td><td><code>"Digit3"</code></td></tr>
-          <tr><td><code>"4"</code></td><td><code>"$"</code></td><td><code>"Digit4"</code></td></tr>
-          <tr><td><code>"5"</code></td><td><code>"%"</code></td><td><code>"Digit5"</code></td></tr>
-          <tr><td><code>"6"</code></td><td><code>"^"</code></td><td><code>"Digit6"</code></td></tr>
-          <tr><td><code>"7"</code></td><td><code>"&amp;"</code></td><td><code>"Digit7"</code></td></tr>
-          <tr><td><code>"8"</code></td><td><code>"*"</code></td><td><code>"Digit8"</code></td></tr>
-          <tr><td><code>"9"</code></td><td><code>"("</code></td><td><code>"Digit9"</code></td></tr>
-          <tr><td><code>"="</code></td><td><code>"+"</code></td><td><code>"Equal"</code></td></tr>
-          <tr><td><code>"&lt;"</code></td><td><code>"&gt;"</code></td><td><code>"IntlBackslash"</code></td></tr>
-          <tr><td><code>"a"</code></td><td><code>"A"</code></td><td><code>"KeyA"</code></td></tr>
-          <tr><td><code>"b"</code></td><td><code>"B"</code></td><td><code>"KeyB"</code></td></tr>
-          <tr><td><code>"c"</code></td><td><code>"C"</code></td><td><code>"KeyC"</code></td></tr>
-          <tr><td><code>"d"</code></td><td><code>"D"</code></td><td><code>"KeyD"</code></td></tr>
-          <tr><td><code>"e"</code></td><td><code>"E"</code></td><td><code>"KeyE"</code></td></tr>
-          <tr><td><code>"f"</code></td><td><code>"F"</code></td><td><code>"KeyF"</code></td></tr>
-          <tr><td><code>"g"</code></td><td><code>"G"</code></td><td><code>"KeyG"</code></td></tr>
-          <tr><td><code>"h"</code></td><td><code>"H"</code></td><td><code>"KeyH"</code></td></tr>
-          <tr><td><code>"i"</code></td><td><code>"I"</code></td><td><code>"KeyI"</code></td></tr>
-          <tr><td><code>"j"</code></td><td><code>"J"</code></td><td><code>"KeyJ"</code></td></tr>
-          <tr><td><code>"k"</code></td><td><code>"K"</code></td><td><code>"KeyK"</code></td></tr>
-          <tr><td><code>"l"</code></td><td><code>"L"</code></td><td><code>"KeyL"</code></td></tr>
-          <tr><td><code>"m"</code></td><td><code>"M"</code></td><td><code>"KeyM"</code></td></tr>
-          <tr><td><code>"n"</code></td><td><code>"N"</code></td><td><code>"KeyN"</code></td></tr>
-          <tr><td><code>"o"</code></td><td><code>"O"</code></td><td><code>"KeyO"</code></td></tr>
-          <tr><td><code>"p"</code></td><td><code>"P"</code></td><td><code>"KeyP"</code></td></tr>
-          <tr><td><code>"q"</code></td><td><code>"Q"</code></td><td><code>"KeyQ"</code></td></tr>
-          <tr><td><code>"r"</code></td><td><code>"R"</code></td><td><code>"KeyR"</code></td></tr>
-          <tr><td><code>"s"</code></td><td><code>"S"</code></td><td><code>"KeyS"</code></td></tr>
-          <tr><td><code>"t"</code></td><td><code>"T"</code></td><td><code>"KeyT"</code></td></tr>
-          <tr><td><code>"u"</code></td><td><code>"U"</code></td><td><code>"KeyU"</code></td></tr>
-          <tr><td><code>"v"</code></td><td><code>"V"</code></td><td><code>"KeyV"</code></td></tr>
-          <tr><td><code>"w"</code></td><td><code>"W"</code></td><td><code>"KeyW"</code></td></tr>
-          <tr><td><code>"x"</code></td><td><code>"X"</code></td><td><code>"KeyX"</code></td></tr>
-          <tr><td><code>"y"</code></td><td><code>"Y"</code></td><td><code>"KeyY"</code></td></tr>
-          <tr><td><code>"z"</code></td><td><code>"Z"</code></td><td><code>"KeyZ"</code></td></tr>
-          <tr><td><code>"-"</code></td><td><code>"_"</code></td><td><code>"Minus"</code></td></tr>
-          <tr><td><code>"."</code></td><td><code>">"</code></td><td><code>"Period"</code></td></tr>
-          <tr><td><code>"'"</code></td><td><code>"&quot;"</code></td><td><code>"Quote"</code></td></tr>
-          <tr><td><code>";"</code></td><td><code>":"</code></td><td><code>"Semicolon"</code></td></tr>
-          <tr><td><code>"/"</code></td><td><code>"?"</code></td><td><code>"Slash"</code></td></tr>
-          <tr><td><code>"\uE00A"</code></td><td><code></code></td><td><code>"AltLeft"</code></td></tr>
-          <tr><td><code>"\uE052"</code></td><td><code></code></td><td><code>"AltRight"</code></td></tr>
-          <tr><td><code>"\uE009"</code></td><td><code></code></td><td><code>"ControlLeft"</code></td></tr>
-          <tr><td><code>"\uE051"</code></td><td><code></code></td><td><code>"ControlRight"</code></td></tr>
-          <tr><td><code>"\uE006"</code></td><td><code></code></td><td><code>"Enter"</code></td></tr>
-          <tr><td><code>"\uE03D"</code></td><td><code></code></td><td><code>"OSLeft"</code></td></tr>
-          <tr><td><code>"\uE053"</code></td><td><code></code></td><td><code>"OSRight"</code></td></tr>
-          <tr><td><code>"\uE008"</code></td><td><code></code></td><td><code>"ShiftLeft"</code></td></tr>
-          <tr><td><code>"\uE050"</code></td><td><code></code></td><td><code>"ShiftRight"</code></td></tr>
-          <tr><td><code>" "</code></td><td><code>"\uE00D"</code></td><td><code>"Space"</code></td></tr>
-          <tr><td><code>"\uE004"</code></td><td><code></code></td><td><code>"Tab"</code></td></tr>
-          <tr><td><code>"\uE017"</code></td><td><code></code></td><td><code>"Delete"</code></td></tr>
-          <tr><td><code>"\uE010"</code></td><td><code></code></td><td><code>"End"</code></td></tr>
-          <tr><td><code>"\uE002"</code></td><td><code></code></td><td><code>"Help"</code></td></tr>
-          <tr><td><code>"\uE011"</code></td><td><code></code></td><td><code>"Home"</code></td></tr>
-          <tr><td><code>"\uE016"</code></td><td><code></code></td><td><code>"Insert"</code></td></tr>
-          <tr><td><code>"\uE01E"</code></td><td><code></code></td><td><code>"PageDown"</code></td></tr>
-          <tr><td><code>"\uE01F"</code></td><td><code></code></td><td><code>"PageUp"</code></td></tr>
-          <tr><td><code>"\uE015"</code></td><td><code></code></td><td><code>"ArrowDown"</code></td></tr>
-          <tr><td><code>"\uE012"</code></td><td><code></code></td><td><code>"ArrowLeft"</code></td></tr>
-          <tr><td><code>"\uE014"</code></td><td><code></code></td><td><code>"ArrowRight"</code></td></tr>
-          <tr><td><code>"\uE013"</code></td><td><code></code></td><td><code>"ArrowUp"</code></td></tr>
-          <tr><td><code>"\uE00C"</code></td><td><code></code></td><td><code>"Escape"</code></td></tr>
-          <tr><td><code>"\uE031"</code></td><td><code></code></td><td><code>"F1"</code></td></tr>
-          <tr><td><code>"\uE032"</code></td><td><code></code></td><td><code>"F2"</code></td></tr>
-          <tr><td><code>"\uE033"</code></td><td><code></code></td><td><code>"F3"</code></td></tr>
-          <tr><td><code>"\uE034"</code></td><td><code></code></td><td><code>"F4"</code></td></tr>
-          <tr><td><code>"\uE035"</code></td><td><code></code></td><td><code>"F5"</code></td></tr>
-          <tr><td><code>"\uE036"</code></td><td><code></code></td><td><code>"F6"</code></td></tr>
-          <tr><td><code>"\uE037"</code></td><td><code></code></td><td><code>"F7"</code></td></tr>
-          <tr><td><code>"\uE038"</code></td><td><code></code></td><td><code>"F8"</code></td></tr>
-          <tr><td><code>"\uE039"</code></td><td><code></code></td><td><code>"F9"</code></td></tr>
-          <tr><td><code>"\uE03A"</code></td><td><code></code></td><td><code>"F10"</code></td></tr>
-          <tr><td><code>"\uE03B"</code></td><td><code></code></td><td><code>"F11"</code></td></tr>
-          <tr><td><code>"\uE03C"</code></td><td><code></code></td><td><code>"F12"</code></td></tr>
-          <tr><td><code>"\uE01A"</code></td><td><code>"\uE05C"</code></td><td><code>"Numpad0"</code></td></tr>
-          <tr><td><code>"\uE01B"</code></td><td><code>"\uE056"</code></td><td><code>"Numpad1"</code></td></tr>
-          <tr><td><code>"\uE01C"</code></td><td><code>"\uE05B"</code></td><td><code>"Numpad2"</code></td></tr>
-          <tr><td><code>"\uE01D"</code></td><td><code>"\uE055"</code></td><td><code>"Numpad3"</code></td></tr>
-          <tr><td><code>"\uE01E"</code></td><td><code>"\uE058"</code></td><td><code>"Numpad4"</code></td></tr>
-          <tr><td><code>"\uE01F"</code></td><td><code></code></td><td><code>"Numpad5"</code></td></tr>
-          <tr><td><code>"\uE020"</code></td><td><code>"\uE05A"</code></td><td><code>"Numpad6"</code></td></tr>
-          <tr><td><code>"\uE021"</code></td><td><code>"\uE057"</code></td><td><code>"Numpad7"</code></td></tr>
-          <tr><td><code>"\uE022"</code></td><td><code>"\uE059"</code></td><td><code>"Numpad8"</code></td></tr>
-          <tr><td><code>"\uE023"</code></td><td><code>"\uE054"</code></td><td><code>"Numpad9"</code></td></tr>
-          <tr><td><code>"\uE024"</code></td><td><code></code></td><td><code>"NumpadAdd"</code></td></tr>
-          <tr><td><code>"\uE026"</code></td><td><code></code></td><td><code>"NumpadComma"</code></td></tr>
-          <tr><td><code>"\uE028"</code></td><td><code>"\uE05D"</code></td><td><code>"NumpadDecimal"</code></td></tr>
-          <tr><td><code>"\uE029"</code></td><td><code></code></td><td><code>"NumpadDivide"</code></td></tr>
-          <tr><td><code>"\uE007"</code></td><td><code></code></td><td><code>"NumpadEnter"</code></td></tr>
-          <tr><td><code>"\uE024"</code></td><td><code></code></td><td><code>"NumpadMultiply"</code></td></tr>
-          <tr><td><code>"\uE026"</code></td><td><code></code></td><td><code>"NumpadSubtract"</code></td></tr>
-        </table>
+<table class=simple>
+ <tr>
+  <th><var>key</var>'s codepoint
+  <th>Normalised key value
+ </tr>
+ <tr><td><code>\uE000</code></td><td><code>"Unidentified"</code></td></tr>
+ <tr><td><code>\uE001</code></td><td><code>"Cancel"</code></td></tr>
+ <tr><td><code>\uE002</code></td><td><code>"Help"</code></td></tr>
+ <tr><td><code>\uE003</code></td><td><code>"Backspace"</code></td></tr>
+ <tr><td><code>\uE004</code></td><td><code>"Tab"</code></td></tr>
+ <tr><td><code>\uE005</code></td><td><code>"Clear"</code></td></tr>
+ <tr><td><code>\uE006</code></td><td><code>"Return"</code></td></tr>
+ <tr><td><code>\uE007</code></td><td><code>"Enter"</code></td></tr>
+ <tr><td><code>\uE008</code></td><td><code>"Shift"</code></td></tr>
+ <tr><td><code>\uE009</code></td><td><code>"Control"</code></td></tr>
+ <tr><td><code>\uE00A</code></td><td><code>"Alt"</code></td></tr>
+ <tr><td><code>\uE00B</code></td><td><code>"Pause"</code></td></tr>
+ <tr><td><code>\uE00C</code></td><td><code>"Escape"</code></td></tr>
+ <tr><td><code>\uE00D</code></td><td><code>" "</code></td></tr>
+ <tr><td><code>\uE00E</code></td><td><code>"PageUp"</code></td></tr>
+ <tr><td><code>\uE00F</code></td><td><code>"PageDown"</code></td></tr>
+ <tr><td><code>\uE010</code></td><td><code>"End"</code></td></tr>
+ <tr><td><code>\uE011</code></td><td><code>"Home"</code></td></tr>
+ <tr><td><code>\uE012</code></td><td><code>"ArrowLeft"</code></td></tr>
+ <tr><td><code>\uE013</code></td><td><code>"ArrowUp"</code></td></tr>
+ <tr><td><code>\uE014</code></td><td><code>"ArrowRight"</code></td></tr>
+ <tr><td><code>\uE015</code></td><td><code>"ArrowDown"</code></td></tr>
+ <tr><td><code>\uE016</code></td><td><code>"Insert"</code></td></tr>
+ <tr><td><code>\uE017</code></td><td><code>"Delete"</code></td></tr>
+ <tr><td><code>\uE018</code></td><td><code>";"</code></td></tr>
+ <tr><td><code>\uE019</code></td><td><code>"="</code></td></tr>
+ <tr><td><code>\uE01A</code></td><td><code>"0"</code></td></tr>
+ <tr><td><code>\uE01B</code></td><td><code>"1"</code></td></tr>
+ <tr><td><code>\uE01C</code></td><td><code>"2"</code></td></tr>
+ <tr><td><code>\uE01D</code></td><td><code>"3"</code></td></tr>
+ <tr><td><code>\uE01E</code></td><td><code>"4"</code></td></tr>
+ <tr><td><code>\uE01F</code></td><td><code>"5"</code></td></tr>
+ <tr><td><code>\uE020</code></td><td><code>"6"</code></td></tr>
+ <tr><td><code>\uE021</code></td><td><code>"7"</code></td></tr>
+ <tr><td><code>\uE022</code></td><td><code>"8"</code></td></tr>
+ <tr><td><code>\uE023</code></td><td><code>"9"</code></td></tr>
+ <tr><td><code>\uE024</code></td><td><code>"*"</code></td></tr>
+ <tr><td><code>\uE025</code></td><td><code>"+"</code></td></tr>
+ <tr><td><code>\uE026</code></td><td><code>","</code></td></tr>
+ <tr><td><code>\uE027</code></td><td><code>"-"</code></td></tr>
+ <tr><td><code>\uE028</code></td><td><code>"."</code></td></tr>
+ <tr><td><code>\uE029</code></td><td><code>"/"</code></td></tr>
+ <tr><td><code>\uE031</code></td><td><code>"F1"</code></td></tr>
+ <tr><td><code>\uE032</code></td><td><code>"F2"</code></td></tr>
+ <tr><td><code>\uE033</code></td><td><code>"F3"</code></td></tr>
+ <tr><td><code>\uE034</code></td><td><code>"F4"</code></td></tr>
+ <tr><td><code>\uE035</code></td><td><code>"F5"</code></td></tr>
+ <tr><td><code>\uE036</code></td><td><code>"F6"</code></td></tr>
+ <tr><td><code>\uE037</code></td><td><code>"F7"</code></td></tr>
+ <tr><td><code>\uE038</code></td><td><code>"F8"</code></td></tr>
+ <tr><td><code>\uE039</code></td><td><code>"F9"</code></td></tr>
+ <tr><td><code>\uE03A</code></td><td><code>"F10"</code></td></tr>
+ <tr><td><code>\uE03B</code></td><td><code>"F11"</code></td></tr>
+ <tr><td><code>\uE03C</code></td><td><code>"F12"</code></td></tr>
+ <tr><td><code>\uE03D</code></td><td><code>"Meta"</code></td></tr>
+ <tr><td><code>\uE040</code></td><td><code>"ZenkakuHankaku"</code></td></tr>
+ <!-- Right position variants -->
+ <tr><td><code>\uE050</code></td><td><code>"Shift"</code></td></tr>
+ <tr><td><code>\uE051</code></td><td><code>"Control"</code></td></tr>
+ <tr><td><code>\uE052</code></td><td><code>"Alt"</code></td></tr>
+ <tr><td><code>\uE053</code></td><td><code>"Meta"</code></td></tr>
+ <!-- Numpad Variants -->
+ <tr><td><code>\uE054</code></td><td><code>"PageUp"</code></td></tr>
+ <tr><td><code>\uE055</code></td><td><code>"PageDown"</code></td></tr>
+ <tr><td><code>\uE056</code></td><td><code>"End"</code></td></tr>
+ <tr><td><code>\uE057</code></td><td><code>"Home"</code></td></tr>
+ <tr><td><code>\uE058</code></td><td><code>"ArrowLeft"</code></td></tr>
+ <tr><td><code>\uE059</code></td><td><code>"ArrowUp"</code></td></tr>
+ <tr><td><code>\uE05A</code></td><td><code>"ArrowRight"</code></td></tr>
+ <tr><td><code>\uE05B</code></td><td><code>"ArrowDown"</code></td></tr>
+ <tr><td><code>\uE05C</code></td><td><code>"Insert"</code></td></tr>
+ <tr><td><code>\uE05D</code></td><td><code>"Delete"</code></td></tr>
+</table>
 
-      <p>The <dfn>key location</dfn> for <var>key</var> is the value
-        in the last column in the table below on the row
-        with <var>key</var> appears in the first column, if such a
-        row exists, otherwise it is <code>0</code>.
+<p>The <dfn>code</dfn> for <var>key</var> is the value in the last
+ column of the following table on the row with <var>key</var> in
+ either the first or second column, if any such row exists, otherwise
+ it is <code>undefined</code>.
 
-        <table class=simple>
-          <tr>
-            <th><var>key</var>'s codepoint
-            <th>Description
-            <th>Location
-          </tr>
-          <tr><td><code>\uE007</code></td><td>Enter</td><td><code>1</code></td></tr>
-          <tr><td><code>\uE008</code></td><td>Left Shift</td><td><code>1</code></td></tr>
-          <tr><td><code>\uE009</code></td><td>Left Control</td><td><code>1</code></td></tr>
-          <tr><td><code>\uE00A</code></td><td>Left Alt</td><td><code>1</code></td></tr>
-          <tr><td><code>\uE01A</code></td><td>Numpad 0</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE01B</code></td><td>Numpad 1</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE01C</code></td><td>Numpad 2</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE01D</code></td><td>Numpad 3</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE01E</code></td><td>Numpad 4</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE01F</code></td><td>Numpad 5</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE020</code></td><td>Numpad 6</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE021</code></td><td>Numpad 7</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE022</code></td><td>Numpad 8</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE023</code></td><td>Numpad 9</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE024</code></td><td>Numpad *</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE025</code></td><td>Numpad +</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE026</code></td><td>Numpad ,</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE027</code></td><td>Numpad -</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE028</code></td><td>Numpad .</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE029</code></td><td>Numpad /</td><td><code>3</code></td></tr>
-          <tr><td><code>\uE03D</code></td><td>Left Meta</td><td><code>1</code></td></tr>
-          <!-- Right position variants -->
-          <tr><td><code>\uE050</code></td><td>Right Shift</td><td><code>2</code></td></tr>
-          <tr><td><code>\uE051</code></td><td>Right Control</td><td><code>2</code></td></tr>
-          <tr><td><code>\uE052</code></td><td>Right
-              Alt</td><td><code>2</code></td></tr>
-          <tr><td><code>\uE053</code></td><td>Right Meta</td><td><code>2</code></td></tr>
-          <!-- Numpad Variants -->
-          <tr><td><code>\uE054</code></td><td>Numpad
-              PageUp<td><code>3</code></td></tr>
-          <tr><td><code>\uE055</code></td><td>Numpad
-              PageDown<td><code>3</code></td></tr>
-          <tr><td><code>\uE056</code></td><td>Numpad
-              End<td><code>3</code></td></tr>
-          <tr><td><code>\uE057</code></td><td>Numpad
-              Home<td><code>3</code></td></tr>
-          <tr><td><code>\uE058</code></td><td>Numpad
-              ArrowLeft<td><code>3</code></td></tr>
-          <tr><td><code>\uE059</code></td><td>Numpad
-              ArrowUp<td><code>3</code></td></tr>
-          <tr><td><code>\uE05A</code></td><td>Numpad
-              ArrowRight<td><code>3</code></td></tr>
-          <tr><td><code>\uE05B</code></td><td>Numpad
-              ArrowDown<td><code>3</code></td></tr>
-          <tr><td><code>\uE05C</code></td><td>Numpad
-              Insert<td><code>3</code></td></tr>
-          <tr><td><code>\uE05D</code></td><td>Numpad
-              Delete<td><code>3</code></td></tr>
-        </table>
+<p>A <dfn>shifted character</dfn> is one that appears in the second
+ column of the following table.
 
-      <p>When required to <dfn>dispatch a keyDown action</dfn> with arguments
-        <var>source id</var>, <var>action object</var>, <var>input state</var>
-        and <var>tick duration</var> a <a>remote end</a>
-        must run the following steps:</p>
+<!-- TODO This should perhaps return undefined when the shift key
+ doesn't match the requirement for producing the character? -->
 
-      <ol>
-        <li><p>Let <var>raw key</var> be equal to <var>action
-              object</var>'s <code>value</code> property.</li>
+<table class=simple>
+ <tr>
+   <th>Key
+   <th>Alternate Key
+   <th>code
+ </tr>
+ <tr><td><code>"`"</code></td><td><code>"~"</code></td><td><code>"Backquote"</code></td></tr>
+ <tr><td><code>"\"</code></td><td><code>"|"</code></td><td><code>"Backslash"</code></td></tr>
+ <tr><td><code>"\uE003"</code></td><td><code></code></td><td><code>"Backspace"</code></td></tr>
+ <tr><td><code>"["</code></td><td><code>"{"</code></td><td><code>"BracketLeft"</code></td></tr>
+ <tr><td><code>"}"</code></td><td><code>"]"</code></td><td><code>"BracketRight"</code></td></tr>
+ <tr><td><code>","</code></td><td><code>"&lt;"</code></td><td><code>"Comma"</code></td></tr>
+ <tr><td><code>"0"</code></td><td><code>")"</code></td><td><code>"Digit0"</code></td></tr>
+ <tr><td><code>"1"</code></td><td><code>"!"</code></td><td><code>"Digit1"</code></td></tr>
+ <tr><td><code>"2"</code></td><td><code>"@"</code></td><td><code>"Digit2"</code></td></tr>
+ <tr><td><code>"3"</code></td><td><code>"#"</code></td><td><code>"Digit3"</code></td></tr>
+ <tr><td><code>"4"</code></td><td><code>"$"</code></td><td><code>"Digit4"</code></td></tr>
+ <tr><td><code>"5"</code></td><td><code>"%"</code></td><td><code>"Digit5"</code></td></tr>
+ <tr><td><code>"6"</code></td><td><code>"^"</code></td><td><code>"Digit6"</code></td></tr>
+ <tr><td><code>"7"</code></td><td><code>"&amp;"</code></td><td><code>"Digit7"</code></td></tr>
+ <tr><td><code>"8"</code></td><td><code>"*"</code></td><td><code>"Digit8"</code></td></tr>
+ <tr><td><code>"9"</code></td><td><code>"("</code></td><td><code>"Digit9"</code></td></tr>
+ <tr><td><code>"="</code></td><td><code>"+"</code></td><td><code>"Equal"</code></td></tr>
+ <tr><td><code>"&lt;"</code></td><td><code>"&gt;"</code></td><td><code>"IntlBackslash"</code></td></tr>
+ <tr><td><code>"a"</code></td><td><code>"A"</code></td><td><code>"KeyA"</code></td></tr>
+ <tr><td><code>"b"</code></td><td><code>"B"</code></td><td><code>"KeyB"</code></td></tr>
+ <tr><td><code>"c"</code></td><td><code>"C"</code></td><td><code>"KeyC"</code></td></tr>
+ <tr><td><code>"d"</code></td><td><code>"D"</code></td><td><code>"KeyD"</code></td></tr>
+ <tr><td><code>"e"</code></td><td><code>"E"</code></td><td><code>"KeyE"</code></td></tr>
+ <tr><td><code>"f"</code></td><td><code>"F"</code></td><td><code>"KeyF"</code></td></tr>
+ <tr><td><code>"g"</code></td><td><code>"G"</code></td><td><code>"KeyG"</code></td></tr>
+ <tr><td><code>"h"</code></td><td><code>"H"</code></td><td><code>"KeyH"</code></td></tr>
+ <tr><td><code>"i"</code></td><td><code>"I"</code></td><td><code>"KeyI"</code></td></tr>
+ <tr><td><code>"j"</code></td><td><code>"J"</code></td><td><code>"KeyJ"</code></td></tr>
+ <tr><td><code>"k"</code></td><td><code>"K"</code></td><td><code>"KeyK"</code></td></tr>
+ <tr><td><code>"l"</code></td><td><code>"L"</code></td><td><code>"KeyL"</code></td></tr>
+ <tr><td><code>"m"</code></td><td><code>"M"</code></td><td><code>"KeyM"</code></td></tr>
+ <tr><td><code>"n"</code></td><td><code>"N"</code></td><td><code>"KeyN"</code></td></tr>
+ <tr><td><code>"o"</code></td><td><code>"O"</code></td><td><code>"KeyO"</code></td></tr>
+ <tr><td><code>"p"</code></td><td><code>"P"</code></td><td><code>"KeyP"</code></td></tr>
+ <tr><td><code>"q"</code></td><td><code>"Q"</code></td><td><code>"KeyQ"</code></td></tr>
+ <tr><td><code>"r"</code></td><td><code>"R"</code></td><td><code>"KeyR"</code></td></tr>
+ <tr><td><code>"s"</code></td><td><code>"S"</code></td><td><code>"KeyS"</code></td></tr>
+ <tr><td><code>"t"</code></td><td><code>"T"</code></td><td><code>"KeyT"</code></td></tr>
+ <tr><td><code>"u"</code></td><td><code>"U"</code></td><td><code>"KeyU"</code></td></tr>
+ <tr><td><code>"v"</code></td><td><code>"V"</code></td><td><code>"KeyV"</code></td></tr>
+ <tr><td><code>"w"</code></td><td><code>"W"</code></td><td><code>"KeyW"</code></td></tr>
+ <tr><td><code>"x"</code></td><td><code>"X"</code></td><td><code>"KeyX"</code></td></tr>
+ <tr><td><code>"y"</code></td><td><code>"Y"</code></td><td><code>"KeyY"</code></td></tr>
+ <tr><td><code>"z"</code></td><td><code>"Z"</code></td><td><code>"KeyZ"</code></td></tr>
+ <tr><td><code>"-"</code></td><td><code>"_"</code></td><td><code>"Minus"</code></td></tr>
+ <tr><td><code>"."</code></td><td><code>">"</code></td><td><code>"Period"</code></td></tr>
+ <tr><td><code>"'"</code></td><td><code>"&quot;"</code></td><td><code>"Quote"</code></td></tr>
+ <tr><td><code>";"</code></td><td><code>":"</code></td><td><code>"Semicolon"</code></td></tr>
+ <tr><td><code>"/"</code></td><td><code>"?"</code></td><td><code>"Slash"</code></td></tr>
+ <tr><td><code>"\uE00A"</code></td><td><code></code></td><td><code>"AltLeft"</code></td></tr>
+ <tr><td><code>"\uE052"</code></td><td><code></code></td><td><code>"AltRight"</code></td></tr>
+ <tr><td><code>"\uE009"</code></td><td><code></code></td><td><code>"ControlLeft"</code></td></tr>
+ <tr><td><code>"\uE051"</code></td><td><code></code></td><td><code>"ControlRight"</code></td></tr>
+ <tr><td><code>"\uE006"</code></td><td><code></code></td><td><code>"Enter"</code></td></tr>
+ <tr><td><code>"\uE03D"</code></td><td><code></code></td><td><code>"OSLeft"</code></td></tr>
+ <tr><td><code>"\uE053"</code></td><td><code></code></td><td><code>"OSRight"</code></td></tr>
+ <tr><td><code>"\uE008"</code></td><td><code></code></td><td><code>"ShiftLeft"</code></td></tr>
+ <tr><td><code>"\uE050"</code></td><td><code></code></td><td><code>"ShiftRight"</code></td></tr>
+ <tr><td><code>" "</code></td><td><code>"\uE00D"</code></td><td><code>"Space"</code></td></tr>
+ <tr><td><code>"\uE004"</code></td><td><code></code></td><td><code>"Tab"</code></td></tr>
+ <tr><td><code>"\uE017"</code></td><td><code></code></td><td><code>"Delete"</code></td></tr>
+ <tr><td><code>"\uE010"</code></td><td><code></code></td><td><code>"End"</code></td></tr>
+ <tr><td><code>"\uE002"</code></td><td><code></code></td><td><code>"Help"</code></td></tr>
+ <tr><td><code>"\uE011"</code></td><td><code></code></td><td><code>"Home"</code></td></tr>
+ <tr><td><code>"\uE016"</code></td><td><code></code></td><td><code>"Insert"</code></td></tr>
+ <tr><td><code>"\uE01E"</code></td><td><code></code></td><td><code>"PageDown"</code></td></tr>
+ <tr><td><code>"\uE01F"</code></td><td><code></code></td><td><code>"PageUp"</code></td></tr>
+ <tr><td><code>"\uE015"</code></td><td><code></code></td><td><code>"ArrowDown"</code></td></tr>
+ <tr><td><code>"\uE012"</code></td><td><code></code></td><td><code>"ArrowLeft"</code></td></tr>
+ <tr><td><code>"\uE014"</code></td><td><code></code></td><td><code>"ArrowRight"</code></td></tr>
+ <tr><td><code>"\uE013"</code></td><td><code></code></td><td><code>"ArrowUp"</code></td></tr>
+ <tr><td><code>"\uE00C"</code></td><td><code></code></td><td><code>"Escape"</code></td></tr>
+ <tr><td><code>"\uE031"</code></td><td><code></code></td><td><code>"F1"</code></td></tr>
+ <tr><td><code>"\uE032"</code></td><td><code></code></td><td><code>"F2"</code></td></tr>
+ <tr><td><code>"\uE033"</code></td><td><code></code></td><td><code>"F3"</code></td></tr>
+ <tr><td><code>"\uE034"</code></td><td><code></code></td><td><code>"F4"</code></td></tr>
+ <tr><td><code>"\uE035"</code></td><td><code></code></td><td><code>"F5"</code></td></tr>
+ <tr><td><code>"\uE036"</code></td><td><code></code></td><td><code>"F6"</code></td></tr>
+ <tr><td><code>"\uE037"</code></td><td><code></code></td><td><code>"F7"</code></td></tr>
+ <tr><td><code>"\uE038"</code></td><td><code></code></td><td><code>"F8"</code></td></tr>
+ <tr><td><code>"\uE039"</code></td><td><code></code></td><td><code>"F9"</code></td></tr>
+ <tr><td><code>"\uE03A"</code></td><td><code></code></td><td><code>"F10"</code></td></tr>
+ <tr><td><code>"\uE03B"</code></td><td><code></code></td><td><code>"F11"</code></td></tr>
+ <tr><td><code>"\uE03C"</code></td><td><code></code></td><td><code>"F12"</code></td></tr>
+ <tr><td><code>"\uE01A"</code></td><td><code>"\uE05C"</code></td><td><code>"Numpad0"</code></td></tr>
+ <tr><td><code>"\uE01B"</code></td><td><code>"\uE056"</code></td><td><code>"Numpad1"</code></td></tr>
+ <tr><td><code>"\uE01C"</code></td><td><code>"\uE05B"</code></td><td><code>"Numpad2"</code></td></tr>
+ <tr><td><code>"\uE01D"</code></td><td><code>"\uE055"</code></td><td><code>"Numpad3"</code></td></tr>
+ <tr><td><code>"\uE01E"</code></td><td><code>"\uE058"</code></td><td><code>"Numpad4"</code></td></tr>
+ <tr><td><code>"\uE01F"</code></td><td><code></code></td><td><code>"Numpad5"</code></td></tr>
+ <tr><td><code>"\uE020"</code></td><td><code>"\uE05A"</code></td><td><code>"Numpad6"</code></td></tr>
+ <tr><td><code>"\uE021"</code></td><td><code>"\uE057"</code></td><td><code>"Numpad7"</code></td></tr>
+ <tr><td><code>"\uE022"</code></td><td><code>"\uE059"</code></td><td><code>"Numpad8"</code></td></tr>
+ <tr><td><code>"\uE023"</code></td><td><code>"\uE054"</code></td><td><code>"Numpad9"</code></td></tr>
+ <tr><td><code>"\uE024"</code></td><td><code></code></td><td><code>"NumpadAdd"</code></td></tr>
+ <tr><td><code>"\uE026"</code></td><td><code></code></td><td><code>"NumpadComma"</code></td></tr>
+ <tr><td><code>"\uE028"</code></td><td><code>"\uE05D"</code></td><td><code>"NumpadDecimal"</code></td></tr>
+ <tr><td><code>"\uE029"</code></td><td><code></code></td><td><code>"NumpadDivide"</code></td></tr>
+ <tr><td><code>"\uE007"</code></td><td><code></code></td><td><code>"NumpadEnter"</code></td></tr>
+ <tr><td><code>"\uE024"</code></td><td><code></code></td><td><code>"NumpadMultiply"</code></td></tr>
+ <tr><td><code>"\uE026"</code></td><td><code></code></td><td><code>"NumpadSubtract"</code></td></tr>
+</table>
 
-        <li><p>Let <var>key</var> be equal to the <a>normalised key
-        value</a> for <var>raw key</var>.</li>
+<p>The <dfn>key location</dfn> for <var>key</var> is the value in the
+ last column in the table below on the row with <var>key</var> appears
+ in the first column, if such a row exists, otherwise it
+ is <code>0</code>.
 
-        <li><p>If the <var>input state</var>'s <code>pressed</code>
-            property contains <var>key</var>, let <var>repeat</var>
-            be true, otherwise let <var>repeat</var> be false.</li>
+<table class=simple>
+ <tr>
+  <th><var>key</var>'s codepoint
+  <th>Description
+  <th>Location
+ </tr>
+ <tr><td><code>\uE007</code></td><td>Enter</td><td><code>1</code></td></tr>
+ <tr><td><code>\uE008</code></td><td>Left Shift</td><td><code>1</code></td></tr>
+ <tr><td><code>\uE009</code></td><td>Left Control</td><td><code>1</code></td></tr>
+ <tr><td><code>\uE00A</code></td><td>Left Alt</td><td><code>1</code></td></tr>
+ <tr><td><code>\uE01A</code></td><td>Numpad 0</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE01B</code></td><td>Numpad 1</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE01C</code></td><td>Numpad 2</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE01D</code></td><td>Numpad 3</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE01E</code></td><td>Numpad 4</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE01F</code></td><td>Numpad 5</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE020</code></td><td>Numpad 6</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE021</code></td><td>Numpad 7</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE022</code></td><td>Numpad 8</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE023</code></td><td>Numpad 9</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE024</code></td><td>Numpad *</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE025</code></td><td>Numpad +</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE026</code></td><td>Numpad ,</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE027</code></td><td>Numpad -</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE028</code></td><td>Numpad .</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE029</code></td><td>Numpad /</td><td><code>3</code></td></tr>
+ <tr><td><code>\uE03D</code></td><td>Left Meta</td><td><code>1</code></td></tr>
+ <!-- Right position variants -->
+ <tr><td><code>\uE050</code></td><td>Right Shift</td><td><code>2</code></td></tr>
+ <tr><td><code>\uE051</code></td><td>Right Control</td><td><code>2</code></td></tr>
+ <tr><td><code>\uE052</code></td><td>Right Alt</td><td><code>2</code></td></tr>
+ <tr><td><code>\uE053</code></td><td>Right Meta</td><td><code>2</code></td></tr>
+ <!-- Numpad Variants -->
+ <tr><td><code>\uE054</code></td><td>Numpad PageUp<td><code>3</code></td></tr>
+ <tr><td><code>\uE055</code></td><td>Numpad PageDown<td><code>3</code></td></tr>
+ <tr><td><code>\uE056</code></td><td>Numpad End<td><code>3</code></td></tr>
+ <tr><td><code>\uE057</code></td><td>Numpad Home<td><code>3</code></td></tr>
+ <tr><td><code>\uE058</code></td><td>Numpad ArrowLeft<td><code>3</code></td></tr>
+ <tr><td><code>\uE059</code></td><td>Numpad ArrowUp<td><code>3</code></td></tr>
+ <tr><td><code>\uE05A</code></td><td>Numpad ArrowRight<td><code>3</code></td></tr>
+ <tr><td><code>\uE05B</code></td><td>Numpad ArrowDown<td><code>3</code></td></tr>
+ <tr><td><code>\uE05C</code></td><td>Numpad Insert<td><code>3</code></td></tr>
+ <tr><td><code>\uE05D</code></td><td>Numpad Delete<td><code>3</code></td></tr>
+</table>
 
-        <li><p>Let <var>code</var> be the <a>code</a>
-            for <var>raw key</var>.</li>
+<p>When required to <dfn>dispatch a keyDown action</dfn> with arguments
+ <var>source id</var>, <var>action object</var>,
+ <var>input state</var> and <var>tick duration</var> a <a>remote end</a>
+ must run the following steps:
 
-        <li><p>Let <var>location</var> be the <a>key location</a>
-            for <var>raw key</var>.</li>
+<ol>
+ <li><p>Let <var>raw key</var> be equal to\
+  <var>action object</var>'s <code>value</code> property.
 
-        <li><p>Let <var>charCode</var>, <var>keyCode</var>
-            and <var>which</var> be the implementation-specific values of
-            the <code>charCode</code>, <code>keyCode</code>
-            and <code>which</code> properties appropriate for a key with
-            key <var>key</var> and location <var>location</var> on a 102
-            key US keyboard, following the guidelines in [[!UI-EVENTS]].</li>
+ <li><p>Let <var>key</var> be equal to the <a>normalised key value</a>
+  for <var>raw key</var>.
 
-        <li><p>If <var>key</var> is <code>"Alt"</code>,
-            let <var>device state's</var> <code>alt</code> property
-            be true.</li>
+ <li><p>If the <var>input state</var>'s <code>pressed</code> property
+  contains <var>key</var>, let <var>repeat</var> be true, otherwise
+  let <var>repeat</var> be false.
 
-        <li><p>If <var>key</var> is <code>"Shift"</code>,
-            let <var>device state's</var> <code>shift</code> property
-            be true.</li>
+ <li><p>Let <var>code</var> be the <a>code</a> for <var>raw key</var>.
 
-        <li><p>If <var>key</var> is <code>"Control"</code>,
-            let <var>device state's</var> <code>ctrl</code> property
-            be true.</li>
+ <li><p>Let <var>location</var> be the <a>key location</a>
+  for <var>raw key</var>.
 
-        <li><p>If <var>key</var> is <code>"Meta"</code>,
-            let <var>device state's</var> <code>meta</code> property
-            be true.</li>
+ <li><p>Let <var>charCode</var>, <var>keyCode</var>
+  and <var>which</var> be the implementation-specific values of
+  the <code>charCode</code>, <code>keyCode</code>
+  and <code>which</code> properties appropriate for a key with
+  key <var>key</var> and location <var>location</var> on a 102 key US
+  keyboard, following the guidelines in [[!UI-EVENTS]].
 
-        <li><p>Add <var>key</var> to the set corresponding
-            to <var>input state</var>'s <code>pressed</code> property.</li>
+ <li><p>If <var>key</var> is <code>"Alt"</code>, let
+  <var>device state's</var> <code>alt</code> property be true.
+
+ <li><p>If <var>key</var> is <code>"Shift"</code>, let
+  <var>device state's</var> <code>shift</code> property be true.
+
+ <li><p>If <var>key</var> is <code>"Control"</code>, let
+  <var>device state's</var> <code>ctrl</code> property be true.
+
+ <li><p>If <var>key</var> is <code>"Meta"</code>, let
+  <var>device state's</var> <code>meta</code> property be true.
+
+ <li><p>Add <var>key</var> to the set corresponding to
+  <var>input state</var>'s <code>pressed</code> property.
+
+ <li><p>Append a copy of <var>action object</var> with
+  the <var>subtype</var> property changed to <var>keyUp</var>
+  to <a>current session</a>'s <a>input cancel list</a>.
+
+ <li><p><a data-lt="perform-actions">Perform implementation-specific
+  action dispatch steps</a> equivalent to pressing a key on the
+  keyboard in accordance with the requirements of [[!UI-EVENTS]], and
+  producing the following events, as appropriate, with the specified
+  properties.  This will always produce events including at least
+  a <code>keyDown</code> event.
+  <ul>
+   <li><a href="https://w3c.github.io/uievents/#keydown"><code>keyDown</code></a>
+    with properties:
+    <table class=simple>
+     <tr>
+      <th>Attribute</th>
+      <th>Value</th>
+     </tr>
+     <tr><td><code>key</code><td><var>key</var>
+     <tr><td><code>code</code><td><var>code</var>
+     <tr><td><code>location</code><td><var>location</var>
+     <tr><td><code>altKey</code><td><var>device state</var>'s <code>alt</code> property
+     <tr><td><code>shiftKey</code><td><var>device state</var>'s <code>shift</code> property
+     <tr><td><code>ctrlKey</code><td><var>device state</var>'s <code>ctrl</code> property
+     <tr><td><code>metaKey</code><td><var>device state</var>'s <code>meta</code> property
+     <tr><td><code>repeat</code><td><var>repeat</var>
+     <tr><td><code>isComposing</code><td><var>false</var>
+     <tr><td><code>charCode</code><td><var>charCode</var>
+     <tr><td><code>keyCode</code><td><var>keyCode</var>
+     <tr><td><code>which</code><td><var>which</var>
+    </table>
+
+   <li><a href="https://w3c.github.io/uievents/#keypress"><code>keyPress</code></a>
+    with properties:
+    <table class=simple>
+     <tr>
+      <th>Attribute</th>
+      <th>Value</th>
+     </tr>
+     <tr><td><code>key</code><td><var>key</var>
+     <tr><td><code>code</code><td><var>code</var>
+     <tr><td><code>location</code><td><var>location</var>
+     <tr><td><code>altKey</code><td><var>device state</var>'s <code>alt</code> property
+     <tr><td><code>shiftKey</code><td><var>device state</var>'s <code>shift</code> property
+     <tr><td><code>ctrlKey</code><td><var>device state</var>'s <code>ctrl</code> property
+     <tr><td><code>metaKey</code><td><var>device state</var>'s <code>meta</code> property
+     <tr><td><code>repeat</code><td><var>repeat</var>
+     <tr><td><code>isComposing</code><td><var>false</var>
+     <tr><td><code>charCode</code><td><var>charCode</var>
+     <tr><td><code>keyCode</code><td><var>keyCode</var>
+     <tr><td><code>which</code><td><var>which</var>
+    </table>
+  </ul>
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+
+<aside class=note>
+ <p>A single <a>keyDown</a> action produces a single key input,
+  irrespective of how long the key is held down; there is no implicit
+  key repetition.
+</aside>
+
+<p>When required to <dfn>dispatch a keyUp action</dfn> with
+ arguments <var>source id</var>, <var>action object</var>,
+ <var>input state</var> and <var>tick duration</var>
+ a <a>remote end</a> must run the following steps:</p>
+
+<ol>
+ <li><p>Let <var>raw key</var> be equal to
+  <var>action object</var>'s <code>value</code> property.
+
+ <li><p>Let <var>key</var> be equal to the
+  <a>normalised key value</a> for <var>raw key</var>.
+
+ <li><p>If the <var>input state</var>'s <code>pressed</code>
+  property does not contain <var>key</var>, return.
+
+ <li><p>Let <var>code</var> be the <a>code</a> for
+  <var>raw key</var>.
+
+ <li><p>Let <var>location</var> be the <a>key location</a>
+  for <var>raw key</var>.
+
+ <li><p>Let <var>charCode</var>, <var>keyCode</var>
+  and <var>which</var> be the implementation-specific values of
+  the <code>charCode</code>, <code>keyCode</code>
+  and <code>which</code> properties appropriate for a key with
+  key <var>key</var> and location <var>location</var> on a 102 key US
+  keyboard, following the guidelines in [[!UI-EVENTS]].
+
+ <li><p>If <var>key</var> is <code>"Alt"</code>, let
+  <var>device state's</var> <code>alt</code> property be false.
+
+ <li><p>If <var>key</var> is <code>"Shift"</code>, let
+  <var>device state's</var> <code>shift</code> property be false.
+
+ <li><p>If <var>key</var> is <code>"Control"</code>, let
+  <var>device state's</var> <code>ctrl</code> property be false.
+
+ <li><p>If <var>key</var> is <code>"Meta"</code>, let
+  <var>device state's</var> <code>meta</code> property be false.
+
+ <li><p>Remove <var>key</var> from the set corresponding
+  to <var>input state</var>'s <code>pressed</code> property.
+
+ <li><p><a data-lt="perform-actions">Perform implementation-specific
+  action dispatch steps</a> equivalent to releasing a key on the
+  keyboard in accordance with the requirements of [[!UI-EVENTS]], and
+  producing at least the following events with the specified
+  properties:
+  <ul>
+   <li><a href="https://w3c.github.io/uievents/#keyup"><code>keyup</code></a>,
+    with properties:
+    <table class=simple>
+     <tr>
+      <th>Attribute</th>
+      <th>Value</th>
+     </tr>
+     <tr><td><code>key</code><td><var>key</var></tr>
+     <tr><td><code>code</code><td><var>code</var></tr>
+     <tr><td><code>location</code><td><var>location</var></tr>
+     <tr><td><code>altKey</code><td><var>device state</var>'s <code>alt</code> property</tr>
+     <tr><td><code>shiftKey</code><td><var>device state</var>'s <code>shift</code> property</tr>
+     <tr><td><code>ctrlKey</code><td><var>device state</var>'s <code>ctrl</code> property</tr>
+     <tr><td><code>metaKey</code><td><var>device state</var>'s <code>meta</code> property</tr>
+     <tr><td><code>repeat</code><td><var>false</var></tr>
+     <tr><td><code>isComposing</code><td><var>false</var></tr>
+     <tr><td><code>charCode</code><td><var>charCode</var></tr>
+     <tr><td><code>keyCode</code><td><var>keyCode</var></tr>
+     <tr><td><code>which</code><td><var>which</var></tr>
+    </table>
+  </ul>
+ <li><p>Return <a>success</a> with data null.
+</ol>
+
+</section>
+
+<section> <!-- Pointer Actions -->
+<h2>Pointer Actions</h2>
+
+<p>When required to <dfn>dispatch a pointerDown action</dfn> with
+ arguments <var>source id</var>, <var>action object</var>,
+ <var>input state</var> and <var>tick duration</var> a
+ <a>remote end</a> must run the following steps:
+
+<ol>
+ <li><p>Let <var>pointerType</var> be equal to
+  <var>action object</var>'s <code>pointerType</code> property.
+
+ <li><p>Let <var>button</var> be equal to
+  <var>action object</var>'s <code>button</code> property.
+
+ <li><p>If the <var>input state</var>'s <code>pressed</code> property
+  contains <var>button</var> return <a>success</a> with data null.
+
+ <li><p>Let <var>primary</var> be equal to <a>action object</a>'s
+  <code>primary</code> property.
+
+ <li><p>Let <var>x</var> be equal to <var>input state</var>'s
+  <code>x</code> property.
+
+ <li><p>Let <var>y</var> be equal to <var>input state</var>'s
+  <code>y</code> property.
+
+ <li><p>Add <var>button</var> to the set corresponding to
+  <var>input state</var>'s <code>pressed</code> property, and
+  let <var>buttons</var> be the resulting value of that property.
 
         <li><p>Append a copy of <var>action object</var> with
-        the <var>subtype</var> property changed to <var>keyUp</var>
-        to <a>current session</a>'s <a>input cancel list</a>.</li>
-
-        <li><p><a data-lt="perform-actions">Perform
-        implementation-specific action dispatch steps</a> equivalent
-        to pressing a key on the keyboard in accordance with the
-        requirements of [[!UI-EVENTS]], and producing the
-        following events, as appropriate, with the specified properties.
-        This will always produce events including at least a <code>keyDown</code>
-        event.
-            <ul>
-              <li><a href="https://w3c.github.io/uievents/#keydown"><code>keyDown</code></a>
-              with properties:
-                  <table class=simple>
-                    <tr>
-                      <th>Attribute</th>
-                      <th>Value</th>
-                    </tr>
-                    <tr><td><code>key</code><td><var>key</var>
-                    <tr><td><code>code</code><td><var>code</var>
-                    <tr><td><code>location</code><td><var>location</var>
-                    <tr><td><code>altKey</code><td><var>device
-                    state</var>'s <code>alt</code> property
-                    <tr><td><code>shiftKey</code><td><var>device
-                    state</var>'s <code>shift</code> property
-                    <tr><td><code>ctrlKey</code><td><var>device
-                    state</var>'s <code>ctrl</code> property
-                    <tr><td><code>metaKey</code><td><var>device
-                    state</var>'s <code>meta</code> property
-                    <tr><td><code>repeat</code><td><var>repeat</var>
-                    <tr><td><code>isComposing</code><td><var>false</var>
-                    <tr><td><code>charCode</code><td><var>charCode</var>
-                    <tr><td><code>keyCode</code><td><var>keyCode</var>
-                    <tr><td><code>which</code><td><var>which</var>
-                  </table>
-              </li>
-              <li><a href="https://w3c.github.io/uievents/#keypress"><code>keyPress</code></a>,
-              with properties:
-                  <table class=simple>
-                    <tr>
-                      <th>Attribute</th>
-                      <th>Value</th>
-                    </tr>
-                    <tr><td><code>key</code><td><var>key</var>
-                    <tr><td><code>code</code><td><var>code</var>
-                    <tr><td><code>location</code><td><var>location</var>
-                    <tr><td><code>altKey</code><td><var>device
-                    state</var>'s <code>alt</code> property
-                    <tr><td><code>shiftKey</code><td><var>device
-                    state</var>'s <code>shift</code> property
-                    <tr><td><code>ctrlKey</code><td><var>device
-                    state</var>'s <code>ctrl</code> property
-                    <tr><td><code>metaKey</code><td><var>device
-                    state</var>'s <code>meta</code> property
-                    <tr><td><code>repeat</code><td><var>repeat</var>
-                    <tr><td><code>isComposing</code><td><var>false</var>
-                    <tr><td><code>charCode</code><td><var>charCode</var>
-                    <tr><td><code>keyCode</code><td><var>keyCode</var>
-                    <tr><td><code>which</code><td><var>which</var>
-                  </table>
-              </li>
-            </ul>
-        </li>
-
-        <li><p>Return <a>success</a> with data null.</li>
-      </ol>
-
-      <aside class=note>
-        <p>A single <a>keyDown</a> action produces a single key input,
-        irrespective of how long the key is held down; there is no
-        implicit key repetition.
-      </aside>
-
-      <p>When required to <dfn>dispatch a keyUp action</dfn> with
-        arguments <var>source id</var>, <var>action object</var>,
-        <var>input state</var> and <var>tick duration</var>
-        a <a>remote end</a> must run the following steps:</p>
-
-      <ol>
-        <li><p>Let <var>raw key</var> be equal to <var>action
-              object</var>'s <code>value</code> property.</li>
-
-        <li><p>Let <var>key</var> be equal to the <a>normalised key
-              value</a> for <var>raw key</var>.</li>
-
-        <li><p>If the <var>input state</var>'s <code>pressed</code>
-            property does not contain <var>key</var>, return.</li>
-
-        <li><p>Let <var>code</var> be the <a>code</a>
-            for <var>raw key</var>.</li>
-
-        <li><p>Let <var>location</var> be the <a>key location</a>
-            for <var>raw key</var>.</li>
-
-        <li><p>Let <var>charCode</var>, <var>keyCode</var>
-            and <var>which</var> be the implementation-specific values
-            of the <code>charCode</code>, <code>keyCode</code>
-            and <code>which</code> properties appropriate for a key
-            with key <var>key</var> and location <var>location</var>
-            on a 102 key US keyboard, following the guidelines in
-            [[!UI-EVENTS]].</li>
-
-        <li><p>If <var>key</var> is <code>"Alt"</code>,
-            let <var>device state's</var> <code>alt</code> property
-            be false.</li>
-
-        <li><p>If <var>key</var> is <code>"Shift"</code>,
-            let <var>device state's</var> <code>shift</code> property
-            be false.</li>
-
-        <li><p>If <var>key</var> is <code>"Control"</code>,
-            let <var>device state's</var> <code>ctrl</code> property
-            be false.</li>
-
-        <li><p>If <var>key</var> is <code>"Meta"</code>,
-            let <var>device state's</var> <code>meta</code> property
-            be false.</li>
-
-        <li><p>Remove <var>key</var> from the set corresponding
-            to <var>input state</var>'s <code>pressed</code> property.</li>
-
-        <li><p><a data-lt="perform-actions">Perform
-            implementation-specific action dispatch steps</a>
-            equivalent to releasing a key on the keyboard in accordance
-            with the requirements of [[!UI-EVENTS]], and producing at
-            least the following events with the specified properties:
-            <ul>
-              <li><a href="https://w3c.github.io/uievents/#keyup"><code>keyup</code></a>,
-                with properties:
-                  <table class=simple>
-                    <tr>
-                      <th>Attribute</th>
-                      <th>Value</th>
-                    </tr>
-                    <tr><td><code>key</code><td><var>key</var></tr>
-                    <tr><td><code>code</code><td><var>code</var></tr>
-                    <tr><td><code>location</code><td><var>location</var></tr>
-                    <tr><td><code>altKey</code><td><var>device
-                          state</var>'s <code>alt</code> property</tr>
-                    <tr><td><code>shiftKey</code><td><var>device
-                          state</var>'s <code>shift</code> property</tr>
-                    <tr><td><code>ctrlKey</code><td><var>device
-                          state</var>'s <code>ctrl</code> property</tr>
-                    <tr><td><code>metaKey</code><td><var>device
-                          state</var>'s <code>meta</code> property</tr>
-                    <tr><td><code>repeat</code><td><var>false</var></tr>
-                    <tr><td><code>isComposing</code><td><var>false</var></tr>
-                    <tr><td><code>charCode</code><td><var>charCode</var></tr>
-                    <tr><td><code>keyCode</code><td><var>keyCode</var></tr>
-                    <tr><td><code>which</code><td><var>which</var></tr>
-                  </table>
-              </li>
-            </ul>
-        </li>
-        <li><p>Return <a>success</a> with data null.</li>
-      </ol>
-
-    </section>
-
-    <section> <!-- Pointer Actions -->
-      <h2>Pointer Actions</h2>
-
-      <p>When required to <dfn>dispatch a pointerDown action</dfn>
-        with arguments <var>source id</var>, <var>action
-        object</var>, <var>input state</var> and <var>tick
-        duration</var> a <a>remote end</a> must run the following
-        steps:</p>
-
-      <ol>
-        <li><p>Let <var>pointerType</var> be equal to <var>action
-        object</var>'s <code>pointerType</code> property.</li>
-
-        <li><p>Let <var>button</var> be equal to <var>action
-              object</var>'s <code>button</code> property.</li>
-
-        <li><p>If the <var>input state</var>'s <code>pressed</code>
-            property contains <var>button</var> return <a>success</a>
-            with data null.</li>
-
-        <li><p>Let <var>primary</var> be equal to <a>action object</a>'s
-            <code>primary</code> property.</li>
-
-        <li><p>Let <var>x</var> be equal to <var>input state</var>'s
-            <code>x</code> property.</li>
-
-        <li><p>Let <var>y</var> be equal to <var>input state</var>'s
-            <code>y</code> property.</li>
-
-        <li><p>Add <var>button</var> to the set corresponding
-            to <var>input state</var>'s <code>pressed</code>
-            property, and let <var>buttons</var> be the resulting
-            value of that property.</li>
-
-        <li><p>Append a copy of <var>action object</var> with
-        the <var>subtype</var> property changed to <var>pointerUp</var>
-        to the <a>current session</a>'s <a>input cancel list</a>.</li>
-
-        <li><p><a data-lt="perform-actions">Perform
-            implementation-specific action dispatch steps</a>
-            equivalent to pressing the button
-            numbered <var>button</var> on the pointer with
-            ID <var>source id</var>, having type
-            type <var>pointerType</var> at viewport x
-            coordinate <var>x</var>, viewport y
-            coordinate <var>y</var>, with buttons <var>buttons</var>
-            depressed, in accordance with the requirements of
-            [[!UI-EVENTS]] and [[!POINTER-EVENTS]], with
-            <var>primary</var> determining whether the pointer is
-            regarded as a primary pointer and thus generates legacy
-            mouse events. Type specific properties for the pointer
-            that are not exposed through the webdriver API must be set
-            to the default value specified for hardware that doesn't
-            support that property.</li>
-
-        <!-- TODO: add some events that should be emitted? This is a
-        bit complicated in this case because e.g. pointerDown is only
-        emitted if there were no previous buttons held down -->
-
-        <li><p>Return <a>success</a> with data null.</li>
-      </ol>
-
-      <p>When required to <dfn>dispatch a pointerUp action</dfn> with
-        arguments <var>source id</var>, <var>action
-        object</var>, <var>input state</var> and <var>tick
-        duration</var> a <a>remote end</a> must run the following
-        steps:</p>
-
-      <ol>
-        <li><p>Let <var>pointerType</var> be equal to <var>action
-              object</var>'s <code>pointerType</code> property.</li>
-
-        <li><p>Let <var>button</var> be equal to <var>action
-              object</var>'s <code>button</code> property.</li>
-
-        <li><p>If the <var>input state</var>'s <code>pressed</code>
-            property does not contain <var>button</var>
-            return <a>success</a> with data null.</li>
-
-        <li><p>Let <var>primary</var> be equal to <a>action object</a>'s
-            <code>primary</code> property.</li>
-
-        <li><p>Let <var>x</var> be equal to <a>action object</a>'s
-            <code>x</code> property.</li>
-
-        <li><p>Let <var>y</var> be equal to <a>action object</a>'s
-            <code>y</code> property.</li>
-
-        <li><p>Remove <var>button</var> from the set corresponding
-            to <var>input state</var>'s <code>pressed</code>
-            property, and let <var>buttons</var> be the resulting
-            value of that property.</li>
-
-        <li><p><a data-lt="perform-actions">Perform
-            implementation-specific action dispatch steps</a>
-            equivalent to releasing the button
-            numbered <var>button</var> on the pointer of
-            ID <var>source id</var> having type
-            type <var>pointerType</var> at viewport x
-            coordinate <var>x</var>, viewport y
-            coordinate <var>y</var>, with buttons <var>buttons</var>
-            depressed, in accordance with the requirements of
-            [[!UI-EVENTS]] and [[!POINTER-EVENTS]], with
-            <var>primary</var> determining whether the pointer is
-            regarded as a primary pointer and thus generates legacy
-            mouse events. Type specific properties for the pointer
-            that are not exposed through the webdriver API must be set
-            to the default value specified for hardware that doesn't
-            support that property.</li>
-
-        <!-- TODO: add some events that should be emitted? This is a
-        bit complicated in this case because e.g. pointerDown is only
-        emitted if there were no previous buttons held down -->
-
-        <li><p>Return <a>success</a> with data null.</li>
-      </ol>
-
-      <p>When required to <dfn>dispatch a pointerMove action</dfn>
-        with arguments <var>source id</var>, <var>action
-        object</var>, <var>input state</var> and <var>tick
-        duration</var> a <a>remote end</a> must run the following
-        steps:</p>
-
-      <ol>
-        <li><p>Let <var>x offset</var> be equal to the <code>x</code>
-            property of <var>action object</var>.</li>
-
-        <li><p>Let <var>y offset</var> be equal to the <code>y</code>
-            property of <var>action object</var>.</li>
-
-        <li><p>Let <var>start x</var> be equal to the <code>x</code>
-            property of <var>input state</var>.</li>
-
-        <li><p>Let <var>start y</var> be equal to the <code>y</code>
-            property of <var>input state</var>.</li>
-
-        <li><p>Let <var>origin</var> be equal to
-            the <code>origin</code> property of <var>action
-            object</var>.</li>
-
-        <li><p>Run the substeps of the first matching
-            value of <var>origin</var>:
-            <dl>
-              <dt><code>"viewport"</code></dt>
-              <dd><p>Let <var>x</var> equal <var>x offset</var> and
-                  <var>y</var> equal <var>y offset</var>.</dd>
-
-              <dt><code>"pointer"</code></dt>
-              <dd><p>Let <var>x</var> equal <var>start x</var>
-              + <var>x offset</var> and
-                  <var>y</var> equal <var>start y</var> + <var>y
-                  offset</var>.</dd>
-
-              <dt>An object that <a>represents a web element</a></dt>
-              <dd>
-                <ol>
-                  <li><p>Let <var>element</var> be equal to the result
-                      of <a>trying</a> to <var>get a known
-                      element</var> with
-                      argument <var>origin</var>.</li>
-
-                  <li><p>Let <var>x element</var> and <var>y
-                  element</var> be the result of calculating the
-                    <a>in-view center point</a>
-                    of <var>element</var>.</li>
-
-                  <li><p>Let <var>x</var> equal <var>x element</var>
-                      + <var>x offset</var>, and <var>y</var>
-                      equal <var>y element</var> + <var>y
-                      offset</var>.</li>
-                </ol>
-              </dd>
-            </dl>
-        </li>
-
-        <li><p>If <var>x</var> is less than 0 or greater than the width
-            of the viewport in <a>CSS reference pixels</a>, then
-            return <a>error</a> with error code <a>move target out of
-              bounds</a>.</li>
-
-        <li><p>If <var>y</var> is less than 0 or greater than the height
-            of the viewport in <a>CSS reference pixels</a>, then
-            return <a>error</a> with error code <a>move target out of
-              bounds</a>.</li>
-
-        <li><p>Let <var>duration</var> be equal to <var>action
-            object</var>'s <code>duration</code> property if it is
-            not <code>undefined</code>, or <var>tick duration</var>
-            otherwise.</li>
-
-        <li><p>If <var>duration</var> is greater than 0 and inside any
-            implementation-defined bounds, <a>asynchronously wait</a>
-            for an implementation defined amount of time to pass.
-
-            <aside><p>This wait allows the implementation to model the
-            overall pointer move as a series of small movements
-            occuring at an implementation defined rate (e.g. one
-            movement per vsync).</p></aside></li>
-
-        <li><p><a>Perform a pointer move</a> with
-              arguments <var>source id</var>, <var>input
-              state</var>, <var>duration</var>, <var>start
-              x</var>, <var>start
-              y</var>, <var>x</var>, <var>y</var>.</li>
-
-      </ol>
-
-      <p>When required to <dfn>perform a pointer move</dfn> with
-        arguments <var>source id</var>, <var>input
-        state</var>, <var>duration</var>,
-        <var>start x</var>, <var>start y</var>, <var>target x</var>
-        and <var>target y</var>, an implementation must run the
-        following steps:
-
-        <ol>
-
-          <li><p>Let <var>subtype</var> equal the <code>subtype</code>
-          property of <var>input state</var>.
-
-          <li><p>Let <var>time delta</var> be the time since the
-              beginning of the current tick, measured in milliseconds on a
-              monotonic clock.</li>
-
-          <li><p>Let <var>duration ratio</var> be the ratio
-              of <var>time deta</var> and <var>duration</var>,
-              if <var>duration</var> is greater than 0, or 1
-              otherwise.</li>
-
-          <li><p>If <var>duration ratio</var> is 1, or close enough to
-              1 that the implementation will not further subdivide the move
-              action, let <var>last</var> be true. Otherwise
-              let <var>last</var> be <code>false</code>.</li>
-
-          <li><p>If <var>last</var> is true, let <var>x</var>
-              equal <var>target x</var> and <var>y</var>
-              equal <var>target y</var>.
-
-              <p>Otherwise let <var>x</var> equal an approximation
-              to <var>duration ratio</var> &times; (<var>target
-              x</var> - <var>start x</var>) + <var>start x</var>,
-              and <var>y</var> equal an approximation to <var>duration
-              ratio</var> &times; (<var>target y</var> - <var>start
-              y</var>) + <var>start y</var>.</li>
-
-          <li><p>Let <var>current x</var> equal the <code>x</code>
-              property of <var>input state</var>.</li>
-
-          <li><p>Let <var>current y</var> equal the <code>y</code>
-              property of <var>input state</var>.</li>
-
-          <li><p>If <var>x</var> is not equal to <var>current x</var>
-              or <var>y</var> is not equal to <var>current y</var>, run
-              the following steps:</p>
-
-            <ol>
-              <li><p>Let <var>buttons</var> be equal to input
-                  state's <code>buttons</code> property.</li>
-
-              <li><p><a data-lt="perform-actions">Perform
-                    implementation-specific action dispatch steps</a>
-                    equivalent to moving the pointer with
-                    ID <var>source id</var> having
-                    type <var>pointerType</var> from viewport x
-                    coordinate <var>current x</var>, viewport y
-                    coordinate <var>y</var> to viewport x
-                    coordinate <var>x</var> and viewport y
-                    coordinate <var>y</var>, with
-                    buttons <var>buttons</var> depressed, in
-                    accordance with the requirements of [[!UI-EVENTS]]
-                    and [[!POINTER-EVENTS]], with <var>primary</var>
-                    determining whether the pointer is regarded as a
-                    primary pointer and thus generates legacy mouse
-                    events. Type specific properties for the pointer
-                    that are not exposed through the WebDriver API
-                    must be set to the default value specified for
-                    hardware that doesn't support that property. In
-                    the case where the <var>pointerType</var>
-                    is <code>"pen"</code> or <code>"touch"</code>,
-                    and <var>buttons</var> is empty, this may be a
-                    no-op. For a pointer of type <code>"mouse"</code>,
-                    this will always produce events including at least
-                    a <code>pointerMove</code> event.</li>
-
-              <li><p>Let <var>input state</var>'s <code>x</code>
-                  property equal <var>x</var> and <code>y</code> property
-                  equal <var>y</var>.</li>
-            </ol>
-          </li>
-
-          <li><p>If <var>last</var> is true, return.
-
-        <li><p><a>Asynchronously wait</a> for an implementation
-        defined amount of time to pass.
-
-        <aside><p>This wait allows the implementation to model the
-            overall pointer move as a series of small movements
-            occuring at an implementation defined rate (e.g. one
-            movement per vsync).</p></aside>
-
-
-        <li><p><a>Perform a pointer move</a> with
-            arguments <var>source id</var>, <var>input
-            state</var>, <var>duration</var>, <var>start
-            x</var>, <var>start y</var>, <var>target
-            x</var>, <var>target y</var>.</li>
-
-        </ol>
-
-      <p>When required to <dfn>dispatch a pointerCancel action</dfn>
-        with arguments <var>source id</var>, <var>action
-        object</var>, <var>input state</var> and <var>tick
-        duration</var> a <a>remote end</a> must run the following
-        steps:</p>
-
-      <ol>
-        <li><p><a data-lt="perform-actions">Perform
-              implementation-specific action dispatch steps</a>
-            equivalent to cancelling the any action of the
-            pointer with ID <var>source id</var> having
-            type <var>pointerType</var>, in accordance with
-            the requirements of [[!UI-EVENTS]] and
-            [[!POINTER-EVENTS]].</li>
-      </ol>
-    </section> <!-- /Pointer Actions -->
-  </section> <!-- /Dispatching Actions -->
-
-  <section> <!-- Perform Actions -->
-    <h2>Perform Actions</h2>
-    <p><table class="simple jsoncommand">
-        <tr>
-          <th>HTTP Method</th>
-          <th>Path Template</th>
-        </tr>
-        <tr>
-          <td>POST</td>
-          <td>/session/{<var>session id</var>}/actions</td>
-        </tr>
-      </table>
-
-      <section> <!-- Payload Format -->
-        <h2>Payload Format</h2>
-        <p><i>This section is non-normative.</i>
-          <!-- TODO -->
-      </section> <!-- /Payload Format -->
-      <section> <!-- Remote End Steps -->
-        <h2>Remote End Steps</h2>
-        <p>The <a>remote end steps</a> are:</p>
-
-        <ol>
-          <li><p>If the <a>current browsing context</a>
-              is <a>no longer open</a>, return <a>error</a>
-              with <a>error code</a> <a>no such window</a>.</li>
-
-          <li><p><a>Handle any user prompts</a>. If this results in
-              an <a>error</a>, return that <a>error</a>.</li>
-
-          <li><p>Let <var>actions by tick</var> be the result
-          of <a>trying</a> to <a>extract an action sequence</a> with
-          argument <var>parameters</var>.</li>
-
-          <li><p><a>Dispatch actions</a> with argument <var>actions by
-          tick</var>. If this results in an <a>error</a> return that
-          error.</li>
-
-          <li><p>Return <a>success</a> with data null.</li>
-        </ol>
-      </section> <!-- Remote End Steps -->
-  </section> <!-- Perform Actions -->
-
-  <section><!-- Release Actions -->
-  <h2>Release Actions</h2>
-  <table class="simple jsoncommand">
-    <tr>
-      <th>HTTP Method</th>
-      <th>Path Template</th>
-    </tr>
-    <tr>
-      <td>DELETE</td>
-      <td>/session/{<var>session id</var>}/actions</td>
-    </tr>
-  </table>
-
-    <p>The <dfn>Release Actions</dfn> <a>command</a> is used to
-    release all the keys and pointer buttons that are currently
-    depressed. This causes events to be <a>fired</a> as if the state was
-    released by an explicit series of actions. It also clears all the
-    internal state of the virtual devices.
-
-    <p>The <a>remote end steps</a> are:
-      <ol>
-
-        <li><p>Let <var>undo actions</var> be equal to the <a>current
-              session</a>'s <a>input cancel list</a> in reverse
-              order.</li>
-
-        <li><p><a>Dispatch tick actions</a> with arguments <var>undo
-              actions</var> and duration 0.</li>
-
-        <li><p>Let the <a>current session</a>'s <a>input cancel list</a> be
-            an empty <a>List</a>.</li>
-
-        <li><p>Let the <a>current session</a>'s <a>input state</a> be
-            an empty map.</li>
-
-        <li><p>Return <a>success</a> with data null.
-      </ol>
-    </section><!-- /Releasing Actions -->
+  the <var>subtype</var> property changed to <var>pointerUp</var> to
+  the <a>current session</a>'s <a>input cancel list</a>.
+
+ <li><p><a data-lt="perform-actions">Perform implementation-specific
+  action dispatch steps</a> equivalent to pressing the button
+  numbered <var>button</var> on the pointer with ID
+  <var>source id</var>, having type type <var>pointerType</var> at
+  viewport x coordinate <var>x</var>, viewport y coordinate <var>y</var>,
+  with buttons <var>buttons</var> depressed, in accordance with the
+  requirements of [[!UI-EVENTS]] and [[!POINTER-EVENTS]], with
+  <var>primary</var> determining whether the pointer is regarded as a
+  primary pointer and thus generates legacy mouse events. Type
+  specific properties for the pointer that are not exposed through the
+  webdriver API must be set to the default value specified for
+  hardware that doesn't support that property.
+
+ <!-- TODO: add some events that should be emitted? This is a bit
+  complicated in this case because e.g. pointerDown is only emitted
+  if there were no previous buttons held down -->
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+
+<p>When required to <dfn>dispatch a pointerUp action</dfn> with
+ arguments <var>source id</var>, <var>action object</var>,
+ <var>input state</var> and <var>tick duration</var> a
+ <a>remote end</a> must run the following steps:
+
+<ol>
+ <li><p>Let <var>pointerType</var> be equal to
+  <var>action object</var>'s <code>pointerType</code> property.
+
+ <li><p>Let <var>button</var> be equal to
+  <var>action object</var>'s <code>button</code> property.
+
+ <li><p>If the <var>input state</var>'s <code>pressed</code> property
+  does not contain <var>button</var> return <a>success</a> with data
+  null.
+
+ <li><p>Let <var>primary</var> be equal to <a>action object</a>'s
+  <code>primary</code> property.
+
+ <li><p>Let <var>x</var> be equal to <a>action object</a>'s
+  <code>x</code> property.
+
+ <li><p>Let <var>y</var> be equal to <a>action object</a>'s
+  <code>y</code> property.
+
+ <li><p>Remove <var>button</var> from the set corresponding
+  to <var>input state</var>'s <code>pressed</code> property, and
+  let <var>buttons</var> be the resulting value of that
+  property.
+
+ <li><p><a data-lt="perform-actions">Perform implementation-specific
+  action dispatch steps</a> equivalent to releasing the button
+  numbered <var>button</var> on the pointer of ID
+  <var>source id</var> having type type <var>pointerType</var> at
+  viewport x coordinate <var>x</var>, viewport y
+  coordinate <var>y</var>, with buttons <var>buttons</var> depressed,
+  in accordance with the requirements of [[!UI-EVENTS]] and
+  [[!POINTER-EVENTS]], with
+  <var>primary</var> determining whether the pointer is regarded as a
+  primary pointer and thus generates legacy mouse events. Type
+  specific properties for the pointer that are not exposed through the
+  webdriver API must be set to the default value specified for
+  hardware that doesn't support that property.
+
+  <!-- TODO: add some events that should be emitted? This is a bit
+   complicated in this case because e.g. pointerDown is only emitted
+   if there were no previous buttons held down -->
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+
+<p>When required to <dfn>dispatch a pointerMove action</dfn> with
+ arguments <var>source id</var>, <var>action object</var>,
+ <var>input state</var> and <var>tick duration</var> a
+ <a>remote end</a> must runthe following steps:
+
+<ol>
+ <li><p>Let <var>x offset</var> be equal to the <code>x</code>
+  property of <var>action object</var>.
+
+ <li><p>Let <var>y offset</var> be equal to the <code>y</code>
+  property of <var>action object</var>.
+
+ <li><p>Let <var>start x</var> be equal to the <code>x</code>
+  property of <var>input state</var>.
+
+ <li><p>Let <var>start y</var> be equal to the <code>y</code>
+  property of <var>input state</var>.
+
+ <li><p>Let <var>origin</var> be equal to the <code>origin</code>
+  property of <var>action object</var>.
+
+ <li><p>Run the substeps of the first matching value
+  of <var>origin</var>:
+
+  <dl>
+   <dt><code>"viewport"</code></dt>
+   <dd><p>Let <var>x</var> equal <var>x offset</var> and
+    <var>y</var> equal <var>y offset</var>.</dd>
+
+   <dt><code>"pointer"</code></dt>
+   <dd><p>Let <var>x</var> equal <var>start x</var> +
+    <var>x offset</var> and <var>y</var> equal
+    <var>start y</var> + <var>y  offset</var>.</dd>
+
+   <dt>An object that <a>represents a web element</a></dt>
+   <dd>
+    <ol>
+     <li><p>Let <var>element</var> be equal to the result
+      of <a>trying</a> to <var>get a known element</var> with
+      argument <var>origin</var>.
+
+     <li><p>Let <var>x element</var> and <var>y element</var> be the
+      result of calculating the <a>in-view center point</a>
+      of <var>element</var>.
+
+     <li><p>Let <var>x</var> equal <var>x element</var> +
+      <var>x offset</var>, and <var>y</var> equal
+      <var>y element</var> + <var>y offset</var>.
+    </ol>
+   </dd>
+  </dl>
+
+ <li><p>If <var>x</var> is less than 0 or greater than the width of
+  the viewport in <a>CSS reference pixels</a>, then
+  return <a>error</a> with error code <a>move target out of
+  bounds</a>.
+
+ <li><p>If <var>y</var> is less than 0 or greater than the height of
+  the viewport in <a>CSS reference pixels</a>, then
+  return <a>error</a> with error code <a>move target out of
+  bounds</a>.
+
+ <li><p>Let <var>duration</var> be equal to
+  <var>action object</var>'s <code>duration</code> property if it
+  is not <code>undefined</code>, or <var>tick duration</var>
+  otherwise.
+
+ <li><p>If <var>duration</var> is greater than 0 and inside any
+  implementation-defined bounds, <a>asynchronously wait</a> for an
+  implementation defined amount of time to pass.
+
+  <aside><p>This wait allows the implementation to model the overall
+   pointer move as a series of small movements occuring at an
+   implementation defined rate (e.g. one movement per
+   vsync).</p></aside>
+ </li>
+
+ <li><p><a>Perform a pointer move</a> with arguments
+  <var>source id</var>, <var>input state</var>, <var>duration</var>,
+  <var>start x</var>, <var>start y</var>, <var>x</var>, <var>y</var>.
+</ol>
+
+<p>When required to <dfn>perform a pointer move</dfn> with
+ arguments <var>source id</var>, <var>input state</var>,
+ <var>duration</var>, <var>start x</var>, <var>start y</var>,
+ <var>target x</var> and <var>target y</var>, an implementation must
+ run the following steps:
+
+<ol>
+ <li><p>Let <var>subtype</var> equal the <code>subtype</code>
+  property of <var>input state</var>.
+
+ <li><p>Let <var>time delta</var> be the time since the beginning of
+  the current tick, measured in milliseconds on a monotonic
+  clock.
+
+ <li><p>Let <var>duration ratio</var> be the ratio of
+  <var>time deta</var> and <var>duration</var>, if <var>duration</var>
+  is greater than 0, or 1 otherwise.
+
+ <li><p>If <var>duration ratio</var> is 1, or close enough to 1 that
+  the implementation will not further subdivide the move action,
+  let <var>last</var> be true. Otherwise let <var>last</var>
+  be <code>false</code>.
+
+ <li><p>If <var>last</var> is true, let <var>x</var> equal
+  <var>target x</var> and <var>y</var> equal <var>target y</var>.
+
+  <p>Otherwise let <var>x</var> equal an approximation
+   to <var>duration ratio</var> &times; (<var>target x</var>
+   - <var>start x</var>) + <var>start x</var>, and <var>y</var> equal
+   an approximation to <var>duration ratio</var> &times;
+   (<var>target y</var> - <var>start y</var>) + <var>start y</var>.
+
+ <li><p>Let <var>current x</var> equal the <code>x</code> property
+  of <var>input state</var>.
+
+ <li><p>Let <var>current y</var> equal the <code>y</code> property
+  of <var>input state</var>.
+
+ <li><p>If <var>x</var> is not equal to <var>current x</var>
+  or <var>y</var> is not equal to <var>current y</var>, run the
+  following steps:
+
+  <ol>
+   <li><p>Let <var>buttons</var> be equal to input
+    state's <code>buttons</code> property.
+
+   <li><p><a data-lt="perform-actions">Perform implementation-specific
+    action dispatch steps</a> equivalent to moving the pointer with
+    ID <var>source id</var> having type <var>pointerType</var> from
+    viewport x coordinate <var>current x</var>, viewport y
+    coordinate <var>y</var> to viewport x coordinate <var>x</var> and
+    viewport y coordinate <var>y</var>, with
+    buttons <var>buttons</var> depressed, in accordance with the
+    requirements of [[!UI-EVENTS]] and [[!POINTER-EVENTS]],
+    with <var>primary</var> determining whether the pointer is
+    regarded as a primary pointer and thus generates legacy mouse
+    events. Type specific properties for the pointer that are not
+    exposed through the WebDriver API must be set to the default value
+    specified for hardware that doesn't support that property. In the
+    case where the <var>pointerType</var> is <code>"pen"</code>
+    or <code>"touch"</code>, and <var>buttons</var> is empty, this may
+    be a no-op. For a pointer of type <code>"mouse"</code>, this will
+    always produce events including at least
+    a <code>pointerMove</code> event.
+
+   <li><p>Let <var>input state</var>'s <code>x</code> property
+    equal <var>x</var> and <code>y</code> property
+    equal <var>y</var>.
+  </ol>
+
+ <li><p>If <var>last</var> is true, return.
+
+ <li><p><a>Asynchronously wait</a> for an implementation defined
+  amount of time to pass.
+
+ <aside><p>This wait allows the implementation to model the overall
+  pointer move as a series of small movements occuring at an
+  implementation defined rate (e.g. one movement per
+  vsync).</aside>
+
+ <li><p><a>Perform a pointer move</a> with arguments
+  <var>source id</var>, <var>input state</var>, <var>duration</var>,
+  <var>start x</var>, <var>start y</var>, <var>target x</var>,
+  <var>target y</var>.
+
+</ol>
+
+<p>When required to <dfn>dispatch a pointerCancel action</dfn> with
+ arguments <var>source id</var>, <var>action object</var>,
+ <var>input state</var> and <var>tick duration</var> a
+ <a>remote end</a> must run the following steps:
+
+<ol>
+ <li><p><a data-lt="perform-actions">Perform implementation-specific
+  action dispatch steps</a> equivalent to cancelling the any action of
+  the pointer with ID <var>source id</var> having
+  type <var>pointerType</var>, in accordance with the requirements of
+  [[!UI-EVENTS]] and [[!POINTER-EVENTS]].
+</ol>
+</section> <!-- /Pointer Actions -->
+</section> <!-- /Dispatching Actions -->
+
+
+<section> <!-- Perform Actions -->
+<h2>Perform Actions</h2>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/actions</td>
+ </tr>
+</table>
+
+<section> <!-- Payload Format -->
+<h2>Payload Format</h2>
+<p><i>This section is non-normative.</i>
+<!-- TODO -->
+</section> <!-- /Payload Format -->
+
+
+<section> <!-- Remote End Steps -->
+<h2>Remote End Steps</h2>
+<p>The <a>remote end steps</a> are:</p>
+
+<ol>
+ <li><p>If the <a>current browsing context</a> is <a>no longer
+  open</a>, return <a>error</a> with <a>error code</a> <a>no such
+  window</a>.
+
+ <li><p><a>Handle any user prompts</a>. If this results in
+  an <a>error</a>, return that <a>error</a>.
+
+ <li><p>Let <var>actions by tick</var> be the result of <a>trying</a>
+  to <a>extract an action sequence</a> with
+  argument <var>parameters</var>.
+
+ <li><p><a>Dispatch actions</a> with argument
+  <var>actions by tick</var>. If this results in an <a>error</a>
+  return that error.
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+</section> <!-- Remote End Steps -->
+</section> <!-- Perform Actions -->
+
+
+<section><!-- Release Actions -->
+<h2>Release Actions</h2>
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>DELETE</td>
+  <td>/session/{<var>session id</var>}/actions</td>
+ </tr>
+</table>
+
+<p>The <dfn>Release Actions</dfn> <a>command</a> is used to release
+ all the keys and pointer buttons that are currently depressed. This
+ causes events to be <a>fired</a> as if the state was released by an
+ explicit series of actions. It also clears all the internal state of
+ the virtual devices.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>Let <var>undo actions</var> be equal to the
+  <a>current session</a>'s <a>input cancel list</a> in reverse order.
+
+ <li><p><a>Dispatch tick actions</a> with arguments
+  <var>undo actions</var> and duration 0.
+
+ <li><p>Let the <a>current session</a>'s <a>input cancel list</a> be
+  an empty <a>List</a>.
+
+ <li><p>Let the <a>current session</a>'s <a>input state</a> be
+  an empty map.
+
+ <li><p>Return <a>success</a> with data null.
+</ol>
+</section><!-- /Releasing Actions -->
 
 </section><!-- /Actions -->
 
