@@ -1804,8 +1804,8 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
-  <td><dfn>Unexpected Alert Behaviour</dfn>
-  <td>"<code>unexpectedAlertBehaviour</code>"
+  <td><dfn>Unhandled Prompt Behaviour</dfn>
+  <td>"<code>unhandledPromptBehaviour</code>"
   <td>string
   <td>Describes the <a>current session</a>’s <a>user prompt handler</a>.
  </tr>
@@ -2141,7 +2141,7 @@ with a "<code>moz:</code>" prefix:
      <dd><p>If <var>capability value</var> is
       <a>null</a>, <a>undefined</a>, or equal to the string "<code>*</code>",
       it is to be considered a match for the entry in <var>matched capabilities</var>.
- 
+
       <p>Otherwise, compare <var>capability value</var>
        to the "<code>browserVersion</code>" entry in <var>matched capabilities</var>
        using an implementation-defined comparison algorithm.
@@ -2209,6 +2209,13 @@ with a "<code>moz:</code>" prefix:
 
       <p>Otherwise, set the "<code>timeouts</code>" entry
        in <var>matched capabilities</var> to <var>capability value</var>.
+
+     <dt>"<code>unhandledPromptBehaviour</code>"
+     <dd><p>If <var>capability value</var> is not a <a>user prompt handler</a>
+       keyword, return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+       <p>Otherwise, set the "<code>unhandledPromptBehaviour</code>" entry in
+         <var>matched capabilities</var> to <var>capability value</var>.
 
      <dt><strong>Otherwise</strong>
      <dd><p>If <var>capability name</var> is not recognized
@@ -2317,7 +2324,8 @@ with a "<code>moz:</code>" prefix:
  an "<code>acceptInsecureCerts</code>" <a>capability</a> with the value true.
  Unless stated otherwise, it is set.
 
-<p>A <a>session</a> has an associated <a>user prompt handler</a>.
+<p>A <a>session</a> has an associated <a>user prompt handler</a>. Unless stated
+  otherwise it is <code>null</code>.
 
 <p>A <a>session</a> has an associated <a>input state</a>.
 
@@ -3776,7 +3784,7 @@ with a "<code>moz:</code>" prefix:
  let <var>element</var> be the <a>known element</a>
  which <a>web element reference</a> matches <var>reference</var>.
  If there are none, return <a>error</a>
- with <a>error code</a> <a>no such element</a>. 
+ with <a>error code</a> <a>no such element</a>.
  If <var>element</var> <a>is stale</a>, return
  <a>error</a> with <a>error code</a>
  <a>stale element reference</a>. Otherwise return
@@ -4953,7 +4961,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p><a>Scroll into view</a> <var>element</var>’s <a>container</a>
   if it is not <a>pointer-interactable</a>.
- 
+
  <li><p>Wait in an implementation-specific way
   up to the <a>session implicit wait timeout</a>
   for the <a>container</a> to become <a>pointer-interactable</a>.
@@ -5152,7 +5160,7 @@ with a "<code>moz:</code>" prefix:
 with arguments <var>text</var> and <var>keyboard</var>, a <a>remote
 end</a> must for each <var>char</var> corresponding to an indexed
 property in <var>text</var>:
- 
+
   <ol>
    <li><p>If <var>char</var> is a <a>shifted character</a> and
     the <a>shifted state</a> of <var>keyboard</var>
@@ -8103,7 +8111,7 @@ must run the following steps:
 <p>A <dfn>user prompt handler</dfn> is an <a>enumerated attribute</a>
  defining what action the <a>remote end</a> must take
  when a <a>user prompt</a> is encountered. This is defined by the
- <a>unexpected alert behaviour</a> capability.
+ <a>unhandled prompt behaviour</a> capability.
  The following table lists the keywords and states for the attribute:
 
 <table class=simple>
@@ -8476,7 +8484,7 @@ must run the following steps:
  <li><p>Let <var>scroll</var> be true if it is <a>undefined</a>.
 
  <li><p>Let <var>element</var> be the result of
-  <a>trying</a> to <a>get a known element</a> 
+  <a>trying</a> to <a>get a known element</a>
   with argument <var>element id</var>.
 
  <li><p>Let <var>element rect</var> be <var>element</var>’s
