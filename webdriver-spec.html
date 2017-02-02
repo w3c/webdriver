@@ -510,6 +510,8 @@ var respecConfig = {
    <!-- Absolute URL with fragment --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-absolute-with-fragment>Absolute URL with fragment</a></dfn>
    <!-- Domain --><li><dfn><a href="https://url.spec.whatwg.org/#concept-domain">Domain</a></dfn>
    <!-- Host --> <li><dfn><a href="https://url.spec.whatwg.org/#concept-host">Host</a></dfn>
+   <!-- Is Special --> <li><dfn><a href="https://url.spec.whatwg.org/#is-special">Is special</a></dfn>
+   <!-- Local Scheme --> <li><dfn><a href="https://url.spec.whatwg.org/#local-scheme">Local scheme</a></dfn>
    <!-- Path-absolute URL --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-path-absolute>Path-absolute URL</a></dfn>
    <!-- Path --> <li><dfn><a href=https://url.spec.whatwg.org/#concept-url-path>Path</a></dfn>
    <!-- Port --> <li><dfn><a href="https://url.spec.whatwg.org/#concept-url-port">Port</a></dfn>
@@ -2854,16 +2856,20 @@ with a "<code>moz:</code>" prefix:
   from the <var>parameters</var> argument.
 
  <li><p>If <var>url</var> is not an <a>absolute URL</a>
-  or an <a>absolute URL with fragment</a>,
+  or is not an <a>absolute URL with fragment</a> or not a
+  <a>local scheme</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p><a>Navigate</a> the <a>current top-level browsing context</a> to <var>url</var>.
 
- <li><p>Run the <a>post-navigation checks</a>
-  and return its value if it is an <a>error</a>.
+ <li><p>If <var>url</var> <a>is special</a> except for <code>file</code>:
+ <ol>
+   <li><p>Run the <a>post-navigation checks</a>
+    and return its value if it is an <a>error</a>.
 
- <li><p><a>Wait for navigation to complete</a>
-  and return its value if it is an <a>error</a>.
+   <li><p><a>Wait for navigation to complete</a>
+    and return its value if it is an <a>error</a>.
+ </ol>
 
  <li><p>Set the <a>current browsing context</a>
   to the <a>current top-level browsing context</a>.
