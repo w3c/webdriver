@@ -6500,17 +6500,15 @@ must run the following steps:
  input state</dfn> object. This consists of a <code>subtype</code>
  property, which has the possible
  values <code>"mouse"</code>, <code>"pen"</code>,
- and <code>"touch"</code>, a <code>primary</code> property which is a
- boolean, a <code>pressed</code> property which is a set of unsigned
- integers, an <code>x</code> property which is an unsigned integer,
- and a <code>y</code> property which is an unsigned integer.
+ and <code>"touch"</code>, a <code>pressed</code> property which is a
+ set of unsigned integers, an <code>x</code> property which is an
+ unsigned integer, and a <code>y</code> property which is an unsigned
+ integer.
 
 <p>When required to <dfn>create a new pointer input state</dfn> object
- with arguments <var>subtype</var> and <var>primary</var> an
- implementation must return a <a>pointer input state</a> object
- with <code>subtype</code> set
- to <var>subtype</var>, <code>primary</code> set
- to <var>primary</var>, <code>pressed</code> set to an empty set and
+ with arguments <var>subtype</var> an implementation must return
+ a <a>pointer input state</a> object with <code>subtype</code> set
+ to <var>subtype</var>, <code>pressed</code> set to an empty set and
  both <code>x</code> and <code>y</code> set to <code>0</code>.
 
 <p>The <dfn>corresponding input state type</dfn>
@@ -6673,8 +6671,7 @@ must run the following steps:
 </ol>
 
 <p>The <dfn>default pointer parameters</dfn> consist of an object with
- property <code>pointerType</code> set to <code>mouse</code>
-    and <code>primary</code> set to <code>true</code>.
+ property <code>pointerType</code> set to <code>mouse</code>.
 
 <p>When required to <dfn>process pointer parameters</dfn> with
  argument <var>parameters data</var>, a <a>remote end</a> must perform
@@ -6704,20 +6701,6 @@ must run the following steps:
 
     <li><p>Set the <code>pointerType</code> property
      of <var>parameters</var> to <var>pointer type</var>.
-   </ol>
-
-  <li><p>Let <var>primary</var> be the result of getting a property
-   named <code>primary</code> from <var>parameters data</var>.
-
-  <li><p>If <var>primary</var> is not <a>undefined</a>:
-
-   <ol>
-    <li><p>If <var>primary</var> is not a <a>Boolean</a>
-     return <a>error</a> with <a>error code</a>
-     <a>invalid argument</a>.
-
-    <li><p>Set the <code>primary</code> property
-     of <var>parameters</var> to <var>primary</var>.
    </ol>
 
   <li><p>Return <a>success</a> with data <var>parameters</var>.
@@ -6826,10 +6809,6 @@ must run the following steps:
 
  <li><p>Set the <code>pointerType</code> property of <var>action</var>
   equal to the <code>pointerType</code> property
-  of <var>parameters</var>.
-
- <li><p>Set the <code>primary</code> property of <var>action</var>
-  equal to the <code>primary</code> property
   of <var>parameters</var>.
 
  <li><p>If <var>subtype</var> is <code>"pointerUp"</code>
@@ -7577,9 +7556,6 @@ must run the following steps:
  <li><p>If the <var>input state</var>'s <code>pressed</code> property
   contains <var>button</var> return <a>success</a> with data null.
 
- <li><p>Let <var>primary</var> be equal to <a>action object</a>'s
-  <code>primary</code> property.
-
  <li><p>Let <var>x</var> be equal to <var>input state</var>'s
   <code>x</code> property.
 
@@ -7590,7 +7566,7 @@ must run the following steps:
   <var>input state</var>'s <code>pressed</code> property, and
   let <var>buttons</var> be the resulting value of that property.
 
-        <li><p>Append a copy of <var>action object</var> with
+ <li><p>Append a copy of <var>action object</var> with
   the <var>subtype</var> property changed to <var>pointerUp</var> to
   the <a>current session</a>'s <a>input cancel list</a>.
 
@@ -7598,14 +7574,12 @@ must run the following steps:
   action dispatch steps</a> equivalent to pressing the button
   numbered <var>button</var> on the pointer with ID
   <var>source id</var>, having type type <var>pointerType</var> at
-  viewport x coordinate <var>x</var>, viewport y coordinate <var>y</var>,
-  with buttons <var>buttons</var> depressed, in accordance with the
-  requirements of [[!UI-EVENTS]] and [[!POINTER-EVENTS]], with
-  <var>primary</var> determining whether the pointer is regarded as a
-  primary pointer and thus generates legacy mouse events. Type
-  specific properties for the pointer that are not exposed through the
-  webdriver API must be set to the default value specified for
-  hardware that doesn't support that property.
+  viewport x coordinate <var>x</var>, viewport y
+  coordinate <var>y</var>, with buttons <var>buttons</var> depressed
+  in accordance with the requirements of [[!UI-EVENTS]] and
+  [[!POINTER-EVENTS]]. Type specific properties for the pointer that
+  are not exposed through the webdriver API must be set to the default
+  value specified for hardware that doesn't support that property.
 
  <!-- TODO: add some events that should be emitted? This is a bit
   complicated in this case because e.g. pointerDown is only emitted
@@ -7630,9 +7604,6 @@ must run the following steps:
   does not contain <var>button</var> return <a>success</a> with data
   null.
 
- <li><p>Let <var>primary</var> be equal to <a>action object</a>'s
-  <code>primary</code> property.
-
  <li><p>Let <var>x</var> be equal to <a>action object</a>'s
   <code>x</code> property.
 
@@ -7651,12 +7622,9 @@ must run the following steps:
   viewport x coordinate <var>x</var>, viewport y
   coordinate <var>y</var>, with buttons <var>buttons</var> depressed,
   in accordance with the requirements of [[!UI-EVENTS]] and
-  [[!POINTER-EVENTS]], with
-  <var>primary</var> determining whether the pointer is regarded as a
-  primary pointer and thus generates legacy mouse events. Type
-  specific properties for the pointer that are not exposed through the
-  webdriver API must be set to the default value specified for
-  hardware that doesn't support that property.
+  [[!POINTER-EVENTS]]. Type specific properties for the pointer that
+  are not exposed through the webdriver API must be set to the default
+  value specified for hardware that doesn't support that property.
 
   <!-- TODO: add some events that should be emitted? This is a bit
    complicated in this case because e.g. pointerDown is only emitted
@@ -7800,13 +7768,11 @@ must run the following steps:
     coordinate <var>y</var> to viewport x coordinate <var>x</var> and
     viewport y coordinate <var>y</var>, with
     buttons <var>buttons</var> depressed, in accordance with the
-    requirements of [[!UI-EVENTS]] and [[!POINTER-EVENTS]],
-    with <var>primary</var> determining whether the pointer is
-    regarded as a primary pointer and thus generates legacy mouse
-    events. Type specific properties for the pointer that are not
-    exposed through the WebDriver API must be set to the default value
-    specified for hardware that doesn't support that property. In the
-    case where the <var>pointerType</var> is <code>"pen"</code>
+    requirements of [[!UI-EVENTS]] and [[!POINTER-EVENTS]], Type
+    specific properties for the pointer that are not exposed through
+    the WebDriver API must be set to the default value specified for
+    hardware that doesn't support that property. In the case where
+    the <var>pointerType</var> is <code>"pen"</code>
     or <code>"touch"</code>, and <var>buttons</var> is empty, this may
     be a no-op. For a pointer of type <code>"mouse"</code>, this will
     always produce events including at least
