@@ -6465,13 +6465,6 @@ must run the following steps:
  and the <a data-lt="input state">device state</a> for that <a>input source</a>,
  with one entry for each active <a>input source</a>.
 
-<p>Each <a>session</a> also has an associated <dfn>input cancel
- list</dfn>, which is a list of actions. This list is used to manage
- dispatching events when resetting the state of the <a>input
- source</a>s. For simplicity the algorithms described here only append
- actions to the list and rely on the fact that the reset operations
- are idempotent.
-
 <p>A <a>null input source</a> has a corresponding <dfn>null input
  state</dfn> object. This is always an empty object.
 
@@ -6531,6 +6524,14 @@ must run the following steps:
   <td><a>pointer input state</a>
  </tr>
 </table>
+
+<p>Each <a>session</a> also has an associated <dfn>input cancel
+ list</dfn>, which is a list of actions. This list is used to manage
+ dispatching events when resetting the state of the <a>input
+ source</a>s. For simplicity the algorithms described here only append
+ actions to the list and rely on the fact that the reset operations
+ are idempotent.
+
 </section><!-- /Input State -->
 
 <section> <!-- Processing Actions Requests -->
@@ -7582,7 +7583,7 @@ must run the following steps:
   <var>input state</var>'s <code>pressed</code> property, and
   let <var>buttons</var> be the resulting value of that property.
 
-        <li><p>Append a copy of <var>action object</var> with
+ <li><p>Append a copy of <var>action object</var> with
   the <var>subtype</var> property changed to <var>pointerUp</var> to
   the <a>current session</a>'s <a>input cancel list</a>.
 
