@@ -368,6 +368,8 @@ var respecConfig = {
   <ul>
    <!-- beforeunload --> <li><dfn><a href=https://html.spec.whatwg.org/#event-beforeunload><code>beforeunload</code></a></dfn>
    <!-- DOMContentLoaded --> <li><dfn><a href=https://html.spec.whatwg.org/#event-domcontentloaded><code>DOMContentLoaded</code></a></dfn>
+   <!-- PageHide --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/indices.html#event-pagehide"><code>pageHide</code></a></dfn>
+   <!-- PageShow --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/indices.html#event-pageshow"><code>pageShow</code></a></dfn>
   </ul>
 
  <dd><p>The “data” URL scheme specification defines the following terms: [[!RFC2397]]
@@ -2958,11 +2960,8 @@ with a "<code>moz:</code>" prefix:
  <li><p><a>Traverse the history by a delta</a> –1
   for the <a>current browsing context</a>.
 
- <li><p>If the task queued by that algorithm aborted before
-  <a>traversing the history</a>, return <a>success</a> with data null.
-
- <li><p>Otherwise, wait until the <a>current entry</a>
-  in the <a>session history</a> has changed,
+ <li><p>If the previous step completed results in a <a><code>pageHide</code></a>
+  <a>event firing</a> wait until <a><code>pageShow</code></a> <a>event fires</a>
   or for the <a>session page load timeout</a> milliseconds to pass,
   whichever occurs sooner.
 
@@ -3004,14 +3003,10 @@ with a "<code>moz:</code>" prefix:
  <li><p><a>Traverse the history by a delta</a> 1
   for the <a>current browsing context</a>.
 
- <li><p>If the task queued by that algorithm aborted before
-  <a>traversing the history</a>,
-  return <a>success</a> with data null.
-
- <li><p>Otherwise, wait until the <a>current entry</a>
-  in the <a>session history</a> has changed,
-  or for the <a>session page load timeout</a> milliseconds to pass,
-  whichever occurs sooner.
+ <li><p>If the previous step completed results in a <a><code>pageHide</code></a>
+   <a>event firing</a> wait until <a><code>pageShow</code></a> <a>event fires</a>
+   or for the <a>session page load timeout</a> milliseconds to pass,
+   whichever occurs sooner.
 
  <li><p>If the previous step completed by the <a>session page load
    timeout</a> being reached, and <a data-lt="handle any user
