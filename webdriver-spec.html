@@ -431,6 +431,13 @@ var respecConfig = {
      <li><dfn><a href="https://www.w3.org/TR/page-visibility/#dom-document-hidden">Document <code>hidden</code> attribute</a></dfn>
    </ul>
 
+ <dt>Selenium
+ <dd>The following functions are defined within
+  the <a href="http://seleniumhq.org">Selenium</a> project, at
+  revision <code>1721e627e3b5ab90a06e82df1b088a33a8d11c20</code>.
+  <ul>
+   <!-- bot.dom.getVisibleText --> <li><dfn><a href="https://github.com/SeleniumHQ/selenium/blob/1721e627e3b5ab90a06e82df1b088a33a8d11c20/javascript/atoms/dom.js#L979"><code>bot.dom.getVisibleText</code></a></dfn>
+  </ul>
 
  <dt>Styling
  <dd>The following terms are defined in
@@ -5006,6 +5013,14 @@ by following these steps:
  locating <a><code>a</code> elements</a> by their
  <a>link text</a> and <a>partial link text</a>.
 
+<p class=note>One of the major inputs to this specification was the
+ Open Source <a href="http://seleniumhq.org">Selenium</a>
+ project. This was in wide-spread use before this specification
+ written, and so had set user expectations of how the <a>Get Element
+ Text</a> command should work. As such, the approach presented here is
+ known to be flawed, but provides the best compatibility with existing
+ users.
+
 <p>When processing text, <dfn>whitespace</dfn> is defined as
  characters from the Unicode Character Database ([[UAX44]]) with the
  <a>Unicode character property</a> <code>"WSpace=Y"</code>.
@@ -5016,18 +5031,19 @@ by following these steps:
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+ <li><p><a>Handle any user prompts</a> and return its value if it is
+  an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
   with argument <var>element id</var>.
 
- <li><p>If <var>element</var> <a>is stale</a>,
-  return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
-
- <li><p>Let <var>rendered text</var> be
-  the result of <a>getting <code>innerText</code></a>
-  of <var>element</var>.
+ <li><p>Let <var>rendered text</var> be the result of performing
+  implementation-specific steps that are exactly analogous to the
+  result of a <a>[[\Call]]</a>
+  to <a><code>bot.dom.getVisibleText</code></a>,
+  providing <a><code>null</code></a> as the <code>this</code> value,
+  and <var>element</var> as the argument.
 
  <li><p>Return <a>success</a> with data <var>rendered text</var>.
 </ol>
