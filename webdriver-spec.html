@@ -1795,7 +1795,7 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
-  <td><dfn>Proxy configuration</dfn>
+  <td>Proxy configuration
   <td>"<code>proxy</code>"
   <td>JSON <a>Object</a>
   <td>Defines the <a>current session</a>’s <a>proxy configuration</a>.
@@ -1819,7 +1819,7 @@ with a "<code>moz:</code>" prefix:
 <section>
 <h3>Proxy</h3>
 
-<p>The <a>proxy configuration</a> capability
+<p>The <dfn>proxy configuration</dfn> capability
  is a JSON <a>Object</a> nested
  within the primary <a>capabilities</a>.
  Implementations may define additional proxy configuration options,
@@ -1851,8 +1851,8 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the URL for a proxy auto-config file
    if <a><code>proxyType</code></a>
-   is equal to "<code>pac</code>". [URL]
-  <td>
+   is equal to "<code>pac</code>".
+  <td>Any <a>url</a>
  </tr>
 
  <tr>
@@ -1864,7 +1864,7 @@ with a "<code>moz:</code>" prefix:
    and <a><code>ftpProxyPort</code></a> to the <a>port</a>
    when the <a><code>proxyType</code></a>
    is equal to "<code>manual</code>".
-  <td>
+  <td>A URL consisting of just the <a>domain</a> and optional <a>port</a>
  </tr>
 
  <tr>
@@ -1876,8 +1876,7 @@ with a "<code>moz:</code>" prefix:
    If <a><code>ftpProxyPort</code></a> is defined in <a><code>ftpProxy</code></a>
    and from this property,
    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
-  <td>
+  <td>An <a>integer</a>
  </tr>
 
  <tr>
@@ -1889,7 +1888,7 @@ with a "<code>moz:</code>" prefix:
    and <a><code>httpProxyPort</code></a> to the <a>port</a>
    when the <a><code>proxyType</code></a>
    is equal to "<code>manual</code>".
-  <td>
+  <td>A URL consisting of just the <a>domain</a> and optional <a>port</a>
  </tr>
 
  <tr>
@@ -1900,7 +1899,7 @@ with a "<code>moz:</code>" prefix:
    If <a><code>httpProxyPort</code></a> is defined in <a><code>httpProxy</code></a>
    and from this property,
    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-  <td>
+  <td>An <a>integer</a>
  </tr>
 
  <tr>
@@ -1911,7 +1910,7 @@ with a "<code>moz:</code>" prefix:
    If a <a>URL</a> is passed through this property,
    set <a><code>sslProxy</code></a> to the <a>host</a>
    and <a><code>sslProxyPort</code></a> to the <a>port</a>.
-  <td>
+  <td>A URL consisting of just the <a>domain</a> and optional <a>port</a>
  </tr>
 
  <tr>
@@ -1922,7 +1921,7 @@ with a "<code>moz:</code>" prefix:
    If <a><code>sslProxyPort</code></a> is defined in <a><code>sslProxy</code></a>
    and from this property,
    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-  <td>
+  <td>An <a>integer</a>
  </tr>
 
  <tr>
@@ -1933,7 +1932,7 @@ with a "<code>moz:</code>" prefix:
    If a <a>URL</a> is passed through this property,
    set <a><code>socksProxy</code></a> to the <a>host</a>
    and <a><code>socksProxyPort</code></a> to the <a>port</a>.
-  <td>
+  <td>A URL consisting of just the <a>domain</a> and optional <a>port</a>
  </tr>
 
  <tr>
@@ -1944,7 +1943,7 @@ with a "<code>moz:</code>" prefix:
    If <a><code>socksProxyPort</code></a> is defined in <a><code>socksProxy</code></a>
    and from this property,
    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-  <td>
+  <td>An <a>integer</a>
  </tr>
 
  <tr>
@@ -1952,7 +1951,7 @@ with a "<code>moz:</code>" prefix:
   <td>number
   <td>Defines the <a>SOCKS proxy</a> version
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>
+  <td>Any <a>string</a>
   </tr>
 
  <tr>
@@ -1961,7 +1960,7 @@ with a "<code>moz:</code>" prefix:
   <td>Defines the username used when <a data-lt="SOCKS authentication">authenticating</a>
    with a <a>SOCKS proxy</a>
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
-<td>
+  <td>Any <a>string</a>
 </tr>
 
  <tr>
@@ -1970,9 +1969,15 @@ with a "<code>moz:</code>" prefix:
   <td>Defines the password used when <a>authenticating</a> with a <a>SOCKS proxy</a>,
    when the <a><code>proxyType</code></a> is "<code>manual</code>",
    and is not returned with <a>capabilities</a> to the <a>local end</a>.
-  <td>
+  <td>Any <a>string</a>
  </tr>
 </table>
+
+<p>A <dfn>proxy configuration object</dfn> is a
+ JSON <a>Object</a> where each of its <a>own properties</a> matching
+ keys in the <a>proxy configuration</a> meets the validity criteria for
+ that key.
+
 </section> <!-- /Proxy -->
 
 <section>
@@ -2491,9 +2496,10 @@ with a "<code>moz:</code>" prefix:
 
    <li><p>If <var>proxy</var> is a <a>proxy configuration</a> object,
     take implementation-defined steps to set the user agent proxy
-    using the extracted <var>proxy</var> configuration.
-    If the defined proxy cannot be configured,
-    return <a>error</a> with <a>error code</a> <a>session not created</a>.
+    using the extracted <var>proxy</var> configuration.  If the
+    defined proxy cannot be configured or is not a
+    <a>proxy configuration object</a>, return <a>error</a> with 
+    <a>error code</a> <a>session not created</a>.
 
    <li><p>Let <var>timeouts</var> be the result of getting property
     "<code>timeouts</code>" from <var>capabilities</var>.
