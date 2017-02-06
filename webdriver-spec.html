@@ -302,6 +302,7 @@ var respecConfig = {
    <!-- Pause --> <li><dfn data-lt=unpaused><a href=https://html.spec.whatwg.org/#pause>HTML Pause</a></dfn>
    <!-- Prompt to unload a document --> <li><dfn data-lt="prompting to unload"><a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>Prompt to unload a document</a></dfn>
    <!-- Radio button --> <li><dfn><a href="https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29">Radio Button</a></dfn> state
+   <!-- Refresh state pragma directive --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-meta-http-equiv-refresh>Refresh state pragma directive</a></dfn>
    <!-- Replacement enabled --> <li><dfn><a href=https://html.spec.whatwg.org/#replacement-enabled>Replacement enabled</a></dfn>
    <!-- Reset algorithm --><li><dfn><a href=https://html.spec.whatwg.org/#concept-form-reset-control>Reset algorithm</a></dfn>
    <!-- Reset Button --> <li><dfn><a href="https://html.spec.whatwg.org/#reset-button-state-%28type=reset%29">Reset Button</a></dfn> state
@@ -2862,6 +2863,11 @@ with a "<code>moz:</code>" prefix:
   <a>local scheme</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
+ <li>Start a <var>timer</var>. If this algorithm has not completed
+  before <var>timer</var> reaches the <a>session</a>'s <a>session page
+  load timeout</a>, return an <a>error</a> with <a>error
+  code</a> <a>timeout</a>.
+
  <li><p><a>Navigate</a> the <a>current top-level browsing context</a> to <var>url</var>.
 
  <li><p>If <var>url</var> <a>is special</a> except for <code>file</code>:
@@ -2875,6 +2881,12 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>Set the <a>current browsing context</a>
   to the <a>current top-level browsing context</a>.
+
+ <li><p>If the <a>current top-level browsing context</a> contains
+  a <a>refresh state pragma directive</a> of <var>time</var> 1 second
+  or less, delete <var>timer</var>, wait until the refresh timeout has
+  elasped, a new <a>navigate</a> has begun, and return to the first
+  step of this algorithm.
 
  <li><p>Return <a>success</a> with data null.
 </ol>
