@@ -1802,10 +1802,10 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
-  <td><dfn>Session timeouts configuration</dfn>
+  <td>Session timeouts configuration
   <td>"<code>timeouts</code>"
   <td>JSON <a>Object</a>
-  <td>Describes the <a>timeouts</a> imposed on certain session operations.
+  <td>Defines the <a>current session</a>'s <a>session timeouts configuration</a>.
  </tr>
 
  <tr>
@@ -1978,12 +1978,12 @@ with a "<code>moz:</code>" prefix:
 <section>
 <h3>Timeouts</h3>
 
-<p>The <a>session timeouts configuration</a> capability
- is a JSON <a>Object</a> nested within the <a>capabilities</a> object
- received when <a>creating a new session</a>.
- It consists of the properties listed in the table below.
- These values may be changed after creating a <a>new session</a>
- using the <a>Set Timeouts</a> command.
+<p>The <dfn>session timeouts configuration</dfn> is a
+ JSON <a>Object</a> nested within the <a>capabilities</a> object
+ received when <a>creating a new session</a>. It consists of the
+ properties listed in the table below.  These values may be changed
+ after creating a <a>new session</a> using the <a>Set Timeouts</a>
+ command.
 
 <table class=simple>
  <tr>
@@ -2010,6 +2010,11 @@ with a "<code>moz:</code>" prefix:
   <td>Specifies the <a>session script timeout</a>.
  </tr>
 </table>
+
+<p>When deserializing a <a>session timeouts configuration</a> other
+ keys and values are valid, but only those in the table above are
+ checked for correctness.
+
 </section><!-- /Timeouts -->
 
 <section>
