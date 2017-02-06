@@ -8039,6 +8039,23 @@ must run the following steps:
  <li><p>Return <a>success</a>.
 </ol>
 
+<p>When returning an <a>error</a> with <a>unexpected alert open</a>,
+ a <a>remote end</a> may return the current text (as if returned
+ by <a>Get Alert Text</a>) of the prompt as the value of
+ the <code>text</code> key in the JSON <a>Object</a> that is the value
+ of the <code>data</code> key in the error response, as shown in this
+ non-normative example:
+
+<pre>
+{
+    error: "unexpected alert",
+    message: "implementation defined",
+    data: {
+        text: "the text from the alert"
+    }
+}
+</pre>
+
 <section>
 <h3>Dismiss Alert</h3>
 
