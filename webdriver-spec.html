@@ -2863,10 +2863,11 @@ with a "<code>moz:</code>" prefix:
   <a>local scheme</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li>Start a <var>timer</var>. If this algorithm has not completed
+ <li>If <var>timer</var> has not been started, start
+  a <var>timer</var>. If this algorithm has not completed
   before <var>timer</var> reaches the <a>session</a>'s <a>session page
-  load timeout</a>, return an <a>error</a> with <a>error
-  code</a> <a>timeout</a>.
+  load timeout</a> in milliseconds, return an <a>error</a>
+  with <a>error code</a> <a>timeout</a>.
 
  <li><p><a>Navigate</a> the <a>current top-level browsing context</a> to <var>url</var>.
 
@@ -2884,9 +2885,9 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>If the <a>current top-level browsing context</a> contains
   a <a>refresh state pragma directive</a> of <var>time</var> 1 second
-  or less, delete <var>timer</var>, wait until the refresh timeout has
-  elasped, a new <a>navigate</a> has begun, and return to the first
-  step of this algorithm.
+  or less, wait until the refresh timeout has elasped, a
+  new <a>navigate</a> has begun, and return to the first step of this
+  algorithm.
 
  <li><p>Return <a>success</a> with data null.
 </ol>
