@@ -2884,15 +2884,24 @@ with a "<code>moz:</code>" prefix:
   <a>local scheme</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li>If <var>timer</var> has not been started, start
-  a <var>timer</var>. If this algorithm has not completed
-  before <var>timer</var> reaches the <a>session</a>'s <a>session page
-  load timeout</a> in milliseconds, return an <a>error</a>
-  with <a>error code</a> <a>timeout</a>.
+ <li><p>Let <var>current URL</var> be the <a>current top-level browsing context</a>’s
+ <a>active document</a>’s <a>document URL</a>.
+
+ <li><p>If <var>current URL</var> and <var>url</var> do not have the same
+   <a>absolute URL</a>:
+
+   <ol>
+     <li>If <var>timer</var> has not been started, start
+       a <var>timer</var>. If this algorithm has not completed
+       before <var>timer</var> reaches the <a>session</a>'s <a>session page
+       load timeout</a> in milliseconds, return an <a>error</a>
+       with <a>error code</a> <a>timeout</a>.
+   </ol>
 
  <li><p><a>Navigate</a> the <a>current top-level browsing context</a> to <var>url</var>.
 
- <li><p>If <var>url</var> <a>is special</a> except for <code>file</code>:
+ <li><p>If <var>url</var> <a>is special</a> except for <code>file</code> and
+   <var>current URL</var> and <var>URL</var> do not have the same <a>absolute URL</a> :
  <ol>
    <li><p>Run the <a>post-navigation checks</a>
     and return its value if it is an <a>error</a>.
