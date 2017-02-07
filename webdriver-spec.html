@@ -2273,6 +2273,9 @@ with a "<code>moz:</code>" prefix:
  and allowing sessions to be routed via a multiplexer
  (known as an <a>intermediary node</a>).
 
+<p>A WebDriver <dfn data-lt="sessions">session</dfn> represents
+ the connection between a <a>local end</a> and a specific <a>remote end</a>.
+
 <p>A <a>session</a> is started when
  a <a>New Session</a> is invoked.
  It is an <a>error</a> to send any commands before starting a session,
@@ -2281,24 +2284,20 @@ with a "<code>moz:</code>" prefix:
  Maintaining session continuity between requests to
  the <a>remote end</a> requires passing a <a>session ID</a>.
 
-<p>A WebDriver <dfn data-lt="sessions">session</dfn> represents
- the connection between a <a>local end</a> and a specific <a>remote end</a>.
- A <a>remote end</a> that is not an <a>intermediary node</a>
- has at most one <a>active session</a> at a given time.
-
-<p>The <a>session</a> is set up at the invocation of a <a>New Session</a>,
- and torn down at some later point;
+<p>A <a>session</a> is torn down at some later point;
  either explicitly by invoking <a>Delete Session</a>,
  or implicitly when <a>Close Window</a> is called
  at the last remaining <a>top-level browsing context</a>.
 
+<p>All requests, except <a>New Session</a> and <a>Status</a> requests,
+ have an associated <dfn>current session</dfn>,
+ which is the <a>session</a> in which that request's command will run.
+
 <p>A <a>remote end</a> has an associated list of
  <dfn data-lt="active session">active sessions</dfn>,
  which is a list of all <a>sessions</a> that are currently started.
-
-<p>Requests, except <a>New Session</a> and <a>Status</a> requests,
- have an associated <dfn>current session</dfn>,
- which is the <a>session</a> in which that request's command will run.
+ A <a>remote end</a> that is not an <a>intermediary node</a>
+ has at most one <a>active session</a> at a given time.
 
 <p>A <a>remote end</a> has an associated
  <dfn>maximum active sessions</dfn> (an integer)
