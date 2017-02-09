@@ -2084,12 +2084,21 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>If <var>secondary</var> is <a>undefined</a>, return <var>result</var>.
 
- <li><p>For each <var>entry</var> corresponding
-  to an indexed property in <var>secondary</var>,
-  if the name of <var>entry</var> is also the name of an entry in <var>result</var>,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+ <li><p>For each <var>key</var> and <var>value</var>
+  of <var>secondary</var>'s <a>own properties</a>:
+  <ol>
+   <li><p>Let <var>primary value</var> be the result of <a>getting a
+    property</a> from <var>primary</var> called <var>key</var>.
 
-  <p>Otherwise, add <var>entry</var> to <var>result</var>.
+   <li><p>If <var>primary value</var> is not
+    <a><code>undefined</code></a> or equal to <var>value</var>
+    return an <a>error</a> with <a>error code</a>
+    <a>invalid argument</a>.
+
+   <li><p><a data-lt="setting a property">Set</a>
+    <var>key</var> with value <var>value</var>
+    on <var>result</var>.
+  </ol>
 
  <li><p>Return <var>result</var>.
 </ol>
