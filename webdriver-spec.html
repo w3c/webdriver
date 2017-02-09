@@ -2892,6 +2892,23 @@ with a "<code>moz:</code>" prefix:
  </tr>
 </table>
 
+<p>When asked to <dfn>deserialize as a page load strategy</dfn> with
+ argument <var>value</var>:
+
+<ol>
+ <li><p>If <var>value</var> is <code>null</code>, let <var>value</var>
+  be set to "<code>normal</code>".
+
+ <li><p>If <var>value</var> is not a <a>string</a> return
+  an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>If there is no entry in the <a>table of page load
+  strategies</a> with <code>keyword</code> <var>value</var> return
+  an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Return <a>success</a> with data <var>value</var>.
+</ol>
+
 <p>When asked to <dfn data-lt="waiting for the navigation to complete">wait for navigation to complete</dfn>,
  run the following steps:
 
