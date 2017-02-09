@@ -2415,7 +2415,8 @@ with a "<code>moz:</code>" prefix:
 }</pre>
 </aside>
 
-<p>The <a>remote end steps</a> are:
+<p>The <a>remote end steps</a> with arguments <var>url variables</var>
+ and <var>parameters</var> are:
 
 <ol>
  <li><p>If the <a>remote end</a> is an <a>intermediary node</a>,
@@ -2535,7 +2536,8 @@ with a "<code>moz:</code>" prefix:
  terminates the <a>connection</a>,
  and finally <a data-lt="close the session">closes</a> the <a>current session</a>.
 
-<p>The <a>remote end steps</a> are:
+<p>The <a>remote end steps</a> with arguments <var>url variables</var>
+ and <var>parameters</var> are:
 
 <ol>
  <li><p><a>Close the session</a>.
@@ -2851,7 +2853,8 @@ with a "<code>moz:</code>" prefix:
  <pre class=highlight>{"url": "https://example.com"}</pre>
 </aside>
 
-<p>The <a>remote end steps</a> are:
+<p>The <a>remote end steps</a> with arguments <var>url variables</var>
+ and <var>parameters</var> are:
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
@@ -2860,13 +2863,13 @@ with a "<code>moz:</code>" prefix:
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>If the <code>url</code> property
-  is missing from the <var>parameters</var> argument
+  is missing from <var>parameters</var>
   or it is not a string,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>url</var> be the result of
   <a>getting a property</a> named <code>url</code>
-  from the <var>parameters</var> argument.
+  from <var>parameters</var>.
 
  <li><p>If <var>url</var> is not an <a>absolute URL</a>
   or is not an <a>absolute URL with fragment</a> or not a
@@ -4375,12 +4378,16 @@ with a "<code>moz:</code>" prefix:
  in the <a>current browsing context</a>
  that can be used for future <a>commands</a>.
 
-<p>The <a>remote end steps</a> are:
+<p>The <a>remote end steps</a> with arguments <var>url variables</var>
+ and <var>parameters</var> are:
 
 <ol>
  <li><p>If the <a>current browsing context</a> is <a>no longer
   open</a>, return <a>error</a> with <a>error code</a> <a>no such
   window</a>.
+
+ <li>Let <var>session id</var> be the corresponding variable from
+  <var>url variables</var>.
 
  <li><p>Let <var>start node</var> be the result
   of <a>trying</a> to <a>get a known element</a>
