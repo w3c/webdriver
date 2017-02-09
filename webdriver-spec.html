@@ -2048,12 +2048,8 @@ with a "<code>moz:</code>" prefix:
    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
   </ol>
 
- <li><p>Let <var>matched capabilities</var> be <code>null</code>.
-
  <li><p>For each <var>current desired capabilities</var> corresponding
-  to an indexed property in <var>desired capabilities</var>
-  until <var>matched capabilities</var> is no longer <code>null</code>
-  or there are no longer any entries to process:
+  to an indexed property in <var>desired capabilities</var>:
 
   <ol>
    <li><p>If <var>current desired capabilities</var> is not a
@@ -2061,17 +2057,19 @@ with a "<code>moz:</code>" prefix:
     code</a> <a>invalid argument</a>.
 
    <li><p>Let <var>merged capabilities</var> be the result of
-    <a>merging capabilities</a> with <var>required capabilities</var>
+    <a>trying</a> to <a data-lt="merging capabilities">merge
+    capabilities</a> with <var>required capabilities</var>
     and <var>current desired capabilities</var> as arguments.
 
-   <li><p>If <var>merged capabilities</var> is an <a>error</a>,
-    return the <var>merged capabilities</var> error.
+   <li><p>Let <var>matched capabilities</var> be the result of
+    <a>matching capabilities</a> with <var>merged capabilities</var>
+    as an argument.
 
-   <li><p>Set <var>matched capabilities</var> to the result of
-    <a>matching capabilities</a> with <var>merged capabilities</var> as an argument.
+   <li><p>Return <var>matched capabilities</var> if it is
+    not <code>null</code>.
   </ol>
 
- <li><p>Return <var>matched capabilities</var>.
+ <li><p>Return <code>null</code>.
 </ol>
 
 <p>When <dfn>merging capabilities</dfn> with JSON <a>Object</a> arguments
