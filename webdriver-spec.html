@@ -8218,8 +8218,9 @@ is also removed.
 <p>A <dfn>user prompt handler</dfn> is an <a>enumerated attribute</a>
  defining what action the <a>remote end</a> must take
  when a <a>user prompt</a> is encountered. This is defined by the
- <a>unhandled prompt behavior</a> capability.
- The following table lists the keywords and states for the attribute:
+ <a>unhandled prompt behavior</a> capability.  The
+ following <dfn>known prompt handling approaches table</dfn> lists the
+ keywords and states for the attribute:
 
 <table class=simple>
  <tr>
@@ -8240,6 +8241,20 @@ is also removed.
   <td>All <a>simple dialogs</a> encountered should be <a>accepted</a>.
  </tr>
 </table>
+
+<p>When required to <dfn>deserialize as an unhandled prompt behavior</dfn> an
+argument <var>value</var>:
+
+<ol>
+ <li><p>If <var>value</var> is not a <a>string</a> return
+  an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>If <var>value</var> is not present as a <code>keyword</code>
+  in the <a>known prompt handling approaches table</a> return an <a>error</a> with <a>error
+  code</a> <a>invalid argument</a>.
+
+ <li><p>Return <a>success</a> with data <var>value</var>.
+</ol>
 
 <p>In order to <dfn>handle any user prompts</dfn>
  a <a>remote end</a> must take the following steps:
