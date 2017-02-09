@@ -1995,6 +1995,37 @@ with a "<code>moz:</code>" prefix:
  </tr>
 </table>
 
+<p>The <a>remote end</a> steps to <dfn>deserialize as a proxy</dfn>
+ argument <var>parameter</var> are:
+
+<ol>
+ <li><p>If <var>parameter</var> is not a JSON <a>Object</a> return
+  an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Let <var>proxy</var> be a new, empty
+  <a>proxy configuration object</a>.
+
+ <li><p>For each enumerable <a>own property</a> in <var>parameter</var>
+  run the following substeps:
+  <ol>
+   <li><p>Let <var>key</var> be the name of the property.
+
+   <li><p>Let <var>value</var> be the result of <a>getting a
+    property</a> named <var>name</var> from <var>parameter</var>.
+
+   <li><p>If there is no matching <code>key</code> for <var>key</var>
+    in the <a>proxy configuration</a> table return an <a>error</a>
+    with <a>error code</a> <a>invalid argument</a>.
+
+   <li><p>If <var>value</var> is not one of the
+    <code>valid values</code> for that <code>key</code>, return
+    an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+   <li><p><a>Set a property</a> <var>key</var> to <var>value</var>
+    on <var>proxy</var>.
+  </ol>
+</ol>
+
 <p>A <dfn>proxy configuration object</dfn> is a
  JSON <a>Object</a> where each of its <a>own properties</a> matching
  keys in the <a>proxy configuration</a> meets the validity criteria for
