@@ -2702,7 +2702,8 @@ with a "<code>moz:</code>" prefix:
  </tr>
 </table>
 
-<p>The <a>remote end steps</a> are:
+<p>The <a>remote end</a> steps to <dfn>deserialize as a timeout</dfn>
+ argument <var>parameters</var> are:
 
 <ol>
  <li><p>If <var>parameters</var> is not a JSON <a>Object</a>,
@@ -2718,9 +2719,24 @@ with a "<code>moz:</code>" prefix:
     <p>If no keyword matches <var>key</var>,
      return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-   <li><p>If <var>value</var> is not an integer,
+   <li><p>If <var>value</var> is not an <a>integer</a>,
     or it is less than 0 or greater than 2<sup>64</sup> – 1,
     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  </ol>
+</ol>
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li>Let <var>parameters</var> be the result of <a>trying</a>
+  to <a>deserialize as a timeout</a> <var>parameters</var>.
+
+ <li><p>For each <var>key</var> and <var>value</var>
+  of <var>parameters</var>’s <a>own properties</a>:
+
+  <ol>
+   <li><p>Find the <var>timeout type</var> from the <a>table of session timeouts</a>
+    by looking it up by its keyword <var>key</var>.
 
    <li><p>Set <var>timeout type</var>’s <var>value</var>.
   </ol>
