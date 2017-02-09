@@ -2137,16 +2137,16 @@ with a "<code>moz:</code>" prefix:
 
   <dl>
    <dt>"<code>browserName</code>"
-   <dd>Lowercase name of the user agent.
+   <dd>Lowercase name of the user agent as a <a>string</a>.
 
    <dt>"<code>browserVersion</code>"
-   <dd>The user agent version, as a string.
+   <dd>The user agent version, as a <a>string</a>.
 
    <dt>"<code>platformName</code>"
-   <dd>Lowercase name of the current platform.
+   <dd>Lowercase name of the current platform as a <a>string</a>.
 
    <dt>"<code>acceptInsecureCerts</code>"
-   <dd>Boolean initially set to false,
+   <dd><a>Boolean</a> initially set to <code>false</code>,
     indicating the session will not implicitly trust untrusted
     or self-signed TLS certificates on <a data-lt=go>navigation</a>.
   </dl>
@@ -2161,36 +2161,46 @@ with a "<code>moz:</code>" prefix:
    to <code>true</code>.
   </p>
 
- <li><p>For each <var>capability name</var> corresponding to a
-  property in <var>capabilities</var>:
-
+ <li><p>For each <var>name</var> and <var>value</var> corresponding
+  to <var>capability</var>'s <a>own properties</a>:
   <ol>
-   <li><p>Let <var>capability value</var> be the value of
-    property <var>capability name</var> in <var>capabilities</var>.
+   <li><p>Let <var>strategy</var> be the result of <a>finding a
+    deserialization strategy</a> for <var>name</var>.
 
-   <li><p>Run the substeps of the first matching <var>capability name</var>:
+   <li><p>If <var>strategy</var> is <code>null</code>
+    return <code>null</code>.
+
+   <li><p>Let <var>capability value</var> be the result of <a>trying</a>
+    to call <var>strategy</var> with argument <var>value</var>.
+
+   <li><p>Run the substeps of the first matching <var>name</var>:
 
     <dl class=switch>
      <dt>"<code>browserName</code>"
-     <dd><p>If <var>capability value</var> is
-      <a>null</a> it is considered a match for the entry
-      in <var>matched capabilities</var>.
+     <dd>
+      <p>If <var>capability value</var> is
+       <a>null</a> let <var>capability value</var> be set to the value
+       of <a>getting a property</a> "<code>browserName</code>"
+       from <var>matched capabilities</var>.
 
-      <p>Otherwise, if <var>capability value</var> is not a string equal
-       to the "<code>browserName</code>" entry in <var>matched capabilities</var>,
-       return <code>null</code>.
+       <p>If <var>capability value</var> is not a <a>string</a> equal
+        to the "<code>browserName</code>" entry in <var>matched capabilities</var>,
+        return <code>null</code>.
 
      <dt>"<code>browserVersion</code>"
-     <dd><p>If <var>capability value</var> is
-      <a>null</a> it is to be considered a match for the entry
-      in <var>matched capabilities</var>.
+     <dd>
+      <p>If <var>capability value</var> is
+       <a>null</a> let <var>capability value</var> be set to the value
+       of <a>getting a property</a> "<code>browserVersion</code>"
+       from <var>matched capabilities</var>.
 
-      <p>Otherwise, compare <var>capability value</var>
-       to the "<code>browserVersion</code>" entry in <var>matched capabilities</var>
-       using an implementation-defined comparison algorithm.
-       The comparison is to accept a <var>capability value</var>
-       that places constraints on the version using
-       the "<code>&lt;</code>", "<code>&lt;=</code>", "<code>&gt;</code>", and "<code>&gt;=</code>" operators.
+      <p>Compare <var>capability value</var> to the
+       "<code>browserVersion</code>" entry in 
+       <var>matched capabilities</var> using an implementation-defined
+       comparison algorithm.  The comparison is to accept a 
+       <var>capability value</var> that places constraints on the version using the
+       "<code>&lt;</code>", "<code>&lt;=</code>", "<code>&gt;</code>",
+       and "<code>&gt;=</code>" operators.
 
       <p>If the two values do not match, return <code>null</code>.
 
@@ -2201,10 +2211,11 @@ with a "<code>moz:</code>" prefix:
 
      <dt>"<code>platformName</code>"
      <dd><p>If <var>capability value</var> is
-      <a>null</a> it is considered a match for the entry
-      in <var>matched capabilities</var>.
+      <a>null</a> let <var>capability value</var> be set to the value
+       of <a>getting a property</a> "<code>platformName</code>"
+       from <var>matched capabilities</var>.
 
-      <p>Otherwise, if <var>capability value</var> is not a string equal
+      <p>If <var>capability value</var> is not a <a>string</a> equal
        to the "<code>platformName</code>" entry in <var>matched capabilities</var>,
        return <code>null</code>.
 
@@ -2228,67 +2239,110 @@ with a "<code>moz:</code>" prefix:
       </div>
 
      <dt>"<code>acceptInsecureCerts</code>"
-     <dd><p>If <var>capability value</var> is not a boolean
-      or <code>null</code>, return <a>error</a> with <a>error
-      code</a> <a>invalid argument</a>.
-
+     <dd>
       <p>If <var>capability value</var> is <code>true</code>
        and the <a>endpoint node</a> does not support <a>insecure TLS certificates</a>,
        return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-      <p>Otherwise, set the "<code>acceptInsecureCerts</code>" entry
-       in <var>matched capabilities</var> to <var>capability value</var>
-       with the <code>null</code> value being set to <code>false</code>.
-
-     <dt>"<code>pageLoadStrategy</code>"
-     <dd><p>If <var>capability value</var> is not a keyword in the 
-      <a>table of page load strategies</a>, return <a>error</a> with 
-      <a>error code</a> <a>invalid argument</a>.
-
-      <p>Otherwise, set the "<code>pageLoadStrategy</code>" entry
-       in <var>matched capabilities</var> to <var>capability value</var>.
-
      <dt>"<code>proxy</code>"
-     <dd><p>If <var>capability value</var> is not a <a>proxy configuration</a>,
-      return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
-      <p>If the <a>endpoint node</a> does not support the proxy
+     <dd><p>If the <a>endpoint node</a> does not support the proxy
        configuration defined in <var>capability value</var>,
        return <code>null</code>.
 
-      <p>Otherwise, set the "<code>proxy</code>" entry
-       in <var>matched capabilities</var> to <var>capability value</var>.
-
-     <dt>"<code>timeouts</code>"
-     <dd><p>If <var>capability value</var>
-      is not a <a>session timeouts configuration</a> object,
-      return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
-      <p>Otherwise, set the "<code>timeouts</code>" entry
-       in <var>matched capabilities</var> to <var>capability value</var>.
-
-     <dt>"<code>unhandledPromptBehavior</code>"
-     <dd><p>If <var>capability value</var> is not a <a>user prompt handler</a>
-       keyword, return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
-      <p>Otherwise, set the "<code>unhandledPromptBehavior</code>" entry in
-       <var>matched capabilities</var> to <var>capability value</var>.
-
      <dt><strong>Otherwise</strong>
-     <dd><p>If <var>capability name</var> is not recognized
+     <dd><p>If <var>name</var> is not recognized
       by the <a>endpoint node</a>, return <code>null</code>.
 
-      <p>Let <var>processed value</var> be the result of <a>trying</a>
+      <p>Let <var>capability value</var> be the result of <a>trying</a>
        implementation-specific steps to match on
-       <var>capability name</var> with <var>capability value</var>.
-
-      <p>Create a new entry in <var>matched capabilities</var>
-       with name <var>capability name</var> and value <var>processed value</var>.
+       <var>name</var> with <var>capability value</var>.
    </dl>
+
+   <li><p>Create a new entry in <var>matched capabilities</var>
+    with name <var>name</var> and value <var>processed value</var>.
   </ol>
 
  <li><p>Return <var>matched capabilities</var>.
 </ol>
+
+<section>
+<h3>Deserialization Strategies</h3>
+
+<p>When converting values from a JSON <a>Object</a>
+ a <dfn>deserialization strategy</dfn> is required. This takes a single
+ argument, <var>value</var>, and converts it to a type that can be used
+ by the commands within this specification.
+
+<p>The following is the <dfn>default deserialization strategies table</dfn>.
+
+<table class=simple>
+ <tr>
+  <th>Capability Name</th>
+  <th>Deserialization Strategy</th>
+ </tr>
+ <tr><td>"<code>acceptInsecureCerts</code>"</td><td><a>Deserialize as a boolean</a></td></tr>
+ <tr><td>"<code>browserName</code>"</td><td><a>Deserialize as a string</a></td></tr>
+ <tr><td>"<code>browserVersion</code>"</td><td><a>Deserialize as a string</a></td></tr>
+ <tr><td>"<code>proxy</code>"</td><td><a>Deserialize as a proxy</a></td></tr>
+ <tr><td>"<code>pageLoadStrategy</code>"</td><td><a>Deserialize as a page load strategy</a></td></tr>
+ <tr><td>"<code>platformName</code>"</td><td><a>Deserialize as a string</a></td></tr>
+ <tr><td>"<code>timeouts</code>"</td><td><a>Deserialize as a timeout</a></td></tr>
+ <tr><td>"<code>unhandledPromptBehavior</code>"</td><td><a>Deserialize as an unhandled prompt behavior</a></td></tr>
+</table>
+
+<p>In order to <dfn>deserialize as a boolean</dfn> with
+ parameter <var>value</var>, the following steps must be followed:
+
+<ol>
+ <li><p>If <var>value</var> is <code>null</code>
+  return <code>false</code>.
+
+ <li><p>If <var>value</var> is a <a>boolean</a>
+  return <var>value</var>.
+
+ <li><p>Otherwise return an <a>error</a> with
+  <a>error code</a> <a>invalid argument</a>.
+</ol>
+
+<p>In order to <dfn>deserialize as a string</dfn> with
+ parameter <var>value</var>, the following steps must be followed:
+
+<ol>
+ <li><p>If <var>value</var> is <code>null</code>
+  return <code>null</code>.
+
+ <li><p>If <var>value</var> is a <a>string</a>
+  return <var>value</var>.
+
+ <li><p>Otherwise return an <a>error</a> with
+  <a>error code</a> <a>invalid argument</a>.
+</ol>
+
+<p>To <dfn>deserialize as identity</dfn> with
+ argument <var>value</var>, return <var>value</var>.
+
+<p>The <a>remote end</a> steps for <dfn>finding a deserialization strategy</dfn>
+ with argument <var>capability name</var> are:
+
+<ol>
+ <li><p>If the <a>default deserialization strategies table</a> has a
+  value in the <code>capability name</code> column
+  matching <var>capability name</var>, return the
+  matching <code>deserialization strategy</code>.
+
+ <li><p>If <var>capability name</var> represents an
+  implementation-specific capability, return an implementation-specific
+  <a>deserialization strategy</a>.
+
+ <li><p>If the <a>remote end</a> is an <a>endpoint node</a>
+  return <code>null</code>.
+
+ <li><p>Otherwise return a <a>deserialization strategy</a> to
+  <a>deserialize as identity</a>.
+</ol>
+
+</section>
+
 </section> <!-- /Processing Capabilities -->
 </section> <!-- /Capabilities -->
 
