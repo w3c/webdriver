@@ -2118,6 +2118,16 @@ with a "<code>moz:</code>" prefix:
     or self-signed TLS certificates on <a data-lt=go>navigation</a>.
   </dl>
 
+ <li><p>Add any implementation-specific capabilities as entries
+  to <var>matched capabilities</var>
+
+  <p class=note>
+   For example, an implementation could choose to indicate that a
+   screenshot will be taken when returning an error by setting the
+   capability <code>selenium.screenshot-on-error</code>
+   to <code>true</code>.
+  </p>
+
  <li><p>For each <var>capability name</var> corresponding to a
   property in <var>capabilities</var>:
 
@@ -2135,7 +2145,7 @@ with a "<code>moz:</code>" prefix:
 
       <p>Otherwise, if <var>capability value</var> is not a string equal
        to the "<code>browserName</code>" entry in <var>matched capabilities</var>,
-       return null.
+       return <code>null</code>.
 
      <dt>"<code>browserVersion</code>"
      <dd><p>If <var>capability value</var> is
@@ -2149,7 +2159,7 @@ with a "<code>moz:</code>" prefix:
        that places constraints on the version using
        the "<code>&lt;</code>", "<code>&lt;=</code>", "<code>&gt;</code>", and "<code>&gt;=</code>" operators.
 
-      <p>If the two values do not match, return null.
+      <p>If the two values do not match, return <code>null</code>.
 
       <p class=note>Version comparison is left as an implementation detail
        since each user agent will likely have conflicting methods
@@ -2163,7 +2173,7 @@ with a "<code>moz:</code>" prefix:
 
       <p>Otherwise, if <var>capability value</var> is not a string equal
        to the "<code>platformName</code>" entry in <var>matched capabilities</var>,
-       return null.
+       return <code>null</code>.
 
       <div class=note>
        <p>The following platform names are in common usage with
@@ -2181,23 +2191,26 @@ with a "<code>moz:</code>" prefix:
          <tr><td>windows</td><td>Any version of Microsoft's Windows, including desktop and mobile versions.</td></tr>
         </table>
 
-        <p>This list not exhaustive.
+        <p>This list is not exhaustive.
       </div>
 
      <dt>"<code>acceptInsecureCerts</code>"
-     <dd><p>If <var>capability value</var> is not a boolean,
-      return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+     <dd><p>If <var>capability value</var> is not a boolean
+      or <code>null</code>, return <a>error</a> with <a>error
+      code</a> <a>invalid argument</a>.
 
       <p>If <var>capability value</var> is <code>true</code>
        and the <a>endpoint node</a> does not support <a>insecure TLS certificates</a>,
        return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
       <p>Otherwise, set the "<code>acceptInsecureCerts</code>" entry
-       in <var>matched capabilities</var> to <var>capability value</var>.
+       in <var>matched capabilities</var> to <var>capability value</var>
+       with the <code>null</code> value being set to <code>false</code>.
 
      <dt>"<code>pageLoadStrategy</code>"
-     <dd><p>If <var>capability value</var> is not a keyword in the <a>table of page load strategies</a>,
-      return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+     <dd><p>If <var>capability value</var> is not a keyword in the 
+      <a>table of page load strategies</a>, return <a>error</a> with 
+      <a>error code</a> <a>invalid argument</a>.
 
       <p>Otherwise, set the "<code>pageLoadStrategy</code>" entry
        in <var>matched capabilities</var> to <var>capability value</var>.
@@ -2206,8 +2219,9 @@ with a "<code>moz:</code>" prefix:
      <dd><p>If <var>capability value</var> is not a <a>proxy configuration</a>,
       return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-      <p>If the <a>endpoint node</a> does not support
-       the proxy configuration defined in <var>capability value</var>, return null.
+      <p>If the <a>endpoint node</a> does not support the proxy
+       configuration defined in <var>capability value</var>,
+       return <code>null</code>.
 
       <p>Otherwise, set the "<code>proxy</code>" entry
        in <var>matched capabilities</var> to <var>capability value</var>.
@@ -2224,24 +2238,23 @@ with a "<code>moz:</code>" prefix:
      <dd><p>If <var>capability value</var> is not a <a>user prompt handler</a>
        keyword, return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-       <p>Otherwise, set the "<code>unhandledPromptBehavior</code>" entry in
-         <var>matched capabilities</var> to <var>capability value</var>.
+      <p>Otherwise, set the "<code>unhandledPromptBehavior</code>" entry in
+       <var>matched capabilities</var> to <var>capability value</var>.
 
      <dt><strong>Otherwise</strong>
      <dd><p>If <var>capability name</var> is not recognized
-      by the <a>endpoint node</a>, return null.
+      by the <a>endpoint node</a>, return <code>null</code>.
 
-      <p>Let <var>processed value</var> be the result of implementation-specific steps
-       to match on <var>capability name</var> with <var>capability value</var>.
+      <p>Let <var>processed value</var> be the result of <a>trying</a>
+       implementation-specific steps to match on
+       <var>capability name</var> with <var>capability value</var>.
 
-      <p>If <var>processed value</var> is an error, return <var>processed value</var>.
-
-      <p>Otherwise, create a new entry in <var>matched capabilities</var>
+      <p>Create a new entry in <var>matched capabilities</var>
        with name <var>capability name</var> and value <var>processed value</var>.
-    </dl>
-</ol>
+   </dl>
+  </ol>
 
-<li><p>Return <var>matched capabilities</var>.
+ <li><p>Return <var>matched capabilities</var>.
 </ol>
 </section> <!-- /Processing Capabilities -->
 </section> <!-- /Capabilities -->
