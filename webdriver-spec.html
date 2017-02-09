@@ -2098,39 +2098,41 @@ with a "<code>moz:</code>" prefix:
     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
   </ol>
 
- <li><p>Let <var>desired capabilities</var> be the result of <a>getting a property</a>
+ <li><p>Let <var>all first match capabilities</var> be the result of <a>getting a property</a>
   named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
   <ol>
-   <li><p>If <var>desired capabilities</var> is <a>undefined</a>,
+   <li><p>If <var>all first match capabilities</var> is <a>undefined</a>,
     set the value to a JSON <a>List</a> with a single entry of an empty JSON <a>Object</a>.
 
-   <li><p>If <var>desired capabilities</var> is not a JSON <a>List</a>,
+   <li><p>If <var>all first match capabilities</var> is not a JSON <a>List</a>,
    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
   </ol>
 
- <li><p>For each <var>current desired capabilities</var> corresponding
-  to an indexed property in <var>desired capabilities</var>:
+ <li><p>For each <var>first match capabilities</var> corresponding
+  to an indexed property in <var>all first match capabilities</var>:
 
   <ol>
-   <li><p>If <var>current desired capabilities</var> is not a
+   <li><p>If <var>first match capabilities</var> is not a
     JSON <a>Object</a>, return <a>error</a> with <a>error
     code</a> <a>invalid argument</a>.
 
    <li><p>Let <var>merged capabilities</var> be the result of
     <a>trying</a> to <a data-lt="merging capabilities">merge
     capabilities</a> with <var>required capabilities</var>
-    and <var>current desired capabilities</var> as arguments.
+    and <var>first match capabilities</var> as arguments.
 
    <li><p>Let <var>matched capabilities</var> be the result of
-    <a>matching capabilities</a> with <var>merged capabilities</var>
-    as an argument.
+    <a>trying</a> to <a data-lt="matching capabilities">match
+    capabilities</a> with <var>merged capabilities</var> as an
+    argument.
 
-   <li><p>Return <var>matched capabilities</var> if it is
-    not <code>null</code>.
+   <li><p>If <var>matched capabilities</var> is
+    not <a><code>null</code></a> return
+    <var>matched capabilities</var>.
   </ol>
 
- <li><p>Return <code>null</code>.
+ <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 
 <p>When <dfn>merging capabilities</dfn> with JSON <a>Object</a> arguments
@@ -2149,8 +2151,8 @@ with a "<code>moz:</code>" prefix:
     property</a> named <var>name</var> from <var>primary</var>.
 
    <li><p>If <var>value</var> is not <a><code>null</code></a>
-    <a>set a property</a> <var>name</var> to <var>value</var>
-    on <var>result</var>.
+    <a>set a property</a> on <var>result</var> with name
+    <var>name</var> and value <var>value</var>.
   </ol>
 
  <li><p>If <var>secondary</var> is <a>undefined</a>, return <var>result</var>.
@@ -2170,12 +2172,11 @@ with a "<code>moz:</code>" prefix:
    <li><p>Run the substeps of the first matching condition:
     <dl class=switch>
      <dt><var>value</var> is <a><code>null</code></a>
-     <dt><var>value</var> and <var>primary value</var> are equal.
      <dd>Do nothing.
 
      <dt><var>primary value</var> is <a><code>undefined</code></a>
-     <dd><a>Set a property</a> named <var>name</var>
-      to <var>value</var> on <var>result</var>.
+     <dd><a>Set a property</a> on <var>result</var> with name
+      <var>name</var> and value <var>value</var>.
 
      <dt>Otherwise
      <dd>Return an <a>error</a> with <a>error code</a>
@@ -2185,6 +2186,18 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>Return <var>result</var>.
 </ol>
+
+<aside class=note>
+ <p>The algorithm outlined in <a>matching capabilities</a> blithely
+  ignores real-world problems that make implemention less than
+  perfectly straightforward, particularly since capbilities can
+  interact in unforeseen ways.
+
+ <p>As an example, an implementation could have a capbility that gives
+  the path to the browser binary to use. This could cause
+  both <code>browserName</code> and <code>browserVersion</code> to be
+  impossible to match against until the browser process is started.
+</aside>
 
 <p>When <dfn>matching capabilities</dfn>
  with JSON <a>Object</a> argument <var>capabilities</var>,
@@ -2196,16 +2209,16 @@ with a "<code>moz:</code>" prefix:
 
   <dl>
    <dt>"<code>browserName</code>"
-   <dd>Lowercase name of the user agent.
+   <dd>Lowercase name of the user agent as a <a>string</a>.
 
    <dt>"<code>browserVersion</code>"
-   <dd>The user agent version, as a string.
+   <dd>The user agent version, as a <a>string</a>.
 
    <dt>"<code>platformName</code>"
-   <dd>Lowercase name of the current platform.
+   <dd>Lowercase name of the current platform as a <a>string</a>.
 
    <dt>"<code>acceptInsecureCerts</code>"
-   <dd>Boolean initially set to false,
+   <dd><a>Boolean</a> initially set to <code>false</code>,
     indicating the session will not implicitly trust untrusted
     or self-signed TLS certificates on <a data-lt=go>navigation</a>.
 
@@ -2214,30 +2227,87 @@ with a "<code>moz:</code>" prefix:
     <a>commands</a> in <a href=#h-resizing-and-positioning-windows>Resizing and Positioning Windows</a>.
   </dl>
 
- <li><p>Add any implementation-specific capabilities as entries
-  to <var>matched capabilities</var>
+ <li><p>Optionally add <a>extension capabilities</a> as entries
+  to <var>matched capabilities</var>. The values of these may be
+  ellided, and there is no requirement that all
+  <a>extension capabilities</a> be added.
 
-  <p class=note>
+  <aside class=note>
+  <p>
+   This allows a <a>remote end</a> to add information that might be
+   useful to a <a>local end</a> without unnecessarily bloating the
+   response sent back to the user with (e.g.) an entire browser
+   profile.
+
+  <p>
    For example, an implementation could choose to indicate that a
    screenshot will be taken when returning an error by setting the
    capability <code>selenium.screenshot-on-error</code>
    to <code>true</code>.
-  </p>
+  </aside>
 
- <li><p>For each <var>capability name</var> corresponding to a
-  property in <var>capabilities</var>:
-
+ <li><p>For each <var>name</var> and <var>value</var> corresponding
+  to <var>capability</var>'s <a>own properties</a>:
   <ol>
-   <li><p>Let <var>capability value</var> be the value of
-    property <var>capability name</var> in <var>capabilities</var>.
+   <li><p>Run the substeps of the first matching condition:
+    <dl class=switch>
+     <dt><var>name</var> equals "<code>acceptInsecureCerts</code>"
+     <dd><p>If <var>value</var> is not a <a>boolean</a> return
+      an <a>error</a> with <a>error code</a> <a>invalid
+      argument</a>. Otherwise, let <var>capability value</var> be set
+      to <var>value</var>.
 
-   <li><p>Run the substeps of the first matching <var>capability name</var>:
+     <dt><var>name</var> equals "<code>browserName</code>"
+     <dt><var>name</var> equals "<code>browserVersion</code>"
+     <dt><var>name</var> equals "<code>platformName</code>"
+     <dd><p>If <var>value</var> is not a <a>string</a> return
+      an <a>error</a> with an <a>error code</a> <a>invalid
+      argument</a>. Otherwise, let <var>capability value</var> be set
+      to <var>value</var>.  return <var>value</var>.
+
+     <dt><var>name</var> equals "<code>pageLoadStrategy</code>"
+     <dd><p>Let <var>capability value</var> be the result
+      of <a>trying</a> to <a>deserialize as a page load strategy</a>
+      <var>value</var>.
+
+     <dt><var>name</var> equals "<code>proxy</code>"
+     <dd><p>Let <var>capability value</var> be the result
+      of <a>trying</a> to <a>deserialize as a proxy</a>
+      <var>value</var>.
+
+     <dt><var>name</var> equals "<code>timeouts</code>"
+     <dd><p>Let <var>capability value</var> be the result
+      of <a>trying</a> to <a>deserialize as a timeout</a>
+      <var>value</var>.
+
+     <dt><var>name</var> equals "<code>unhandledPromptBehavior</code>"
+     <dd><p>Let <var>capability value</var> be the result
+      of <a>trying</a> to <a>deserialize as an unhandled prompt behavior</a>
+      <var>value</var>.
+
+     <dt><var>name</var> is the name of an <a>extension capability</a>
+     <dd><p>Let <var>capability value</var> be the result
+      of <a>trying</a> to deserialize <var>value</var> in an
+      implmentation-specific way.
+
+     <dt>The <a>remote end</a> is an <a>endpoint node</a>
+     <dd>Let <var>capability value</var> be <a><code>null</code></a>.
+
+     <dt>Otherwise
+     <dd>Let <var>capability value</var> be set to <var>value</var>.
+    </dl>
+
+   <li><p>If <var>capability value</var> is <a><code>null</code></a>
+    return <a>success</a> with data <a><code>null</code></a>.
+
+   <li><p>Run the substeps of the first matching <var>name</var>:
 
     <dl class=switch>
      <dt>"<code>browserName</code>"
      <dd><p>If <var>capability value</var> is not a string equal to
        the "<code>browserName</code>" entry in
-       <var>matched capabilities</var>, return <code>null</code>.
+       <var>matched capabilities</var>, return <a>success</a> with
+       data <a><code>null</code></a>.
 
      <dt>"<code>browserVersion</code>"
      <dd><p>Compare <var>capability value</var>
@@ -2245,9 +2315,11 @@ with a "<code>moz:</code>" prefix:
        using an implementation-defined comparison algorithm.
        The comparison is to accept a <var>capability value</var>
        that places constraints on the version using
-       the "<code>&lt;</code>", "<code>&lt;=</code>", "<code>&gt;</code>", and "<code>&gt;=</code>" operators.
+       the "<code>&lt;</code>", "<code>&lt;=</code>", "<code>&gt;</code>", 
+       and "<code>&gt;=</code>" operators.
 
-      <p>If the two values do not match, return <code>null</code>.
+      <p>If the two values do not match, return <a>success</a> with
+       data <a><code>null</code></a>.
 
       <p class=note>Version comparison is left as an implementation detail
        since each user agent will likely have conflicting methods
@@ -2257,7 +2329,7 @@ with a "<code>moz:</code>" prefix:
      <dt>"<code>platformName</code>"
      <dd><p>If <var>capability value</var> is not a string equal
        to the "<code>platformName</code>" entry in <var>matched capabilities</var>,
-       return <code>null</code>.
+       return <a>success</a> with data <a><code>null</code></a>.
 
       <div class=note>
        <p>The following platform names are in common usage with
@@ -2286,67 +2358,31 @@ with a "<code>moz:</code>" prefix:
        and the <a>endpoint node</a> does not support <a>insecure TLS certificates</a>,
        return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-      <p>Otherwise, set the "<code>acceptInsecureCerts</code>" entry
-       in <var>matched capabilities</var> to <var>capability value</var>
-       with the <code>null</code> value being set to <code>false</code>.
-
-     <dt>"<code>pageLoadStrategy</code>"
-     <dd><p>If <var>capability value</var> is not a keyword in the
-      <a>table of page load strategies</a>, return <a>error</a> with
-      <a>error code</a> <a>invalid argument</a>.
-
-      <p>Otherwise, set the "<code>pageLoadStrategy</code>" entry
-       in <var>matched capabilities</var> to <var>capability value</var>.
-
      <dt>"<code>proxy</code>"
-     <dd><p>If <var>capability value</var> is not a <a>proxy configuration</a>,
-      return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
-      <p>If the <a>endpoint node</a> does not support the proxy
+     <dd><p>If the <a>endpoint node</a> does not support the proxy
        configuration defined in <var>capability value</var>,
-       return <code>null</code>.
-
-      <p>Otherwise, set the "<code>proxy</code>" entry
-       in <var>matched capabilities</var> to <var>capability value</var>.
-
-     <dt>"<code>setWindowRect</code>"
-     <dd><p>If <var>capability value</var> is not a boolean
-      return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
-      <p>If <var>capability value</var> is not equal to the
-       "<code>setWindowRect</code>" entry in
-       <var>matched capabilities</var>, return <code>null</code>.
-
-     <dt>"<code>timeouts</code>"
-     <dd><p>If <var>capability value</var>
-      is not a <a>session timeouts configuration</a> object,
-      return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
-      <p>Otherwise, set the "<code>timeouts</code>" entry
-       in <var>matched capabilities</var> to <var>capability value</var>.
-
-     <dt>"<code>unhandledPromptBehavior</code>"
-     <dd><p>If <var>capability value</var> is not a <a>user prompt handler</a>
-       keyword, return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
-      <p>Otherwise, set the "<code>unhandledPromptBehavior</code>" entry in
-       <var>matched capabilities</var> to <var>capability value</var>.
+       return <a>success</a> with data <a><code>null</code></a>.
 
      <dt><strong>Otherwise</strong>
-     <dd><p>If <var>capability name</var> is not recognized
-      by the <a>endpoint node</a>, return <code>null</code>.
+     <dd><p>If <var>name</var> is not the name of an
+      <a>extension capability</a> and the <a>remote end</a> is
+      an <a>endpoint node</a> return <a>success</a> with data 
+      <code>null</code>.
 
-      <p>Let <var>processed value</var> be the result of <a>trying</a>
-       implementation-specific steps to match on
-       <var>capability name</var> with <var>capability value</var>.
-
-      <p>Create a new entry in <var>matched capabilities</var>
-       with name <var>capability name</var> and value <var>processed value</var>.
+      <p>Let <var>matched value</var> be the result of <a>trying</a>
+       implementation-specific steps to match on <var>name</var>
+       with <var>capability value</var>. If the match is not
+       successful, return <a>success</a> with
+       data <a><code>null</code></a>.
    </dl>
+
+   <li><p><a>Set a property</a> on <var>matched capability</var>
+    with name <var>name</var> and value <var>capability value</var>.
   </ol>
 
- <li><p>Return <var>matched capabilities</var>.
+ <li><p>Return <a>success</a> with data <var>matched capabilities</var>.
 </ol>
+
 </section> <!-- /Processing Capabilities -->
 </section> <!-- /Capabilities -->
 
@@ -2541,7 +2577,7 @@ with a "<code>moz:</code>" prefix:
   return <a>error</a> with <a>error code</a> <a>session not created</a> and
   the error data from <var>capabilities result</var>.
 
- <li><p>If <var>capabilities result</var> is <a>null</a>,
+ <li><p>If <var>capabilities result</var>'s data is <a>null</a>,
   return <a>error</a> with <a>error code</a> <a>session not created</a>.
 
  <li><p>Let <var>capabilities</var> be <var>capabilities result</var>’s data.
