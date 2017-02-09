@@ -2755,17 +2755,20 @@ with a "<code>moz:</code>" prefix:
  </tr>
 </table>
 
-<p>The <a>remote end steps</a> are:
+<p>The steps to <dfn>deserialize as a timeout</dfn> with
+ argument <var>parameters</var> are:
 
 <ol>
  <li><p>If <var>parameters</var> is not a JSON <a>Object</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>For each enumerable <a>own property</a> in <var>parameters</var>:
+ <li><p>For each enumerable <a>own property</a>
+  in <var>parameters</var>, run the following substeps:
   <ol>
-   <li><p>Let <var>key</var> be the name of the property,
-    and <var>value</var> be the result of <a>getting a property</a>
-    named <var>name</var> from <var>parameters</var>.
+   <li><p>Let <var>name</var> be the name of the property.
+
+   <li><p>Let <var>value</var> be the result of <a>getting a
+    property</a> named <var>name</var> from <var>parameters</var>.
 
    <li><p>Find the <var>timeout type</var> from the <a>table of session timeouts</a>
     by looking it up by its keyword <var>key</var>.
@@ -2773,9 +2776,29 @@ with a "<code>moz:</code>" prefix:
     <p>If no keyword matches <var>key</var>,
      return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-   <li><p>If <var>value</var> is not an integer,
+   <li><p>If <var>value</var> is not an <a>integer</a>,
     or it is less than 0 or greater than 2<sup>64</sup> – 1,
     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+   </ol>
+
+ <li><p>Return <a>success</a> with data <var>parameters</var>.
+</ol>
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li>Let <var>parameters</var> be the result of <a>trying</a>
+  to <a>deserialize as a timeout</a> <var>parameters</var>.
+
+ <li><p>For each enumerable <a>own property</a> in <var>parameters</var>:
+  <ol>
+   <li><p>Let <var>key</var> be the name of the property.
+
+   <li><p>Let <var>value</var> be the result of <a>getting a property</a>
+    named <var>name</var> from <var>parameters</var>.
+
+   <li><p>Find the <var>timeout type</var> from the <a>table of session timeouts</a>
+    by looking it up by its keyword <var>key</var>.
 
    <li><p>Set <var>timeout type</var>’s <var>value</var>.
   </ol>
