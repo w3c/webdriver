@@ -288,6 +288,7 @@ var respecConfig = {
    <!-- Getting innerText --> <li><dfn><a href=http://rocallahan.github.io/innerText-spec/index.html#setting-innertext>Getting <code>innerText</code></a></dfn>
    <!-- Hidden --> <li><dfn><a href="https://html.spec.whatwg.org/#hidden-state-%28type=hidden%29">Hidden</a></dfn> state
    <!-- Image Button --> <li><dfn><a href="https://html.spec.whatwg.org/#image-button-state-%28type=image%29">Image Button</a></dfn> state
+   <!-- In parallel --> <li><dfn><a href="https://html.spec.whatwg.org/#in-parallel">In parallel</a></dfn>
    <!-- Input event applies --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-input-apply><code>input</code> event applies</a></dfn>
    <!-- Input event --> <li><dfn><a href=https://html.spec.whatwg.org/#event-input><code>input</code></a> event</dfn>
    <!-- Input type file selected --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-input-type-file-selected">Selected Files</a></dfn>
@@ -532,6 +533,15 @@ var respecConfig = {
    <!-- SyntaxError --> <li><dfn><a href="https://heycam.github.io/webidl/#syntaxerror"><code>SyntaxError</code></a></dfn></li>
 
   </ul>
+
+  <dt>Promises Guide <!-- Eventually this will be merged into WebIDL -->
+  <dd><p>The following terms are defined in the Promises Guide. [[!PROMISES-GUIDE]]
+    <ul>
+      <!-- a new promise --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#a-new-promise">A new promise</a></dfn>
+      <!-- Promise calling --> <li><dfn data-lt='promise-call'><a href="https://www.w3.org/2001/tag/doc/promises-guide#promise-calling">Promise-calling</a></dfn>
+      <!-- Reject --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#reject-promise">reject</a></dfn>
+      <!-- Resolve --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#resolve-promise">resolve</a></dfn>
+    </ul>
 
   <dt>XML Namespaces
   <dd><p>The following terms are defined in the Namespaces in XML [[!XML-NAMES]]
@@ -2215,8 +2225,8 @@ with a "<code>moz:</code>" prefix:
        with the <code>null</code> value being set to <code>false</code>.
 
      <dt>"<code>pageLoadStrategy</code>"
-     <dd><p>If <var>capability value</var> is not a keyword in the 
-      <a>table of page load strategies</a>, return <a>error</a> with 
+     <dd><p>If <var>capability value</var> is not a keyword in the
+      <a>table of page load strategies</a>, return <a>error</a> with
       <a>error code</a> <a>invalid argument</a>.
 
       <p>Otherwise, set the "<code>pageLoadStrategy</code>" entry
@@ -5777,21 +5787,30 @@ must run the following steps:
  <li><p>Let <var>body</var> and <var>arguments</var>
   be <var>script arguments</var>’ data.
 
- <li><p>Let <var>result</var> be the result of calling <a>execute a function body</a>,
-  with arguments <var>body</var> and <var>arguments</var>.
+ <li><p>Let <var>promise</var> be <a>a new Promise</a>.
 
- <li><p>Wait for <a>execute a function body</a> to return
-  or for <a>session script timeout</a> milliseconds to expire,
-  whichever happens sooner.
+ <li><p>Run the following substeps <a>in parallel</a>:
+   <ol>
+     <li><p>Let <var>result</var> be the result of <a>promise-calling</a>
+        <a>execute a function body</a>, with arguments
+        <var>body</var> and <var>arguments</var>.
 
- <li><p>If the previous step completed due to the <a>session script timeout</a> being reached,
-  return <a>error</a> with <a>error code</a> <a>script timeout</a>.
+     <li><p>If <var>result</var> is an error,
+       <a>reject</a> <var>promise</var> with <var>result</var>.
+   </ol>
 
- <li><p>If <var>result</var> is an <a>error</a>, return result.
+  <li><p>If <var>promise</var> is still pending and
+    <a>session script timeout</a> milliseconds is reached,
+    <a>reject</a> <var>promise</var> with <a>error</a> with
+    <a>error code</a> <a>script timeout</a>.
 
- <li><p>Otherwise let <var>value</var> be <var>result</var>’s data.
+  <li><p>Upon fulfillment of <var>promise</var> with value <var>v</var>,
+      return <a>success</a> with data <var>v</var>.
 
- <li><p>Return <a>success</a> with data <var>value</var>.
+  <li><p>Upon rejection of <var>promise</var> with reason <var>r</var>,
+      if <var>r</var> is an <a>error</a>, return <var>r</var>.
+      Otherwise, return <a>error</a> with <a>error code</a> <a>javascript error</a>
+      and data <var>r</var>.
 </ol>
 </section> <!-- /Execute Script -->
 
@@ -5834,40 +5853,32 @@ must run the following steps:
  <li><p>Let <var>body</var> and <var>arguments</var>
   be <var>script arguments</var>’ data.
 
- <li><p class=issue>This next step might not quite set up all the right machinery.
+  <li><p>Let <var>promise</var> be <a>a new Promise</a>.
 
-  <p>Let <var>webdriver callback result</var> be
-   a flag which can have three values:
-   <code>unset</code>, <code>expired</code>, or <code>set</code>,
-   with the <code>set</code> value having associated data.
-   Initially it is in the <code>unset</code> state.
+  <li><p>Run the following substeps <a>in parallel</a>:
+  <ol>
+    <li><p>Append resolve to <var>script arguments</var>.
 
- <li><p>Let <var>callback</var> be a <a>function</a>
-  whose <a>[[\Call]]</a> <a>internal method</a> runs
-  the <a>execute async script callback</a> algorithm
-  initialized with argument <var>webdriver callback result</var>.
+    <li><p>Let <var>result</var> be the result of <a>promise-calling</a>
+      <a>execute a function body</a>, with arguments
+      <var>body</var> and <var>arguments</var>.
 
- <li><p>Append <var>callback</var> to <var>arguments</var>.
+    <li><p>If <var>result</var> is an error,
+      <a>reject</a> <var>promise</var> with <var>result</var>.
+  </ol>
 
- <li><p>Let <var>result</var> be the result
-  of <a>trying</a> to call <a>execute a function body</a>
-  with arguments <var>body</var> and <var>arguments</var>.
+  <li><p>If <var>promise</var> is still pending and
+   <a>session script timeout</a> milliseconds is reached,
+   <a>reject</a> <var>promise</var> with <a>error</a> with
+   <a>error code</a> <a>script timeout</a>.
 
- <li><p>Wait for <var>webdriver callback result</var> to enter the <code>set</code> state,
-  or for <a>session script timeout</a> milliseconds to expire,
-  whichever happens sooner.
+  <li><p>Upon fulfillment of <var>promise</var> with value <var>v</var>,
+    return <a>success</a> with data <var>v</var>.
 
- <li><p>If the previous step completed due the <a>session script timeout</a> being reached,
-  set <var>webdriver callback result</var> to <code>expired</code>
-  and return <a>error</a> with <a>error code</a> <a>script timeout</a>.
-
- <li><p>Otherwise, let <var>result</var> be <var>webdriver callback result</var>’s data.
-
- <li><p>If <var>result</var> is an <a>error</a>, return <var>result</var>.
-
- <li><p>Let <var>value</var> be <var>result</var>’s data.
-
- <li><p>Return <a>success</a> with data <var>value</var>.
+  <li><p>Upon rejection of <var>promise</var> with reason <var>r</var>,
+    if <var>r</var> is an <a>error</a>, return <var>r</var>.
+    Otherwise, return <a>error</a> with <a>error code</a> <a>javascript error</a>
+    and data <var>r</var>.
 </ol>
 
 <p>The <dfn>execute async script callback</dfn> algorithm
