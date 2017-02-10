@@ -750,7 +750,7 @@ var respecConfig = {
 
 <p>When calling a fallible algorithm,
  the construct “Let <var>result</var> be the result
- of <dfn>trying</dfn> to call <var>algorithm</var>”
+ of <dfn data-lt="try">trying</dfn> to call <var>algorithm</var>”
  is equivalent to
 
 <ol>
@@ -2059,29 +2059,43 @@ with a "<code>moz:</code>" prefix:
    <li><p>If <var>required capabilities</var> is <a>undefined</a>,
     set the value to an empty JSON <a>Object</a>.
 
-   <li><p>If <var>required capabilities</var> is not a JSON <a>Object</a>,
-    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+   <li><p>If the result of <a>validate capabilities</a> with
+    argument <var>required capabilities</var> is <code>false</code>
+    return <a>error</a> with <a>error code</a> <a>invalid
+    argument</a>.
   </ol>
 
  <li><p>Let <var>desired capabilities</var> be the result of <a>getting a property</a>
   named "<code>firstMatch</code>" from <var>capabilities request</var>.
 
   <ol>
-   <li><p>If <var>desired capabilities</var> is <a>undefined</a>,
-    set the value to a JSON <a>List</a> with a single entry of an empty JSON <a>Object</a>.
+   <li><p>If <var>desired capabilities</var> is <a>undefined</a>, set
+    the value to a JSON <a>List</a> with a single entry of an empty
+    JSON <a>Object</a>.
 
    <li><p>If <var>desired capabilities</var> is not a JSON <a>List</a>,
    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
   </ol>
 
- <li><p>For each <var>current desired capabilities</var> corresponding
+ <li><p>Let <var>mergeable capabilities</var> be an empty <a>list</a>.
+
+ <!-- Validate all entries first so we fail as quickly as possible -->
+ <li><p>For each <var>current desired capabilities</var> coressponding
   to an indexed property in <var>desired capabilities</var>:
+  <ol>
+   <li><p>Let <var>mergeable</var> be the result
+    of <a>trying</a> to <a>validate capabilities</a> with argument
+    <var>current desired capabilities</var>.
+
+   <li><p>If <var>mergeable</var> is <code>true</code>, append
+    <var>current desired capabilities</var> to
+    <var>mergeable capabilities</var>.
+  </ol>
+
+ <li><p>For each <var>current desired capabilities</var> corresponding
+  to an indexed property in <var>mergeable capabilities</var>:
 
   <ol>
-   <li><p>If <var>current desired capabilities</var> is not a
-    JSON <a>Object</a>, return <a>error</a> with <a>error
-    code</a> <a>invalid argument</a>.
-
    <li><p>Let <var>merged capabilities</var> be the result of
     <a>trying</a> to <a data-lt="merging capabilities">merge
     capabilities</a> with <var>required capabilities</var>
@@ -2096,6 +2110,29 @@ with a "<code>moz:</code>" prefix:
   </ol>
 
  <li><p>Return <code>null</code>.
+</ol>
+
+<p>In order to <dfn>validate capabilities</dfn> with
+ argument <var>capability</var>:
+
+<ol>
+ <li><p>If <var>capability</var> is not a JSON <a>Object</a> return
+  an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li>For each <var>key</var> and <var>value</var> coressponding
+  to <var>capability</var>'s <a>own properties</a>:
+  <ol>
+   <li><p>Let <var>strategy</var> be the result of <a>finding a
+    deserialization strategy</a> with argument <var>key</var>.
+
+   <li><p>If <var>strategy</var> is <code>null</code>
+    return <code>false</code>.
+
+   <li><p><a>Try</a> to call <var>strategy</var> with
+    argument <var>value</var>.
+  </ol>
+
+ <li><p>Return <code>true</code>.
 </ol>
 
 <p>When <dfn>merging capabilities</dfn> with JSON <a>Object</a> arguments
