@@ -6407,10 +6407,10 @@ must run the following steps:
 
 <p>A <dfn>pointer input source</dfn> is an <a>input source</a> that is
  associated with a pointer-type input device. Such an input source has
- an associated subtype specifying exactly which kind of pointing
- device it is associated with. A pointer input source supports the
- same <a>pause</a> action as a <a>null input source</a> plus the
- following actions:
+ an associated <dfn>pointer type</dfn> specifying exactly which kind
+ of pointing device it is associated with. A pointer input source
+ supports the same <a>pause</a> action as a <a>null input source</a>
+ plus the following actions:
 
 <table class=simple>
  <tr>
@@ -6439,6 +6439,16 @@ must run the following steps:
   <td>Used to cancel a pointer action.</td>
  </tr>
 </table>
+
+<p>Each <a>session</a> maintains a <a>list</a> of <dfn>active input
+sources</dfn>. This list is initially empty. When an <a>input
+source</a> is added to the list of <a>active input sources</a>, a
+corresponding entry is made in the <a>input state table</a> where the
+key is the <a>input source</a>'s <code>input id</code> and the value is
+the <a>input source</a>'s <a>input source state</a>. When an 
+<a>input source</a> is removed from the list of <a>active input
+sources</a>, the corresponding entry in the <a>input state table</a>
+is also removed.
 
 <p>A <dfn data-lt="ticks">tick</dfn> is the basic unit of time over
  which actions can be performed. During a tick, each input source has
@@ -6661,13 +6671,6 @@ must run the following steps:
  <li><p>If <var>id</var> is <a>undefined</a> or is not a <a>String</a>
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>Let <var>action items</var> be the result of <a>getting a
-  property</a> named <code>actions</code> from
-  <var>action sequence</var>.
-
- <li><p>If <var>action items</var> is not an <a>Array</a>,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
  <li><p>If <var>type</var> is equal to <code>"pointer"</code>,
   let <var>parameters data</var> be the result of getting a property
   named <var>parameters</var> from <var>action sequence</var>. Then
@@ -6675,11 +6678,52 @@ must run the following steps:
   to <a>process pointer parameters</a> with argument
   <var>parameters data</var>.
 
- <li><p>If the <a>current session</a>'s <a>input state table</a>
-  already has an entry corresponding to <a>input id</a> <var>id</var>
-  and that entry has a type different to the <a>corresponding input
-  source state type</a> for <var>type</var>, then return <a>error</a> with
-  <a>error code</a> <a>invalid argument</a>.
+ <li><p>Let <var>source</var> be the <a>input source</a> in the list
+  of <a>active input sources</a> where that <a>input source</a>'s 
+  <a>input id</a> matches <var>id</var>, or <code>undefined</code> is
+  there is no matching <a>input source</a>.
+
+ <li><p>If <var>source</var> is <code>undefined</code>:
+  <ol>
+   <li>Let <var>source</var> be a new <a>input source</a> created from
+    the first match against <var>type</var>:
+
+    <dl class=switch>
+     <dt>"<code>none</code>"
+     <dd>Create a new <a>null input source</a>.
+
+     <dt>"<code>key</code>"
+     <dd>Create a new <a>key input source</a>.
+
+     <dt>"<code>pointer</code>"
+     <dd>Create a new <a>pointer input source</a>. Let the
+      new <a>input source</a>'s <a>pointer type</a> be set to the value
+      of <var>parameters</var>'s <code>pointerType</code> property.
+    </dl>
+
+   <li><p>Add <var>source</var> to the <a>current session</a>'s list
+    of <a>active input sources</a>.
+
+   <li><p>Add <var>source</var>'s <a>input source state</a> to
+    the <a>current session</a>'s <a>input state table</a>, keyed
+    on <var>source</var>'s <a>input id</a>.
+  </ol>
+
+ <li><p>If <var>source</var>'s <a>source type</a> does not
+  match <var>type</var> return an <a>error</a> with <a>error
+  code</a> <a>invalid argument</a>.
+
+ <li><p>If <var>parameters</var> is not <code>undefined</code>, then
+  if its <code>pointerType</code> property does not
+  match <var>source</var>'s <a>pointer type</a> return an <a>error</a>
+  with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Let <var>action items</var> be the result of <a>getting a
+  property</a> named <code>actions</code> from
+  <var>action sequence</var>.
+
+ <li><p>If <var>action items</var> is not an <a>Array</a>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>actions</var> be a new list.
 
