@@ -6500,17 +6500,42 @@ must run the following steps:
 </section> <!-- /Terminology -->
 
 <section>
-<h2>Input State</h2>
+<h2>Input Source State</h2>
 
 <p class=note>The objects and properties defined in this section
  are spec-internal constructs
  and do not correspond to ECMAScript objects.
  For convenience the same terminology is used for their manipulation.
 
-<p>Each <a>session</a> has an associated <dfn>input state table</dfn>.
- This is a map between <a>input id</a>
- and the <a>input source state</a> for that <a>input source</a>,
- with one entry for each active <a>input source</a>.
+<p>"<dfn>Input source state</dfn>" is used as a generic term to
+ describe the state associated with each <a>input source</a>.
+
+<p>The <dfn>corresponding <a>input source state</a> type</dfn>
+ for a label <var>action type</var> is given by the following table:
+
+<table class=simple>
+ <thead>
+  <tr>
+   <th><var>Action type</var>
+   <th>Input state
+  </tr>
+ </thead>
+
+ <tr>
+  <td>"<code>none</code>"
+  <td><a>null input state</a>
+ </tr>
+
+ <tr>
+  <td>"<code>key</code>"
+  <td><a>key input state</a>
+ </tr>
+
+ <tr>
+  <td>"<code>pointer</code>"
+  <td><a>pointer input state</a>
+ </tr>
+</table>
 
 <p>A <a>null input source</a>'s <a>input source state</a> is
  a <dfn>null input state</dfn>. This is always an empty object.
@@ -6543,35 +6568,10 @@ must run the following steps:
  to <var>subtype</var>, <code>pressed</code> set to an empty set and
  both <code>x</code> and <code>y</code> set to <code>0</code>.
 
-<p>"<dfn>Input source state</dfn>" is used as a generic term to
- describe the state associated with each <a>input source</a>.
-
-<p>The <dfn>corresponding <a>input source state</a> type</dfn>
- for a label <var>action type</var> is given by the following table:
-
-<table class=simple>
- <thead>
-  <tr>
-   <th><var>Action type</var>
-   <th>Input state
-  </tr>
- </thead>
-
- <tr>
-  <td>"<code>none</code>"
-  <td><a>null input state</a>
- </tr>
-
- <tr>
-  <td>"<code>key</code>"
-  <td><a>key input state</a>
- </tr>
-
- <tr>
-  <td>"<code>pointer</code>"
-  <td><a>pointer input state</a>
- </tr>
-</table>
+<p>Each <a>session</a> has an associated <dfn>input state table</dfn>.
+ This is a map between <a>input id</a>
+ and the <a>input source state</a> for that <a>input source</a>,
+ with one entry for each active <a>input source</a>.
 
 <p>Each <a>session</a> also has an associated <dfn>input cancel
  list</dfn>, which is a list of actions. This list is used to manage
