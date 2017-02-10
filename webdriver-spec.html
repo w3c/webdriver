@@ -1259,14 +1259,8 @@ var respecConfig = {
 
  <tr>
   <td>POST</td>
-  <td>/session/{<var>session id</var>}/execute/sync</td>
+  <td>/session/{<var>session id</var>}/execute</td>
   <td><a>Execute Script</a></td>
- </tr>
-
- <tr>
-  <td>POST</td>
-  <td>/session/{<var>session id</var>}/execute/async</td>
-  <td><a>Execute Async Script</a></td>
  </tr>
 
  <tr>
@@ -5751,7 +5745,7 @@ must run the following steps:
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{<var>session id</var>}/execute/sync</td>
+  <td>/session/{<var>session id</var>}/execute</td>
  </tr>
 </table>
 
@@ -5780,118 +5774,19 @@ must run the following steps:
  <li><p>Let <var>result</var> be the result of calling <a>execute a function body</a>,
   with arguments <var>body</var> and <var>arguments</var>.
 
- <li><p>Wait for <a>execute a function body</a> to return
-  or for <a>session script timeout</a> milliseconds to expire,
-  whichever happens sooner.
+ <li><p>Let <var>promise</var> be a new Promise.
 
- <li><p>If the previous step completed due to the <a>session script timeout</a> being reached,
-  return <a>error</a> with <a>error code</a> <a>script timeout</a>.
-
- <li><p>If <var>result</var> is an <a>error</a>, return result.
+ <li><p>Let <var>result</var> be the result of <a>execute a function body</a>.
+   If <var>result</var> is an <a>error</a> or if for <a>session script timeout</a>
+   milliseconds to expire,
+   reject <var>promise</var> else
+   resolve <var>promise</var> with <var>result</var>.
 
  <li><p>Otherwise let <var>value</var> be <var>result</var>’s data.
 
  <li><p>Return <a>success</a> with data <var>value</var>.
 </ol>
 </section> <!-- /Execute Script -->
-
-<section>
-<h3>Execute Async Script</h3>
-
-<table class="simple jsoncommand">
- <tr>
-  <th>HTTP Method</th>
-  <th>Path Template</th>
- </tr>
- <tr>
-  <td>POST</td>
-  <td>/session/{<var>session id</var>}/execute/async</td>
- </tr>
-</table>
-
-<p>The <dfn>Execute Async Script</dfn> <a>command</a>
- causes JavaScript to execute as an anonymous function.
- Unlike the <a>Execute Script</a> <a>command</a>,
- the result of the function is ignored.
- Instead an additional argument is provided as the final argument to the function.
- This is a function that, when called, returns its first argument as the response.
-
-<p>The <a>remote end steps</a> are:
-
-<ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
-
- <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
-
- <li><p>Let <var>script arguments</var> be the result
-  of <a>extracting the script arguments from a request</a>
-  with argument <var>parameters</var>.
-
- <li><p>If <var>script arguments</var> is an <a>error</a>,
-  return <var>script arguments</var>.
-
- <li><p>Let <var>body</var> and <var>arguments</var>
-  be <var>script arguments</var>’ data.
-
- <li><p class=issue>This next step might not quite set up all the right machinery.
-
-  <p>Let <var>webdriver callback result</var> be
-   a flag which can have three values:
-   <code>unset</code>, <code>expired</code>, or <code>set</code>,
-   with the <code>set</code> value having associated data.
-   Initially it is in the <code>unset</code> state.
-
- <li><p>Let <var>callback</var> be a <a>function</a>
-  whose <a>[[\Call]]</a> <a>internal method</a> runs
-  the <a>execute async script callback</a> algorithm
-  initialized with argument <var>webdriver callback result</var>.
-
- <li><p>Append <var>callback</var> to <var>arguments</var>.
-
- <li><p>Let <var>result</var> be the result
-  of <a>trying</a> to call <a>execute a function body</a>
-  with arguments <var>body</var> and <var>arguments</var>.
-
- <li><p>Wait for <var>webdriver callback result</var> to enter the <code>set</code> state,
-  or for <a>session script timeout</a> milliseconds to expire,
-  whichever happens sooner.
-
- <li><p>If the previous step completed due the <a>session script timeout</a> being reached,
-  set <var>webdriver callback result</var> to <code>expired</code>
-  and return <a>error</a> with <a>error code</a> <a>script timeout</a>.
-
- <li><p>Otherwise, let <var>result</var> be <var>webdriver callback result</var>’s data.
-
- <li><p>If <var>result</var> is an <a>error</a>, return <var>result</var>.
-
- <li><p>Let <var>value</var> be <var>result</var>’s data.
-
- <li><p>Return <a>success</a> with data <var>value</var>.
-</ol>
-
-<p>The <dfn>execute async script callback</dfn> algorithm
- is initialized with a single argument <var>webdriver callback state</var>.
- It defines a <a>function</a> with a single optional argument <var>result</var>.
- When this function is called, the following steps are run:
-
-<ol>
- <li><p>If <var>webdriver callback state</var> is not in the <code>unset</code> state,
-  return <code><a>undefined</a></code>.
-
-
- <li><p>If <var>result</var> is not present,
-  let <var>result</var> be <code>null</code>.
-
- <li><p>Let <var>json result</var> be a <a>JSON clone</a>
-  of <var>result</var>.
-
- <li><p>Set the <var>webdriver callback state</var>
-  to <code>set</code> with data <var>json result</var>.
-
- <li><p>Return <code><a>undefined</a></code>.
-</ol>
-</section> <!-- /Execute Async Script -->
 </section> <!-- /Executing Script -->
 </section> <!-- /Document Handling -->
 <section>
