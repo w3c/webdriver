@@ -6279,14 +6279,14 @@ must run the following steps:
  Conceptually, the Actions commands divide time into a series of <a>ticks</a>.
  The <a>local end</a> sends a series of actions
  which correspond to the change in state, if any,
- of each input device during each tick.
+ of each input device during each <a>tick</a>.
  For example, pressing a key
  is represented by an action sequence
- consisting of a single key input device and two ticks,
+ consisting of a single key input device and two <a>ticks</a>,
  the first containing a <a>keyDown</a> action,
  and the second a <a>keyUp</a> action,
  whereas a pinch-zoom input is represented
- by an action sequence consisting of a three ticks
+ by an action sequence consisting of a three <a>ticks</a>
  and two pointer input devices of type touch,
  each performing a sequence of actions <a>pointerDown</a>,
  followed by <a>pointerMove</a>, and then <a>pointerUp</a>.
@@ -6328,31 +6328,31 @@ must run the following steps:
   The <a>pause</a> action can be used to either
   (a) indicate a specific amount of time an input source must wait,
   or (b) can be used to signify that the current input source
-  must wait until all other actions in the tick are completed.
-  For the former case, the current tick being executed
+  must wait until all other actions in the <a>tick</a> are completed.
+  For the former case, the current <a>tick</a> being executed
   must wait for the longest pause to complete.
   For example, in this diagram:
 
  <p><img src=graphics/note2actions.svg alt="">
 
  <p>The <a>remote end</a> will dispatch
-  the <a>pointerDown</a> action in the first tick.
-  In the second tick, since source 1 declares a <a>pause</a> of 5 seconds,
+  the <a>pointerDown</a> action in the first <a>tick</a>.
+  In the second <a>tick</a>, since source 1 declares a <a>pause</a> of 5 seconds,
   the <a>remote end</a> will dispatch the <a>pointerUp</a> event for source 2,
-  and will wait 5 seconds before moving on to executing the third tick.
+  and will wait 5 seconds before moving on to executing the third <a>tick</a>.
 
- <p>In the event that one tick contains multiple <a>pause</a> durations,
+ <p>In the event that one <a>tick</a> contains multiple <a>pause</a> durations,
   the <a>remote end</a> will wait the maximum duration
-  before moving on to executing the next tick.
+  before moving on to executing the next <a>tick</a>.
 
- <p>As noted before, <a>pause</a> can be used to signify inaction during a tick.
+ <p>As noted before, <a>pause</a> can be used to signify inaction during a <a>tick</a>.
   If <code><a>pause</a></code> is declared without a time period,
-  then the input source will not have any actions executed in the containing tick.
+  then the input source will not have any actions executed in the containing <a>tick</a>.
   As an example:
 
  <p><img src=graphics/note3actions.svg alt="">
 
- <p>During tick 2, source 1 will have its <a>pointerMove</a> action dispatched,
+ <p>During <a>tick</a> 2, source 1 will have its <a>pointerMove</a> action dispatched,
   while source 2 will do nothing.
 </aside> <!-- /example -->
 
@@ -6381,7 +6381,7 @@ must run the following steps:
   <td><dfn>pause</dfn></td>
   <td>Used with an integer argument to specify the duration of
    a <a>tick</a>, or as a placeholder to indicate that an <a>input
-   source</a> does nothing during a particular tick.</td>
+   source</a> does nothing during a particular <a>tick</a>.</td>
  </tr>
 </table>
 
@@ -6451,12 +6451,12 @@ sources</a>, the corresponding entry in the <a>input state table</a>
 is also removed.
 
 <p>A <dfn data-lt="ticks">tick</dfn> is the basic unit of time over
- which actions can be performed. During a tick, each input source has
+ which actions can be performed. During a <a>tick</a>, each input source has
  an assigned action — possibly a noop <a>pause</a> action — which may
  result in changes to the user agent internal state and eventually
- cause DOM events to be <a>fired</a> at the page. The next tick begins
+ cause DOM events to be <a>fired</a> at the page. The next <a>tick</a> begins
  after the user agent has had a chance to process all DOM events
- generated in the current tick.
+ generated in the current <a>tick</a>.
 
 <p><dfn data-lt="asynchronously wait|asynchronous waits">Waiting
  asynchronously</dfn> means waiting for something to occur whilst
@@ -6599,7 +6599,7 @@ is also removed.
  extracting an action sequence from a request</a> takes the
  JSON <a>Object</a> representing an action sequence, validates the
  input, and returns a data structure that is the transpose of the
- input JSON, such that the actions to be performed in a single tick
+ input JSON, such that the actions to be performed in a single <a>tick</a>
  are grouped together.
 
 <p>When required to <dfn>extract an action sequence</dfn> with
@@ -7811,7 +7811,7 @@ is also removed.
   property of <var>input state</var>.
 
  <li><p>Let <var>time delta</var> be the time since the beginning of
-  the current tick, measured in milliseconds on a monotonic
+  the current <a>tick</a>, measured in milliseconds on a monotonic
   clock.
 
  <li><p>Let <var>duration ratio</var> be the ratio of
