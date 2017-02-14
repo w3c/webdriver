@@ -472,6 +472,7 @@ var respecConfig = {
  <dd>The following functions are defined in
   the CSSOM View Module: [[!CSSOM-VIEW]]:
   <ul>
+   <!-- getBoundingClientRect() --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-element-getboundingclientrect">getBoundingClientRect</a></dfn>
    <!-- elementFromPoint --> <li><dfn>Element from point</dfn> as <a href="https://drafts.csswg.org/cssom-view/#dom-document-elementfrompoint">elementFromPoint()</a>
    <!-- elementsFromPoint --> <li><dfn data-lt="paint order">Elements from point</dfn> as <a href=https://drafts.csswg.org/cssom-view/#dom-document-elementsfrompoint>elementsFromPoint()</a>
    <!-- getClientRects --> <li><dfn data-lt="DOM client rectangle"><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></dfn>
@@ -483,6 +484,8 @@ var respecConfig = {
    <!-- offsetTop --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsettop>offsetTop</a></dfn>
    <!-- screenX --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-screenx>screenX</a></dfn>
    <!-- screenY --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-screeny>screenY</a></dfn>
+   <!-- scrollX --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-window-scrollx">scrollX</a></dfn>
+   <!-- scrollY --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-window-scrolly">scrollY</a></dfn>
    <!-- scrollIntoView --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-element-scrollintoview>scrollIntoView</a></dfn>
    <!-- ScrollIntoViewOptions --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dictdef-scrollintoviewoptions><code>ScrollIntoViewOptions</code></a></dfn>
   </ul>
@@ -2219,8 +2222,8 @@ with a "<code>moz:</code>" prefix:
        with the <code>null</code> value being set to <code>false</code>.
 
      <dt>"<code>pageLoadStrategy</code>"
-     <dd><p>If <var>capability value</var> is not a keyword in the 
-      <a>table of page load strategies</a>, return <a>error</a> with 
+     <dd><p>If <var>capability value</var> is not a keyword in the
+      <a>table of page load strategies</a>, return <a>error</a> with
       <a>error code</a> <a>invalid argument</a>.
 
       <p>Otherwise, set the "<code>pageLoadStrategy</code>" entry
@@ -4481,17 +4484,21 @@ with a "<code>moz:</code>" prefix:
 <ol>
  <li><p>Let <var>x</var> and <var>y</var> both be 0.
 
- <li><p>While <var>element</var>’s <a>offsetParent</a> is not null:
+ <li><p>Let <var>rect</var> be the value returned by calling <a>getBoundingClientRect</a>.
 
-  <ol>
-   <li><p>Set <var>x</var> to (<var>x</var> +
-    <var>element</var>’s <a>offsetLeft</a>).
+ <li><p>Let <var>rect x</var> be the result of <a>getting a property</a> named "<code>x</code>"
+   from <var>rect</var>.
 
-   <li><p>Set <var>y</var> to (<var>y</var> +
-    <var>element</var>’s <a>offsetTop</a>).
+ <li><p>Let <var>rect y</var> be the result of <a>getting a property</a> named "<code>y</code>"
+   from <var>rect</var>.
 
-   <li><p>Set <var>element</var> to <var>element</var>’s <a>offsetParent</a>.
-  </ol>
+ <li><p>Let <var>scroll x</var> be the value returned by calling <a>scrollX</a>.
+
+ <li><p>Let <var>scroll y</var> be the value returned by calling <a>scrollY</a>.
+
+ <li><p>Set <var>x</var> to (<var>scroll x</var> + <var>rect x</var>)
+
+ <li><p>Set <var>y</var> to (<var>scroll y</var> + <var>rect y</var>)
 
  <li><p>Return a pair of (<var>x</var>, <var>y</var>).
 </ol>
@@ -6445,7 +6452,7 @@ sources</dfn>. This list is initially empty. When an <a>input
 source</a> is added to the list of <a>active input sources</a>, a
 corresponding entry is made in the <a>input state table</a> where the
 key is the <a>input source</a>'s <code>input id</code> and the value is
-the <a>input source</a>'s <a>input source state</a>. When an 
+the <a>input source</a>'s <a>input source state</a>. When an
 <a>input source</a> is removed from the list of <a>active input
 sources</a>, the corresponding entry in the <a>input state table</a>
 is also removed.
@@ -6679,7 +6686,7 @@ is also removed.
   <var>parameters data</var>.
 
  <li><p>Let <var>source</var> be the <a>input source</a> in the list
-  of <a>active input sources</a> where that <a>input source</a>'s 
+  of <a>active input sources</a> where that <a>input source</a>'s
   <a>input id</a> matches <var>id</var>, or <code>undefined</code> is
   there is no matching <a>input source</a>.
 
