@@ -137,6 +137,7 @@ var respecConfig = {
    <!-- NodeList --> <li><dfn><a href=https://dom.spec.whatwg.org/#nodelist><code>NodeList</code></a></dfn>
    <!-- Node length --> <li><dfn><a href="https://dom.spec.whatwg.org/#concept-node-length">Node Length</a></dfn>
    <!-- ownerDocument --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-ownerdocument>ownerDocument</a></dfn>
+   <!-- parentNode --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-node-parentnode"><code>parentNode</code></a></dfn></li>
    <!-- querySelector --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselector"><code>querySelector</code></a></dfn>
    <!-- querySelectorAll --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall"><code>querySelectorAll</code></a></dfn>
    <!-- tagName --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-tagname>tagName</a></dfn>
@@ -156,6 +157,7 @@ var respecConfig = {
   in the UI Events specification: [[!UI-EVENTS]]
   <ul>
    <!-- Activation trigger --> <li><dfn><a href=https://w3c.github.io/uievents/#activation-trigger>Activation trigger</a></dfn>
+   <!-- click event --> <li><dfn><a href="https://w3c.github.io/uievents/#event-type-click">click event</a></dfn>
    <!-- Keyboard Event --> <li><dfn><a href=https://w3c.github.io/uievents/#keyboardevent>Keyboard event</a></dfn>
    <!-- Keyboard event order --> <li><dfn><a href=https://w3c.github.io/uievents/#events-keyboard-event-order>Keyboard event order</a></dfn>
    <!-- keyDown event --> <li><dfn data-lt="keyDown-Event"><a href=https://w3c.github.io/uievents/#event-type-keydown>keyDown event</a></dfn>
@@ -164,6 +166,8 @@ var respecConfig = {
    <!-- mouseDown event --> <li><dfn><a href=https://w3c.github.io/uievents/#event-type-mousedown>mouseDown event</a></dfn>
    <!-- Mouse event --> <li><dfn><a href=https://w3c.github.io/uievents/#mouseevent>Mouse event</a></dfn>
    <!-- Mouse event order --> <li><dfn><a href=https://w3c.github.io/uievents/#events-mouseevent-event-order>Mouse event order</a></dfn>
+   <!-- mouseMove event --> <li><dfn><a href="https://w3c.github.io/uievents/#event-type-mousemove">mouseMove event</a></dfn>
+   <!-- mouseOver event --> <li><dfn><a href="https://w3c.github.io/uievents/#event-type-mouseover">mouseOver event</a></dfn>
    <!-- mouseUp event --> <li><dfn><a href=https://w3c.github.io/uievents/#event-type-mouseup>mouseUp event</a></dfn>
   </ul>
 
@@ -265,6 +269,7 @@ var respecConfig = {
    <!-- Buttons --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-button>Buttons</a></dfn>
    <!-- Canvas context mode --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-context-mode>Canvas context mode</a></dfn>
    <!-- Multiple --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-input-multiple><code>multiple</code> attribute</a></dfn>
+   <!-- Change event --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/indices.html#event-change"><code>change</code> event</a></dfn>
    <!-- Checkbox --> <li><dfn><a href="https://html.spec.whatwg.org/#checkbox-state-%28type=checkbox%29">Checkbox</a></dfn> state
    <!-- Checkedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-checked>Checkedness</a></dfn>
    <!-- Child browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#child-browsing-context>Child browsing context</a></dfn>
@@ -2102,7 +2107,7 @@ with a "<code>moz:</code>" prefix:
     property</a> named <var>name</var> from <var>primary</var>.
 
    <li><p>If <var>value</var> is not <a><code>null</code></a>
-    <a>set a property</a> <var>name</var> to <var>value</var> 
+    <a>set a property</a> <var>name</var> to <var>value</var>
     on <var>result</var>.
   </ol>
 
@@ -2135,7 +2140,7 @@ with a "<code>moz:</code>" prefix:
       <a>invalid argument</a>.
     </dl>
   </ol>
-   
+
  <li><p>Return <var>result</var>.
 </ol>
 
@@ -5047,9 +5052,29 @@ with a "<code>moz:</code>" prefix:
    <dd><p>Toggle <var>element</var>’s <a>selectedness</a> state.
 
    <dt><a><code>option</code> element</a>
-   <dd><p>Set <var>element</var>’s <a>selectedness</a> state to true.
+   <dd>
+     <ol>
+       <li><p>Let <var>currently selected</var> is the <a>container</a> with
+         a <a>selectedness</a> state of true.
 
-    <p class=issue>Ensure all correct events are fired.
+       <li><p>Let <var>parent node</var> be the calling
+         <a><code>parentNode</code></a> on <var>element</var>'s <a>container</a>.
+
+       <li><p>Run the <a>focusing steps</a> on <var>parent node</var>.
+
+       <li><p><a>Fire</a> an <a><code>input</code> event</a> at <var>parent node</var>.
+
+       <li><p>Set <var>element</var>’s <a>selectedness</a> state to true.
+
+       <li><p>If <var>currently selected</var> does not equal <var>element</var>:
+         <ol>
+          <li><p><a>Fire</a> a <a><code>change</code> event</a> at <var>parent node</var>.
+         </ol>
+
+       <li><p><a>Fire</a> a <a>mouseUp event</a> at <var>parent node</var>.
+
+       <li><p><a>Fire</a> a <a>click event</a> at <var>parent node</var>.
+     </ol>
 
    <dt>Otherwise
    <dd><p class=issue>Run interaction steps on coordinate.
