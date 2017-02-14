@@ -473,6 +473,7 @@ var respecConfig = {
  <dd>The following functions are defined in
   the CSSOM View Module: [[!CSSOM-VIEW]]:
   <ul>
+   <!-- getBoundingClientRect() --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-element-getboundingclientrect">getBoundingClientRect</a></dfn>
    <!-- elementFromPoint --> <li><dfn>Element from point</dfn> as <a href="https://drafts.csswg.org/cssom-view/#dom-document-elementfrompoint">elementFromPoint()</a>
    <!-- elementsFromPoint --> <li><dfn data-lt="paint order">Elements from point</dfn> as <a href=https://drafts.csswg.org/cssom-view/#dom-document-elementsfrompoint>elementsFromPoint()</a>
    <!-- getClientRects --> <li><dfn data-lt="DOM client rectangle"><a href=http://www.w3.org/TR/cssom-view/#dom-range-getclientrects>getClientRects</a></dfn>
@@ -484,6 +485,8 @@ var respecConfig = {
    <!-- offsetTop --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsettop>offsetTop</a></dfn>
    <!-- screenX --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-screenx>screenX</a></dfn>
    <!-- screenY --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-screeny>screenY</a></dfn>
+   <!-- scrollX --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-window-scrollx">scrollX</a></dfn>
+   <!-- scrollY --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-window-scrolly">scrollY</a></dfn>
    <!-- scrollIntoView --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-element-scrollintoview>scrollIntoView</a></dfn>
    <!-- ScrollIntoViewOptions --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dictdef-scrollintoviewoptions><code>ScrollIntoViewOptions</code></a></dfn>
   </ul>
@@ -2102,7 +2105,7 @@ with a "<code>moz:</code>" prefix:
     property</a> named <var>name</var> from <var>primary</var>.
 
    <li><p>If <var>value</var> is not <a><code>null</code></a>
-    <a>set a property</a> <var>name</var> to <var>value</var> 
+    <a>set a property</a> <var>name</var> to <var>value</var>
     on <var>result</var>.
   </ol>
 
@@ -2135,7 +2138,7 @@ with a "<code>moz:</code>" prefix:
       <a>invalid argument</a>.
     </dl>
   </ol>
-   
+
  <li><p>Return <var>result</var>.
 </ol>
 
@@ -4502,17 +4505,21 @@ with a "<code>moz:</code>" prefix:
 <ol>
  <li><p>Let <var>x</var> and <var>y</var> both be 0.
 
- <li><p>While <var>element</var>’s <a>offsetParent</a> is not <a><code>null</code></a>:
+ <li><p>Let <var>rect</var> be the value returned by calling <a>getBoundingClientRect</a>.
 
-  <ol>
-   <li><p>Set <var>x</var> to (<var>x</var> +
-    <var>element</var>’s <a>offsetLeft</a>).
+ <li><p>Let <var>rect x</var> be the result of <a>getting a property</a> named "<code>x</code>"
+   from <var>rect</var>.
 
-   <li><p>Set <var>y</var> to (<var>y</var> +
-    <var>element</var>’s <a>offsetTop</a>).
+ <li><p>Let <var>rect y</var> be the result of <a>getting a property</a> named "<code>y</code>"
+   from <var>rect</var>.
 
-   <li><p>Set <var>element</var> to <var>element</var>’s <a>offsetParent</a>.
-  </ol>
+ <li><p>Let <var>scroll x</var> be the value returned by calling <a>scrollX</a>.
+
+ <li><p>Let <var>scroll y</var> be the value returned by calling <a>scrollY</a>.
+
+ <li><p>Set <var>x</var> to (<var>scroll x</var> + <var>rect x</var>)
+
+ <li><p>Set <var>y</var> to (<var>scroll y</var> + <var>rect y</var>)
 
  <li><p>Return a pair of (<var>x</var>, <var>y</var>).
 </ol>
