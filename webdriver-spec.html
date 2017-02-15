@@ -1812,6 +1812,14 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
+  <td><dfn data-lt="window dimensioning/positioning">Window dimensioning/positioning</dfn>
+  <td>"<code>setWindowRect</code>"
+  <td>boolean
+   <td>Indicates whether the remote end supports all of the <a>commands</a> in
+   <a href=#h-resizing-and-positioning-windows>Resizing and Positioning Windows</a>.
+ </tr>
+
+ <tr>
   <td><dfn>Session timeouts configuration</dfn>
   <td>"<code>timeouts</code>"
   <td>JSON <a>Object</a>
@@ -2164,6 +2172,10 @@ with a "<code>moz:</code>" prefix:
    <dd>Boolean initially set to false,
     indicating the session will not implicitly trust untrusted
     or self-signed TLS certificates on <a data-lt=go>navigation</a>.
+
+   <dt>"<code>setWindowRect</code>"
+   <dd>Boolean indicating whether the <a>remote end</a> is supports all of the
+    <a>commands</a> in <a href=#h-resizing-and-positioning-windows>Resizing and Positioning Windows</a>.
   </dl>
 
  <li><p>Add any implementation-specific capabilities as entries
@@ -2260,6 +2272,14 @@ with a "<code>moz:</code>" prefix:
 
       <p>Otherwise, set the "<code>proxy</code>" entry
        in <var>matched capabilities</var> to <var>capability value</var>.
+
+     <dt>"<code>setWindowRect</code>"
+     <dd><p>If <var>capability value</var> is not a boolean
+      return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+      <p>If <var>capability value</var> is not equal to the
+       "<code>setWindowRect</code>" entry in
+       <var>matched capabilities</var>, return <code>null</code>.
 
      <dt>"<code>timeouts</code>"
      <dd><p>If <var>capability value</var>
@@ -3508,6 +3528,8 @@ with a "<code>moz:</code>" prefix:
  containing the <a>current top-level browsing context</a>.
  Because different operating system’s window managers provide different abilities,
  not all of the commands in this section can be supported by all <a>remote ends</a>.
+ Support for these <a>commands</a> is determined by the <a>window
+ dimensioning/positioning</a> <a>capability</a>.
  Where a <a>command</a> is not supported,
  an <a>unsupported operation</a> <a>error</a> is returned.
 
