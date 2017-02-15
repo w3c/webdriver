@@ -2736,10 +2736,12 @@ with a "<code>moz:</code>" prefix:
  <li><p>If <var>parameters</var> is not a JSON <a>Object</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>For each <var>key</var> and <var>value</var>
-  of <var>parameters</var>’s <a>own properties</a>:
-
+ <li><p>For each enumerable <a>own property</a> in <var>parameters</var>:
   <ol>
+   <li><p>Let <var>key</var> be the name of the property,
+    and <var>value</var> be the result of <a>getting a property</a>
+    named <var>name</var> from <var>parameters</var>.
+
    <li><p>Find the <var>timeout type</var> from the <a>table of session timeouts</a>
     by looking it up by its keyword <var>key</var>.
 
