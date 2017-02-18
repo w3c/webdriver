@@ -2408,6 +2408,8 @@ with a "<code>moz:</code>" prefix:
 <p>A <a>session</a> has an associated <a>user prompt handler</a>. Unless stated
   otherwise it is <code>null</code>.
 
+<p>A <a>session</a> has an associated list of <a>active input sources</a>.
+
 <p>A <a>session</a> has an associated <a>input state table</a>.
 
 <p>A <a>session</a> has an associated <a>input cancel list</a>.
@@ -5523,6 +5525,9 @@ must run the following steps:
  <li><p>Remove <var>keyboard</var> from the <a>current
   session</a>'s <a>input state table</a>
 
+ <li><p>Remove <var>keyboard</var> from the list of
+  <a>active input sources</a>.
+
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 </section> <!-- Element Send Keys -->
@@ -8059,6 +8064,9 @@ is also removed.
 
  <li><p>Let the <a>current session</a>'s <a>input state table</a> be
   an empty map.
+
+ <li><p>Let the <a>current session</a>'s <a>active input sources</a>
+  be an empty <a>list</a>.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
