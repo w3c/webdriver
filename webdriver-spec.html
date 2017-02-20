@@ -2113,27 +2113,37 @@ with a "<code>moz:</code>" prefix:
    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
   </ol>
 
+ <li><p>Let <var>validated first match capabilities</var> be an empty
+  JSON <a>List</a>.
+
  <!-- Validate all entries first so we fail as quickly as possible -->
  <li><p>For each <var>first match capabilities</var> corresponding
   to an indexed property in <var>all first match capabilities</var>:
   <ol>
-   <li><p>Let <var>first match capabilities</var> be the result
+   <li><p>Let <var>validated capabilities</var> be the result
     of <a>trying</a> to <a>validate capabilities</a> with argument
     <var>first match capabilities</var>.
 
-   <li><p>Let <var>merged capabilities</var> be the result of
-    <a>trying</a> to <a data-lt="merging capabilities">merge
-    capabilities</a> with <var>required capabilities</var>
-    and <var>first match capabilities</var> as arguments.
+   <li><p>Append <var>validated capabilities</var> to
+    <var>validated first match capabilities</var>.
+  </ol>
 
-   <li><p>Let <var>matched capabilities</var> be the result of
-    <a>trying</a> to <a data-lt="matching capabilities">match
-    capabilities</a> with <var>merged capabilities</var> as an
-    argument.
+  <li><p>For each <var>first match capbilities</var> corresponding
+   to an indexed property in <var>validated first match capabilities</var>:
+   <ol>
+    <li><p>Let <var>merged capabilities</var> be the result of
+     <a>trying</a> to <a data-lt="merging capabilities">merge
+     capabilities</a> with <var>required capabilities</var>
+     and <var>first match capabilities</var> as arguments.
 
-   <li><p>If <var>matched capabilities</var> is
-    not <a><code>null</code></a> return
-    <var>matched capabilities</var>.
+    <li><p>Let <var>matched capabilities</var> be the result of
+     <a>trying</a> to <a data-lt="matching capabilities">match
+     capabilities</a> with <var>merged capabilities</var> as an
+     argument.
+
+    <li><p>If <var>matched capabilities</var> is
+     not <a><code>null</code></a> return
+     <var>matched capabilities</var>.
   </ol>
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
