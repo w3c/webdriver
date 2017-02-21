@@ -314,6 +314,7 @@ var respecConfig = {
    <!-- Replacement enabled --> <li><dfn><a href=https://html.spec.whatwg.org/#replacement-enabled>Replacement enabled</a></dfn>
    <!-- Reset algorithm --><li><dfn><a href=https://html.spec.whatwg.org/#concept-form-reset-control>Reset algorithm</a></dfn>
    <!-- Reset Button --> <li><dfn><a href="https://html.spec.whatwg.org/#reset-button-state-%28type=reset%29">Reset Button</a></dfn> state
+   <!-- Resettable element --> <li><dfn><a href=https://html.spec.whatwg.org/#category-reset>Resettable</a></dfn> element
    <!-- Script execution environment --> <li><dfn><a href=https://html.spec.whatwg.org/#environment>Script execution environment</a></dfn>
    <!-- Script --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-script>Script</a></dfn>
    <!-- Selectedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-option-selectedness>Selectedness</a></dfn>
@@ -5297,9 +5298,8 @@ with a "<code>moz:</code>" prefix:
 </table>
 
 <p>The <dfn>Element Clear</dfn> <a>command</a>
- <a>scrolls into view</a> an <a>editable</a> <a>element</a>, or
-  an <a><code>input</code> element</a> whose <a><code>type</code>
-  attribute</a> is <a>File</a> and then attempts to clear
+ <a>scrolls into view</a> an <a>editable</a>
+  or <a>resettable</a> <a>element</a> and then attempts to clear
   its <a>selected files</a> or <a>text content</a>.
 
 <p>The <a>remote end steps</a> are:
@@ -5312,8 +5312,9 @@ with a "<code>moz:</code>" prefix:
   of <a>trying</a> to <a>get a known element</a>
   with argument <var>element id</var>.
 
- <li><p>If <var>element</var> is not <a>editable</a> return
-  an <a>error</a> with <a>error code</a> <a>invalid element state</a>.
+ <li><p>If <var>element</var> is not <a>editable</a> and is
+  not <a>resettable</a> return an <a>error</a> with <a>error
+  code</a> <a>invalid element state</a>.
 
  <li><p><a>Scroll into view</a> the <var>element</var>.
 
@@ -5330,7 +5331,7 @@ with a "<code>moz:</code>" prefix:
 
  <li>If <var>element</var> is <a>content editable</a> follow the steps
   required to <a>clear a content editable element</a>. Otherwise,
-  follow the steps required to <a>clear an editable element</a>.
+  follow the steps required to <a>clear a resettable element</a>.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
@@ -5347,12 +5348,10 @@ with a "<code>moz:</code>" prefix:
  <li><p>Set <var>element</var>'s <a><code>innerHTML</code> IDL
   attribute</a> to an empty string.
 
- <li><p><a>Fire</a> an <a><code>input</code> event</a>.
-
  <li><p>Run the <a>unfocusing steps</a> for the <var>element</var>.
 </ol> <!-- /clearing a content editable element -->
 
-<p>When required to <dfn>clear an editable element</dfn> a <a>remote
+<p>When required to <dfn>clear a resettable element</dfn> a <a>remote
  end</a> must run the following steps:
 
 <ol>
@@ -5362,8 +5361,6 @@ with a "<code>moz:</code>" prefix:
  <li><p>Run the <a>focusing steps</a> for <var>element</var>.
 
  <li><p>Run <var>element</var>'s <a>reset algorithm</a>.
-
- <li><p><a>Fire</a> an <a><code>input</code> event</a>.
 
  <li><p>Run the <a>unfocusing steps</a> for the <var>element</var>.
 </ol> <!-- /clearing an editable element -->
