@@ -2996,29 +2996,37 @@ with a "<code>moz:</code>" prefix:
  run the following steps:
 
 <ol>
- <li><p>If the <a>current session</a>'s <a>page loading strategy</a>
-  is not <code>"none"</code> and if there is an ongoing attempt to
-  <a>navigate</a> the <a>current browsing context</a> that has not
-  yet <a>matured</a>, wait for navigation to complete.
+ <li><p>If the <a>current session</a> has a <a>page loading
+  strategy</a> of <a>none</a> return <a>success</a> with
+  data <a><code>null</code></a>.
 
- <li><p>If the <a>current session</a> has a <a>page loading strategy</a>:
+ <li><p>Start a <var>timer</var>. If this algorithm has not
+  completed before <var>timer</var> reaches
+  the <a>session</a>'s <a>session page load timeout</a> in
+  milliseconds, return an <a>error</a> with <a>error
+  code</a> <a>timeout</a>.
 
-  <ol>
-   <li><p>Let <var>readiness target</var> be the <a>document readiness</a> state
-    tied to the <a>current session</a>’s <a>page loading strategy</a>,
-    which can be found in the <a>table of page load strategies</a>.
+ <li><p>If there is an ongoing attempt to <a>navigate</a>
+  the <a>current browsing context</a> that has not
+  yet <a>matured</a>, wait for navigation to <a>mature</a>.
 
-   <li><p>Wait for the the <a>current browsing context</a>’s
-    <a>document readiness</a> state
-    to reach <var>readiness target</var>,
-    or for the <a>session page load timeout</a> to pass,
-    whichever occurs sooner.
+ <li><p>Let <var>readiness target</var> be the <a>document
+  readiness</a> state associated with the <a>current
+  session</a>’s <a>page loading strategy</a>, which can be found in
+  the <a>table of page load strategies</a>.
 
-   <li><p>If the previous step completed by the
-    <a>session page load timeout</a> being reached
-    and the browser does not have an active <a>user prompt</a>,
-    return <a>error</a> with <a>error code</a> <a>timeout</a>.
-  </ol>
+ <li><p>Wait for the the <a>current browsing context</a>’s
+  <a>document readiness</a> state to reach 
+  <var>readiness target</var>, or for the 
+  <a>session page load timeout</a> to pass, whichever 
+  occurs sooner.
+
+ <li><p>If the previous step completed by the
+  <a>session page load timeout</a> being reached
+  and the browser does not have an active <a>user prompt</a>,
+  return <a>error</a> with <a>error code</a> <a>timeout</a>.
+
+ <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 
 <p>When asked to run the <dfn>post-navigation checks</dfn>,
@@ -3119,8 +3127,7 @@ with a "<code>moz:</code>" prefix:
    <li><p>Run the <a>post-navigation checks</a>
     and return its value if it is an <a>error</a>.
 
-   <li><p><a>Wait for navigation to complete</a>
-    and return its value if it is an <a>error</a>.
+   <li><p><a>Try</a> to <a>wait for navigation to complete</a>.
  </ol>
 
  <li><p>Set the <a>current browsing context</a>
@@ -3306,8 +3313,7 @@ with a "<code>moz:</code>" prefix:
  <li><p>Run the <a>post-navigation checks</a>
   and return its value if it is an <a>error</a>.
 
- <li><p><a>Wait for navigation to complete</a>
-  and return its value if it is an <a>error</a>.
+ <li><p><a>Try</a> to <a>wait for navigation to complete</a>.
 
  <li><p>Set the <a>current browsing context</a>
   to the <a>current top-level browsing context</a>.
@@ -5275,8 +5281,7 @@ with a "<code>moz:</code>" prefix:
    <li><p>Run the <a>post-navigation checks</a>
     and return its value if it is an <a>error</a>.
 
-   <li><p><a>Wait for navigation to complete</a>
-    and return its value if it is an <a>error</a>.
+   <li><p><a>Try</a> to <a>wait for navigation to complete</a>.
   </ol>
 
   <p class=example>Note that one may not know
