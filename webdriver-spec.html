@@ -270,7 +270,9 @@ var respecConfig = {
    <!-- Button --> <li><dfn><a href="https://html.spec.whatwg.org/#button-state-%28type=button%29">Button</a></dfn> state
    <!-- Buttons --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-button>Buttons</a></dfn>
    <!-- Canvas context mode --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-context-mode>Canvas context mode</a></dfn>
+   <!-- Color state --> <li><dfn><a href="https://html.spec.whatwg.org/#color-state-(type=color)"><code>color</code> state</a></dfn>
    <!-- Multiple --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-input-multiple><code>multiple</code> attribute</a></dfn>
+   <!-- Mutable --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-mutable>Mutable</a></dfn>
    <!-- Change event --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/indices.html#event-change"><code>change</code> event</a></dfn>
    <!-- Checkbox --> <li><dfn><a href="https://html.spec.whatwg.org/#checkbox-state-%28type=checkbox%29">Checkbox</a></dfn> state
    <!-- Checkedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-checked>Checkedness</a></dfn>
@@ -323,6 +325,7 @@ var respecConfig = {
    <!-- Settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#settings-object>Settings object</a></dfn>
    <!-- Simple dialogs --> <li><dfn data-lt="simple dialog"><a href=https://html.spec.whatwg.org/#simple-dialogs>Simple dialogs</a></dfn>
    <!-- Submit Button --> <li><dfn><a href="https://html.spec.whatwg.org/#submit-button-state-%28type=submit%29">Submit Button</a></dfn> state
+   <!-- Suffering from bad input --> <li><dfn><a href=https://html.spec.whatwg.org/#suffering-from-bad-input>Suffering from bad input</a></dfn>
    <!-- Submittable elements --> <li><dfn data-lt="submittable element"><a href=https://html.spec.whatwg.org/#category-submit>Submittable elements</a></dfn>
    <!-- Top-level browsing context --> <li><dfn data-lt="top-level browsing contexts"><a href=https://html.spec.whatwg.org/#top-level-browsing-context>Top-level browsing context</a></dfn>
    <!-- Traverse the history by a delta --> <li><dfn><a href=https://html.spec.whatwg.org/#traverse-the-history-by-a-delta>Traverse the history by a delta</a></dfn>
@@ -5635,7 +5638,7 @@ must run the following steps:
  <li><p>If <var>text</var> is not a string, return an <a>error</a>
   with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If <var>element</var> is not the <a>active element</a>, run
+ <li><p>If <var>element</var> is not the <a>active element</a> run
   the <a>focusing steps</a> for the <var>element</var>.
 
  <li><p>If <var>element</var> is an <a><code>input</code> element</a> whose
@@ -5671,11 +5674,36 @@ must run the following steps:
       <li><p>Jump to the last step in this overall set of steps.
    </ol>
 
+ <li><p>If the user agent renders <var>element</var> as
+  something other than a text input control (for example
+  an <a><code>input</code></a> element in the <a><code>color</code>
+  state</a> being presented as a colorwheel):
+
+  <ol>
+   <li><p>If <var>element</var> does not have an <a>own property</a>
+    named <code>value</code> return an <a>error</a> with <a>error
+    code</a> <a>element not interactable</a>
+
+   <li><p>If <var>element</var> is not <a>mutable</a> return
+    an <a>error</a> with <a>error code</a> <a>element not
+    interactable</a>.
+
+   <li><p><a>Set a property</a> <code>value</code> to <var>text</var>
+     on <var>element</var>.
+
+   <li><p>If <var>element</var> is <a>suffering from bad input</a>
+     return an <a>error</a> with <a>error code</a> <a>invalid
+     argument</a>.
+
+   <li><p>Return <a>success</a> with data <code>null</code>.
+  </ol>
+
  <li><p>Let <var>current text length</var> be
   the <var><a>element</a></var>’s <a data-lt="node length">length</a>.
 
  <li><p>Set the text insertion caret using <a>set selection range</a>
-  with using <var>current text length</var> as the 2 parameters passed in.
+  using <var>current text length</var> for both the <code>start</code>
+  and <code>end</code> parameters.
 
  <li><p>Let <var>keyboard</var> be a new <a>key input source</a>.
 
