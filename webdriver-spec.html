@@ -3799,17 +3799,20 @@ with a "<code>moz:</code>" prefix:
   from the <var>parameters</var> argument, else let it be <a><code>null</code></a>.
 
  <li><p>Let <var>x</var> be the result of <a>getting a property</a>
-  named <code>y</code> from the <var>parameters</var> argument,
-  else let it be <a><code>null</code></a>.
-
- <li><p>Let <var>y</var> be the result of <a>getting a property</a>
   named <code>x</code> from the <var>parameters</var> argument,
   else let it be <a><code>null</code></a>.
 
- <li><p>If any of <code>width</code> or <code>height</code> or <code>x</code>
-   or <code>y</code> is neither <code>null</code> nor an integer between 0 and
-   2<sup>64</sup> – 1 (inclusive), return <a>error</a> with <a>error code</a>
-   <a>invalid argument</a>.
+ <li><p>Let <var>y</var> be the result of <a>getting a property</a>
+  named <code>y</code> from the <var>parameters</var> argument,
+  else let it be <a><code>null</code></a>.
+
+ <li><p>If <var>width</var> or <var>height</var> is neither <a><code>null</code></a>
+  nor an integer from 0 to 2<sup>64</sup> − 1,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>If <var>x</var> or <var>y</var> is neither <a><code>null</code></a>
+  nor an integer from −(2<sup>63</sup>) to 2<sup>63</sup> − 1,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p><a>Fully exit fullscreen</a>.
 
