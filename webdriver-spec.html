@@ -3813,65 +3813,68 @@ with a "<code>moz:</code>" prefix:
 
  <li><p><a>Fully exit fullscreen</a>.
 
- <li><p>If the <a>top-level browsing context</a>’s <a>document <code>hidden</code> attribute</a>
-   is <code>true</code> run the implementation specific steps that will
-   set the <a>top-level browsing context</a> <a>document <code>hidden</code> attribute</a>
-   to <code>false</code>.
+ <li><p>If the <a>top-level browsing context</a>’s
+  <a>document <code>hidden</code> attribute</a> is <code>true</code>,
+  run the implementation specific steps
+  that will set the <a>top-level browsing context</a>
+  <a>document <code>hidden</code> attribute</a> to <code>false</code>.
 
  <li><p>If <var>width</var> and <var>height</var> are not <a><code>null</code></a>:
- <ol>
-  <li><p>Set the width, in <a>CSS reference pixels</a>,
-  of the operating system window containing
-  the <a>current top-level browsing context</a>,
-  including any browser chrome and externally drawn window decorations
-  to a value that is as close as possible to <var>width</var>.
 
- <li><p>Set the height, in <a>CSS reference pixels</a>,
-  of the operating system window containing
-  the <a>current top-level browsing context</a>,
-  including any browser chrome and externally drawn window decorations
-  to a value that is as close as possible to <var>height</var>.
-
-  <aside class=note>
-   <p>The specification does not guarantee
-    that the resulting window size will exactly match that which was requested.
-    In particular the implementation is expected to clamp values
-    that are larger than the physical screen dimensions,
-    or smaller than the minimum window size.
-
-   <p>Particular implementations may have other limitations
-   such as not being able to resize in single-pixel increments.
- </aside>
- </ol>
- <li><p>If <var>x</var> and <var>y</var> are not <a><code>null</code></a>:
   <ol>
-  <li><p>Run the implementation-specific steps
-   to set the position of the operating system level window
-   containing the <a>current top-level browsing context</a>
-   to the position given by the <var>x</var> and <var>y</var> coordinates.
+   <li><p>Set the width, in <a>CSS reference pixels</a>,
+    of the operating system window containing
+    the <a>current top-level browsing context</a>,
+    including any browser chrome and externally drawn window decorations
+    to a value that is as close as possible to <var>width</var>.
 
- <aside class=note>
-   <p>Note that this step is similar
-    to calling the <a>moveTo(x, y)</a> method
-    on the <a><code>WindowProxy</code></a> object
-    associated with the <a>current top-level browsing context</a>,
-    but without the <a href=https://developer.mozilla.org/en-US/docs/Web/API/Window/moveTo>security restrictions</a> that you
+  <li><p>Set the height, in <a>CSS reference pixels</a>,
+   of the operating system window containing
+   the <a>current top-level browsing context</a>,
+   including any browser chrome and externally drawn window decorations
+   to a value that is as close as possible to <var>height</var>.
 
-   <ol type=a>
-    <li>cannot move a window or tab
-     that was not created by <code>window.open</code>.
-    <li>cannot move a window or tab
-     when it is in a window with more than one tab.
-   </ol>
- </aside>
+   <aside class=note>
+    <p>The specification does not guarantee
+     that the resulting window size will exactly match that which was requested.
+     In particular the implementation is expected to clamp values
+     that are larger than the physical screen dimensions,
+     or smaller than the minimum window size.
+
+    <p>Particular implementations may have other limitations
+     such as not being able to resize in single-pixel increments.
+   </aside>
+  </ol>
+
+ <li><p>If <var>x</var> and <var>y</var> are not <a><code>null</code></a>:
+
+  <ol>
+   <li><p>Run the implementation-specific steps
+    to set the position of the operating system level window
+    containing the <a>current top-level browsing context</a>
+    to the position given by the <var>x</var> and <var>y</var> coordinates.
+
+    <aside class=note>
+     <p>Note that this step is similar
+      to calling the <a>moveTo(x, y)</a> method
+      on the <a><code>WindowProxy</code></a> object
+      associated with the <a>current top-level browsing context</a>,
+      but without the <a href=https://developer.mozilla.org/en-US/docs/Web/API/Window/moveTo>security restrictions</a> that you
+
+     <ol type=a>
+      <li>cannot move a window or tab
+       that was not created by <code>window.open</code>.
+
+      <li>cannot move a window or tab
+       when it is in a window with more than one tab.
+     </ol>
+   </aside>
   </ol>
 
  <li><p>Return <a>success</a>
   with the <a data-lt="json serialization of window rect">JSON serialization</a>
-  of the <a>current top-level browsing context</a>’s
-  <a>window rect</a>.
+  of the <a>current top-level browsing context</a>’s <a>window rect</a>.
 </ol>
-
 </section> <!-- /Set Window Rect -->
 
 <section>
