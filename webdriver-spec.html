@@ -2404,9 +2404,16 @@ with a "<code>moz:</code>" prefix:
         information to the <a>local end</a>.
 
      <dt>"<code>proxy</code>"
-     <dd><p>If the <a>endpoint node</a> does not support the proxy
-       configuration defined in <var>value</var>,
-       return <a>success</a> with data <a><code>null</code></a>.
+     <dd><p>If the <a>endpoint node</a> does not allow the proxy it
+      uses to be configured, or if the proxy configuration defined
+      in <var>value</var> is not one that passes the <a>endpoint
+      node</a>'s implementation-specific validity checks,
+      return <a>success</a> with data <a><code>null</code></a>.
+
+      <p class=note>A <a>local end</a> would only send this capability
+       if it expected it to be honored and the configured proxy
+       used. The intent is that if this is not possible a new session
+       will not be established.
 
      <dt><strong>Otherwise</strong>
      <dd><p>If <var>name</var> is not the key of an
