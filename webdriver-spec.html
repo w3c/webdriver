@@ -5620,6 +5620,8 @@ must run the following steps:
   of <a>trying</a> to <a>get a known element</a>
   with argument <var>element id</var>.
 
+ <li><p><a>Scroll into view</a> the <var>element</var>.
+
  <li><p>Wait in an implementation-specific way up to the <a>session
   implicit wait timeout</a> for <var>element</var> to
   become <a>keyboard-interactable</a>.
@@ -5627,26 +5629,14 @@ must run the following steps:
  <li><p>If <var>element</var> is not <a>keyboard-interactable</a>,
   return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
 
- <li><p><a>Scroll into view</a> the <var>element</var>.
-
- <li><p>If <var>element</var> is not the <a>active element</a>:
-
-  <ol>
-   <li><p>Run the <a>focusing steps</a> for the <var>element</var>.
-
-   <li><p>Let <var>current text length</var> be
-    the <var><a>element</a></var>’s <a data-lt="node
-    length">length</a>.
-
-   <li><p>Set the text insertion caret using <a>set selection range</a>
-    with using <var>current text length</var> as the 2 parameters passed in.
-  </ol>
-
  <li><p>Let <var>text</var> be the result of <a>getting a property</a>
     <code>text</code> from the <var>parameters</var> argument.
 
  <li><p>If <var>text</var> is not a string, return an <a>error</a>
   with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>If <var>element</var> is not the <a>active element</a>, run
+  the <a>focusing steps</a> for the <var>element</var>.
 
  <li><p>If <var>element</var> is an <a><code>input</code> element</a> whose
    <a><code>type</code> attribute</a> is <a>File</a>:
@@ -5681,10 +5671,16 @@ must run the following steps:
       <li><p>Jump to the last step in this overall set of steps.
    </ol>
 
-   <li><p>Let <var>keyboard</var> be a new <a>key input source</a>.
+ <li><p>Let <var>current text length</var> be
+  the <var><a>element</a></var>’s <a data-lt="node length">length</a>.
 
-   <li><p><a>Dispatch actions for a string</a> with
-    arguments <var>text</var> and <var>keyboard</var>.
+ <li><p>Set the text insertion caret using <a>set selection range</a>
+  with using <var>current text length</var> as the 2 parameters passed in.
+
+ <li><p>Let <var>keyboard</var> be a new <a>key input source</a>.
+
+ <li><p><a>Dispatch actions for a string</a> with
+  arguments <var>text</var> and <var>keyboard</var>.
 
  <li><p>Remove <var>keyboard</var> from the <a>current
   session</a>'s <a>input state table</a>
