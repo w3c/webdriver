@@ -1833,7 +1833,7 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
-  <td><dfn>Session timeouts configuration</dfn>
+  <td><a>Session timeouts configuration</a>
   <td>"<code>timeouts</code>"
   <td>JSON <a>Object</a>
   <td>Describes the <a>timeouts</a> imposed on certain session operations.
@@ -2041,43 +2041,6 @@ with a "<code>moz:</code>" prefix:
  that key.
 
 </section> <!-- /Proxy -->
-
-<section>
-<h3>Timeouts</h3>
-
-<p>The <a>session timeouts configuration</a> capability
- is a JSON <a>Object</a> nested within the <a>capabilities</a> object
- received when <a>creating a new session</a>.
- It consists of the properties listed in the table below.
- These values may be changed after creating a <a>new session</a>
- using the <a>Set Timeouts</a> command.
-
-<table class=simple>
- <tr>
-  <th>Key
-  <th>Value Type
-  <th>Description
- </tr>
-
- <tr>
-  <td>"<code>implicit</code>"
-  <td>number
-  <td>Specifies the <a>session implicit wait timeout</a>.
- </tr>
-
- <tr>
-  <td>"<code>pageLoad</code>"
-  <td>number
-  <td>Specifies the <a>session page load timeout</a>.
- </tr>
-
- <tr>
-  <td>"<code>script</code>"
-  <td>number
-  <td>Specifies the <a>session script timeout</a>.
- </tr>
-</table>
-</section><!-- /Timeouts -->
 
 <section>
 <h3>Processing Capabilities</h3>
@@ -2875,6 +2838,11 @@ with a "<code>moz:</code>" prefix:
    <a href=#element-retrieval>locating an element</a>.
  </tr>
 </table>
+
+<p>A <dfn>session timeouts configuration</dfn> is a
+ JSON <a>Object</a>. It consists of the properties named after the
+ keys in the <a>table of session timeouts</a> and may include
+ implementation-specific timeouts.
 
 <p>The steps to <dfn>deserialize as a timeout</dfn> with
  argument <var>parameters</var> are:
