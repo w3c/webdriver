@@ -4108,11 +4108,16 @@ with a "<code>moz:</code>" prefix:
  <li><p>Otherwise return false.
 </ol>
 
-<p>An <a>element</a> is
- <dfn data-lt="scroll into view|scrolls into view">scrolled into view</dfn>
- by calling <a>scrollIntoView</a>
- with the <a><code>ScrollIntoViewOptions</code></a>
- <code>{behavior: "instant", block: "end", inline: "nearest"}</code>.
+<p>An <var><a>element</a></var> is 
+<dfn data-lt="scroll into view|scrolls into view">scrolled into view</dfn>
+by following these steps:
+<ol>
+ <li><p>If <var>element</var> is <a>in view</a>, do nothing.
+ <li><p>Otherwise, <a>[[\CALL]]</a> <a>scrollIntoView</a>
+  on <var>element</var> with
+  arguments <a><code>ScrollIntoViewOptions</code></a>
+  <code>{behavior: "instant", block: "end", inline: "nearest"}</code>.
+</ol>
 
 <p>An <a>element</a> is considered <dfn>editable</dfn>
  if one or more of the following conditions are met:
@@ -5215,8 +5220,7 @@ with a "<code>moz:</code>" prefix:
   an <a><code>input</code> element</a> in the <a>file upload state</a>
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p><a>Scroll into view</a> the <var>element</var>’s <a>container</a>
-  if it is not <a>in view</a>.
+ <li><p><a>Scroll into view</a> the <var>element</var>’s <a>container</a>.
 
  <li><p>Wait in an implementation-specific way
   up to the <a>session implicit wait timeout</a>
