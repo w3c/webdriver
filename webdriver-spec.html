@@ -4717,17 +4717,29 @@ by following these steps:
  <li><p>Return false.
 </ol>
 
-<p>An <a>element</a>’s <dfn>container</dfn> is:
+<p>An <a><var>element</var></a>’s <dfn>container</dfn> is:
 
 <dl class=switch>
  <dt><a><code>option</code> element</a> in a valid <a>element context</a>
- <dd><a><code>optgroup</code> element</a> in a valid <a>element context</a>
- <dd><p>The <a>element</a>’s <a>element context</a>,
-  meaning its immediate parent node
-  in reverse tree-order originating from <a>element</a>
-  that is either a <a><code>datalist</code> element</a>
-  or a <a><code>select</code> element</a>.
-
+ <dt><a><code>optgroup</code> element</a> in a valid <a>element context</a>
+ <dd><p>The <a><var>element</var></a>'s <a>element context</a>, which
+  is determined by:
+  <ol>
+   <li><p>Let <var>datalist parent</var> be the
+    first <a><code>datalist</code> element</a> reached by traversing
+    the tree in reverse order from <var>element</var>,
+    or <a><code>undefined</code></a> if the root of the tree is
+    reached.
+   <li><p>Let <var>select parent</var> be the
+    first <a><code>select</code> element</a> reached by traversing
+    the tree in reverse order from <var>element</var>,
+    or <a><code>undefined</code></a> if the root of the tree is
+    reached.
+   <li><p>If <var>datalist parent</var>
+    is <a><code>undefined</code></a>, the <a>element context</a>
+    is <var>select parent</var>. Otherwise, the <a>element context</a>
+    is <var>datalist parent</var>.
+  </ol>
  <dt><a><code>option</code> element</a> in an invalid <a>element context</a>
  <dd><p>The element does not have a container.
 
