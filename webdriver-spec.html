@@ -2423,6 +2423,14 @@ with a "<code>moz:</code>" prefix:
  or implicitly when <a>Close Window</a> is called
  at the last remaining <a>top-level browsing context</a>.
 
+<p>An <a>intermediary node</a> will maintain an <dfn>associated
+ session</dfn> for each active <a>session</a>. This is
+ the <a>session</a> on the <a>upstream</a> neighbor that is created
+ when the <a>intermediary node</a> executes the <a>New
+ Session</a> <a>command</a>. Closing a <a>session</a> on
+ an <a>intermediary node</a> will also <a>close the session</a> of
+ the <a>associated session</a>.
+
 <p>All <a>commands</a>, except <a>New Session</a> and <a>Status</a>,
  have an associated <dfn>current session</dfn>,
  which is the <a>session</a> in which that <a>command</a> will run.
@@ -2496,15 +2504,34 @@ with a "<code>moz:</code>" prefix:
  a <a>remote end</a> must take the following steps:
 
 <ol>
- <li><p>Set the <a>webdriver-active flag</a> to false.
+ <li><p>Perform the folowing substeps based on the <a>remote end</a>'s
+  type:
+  <dl class=switch>
+   <dt><a>Remote end</a> is an <a>endpoint node</a>
+   <dd>
+    <ol>
+     <li><p>Set the <a>webdriver-active flag</a> to false.
 
- <li><p><a>Close</a> any <a>top-level browsing contexts</a>
-  associated with the <a>session</a>,
-  without <a>prompting to unload</a>.
+     <li><p>An <a>endpoint node</a> must <a>close</a> any <a>top-level
+      browsing contexts</a> associated with the <a>session</a>,
+      without <a>prompting to unload</a>.
+    </ol>
+  <dt><a>Remote end</a> is an <a>intermediary node</a>
+  <dd>
+   <ol>
+    <li><p><a>Close</a> the <a>associated session</a>. If this causes
+     an <a>error</a> to occur, complete the remainder of this
+     algorithm before returning the <a>error</a>.
+   </ol>
+  </dl>
 
  <li><p>Remove the <a>current session</a> from <a>active sessions</a>.
 
  <li><p>Perform any implementation-specific cleanup steps.
+
+ <li><p>If an <a>error</a> has occurred in any of the steps above,
+  return the <a>error</a>, otherwise return <a>success</a> with
+  data <a><code>null</code></a>.
 </ol>
 
 <p>Closing a <a>session</a> might cause the associated browser process to be killed.
@@ -2565,12 +2592,21 @@ with a "<code>moz:</code>" prefix:
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>remote end</a> is an <a>intermediary node</a>,
-  take implementation-defined steps that either result in
-  returning an <a>error</a> with <a>error code</a> <a>session not created</a>,
-  or in returning a <a>success</a> with data
-  that is isomorphic to that returned by <a>remote ends</a>
-  according to the rest of this algorithm.
+ <li><p>If the <a>remote end</a> is an <a>intermediary node</a>, take
+  implementation-defined steps that either result in returning
+  an <a>error</a> with <a>error code</a> <a>session not created</a>,
+  or in returning a <a>success</a> with data that is isomorphic to
+  that returned by <a>remote ends</a> according to the rest of this
+  algorithm. If an <a>error</a> is not returned, the <a>intermediary
+  node</a> must retain a reference to the <a>session</a> created on
+  the <a>upstream</a> node as the <a>associated session</a> such that
+  commands may be forwarded to this <a>associated session</a> on
+  subsequent commands.
+
+  <p class=note>How this is done is entirely up to the implementation,
+   but typically the <code>sessionId</code>, and <a>URL</a> and
+   <a>URL prefix</a> of the <a>upstream</a> <a>remote end</a> will need
+   to be tracked.
 
  <li><p>If the <a>maximum active sessions</a> is equal to
   the length of the list of <a>active sessions</a>,
@@ -2685,7 +2721,7 @@ with a "<code>moz:</code>" prefix:
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p><a>Close the session</a>.
+ <li><p><a>Try</a> to <a>close the session</a>.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
@@ -3439,7 +3475,7 @@ with a "<code>moz:</code>" prefix:
  <li><p><a>Close</a> the <a>current top-level browsing context</a>.
 
  <li><p>If there are no more open <a>top-level browsing contexts</a>,
-  then <a>close the session</a>.
+  then <a>try</a> to <a>close the session</a>.
 
  <li>Return the result of running the <a>remote end steps</a>
   for the <a>Get Window Handles</a> <a>command</a>.
