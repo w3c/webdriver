@@ -308,12 +308,12 @@ var respecConfig = {
    <!-- Navigator --> <li><dfn data-lt="navigator"><a href=https://html.spec.whatwg.org/#navigator>Navigator object</a></dfn>
    <!-- Nested browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#nested-browsing-context>Nested browsing context</a></dfn>
    <!-- Origin-clean --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-origin-clean>Origin-clean</a></dfn>
+   <!-- Overridden reload --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/dom.html#an-overridden-reload">An overridden reload</a></dfn>
    <!-- Parent browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#parent-browsing-context>Parent browsing context</a></dfn>
    <!-- Pause --> <li><dfn data-lt=unpaused><a href=https://html.spec.whatwg.org/#pause>HTML Pause</a></dfn>
    <!-- Prompt to unload a document --> <li><dfn data-lt="prompting to unload"><a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>Prompt to unload a document</a></dfn>
    <!-- Radio button --> <li><dfn><a href="https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29">Radio Button</a></dfn> state
    <!-- Refresh state pragma directive --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-meta-http-equiv-refresh>Refresh state pragma directive</a></dfn>
-   <!-- Replacement enabled --> <li><dfn><a href=https://html.spec.whatwg.org/#replacement-enabled>Replacement enabled</a></dfn>
    <!-- Reset algorithm --><li><dfn><a href=https://html.spec.whatwg.org/#concept-form-reset-control>Reset algorithm</a></dfn>
    <!-- Reset Button --> <li><dfn><a href="https://html.spec.whatwg.org/#reset-button-state-%28type=reset%29">Reset Button</a></dfn> state
    <!-- Resettable element --> <li><dfn><a href=https://html.spec.whatwg.org/#category-reset>Resettable</a></dfn> element
@@ -2142,7 +2142,7 @@ with a "<code>moz:</code>" prefix:
      <dt><var>value</var> is <a><code>null</code></a>
      <dd><p>Let <var>deserialized</var> be set to
       <a><code>null</code></a>.
- 
+
      <dt><var>name</var> equals "<code>acceptInsecureCerts</code>"
      <dd><p>If <var>value</var> is not a <a>boolean</a> return
       an <a>error</a> with <a>error code</a> <a>invalid
@@ -2158,7 +2158,7 @@ with a "<code>moz:</code>" prefix:
       set to <var>value</var>.
 
      <dt><var>name</var> equals "<code>pageLoadStrategy</code>"
-     <dd><p>Let <var>deserialized</var> be the result of <a>trying</a> to 
+     <dd><p>Let <var>deserialized</var> be the result of <a>trying</a> to
       <a>deserialize as a page load strategy</a> with argument
       <var>value</var>.
 
@@ -2319,7 +2319,7 @@ with a "<code>moz:</code>" prefix:
        using an implementation-defined comparison algorithm.
        The comparison is to accept a <var>value</var>
        that places constraints on the version using
-       the "<code>&lt;</code>", "<code>&lt;=</code>", "<code>&gt;</code>", 
+       the "<code>&lt;</code>", "<code>&lt;=</code>", "<code>&gt;</code>",
        and "<code>&gt;=</code>" operators.
 
       <p>If the two values do not match, return <a>success</a> with
@@ -2384,7 +2384,7 @@ with a "<code>moz:</code>" prefix:
      <dt><strong>Otherwise</strong>
      <dd><p>If <var>name</var> is not the key of an
       <a>extension capability</a> and the <a>remote end</a> is
-      an <a>endpoint node</a> return <a>success</a> with data 
+      an <a>endpoint node</a> return <a>success</a> with data
       <code>null</code>.
 
       <p>Let <var>value</var> be the result of <a>trying</a>
@@ -3028,9 +3028,9 @@ with a "<code>moz:</code>" prefix:
   the <a>table of page load strategies</a>.
 
  <li><p>Wait for the the <a>current browsing context</a>’s
-  <a>document readiness</a> state to reach 
-  <var>readiness target</var>, or for the 
-  <a>session page load timeout</a> to pass, whichever 
+  <a>document readiness</a> state to reach
+  <var>readiness target</var>, or for the
+  <a>session page load timeout</a> to pass, whichever
   occurs sooner.
 
  <li><p>If the previous step completed by the
@@ -3317,9 +3317,8 @@ with a "<code>moz:</code>" prefix:
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p><a>Navigate</a> the <a>current top-level browsing context</a>
-   to the same resource as its <a>active document</a>,
-   with <a>replacement enabled</a>.
+ <li><p>Initiate <a>an overridden reload</a> of the <a>current top-level browsing
+   context</a>'s <a>active document</a>.
  </li>
 
  <li><p>Run the <a>post-navigation checks</a>
@@ -4126,7 +4125,7 @@ with a "<code>moz:</code>" prefix:
  <li><p>Otherwise return false.
 </ol>
 
-<p>An <var><a>element</a></var> is 
+<p>An <var><a>element</a></var> is
 <dfn data-lt="scroll into view|scrolls into view">scrolled into view</dfn>
 by following these steps:
 <ol>
