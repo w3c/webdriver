@@ -6604,7 +6604,7 @@ must run the following steps:
   Then both fingers release from the touchscreen.
 
  <p>When the <a>remote end</a> receives this,
-  it will look at each input source's action lists.
+  it will look at each <a>input source</a>'s action lists.
   It will dispatch the first action of each source together,
   then the second actions together, and lastly, the final actions together.
 
@@ -6613,10 +6613,10 @@ must run the following steps:
 
  <p><img src=graphics/note1actions.svg alt="">
 
- <p>There is no limit to the number of input sources,
+ <p>There is no limit to the number of <a>input sources</a>,
   and there is no restriction regarding the length of each input's action list.
   This means, there is no requirement that all action lists have to be the same length.
-  It is possible for one input source's action list
+  It is possible for one <a>input source</a>'s action list
   may have more actions than another.
 
  <p>In this case, the action list for the first finger contains 2 actions
@@ -6630,8 +6630,8 @@ must run the following steps:
 
  <p>Specific timing for the actions can also be expressed.
   The <a>pause</a> action can be used to either
-  (a) indicate a specific amount of time an input source must wait,
-  or (b) can be used to signify that the current input source
+  (a) indicate a specific amount of time an <a>input source</a> must wait,
+  or (b) can be used to signify that the current <a>input source</a>
   must wait until all other actions in the <a>tick</a> are completed.
   For the former case, the current <a>tick</a> being executed
   must wait for the longest pause to complete.
@@ -6651,7 +6651,7 @@ must run the following steps:
 
  <p>As noted before, <a>pause</a> can be used to signify inaction during a <a>tick</a>.
   If <code><a>pause</a></code> is declared without a time period,
-  then the input source will not have any actions executed in the containing <a>tick</a>.
+  then the <a>input source</a> will not have any actions executed in the containing <a>tick</a>.
   As an example:
 
  <p><img src=graphics/note3actions.svg alt="">
@@ -6663,8 +6663,8 @@ must run the following steps:
 <section>
 <h2>Terminology</h2>
 
-<p>An <dfn>input source</dfn> is a virtual device providing input events.
- Each input source has an associated <dfn>input id</dfn>,
+<p>An <dfn data-lt="input sources">input source</dfn> is a virtual device providing input events.
+ Each <a>input source</a> has an associated <dfn>input id</dfn>,
  which is a string that identifies the particular device,
  and a <dfn>source type</dfn> which determines
  the kind of input the device can provide.
@@ -6710,7 +6710,7 @@ must run the following steps:
  </table>
 
 <p>A <dfn>pointer input source</dfn> is an <a>input source</a> that is
- associated with a pointer-type input device. Such an input source has
+ associated with a pointer-type input device. Such an <a>input source</a> has
  an associated <dfn>pointer type</dfn> specifying exactly which kind
  of pointing device it is associated with. A pointer input source
  supports the same <a>pause</a> action as a <a>null input source</a>
@@ -6755,7 +6755,7 @@ sources</a>, the corresponding entry in the <a>input state table</a>
 is also removed.
 
 <p>A <dfn data-lt="ticks">tick</dfn> is the basic unit of time over
- which actions can be performed. During a <a>tick</a>, each input source has
+ which actions can be performed. During a <a>tick</a>, each <a>input source</a> has
  an assigned action — possibly a noop <a>pause</a> action — which may
  result in changes to the user agent internal state and eventually
  cause DOM events to be <a>fired</a> at the page. The next <a>tick</a> begins
@@ -6780,7 +6780,7 @@ is also removed.
  actions"> perform implementation-specific action dispatch
  steps</dfn>, along with a list of events and their properties. This
  list is not comprehensive; in particular the default action of the
- input source may cause additional events to be generated depending on
+ <a>input source</a> may cause additional events to be generated depending on
  the implementation and the state of the browser (e.g. input events
  relating to key actions when the focus is on an
  editable <a>element</a>, scroll events, etc.).
