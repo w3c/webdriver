@@ -2666,18 +2666,27 @@ with a "<code>moz:</code>" prefix:
     "<code>pageLoadStrategy</code>" from <var>capabilities</var>.
 
    <li><p>If <var>strategy</var> is a string, set the <a>current session</a>’s
-    <a>page loading strategy</a> to <var>strategy</var>.
-    Otherwise, set the <a>page loading strategy</a> to <i>normal</i>.
+    <a>page loading strategy</a> to <var>strategy</var>.  Otherwise,
+    set the <a>page loading strategy</a> to <i>normal</i> and <a>set a
+    property</a> of <var>capabilities</var> with name
+    "<code>pageLoadStrategy</code>" and value "<code>normal</code>".
 
    <li><p>Let <var>proxy</var> be the result of getting property
-    "<code>proxy</code>" from <var>capabilities</var>.
+    "<code>proxy</code>" from <var>capabilities</var> and run the
+    substeps of the first matching statement:
 
-   <li><p>If <var>proxy</var> is a <a>proxy configuration</a> object,
-    take implementation-defined steps to set the user agent proxy
-    using the extracted <var>proxy</var> configuration.  If the
-    defined proxy cannot be configured or is not a
-    <a>proxy configuration object</a>, return <a>error</a> with
-    <a>error code</a> <a>session not created</a>.
+       <dl class=switch>
+         <dt><var>proxy</var> is a <a>proxy configuration</a> object</dt>
+         <dd><p>Take implementation-defined steps to set the user agent proxy
+             using the extracted <var>proxy</var> configuration.  If the
+             defined proxy cannot be configured return <a>error</a> with
+             <a>error code</a> <a>session not created</a>.</dd>
+
+         <dt>Otherwise</dt>
+         <dd><a>Set a property</a> of <var>capabilities</var> with name
+           "<code>proxy</code>" and a value that is a new JSON <a>Object</a>.</dd>
+       </dl>
+   </li>
 
    <li><p>Let <var>timeouts</var> be the result of getting property
     "<code>timeouts</code>" from <var>capabilities</var>.
@@ -2700,6 +2709,24 @@ with a "<code>moz:</code>" prefix:
       to the value of property "<code>script</code>".
       Otherwise, set the <a>session script timeout</a> to 30,000 milliseconds.
     </ol>
+   </li>
+
+   <li><p>Let <var>configured timeouts</var> be a new JSON <a>Object</a>.
+
+   <li><p>Set a property on <var>configured timeouts</var> with name
+   "<code>implicit</code>" and value equal to the <a>current
+   session</a>’s <a>session implicit wait timeout</a>.
+
+   <li><p>Set a property on <var>configured timeouts</var> with name
+   "<code>pageLoad</code>" and value equal to the <a>current
+   session</a>’s <a>session page load timeout</a>.
+
+   <li><p>Set a property on <var>configured timeouts</var> with name
+   "<code>script</code>" and value equal to the <a>current
+   session</a>’s <a>session script timeout</a>.
+
+   <li><p>Set a property on <var>capabilties</var> with name
+   "<code>timeouts</code>" and value <var>configured timeouts</var>.
 
    <li><p>Apply changes to the user agent for any implementation-defined capabilities
     selected during the <a>capabilities processing</a> step.
