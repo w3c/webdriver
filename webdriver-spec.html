@@ -819,7 +819,7 @@ in the spec, as demonstrated in a (yet to be developed)
   otherwise let <var>result</var> be <var>temp</var>’s <var>data</var> field.
 </ol>
 
-<p>The result of <dfn data-lt="getting properties">getting a property</dfn>
+<p>The result of <dfn data-lt="getting properties|getting the property">getting a property</dfn>
  with <var>name</var> from an <a>Object</a> is defined as
  the result of calling the <a>[[\GetOwnProperty]]</a>
  <a>internal method</a> of with property name <var>name</var>.
@@ -5919,26 +5919,26 @@ must run the following steps:
  <dd><p><a>Error</a> with <a>error code</a> <a>javascript error</a>.
 </dl>
 
-<p>When required to <dfn>clone an object</dfn>
- with arguments <var>value</var> and <var>seen</var>
- and <var>clone algorithm</var>,
- run the following steps:
+<p>To <dfn>clone an object</dfn>,
+ taking the arguments <var>value</var>,
+ <var>seen</var>,
+ and <var>clone algorithm</var>:
 
 <ol>
  <li><p>Let <var>result</var> be the value of the first matching statement,
   matching on <var>value</var>:
 
   <dl class=switch>
-   <dt>instance of <code>NodeList</code>
-   <dt>instance of <code>HTMLCollection</code>
-   <dt>instance of <code>Array</code>
-   <dd><p>A new <code>Array</code> object,
-    which <code>length</code> property
-    has the result of <a>getting a property</a> named "<code>length</code>"
-    from <var>value</var>.
+   <dt>instance of <a>NodeList</a>
+   <dt>instance of <a>HTMLCollection</a>
+   <dt>instance of <a>Array</a>
+   <dd><p>A new <a>Array</a>
+    which <code>length</code> property is equal
+    to the result of <a>getting the property</a> <code>length</code>
+    of <var>value</var>.
 
    <dt>Otherwise
-   <dd><p>A new <a>Object</a> object.
+   <dd><p>A new <a>Object</a>.
   </dl>
 
  <li><p>For each enumerable <a>own property</a>
@@ -5949,7 +5949,7 @@ must run the following steps:
 
    <li><p>Let <var>source property value</var> be the result of
     <a>getting a property</a> named <var>name</var> from <var>value</var>.
-    If doing so causes script to be run, and that script throws an exception,
+    If doing so causes script to be run and that script throws an error,
     return <a>error</a> with <a>error code</a> <a>javascript error</a>.
 
    <li><p>Let <var>cloned property result</var> be the result of
