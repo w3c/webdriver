@@ -819,7 +819,7 @@ in the spec, as demonstrated in a (yet to be developed)
   otherwise let <var>result</var> be <var>temp</var>’s <var>data</var> field.
 </ol>
 
-<p>The result of <dfn data-lt="getting properties">getting a property</dfn>
+<p>The result of <dfn data-lt="getting properties|getting the property">getting a property</dfn>
  with <var>name</var> from an <a>Object</a> is defined as
  the result of calling the <a>[[\GetOwnProperty]]</a>
  <a>internal method</a> of with property name <var>name</var>.
@@ -2068,16 +2068,16 @@ with a "<code>moz:</code>" prefix:
  the <a>endpoint node</a> must take the following steps:
 
 <ol>
- <li><p>Let <var>capabilities request</var> be the result of <a>getting a property</a>
-  named "<code>capabilities</code>" from <var>parameters</var>.
+ <li><p>Let <var>capabilities request</var> be the result of <a>getting the property</a>
+  "<code>capabilities</code>" from <var>parameters</var>.
 
   <ol>
    <li><p>If <var>capabilities request</var> is not a JSON object,
     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
   </ol>
 
- <li><p>Let <var>required capabilities</var> be the result of <a>getting a property</a>
-  named "<code>alwaysMatch</code>" from <var>capabilities request</var>.
+ <li><p>Let <var>required capabilities</var> be the result of <a>getting the property</a>
+  "<code>alwaysMatch</code>" from <var>capabilities request</var>.
 
   <ol>
    <li><p>If <var>required capabilities</var> is <a>undefined</a>,
@@ -2088,8 +2088,8 @@ with a "<code>moz:</code>" prefix:
     argument <var>required capabilities</var>.
   </ol>
 
- <li><p>Let <var>all first match capabilities</var> be the result of <a>getting a property</a>
-  named "<code>firstMatch</code>" from <var>capabilities request</var>.
+ <li><p>Let <var>all first match capabilities</var> be the result of <a>getting the property</a>
+  "<code>firstMatch</code>" from <var>capabilities request</var>.
 
   <ol>
    <li><p>If <var>all first match capabilities</var> is <a>undefined</a>,
@@ -2238,7 +2238,7 @@ with a "<code>moz:</code>" prefix:
     property</a> named <var>name</var> from <var>secondary</var>.
 
    <li><p>Let <var>primary value</var> be the result of
-    <a>getting a property</a> named <var>name</var> from
+    <a>getting the property</a> <var>name</var> from
     <var>primary</var>.
 
    <li><p>If <var>primary value</var> is
@@ -2953,8 +2953,8 @@ with a "<code>moz:</code>" prefix:
   <ol>
    <li><p>Let <var>key</var> be the name of the property.
 
-   <li><p>Let <var>value</var> be the result of <a>getting a property</a>
-    named <var>name</var> from <var>parameters</var>.
+   <li><p>Let <var>value</var> be the result of <a>getting the property</a>
+    <var>name</var> from <var>parameters</var>.
 
    <li><p>Find the <var>timeout type</var> from the <a>table of session timeouts</a>
     by looking it up by its keyword <var>key</var>.
@@ -3142,7 +3142,7 @@ with a "<code>moz:</code>" prefix:
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>url</var> be the result of
-  <a>getting a property</a> named <code>url</code>
+  <a>getting the property</a> <code>url</code>
   from the <var>parameters</var> argument.
 
  <li><p>If <var>url</var> is not an <a>absolute URL</a>
@@ -3548,7 +3548,7 @@ with a "<code>moz:</code>" prefix:
   return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
 
  <li><p>Let <var>handle</var> be the result of
-  <a>getting a property</a> named "<code>handle</code>"
+  <a>getting the property</a> "<code>handle</code>"
   from the <var>parameters</var> argument.
 
  <li><p>If <var>handle</var> is equal to the associated <a>window handle</a>
@@ -3626,7 +3626,7 @@ with a "<code>moz:</code>" prefix:
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>id</var> be the result of
-  <a>getting a property</a> named "<code>id</code>"
+  <a>getting the property</a> "<code>id</code>"
   from the <var>parameters</var> argument.
 
  <li><p>Run the substeps of the first matching condition:
@@ -4753,13 +4753,16 @@ by following these steps:
 <ol>
  <li><p>Let <var>x</var> and <var>y</var> both be 0.
 
- <li><p>Let <var>rect</var> be the value returned by calling <a>getBoundingClientRect</a>.
+ <li><p>Let <var>rect</var> be the value
+  returned by calling <a>getBoundingClientRect</a>.
 
- <li><p>Let <var>rect x</var> be the result of <a>getting a property</a> named "<code>x</code>"
-   from <var>rect</var>.
+ <li><p>Let <var>rect x</var> be the result
+  of <a>getting the property</a> "<code>x</code>"
+  from <var>rect</var>.
 
- <li><p>Let <var>rect y</var> be the result of <a>getting a property</a> named "<code>y</code>"
-   from <var>rect</var>.
+ <li><p>Let <var>rect y</var> be the result
+  of <a>getting the property</a> "<code>y</code>"
+  from <var>rect</var>.
 
  <li><p>Let <var>scroll x</var> be the value returned by calling <a>scrollX</a>.
 
@@ -5688,8 +5691,9 @@ must run the following steps:
  <li><p>If <var>element</var> is not <a>keyboard-interactable</a>,
   return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
 
- <li><p>Let <var>text</var> be the result of <a>getting a property</a>
-    <code>text</code> from the <var>parameters</var> argument.
+ <li><p>Let <var>text</var> be the result
+  of <a>getting a property</a> called "<code>text</code>"
+  from the <var>parameters</var> argument.
 
  <li><p>If <var>text</var> is not a string, return an <a>error</a>
   with <a>error code</a> <a>invalid argument</a>.
@@ -5698,37 +5702,37 @@ must run the following steps:
   the <a>focusing steps</a> for the <var>element</var>.
 
  <li><p>If <var>element</var> is an <a><code>input</code> element</a> whose
-   <a><code>type</code> attribute</a> is <a>File</a>:
-   <ol>
-     <li><p>Let <var>files</var> be the result of
-      splitting <var>text</var> on the newline (<code>'\n'</code>)
-      character.
+  <a><code>type</code> attribute</a> is <a>File</a>:
 
-     <li><p>If <var>files</var> is of 0 length, return an <a>error</a>
-      with <a>error code</a> <a>invalid argument</a>.
+  <ol>
+   <li><p>Let <var>files</var> be the result of splitting <var>text</var>
+    on the newline (<code>\n</code>) character.
 
-     <li><p>Let <var>multiple</var> equal the result of
-      calling <code><a>hasAttribute</a>("multiple")</code>
-      on <var>element</var>.
+   <li><p>If <var>files</var> is of 0 length,
+    return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-     <li><p>if <var>multiple</var> is <code>false</code> and the
-      length of <var>files</var> is not equal to 1 return
-      an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+   <li><p>Let <var>multiple</var> equal the result
+    of calling <code><a>hasAttribute</a>("multiple")</code>
+    on <var>element</var>.
 
-     <li><p>Verify that each file given by the user exists. If any do
-      not, return <a>error</a> with <a>error code</a> <a>invalid
-      argument</a>.
+   <li><p>if <var>multiple</var> is <code>false</code> and the
+    length of <var>files</var> is not equal to 1,
+    return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-     <li><p>Complete implementation specific steps equivalent to setting the
-       <a>selected files</a> on
-       the <a><code>input</code></a>. If <var>multiple</var>
-       is <code>true</code> <var>files</var> are be appended
-       to <var>element</var>'s <a>selected files</a>.
+   <li><p>Verify that each file given by the user exists.
+    If any do not, return <a>error</a>
+    with <a>error code</a> <a>invalid argument</a>.
 
-     <li><p><a>Fire</a> an <a><code>input</code> event</a>.
+   <li><p>Complete implementation specific steps
+    equivalent to setting the <a>selected files</a>
+    on the <a><code>input</code></a>.
+    If <var>multiple</var> is <code>true</code>
+    <var>files</var> are be appended to <var>element</var>’s <a>selected files</a>.
 
-      <li><p>Jump to the last step in this overall set of steps.
-   </ol>
+   <li><p><a>Fire</a> an <a><code>input</code> event</a>.
+
+   <li><p>Jump to the last step in this overall set of steps.
+  </ol>
 
  <li><p>If the user agent renders <var>element</var> as
   something other than a text input control (for example
@@ -6936,18 +6940,19 @@ is also removed.
   open</a>, return <a>error</a> with <a>error code</a>
   <a>no such window</a>.
 
- <li><p>Let <var>actions</var> be the result of getting a property
-  from <var>parameters</var> named <code>actions</code>.
+ <li><p>Let <var>actions</var> be the result
+  of <a>getting a property</a> from <var>parameters</var>
+  named <code>actions</code>.
 
- <li><p>If <var>actions</var> is <a>undefined</a> or is not
-  an <a>Array</a>, return <a>error</a> with <a>error
-  code</a> <a>invalid argument</a>.
+ <li><p>If <var>actions</var> is <a>undefined</a>
+  or is not an <a>Array</a>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <!-- TODO: not sure if reusing the ES definition of List works here-->
  <li><p>Let <var>actions by tick</var> be an empty <a>List</a>.</li>
 
- <li><p>For each value <var>action sequence</var> corresponding to an
-  indexed property in <var>actions</var>:
+ <li><p>For each value <var>action sequence</var>
+  corresponding to an indexed property in <var>actions</var>:
 
   <ol>
    <li><p>Let <var>input source actions</var> be the result
@@ -6988,7 +6993,7 @@ is also removed.
   <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>id</var> be the result of
-  <a>getting a property</a> named <code>id</code> from
+  <a>getting the property</a> <code>id</code> from
   <var>action sequence</var>.
 
  <!-- TODO: consider picking the current input of the right
@@ -6997,18 +7002,20 @@ is also removed.
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>If <var>type</var> is equal to <code>"pointer"</code>,
-  let <var>parameters data</var> be the result of getting a property
-  named <var>parameters</var> from <var>action sequence</var>. Then
-  let <var>parameters</var> be the result of <a>trying</a>
-  to <a>process pointer parameters</a> with argument
-  <var>parameters data</var>.
+  let <var>parameters data</var> be the result
+  of <a>getting the property</a> "<code>parameters</code>"
+  from <var>action sequence</var>.
+  Then let <var>parameters</var> be the result
+  of <a>trying</a> to <a>process pointer parameters</a>
+  with argument <var>parameters data</var>.
 
  <li><p>Let <var>source</var> be the <a>input source</a> in the list
-  of <a>active input sources</a> where that <a>input source</a>'s
+  of <a>active input sources</a> where that <a>input source</a>’s
   <a>input id</a> matches <var>id</var>, or <code>undefined</code> if
   there is no matching <a>input source</a>.
 
  <li><p>If <var>source</var> is <code>undefined</code>:
+
   <ol>
    <li>Let <var>source</var> be a new <a>input source</a> created from
     the first match against <var>type</var>:
@@ -7240,8 +7247,9 @@ is also removed.
  <a>remote end</a> must run the following steps:</p>
 
 <ol>
- <li><p>Let <var>duration</var> be the result of getting a property
-  named <code>duration</code> from <var>action item</var>.
+ <li><p>Let <var>duration</var> be the result
+  of <a>getting the property</a> "<code>duration</code>"
+  from <var>action item</var>.
 
  <li><p>If <var>duration</var> is not <a>undefined</a>
   and <var>duration</var> is not an <a>Integer</a> greater than or
@@ -7259,8 +7267,9 @@ is also removed.
  <a>remote end</a> must run the following steps:</p>
 
 <ol>
- <li><p>Let <var>button</var> be the result of getting a property
-  named <code>button</code> from <var>action item</var>.
+ <li><p>Let <var>button</var> be the result
+  of getting the property <code>button</code>
+  from <var>action item</var>.
 
  <li><p>If <var>button</var> is not an <a>Integer</a> greater than or
   equal to 0 return <a>error</a> with <a>error code</a>
@@ -7277,8 +7286,9 @@ is also removed.
  <a>remote end</a> must run the following steps:</p>
 
 <ol>
- <li><p>Let <var>duration</var> be the result of getting a property
-  named <code>duration</code> from <var>action item</var>.
+ <li><p>Let <var>duration</var> be the result
+  of getting the property <code>duration</code>
+  from <var>action item</var>.
 
  <li><p>If <var>duration</var> is not <a>undefined</a>
   and <var>duration</var> is not an <a>Integer</a> greater than or
@@ -7288,8 +7298,9 @@ is also removed.
  <li><p>Set the <code>duration</code> property of <var>action</var>
   to <var>duration</var>.
 
- <li><p>Let <var>origin</var> be the result of getting a property
-  named <code>origin</code> from <var>action item</var>.
+ <li><p>Let <var>origin</var> be the result
+  of <a>getting the property</a> <code>origin</code>
+  from <var>action item</var>.
 
  <li><p>If <var>origin</var> is <a>undefined</a> let
   <var>origin</var> equal <code>"viewport"</code>.
@@ -7302,22 +7313,24 @@ is also removed.
  <li><p>Set the <code>origin</code> property of <var>action</var>
   to <var>origin</var>.
 
- <li><p>Let <var>x</var> be the result of getting a property
- named <code>x</code> from <var>action item</var>.
+ <li><p>Let <var>x</var> be the result
+  of <a>getting the property</a> <code>x</code>
+  from <var>action item</var>.
 
  <li><p>If <var>x</var> is not <a>undefined</a> or is not
-  an <a>Integer</a> return <a>error</a> with
-  <a>error code</a> <a>invalid argument</a>.
+  an <a>Integer</a> return <a>error</a>
+  with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Set the <code>x</code> property of <var>action</var>
   to <var>x</var>.
 
- <li><p>Let <var>y</var> be the result of getting a property
-  named <code>y</code> from <var>action item</var>.
+ <li><p>Let <var>y</var> be the result
+  of <a>getting the property</a> <code>y</code>
+  from <var>action item</var>.
 
- <li><p>If <var>y</var> is not <a>undefined</a> or is not
-  an <a>Integer</a> return <a>error</a> with
-  <a>error code</a> <a>invalid argument</a>.
+ <li><p>If <var>y</var> is not <a>undefined</a>
+  or is not an <a>Integer</a>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Set the <code>y</code> property of <var>action</var>
   to <var>y</var>.
@@ -8622,7 +8635,7 @@ argument <var>value</var>:
   </dl>
 
  <li><p>Let <var>character array</var> be the result of
-  <a>getting a property</a> <code>value</code>
+  <a>getting the property</a> <code>value</code>
   from the <var>parameters</var> argument.
 
  <li><p>Let <var>text</var> be the result of
