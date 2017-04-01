@@ -850,6 +850,11 @@ in the spec, as demonstrated in a (yet to be developed)
  has an associated list of <dfn>remote end steps</dfn>.
  This provides the sequence of actions that a <a>remote end</a> takes
  when it receives a particular <a>command</a>.
+ All <dfn data-lt="RES-arguments"><a>remote end steps</a>
+ accept the arguments</dfn> <var>url variables</var> and <var>parameters</var>,
+ obtained from the <a>command</a> as described in the
+ <a href=#processing-model>processing model</a>.
+
 </section>
 
 <section>
@@ -927,7 +932,7 @@ in the spec, as demonstrated in a (yet to be developed)
 
  <li><p>Let <var>response result</var> be the return value
   obtained by running the <a>remote end steps</a> for <var>command</var>
-  with <var>url variables</var> as arguments.
+  with <var>url variables</var> and <var>parameters</var> as arguments.
 
  <li><p>If <var>response result</var> is an <a>error</a>,
   <a>send an error</a> with <a>error code</a>
@@ -2606,7 +2611,8 @@ with a "<code>moz:</code>" prefix:
 }</pre>
 </aside>
 
-<p>The <a>remote end steps</a> are:
+<p>The <a>remote end steps</a> <a data-lt="RES-arguments">with arguments</a> <var>url variables</var>
+ and <var>parameters</var> are:
 
 <ol>
   <li><p>If the <a>maximum active sessions</a> is equal to
@@ -2757,7 +2763,8 @@ with a "<code>moz:</code>" prefix:
  terminates the <a>connection</a>,
  and finally <a data-lt="close the session">closes</a> the <a>current session</a>.
 
-<p>The <a>remote end steps</a> are:
+<p>The <a>remote end steps</a> with arguments <var>url variables</var>
+ and <var>parameters</var> are:
 
 <ol>
  <li><p><a>Try</a> to <a>close the session</a>.
@@ -3128,7 +3135,8 @@ with a "<code>moz:</code>" prefix:
  <pre>{"url": "https://example.com"}</pre>
 </aside>
 
-<p>The <a>remote end steps</a> are:
+<p>The <a>remote end steps</a> with arguments <var>url variables</var>
+ and <var>parameters</var> are:
 
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
@@ -3137,13 +3145,13 @@ with a "<code>moz:</code>" prefix:
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>If the <code>url</code> property
-  is missing from the <var>parameters</var> argument
+  is missing from <var>parameters</var>
   or it is not a string,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>url</var> be the result of
   <a>getting a property</a> named <code>url</code>
-  from the <var>parameters</var> argument.
+  from <var>parameters</var>.
 
  <li><p>If <var>url</var> is not an <a>absolute URL</a>
   or is not an <a>absolute URL with fragment</a> or not a
@@ -4662,12 +4670,16 @@ by following these steps:
  in the <a>current browsing context</a>
  that can be used for future <a>commands</a>.
 
-<p>The <a>remote end steps</a> are:
+<p>The <a>remote end steps</a> with arguments <var>url variables</var>
+ and <var>parameters</var> are:
 
 <ol>
  <li><p>If the <a>current browsing context</a> is <a>no longer
   open</a>, return <a>error</a> with <a>error code</a> <a>no such
   window</a>.
+
+ <li>Let <var>session id</var> be the corresponding variable from
+  <var>url variables</var>.
 
  <li><p>Let <var>start node</var> be the result
   of <a>trying</a> to <a>get a known element</a>
