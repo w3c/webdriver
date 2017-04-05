@@ -754,20 +754,18 @@ in the spec, as demonstrated in a (yet to be developed)
   and so are bound by the requirements on a <a>remote end</a> in terms
   of the wire protocol.
 
-<p>A <a>remote end</a>’s <dfn>readiness state</dfn> is
- for each <a>node type</a> said to be:
+<p>A <a>remote end</a>’s <dfn>readiness state</dfn> is the value corresponding
+ to the first matching statement:
 
 <dl class=switch>
- <dt><a>Intermediary node</a>
- <dd><p>False if it is known to be in a state
-  in which attempting to create a <a>new session</a> would fail.
-  Otherwise true.
+ <dt>the maximum <a>active sessions</a> is equal to the length of the list of
+  <a>active sessions</a>
+ <dt>the node is an <a>intermediary node</a> and is known to be in a state in
+   which attempting to create a <a>new session</a> would fail
+ <dd><p>False
 
- <dt><a>Endpoint node</a>
- <dd><p>False if the <a>maximum active sessions</a>
-  is equal to the length of the list of <a>active sessions</a>
-  or there is a <a>current user prompt</a> present.
-  Otherwise true.
+ <dt>Otherwise
+ <dd><p>True
 </dl>
 
 <p class=example>If the <a>intermediary node</a>
