@@ -8601,7 +8601,7 @@ argument <var>value</var>:
 </table>
 
 <p>The <dfn>Send Alert Text</dfn> <a>command</a>
- sets the text field of a <a>window.<code>prompt</code>
+ sets the text field of a <a>window.<code>prompt</code></a>
  <a>user prompt</a> to the given value.
 
 <p>The <a>remote end steps</a> are:
@@ -8630,15 +8630,16 @@ argument <var>value</var>:
     <a>error code</a> <a>unsupported operation</a>.
   </dl>
 
- <li><p>Let <var>character array</var> be the result of
-  <a>getting the property</a> <code>value</code>
-  from the <var>parameters</var> argument.
-
  <li><p>Let <var>text</var> be the result of
-  joining together each item in <var>character array</var> to a string.
+  <a>getting the property</a> "<code>text</code>"
+  from <var>parameters</var>.
 
- <li><p>Set the <a>current user prompt</a>’s text field value
-  to the value of <var>text</var>.
+ <li><p>If <var>text</var> is not a <a>String</a>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Perform user agent dependent steps
+  to set the value of <a>current user prompt</a>’s text field
+  to <var>text</var>.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
