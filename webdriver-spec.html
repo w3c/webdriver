@@ -126,8 +126,9 @@ in the spec, as demonstrated in a (yet to be developed)
   in the Document Object Model specification: [[!DOM]]
   <ul>
    <!-- Attribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-attribute>Attribute</a></dfn>
-   <!-- context object --><li><dfn><a href="https://dom.spec.whatwg.org/#context-object">context object</a></dfn>
    <!-- comapreDocumentPosition --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-comparedocumentposition>compareDocumentPosition</a></dfn>
+   <!-- context object --><li><dfn><a href="https://dom.spec.whatwg.org/#context-object">context object</a></dfn>
+   <!-- Descendant --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-tree-descendant>Descendant</a></dfn>
    <!-- Document element --> <li><dfn><a href=https://dom.spec.whatwg.org/#document-element>Document element</a></dfn>
    <!-- Document --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document>Document</a></dfn>
    <!-- DOCUMENT_POSITION_DISCONNECTED --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-document_position_disconnected>DOCUMENT_POSITION_DISCONNECTED</a></dfn> (1)
@@ -142,13 +143,14 @@ in the spec, as demonstrated in a (yet to be developed)
    <!-- getElementsByTagName --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-element-getelementsbytagname"><code>getElementsByTagName</code></a></dfn>
    <!-- hasAttribute --> <li><dfn data-lt="has the attribute"><a href=https://dom.spec.whatwg.org/#dom-element-hasattribute>hasAttribute</a></dfn>
    <!-- HTMLCollection --><li><dfn><a href="https://dom.spec.whatwg.org/#htmlcollection"><code>HTMLCollection</code></a></dfn>
+   <!-- Inclusive descendant --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-tree-inclusive-descendant>Inclusive descendant</a></dfn>
    <!-- isTrusted --> <li><dfn data-lt='is trusted'><a href="https://dom.spec.whatwg.org/#dom-event-istrusted">isTrusted</a></dfn>
+   <!-- Node length --> <li><dfn><a href="https://dom.spec.whatwg.org/#concept-node-length">Node Length</a></dfn>
    <!-- Node --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node>Node</a></dfn>
    <!-- NodeList --> <li><dfn><a href=https://dom.spec.whatwg.org/#nodelist><code>NodeList</code></a></dfn>
-   <!-- Node length --> <li><dfn><a href="https://dom.spec.whatwg.org/#concept-node-length">Node Length</a></dfn>
    <!-- ownerDocument --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-ownerdocument>ownerDocument</a></dfn>
-   <!-- querySelector --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselector"><code>querySelector</code></a></dfn>
    <!-- querySelectorAll --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall"><code>querySelectorAll</code></a></dfn>
+   <!-- querySelector --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselector"><code>querySelector</code></a></dfn>
    <!-- tagName --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-tagname>tagName</a></dfn>
    <!-- Text content --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-textcontent>Text content</a></dfn>
    <!-- Text node --> <li><dfn><a href=https://dom.spec.whatwg.org/#text><code>Text</code> node</a></dfn>
@@ -501,7 +503,7 @@ in the spec, as demonstrated in a (yet to be developed)
   <ul>
    <!-- getBoundingClientRect() --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-element-getboundingclientrect">getBoundingClientRect</a></dfn>
    <!-- elementFromPoint --> <li><dfn>Element from point</dfn> as <a href="https://drafts.csswg.org/cssom-view/#dom-document-elementfrompoint">elementFromPoint()</a>
-   <!-- elementsFromPoint --> <li><dfn data-lt="paint order">Elements from point</dfn> as <a href=https://drafts.csswg.org/cssom-view/#dom-document-elementsfrompoint>elementsFromPoint()</a>
+   <!-- elementsFromPoint --> <li><dfn data-lt="paint order|paint tree">Elements from point</dfn> as <a href=https://drafts.csswg.org/cssom-view/#dom-document-elementsfrompoint>elementsFromPoint()</a>
    <!-- getClientRects --> <li><dfn data-lt="DOM client rectangle"><a href=https://drafts.csswg.org/cssom-view/#dom-range-getclientrects>getClientRects</a></dfn>
    <!-- innerHeight --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerheight>innerHeight</a></dfn>
    <!-- innerWidth --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerwidth>innerWidth</a></dfn>
@@ -4256,9 +4258,54 @@ by following these steps:
  if it is a member of its own <a>pointer-interactable paint tree</a>.
 
 <p>An <a>element</a> is <dfn data-lt=obscuring>obscured</dfn>
- if it is not <a>pointer-interactable</a>
- and the <a>first pointer-interactable element</a>
- at its <a>center point</a> is not itself.
+ if the <a>pointer-interactable paint tree</a>
+ at its <a>center point</a> is empty,
+ or the first element in this tree
+ is not an <a>inclusive descendant</a> of itself.
+
+<aside class=example>
+ <p>This is ascertains if the <a>element</a>’s <a>in-view center point</a>
+  would be possible to <a data-lt="element click">interact</a> with.
+
+ <p>For example, the <a>paint tree</a>
+  at this button’s <a>center point</a>,
+  the red square,
+  is not itself the button
+  or a <a>descendant</a> of the button.
+  In other words,
+  it is not an <em><a>inclusive descendant</a></em>.
+  This makes the button <em><a>obscured</a></em>:
+
+ <p>
+  <button style="
+   width: 100px;
+   margin: 40px 0;">foobar</button>
+  <div style="
+   position: absolute;
+   height: 100px;
+   width: 100px;
+   background: rgba(255,0,0,.5);
+   margin-left: 40px;
+   margin-top: -120px;"></div>
+
+ <p>On the other hand,
+  the <a>center point</a> of following select list
+  is the third <a><code>option</code> element</a>,
+  because unlike a drop-down list,
+  <code>&lt;select multiple&gt;</code>’s options
+  are individually visible and painted.
+  Because the option is a <em><a>descendant</a></em>
+  of the <a><code>select</code> element</a>,
+  it is <em>not</em> <a>obscured</a>:
+
+ <p>
+  <select multiple>
+   <option>first</option>
+   <option>second</option>
+   <option>third</option>
+   <option>fourth</option>
+  </select>
+</aside>
 
 <p>In order to produce a <dfn>pointer-interactable paint tree</dfn>
  from an <var><a>element</a></var>:
@@ -4286,11 +4333,6 @@ by following these steps:
  <li><p>Return the <a>elements from point</a>
   given the coordinates <var>center point</var>.
 </ol>
-
-<p>To <dfn data-lt="first pointer-interactable element">get the first pointer-interactable element</dfn>
- given a <a>pointer-interactable paint tree</a>,
- return with <a>success</a> the first <a>element</a>.
- Otherwise, if there are no such elements, return an <a>error</a>.
 </section> <!-- /Element Interactability -->
 
 <section>
