@@ -661,7 +661,7 @@ in the spec, as demonstrated in a (yet to be developed)
  a 128 bits long URN that requires no central registration process. [[!RFC4122]].
  <dfn>Generating a UUID</dfn> means Creating a
  <a>UUID</a> From Truly Random or Pseudo-Random Numbers [[!RFC4122]],
- and serializing it as appropriate for the callee.
+ and converting it to the string representation [[!RFC4122]].
 
 <p>The <dfn data-lt="Unix timestamp">Unix Epoch</dfn>
  is a value that approximates the number of seconds
@@ -2467,9 +2467,9 @@ with a "<code>moz:</code>" prefix:
  This may be “unlimited” for <a>intermediary nodes</a>,
  but must be exactly one for a <a>remote end</a> that is an <a>endpoint node</a>.
 
-<p>A <a>session</a> has an associated <dfn>session ID</dfn>
- (a <a>UUID</a>) used to uniquely identify this session.
- Unless stated otherwise it is <a><code>null</code></a>.
+<p>A <a>session</a> has an associated <dfn>session ID</dfn> (a string
+ representation of a <a>UUID</a>) used to uniquely identify this
+ session.  Unless stated otherwise it is <a><code>null</code></a>.
 
 <p>A <a>session</a> has an associated <dfn>current browsing context</dfn>,
  which is the <a>browsing context</a> against which <a>commands</a> will run.
@@ -2640,7 +2640,7 @@ with a "<code>moz:</code>" prefix:
  <li><p>If <var>capabilities</var>'s is <a>null</a>,
   return <a>error</a> with <a>error code</a> <a>session not created</a>.
 
- <li><p>Let <var>session id</var> be a <a>UUID</a>.
+ <li><p>Let <var>session id</var> be the result of <a>generating a UUID</a>.
 
  <li><p>Let <var>session</var> be a new <a>session</a>
   with the <a>session ID</a> of <var>session id</var>.
@@ -4076,11 +4076,11 @@ with a "<code>moz:</code>" prefix:
  "<code>element-6066-11e4-a52e-4f735466cecf</code>".
 
 <p>Each <a>element</a> has an associated <dfn>web element
- reference</dfn>
- that uniquely identifies the <a>element</a> across all <a>browsing contexts</a>.
- The <a>web element reference</a> for every <a>element</a>
- representing the same <a>element</a> is the same. It should
- be a <a>UUID</a>.
+ reference</dfn> that uniquely identifies the <a>element</a> across
+ all <a>browsing contexts</a>.  The <a>web element reference</a> for
+ every <a>element</a> representing the same <a>element</a> is the
+ same. It must be a string, and should be the result of <a>generating
+ a UUID</a>.
 
 <p>An ECMAScript <a>Object</a> <dfn>represents a web element</dfn>
  if it has a <a>web element identifier</a> <a>own property</a>.
