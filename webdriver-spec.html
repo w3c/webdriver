@@ -6276,8 +6276,7 @@ must run the following steps:
  </table>
 
  <p>The <dfn>Send Keys</dfn> <a>command</a>
-  <a>scrolls into view</a> the form control <a>active element</a>
-  and then sends the provided keys to the <a>active element</a>.
+   sends the provided keys to the <a>active element</a>.
 
 
  <p>The <a>key input state</a> used for input
@@ -6479,7 +6478,7 @@ must run the following steps:
  returned, return that <a>error</a>
  </ol> <!-- /create actions from a string -->
 
- <p>The <a>remote end steps</a> for <a>Element Send Keys</a> are:
+ <p>The <a>remote end steps</a> for <a>Send Keys</a> are:
 
   <ol>
    <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
@@ -6487,28 +6486,6 @@ must run the following steps:
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>element</var> be the result
- of <a>trying</a> to <a>get a known element</a>
- with argument <var>element id</var>.
-
- <li><p><a>Scroll into view</a> the <a>active element</a>.
-
- <li><p>Wait in an implementation-specific way up to the <a>session
- implicit wait timeout</a> for <var>element</var> to
- become <a>keyboard-interactable</a>.
-
- <li><p>If <var>element</var> is not <a>keyboard-interactable</a>,
- return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
-
- <li><p>Let <var>text</var> be the result
- of <a>getting a property</a> called "<code>text</code>"
- from the <var>parameters</var> argument.
-
- <li><p>If <var>text</var> is not a <a>String</a>,
- return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
- <li><p>If <var>element</var> is not the <a>active element</a> run
- the <a>focusing steps</a> for the <var>element</var>.
 
  <li><p>If <var>element</var> is an <a><code>input</code> element</a> whose
  <a><code>type</code> attribute</a> is <a>File</a>:
@@ -6567,12 +6544,9 @@ must run the following steps:
  <li><p>Return <a>success</a> with data <code>null</code>.
  </ol>
 
- <li><p>Let <var>current text length</var> be
+ <li>If attribute text exists on the <a>active element</a>, <p>let <var>current text length</var> be
  the <var><a>element</a></var>’s <a data-lt="node length">length</a>.
 
- <li><p>Set the text insertion caret using <a>set selection range</a>
- using <var>current text length</var> for both the <code>start</code>
- and <code>end</code> parameters.
 
  <li><p>Let <var>keyboard</var> be a new <a>key input source</a>.
 
@@ -6587,7 +6561,7 @@ must run the following steps:
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
  </ol>
-</section> <!-- Element Send Keys -->
+</section> <!-- Document Send Keys -->
 
 </section> <!-- /Document Handling -->
 <section>
