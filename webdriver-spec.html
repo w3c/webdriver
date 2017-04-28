@@ -5379,7 +5379,56 @@ by following these steps:
      </ol>
 
    <dt>Otherwise
-   <dd><p class=issue>Run interaction steps on coordinate.
+   <dd>
+    <ol>
+     <li><p>Let <var>mouse</var> be a new <a>pointer input source</a>.
+
+     <li><p>Let <var>click point</var> be
+      the <var>element</var>’s <a>in-view center point</a>.
+
+     <li><p>Let <var>pointer move action</var> be an <a>action object</a>
+      with the <var>mouse</var>’s <code>id</code>, "<code>mouse</code>",
+      and "<code>pointerMove</code>" as arguments.
+
+     <li><p>Set <var>pointer move action</var>’s
+      <code>x</code> and <code>y</code> properties
+      to those of <var>click point</var>.
+
+     <li><p>Set <var>pointer move action</var>’s
+      <code>origin</code> property to "<code>viewport</code>".
+
+     <li><p>Let <var>pointer down action</var> be an <a>action object</a>
+      with the <var>mouse</var>’s <code>id</code>, "<code>mouse</code>",
+      and "<code>pointerDown</code>" as arguments.
+
+     <li><p>Set <var>pointer down action</var>’s
+      <code>button</code> property to  0 (primary button).
+
+     <li><p>Let <var>pointer up action</var> be an <a>action object</a>
+      with the <var>mouse</var>’s <code>id</code>, "<code>mouse</code>",
+      and "<code>pointerUp</code>" as arguments.
+
+     <li><p>Set <var>pointer up action</var>’s
+      <code>button</code> property to 0 (primary button).
+
+     <li><p><a>Dispatch a pointerMove action</a> using
+      the <var>mouse</var>’s <code>id</code>,
+      <var>pointer move action</var>,
+      the <a>current session</a>’s <a>input state</a>,
+      and 0 (tick duration) as arguments.
+
+     <li><p><a>Dispatch a pointerDown action</a> using
+      the <var>mouse</var>’s <code>id</code>,
+      <var>pointer down action</var>,
+      the <a>current session</a>’s <a>input state</a>,
+      and 0 (tick duration) as arguments.
+
+     <li><p><a>Dispatch a pointerUp action</a> using
+      the <var>mouse</var>’s <code>id</code>,
+      <var>pointer up action</var>,
+      the <a>current session</a>’s <a>input state</a>,
+      and 0 (tick duration) as arguments.
+    </ol>
   </dl>
 
  <li><p>Wait until the user agent event loop has spun enough times to
