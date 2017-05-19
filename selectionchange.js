@@ -1,18 +1,18 @@
 // github.com/2is10/selectionchange-polyfill
 
-var selectionchange = (function (undefined) {
+const selectionchange = ((undefined => {
 
-  var MAC = /^Mac/.test(navigator.platform);
-  var MAC_MOVE_KEYS = [65, 66, 69, 70, 78, 80]; // A, B, E, F, P, N from support.apple.com/en-ie/HT201236
-  var SELECT_ALL_MODIFIER = MAC ? 'metaKey' : 'ctrlKey';
-  var RANGE_PROPS = ['startContainer', 'startOffset', 'endContainer', 'endOffset'];
-  var HAS_OWN_SELECTION = {INPUT: 1, TEXTAREA: 1};
+  const MAC = /^Mac/.test(navigator.platform);
+  const MAC_MOVE_KEYS = [65, 66, 69, 70, 78, 80]; // A, B, E, F, P, N from support.apple.com/en-ie/HT201236
+  const SELECT_ALL_MODIFIER = MAC ? 'metaKey' : 'ctrlKey';
+  const RANGE_PROPS = ['startContainer', 'startOffset', 'endContainer', 'endOffset'];
+  const HAS_OWN_SELECTION = {INPUT: 1, TEXTAREA: 1};
 
-  var ranges;
+  let ranges;
 
   return {
-    start: function (doc) {
-      var d = doc || document;
+    start(doc) {
+      const d = doc || document;
       if (ranges || !hasNativeSupport(d) && (ranges = newWeakMap())) {
         if (!ranges.has(d)) {
           ranges.set(d, getSelectionRange(d));
@@ -25,8 +25,8 @@ var selectionchange = (function (undefined) {
         }
       }
     },
-    stop: function (doc) {
-      var d = doc || document;
+    stop(doc) {
+      const d = doc || document;
       if (ranges && ranges.has(d)) {
         ranges['delete'](d);
         off(d, 'input', onInput);
@@ -40,7 +40,7 @@ var selectionchange = (function (undefined) {
   };
 
   function hasNativeSupport(doc) {
-    var osc = doc.onselectionchange;
+    const osc = doc.onselectionchange;
     if (osc !== undefined) {
       try {
         doc.onselectionchange = 0;
@@ -63,7 +63,7 @@ var selectionchange = (function (undefined) {
   }
 
   function getSelectionRange(doc) {
-    var s = doc.getSelection();
+    const s = doc.getSelection();
     return s.rangeCount ? s.getRangeAt(0) : null;
   }
 
@@ -82,10 +82,10 @@ var selectionchange = (function (undefined) {
   }
 
   function onKeyDown(e) {
-    var code = e.keyCode;
+    const code = e.keyCode;
     if (code === 65 && e[SELECT_ALL_MODIFIER] && !e.shiftKey && !e.altKey || // Ctrl-A or Cmd-A
-        code >= 35 && code <= 40 || // home, end and arrow key
-        e.ctrlKey && MAC && MAC_MOVE_KEYS.indexOf(code) >= 0) {
+      code >= 35 && code <= 40 || // home, end and arrow key
+      e.ctrlKey && MAC && MAC_MOVE_KEYS.includes(code)) {
       if (!HAS_OWN_SELECTION[e.target.tagName]) {
         setTimeout(dispatchIfChanged.bind(null, this), 0);
       }
@@ -120,7 +120,7 @@ var selectionchange = (function (undefined) {
   }
 
   function dispatchIfChanged(doc, force) {
-    var r = getSelectionRange(doc);
+    const r = getSelectionRange(doc);
     if (force || !sameRange(r, ranges.get(doc))) {
       ranges.set(doc, r);
       setTimeout(doc.dispatchEvent.bind(doc, new Event('selectionchange')), 0);
@@ -128,13 +128,11 @@ var selectionchange = (function (undefined) {
   }
 
   function sameRange(r1, r2) {
-    return r1 === r2 || r1 && r2 && RANGE_PROPS.every(function (prop) {
-      return r1[prop] === r2[prop];
-    });
+    return r1 === r2 || r1 && r2 && RANGE_PROPS.every(prop => r1[prop] === r2[prop]);
   }
-})();
+}))();
 
 if (typeof module !== 'undefined') {
-    // CommonJS/Node compatibility.
-    module.exports = selectionchange;
+  // CommonJS/Node compatibility.
+  module.exports = selectionchange;
 }
