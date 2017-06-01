@@ -893,13 +893,16 @@ in the spec, as demonstrated in a (yet to be developed)
  <li><p>If <var>command</var> is not <a>New Session</a>:
 
   <ol>
-   <li><p>If <var>session id</var> is not equal to the <a data-lt="session id">ID</a>
-    of any session in the list of <a>active sessions</a>,
-    <a>send an error</a> with <a>error code</a> <a>invalid session id</a>,
-    then jump to step 1 in this overall algorithm.
+   <li><p>Let the <a>current session</a> be the <a>session</a>
+     with <a data-lt="session id">ID</a> <var>session id</var> in the
+     list of <a>active sessions</a>, or <a><code>null</code></a> if
+     there is no such matching <a>session</a>.
 
-    <p>Otherwise, let the <a>current session</a> be
-     the <a>session</a> with <a data-lt="session id">ID</a> <var>session id</var>.
+   <li><p>If the <a>current session</a> is <a><code>null</code></a>
+    and <var>command</var> is not <a>Delete Session</a>
+    <a>send an error</a> with <a>error code</a>
+    <a>invalid session id</a>, then jump to step 1 in this overall
+    algorithm.
   </ol>
 
  <li><p>If <var>request</var>’s <a>method</a> is POST:
