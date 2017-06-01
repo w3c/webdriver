@@ -6066,7 +6066,8 @@ must run the following steps:
   </ol>
 </ol>
 
-<p>The steps for <dfn>extracting the script arguments from a request</dfn> are:
+<p>The steps for <dfn>extracting the script arguments from a
+ request</dfn> with argument <var>parameters</var> are:
 
 <ol>
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
@@ -6074,23 +6075,20 @@ must run the following steps:
 
  <li><p>Let <var>script</var> be the result of
   <a>getting a property</a> named <code>script</code>
-  from the parameters argument.
+  from the <var>parameters</var>.
 
  <li><p>If <var>script</var> is not a <a>String</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>args</var> be the result of
   <a>getting a property</a> named <code>args</code>
-  from the parameters argument.
+  from the <var>parameters</var>.
 
- <li><p>If <var>args</var> is not an <a>Object</a>
-  or its <a>[[\Class]]</a> internal property
-  is not <a>Array</a> or <a>Object</a>,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+ <li><p>If <var>args</var> is not an <a>Array</a> return <a>error</a>
+  with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>Let <var>arguments</var> be a <a>List</a>
-  consisting of a <a>json deserialization</a> of each item
-  in <var>args</var> with the order preserved.
+ <li><p>Let <var>arguments</var> be the result of calling the
+  <a>JSON deserialize</a> algorithm with arguments <var>args</var>.
 
  <li><p>Return <a>success</a> with data <var>script</var>
   and <var>arguments</var>.
