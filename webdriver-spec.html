@@ -591,6 +591,8 @@ in the spec, as demonstrated in a (yet to be developed)
   <dd><p>The following terms are defined in the Document Object Model XPath standard [[!XPATH]]
     <ul>
       <!-- evaluate --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate"><dfn><code>evaluate</code></dfn></a>
+      <!-- ORDERED_NODE_SNAPSHOT_TYPE --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE"><dfn><code>ORDERED_NODE_SNAPSHOT_TYPE</code></dfn></a>
+      <!-- snapshotItem --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-snapshotItem"><dfn><code>snapshotItem</code></dfn></a>
       <!-- XPathException --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathException"><dfn><code>XPathException</code></dfn></a>
     </ul>
 </dl>
@@ -4580,14 +4582,35 @@ by following these steps:
  the following steps need to be completed:
 
 <ol>
- <li><p>Let <var>result</var> be Return the result of
+ <li><p>Let <var>evaluateResult</var> be the result of
   calling <a><code>evaluate</code></a>, with
-  arguments <var>selector</var>, <a>context object</a> equal to
-  the <var>start node</var>.
+  arguments <var>selector</var>, <var>start node</var>,
+  <a><code>null</code></a>, <a>ORDERED_NODE_SNAPSHOT_TYPE</a>, and
+  <a><code>null</code></a>.
 
- <li><p>If any item in <var>result</var> is not an <a>element</a>
-  return an <a>error</a> with <a>error code</a> <a>invalid
-  selector</a>.
+  <p class=note>A snapshot is used to promote operation atomicity.
+
+ <li><p>Let <var>index</var> be 0.
+
+ <li><p>Let <var>length</var> be the result of <a>getting the property</a>
+  "<code>snapshotLength</code>" from <var>evaluateResult</var>.
+
+ <li><p>Let <var>result</var> be an empty <a>NodeList</a>.
+
+ <li><p>Repeat, while <var>index</var> is less than <var>length</var>:
+
+  <ol>
+   <li>Let <var>node</var> be the result of calling <a>snapshotItem</a> with
+    argument <var>index</var>, with the <a>context object</a> equal to
+    <var>evaluateResult</var>.
+
+   <li><p>If <var>node</var> is not an <a>element</a> return an <a>error</a>
+    with <a>error code</a> <a>invalid selector</a>.
+
+   <li>Append <var>node</var> to <var>result</var>.
+
+   <li>Increment <var>index</var> by 1.
+  </ol>
 
  <li><p>Return <var>result</var>.
 
