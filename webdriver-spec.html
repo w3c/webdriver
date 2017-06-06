@@ -5968,7 +5968,7 @@ must run the following steps:
 
 <ol>
  <li><p>If <var>seen</var> is not provided,
-  let <var>seen</var> be an empty set.
+  let <var>seen</var> be an empty <a>List</a>.
 
  <li><p>Jump to the first appropriate step below:
 
@@ -5996,7 +5996,7 @@ must run the following steps:
 
 <p>To perform a <dfn>JSON clone</dfn>
  return the result of calling the <a>internal JSON clone algorithm</a>
- with arguments <var>value</var> and an empty set.
+ with arguments <var>value</var> and an empty <a>List</a>.
 
 <p>When required to run the <dfn>internal JSON clone algorithm</dfn>
  with arguments <var>value</var> and <var>seen</var>,
@@ -6040,11 +6040,16 @@ must run the following steps:
    <li><p>If <var>value</var> is in <var>seen</var>,
     return <a>error</a> with <a>error code</a> <a>javascript error</a>.
 
-   <li><p>Add <var>value</var> to <var>seen</var>.
+   <li><p>Append <var>value</var> to <var>seen</var>.
 
-   <li><p>Produce the value of running the <a>clone an object</a> algorithm
-    with arguments <var>value</var> and <var>seen</var>,
-    and the <a>internal JSON clone algorithm</a> as the <var>clone algorithm</var>.
+   <li><p>Let <var>result</var> be the value of running the
+    <a>clone an object</a> algorithm with arguments <var>value</var> and
+    <var>seen</var>, and the <a>internal JSON clone algorithm</a> as the
+    <var>clone algorithm</var>.
+
+   <li><p>Remove the last element of <var>seen</var>.
+
+   <li><p>Return <var>result</var>.
   </ol>
  </dd>
 
