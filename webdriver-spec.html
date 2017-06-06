@@ -6359,6 +6359,310 @@ must run the following steps:
 </ol>
 </section> <!-- /Execute Async Script -->
 </section> <!-- /Executing Script -->
+
+
+<section>
+ <h3>Send Keys</h3>
+
+ <table class="simple jsoncommand">
+  <tr>
+   <th>HTTP Method</th>
+   <th>Path Template</th>
+  </tr>
+  <tr>
+   <td>POST</td>
+   <td>/session/{<var>session id</var>}/keys</td>
+  </tr>
+ </table>
+
+ <p>The <dfn>Send Keys</dfn> <a>command</a>
+   sends the provided keys to the <a>active element</a>.
+
+
+ <p>The <a>key input state</a> used for input
+  may be cleared mid-way through “typing”
+  by sending the <a>null key</a>,
+  which is U+E000 (NULL).
+
+ <p>When required to <a>clear the modifier key state</a> with an
+  argument of <var>undo actions</var> and <var>keyboard</var>
+  a <a>remote end</a> must run the following steps:
+
+  <ol>
+   <li><p>If <var>keyboard</var> is not a <a>key input source</a>
+ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>For each <var>entry key</var>
+ in the lexically sorted keys of <var>undo actions</var>:
+
+ <ol>
+  <li><p>Let <var>action</var> be the value of <var>undo actions</var>
+ matching key <var>entry key</var>.
+
+ <li><p>If <var>action</var> is not an <a>action object</a>
+ of <code>type</code> "<code>key</code>"
+ and <code>subtype</code> "<code>keyUp</code>",
+ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p><a>Dispatch a keyUp action</a> with arguments
+ <var>action</var> and <var>keyboard</var>’s <a>key input state</a>.
+ </ol>
+ </ol>
+
+ <p>An <a>extended grapheme cluster</a> is <a>typeable</a>
+  if it consists of a single <a>unicode code point</a>
+  and the <a>code</a> is not <code>undefined</code>.
+
+ <p>The shifted state for <var>keyboard</var>
+  is the value of <var>keyboard</var>’s
+  <a>key input state</a>’s <code>shift</code> property.
+
+ <p>In order to <a>dispatch the events for a typeable string</a>
+  with arguments <var>text</var> and <var>keyboard</var>, a <a>remote
+   end</a> must for each <var>char</var> corresponding to an indexed
+  property in <var>text</var>:
+
+  <ol>
+   <li><p>If <var>char</var> is a <a>shifted character</a> and
+ the <a>shifted state</a> of <var>keyboard</var>
+ is <code>false</code>, create a new <a>action object</a>
+ with <var>keyboard</var>'s <code>id</code>, <code>"key"</code>,
+ and <code>"keyDown"</code>, and set its <code>value</code>
+ property to <code>U+E008</code> ("left shift"). <a>Dispatch a
+  keyDown action</a> with this <a>action object</a>
+ and <var>keyboard</var>'s <a>key input state</a>.
+
+ <li><p>If <var>char</var> is not a <a>shifted character</a> and
+ the <a>shifted state</a> of <var>keyboard</var>
+ is <code>true</code>, create a new <a>action object</a>
+ with <var>keyboard</var>'s <code>id</code>, <code>"key"</code>,
+ and <code>"keyUp"</code>, and set its <code>value</code>
+ property to <code>U+E008</code> ("left shift"). <a>Dispatch a
+  keyUp action</a> with this <a>action object</a>
+ and <var>keyboard</var>'s <a>key input state</a>.
+
+ <li><p>Let <var>keydown action</var> be a new <a>action object</a>
+ constructed with
+ arguments <var>keyboard</var>'s <code>id</code>, <code>"key"</code>,
+ and <code>"keyDown"</code>.
+
+ <li><p>Set the <code>value</code> property of <var>keydown
+ action</var> to <var>char</var>
+
+ <li><p><a>Dispatch a keyDown action</a> with arguments <var>keydown
+ action</var> and <var>keyboard</var>'s <a>key input state</a>.
+
+ <li><p>Let <var>keyup action</var> be a copy of <var>keydown
+ action</var> with the <code>subtype</code> property changed
+ to <code>"keyUp"</code>.
+
+ <li><p><a>Dispatch a keyUp action</a> with arguments <var>keyup
+ action</var> and <var>keyboard</var>'s <a>key input state</a>.
+ </ol> <!-- /dispatch events for a typeable grapheme cluster -->
+
+ <p>When required to <a>dispatch a <code>composition
+  event</code></a> with arguments <var>type</var>
+  and <var>cluster</var> the <a>remote end</a> must <a>perform
+   implementation-specific action dispatch steps</a> equivalent to
+  sending composition events in accordance with the requirements of
+  [[!UI-EVENTS]], and producing the following event with the specified
+  properties.
+
+ <ul>
+  <li><a href=https://www.w3.org/TR/uievents/#events-compositionevents><code>composition event</code></a> with properties:
+   <table class=simple>
+    <tr>
+     <th>Attribute</th>
+     <th>Value</th>
+    </tr>
+    <tr>
+     <td><code>type</code></td>
+     <td><var>type</var></td>
+    </tr>
+    <tr>
+     <td><code>data</code></td>
+     <td><var>cluster</var></td>
+    </tr>
+   </table>
+ </ul>
+
+ <p>When required to <a>dispatch actions for a string</a> with
+  arguments <var>text</var> and <var>keyboard</var>, a <a>remote end</a>
+  must run the following steps:
+
+  <ol>
+   <li><p>Let <var>clusters</var> be an array created by
+ <a>breaking <var>text</var> into extended grapheme clusters</a>.
+
+ <li><p>Let <var>undo actions</var> be an empty dictionary.
+
+ <li><p>Let <var>current typeable text</var> be an empty string.
+
+ <li><p>For each <var>cluster</var> corresponding to an indexed
+ property in <var>clusters</var> run the substeps of the first
+ matching statement:
+
+ <dl class="switch">
+  <dt><var>cluster</var> is the <a>null key</a>
+  <dd>
+   <ol>
+    <li><p><a>Dispatch the events for a typeable string</a> with
+ arguments <var>current typeable text</var>
+ and <var>keyboard</var>. Reset <var>current typeable text</var> to
+ an empty string.
+
+ <li><a>Clear the modifier key state</a> with arguments
+  being <var>undo actions</var>
+  and <var>keyboard</var>.
+ <li><p>If the previous step results in an <a>error</a>, return that
+ <a>error</a>.
+ <li>Reset <var>undo actions</var> to be an empty dictionary.
+  </ol>
+
+  <dt><var>cluster</var> is a <a>modifier key</a>
+  <dd>
+   <ol>
+    <li><p><a>Dispatch the events for a typeable string</a> with
+ arguments <var>current typeable text</var>
+ and <var>keyboard</var>. Reset <var>current typeable text</var> to
+ an empty string.
+
+ <li><p>Let <var>keydown action</var> be an <a>action object</a>
+ constructed with arguments <var>keyboard</var>'s
+ id, <code>"key"</code>, and <code>"keyDown"</code>.
+
+ <li><p>Set the <code>value</code> property of <var>keydown
+ action</var> to <var>cluster</var>.
+
+ <li><p><a>Dispatch a keyDown action</a> with
+ arguments <var>keydown action</var>
+ and <var>keyboard</var>'s <a>key input state</a>.
+
+ <li><p>Add an entry to <var>undo actions</var> with
+ key <var>cluster</var> and value being a copy of <var>keydown
+  action</var> with the <code>subtype</code> modified
+ to <code>"keyUp"</code>.
+ </ol>
+
+ <dt><var>cluster</var> is <a>typeable</a>
+ <dd>Append <var>cluster</var> to <var>current typeable text</var>.
+
+ <dt>Otherwise
+ <dd>
+  <ol>
+   <li><p><a>Dispatch the events for a typeable string</a> with
+ arguments <var>current typeable text</var>
+ and <var>keyboard</var>. Reset <var>current typeable text</var> to
+ an empty string.
+
+ <li><p><a>Dispatch a <code>composition event</code></a> with
+ arguments <code>"compositionstart"</code>
+ and <code>undefined</code>.
+
+ <li><p><a>Dispatch a <code>composition event</code></a> with
+ arguments <code>"compositionupdate"</code>
+ and <var>cluster</var>.
+
+ <li><p><a>Dispatch a <code>composition event</code></a> with
+ arguments <code>"compositionend"</code>
+ and <var>cluster</var>.
+ </ol>
+ </dl>
+
+ <li><p><a>Dispatch the events for a typeable string</a> with
+ arguments <var>current typeable text</var>
+ and <var>keyboard</var>.
+
+ <li><p><a>Clear the modifier key state</a> with arguments <var>undo
+ actions</var> and <var>keyboard</var>.  If an <a>error</a> is
+ returned, return that <a>error</a>
+ </ol> <!-- /create actions from a string -->
+
+ <p>The <a>remote end steps</a> for <a>Send Keys</a> are:
+
+  <ol>
+   <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
+ return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
+
+
+ <li><p>If <var>element</var> is an <a><code>input</code> element</a> whose
+ <a><code>type</code> attribute</a> is <a>File</a>:
+
+ <ol>
+  <li><p>Let <var>files</var> be the result of splitting <var>text</var>
+ on the newline (<code>\n</code>) character.
+
+ <li><p>If <var>files</var> is of 0 length,
+ return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Let <var>multiple</var> equal the result
+ of calling <code><a>hasAttribute</a>("multiple")</code>
+ on <var>element</var>.
+
+ <li><p>if <var>multiple</var> is <code>false</code> and the
+ length of <var>files</var> is not equal to 1,
+ return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Verify that each file given by the user exists.
+ If any do not, return <a>error</a>
+ with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Complete implementation specific steps
+ equivalent to setting the <a>selected files</a>
+ on the <a><code>input</code></a>.
+ If <var>multiple</var> is <code>true</code>
+ <var>files</var> are be appended to <var>element</var>’s <a>selected files</a>.
+
+ <li><p><a>Fire</a> an <a><code>input</code> event</a>.
+
+ <li><p>Jump to the last step in this overall set of steps.
+ </ol>
+
+ <li><p>If the user agent renders <var>element</var> as
+ something other than a text input control (for example
+ an <a><code>input</code></a> element in the <a><code>color</code>
+  state</a> being presented as a colorwheel):
+
+ <ol>
+  <li><p>If <var>element</var> does not have an <a>own property</a>
+ named <code>value</code> return an <a>error</a> with <a>error
+  code</a> <a>element not interactable</a>
+
+ <li><p>If <var>element</var> is not <a>mutable</a> return
+ an <a>error</a> with <a>error code</a> <a>element not
+  interactable</a>.
+
+ <li><p><a>Set a property</a> <code>value</code> to <var>text</var>
+ on <var>element</var>.
+
+ <li><p>If <var>element</var> is <a>suffering from bad input</a>
+ return an <a>error</a> with <a>error code</a> <a>invalid
+  argument</a>.
+
+ <li><p>Return <a>success</a> with data <code>null</code>.
+ </ol>
+
+ <li>If attribute text exists on the <a>active element</a>, <p>let <var>current text length</var> be
+ the <var><a>element</a></var>’s <a data-lt="node length">length</a>.
+
+
+ <li><p>Let <var>keyboard</var> be a new <a>key input source</a>.
+
+ <li><p><a>Dispatch actions for a string</a> with
+ arguments <var>text</var> and <var>keyboard</var>.
+
+ <li><p>Remove <var>keyboard</var> from the <a>current
+ session</a>'s <a>input state table</a>
+
+ <li><p>Remove <var>keyboard</var> from the list of
+ <a>active input sources</a>.
+
+ <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ </ol>
+</section> <!-- Document Send Keys -->
+
 </section> <!-- /Document Handling -->
 <section>
 <h2>Cookies</h2>
