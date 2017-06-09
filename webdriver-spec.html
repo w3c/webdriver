@@ -699,13 +699,18 @@ in the spec, as demonstrated in a (yet to be developed)
 <section>
 <h2>Interface</h2>
 
-<pre class=idl>partial interface Navigator {
-	[Unforgeable] readonly attribute boolean webdriver;
+<p>If the <dfn>webdriver-active flag</dfn> is true,
+ the user agent must support the following partial interface:
+
+<pre class=idl>
+	[NoInterfaceObject, Exposed=(Window,Worker)]
+	partial interface Navigator {
+	[Exposed=Window] readonly attribute boolean webdriver; // constant true
 };</pre>
 
-<p data-dfn-for="Navigator">The <dfn><code>webdriver</code></dfn> IDL attribute
- of the <code><a>Navigator</a></code> interface must return
- the value of the <dfn>webdriver-active flag</dfn>, which is initially false.
+<p data-dfn-for="Navigator">If the <dfn><code>webdriver</code></dfn> IDL attribute
+ of the <code><a>Navigator</a></code> interface is present,
+ its value must be true.
 
 <p>This property defines a standard way for a co-operating user agent to inform a website
   that it is controlled by WebDriver.
