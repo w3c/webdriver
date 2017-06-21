@@ -1422,7 +1422,8 @@ in the spec, as demonstrated in a (yet to be developed)
 <p><a>Errors</a> are represented in the WebDriver protocol
  by an <a>HTTP response</a> with an <a>HTTP status</a> in the 4xx or 5xx range,
  and a JSON body containing details of the <a>error</a>.
- This JSON body has three fields:
+ This JSON body has a field named <code>value</code> whose value is an object
+ bearing three fields:
  <code>error</code>, containing a string indicating the error type;
  <code>message</code>, containing an implementation-defined string
  with a human readable description of the kind of error that occurred;
@@ -1430,14 +1431,16 @@ in the spec, as demonstrated in a (yet to be developed)
  with a stack trace report of the active stack frames at the time when the error occurred.
 
 <aside class=example>
- <p>A <code>DELETE</code> request to <code>/session/1234</code>,
+ <p>A <code>GET</code> request to <code>/session/1234/url</code>,
  where <code>1234</code> is not the <a>session id</a> of a <a>current session</a>
  would return an <a>HTTP response</a> with the status 404 and a body of the form:
 
  <pre>{
-	"error": "invalid session id",
-	"message": "No active session with ID 1234",
-	"stacktrace": ""
+	"value": {
+		"error": "invalid session id",
+		"message": "No active session with ID 1234",
+		"stacktrace": ""
+	}
 }</pre>
 </aside>
 
