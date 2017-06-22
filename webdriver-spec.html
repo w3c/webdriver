@@ -343,6 +343,7 @@ in the spec, as demonstrated in a (yet to be developed)
    <!-- User prompt --> <li><dfn data-lt="user prompts"><a href=https://html.spec.whatwg.org/#user-prompts>User prompt</a></dfn>
    <!-- Value attribute --><li><dfn><a href=https://html.spec.whatwg.org/#dom-input-value><code>value</code> attribute</a></dfn>
    <!-- Value --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-value>Value</a></dfn>
+   <!-- WorkerNavigator --> <li><dfn data-lt="workernavigator"><a href=https://html.spec.whatwg.org/#workernavigator>WorkerNavigator object</a></dfn>
   </ul>
 
  <dd><p>The HTML specification also defines a number of elements
@@ -699,19 +700,25 @@ in the spec, as demonstrated in a (yet to be developed)
 </section> <!-- /Terminology -->
 
 <section>
-<h2>Interface</h2>
+
+<h2 data-dfn-for="NavigatorAutomationInformation">Interface</h2>
 
 <p>If the <dfn>webdriver-active flag</dfn> is true,
- the user agent must support the following partial interface:
+ the user agent must support <dfn>NavigatorAutomationInformation</dfn> interface:
+
+ <pre class=idl>
+ Navigator implements NavigatorAutomationInformation;
+</pre>
 
 <pre class=idl>
-	[NoInterfaceObject, Exposed=(Window,Worker)]
-	partial interface Navigator {
-	[Exposed=Window] readonly attribute boolean webdriver; // constant true
-};</pre>
+ [NoInterfaceObject, Exposed=(Window)]
+ interface NavigatorAutomationInformation {
+ [Exposed=Window] readonly attribute boolean webdriver; // constant true
+ };
+</pre>
 
-<p data-dfn-for="Navigator">If the <dfn><code>webdriver</code></dfn> IDL attribute
- of the <code><a>Navigator</a></code> interface is present,
+<p data-dfn-for="NavigatorAutomationInformation">Note that the <dfn>webdriver</dfn>
+ property should not be exposed on <code><a>WorkerNavigator</a></code>, and
  its value must be true.
 
 <p>This property defines a standard way for a co-operating user agent to inform a website
