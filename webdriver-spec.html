@@ -344,6 +344,7 @@ in the spec, as demonstrated in a (yet to be developed)
    <!-- User prompt --> <li><dfn data-lt="user prompts"><a href=https://html.spec.whatwg.org/#user-prompts>User prompt</a></dfn>
    <!-- Value attribute --><li><dfn><a href=https://html.spec.whatwg.org/#dom-input-value><code>value</code> attribute</a></dfn>
    <!-- Value --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-value>Value</a></dfn>
+   <!-- WorkerNavigator --> <li><dfn data-lt="workernavigator"><a href=https://html.spec.whatwg.org/#workernavigator>WorkerNavigator object</a></dfn>
   </ul>
 
  <dd><p>The HTML specification also defines a number of elements
@@ -700,17 +701,36 @@ in the spec, as demonstrated in a (yet to be developed)
 <h2>Interface</h2>
 
 <p>If the <dfn>webdriver-active flag</dfn> is true,
- the user agent must support the following partial interface:
+ the user agent must support the following partial interfaces:
+
+ <pre class=idl>
+ partial interface Navigator {
+ };
+ Navigator implements AutomationInformation;
+</pre>
 
 <pre class=idl>
-	[NoInterfaceObject, Exposed=(Window,Worker)]
-	partial interface Navigator {
-	[Exposed=Window] readonly attribute boolean webdriver; // constant true
-};</pre>
+ [Exposed=Worker]
+ interface WorkerNavigator {};
+ WorkerNavigator implements AutomationInformation;
+</pre>
 
-<p data-dfn-for="Navigator">If the <dfn><code>webdriver</code></dfn> IDL attribute
- of the <code><a>Navigator</a></code> interface is present,
+<section data-dfn-for="AutomationInformation" data-dfn-for="AutomationInformation">
+
+<h2><dfn>AutomationInformation</dfn> interface</h2>
+
+<pre class=idl>
+ [NoInterfaceObject, Exposed=(Window,Worker)]
+ interface AutomationInformation {
+ [Exposed=Window] readonly attribute boolean webdriver; // constant true
+ };
+</pre>
+
+<p data-dfn-for="AutomationInformation">Note that <dfn>webdriver</dfn>
+ property should only be exposed on the <code><a>Navigator</a></code> interface, and
  its value must be true.
+
+</section>
 
 <p>This property defines a standard way for a co-operating user agent to inform a website
   that it is controlled by WebDriver.
