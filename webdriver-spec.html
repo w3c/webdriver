@@ -711,13 +711,13 @@ in the spec, as demonstrated in a (yet to be developed)
 <pre class=idl>
  [NoInterfaceObject, Exposed=(Window)]
  interface NavigatorAutomationInformation {
- [Exposed=Window] readonly attribute boolean webdriver; // constant true
+ readonly attribute boolean webdriver; // always returns true
  };
 </pre>
 
 <p data-dfn-for="NavigatorAutomationInformation">Note that the <dfn>webdriver</dfn>
- property should not be exposed on <code><a>WorkerNavigator</a></code>, and
- its value must be true.
+ property should not be exposed on <code><a>WorkerNavigator</a></code>, and it must be
+ a getter that always returns true.
 
 <p>This property defines a standard way for a co-operating user agent to inform a website
   that it is controlled by WebDriver.
