@@ -548,8 +548,11 @@ in the spec, as demonstrated in a (yet to be developed)
   <ul>
    <!-- Absolute URL --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-absolute>Absolute URL</a></dfn>
    <!-- Absolute URL with fragment --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-absolute-with-fragment>Absolute URL with fragment</a></dfn>
-   <!-- Domain --><li><dfn><a href="https://url.spec.whatwg.org/#concept-domain">Domain</a></dfn>
+   <!-- Domain --><li><dfn data-lt="domains"><a href="https://url.spec.whatwg.org/#concept-domain">Domain</a></dfn>
    <!-- Host --> <li><dfn><a href="https://url.spec.whatwg.org/#concept-host">Host</a></dfn>
+   <!-- includes credentials --> <li><dfn><a href="https://url.spec.whatwg.org/#include-credentials">Includes credentials</a></dfn>
+   <!-- IPv4 address --> <li><dfn data-lt="ipv4 addresses"><a href="https://url.spec.whatwg.org/#concept-ipv4">IPv4 address</a></dfn>
+   <!-- IPv6 address --> <li><dfn data-lt="ipv6 addresses"><a href="https://url.spec.whatwg.org/#concept-ipv6">IPv6 address</a></dfn>
    <!-- Is Special --> <li><dfn><a href="https://url.spec.whatwg.org/#is-special">Is special</a></dfn>
    <!-- Path-absolute URL --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-path-absolute>Path-absolute URL</a></dfn>
    <!-- Path --> <li><dfn><a href=https://url.spec.whatwg.org/#concept-url-path>Path</a></dfn>
@@ -1902,7 +1905,7 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Indicates the type of proxy configuration.
   <td>"<code>pac</code>",
-   "<code>noproxy</code>",
+   "<code>direct</code>",
    "<code>autodetect</code>",
    "<code>system</code>",
    or "<code>manual</code>".
@@ -1914,54 +1917,32 @@ with a "<code>moz:</code>" prefix:
   <td>Defines the URL for a proxy auto-config file
    if <a><code>proxyType</code></a>
    is equal to "<code>pac</code>".
-  <td>Any <a>url</a>
+  <td>Any <a>URL</a>.
  </tr>
 
  <tr>
   <td><dfn><code>ftpProxy</code></dfn>
   <td>string
-  <td>Defines the proxy <a>host</a> for FTP traffic.
-   If a <a>URL</a> is passed through this property,
-   set <a><code>ftpProxy</code></a> to the <a>host</a>
-   and <a><code>ftpProxyPort</code></a> to the <a>port</a>
-   when the <a><code>proxyType</code></a>
-   is equal to "<code>manual</code>".
-  <td>A <a>domain</a>, and optional <a>port</a> preceeded by a colon (eg. <code>example.com</code> or <code>example.com:1234</code>)
- </tr>
-
- <tr>
-  <td><dfn><code>ftpProxyPort</code></dfn>
-  <td>number
-  <td>Defines the proxy <a>port</a> for FTP traffic
-   when the <a><code>proxyType</code></a>
-   is equal to "<code>manual</code>".
-   If <a><code>ftpProxyPort</code></a> is defined in <a><code>ftpProxy</code></a>
-   and from this property,
-   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-  <td>An <a>integer</a>
+  <td>Defines the proxy <a>host</a> for FTP traffic when
+   the <a><code>proxyType</code></a> is "<code>manual</code>".
+  <td>A <a>host and optional port</a>.
  </tr>
 
  <tr>
   <td><dfn><code>httpProxy</code></dfn>
   <td>string
-  <td>Defines the proxy <a>host</a> for HTTP traffic.
-   If a <a>URL</a> is passed through this property,
-   set <a><code>httpProxy</code></a> to the <a>host</a>
-   and <a><code>httpProxyPort</code></a> to the <a>port</a>
-   when the <a><code>proxyType</code></a>
-   is equal to "<code>manual</code>".
-  <td>A <a>domain</a>, and optional <a>port</a> preceeded by a colon
+  <td>Defines the proxy <a>host</a> for HTTP traffic when
+   the <a><code>proxyType</code></a> is "<code>manual</code>".
+  <td>A <a>host and optional port</a>.
  </tr>
 
  <tr>
-  <td><dfn><code>httpProxyPort</code></dfn>
-  <td>number
-  <td>Defines the proxy <a>port</a> for HTTP traffic
-   when the <a><code>proxyType</code></a> is "<code>manual</code>".
-   If <a><code>httpProxyPort</code></a> is defined in <a><code>httpProxy</code></a>
-   and from this property,
-   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-  <td>An <a>integer</a>
+  <td><dfn><code>noProxy</code></dfn>
+  <td>array
+  <td>Lists the address for which the proxy should be bypassed when
+   the <a><code>proxyType</code></a> is "<code>manual</code>".
+  <td>A <a>List</a> containing any number of any
+   of <a>domains</a>, <a>IPv4 addresses</a>, or <a>IPv6 addresses</a>.
  </tr>
 
  <tr>
@@ -1969,21 +1950,7 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the proxy <a>host</a> for encrypted TLS traffic
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
-   If a <a>URL</a> is passed through this property,
-   set <a><code>sslProxy</code></a> to the <a>host</a>
-   and <a><code>sslProxyPort</code></a> to the <a>port</a>.
-  <td>A <a>domain</a>, and optional <a>port</a> preceeded by a colon
- </tr>
-
- <tr>
-  <td><dfn><code>sslProxyPort</code></dfn>
-  <td>number
-  <td>Defines the proxy <a>port</a> for SSL traffic
-   when the <a><code>proxyType</code></a> is "<code>manual</code>".
-   If <a><code>sslProxyPort</code></a> is defined in <a><code>sslProxy</code></a>
-   and from this property,
-   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-  <td>An <a>integer</a>
+  <td>A <a>host and optional port</a>.
  </tr>
 
  <tr>
@@ -1991,21 +1958,7 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the proxy <a>host</a> for a <a>SOCKS proxy</a>
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
-   If a <a>URL</a> is passed through this property,
-   set <a><code>socksProxy</code></a> to the <a>host</a>
-   and <a><code>socksProxyPort</code></a> to the <a>port</a>.
-  <td>A <a>domain</a>, and optional <a>port</a> preceeded by a colon
- </tr>
-
- <tr>
-  <td><dfn><code>socksProxyPort</code></dfn>
-  <td>number
-  <td>Defines the proxy <a>port</a> for a <a>SOCKS proxy</a>
-   when the <a><code>proxyType</code></a> is "<code>manual</code>".
-   If <a><code>socksProxyPort</code></a> is defined in <a><code>socksProxy</code></a>
-   and from this property,
-   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-  <td>An <a>integer</a>
+  <td>A <a>host and optional port</a>.
  </tr>
 
  <tr>
@@ -2016,24 +1969,23 @@ with a "<code>moz:</code>" prefix:
   <td>Any <a>integer</a> between 0 and 255 inclusive.
   </tr>
 
- <tr>
-  <td><dfn><code>socksUsername</code></dfn>
-  <td>string
-  <td>Defines the username used when <a data-lt="SOCKS authentication">authenticating</a>
-   with a <a>SOCKS proxy</a>
-   when the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>Any <a>string</a>
-</tr>
-
- <tr>
-  <td><dfn><code>socksPassword</code></dfn>
-  <td>string
-  <td>Defines the password used when <a>authenticating</a> with a <a>SOCKS proxy</a>,
-   when the <a><code>proxyType</code></a> is "<code>manual</code>",
-   and is not returned with <a>capabilities</a> to the <a>local end</a>.
-  <td>Any <a>string</a>
- </tr>
 </table>
+
+<p>A <dfn>host and optional port</dfn> is defined as being a
+  valid <a>host</a>, optionally followed by a colon
+  and <a>port</a>. The <a>host</a> may
+  <a data-lt="includes credentials">include credentials</a>.
+
+<p>A <a><code>proxyType</code></a> of "<code>direct</code>" indicates
+ that the browser should not use a proxy at all.
+
+<p>A <a><code>proxyType</code></a> of "<code>system</code>" indicates
+ that the browser should use the various proxies configured for the
+ underlying Operating System.
+
+<p>A <a><code>proxyType</code></a> of "<code>autodetect</code>"
+ indicates that the proxy to use should be detected in an
+ implementation-specific way.
 
 <p>The <a>remote end</a> steps to <dfn>deserialize as a proxy</dfn>
  argument <var>parameter</var> are:
@@ -2064,6 +2016,10 @@ with a "<code>moz:</code>" prefix:
    <li><p><a>Set a property</a> <var>key</var> to <var>value</var>
     on <var>proxy</var>.
   </ol>
+
+ <li><p>If <var>proxy</var> does not have an <a>own property</a> for
+  "<code>proxyType</code>" return an <a>error</a> with <a>error
+  code</a> <a>invalid argument</a>.
 </ol>
 
 <p>A <dfn>proxy configuration object</dfn> is a
