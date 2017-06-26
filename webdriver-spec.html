@@ -430,6 +430,7 @@ in the spec, as demonstrated in a (yet to be developed)
   in the Infra standard: [[!INFRA]]
    <ul>
     <!-- ASCII lowercase --> <li><dfn data-lt="lowercase"><a href=https://infra.spec.whatwg.org/#ascii-lowercase>ASCII lowercase</a></dfn>
+    <!-- queue --> <li><dfn><a href=https://infra.spec.whatwg.org/#queues>queue</a></dfn>
    </ul>
 
  <dt>Page Visibility
@@ -903,6 +904,21 @@ in the spec, as demonstrated in a (yet to be developed)
      with <a data-lt="session id">ID</a> <var>session id</var> in the
      list of <a>active sessions</a>, or <a><code>null</code></a> if
      there is no such matching <a>session</a>.
+
+   <li><p>If the <a>current session</a> is not <a><code>null</code></a>:
+
+    <ol>
+      <li><p>Enqueue <var>request</var> in the <a>current session</a>'s <a>request queue</a>.
+
+      <li><p>Wait until the first element in the <a>current session</a>'s <a>request queue</a>
+       is <var>request</var>:
+
+      <li><p>Dequeue <var>request</var> from the <a>current session</a>'s <a>request queue</a>.
+
+      <li><p>If the list of <a>active sessions</a> no longer contains the
+       <a>current session</a>, set the <a>current session</a> to
+       <a><code>null</code></a>.
+    </ol>
 
    <li><p>If the <a>current session</a> is <a><code>null</code></a>
     and <var>command</var> is not <a>Delete Session</a>
@@ -2487,6 +2503,10 @@ with a "<code>moz:</code>" prefix:
 
 <p>A <a>session</a> has an associated <a>input cancel list</a>.
 
+<p>A <a>session</a> has an associated <dfn>request queue</dfn> which is a
+ <a>queue</a> of <a data-lt=request>requests</a> that are currently awaiting
+ processing.
+
 <p>When asked to <dfn>close the session</dfn>,
  a <a>remote end</a> must take the following steps:
 
@@ -2713,6 +2733,8 @@ with a "<code>moz:</code>" prefix:
    only web browsers). Implementations might choose to use an existing
    browser instance, eg. by selecting the window that currently has
    focus.
+
+ <li><p>Set the <a>request queue</a> to a new <a>queue</a>.
 
  <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
