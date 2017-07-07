@@ -6368,13 +6368,13 @@ must run the following steps:
 <p>The following <dfn>table for cookie conversion</dfn>
  defines the cookie concepts relevant to WebDriver,
  how these are referred to in [[!RFC6265]],
- what keys they map to in a <a>serialised cookie</a>,
+ what keys they map to in a <a>serialized cookie</a>,
  as well as the attribute-value keys needed
  when constructing a list of arguments for <a>creating a cookie</a>.
 
 <p>For informational purposes,
  the table includes a legend of whether the field is optional
- in the <a>serialised cookie</a> provided to <a>Add Cookie</a>,
+ in the <a>serialized cookie</a> provided to <a>Add Cookie</a>,
  and a brief non-normative description of the field
  and the expected input type of its associated value.
 
@@ -6462,7 +6462,7 @@ must run the following steps:
  </tr>
 </table>
 
-<p>A <dfn>serialised cookie</dfn> is a JSON <a>Object</a>
+<p>A <dfn>serialized cookie</dfn> is a JSON <a>Object</a>
  where a <a>cookie</a>’s [[!RFC6265]] fields
  listed in the <a>table for cookie conversion</a>
  are mapped using the <i>JSON Key</i>
@@ -6528,9 +6528,17 @@ must run the following steps:
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>cookies</var> be a JSON <a>List</a>
-  containing <a>all associated cookies</a>
-  of the <a>current browsing context</a>’s <a>active document</a>.
+ <li><p>Let <var>cookies</var> be a new JSON <a>List</a>.
+
+ <li><p>For each <var>cookie</var> in <a>all associated cookies</a> of
+  the <a>current browsing context</a>'s <a>active document</a>:
+
+  <ol>
+   <li><p>Let <var>serialized cookie</var> be the result
+     of <a data-lt="serialized cookie">serializing</a> <var>cookie</var>.
+
+   <li><p>Append <var>serialized cookie</var> to <var>cookies</var>
+  </ol>
 
  <li><p>Return <a>success</a> with data <var>cookies</var>.
 </ol>
@@ -6568,7 +6576,7 @@ must run the following steps:
  <li><p>If the <var>name</var> matches a <a>cookie</a>’s <a>cookie name</a>
   amongst <a>all associated cookies</a>
   of the <a>current browsing context</a>’s <a>active document</a>,
-  return <a>success</a> with the <a>serialised cookie</a> as data.
+  return <a>success</a> with the <a>serialized cookie</a> as data.
 
   <p>Otherwise, return <a>error</a>
    with <a>error code</a> <a>no such cookie</a>.
