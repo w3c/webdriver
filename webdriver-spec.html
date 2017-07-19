@@ -7052,6 +7052,67 @@ is also removed.
  actions to the list and rely on the fact that the reset operations
  are idempotent.
 
+<p>The <dfn>calculated global key state</dfn> is the aggregated key
+ state from all <a>key input state</a> objects. It can be calculated
+ this way:
+
+<ol>
+ <li><p>Let <var>pressed</var> be a new Set.
+
+ <li><p>Let <var>alt</var>, <var>ctrl</var>, <var>meta</var>,
+  and <var>shift</var> be the <a>Boolean</a> <code>false</code> value.
+
+ <li><p>For enumerable <a>own property</a> in the <a>input state table</a>:
+
+ <ol>
+  <li><p>Let <var>source</var> be the value of the property.
+
+  <li><p>If <var>source</var> is not a <a>key input state</a>,
+   continue to the first step of this loop.
+
+  <li><p>Let <var>key state pressed</var> be the result of <a>getting
+   a property</a> named <code>pressed</code> from <var>source</var>.
+
+  <li><p>Add all strings from <var>key state pressed</var>
+   to <var>pressed</var>.
+
+  <li>Let <var>alt</var> be a logical OR of <var>alt</var> and the
+   result of <a>getting a property</a> named <code>alt</code>
+   from <var>source</var>.
+
+  <li>Let <var>ctrl</var> be a logical OR of <var>ctrl</var> and the
+   result of <a>getting a property</a> named <code>ctrl</code>
+   from <var>source</var>.
+
+  <li>Let <var>meta</var> be a logical OR of <var>meta</var> and the
+   result of <a>getting a property</a> named <code>meta</code>
+   from <var>source</var>.
+
+  <li>Let <var>shift</var> be a logical OR of <var>shift</var> and the
+   result of <a>getting a property</a> named <code>shift</code>
+   from <var>source</var>.
+ </ol>
+
+ <li><p>Let <var>state</var> be a new JSON <a>Object</a>.
+
+ <li><p><a>Set a property</a> on <var>state</var> with
+  name <var>pressed</var> and value <var>pressed</var>.
+
+ <li><p><a>Set a property</a> on <var>state</var> with
+  name <var>alt</var> and value <var>alt</var>.
+
+ <li><p><a>Set a property</a> on <var>state</var> with
+  name <var>ctrl</var> and value <var>ctrl</var>.
+
+ <li><p><a>Set a property</a> on <var>state</var> with
+  name <var>meta</var> and value <var>meta</var>.
+
+ <li><p><a>Set a property</a> on <var>state</var> with
+  name <var>shift</var> and value <var>shift</var>.
+
+ <li><p>Return <var>state</var>.
+</ol>
+
 </section><!-- /Input State -->
 
 <section> <!-- Processing Actions Requests -->
@@ -8127,9 +8188,12 @@ is also removed.
   viewport x coordinate <var>x</var>, viewport y
   coordinate <var>y</var>, with buttons <var>buttons</var> depressed
   in accordance with the requirements of [[!UI-EVENTS]] and
-  [[!POINTER-EVENTS]]. Type specific properties for the pointer that
-  are not exposed through the webdriver API must be set to the default
-  value specified for hardware that doesn't support that property.
+  [[!POINTER-EVENTS]]. The generated events must
+  set <code>ctrlKey</code>, <code>shiftKey</code>, <code>altKey</code>,
+  and <code>metaKey</code> from the <a>calculated global key state</a>.
+  Type specific properties for the pointer that are not
+  exposed through the webdriver API must be set to the default value
+  specified for hardware that doesn't support that property.
 
  <!-- TODO: add some events that should be emitted? This is a bit
   complicated in this case because e.g. pointerDown is only emitted
@@ -8172,9 +8236,12 @@ is also removed.
   viewport x coordinate <var>x</var>, viewport y
   coordinate <var>y</var>, with buttons <var>buttons</var> depressed,
   in accordance with the requirements of [[!UI-EVENTS]] and
-  [[!POINTER-EVENTS]]. Type specific properties for the pointer that
-  are not exposed through the webdriver API must be set to the default
-  value specified for hardware that doesn't support that property.
+  [[!POINTER-EVENTS]].  The generated events must
+  set <code>ctrlKey</code>, <code>shiftKey</code>, <code>altKey</code>,
+  and <code>metaKey</code> from the <a>calculated global key state</a>.
+  Type specific properties for the pointer that are not
+  exposed through the webdriver API must be set to the default value
+  specified for hardware that doesn't support that property.
 
   <!-- TODO: add some events that should be emitted? This is a bit
    complicated in this case because e.g. pointerDown is only emitted
@@ -8318,11 +8385,13 @@ is also removed.
     coordinate <var>y</var> to viewport x coordinate <var>x</var> and
     viewport y coordinate <var>y</var>, with
     buttons <var>buttons</var> depressed, in accordance with the
-    requirements of [[!UI-EVENTS]] and [[!POINTER-EVENTS]], Type
-    specific properties for the pointer that are not exposed through
-    the WebDriver API must be set to the default value specified for
-    hardware that doesn't support that property. In the case where
-    the <var>pointerType</var> is <code>"pen"</code>
+    requirements of [[!UI-EVENTS]] and [[!POINTER-EVENTS]]. The
+    generated events must set <code>ctrlKey</code>, <code>shiftKey</code>,
+    <code>altKey</code>, and <code>metaKey</code> from the
+    <a>calculated global key state</a>. Type specific properties for the
+    pointer that are not exposed through the WebDriver API must be set to
+    the default value specified for hardware that doesn't support that
+    property. In the case where the <var>pointerType</var> is <code>"pen"</code>
     or <code>"touch"</code>, and <var>buttons</var> is empty, this may
     be a no-op. For a pointer of type <code>"mouse"</code>, this will
     always produce events including at least
