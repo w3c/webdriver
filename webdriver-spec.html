@@ -434,11 +434,11 @@ in the spec, as demonstrated in a (yet to be developed)
     <!-- queue --> <li><dfn><a href=https://infra.spec.whatwg.org/#queues>queue</a></dfn>
    </ul>
 
- <dt>Page Visibility
+ <dt>Interaction
  <dd>The following terms are defined in the
    Page Visibility Specification [[!PAGE-VISIBILITY]]
    <ul>
-     <li><dfn><a href="https://www.w3.org/TR/page-visibility/#dom-document-hidden">Document <code>hidden</code> attribute</a></dfn>
+    <!-- visibility hidden --> <li><dfn data-lt="visibility hidden"><a href="https://www.w3.org/TR/page-visibility/?csw=1#pv-page-hidden">Visibility state <code>hidden</code></a></dfn>    <!-- visibility state --> <li><dfn>Visibility state</dfn> being the <a href="https://www.w3.org/TR/page-visibility/?csw=1#dom-document-visibilitystate"><code>visibilityState</code></a> attribute on <a>Document</a>    <!-- visibility visible --> <li><dfn data-lt="visibility visible"><a href="https://www.w3.org/TR/page-visibility/?csw=1#pv-page-visible">Visibility state <code>visible</code></a></dfn>
    </ul>
 
  <dt>Selenium
@@ -3837,6 +3837,30 @@ with a "<code>moz:</code>" prefix:
  are provided by the proprietary <code>window.outerWidth</code>
  and <code>window.outerHeight</code> [[!DOM]] properties.
 
+<p>To <dfn>iconify the window</dfn>,
+ given an operating system level window
+ with an associated <a>top-level browsing context</a>,
+ run implementation-specific steps
+ to iconify, minimize, or hide the window
+ from the visible screen.
+ Do not return from this operation
+ until the <a>visibility state</a>
+ of the <a>top-level browsing context</a>’s <a>active document</a>
+ has reached the <a data-lt="visibility hidden">hidden</a> state,
+ or until the operation times out.
+
+<p>To <dfn>restore the window</dfn>,
+ given an operating system level window
+ with an associated <a>top-level browsing context</a>,
+ run implementation-specific steps
+ to restore or unhide the window
+ to the visible screen.
+ Do not return from this operation
+ until the <a>visibility state</a>
+ of the <a>top-level browsing context</a>’s <a>active document</a>
+ has reached the <a data-lt="visibility visible">visible</a> state,
+ or until the operation times out.
+
 <section>
 <h3>Get Window Rect</h3>
 
@@ -3928,11 +3952,10 @@ with a "<code>moz:</code>" prefix:
 
  <li><p><a>Fully exit fullscreen</a>.
 
- <li><p>If the <a>top-level browsing context</a>’s
-  <a>document <code>hidden</code> attribute</a> is <code>true</code>,
-  run the implementation specific steps
-  that will set the <a>top-level browsing context</a>
-  <a>document <code>hidden</code> attribute</a> to <code>false</code>.
+ <li><p>If the <a>visibility state</a>
+  of the <a>top-level browsing context</a>’s <a>active document</a>
+  is <a data-lt="visibility hidden">hidden</a>,
+  <a>restore the window</a>.
 
  <li><p>If <var>width</var> and <var>height</var> are not <a><code>null</code></a>:
 
@@ -4085,15 +4108,16 @@ with a "<code>moz:</code>" prefix:
 
  <li><p><a>Fully exit fullscreen</a>.
 
- <li><p>Run the implementation-specific steps
-  to transition the operating system level window
-  containing the <a>current top-level browsing context</a>
-  into the <a>minimized window state</a>,
-  hiding it from the visible screen.
+ <li><p>Switching on the <a>visibility state</a>
+  of the <a>current top-level browsing context</a>’s <a>active document</a>:
 
-  <p>Continue to the next step
-   when the window has completed the transition,
-   or within an implementation-defined timeout.
+  <dl class=switch>
+   <dt><a data-lt="visibility hidden">hidden</a>
+   <dd><p><a>Restore the window</a>.
+
+   <dt>Otherwise
+   <dd><p><a>Iconify the window</a>.
+  </dl>
 
  <li><p>Return <a>success</a>
   with the <a data-lt="json serialization of window rect">JSON serialization</a>
