@@ -3974,9 +3974,20 @@ with a "<code>moz:</code>" prefix:
   return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
 
  <li><p>Run the implementation-specific steps
-  to increase the dimensions of the operating system level window
+  to transition the operating system level window
   containing the <a>current top-level browsing context</a>
-  to the maximum available size allowed by the window manager.
+  into the maximized state.
+
+  <p>If the window manager supports window resizing
+   but does not have a concept of window maximation,
+   the window dimensions must be increased
+   to the maximum available size
+   permitted by the window manager
+   for the current screen.
+
+  <p>Continue to the next step
+   when the window has completed the transition,
+   or within an implementation-defined timeout.
 
  <li><p>Return <a>success</a>
   with the <a data-lt="json serialization of window rect">JSON serialization</a>
