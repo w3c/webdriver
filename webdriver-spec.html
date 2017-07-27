@@ -3755,6 +3755,54 @@ with a "<code>moz:</code>" prefix:
  Where a <a>command</a> is not supported,
  an <a>unsupported operation</a> <a>error</a> is returned.
 
+<p>The <a>top-level browsing context</a>
+ has an associated <dfn data-lt="window states">window state</dfn>
+ which describes what visibility state its OS widget window is in.
+ It can be in one of the following states:
+
+<table class=simple>
+ <tr>
+  <th>State
+  <th>Keyword
+  <th>Default
+  <th>Description
+ </tr>
+
+ <tr>
+  <td><dfn>Maximized window state</dfn>
+  <td>"<code>maximized</code>"
+  <td>
+  <td>The window is maximized.
+ </tr>
+
+ <tr>
+  <td><dfn>Minimized window state</dfn>
+  <td>"<code>minimized</code>"
+  <td>
+  <td>The window is iconified.
+ </tr>
+
+ <tr>
+  <td><dfn>Normal window state</dfn>
+  <td>"<code>normal</code>"
+  <td>✓
+  <td>The window is shown normally.
+ </tr>
+
+ <tr>
+  <td><dfn>Fullscreen window state</dfn>
+  <td>"<code>fullscreen</code>"
+  <td>
+  <td>The window is in full screen mode.
+ </tr>
+</table>
+
+<p>If for whatever reason
+ the <a>top-level browsing context</a>’s OS window
+ cannot enter either of the <a>window states</a>,
+ or if this concept is not applicable on the current system,
+ the default state must be <a data-lt="normal window state">normal</a>.
+
 <p>A <a>top-level browsing context</a>’s <dfn>window rect</dfn>
  is defined as a dictionary of the <a>screenX</a>, <a>screenY</a>,
  <code>width</code> and <code>height</code> attributes
@@ -3779,6 +3827,9 @@ with a "<code>moz:</code>" prefix:
   including any browser chrome
   and externally drawn window decorations
   in <a>CSS reference pixels</a>.
+
+ <dt><code>state</code>
+ <dd><p>The <a>top-level browsing context</a>’s <a>window state</a>.
 </dl>
 
 <p class=example>In some user agents the operating system’s
