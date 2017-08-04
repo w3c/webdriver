@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html
  data-issue-url="https://github.com/w3c/webdriver/"
  data-issue-param-milestone="Level 1">
@@ -8733,6 +8733,20 @@ is also removed.
  </tr>
 
  <tr>
+  <td>"<code>dismiss and notify</code>"
+  <td><dfn>Dismiss and notify state</dfn>
+  <td>All <a>simple dialogs</a> encountered should be <a>dismissed</a>,
+      and an error returned that the dialog was handled.
+ </tr>
+
+ <tr>
+  <td>"<code>accept and notify</code>"
+  <td><dfn>Accept and notify state</dfn>
+  <td>All <a>simple dialogs</a> encountered should be <a>accepted</a>,
+      and an error returned that the dialog was handled.
+ </tr>
+
+ <tr>
   <td>"<code>ignore</code>"
   <td><dfn>Ignore state</dfn>
   <td>All <a>simple dialogs</a> encountered should be left to the user to handle.
@@ -8769,6 +8783,22 @@ argument <var>value</var>:
 
    <dt><a>accept state</a>
    <dd><p><a>Accept</a> the <a>current user prompt</a>.
+
+   <dt><a>dismiss and notify state</a>
+   <dd>
+    <ol>
+     <li><p><a>Dismiss</a> the <a>current user prompt</a>.
+     <li><p>Return <a>error</a> with <a>error code</a>
+      <a>unexpected alert open</a>.
+    </ol>
+
+   <dt><a>accept and notify state</a>
+   <dd>
+    <ol>
+     <li><p><a>Accept</a> the <a>current user prompt</a>.
+     <li><p>Return <a>error</a> with <a>error code</a>
+      <a>unexpected alert open</a>.
+    </ol>
 
    <dt><a>ignore state</a>
    <dd><p>Return <a>error</a> with <a>error code</a>
