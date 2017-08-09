@@ -332,6 +332,7 @@ in the spec, as demonstrated in a (yet to be developed)
    <!-- Reset algorithm --><li><dfn><a href=https://html.spec.whatwg.org/#concept-form-reset-control>Reset algorithm</a></dfn>
    <!-- Reset Button --> <li><dfn><a href="https://html.spec.whatwg.org/#reset-button-state-%28type=reset%29">Reset Button</a></dfn> state
    <!-- Resettable element --> <li><dfn><a href=https://html.spec.whatwg.org/#category-reset>Resettable</a></dfn> element
+   <!-- Run the animation frame callbacks --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#run-the-animation-frame-callbacks">Run the animation frame callbacks</a></dfn>
    <!-- Script execution environment --> <li><dfn><a href=https://html.spec.whatwg.org/#environment>Script execution environment</a></dfn>
    <!-- Script --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-script>Script</a></dfn>
    <!-- Selectedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-option-selectedness>Selectedness</a></dfn>
@@ -9142,20 +9143,23 @@ argument <var>value</var>:
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li>Let <var>root rect</var> be the <a>current top-level browsing context</a>’s
-  <a>document element</a>’s <a>rectangle</a>.
+ <li><p>When the user agent is next to <a>run the animation frame callbacks</a>:
+  <ol>
+   <li><p>Let <var>root rect</var> be the <a>current top-level browsing context</a>’s
+    <a>document element</a>’s <a>rectangle</a>.
 
- <li><p>Let <var>screenshot</var> be the result of <a>trying</a> to call
-  <a>draw a bounding box from the framebuffer</a>,
-  given <var>root rect</var> as an argument.
+   <li><p>Let <var>screenshot</var> be the result of <a>trying</a> to call
+    <a>draw a bounding box from the framebuffer</a>,
+    given <var>root rect</var> as an argument.
 
- <li><p>Let <var>canvas</var> be a <a><code>canvas</code> element</a>
-  of <var>screenshot result</var>’s data.
+   <li><p>Let <var>canvas</var> be a <a><code>canvas</code> element</a>
+    of <var>screenshot result</var>’s data.
 
- <li><p>Let <var>encoding</var> be the result of <a>trying</a>
-  <a>encoding as Base64</a> <var>canvas</var>.
+   <li><p>Let <var>encoding</var> be the result of <a>trying</a>
+    <a>encoding as Base64</a> <var>canvas</var>.
 
- <li><p>Let <var>encoded string</var> be <var>encoding result</var>’s data.
+   <li><p>Let <var>encoded string</var> be <var>encoding result</var>’s data.
+  </ol>
 
  <li><p>Return <a>success</a> with data <var>encoded string</var>.
 </ol>
@@ -9194,30 +9198,27 @@ argument <var>value</var>:
   <a>trying</a> to <a>get a known element</a>
   with argument <var>element id</var>.
 
- <li><p>Let <var>element rect</var> be <var>element</var>’s
-  <a href=https://drafts.fxtf.org/geometry/#rectangle>rectangle</a>.
-
  <li><p>If asked to <var>scroll</var>,
   <a>scroll into view</a> the <var>element</var>.
 
- <li><p>Let <var>screenshot result</var> be the result of calling
-  <a>draw a bounding box from the framebuffer</a>,
-  given <var>element rect</var> as an argument.
+ <li><p>When the user agent is next to <a>run the animation frame callbacks</a>:
+  <ol>
+   <li><p>Let <var>element rect</var> be <var>element</var>’s
+    <a href=https://drafts.fxtf.org/geometry/#rectangle>rectangle</a>.
 
- <li><p>If <var>screenshot result</var> is an <a>error</a>,
-  return <var>screenshot result</var>.
+   <li><p>Let <var>screenshot result</var> be the result
+    of <a>trying</a> to call
+    <a>draw a bounding box from the framebuffer</a>,
+    given <var>element rect</var> as an argument.
 
- <li><p>Let <var>canvas</var> be a <a><code>canvas</code> element</a>
-  of <var>screenshot result</var>’s data.
+   <li><p>Let <var>canvas</var> be a <a><code>canvas</code> element</a>
+    of <var>screenshot result</var>’s data.
 
- <li><p>Let <var>encoding result</var> be the result of
-  <a>encoding as Base64</a> <var>canvas</var>.
+   <li><p>Let <var>encoding result</var> be the result of <a>trying</a>
+    <a>encoding as Base64</a> <var>canvas</var>.
 
-
- <li><p>If <var>encoding result</var> is an <a>error</a>,
-  return <var>encoding result</var>.
-
- <li><p>Let <var>encoded string</var> be <var>encoding result</var>’s data.
+   <li><p>Let <var>encoded string</var> be <var>encoding result</var>’s data.
+  </ol>
 
  <li><p>Return <a>success</a> with data <var>encoded string</var>.
 </ol>
