@@ -4525,7 +4525,7 @@ by following these steps:
   append the <a data-lt="JSON serialization of an element">serialization</a>
   of <var>element</var> to <var>result</var>.
 
- <li><p>Return <var>result</var>.
+ <li><p>Return <a>success</a> with data <var>result</var>.
 </ol>
 
 <section>
@@ -4578,11 +4578,13 @@ by following these steps:
  the following steps need to be completed:
 
 <ol>
- <li>Let <var>elements</var> be the result of
- calling <a>querySelectorAll</a> with <var>selector</var> with
- the <a>context object</a> equal to the <var>start node</var>.
+ <li><p>Let <var>elements</var> be the result of
+  calling <a>querySelectorAll</a> with <var>selector</var> with
+  the <a>context object</a> equal to the <var>start node</var>. If
+  this causes an exception to be thrown, return <a>error</a>
+  with <a>error code</a> <a>invalid selector</a>.
 
- <li><p>Return <var>elements</var>.
+ <li><p>Return <a>success</a> with data <var>elements</var>.
 </ol>
 </section> <!-- /CSS Selectors -->
 
@@ -4594,9 +4596,11 @@ by following these steps:
  the following steps need to be completed:
 
 <ol>
- <li><p>Let <var>elements</var> be the result of calling <a>querySelectorAll</a>,
-  with argument <a><code>a</code> elements</a>,
-  with the <a>context object</a> equal to the <var>start node</var>.
+ <li><p>Let <var>elements</var> be the result of
+  calling <a>querySelectorAll</a>, with argument <a><code>a</code>
+  elements</a>, with the <a>context object</a> equal to the
+  <var>start node</var>. If this throws an exception,
+  return <a>error</a> with <a>error code</a> <a>unknown error</a>.
 
  <li><p>Let <var>result</var> be an empty <a>NodeList</a>.
 
@@ -4615,7 +4619,7 @@ by following these steps:
     append <var>element</var> to <var>result</var>.
   </ol>
 
- <li><p>Return <var>result</var>.
+ <li><p>Return <a>success</a> with data <var>result</var>.
 </ol>
 </section> <!-- /Link Text -->
 
@@ -4634,9 +4638,11 @@ by following these steps:
  the following steps need to be completed:
 
 <ol>
- <li><p>Let <var>elements</var> be the result of calling <a>querySelectorAll</a>,
-  with argument <a><code>a</code> elements</a>,
-  with the <a>context object</a> equal to the <var>start node</var>.
+ <li><p>Let <var>elements</var> be the result of
+  calling <a>querySelectorAll</a>, with argument <a><code>a</code>
+  elements</a>, with the <a>context object</a> equal to the
+  <var>start node</var>. If this throws an exception,
+  return <a>error</a> with <a>error code</a> <a>unknown error</a>.
 
  <li><p>Let <var>result</var> be an empty <a>NodeList</a>.
 
@@ -4651,7 +4657,7 @@ by following these steps:
     append <var>element</var> to <var>result</var>.
   </ol>
 
- <li><p>Return <var>result</var>.
+ <li><p>Return <a>success</a> with data <var>result</var>.
 </ol>
 </section> <!-- /Partial Link Text -->
 
@@ -4659,7 +4665,8 @@ by following these steps:
 <h4>Tag Name</h4>
 
 <p>To find a <a>web element</a> with the <dfn>Tag
- Name</dfn> <a>strategy</a> return the result of calling
+ Name</dfn> <a>strategy</a> return <a>success</a> with data set to the
+ result of calling
  <a><code>getElementsByTagName</code></a> with the argument
  <var>selector</var>, with the <a>context object</a> equal to the
  <var>start node</var>.
@@ -4684,8 +4691,13 @@ by following these steps:
 
  <li><p>Let <var>index</var> be 0.
 
- <li><p>Let <var>length</var> be the result of <a>getting the property</a>
-  "<code>snapshotLength</code>" from <var>evaluateResult</var>.
+ <li><p>Let <var>length</var> be the result of <a>getting the
+  property</a> "<code>snapshotLength</code>"
+  from <var>evaluateResult</var>. If this throws
+  an <a>XPathException</a> return <a>error</a> with <a>error
+  code</a> <a>invalid selector</a>, otherwise if this throws any other
+  exception return <a>error</a> with <a>error code</a> <a>unknown
+  error</a>.
 
  <li><p>Let <var>result</var> be an empty <a>NodeList</a>.
 
@@ -4704,7 +4716,7 @@ by following these steps:
    <li>Increment <var>index</var> by 1.
   </ol>
 
- <li><p>Return <var>result</var>.
+ <li><p>Return <a>success</a> with data <var>result</var>.
 
 </ol>
 </section> <!-- /XPath -->
@@ -4808,7 +4820,7 @@ by following these steps:
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li>Return the result of <a>Find</a> with
+ <li>Return the result of <a>trying</a> to <a>Find</a> with
   <var>start node</var>, <var>location strategy</var>, and <var>selector</var>.
 </ol>
 </section> <!-- /Find Elements -->
@@ -4909,7 +4921,7 @@ by following these steps:
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li>Return the result of <a>Find</a> with
+ <li>Return the result of <a>trying</a> to <a>Find</a> with
   <var>start node</var>, <var>location strategy</var>, and <var>selector</var>.
 </ol>
 </section> <!-- /Find Elements From Element -->
