@@ -194,6 +194,13 @@ in the spec, as demonstrated in a (yet to be developed)
    <li><dfn data-lt="modifier key"><a href=https://www.w3.org/TR/uievents-key/#keys-modifier>Keyboard modifier keys</a></dfn>
   </ul>
 
+ <dt>DOM Parsing
+ <dd><p>The following terms are defined in the DOM Parsing and Serialization Specification: [[!DOMPARSING]]
+  <ul>
+   <li><!-- Fragment serializing algorithm --><dfn><a href="https://w3c.github.io/DOM-Parsing/#dfn-fragment-parsing-algorithm">Fragment serializing algorithm</a></dfn>
+  </ul>
+ </dd>
+
  <dt>ECMAScript
  <dd><p>The following terms are defined in the ECMAScript Language Specification: [[!ECMA-262]]
   <ul>
@@ -6026,13 +6033,15 @@ must run the following steps:
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>source</var> be the result returned from the
-  <a><code>outerHTML</code> IDL Attribute</a> of the <a>document element</a> of
-  the <a>current browsing context</a> <a>active document</a>.
+ <li><p>Let <var>source</var> be the result of invoking the
+  <a>fragment serializing algorithm</a> on a fictional node whose only
+  child is the <a>document element</a> providing <code>true</code> for the
+  <code>require well-formed</code> flag. If this causes an exception
+  to be thrown, let <var>source</var> be <a><code>null</code></a>.
 
  <li><p>Let <var>source</var> be the result of <a>serializing to string</a>
   the <a>current browsing context</a> <a>active document</a>,
-  if <var>source</var> is <a>null</a>.
+  if <var>source</var> is <a><code>null</code></a>.
 
  <li><p>Return <a>success</a> with data <var>source</var>.
 </ol>
