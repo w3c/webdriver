@@ -2716,6 +2716,17 @@ with a "<code>moz:</code>" prefix:
       set the <a>current session</a>’s <a>session script timeout</a>
       to the value of property "<code>script</code>".
       Otherwise, set the <a>session script timeout</a> to 30,000 milliseconds.
+
+     <li><p>For every <var>timeout</var> in this implementation's implementation-specific timeouts:
+      <ol>
+       <li>Let <var>value</var> be the numeric property with
+        key <var>timeout</var> in <var>timeouts</var>.
+       <li>If <var>value</var> is <a><code>undefined</code></a>,
+        let <var>value</var> equal the default value
+        for <var>timeout</var>.
+       <li>Set the <a>current session</a>'s <var>timeout</var>
+        to <var>value</var>.
+      </ol>
     </ol>
    </li>
 
@@ -2732,6 +2743,9 @@ with a "<code>moz:</code>" prefix:
    <li><p>Set a property on <var>configured timeouts</var> with name
    "<code>script</code>" and value equal to the <a>current
    session</a>’s <a>session script timeout</a>.
+
+   <li><p>Add all implementation-specific timeouts to
+    <var>configured timeouts</var>.
 
    <li><p>Set a property on <var>capabilties</var> with name
    "<code>timeouts</code>" and value <var>configured timeouts</var>.
@@ -2875,6 +2889,9 @@ with a "<code>moz:</code>" prefix:
    <dd><a>session implicit wait timeout</a>
   </dl>
 
+ <li><p>Add each implementation-specific timeouts to <var>body</var>,
+  using the name of the timeout as the name of the property.
+
  <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
 </section> <!-- /Get Timeouts -->
@@ -2955,8 +2972,9 @@ with a "<code>moz:</code>" prefix:
    <li><p>Find the <var>timeout type</var> from the <a>table of session timeouts</a>
     by looking it up by its keyword <var>key</var>.
 
-    <p>If no keyword matches <var>key</var>,
-     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+    <p>If no keyword matches <var>key</var> and <var>key</var> is not
+     an implementation-specific timeout, return <a>error</a>
+     with <a>error code</a> <a>invalid argument</a>.
 
    <li><p>If <var>value</var> is not an <a>integer</a>,
     or it is less than 0 or greater than 2<sup>64</sup> – 1,
