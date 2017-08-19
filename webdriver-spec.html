@@ -3860,6 +3860,21 @@ with a "<code>moz:</code>" prefix:
  are provided by the proprietary <code>window.outerWidth</code>
  and <code>window.outerHeight</code> [[!DOM]] properties.
 
+<p>To <dfn>maximize the window</dfn>,
+ given an operating system level window
+ with an associated <a>top-level browsing context</a>,
+ run the implementation-specific steps
+ to transition the operating system level window
+ into the <a>maximized window state</a>.
+ If the window manager supports window resizing
+ but does not have a concept of window maximation,
+ the window dimensions must be increased
+ to the maximum available size
+ permitted by the window manager
+ for the current screen.
+ Return when the window has completed the transition,
+ or within an implementation-defined timeout.
+
 <p>To <dfn>iconify the window</dfn>,
  given an operating system level window
  with an associated <a>top-level browsing context</a>,
@@ -4073,21 +4088,8 @@ with a "<code>moz:</code>" prefix:
 
  <li><p><a>Fully exit fullscreen</a>.
 
- <li><p>Run the implementation-specific steps
-  to transition the operating system level window
-  containing the <a>current top-level browsing context</a>
-  into the <a>maximized window state</a>.
-
-  <p>If the window manager supports window resizing
-   but does not have a concept of window maximation,
-   the window dimensions must be increased
-   to the maximum available size
-   permitted by the window manager
-   for the current screen.
-
-  <p>Continue to the next step
-   when the window has completed the transition,
-   or within an implementation-defined timeout.
+ <li><p><a>Maximize the window</a>
+  of the <a>current top-level browsing context</a>.
 
  <li><p>Return <a>success</a>
   with the <a data-lt="json serialization of window rect">JSON serialization</a>
