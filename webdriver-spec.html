@@ -893,8 +893,10 @@ in the spec, as demonstrated in a (yet to be developed)
   complete <a>HTTP request</a> can be constructed from the data.
   Let <var>request</var> be a <a>request</a> constructed from the
   received data, according to the requirements of [[!RFC7230]]. If it
-  is not possible to construct a complete <a>HTTP request</a> <a>send
-  an error</a> with <a>error code</a> <a>unknown error</a>.
+  is not possible to construct a complete <a>HTTP request</a>,
+  the <a>remote end</a> must either close the <a>connection</a>,
+  return an HTTP response with status code 500, or return
+  an <a>error</a> with <a>error code</a> <a>unknown error</a>.
 
  <li><p>Let <var>request match</var> be the result of the algorithm
   to <a>match a request</a> with <var>request</var>’s
