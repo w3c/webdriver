@@ -888,16 +888,13 @@ in the spec, as demonstrated in a (yet to be developed)
 <p>After such a <a>connection</a> has been established,
  a <a>remote end</a> MUST run the following steps:</p>
 
-<p class=issue>Should mention what happens if it can’t be decoded as HTTP.
- Note that <a href=https://fetch.spec.whatwg.org/>Fetch</a> isn’t quite right
- because it doesn’t specify how to construct a request from network data, or serialize a response.
-
 <ol>
- <li><p><a>Read bytes</a> from the <a>connection</a>
-  until a complete <a>HTTP request</a> can be constructed from the data.
-  Let <var>request</var> be a <a>request</a>
-  constructed from the received data,
-  according to the requirements of [[!RFC7230]].
+ <li><p><a>Read bytes</a> from the <a>connection</a> until a
+  complete <a>HTTP request</a> can be constructed from the data.
+  Let <var>request</var> be a <a>request</a> constructed from the
+  received data, according to the requirements of [[!RFC7230]]. If it
+  is not possible to construct a complete <a>HTTP request</a> <a>send
+  an error</a> with <a>error code</a> <a>unknown error</a>.
 
  <li><p>Let <var>request match</var> be the result of the algorithm
   to <a>match a request</a> with <var>request</var>’s
