@@ -2605,30 +2605,59 @@ with a "<code>moz:</code>" prefix:
 <p>If the <a>remote end</a> is an <a>intermediary node</a>,
  it MAY use the result of the <a>capabilities processing</a> algorithm
  to route the <a>new session</a> request to the appropriate <a>endpoint node</a>.
- An <a>intermediary node</a> MAY also define custom <a>capabilities</a>
- to assist in this process, however, these capabilities MUST NOT be
+ An <a>intermediary node</a> MAY also define <a>extension capabilities</a>
+ to assist in this process, however, these specific capabilities MUST NOT be
  forwarded to the <a>endpoint node</a>.
 
 <p>If the <a>intermediary node</a> requires additional information
  unrelated to user agent features,
  it is RECOMMENDED that this information be passed as top-level parameters,
  and not as part of the requested <a>capabilities</a>.
- An <a>intermediary node</a> MAY forward custom,
+ An <a>intermediary node</a> SHOULD forward custom,
  top-level parameters (i.e. non-<a>capabilities</a>) to subsequent <a>remote end</a> nodes.
 
 <aside class=example>
- <p>An <a>intermediary node</a> MAY require authentication
+ <p>An <a>intermediary node</a> might require authentication
   on <a>creating a new session</a>.
   This authentication is an argument to the <a>New Session</a> command
-  itself and not the user agent’s capabilities.
+  itself and not the user agent’s <a>capabilities</a>.
   Therefore, the authentication should be passed
-  as a top-level parameter and not embedded in capabilities:
+  as a top-level parameter and not embedded in <code>capabilities</code>:
 
  <pre>{
 	"user": "alice",
 	"password": "pw1234",
 	"capabilities": {…}
 }</pre>
+
+ <p>However, because an <a>intermediary node</a> MUST NOT forward
+ <a>extension capabilities</a> specific to that implementation to
+ an <a>endpoint node</a>, the following is also permitted by this
+ specification:
+
+ <pre>{
+    "capabilities": {
+        "alwaysMatch": {
+            "cloud:user": "alice",
+            "cloud:password": "hunter2",
+            "platformName": "linux"
+        },
+        "firstMatch": [
+            {"browserName": "chrome"},
+            {"browserName": "edge"}
+        ]
+    }
+}</pre>
+
+ <p>Once all <a data-lt="merging capabilities">capabilities are
+  merged</a> from this example, an <a>endpoint node</a> would receive
+  <a>New Session</a> capabilities identical to:
+
+ <pre>[
+    {"browserName": "chrome", "platformName": "linux"},
+    {"browserName": "edge", "platformName": "linux"}
+]</pre>
+
 </aside>
 
 <p>The <a>remote end steps</a> are:
