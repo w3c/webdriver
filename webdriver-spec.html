@@ -3216,8 +3216,6 @@ with a "<code>moz:</code>" prefix:
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
-
  <li><p>Let <var>url</var> be the result of
   <a>getting the property</a> <code>url</code>
   from the <var>parameters</var> argument.
@@ -3226,6 +3224,8 @@ with a "<code>moz:</code>" prefix:
   or is not an <a>absolute URL with fragment</a> or not a
   <a>local scheme</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>current URL</var> be the <a>current top-level browsing context</a>’s
  <a>active document</a>’s <a>document URL</a>.
@@ -3622,16 +3622,16 @@ with a "<code>moz:</code>" prefix:
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If there is an active <a>user prompt</a>, that prevents the
-  focussing of another <a>top-level browsing context</a>,
-  return <a>error</a> with <a>error code</a> <a>unexpected alert open</a>.
-
  <li><p>Let <var>handle</var> be the result of
   <a>getting the property</a> "<code>handle</code>"
   from the <var>parameters</var> argument.
 
  <li><p>If <var>handle</var> is <a>undefined</a> return <a>error</a>
   with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>If there is an active <a>user prompt</a>, that prevents the
+  focussing of another <a>top-level browsing context</a>,
+  return <a>error</a> with <a>error code</a> <a>unexpected alert open</a>.
 
  <li><p>If <var>handle</var> is equal to the associated <a>window handle</a>
   for some <a>top-level browsing context</a> in the <a>current session</a>,
@@ -3702,14 +3702,19 @@ with a "<code>moz:</code>" prefix:
 <p>The <a>remote end steps</a> are:
 
 <ol>
+ <li><p>Let <var>id</var> be the result of
+  <a>getting the property</a> "<code>id</code>"
+  from the <var>parameters</var> argument.
+
+ <li><p>If <var>id</var> is not <a><code>null</code></a>,
+ a <code>Number</code> object, or an <a>Object</a> that <a>represents a web
+ element</a>, <p>return <a>error</a> with <a>error code</a> <a>no such
+ frame</a>.
+
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
-
- <li><p>Let <var>id</var> be the result of
-  <a>getting the property</a> "<code>id</code>"
-  from the <var>parameters</var> argument.
 
  <li><p>Run the substeps of the first matching condition:
 
@@ -3761,12 +3766,6 @@ with a "<code>moz:</code>" prefix:
      <li><p>Set the <a>current browsing context</a> to <var>element</var>’s
       <a>nested browsing context</a>.
     </ol>
-
-  <dt>Otherwise</dt>
-  <dd>
-   <ol>
-    <li><p>Return <a>error</a> with <a>error code</a> <a>no such frame</a>.
-   </ol>
  </dl>
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
@@ -3998,16 +3997,6 @@ with a "<code>moz:</code>" prefix:
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
-
- <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
-
- <li><p>If the <a>remote end</a> does not support
-  the <a>Set Window Rect</a> <a>command</a> for
-  the <a>current top-level browsing context</a> for any reason,
-  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
-
  <li><p>Let <var>width</var> be the result of
   <a>getting a property</a> named <code>width</code>
   from the <var>parameters</var> argument, else let it be <a><code>null</code></a>.
@@ -4031,6 +4020,16 @@ with a "<code>moz:</code>" prefix:
  <li><p>If <var>x</var> or <var>y</var> is neither <a><code>null</code></a>
   nor a <a>Number</a> from −(2<sup>63</sup>) to 2<sup>63</sup> − 1,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>If the <a>remote end</a> does not support
+  the <a>Set Window Rect</a> <a>command</a> for
+  the <a>current top-level browsing context</a> for any reason,
+  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p><a>Fully exit fullscreen</a>.
 
@@ -4117,15 +4116,15 @@ with a "<code>moz:</code>" prefix:
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
-
- <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
-
  <li><p>If the <a>remote end</a> does not support
   the <a>Maximize Window</a> command
   for the <a>current top-level browsing context</a> for any reason,
   return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p><a>Fully exit fullscreen</a>.
 
@@ -4164,15 +4163,15 @@ with a "<code>moz:</code>" prefix:
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
-
- <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
-
  <li><p>If the <a>remote end</a> does not support
   the <a>Minimize Window</a> command
   for the <a>current top-level browsing context</a> for any reason,
   return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p><a>Fully exit fullscreen</a>.
 
@@ -4208,13 +4207,13 @@ with a "<code>moz:</code>" prefix:
 <p>The <a>remote end steps</a> are:
 
 <ol>
+ <li><p>If the <a>remote end</a> does not <a>support fullscreen</a>
+  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
-
- <li><p>If the <a>remote end</a> does not <a>support fullscreen</a>
-  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
 
  <li><p>Call <a>fullscreen an element</a>
   with the <a>current top-level browsing context</a>’s
@@ -4800,16 +4799,6 @@ by following these steps:
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
-
- <li><p>Let <var>start node</var> be
-  the <a>current browsing context</a>’s <a>document element</a>.
-
- <li><p>If <var>start node</var> is <a><code>null</code></a>, return
-  <a>error</a> with <a>error code</a> <a>no such element</a>.
-
  <li><p>Let <var>location strategy</var> be the result
   of <a>getting a property</a> called "<code>using</code>".
 
@@ -4822,6 +4811,16 @@ by following these steps:
 
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>If the <a>current browsing context</a> is <a>no longer
+  open</a>, return <a>error</a> with <a>error code</a> <a>no such
+  window</a>.
+
+ <li><p>Let <var>start node</var> be
+  the <a>current browsing context</a>’s <a>document element</a>.
+
+ <li><p>If <var>start node</var> is <a><code>null</code></a>, return
+  <a>error</a> with <a>error code</a> <a>no such element</a>.
 
  <li><p>Let <var>result</var> be the result of <a>trying</a> to <a>Find</a>
   with <var>start node</var>, <var>location strategy</var>,
@@ -4854,16 +4853,6 @@ by following these steps:
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
-
- <li><p>Let <var>start node</var> be
-  the <a>current browsing context</a>’s <a>document element</a>.
-
- <li><p>If <var>start node</var> is <a><code>null</code></a>, return
-  <a>error</a> with <a>error code</a> <a>no such element</a>.
-
  <li><p>Let <var>location strategy</var> be the result
   of <a>getting a property</a> called "<code>using</code>".
 
@@ -4876,6 +4865,16 @@ by following these steps:
 
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>If the <a>current browsing context</a> is <a>no longer
+  open</a>, return <a>error</a> with <a>error code</a> <a>no such
+  window</a>.
+
+ <li><p>Let <var>start node</var> be
+  the <a>current browsing context</a>’s <a>document element</a>.
+
+ <li><p>If <var>start node</var> is <a><code>null</code></a>, return
+  <a>error</a> with <a>error code</a> <a>no such element</a>.
 
  <li>Return the result of <a>trying</a> to <a>Find</a> with
   <var>start node</var>, <var>location strategy</var>, and <var>selector</var>.
@@ -4904,14 +4903,6 @@ by following these steps:
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
-
- <li><p>Let <var>start node</var> be the result
-  of <a>trying</a> to <a>get a known element</a>
-  with argument <var>element id</var>.
-
  <li><p>Let <var>location strategy</var> be the result
   of <a>getting a property</a> called "<code>using</code>".
 
@@ -4924,6 +4915,14 @@ by following these steps:
 
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>If the <a>current browsing context</a> is <a>no longer
+  open</a>, return <a>error</a> with <a>error code</a> <a>no such
+  window</a>.
+
+ <li><p>Let <var>start node</var> be the result
+  of <a>trying</a> to <a>get a known element</a>
+  with argument <var>element id</var>.
 
  <li>Let <var>result</var> be the value of <a>trying</a> to <a>Find</a> with
   <var>start node</var>, <var>location strategy</var>,
@@ -4957,14 +4956,6 @@ by following these steps:
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
-
- <li><p>Let <var>start node</var> be the result
-  of <a>trying</a> to <a>get a known element</a>
-  with argument <var>element id</var>.
-
  <li><p>Let <var>location strategy</var> be the result
   of <a>getting a property</a> called "<code>using</code>".
 
@@ -4977,6 +4968,14 @@ by following these steps:
 
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>If the <a>current browsing context</a> is <a>no longer
+  open</a>, return <a>error</a> with <a>error code</a> <a>no such
+  window</a>.
+
+ <li><p>Let <var>start node</var> be the result
+  of <a>trying</a> to <a>get a known element</a>
+  with argument <var>element id</var>.
 
  <li>Return the result of <a>trying</a> to <a>Find</a> with
   <var>start node</var>, <var>location strategy</var>, and <var>selector</var>.
@@ -5959,6 +5958,13 @@ must run the following steps:
 <p>The <a>remote end steps</a> for <a>Element Send Keys</a> are:
 
 <ol>
+ <li><p>Let <var>text</var> be the result
+  of <a>getting a property</a> called "<code>text</code>"
+  from the <var>parameters</var> argument.
+
+ <li><p>If <var>text</var> is not a <a>String</a>,
+  return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
@@ -5976,13 +5982,6 @@ must run the following steps:
 
  <li><p>If <var>element</var> is not <a>keyboard-interactable</a>,
   return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
-
- <li><p>Let <var>text</var> be the result
-  of <a>getting a property</a> called "<code>text</code>"
-  from the <var>parameters</var> argument.
-
- <li><p>If <var>text</var> is not a <a>String</a>,
-  return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>If <var>element</var> is not the <a>active element</a> run
   the <a>focusing steps</a> for the <var>element</var>.
@@ -6272,17 +6271,10 @@ must run the following steps:
   </ol>
 </ol>
 
-<p>The steps for <dfn>extracting the script arguments from a
- request</dfn> with argument <var>parameters</var> are:
+<p>When required to <dfn>extract the script arguments from a
+ request</dfn> with argument <var>parameters</var> the implementation must:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
-
- <li><p>Let <var>script</var> be the result of
-  <a>getting a property</a> named <code>script</code>
-  from the <var>parameters</var>.
-
  <li><p>If <var>script</var> is not a <a>String</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
@@ -6387,20 +6379,14 @@ must run the following steps:
 <p>The <a>remote end steps</a> are:
 
 <ol>
+ <li><p>Let <var>body</var> and <var>arguments</var> be the result of
+  <a>trying</a> to <a>extract the script arguments from a request</a>
+  with argument <var>parameters</var>.
+
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
-
- <li><p>Let <var>script arguments</var> be the result of
-  <a>extracting the script arguments from a request</a>
-  with argument <var>parameters</var>.
-
- <li><p>If <var>script arguments</var> is an <a>error</a>,
-  return <var>script arguments</var>.
-
- <li><p>Let <var>body</var> and <var>arguments</var>
-  be <var>script arguments</var>’ data.
 
  <li><p>Let <var>promise</var> be <a>a new Promise</a>.
 
@@ -6453,20 +6439,14 @@ must run the following steps:
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+  <li><p>Let <var>body</var> and <var>arguments</var> by the result of <a>trying</a> to
+     <a>extract the script arguments from a request</a> with
+     argument <var>parameters</var>.
 
- <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
+  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
+   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p>Let <var>script arguments</var> be the result
-  of <a>extracting the script arguments from a request</a>
-  with argument <var>parameters</var>.
-
- <li><p>If <var>script arguments</var> is an <a>error</a>,
-  return <var>script arguments</var>.
-
- <li><p>Let <var>body</var> and <var>arguments</var>
-  be <var>script arguments</var>’ data.
+   <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
   <li><p>Let <var>promise</var> be <a>a new Promise</a>.
 
@@ -6771,6 +6751,14 @@ must run the following steps:
 <p>The <a>remote end steps</a> are:
 
 <ol>
+ <li><p>Let <var>data</var> be the result of <a>getting a property</a>
+  named <code>cookie</code> from the <var>parameters</var> argument.
+
+ <li><p>If <var>data</var> is not a JSON <a>Object</a>
+  with all the required (non-optional) JSON keys
+  listed in the <a>table for cookie conversion</a>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
@@ -6779,14 +6767,6 @@ must run the following steps:
  <li><p>If the <a>current browsing context</a>’s <a>document element</a>
   is a <a>cookie-averse <code>Document</code> object</a>,
   return <a>error</a> with <a>error code</a> <a>invalid cookie domain</a>.
-
- <li><p>Let <var>data</var> be the result of <a>getting a property</a>
-  named <code>cookie</code> from the <var>parameters</var> argument.
-
- <li><p>If <var>data</var> is not a JSON <a>Object</a>
-  with all the required (non-optional) JSON keys
-  listed in the <a>table for cookie conversion</a>,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>If <a>cookie name</a> or <a>cookie value</a> is <a><code>null</code></a>,
   <a>cookie domain</a> is not equal to
@@ -7298,10 +7278,6 @@ is also removed.
  following steps:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a>
-  <a>no such window</a>.
-
  <li><p>Let <var>actions</var> be the result
   of <a>getting a property</a> from <var>parameters</var>
   named <code>actions</code>.
@@ -8629,16 +8605,16 @@ is also removed.
 <p>The <a>remote end steps</a> are:</p>
 
 <ol>
+ <li><p>Let <var>actions by tick</var> be the result of <a>trying</a>
+  to <a>extract an action sequence</a> with
+  argument <var>parameters</var>.
+
  <li><p>If the <a>current browsing context</a> is <a>no longer
   open</a>, return <a>error</a> with <a>error code</a> <a>no such
   window</a>.
 
  <li><p><a>Handle any user prompts</a>. If this results in
   an <a>error</a>, return that <a>error</a>.
-
- <li><p>Let <var>actions by tick</var> be the result of <a>trying</a>
-  to <a>extract an action sequence</a> with
-  argument <var>parameters</var>.
 
  <li><p><a>Dispatch actions</a> with argument
   <var>actions by tick</var>. If this results in an <a>error</a>
@@ -9024,6 +9000,13 @@ argument <var>value</var>:
 <p>The <a>remote end steps</a> are:
 
 <ol>
+ <li><p>Let <var>text</var> be the result of
+  <a>getting the property</a> "<code>text</code>"
+  from <var>parameters</var>.
+
+ <li><p>If <var>text</var> is not a <a>String</a>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
@@ -9046,13 +9029,6 @@ argument <var>value</var>:
    <dd><p>Return <a>error</a> with
     <a>error code</a> <a>unsupported operation</a>.
   </dl>
-
- <li><p>Let <var>text</var> be the result of
-  <a>getting the property</a> "<code>text</code>"
-  from <var>parameters</var>.
-
- <li><p>If <var>text</var> is not a <a>String</a>,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Perform user agent dependent steps
   to set the value of <a>current user prompt</a>’s text field
