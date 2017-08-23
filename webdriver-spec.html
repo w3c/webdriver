@@ -278,6 +278,7 @@ in the spec, as demonstrated in a (yet to be developed)
    <!-- A browsing context is discarded --> <li><dfn data-lt=discarded><a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>A browsing context is discarded</a></dfn>
    <!-- Active document --> <li><dfn><a href=https://html.spec.whatwg.org/#active-document>Active document</a></dfn>
    <!-- Active element --> <li><dfn>Active element</dfn> being the <a href=https://html.spec.whatwg.org/#dom-document-activeelement><code>activeElement</code></a> attribute on <a href=https://html.spec.whatwg.org/#document><code>Document</code></a>
+   <!-- API length --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-fe-api-value">API value</a></dfn>
    <!-- A serialization of the bitmap as a file --> <li><dfn data-lt="a serialization of the canvas element’s bitmap as a file"><a href=https://html.spec.whatwg.org/#a-serialisation-of-the-bitmap-as-a-file>A serialization of the bitmap as a file</a></dfn>
    <!-- Associated window --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-document-window>Associated window</a></dfn>
    <!-- Body element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-body-element><code>body</code> element</a></dfn>
@@ -439,6 +440,7 @@ in the spec, as demonstrated in a (yet to be developed)
   in the Infra standard: [[!INFRA]]
    <ul>
     <!-- ASCII lowercase --> <li><dfn data-lt="lowercase"><a href=https://infra.spec.whatwg.org/#ascii-lowercase>ASCII lowercase</a></dfn>
+    <!-- Javascript String's length --> <li><dfn><a href="https://infra.spec.whatwg.org/#javascript-string-length">JavaScript string's length</a></dfn>
     <!-- queue --> <li><dfn><a href=https://infra.spec.whatwg.org/#queues>queue</a></dfn>
    </ul>
 
@@ -5978,69 +5980,82 @@ must run the following steps:
  <li><p>If <var>element</var> is not the <a>active element</a> run
   the <a>focusing steps</a> for the <var>element</var>.
 
- <li><p>If <var>element</var> is an <a><code>input</code> element</a> whose
-  <a><code>type</code> attribute</a> is <a>File</a>:
+ <li><p>Run the substeps of the first matching condition:
+  <dl class="switch">
+   <dt><var>element</var> is an <a><code>input</code> element</a> whose
+    <a><code>type</code> attribute</a> is <a>File</a>.
+   <dd>
+    <ol>
+     <li><p>Let <var>files</var> be the result of splitting <var>text</var>
+      on the newline (<code>\n</code>) character.
 
-  <ol>
-   <li><p>Let <var>files</var> be the result of splitting <var>text</var>
-    on the newline (<code>\n</code>) character.
+     <li><p>If <var>files</var> is of 0 length,
+      return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-   <li><p>If <var>files</var> is of 0 length,
-    return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+     <li><p>Let <var>multiple</var> equal the result
+      of calling <code><a>hasAttribute</a>("multiple")</code>
+      on <var>element</var>.
 
-   <li><p>Let <var>multiple</var> equal the result
-    of calling <code><a>hasAttribute</a>("multiple")</code>
-    on <var>element</var>.
+     <li><p>if <var>multiple</var> is <code>false</code> and the
+      length of <var>files</var> is not equal to 1,
+      return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-   <li><p>if <var>multiple</var> is <code>false</code> and the
-    length of <var>files</var> is not equal to 1,
-    return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+     <li><p>Verify that each file given by the user exists.
+      If any do not, return <a>error</a>
+      with <a>error code</a> <a>invalid argument</a>.
 
-   <li><p>Verify that each file given by the user exists.
-    If any do not, return <a>error</a>
-    with <a>error code</a> <a>invalid argument</a>.
+     <li><p>Complete implementation specific steps
+      equivalent to setting the <a>selected files</a>
+      on the <a><code>input</code></a>.
+      If <var>multiple</var> is <code>true</code>
+      <var>files</var> are be appended to <var>element</var>’s <a>selected files</a>.
 
-   <li><p>Complete implementation specific steps
-    equivalent to setting the <a>selected files</a>
-    on the <a><code>input</code></a>.
-    If <var>multiple</var> is <code>true</code>
-    <var>files</var> are be appended to <var>element</var>’s <a>selected files</a>.
+     <li><p><a>Fire</a> an <a><code>input</code> event</a>.
 
-   <li><p><a>Fire</a> an <a><code>input</code> event</a>.
+     <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+    </ol>
+   </dd>
 
-   <li><p>Jump to the last step in this overall set of steps.
-  </ol>
+   <dt>The user agent renders <var>element</var> as something other
+    than a text input control (for example an <a><code>input</code></a>
+    element in the <a><code>color</code> state</a> being presented as a
+    colorwheel):
+   <dd>
+    <ol>
+     <li><p>If <var>element</var> does not have an <a>own property</a>
+      named <code>value</code> return an <a>error</a> with <a>error
+      code</a> <a>element not interactable</a>
 
- <li><p>If the user agent renders <var>element</var> as
-  something other than a text input control (for example
-  an <a><code>input</code></a> element in the <a><code>color</code>
-  state</a> being presented as a colorwheel):
+     <li><p>If <var>element</var> is not <a>mutable</a> return
+      an <a>error</a> with <a>error code</a> <a>element not
+      interactable</a>.
 
-  <ol>
-   <li><p>If <var>element</var> does not have an <a>own property</a>
-    named <code>value</code> return an <a>error</a> with <a>error
-    code</a> <a>element not interactable</a>
+     <li><p><a>Set a property</a> <code>value</code> to <var>text</var>
+      on <var>element</var>.
 
-   <li><p>If <var>element</var> is not <a>mutable</a> return
-    an <a>error</a> with <a>error code</a> <a>element not
-    interactable</a>.
+     <li><p>If <var>element</var> is <a>suffering from bad input</a>
+      return an <a>error</a> with <a>error code</a> <a>invalid
+      argument</a>.
 
-   <li><p><a>Set a property</a> <code>value</code> to <var>text</var>
-     on <var>element</var>.
+     <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+    </ol>
+   </dd>
 
-   <li><p>If <var>element</var> is <a>suffering from bad input</a>
-     return an <a>error</a> with <a>error code</a> <a>invalid
-     argument</a>.
+   <dt><var><a>element</a></var> is <a>content editable</a>
+   <dd>Set the text insertion caret after any child content.
+   
+   <dt>Otherwise
+   <dd>
+    <ol>
+     <li><p>Let <var>current text length</var> be the <a>JavaScript
+      string's length</a> of <var><a>element</a></var>'s <a>API value</a>.
 
-   <li><p>Return <a>success</a> with data <code>null</code>.
-  </ol>
-
- <li><p>Let <var>current text length</var> be
-  the <var><a>element</a></var>’s <a data-lt="node length">length</a>.
-
- <li><p>Set the text insertion caret using <a>set selection range</a>
-  using <var>current text length</var> for both the <code>start</code>
-  and <code>end</code> parameters.
+     <li><p>Set the text insertion caret using <a>set selection range</a>
+      using <var>current text length</var> for both the <code>start</code>
+      and <code>end</code> parameters.
+    </ol>
+   </dd>
+  </dl>
 
  <li><p>Let <var>keyboard</var> be a new <a>key input source</a>.
 
