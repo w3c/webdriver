@@ -204,6 +204,7 @@ in the spec, as demonstrated in a (yet to be developed)
  <dt>ECMAScript
  <dd><p>The following terms are defined in the ECMAScript Language Specification: [[!ECMA-262]]
   <ul>
+   <!-- Abrupt Completion --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-completion-record-specification-type">Abrupt Completion</a></dfn>
    <!-- Create a function object --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-13.2>Create a function object</a></dfn>
    <!-- Directive prologue --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Directive prologue</a></dfn>
    <!-- Early error --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-16>Early error</a></dfn>
@@ -212,6 +213,7 @@ in the spec, as demonstrated in a (yet to be developed)
    <!-- Global environment --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-10.2.3>Global environment</a></dfn>
    <!-- Own property --> <li><dfn data-lt="own properties"><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>Own property</a></dfn>
    <!-- parseFloat --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></dfn>
+   <!-- realm --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-code-realms">realm</a></dfn>
    <!-- Use strict directive --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Use strict directive</a></dfn>
   </ul>
 
@@ -294,6 +296,8 @@ in the spec, as demonstrated in a (yet to be developed)
    <!-- Checkedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-checked>Checkedness</a></dfn>
    <!-- Child browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#child-browsing-context>Child browsing context</a></dfn>
    <!-- Close a browsing context --> <li><dfn data-lt="close|closes"><a href=https://html.spec.whatwg.org/#close-a-browsing-context>Close a browsing context</a></dfn>
+   <!-- Clean up after running a callback --> <li><dfn><a href="https://html.spec.whatwg.org/#clean-up-after-running-a-callback">Clean up after running a callback</a></dfn>
+   <!-- Clean up after running a script --> <li><dfn><a href="https://html.spec.whatwg.org/#clean-up-after-running-script">Clean up after running a script</a></dfn>
    <!-- Code entry-point --> <li><dfn><a href=https://html.spec.whatwg.org/#code-entry-point>Code entry-point</a></dfn>
    <!-- Cookie-averse Document object --> <li><dfn><a href=https://html.spec.whatwg.org/#cookie-averse-document-object>Cookie-averse <code>Document</code> object</a></dfn>
    <!-- Current entry --> <li><dfn><a href=https://html.spec.whatwg.org/#current-entry>Current entry</a></dfn>
@@ -327,6 +331,8 @@ in the spec, as demonstrated in a (yet to be developed)
    <!-- Parent browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#parent-browsing-context>Parent browsing context</a></dfn>
    <!-- Pause --> <li><dfn data-lt=unpaused><a href=https://html.spec.whatwg.org/#pause>HTML Pause</a></dfn>
    <!-- Prompt to unload a document --> <li><dfn data-lt="prompting to unload"><a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>Prompt to unload a document</a></dfn>
+   <!-- Prepare to run a callback --> <li><dfn><a href="https://html.spec.whatwg.org/#prepare-to-run-a-callback">Prepare to run a callback</a></dfn>
+   <!-- Prepare to run a script --> <li><dfn><a href="https://html.spec.whatwg.org/#prepare-to-run-script">Prepare to run a script</a></dfn>
    <!-- Radio button --> <li><dfn><a href="https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29">Radio Button</a></dfn> state
    <!-- Refresh state pragma directive --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-meta-http-equiv-refresh>Refresh state pragma directive</a></dfn>
    <!-- Reset algorithm --><li><dfn><a href=https://html.spec.whatwg.org/#concept-form-reset-control>Reset algorithm</a></dfn>
@@ -6300,9 +6306,8 @@ must run the following steps:
  <li><p>Let <var>environment settings</var> be
   the <a>environment settings object</a> for <var>window</var>.
 
- <li><p>Let <var>script environment</var> be
-  the <a>script execution environment</a>
-  for JavaScript obtained from <var>environment settings</var>.
+ <li>Let <var>global scope</var> be <var>environment settings</var> <a>realm</a>'s
+   <a>global environment</a>.
 
  <li><p>If <var>body</var> is not parsable as a <a>FunctionBody</a>
   or if parsing detects an <a>early error</a>,
@@ -6313,44 +6318,30 @@ must run the following steps:
   then let <var>strict</var> be true,
   otherwise let <var>strict</var> be false.
 
- <li><p>Using the <a>script execution environment</a> <var>script environment</var>,
-  let <var>function</var> be the result of
+ <li><p><a>Prepare to run a script</a> with <var>environment settings</var>.
+
+ <li><p><a>Prepare to run a callback</a> with <var>environment settings</var>.
+
+ <li><p>Let <var>function</var> be the result of
   calling <a>create a function object</a> with parameter list of
   an empty <a>List</a>,
   body <var>body</var>,
   scope of the <a>global environment</a>,
   and strict flag <var>strict</var>.
 
- <li><p>Let <var>script</var> be a new <a>script</a>.
+ <li><p>Let <var>completion</var> be <a>[[\CALL]]</a> with parameter list of
+   <var>function</var>,
+   <var>window</var>,
+   and parameters.
 
- <li><p>Let <var>script</var>’s <a>code entry-point</a>
-  be <var>function</var>.
+ <li><p><a>Clean up after running a callback</a> with <var>environment settings</var>.
 
- <li><p>Let script’s <a>settings object</a> object
-  be <var>script settings</var>.
+ <li><p><a>Clean up after running a script</a> with <var>environment settings</var>.
 
- <!-- the stuff from here on down is quite dubious -->
- <!-- this incumbent scripts stuff is in webidl but the references don't
-    lead anywhere -->
- <!-- li><p><a href="">Push <var>script</var> onto <a>the stack of
-       incumbent scripts</a>.</li-->
+ <li><p>If <var>completion</var> is an <a>abrupt completion</a>, return an <a>error</a> with
+   <a>error code</a> <a>javascript error</a>.
 
- <li><p>Invoke the <a>[[\Call]]</a> <a>internal method</a> of <var>function</var>,
-  providing <var>window</var> as the this value
-  and <var>parameters</var> as the argument values.
-  If doing so does not produce an exception,
-  let <var>result</var> be <a>success</a> with data set
-  to the return value from this function call.
-  Otherwise let <var>result</var> be <a>error</a>
-  with <a>error code</a> <a>javascript error</a>.
-
- <!-- li><p><a href="">Pop <var>script</var> from <a>the stack of
-       incumbent scripts</a>.</p></li -->
-
- <li><p>If <var>result</var> is an <a>error</a>, return result.
-
- <li><p>Otherwise let <var>json data</var> be a <a>JSON clone</a>
-  of <var>result</var>’s data.
+ <li><p>Let <var>json data</var> be a <a>JSON clone</a> of <var>completion</var><code>.[[\Value]]</code>.
 
  <li><p>Return <a>success</a> with data <var>json data</var>.
 </ol>
