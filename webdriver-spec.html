@@ -2387,8 +2387,9 @@ with a "<code>moz:</code>" prefix:
 
       <div class=note>
        <p>The following platform names are in common usage with
-        well-understood semantics and are to be treated as
-        valid <code>platformName</code>s for the following Operating
+        well-understood semantics and, when <a>matching
+        capabilities</a>, greatest interoperability can be achieved by
+        honoring them as valid synonyms for well-known Operating
         Systems:
 
         <table class=simple>
@@ -2402,6 +2403,12 @@ with a "<code>moz:</code>" prefix:
         </table>
 
         <p>This list is not exhaustive.
+
+        <p>When returning <a>capabilities</a> from <a>New Session</a>,
+         it is valid to return a more
+         specific <code>platformName</code>, allowing users to
+         correctly identify the Operating System the WebDriver
+         implementation is running on.
       </div>
 
      <dt>"<code>acceptInsecureCerts</code>"
