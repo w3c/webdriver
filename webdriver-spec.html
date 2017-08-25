@@ -206,11 +206,11 @@ in the spec, as demonstrated in a (yet to be developed)
  <dd><p>The following terms are defined in the ECMAScript Language Specification: [[!ECMA-262]]
   <ul>
    <!-- Abrupt Completion --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-completion-record-specification-type">Abrupt Completion</a></dfn>
-   <!-- Create a function object --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-13.2>Create a function object</a></dfn>
    <!-- Directive prologue --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Directive prologue</a></dfn>
    <!-- Early error --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-16>Early error</a></dfn>
-   <!-- FunctionBody --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-13>FunctionBody</a></dfn>
    <!-- Function --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24>Function</a></dfn>
+   <!-- FunctionCreate --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-functioncreate>FunctionCreate</a></dfn>
+   <!-- FunctionBody --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-13>FunctionBody</a></dfn>
    <!-- Global environment --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-10.2.3>Global environment</a></dfn>
    <!-- Own property --> <li><dfn data-lt="own properties"><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>Own property</a></dfn>
    <!-- parseFloat --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></dfn>
@@ -222,7 +222,7 @@ in the spec, as demonstrated in a (yet to be developed)
   some of the <dfn data-lt="internal method"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>internal methods</a></dfn>
   from the ECMAScript Language Specification:
   <ul>
-   <!-- Call --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-13.2.1>[[\Call]]</a></dfn>
+   <!-- Call --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-13.2.1>Call</a></dfn>
    <!-- Class --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>[[\Class]]</a></dfn>
    <!-- GetOwnProperty --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.1>[[\GetOwnProperty]]</a></dfn>
    <!-- GetProperty --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.2>[[\GetProperty]]</a></dfn>
@@ -315,7 +315,7 @@ in the spec, as demonstrated in a (yet to be developed)
    <!-- File upload state --> <li><dfn><a href="https://html.spec.whatwg.org/#file-upload-state-(type=file)">File upload state</a></dfn>
    <!-- Focusing steps --> <li><dfn><a href="https://html.spec.whatwg.org/#focusing-steps">Focusing steps</a></dfn>
    <!-- Fousable area --><li><dfn><a href=https://html.spec.whatwg.org/#focusable-area>Focusable area</a></dfn>
-   <!-- GetOwnProperty of a Window object --> <li><dfn><a href=https://html.spec.whatwg.org/#windowproxy-getownproperty><code>[[\GetOwnProperty]]</code> of a <code>Window</code> object</a></dfn>
+   <!-- GetOwnProperty of a Window object --> <li><dfn data-lt="window.[[\getOwnProperty]]"><a href=https://html.spec.whatwg.org/#windowproxy-getownproperty><code>[[\GetOwnProperty]]</code> of a <code>Window</code> object</a></dfn>
    <!-- Hidden --> <li><dfn><a href="https://html.spec.whatwg.org/#hidden-state-%28type=hidden%29">Hidden</a></dfn> state
    <!-- Image Button --> <li><dfn><a href="https://html.spec.whatwg.org/#image-button-state-%28type=image%29">Image Button</a></dfn> state
    <!-- In parallel --> <li><dfn><a href="https://html.spec.whatwg.org/#in-parallel">In parallel</a></dfn>
@@ -855,20 +855,16 @@ in the spec, as demonstrated in a (yet to be developed)
 </ol>
 
 <p>The result of <dfn data-lt="getting properties|getting the property">getting a property</dfn>
- with <var>name</var> from an <a>Object</a> is defined as
- the result of calling the <a>[[\GetOwnProperty]]</a>
- <a>internal method</a> of with property name <var>name</var>.
+ the result of calling the <a>Object</a>.<a>[[\GetOwnProperty]]</a>(<var>name</var>).
 
 <p>The result of <dfn data-lt='set a property'>setting a property</dfn>
-  with <var>name</var> and <var>value</var> to an <a>Object</a> is defined
-  as calling the <a>[[\Put]]</a> <a>internal method</a> with name <var>name</var>
-  and value <var>value</var>.
+  <a>Object</a>.<a>[[\Put]]</a>(<var>name</var>, <var>value</var>).
 
 <p>The result of <dfn>JSON serialization</dfn> with <var>object</var> of type JSON <a>Object</a>
-  and calling the <a>[[\Stringify]]</a> function with argument <var>object</var>.
+  and calling <code>JSON.</code><a>[[\Stringify]]</a>(<var>object</var>).
 
 <p>The result of <dfn data-lt='parsing as json'>JSON deserialization</dfn> with <var>text</var> is defined as
-  the result of calling the <a>[[\Parse]]</a> function with <var>text</var>.
+  the result of calling <code>JSON.</code><a>[[\Parse]]</a>(<var>text</var>).
 </section> <!-- /Algorithms -->
 
 <section>
@@ -3746,9 +3742,9 @@ with a "<code>moz:</code>" prefix:
 
      <li><p>Let <var>child window</var> be
       the <a><code>WindowProxy</code></a> object obtained by
-      calling <a><code>[[\GetOwnProperty]]</code> of
-      a <code>Window</code> object</a> <var>window</var> with
-      argument <var>id</var>.
+      calling
+      <var>window</var>.<a data-lt='window.[[\getOwnProperty]]'><code>[[\GetOwnProperty]]</code></a>
+      (<var>id</var>).
 
      <li><p>Set the <a>current browsing context</a> to
       <var>child window</var>’s <a>browsing context</a>.
@@ -4333,10 +4329,14 @@ with a "<code>moz:</code>" prefix:
 by following these steps:
 <ol>
  <li><p>If <var>element</var> is <a>in view</a>, do nothing.
- <li><p>Otherwise, <a>[[\CALL]]</a> <a>scrollIntoView</a>
-  on <var>element</var> with
-  arguments <a><code>ScrollIntoViewOptions</code></a>
-  <code>{behavior: "instant", block: "end", inline: "nearest"}</code>.
+ <li><p>Otherwise,
+   <ol>
+     <li><p>let <var>options</var> be <a><code>ScrollIntoViewOptions</code></a>
+     <code>{behavior: "instant", block: "end", inline: "nearest"}</code>.
+     <li><p>On <var>element</var> <a>Call</a>(<a>scrollIntoView</a>, <var>options</var>)
+   </ol>
+
+
 </ol>
 
 <p>An <a>element</a> is considered <dfn>editable</dfn>
@@ -5211,8 +5211,7 @@ by following these steps:
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
  <li><p>Let <var>property</var> be the result of calling
-  the <a>[[\GetProperty]]</a> internal method
-  of <var>element</var> with property name <var>name</var>.
+  the <var>element</var>.<a>[[\GetProperty]]</a>(<var>name</var>).
 
  <li><p>Let <var>result</var> be the value of
   <var>property</var> if not <a>undefined</a>, or <a><code>null</code></a>.
@@ -5310,10 +5309,8 @@ by following these steps:
 
  <li><p>Let <var>rendered text</var> be the result of performing
   implementation-specific steps that are exactly analogous to the
-  result of a <a>[[\Call]]</a>
-  to <a><code>bot.dom.getVisibleText</code></a>,
-  providing <a><code>null</code></a> as the <code>this</code> value,
-  and <var>element</var> as the argument.
+  result of a <a>Call</a>(<a><code>bot.dom.getVisibleText</code></a>,
+   <a><code>null</code></a>, <var>element</var>).
 
  <li><p>Return <a>success</a> with data <var>rendered text</var>.
 </ol>
@@ -6054,7 +6051,7 @@ must run the following steps:
 
    <dt><var><a>element</a></var> is <a>content editable</a>
    <dd>Set the text insertion caret after any child content.
-   
+
    <dt>Otherwise
    <dd>
     <ol>
@@ -6225,7 +6222,7 @@ must run the following steps:
  <dt>has an <a>own property</a> named "<code>toJSON</code>" that is
   a <a>Function</a>
  <dd>Return <a>success</a> with the value returned by
-  a <a>[[\CALL]]</a> to the "<code>toJSON</code>" <a>own property</a>.
+  <a>Call</a>(<code>toJSON</code>).
 
  <dt>Otherwise</dt>
  <dd><p><a>Error</a> with <a>error code</a> <a>javascript error</a>.
@@ -6336,16 +6333,22 @@ must run the following steps:
  <li><p><a>Prepare to run a callback</a> with <var>environment settings</var>.
 
  <li><p>Let <var>function</var> be the result of
-  calling <a>create a function object</a> with parameter list of
-  an empty <a>List</a>,
-  body <var>body</var>,
-  scope of the <a>global environment</a>,
-  and strict flag <var>strict</var>.
+  calling <a>FunctionCreate</a>, with arguments:
+  <dt><var>kind</var>
+    <dd>Normal</dd>
+  <dt><var>list</var>
+    <dd>an empty <a>List</a></dd>
+  <dt><var>body</var>
+    <dd>The result of parsing <var>body</var> above.</dd>
+  <dt><var>global scrope</var>
+    <dd>The result of parsing <var>global scope</var> above.</dd>
+  <dt><var>strict</var>
+    <dd>The result of parsing <var>strict</var> above.</dd>
 
- <li><p>Let <var>completion</var> be <a>[[\CALL]]</a> with parameter list of
-   <var>function</var>,
-   <var>window</var>,
-   and parameters.
+ <li><p>Let <var>completion</var> be <a>Call</a>(<var>function</var>,
+ <var>window</var>,
+ <var>parameters<var>)
+
 
  <li><p><a>Clean up after running a callback</a> with <var>environment settings</var>.
 
@@ -9321,11 +9324,9 @@ argument <var>value</var>:
  displayed</dfn> algorithm is a boolean state where <code>true</code>
  signifies that the element is displayed and <code>false</code>
  signifies that the element is not displayed. To compute the state
- on <var>element</var>, invoke the <a>[[\Call]]</a> <a>internal
- method</a> on the <a><code>bot.dom.isShown</code></a> function (or
- something exactly analogous) providing <code>null</code> as
- the <code>this</code> value and <var>element</var> as the argument
- values. If doing so does not produce an error, return the return
+ on <var>element</var>, invoke the
+ <a>Call</a>(<a><code>bot.dom.isShown</code></a>, <code>null</code>, <var>element</var>)
+ . If doing so does not produce an error, return the return
  value from this function call.  Otherwise return an
  <a>error</a> with <a>error code</a> <a>unknown error</a>.
 
