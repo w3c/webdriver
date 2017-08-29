@@ -3155,18 +3155,19 @@ with a "<code>moz:</code>" prefix:
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 
-<p>When asked to run the <dfn>post-navigation checks</dfn>,
+<p>When asked to run the <dfn>post-navigation checks</dfn> with <var>response</var>
+  of type <a>response</a>,
  run the substeps of the first matching statement:
 
 <dl class=switch>
- <dt><a>response</a> is a network error
+ <dt><var>response</var> is a network error
  <dd><p>Return <a>error</a> with <a>error code</a> <a>unknown error</a>.
   <p class="note">A &quot;network error&quot; in this case is not an
    HTTP response with a status code indicating an unsucessful result,
    but could be a problem occurring lower in the OSI model, or a
    failed DNS lookup.
 
- <dt><a>response</a> is <a>blocked by content security policy</a>
+ <dt><var>response</var> is <a>blocked by content security policy</a>
  <dd><p>If the <a>current session</a>’s <a>secure TLS</a> state is disabled,
   take implementation specific steps to ensure
   the navigation is not aborted
@@ -3176,7 +3177,7 @@ with a "<code>moz:</code>" prefix:
 
   <p>Otherwise return <a>error</a> with <a>error code</a> <a>insecure certificate</a>.
 
- <dt><a>response</a>’s <a>HTTP status</a> is 401
+ <dt><var>response</var>’s <a>HTTP status</a> is 401
  <dt>Otherwise
  <dd><p>Irrespective of how a possible authentication challenge is handled,
   return <a>success</a> with data <a><code>null</code></a>.
