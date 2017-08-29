@@ -534,6 +534,8 @@ in the spec, as demonstrated in a (yet to be developed)
    <!-- scrollY --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-window-scrolly">scrollY</a></dfn>
    <!-- scrollIntoView --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-element-scrollintoview>scrollIntoView</a></dfn>
    <!-- ScrollIntoViewOptions --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dictdef-scrollintoviewoptions><code>ScrollIntoViewOptions</code></a></dfn>
+   <!-- ScrollIntoViewOptions block --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-scrollintoviewoptions-block>Logical scroll position <code>block</code></a></dfn>
+   <!-- ScrollIntoViewOptions inline --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-scrollintoviewoptions-inline>Logical scroll position <code>inline</code></a></dfn>
   </ul>
 
  <dt>SOCKS Proxy and related specification:
@@ -4324,19 +4326,28 @@ with a "<code>moz:</code>" prefix:
  <li><p>Otherwise return false.
 </ol>
 
-<p>An <var><a>element</a></var> is
-<dfn data-lt="scroll into view|scrolls into view">scrolled into view</dfn>
-by following these steps:
+<p>To <dfn data-lt="scrolls into view|scrolled into view">scroll into view</dfn>
+ an <var><a>element</a></var>
+ perform the following steps
+ only if the element is not already <a>in view</a>:
+
 <ol>
- <li><p>If <var>element</var> is <a>in view</a>, do nothing.
- <li><p>Otherwise,
-   <ol>
-     <li><p>let <var>options</var> be <a><code>ScrollIntoViewOptions</code></a>
-     <code>{behavior: "instant", block: "end", inline: "nearest"}</code>.
-     <li><p>On <var>element</var> <a>Call</a>(<a>scrollIntoView</a>, <var>options</var>)
-   </ol>
+ <li><p>Let <var>options</var> be
+  the following <a><code>ScrollIntoViewOptions</code></a>:
+  
+  <dl>
+   <dt><code>behavior</code>
+   <dd>"<code>instant</code>"
 
+   <dt><a>Logical scroll position <code>block</code></a>
+   <dd>"<code>end</code>"
 
+   <dt><a>Logical scroll position <code>inline</code></a>
+   <dd>"<code>nearest</code>"
+  </dl>
+
+ <li><p>On the <var><a>element</a></var>,
+  <a>Call</a>(<a>scrollIntoView</a>, <var>options</var>).
 </ol>
 
 <p>An <a>element</a> is considered <dfn>editable</dfn>
