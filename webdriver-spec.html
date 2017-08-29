@@ -6316,8 +6316,9 @@ must run the following steps:
  <li><p>Let <var>environment settings</var> be
   the <a>environment settings object</a> for <var>window</var>.
 
- <li>Let <var>global scope</var> be <var>environment settings</var> <a>realm</a>'s
-   <a>global environment</a>.
+ <li>Let <var>global scope</var> be
+  <var>environment settings</var> <a>realm</a>'s
+  <a>global environment</a>.
 
  <li><p>If <var>body</var> is not parsable as a <a>FunctionBody</a>
   or if parsing detects an <a>early error</a>,
@@ -6334,37 +6335,47 @@ must run the following steps:
 
  <li><p>Let <var>function</var> be the result of
   calling <a>FunctionCreate</a>, with arguments:
-  <dt><var>kind</var>
-    <dd>Normal</dd>
-  <dt><var>list</var>
-    <dd>an empty <a>List</a></dd>
-  <dt><var>body</var>
-    <dd>The result of parsing <var>body</var> above.</dd>
-  <dt><var>global scrope</var>
-    <dd>The result of parsing <var>global scope</var> above.</dd>
-  <dt><var>strict</var>
-    <dd>The result of parsing <var>strict</var> above.</dd>
 
- <li><p>Let <var>completion</var> be <a>Call</a>(<var>function</var>,
- <var>window</var>,
- <var>parameters<var>)
+  <dl>
+   <dt><var>kind</var>
+   <dd>Normal.
 
+   <dt><var>list</var>
+   <dd>An empty <a>List</a>.
 
- <li><p><a>Clean up after running a callback</a> with <var>environment settings</var>.
+   <dt><var>body</var>
+   <dd>The result of parsing <var>body</var> above.
 
- <li><p><a>Clean up after running a script</a> with <var>environment settings</var>.
+   <dt><var>global scrope</var>
+   <dd>The result of parsing <var>global scope</var> above.
 
- <li><p>If <var>completion</var> is an <a>abrupt completion</a>, return an <a>error</a> with
-   <a>error code</a> <a>javascript error</a>.
+   <dt><var>strict</var>
+   <dd>The result of parsing <var>strict</var> above.
+  </dl>
 
- <li><p>Let <var>json data</var> be a <a>JSON clone</a> of <var>completion</var><code>.[[\Value]]</code>.
+ <li><p>Let <var>completion</var> be
+  <a>Call</a>(<var>function</var>,
+  <var>window</var>,
+  <var>parameters</var>).
+
+ <li><p><a>Clean up after running a callback</a>
+  with <var>environment settings</var>.
+
+ <li><p><a>Clean up after running a script</a>
+  with <var>environment settings</var>.
+
+ <li><p>If <var>completion</var> is an <a>abrupt completion</a>,
+  return an <a>error</a> with <a>error code</a> <a>javascript error</a>.
+
+ <li><p>Let <var>json data</var> be a <a>JSON clone</a>
+  of <var>completion</var><code>.[[\Value]]</code>.
 
  <li><p>Return <a>success</a> with data <var>json data</var>.
 </ol>
 
-<p class="note">The above algorithm is not associated with any
- particular element, and is therefore not subject to the document
- CSP <a>directives</a>.
+<p class="note">The above algorithm is not associated
+ with any particular element,
+ and is therefore not subject to the document CSP <a>directives</a>.
 
 <section>
 <h3>Execute Script</h3>
