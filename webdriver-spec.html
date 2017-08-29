@@ -999,7 +999,8 @@ in the spec, as demonstrated in a (yet to be developed)
 </ol>
 
 <p>When required to <dfn>send an error</dfn>,
- with <var>error code</var>,
+ with <var>error code</var>
+ and an optional <var>error data</var> dictionary,
  a <a>remote end</a> must run the following steps:</p>
 
 <ol>
@@ -1013,7 +1014,7 @@ in the spec, as demonstrated in a (yet to be developed)
   containing a stack trace report of the active stack frames
   at the time when the error occurred.
 
-  <p>Let <var>data</var> be a new JSON <a>Object</a>
+  <p>Let <var>body</var> be a new JSON <a>Object</a>
    initialised with the following properties:
 
   <dl>
@@ -1027,8 +1028,12 @@ in the spec, as demonstrated in a (yet to be developed)
    <dd><var>stacktrace</var>
   </dl>
 
+ <li><p>If the <a>error data</a> dictionary contains any entries,
+  set the "<code>data</code>" field on <var>body</var>
+  to a new JSON <a>Object</a> populated with the dictionary.
+
  <li><p><a>Send a response</a> with <var>status</var>
-  and <var>data</var> as arguments.
+  and <var>body</var> as arguments.
 </ol>
 
 <p>When required to <dfn>send a response</dfn>,
@@ -1470,26 +1475,47 @@ in the spec, as demonstrated in a (yet to be developed)
 <p><a>Errors</a> are represented in the WebDriver protocol
  by an <a>HTTP response</a> with an <a>HTTP status</a> in the 4xx or 5xx range,
  and a JSON body containing details of the <a>error</a>.
- This JSON body has a field named <code>value</code> whose value is an object
- bearing three fields:
- <code>error</code>, containing a string indicating the error type;
+ The body is a JSON <a>Object</a>
+ and has a field named <code>value</code>
+ whose value is an object bearing three, and sometimes four, fields:
+ <code>error</code>, containing a string indicating the <a>error code</a>;
  <code>message</code>, containing an implementation-defined string
  with a human readable description of the kind of error that occurred;
- and <code>stacktrace</code>, containing an implementation-defined string
- with a stack trace report of the active stack frames at the time when the error occurred.
+ <code>stacktrace</code>, containing an implementation-defined string
+ with a stack trace report of the active stack frames at the time when the error occurred;
+ and optionally <code>data</code>, which is a JSON <a>Object</a>
+ with additional <a>error data</a> helpful in diagnosing the error.
 
 <aside class=example>
  <p>A <code>GET</code> request to <code>/session/1234/url</code>,
  where <code>1234</code> is not the <a>session id</a> of a <a>current session</a>
  would return an <a>HTTP response</a> with the status 404 and a body of the form:
 
- <pre>{
+ <pre><code>{
 	"value": {
 		"error": "invalid session id",
 		"message": "No active session with ID 1234",
 		"stacktrace": ""
 	}
-}</pre>
+}</code></pre>
+
+ <p>Certain commands may also annotate <a>errors</a>
+  with additional <a>error data</a>.
+  Notably, this is the case for commands
+  which invoke the <a>user prompt handler</a>,
+  where the <a>user prompt message</a>
+  may be included in a "<code>text</code>" field:
+
+ <pre><code>{
+	"value": {
+		"error": "unexpected alert open",
+		"message": "",
+		"stacktrace": "",
+		"data": {
+			"text": "Message from window.alert"
+		}
+	}
+}</code></pre>
 </aside>
 
 <p>The following table lists each <dfn>error code</dfn>,
@@ -1728,6 +1754,11 @@ in the spec, as demonstrated in a (yet to be developed)
    executed properly cannot be supported for some reason.
  </tr>
 </table>
+
+<p>An <dfn>error data</dfn> dictionary
+ is a mapping of string keys to JSON serializable values
+ that can optionally be included with <a>error</a> objects.
+
 </section> <!-- /Handling Errors -->
 
 <section>
@@ -8715,6 +8746,10 @@ is also removed.
  or <a>close window</a>,
  regardless of the defined <a>user prompt handler</a>.
 
+<p>A <a>user prompt</a> has an associated <dfn>user prompt message</dfn>
+ that is the string message shown to the user,
+ or if the message length is 0, is <a>null</a>.
+
 <p>The following <dfn>table of simple dialogs</dfn>
  enumerates all supported <a>simple dialogs</a>,
  along with the <a>commands</a> that are allowed to interact with it
@@ -8829,6 +8864,17 @@ argument <var>value</var>:
  <li><p>Return <a>success</a> with data <var>value</var>.
 </ol>
 
+<p>An <dfn>annotated unexpected alert open error</dfn>
+ is an <a>error</a> with <a>error code</a> <a>unexpected alert open</a>
+ and an optional <a>error data</a> dictionary
+ with the following entries:
+
+ <dl>
+  <dt>"<code>text</code>"
+  <dd>The <a>current user prompt</a>’s
+   <a data-lt="user prompt message">message</a>.
+ </dl>
+
 <p>In order to <dfn>handle any user prompts</dfn>
  a <a>remote end</a> must take the following steps:
 
@@ -8850,51 +8896,47 @@ argument <var>value</var>:
    <dd>
     <ol>
      <li><p><a>Dismiss</a> the <a>current user prompt</a>.
-     <li><p>Return <a>error</a> with <a>error code</a>
-      <a>unexpected alert open</a>.
+     <li><p>Return an <a>annotated unexpected alert open error</a>.
     </ol>
 
    <dt><a>accept and notify state</a>
    <dd>
     <ol>
      <li><p><a>Accept</a> the <a>current user prompt</a>.
-     <li><p>Return <a>error</a> with <a>error code</a>
-      <a>unexpected alert open</a>.
+     <li><p>Return an <a>annotated unexpected alert open error</a>.
     </ol>
 
    <dt><a>ignore state</a>
-   <dd><p>Return <a>error</a> with <a>error code</a>
-    <a>unexpected alert open</a>.
+   <dd><p>Return an <a>annotated unexpected alert open error</a>.
 
    <dt><a>missing value default state</a>
    <dt>not in the <a>table of simple dialogs</a>
    <dd>
     <ol>
      <li><p><a>Dismiss</a> the <a>current user prompt</a>.
-     <li><p>Return <a>error</a> with <a>error code</a>
-      <a>unexpected alert open</a>.
+     <li><p>Return an <a>annotated unexpected alert open error</a>.
     </ol>
   </dl>
 
  <li><p>Return <a>success</a>.
 </ol>
 
-<p>When returning an <a>error</a> with <a>unexpected alert open</a>,
- a <a>remote end</a> may return the current text (as if returned
- by <a>Get Alert Text</a>) of the prompt as the value of
- the <code>text</code> key in the JSON <a>Object</a> that is the value
- of the <code>data</code> key in the error response, as shown in this
- non-normative example:
+<aside class=example>
+ <p>When returning an <a>error</a> with <a>unexpected alert open</a>,
+  a <a>remote end</a> may choose to return the <a>user prompt message</a>
+  as part of an additional "<code>data</code>" <a>Object</a>
+  on the <a data-lt="send an error">error representation</a>:
 
-<pre>
+ <pre><code>
 {
-    error: "unexpected alert open",
-    message: "implementation defined",
-    data: {
-        text: "the text from the alert"
-    }
+	"error": "unexpected alert open",
+	"message": "implementation defined",
+	"data": {
+		"text": "the text from the alert"
+	}
 }
-</pre>
+</code></pre>
+</aside>
 
 <section>
 <h3>Dismiss Alert</h3>
