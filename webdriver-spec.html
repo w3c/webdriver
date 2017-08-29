@@ -569,6 +569,7 @@ in the spec, as demonstrated in a (yet to be developed)
   <ul>
    <!-- Absolute URL --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-absolute>Absolute URL</a></dfn>
    <!-- Absolute URL with fragment --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-absolute-with-fragment>Absolute URL with fragment</a></dfn>
+   <!-- Default port --> <li><dfn><a href="https://url.spec.whatwg.org/#default-port">Default port</a></dfn>
    <!-- Domain --><li><dfn data-lt="domains"><a href="https://url.spec.whatwg.org/#concept-domain">Domain</a></dfn>
    <!-- Host --> <li><dfn><a href="https://url.spec.whatwg.org/#concept-host">Host</a></dfn>
    <!-- includes credentials --> <li><dfn><a href="https://url.spec.whatwg.org/#include-credentials">Includes credentials</a></dfn>
@@ -2002,7 +2003,8 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the proxy <a>host</a> for FTP traffic when
    the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>host and optional port</a>.
+  <td>A <a>host and optional port</a> for
+   scheme <code>"ftp"</code>.
  </tr>
 
  <tr>
@@ -2010,7 +2012,8 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the proxy <a>host</a> for HTTP traffic when
    the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>host and optional port</a>.
+  <td>A <a>host and optional port</a> for
+   scheme <code>"http"</code>.
  </tr>
 
  <tr>
@@ -2027,7 +2030,8 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the proxy <a>host</a> for encrypted TLS traffic
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>host and optional port</a>.
+  <td>A <a>host and optional port</a> for
+   scheme <code>"https"</code>.
  </tr>
 
  <tr>
@@ -2035,7 +2039,7 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the proxy <a>host</a> for a <a>SOCKS proxy</a>
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>host and optional port</a>.
+  <td>A <a>host and optional port</a> with an <a>undefined</a> scheme.
  </tr>
 
  <tr>
@@ -2048,10 +2052,12 @@ with a "<code>moz:</code>" prefix:
 
 </table>
 
-<p>A <dfn>host and optional port</dfn> is defined as being a
-  valid <a>host</a>, optionally followed by a colon
-  and <a>port</a>. The <a>host</a> may
-  <a data-lt="includes credentials">include credentials</a>.
+<p>A <dfn>host and optional port</dfn> for a <var>scheme</var> is
+  defined as being a valid <a>host</a>, optionally followed by a colon
+  and a valid <a>port</a>. The <a>host</a> may
+  <a data-lt="includes credentials">include credentials</a>. If the
+  port is omitted and <var>scheme</var> has a <a>default port</a>,
+  this is the implied port. Otherwise, the port is left undefined.
 
 <p>A <a><code>proxyType</code></a> of "<code>direct</code>" indicates
  that the browser should not use a proxy at all.
