@@ -128,6 +128,7 @@ in the spec, as demonstrated in a (yet to be developed)
   <ul>
    <!-- Attribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-attribute>Attribute</a></dfn>
    <!-- comapreDocumentPosition --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-comparedocumentposition>compareDocumentPosition</a></dfn>
+   <!-- connected --> <li><dfn><a href=https://dom.spec.whatwg.org/#connected>connected</a></dfn>
    <!-- context object --><li><dfn><a href="https://dom.spec.whatwg.org/#context-object">context object</a></dfn>
    <!-- Descendant --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-tree-descendant>Descendant</a></dfn>
    <!-- Document element --> <li><dfn><a href=https://dom.spec.whatwg.org/#document-element>Document element</a></dfn>
@@ -4309,20 +4310,8 @@ with a "<code>moz:</code>" prefix:
  <li><p>Return <a>success</a> with data <var>element</var>.
 </ol>
 
-<p>A <a>stale element</a> is a reference to a <a>node</a>
- that has been disconnected from the <a>current browsing context</a>’s DOM.
- To determine if an <var>element</var> <dfn data-lt="stale element">is stale</dfn>,
- run the following substeps:
-
-<ol>
- <li><p>Let <var>document</var> be
-  the <a>current browsing context</a>’s <a>document element</a>.
-
- <li><p>If <var>element</var> is <a>not in the same tree</a> as <var>document</var>,
-  return true.
-
- <li><p>Otherwise return false.
-</ol>
+<p>A <a>element</a> <dfn>is stale</dfn>
+ if its <a>context object</a> is not <a>connected</a>.
 
 <p>An <var><a>element</a></var> is
 <dfn data-lt="scroll into view|scrolls into view">scrolled into view</dfn>
