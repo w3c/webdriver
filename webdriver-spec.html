@@ -151,12 +151,12 @@ in the spec, as demonstrated in a (yet to be developed)
    <!-- Node length --> <li><dfn><a href="https://dom.spec.whatwg.org/#concept-node-length">Node Length</a></dfn>
    <!-- Node --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node>Node</a></dfn>
    <!-- NodeList --> <li><dfn><a href=https://dom.spec.whatwg.org/#nodelist><code>NodeList</code></a></dfn>
-   <!-- ownerDocument --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-ownerdocument>ownerDocument</a></dfn>
    <!-- querySelectorAll --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall"><code>querySelectorAll</code></a></dfn>
    <!-- querySelector --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselector"><code>querySelector</code></a></dfn>
    <!-- tagName --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-tagname>tagName</a></dfn>
    <!-- Text content --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-textcontent>Text content</a></dfn>
    <!-- Text node --> <li><dfn><a href=https://dom.spec.whatwg.org/#text><code>Text</code> node</a></dfn>
+
   </ul>
 
  <dd><p>The following attributes are defined in
@@ -5053,15 +5053,14 @@ with a "<code>moz:</code>" prefix:
  run the following substeps:
 
 <ol>
- <li><p>If the <a>node</a>’s <a>ownerDocument</a> attribute
-  is not <var>other</var>, return true.
-
- <li><p>If the result of calling the <a>node</a>’s
-  <a>compareDocumentPosition</a> with <var>other</var> as argument
-  is <a>DOCUMENT_POSITION_DISCONNECTED</a> (1),
+ <li><p>If the <a>node</a>’s <a>node document</a>
+  is not <var>other</var>’s <a>node document</a>,
   return true.
 
- <li><p>Return false.
+ <li><p>Return true if the result of calling the <a>node</a>’s
+  <a>compareDocumentPosition</a> with <var>other</var> as argument
+  is <a>DOCUMENT_POSITION_DISCONNECTED</a> (1),
+  otherwise return false.
 </ol>
 
 <p>An <a><var>element</var></a>’s <dfn>container</dfn> is:
