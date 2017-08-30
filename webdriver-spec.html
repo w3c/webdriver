@@ -939,28 +939,28 @@ in the spec, as demonstrated in a (yet to be developed)
     from <var>url variables</var>.
 
    <li><p>Let the <a>current session</a> be the <a>session</a>
-     with <a data-lt="session id">ID</a> <var>session id</var> in the
-     list of <a>active sessions</a>, or <a><code>null</code></a> if
-     there is no such matching <a>session</a>.
+    with <a data-lt="session id">ID</a> <var>session id</var>
+    in the list of <a>active sessions</a>,
+    or <a>null</a> if there is no such matching <a>session</a>.
 
-   <li><p>If the <a>current session</a> is <a><code>null</code></a>
-    <a>send an error</a> with <a>error code</a>
-    <a>invalid session id</a>, then jump to step 1 in this overall
-    algorithm.
+   <li><p>If the <a>current session</a> is <a>null</a>
+   <a>send an error</a> with <a>error code</a> <a>invalid session id</a>,
+   then jump to step 1 in this overall algorithm.
 
-   <li><p>If the <a>current session</a> is not <a><code>null</code></a>:
+   <li><p>If the <a>current session</a> is not <a>null</a>:
 
     <ol>
-      <li><p>Enqueue <var>request</var> in the <a>current session</a>'s <a>request queue</a>.
+      <li><p>Enqueue <var>request</var>
+       in the <a>current session</a>'s <a>request queue</a>.
 
-      <li><p>Wait until the first element in the <a>current session</a>'s <a>request queue</a>
+      <li><p>Wait until the first element
+       in the <a>current session</a>'s <a>request queue</a>
        is <var>request</var>:
 
       <li><p>Dequeue <var>request</var> from the <a>current session</a>'s <a>request queue</a>.
 
-      <li><p>If the list of <a>active sessions</a> no longer contains the
-       <a>current session</a>, set the <a>current session</a> to
-       <a><code>null</code></a>.
+      <li><p>If the list of <a>active sessions</a> no longer contains the <a>current session</a>,
+       set the <a>current session</a> to <a>null</a>.
     </ol>
   </ol>
 
@@ -980,7 +980,7 @@ in the spec, as demonstrated in a (yet to be developed)
     <p>Otherwise, let <var>parameters</var> be <var>parse result</var>.
   </ol>
 
-  <p>Otherwise, let <var>parameters</var> be <a><code>null</code></a>.</p>
+  <p>Otherwise, let <var>parameters</var> be <a>null</a>.
 
  <li><p><a>Wait for navigation to complete</a>. If this returns
   an <a>error</a> <a data-lt="send an error">return its value</a> and
@@ -1089,7 +1089,7 @@ in the spec, as demonstrated in a (yet to be developed)
 
 <p>A <a>remote end</a> has an associated <dfn>URL prefix</dfn>,
  which is used as a prefix on all WebDriver-defined URLs on that <a>remote end</a>.
- This must either be <a><code>undefined</code></a> or a <a>path-absolute URL</a>.
+ This must either be <a>undefined</a> or a <a>path-absolute URL</a>.
 
 <aside class=example>
  <p>For example a <a>remote end</a> wishing
@@ -2047,7 +2047,7 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the proxy <a>host</a> for a <a>SOCKS proxy</a>
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>host and optional port</a> with an <a><code>undefined</code></a> scheme.
+  <td>A <a>host and optional port</a> with an <a>undefined</a> scheme.
  </tr>
 
  <tr>
@@ -2153,7 +2153,7 @@ with a "<code>moz:</code>" prefix:
   "<code>alwaysMatch</code>" from <var>capabilities request</var>.
 
   <ol>
-   <li><p>If <var>required capabilities</var> is <a><code>undefined</code></a>,
+   <li><p>If <var>required capabilities</var> is <a>undefined</a>,
     set the value to an empty JSON <a>Object</a>.
 
    <li><p>Let <var>required capabilities</var> be the result
@@ -2165,7 +2165,7 @@ with a "<code>moz:</code>" prefix:
   "<code>firstMatch</code>" from <var>capabilities request</var>.
 
   <ol>
-   <li><p>If <var>all first match capabilities</var> is <a><code>undefined</code></a>,
+   <li><p>If <var>all first match capabilities</var> is <a>undefined</a>,
     set the value to a JSON <a>List</a> with a single entry of an empty JSON <a>Object</a>.
 
    <li><p>If <var>all first match capabilities</var> is not a
@@ -2201,12 +2201,11 @@ with a "<code>moz:</code>" prefix:
      capabilities</a> with <var>merged capabilities</var> as an
      argument.
 
-    <li><p>If <var>matched capabilities</var> is
-     not <a><code>null</code></a> return
-     <var>matched capabilities</var>.
+    <li><p>If <var>matched capabilities</var> is not <a>null</a>,
+     return <var>matched capabilities</var>.
   </ol>
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 
 <p>When required to <dfn>validate capabilities</dfn> with
@@ -2228,9 +2227,8 @@ with a "<code>moz:</code>" prefix:
 
    <li><p>Run the substeps of the first matching condition:
     <dl class=switch>
-     <dt><var>value</var> is <a><code>null</code></a>
-     <dd><p>Let <var>deserialized</var> be set to
-      <a><code>null</code></a>.
+     <dt><var>value</var> is <a>null</a>
+     <dd><p>Let <var>deserialized</var> be set to <a>null</a>.
 
      <dt><var>name</var> equals "<code>acceptInsecureCerts</code>"
      <dd><p>If <var>value</var> is not a <a>boolean</a> return
@@ -2273,10 +2271,9 @@ with a "<code>moz:</code>" prefix:
       <a>invalid argument</a>.
     </dl>
 
-   <li><p>If <var>deserialized</var> is
-    not <a><code>null</code></a>, <a>set a property</a>
-    on <var>result</var> with name <var>name</var> and
-    value <var>deserialized</var>.
+   <li><p>If <var>deserialized</var> is not <a>null</a>,
+    <a>set a property</a> on <var>result</var> with name <var>name</var>
+    and value <var>deserialized</var>.
   </ol>
 
  <li>Return <a>success</a> with data <var>result</var>.
@@ -2301,7 +2298,8 @@ with a "<code>moz:</code>" prefix:
     name <var>name</var> and value <var>value</var>.
   </ol>
 
- <li><p>If <var>secondary</var> is <a><code>undefined</code></a>, return <var>result</var>.
+ <li><p>If <var>secondary</var> is <a>undefined</a>,
+  return <var>result</var>.
 
  <li><p>For each enumerable <a>own property</a> in <var>secondary</var>,
   run the following substeps:
@@ -2315,9 +2313,8 @@ with a "<code>moz:</code>" prefix:
     <a>getting the property</a> <var>name</var> from
     <var>primary</var>.
 
-   <li><p>If <var>primary value</var> is
-    not <a><code>undefined</code></a> return an <a>error</a>
-    with <a>error code</a> <a>invalid argument</a>.
+   <li><p>If <var>primary value</var> is not <a>undefined</a>,
+    return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
    <li><a>Set a property</a> on <var>result</var> with name
       <var>name</var> and value <var>value</var>.
@@ -2394,8 +2391,8 @@ with a "<code>moz:</code>" prefix:
      <dt>"<code>browserName</code>"
      <dd><p>If <var>value</var> is not a string equal to
        the "<code>browserName</code>" entry in
-       <var>matched capabilities</var>, return <a>success</a> with
-       data <a><code>null</code></a>.
+       <var>matched capabilities</var>, return <a>success</a>
+       with data <a>null</a>.
 
      <p class=note>There is a chance the <a>remote end</a> will need
       to start a browser process to correctly determine
@@ -2411,8 +2408,8 @@ with a "<code>moz:</code>" prefix:
        the "<code>&lt;</code>", "<code>&lt;=</code>", "<code>&gt;</code>",
        and "<code>&gt;=</code>" operators.
 
-      <p>If the two values do not match, return <a>success</a> with
-       data <a><code>null</code></a>.
+      <p>If the two values do not match,
+       return <a>success</a> with data <a>null></a>.
 
       <p class=note>Version comparison is left as an implementation detail
        since each user agent will likely have conflicting methods
@@ -2427,7 +2424,7 @@ with a "<code>moz:</code>" prefix:
      <dt>"<code>platformName</code>"
      <dd><p>If <var>value</var> is not a string equal
        to the "<code>platformName</code>" entry in <var>matched capabilities</var>,
-       return <a>success</a> with data <a><code>null</code></a>.
+       return <a>success</a> with data <a>null</a>.
 
       <div class=note>
        <p>The following platform names are in common usage with
@@ -2458,7 +2455,7 @@ with a "<code>moz:</code>" prefix:
      <dt>"<code>acceptInsecureCerts</code>"
       <dd><p>If <var>value</var> is <code>true</code>
        and the <a>endpoint node</a> does not support <a>insecure TLS certificates</a>,
-       return <a>success</a> with data <a><code>null</code></a>.
+       return <a>success</a> with data <a>null</a>.
 
        <p class=note>If the <a>endpoint node</a> does not
         support <a>insecure TLS certificates</a> and this is the reason
@@ -2470,7 +2467,7 @@ with a "<code>moz:</code>" prefix:
       uses to be configured, or if the proxy configuration defined
       in <var>value</var> is not one that passes the <a>endpoint
       node</a>'s implementation-specific validity checks,
-      return <a>success</a> with data <a><code>null</code></a>.
+      return <a>success</a> with data <a>null</a>.
 
       <p class=note>A <a>local end</a> would only send this capability
        if it expected it to be honored and the configured proxy
@@ -2482,8 +2479,7 @@ with a "<code>moz:</code>" prefix:
       <a>extension capability</a>, <p>let <var>value</var> be the
        result of <a>trying</a> implementation-specific steps to match
        on <var>name</var> with <var>value</var>. If the match is not
-       successful, return <a>success</a> with
-       data <a><code>null</code></a>.
+       successful, return <a>success</a> with data <a>null</a>.
    </dl>
 
    <li><p><a>Set a property</a> on <var>matched capabilities</var>
@@ -2550,7 +2546,7 @@ with a "<code>moz:</code>" prefix:
 
 <p>A <a>session</a> has an associated <dfn>session ID</dfn> (a string
  representation of a <a>UUID</a>) used to uniquely identify this
- session.  Unless stated otherwise it is <a><code>null</code></a>.
+ session.  Unless stated otherwise it is <a>null</a>.
 
 <p>A <a>session</a> has an associated <dfn>current browsing context</dfn>,
  which is the <a>browsing context</a> against which <a>commands</a> will run.
@@ -2562,7 +2558,7 @@ with a "<code>moz:</code>" prefix:
  context</a>.
 
 <p>A <a>session</a> has an associated <dfn>session script timeout</dfn>
- that specifies a time to wait for scripts to run. If equal to <a><code>null</code></a>
+ that specifies a time to wait for scripts to run. If equal to <a>null</a>
  then <a>session script timeout</a> will be indefinite.
  Unless stated otherwise it is 30,000 milliseconds.
 
@@ -2592,7 +2588,7 @@ with a "<code>moz:</code>" prefix:
  Unless stated otherwise, it is set.
 
 <p>A <a>session</a> has an associated <a>user prompt handler</a>. Unless stated
-  otherwise it is <a><code>null</code></a>.
+  otherwise it is <a>null</a>.
 
 <p>A <a>session</a> has an associated list of <a>active input sources</a>.
 
@@ -2635,7 +2631,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p>If an <a>error</a> has occurred in any of the steps above,
   return the <a>error</a>, otherwise return <a>success</a> with
-  data <a><code>null</code></a>.
+  data <a>null</a>.
 </ol>
 
 <p>Closing a <a>session</a> might cause the associated browser process to be killed.
@@ -2751,7 +2747,7 @@ with a "<code>moz:</code>" prefix:
   of <a>trying</a> to <a>process capabilities</a>
   with <var>parameters</var> as an argument.
 
- <li><p>If <var>capabilities</var>'s is <a><code>null</code></a>,
+ <li><p>If <var>capabilities</var>'s is <a>null</a>,
   return <a>error</a> with <a>error code</a> <a>session not created</a>.
 
  <li><p>Let <var>session id</var> be the result of <a>generating a UUID</a>.
@@ -2891,7 +2887,7 @@ with a "<code>moz:</code>" prefix:
  <li><p>If the <a>current session</a> is an <a>active session</a>,
   <a>try</a> to <a>close the session</a>.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- /Delete Session -->
 
@@ -3090,7 +3086,7 @@ with a "<code>moz:</code>" prefix:
    <li><p>Set <var>timeout type</var>’s <var>value</var>.
   </ol>
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- /Set Timeout -->
 </section> <!-- /Sessions -->
@@ -3166,13 +3162,12 @@ with a "<code>moz:</code>" prefix:
  run the following steps:
 
 <ol>
- <li><p>If the <a>current session</a> has a <a>page loading
-  strategy</a> of <a>none</a> return <a>success</a> with
-  data <a><code>null</code></a>.
+ <li><p>If the <a>current session</a>
+  has a <a>page loading strategy</a> of <a>none</a>,
+  return <a>success</a> with data <a>null</a>.
 
- <li><p>If the <a>current browsing context</a> is
-  <a>no longer open</a>, return <a>success</a> with
-  data <a><code>null</code></a>.
+ <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
+  return <a>success</a> with data <a><code>null</code></a>.
 
  <li><p>Start a <var>timer</var>. If this algorithm has not
   completed before <var>timer</var> reaches
@@ -3200,7 +3195,7 @@ with a "<code>moz:</code>" prefix:
   and the browser does not have an active <a>user prompt</a>,
   return <a>error</a> with <a>error code</a> <a>timeout</a>.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 
 <p>When asked to run the <dfn>post-navigation checks</dfn>,
@@ -3227,7 +3222,7 @@ with a "<code>moz:</code>" prefix:
  <dt><a>response</a>’s <a>HTTP status</a> is 401
  <dt>Otherwise
  <dd><p>Irrespective of how a possible authentication challenge is handled,
-  return <a>success</a> with data <a><code>null</code></a>.
+  return <a>success</a> with data <a>null</a>.
 </dl>
 
 <section>
@@ -3311,7 +3306,7 @@ with a "<code>moz:</code>" prefix:
   new <a>navigate</a> has begun, and return to the first step of this
   algorithm.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 
 </section> <!-- /Navigate To-->
@@ -3392,7 +3387,7 @@ with a "<code>moz:</code>" prefix:
    prompts">user prompts have been handled</a>, return <a>error</a>
    with <a>error code</a> <a>timeout</a>.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- /Back -->
 
@@ -3435,7 +3430,7 @@ with a "<code>moz:</code>" prefix:
    prompts">user prompts have been handled</a>, return <a>error</a>
    with <a>error code</a> <a>timeout</a>.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- /Forward -->
 
@@ -3478,7 +3473,7 @@ with a "<code>moz:</code>" prefix:
  <li><p>Set the <a>current browsing context</a>
   to the <a>current top-level browsing context</a>.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- /Refresh -->
 
@@ -3662,8 +3657,8 @@ with a "<code>moz:</code>" prefix:
   <a>getting the property</a> "<code>handle</code>"
   from the <var>parameters</var> argument.
 
- <li><p>If <var>handle</var> is <a><code>undefined</code></a> return <a>error</a>
-  with <a>error code</a> <a>invalid argument</a>.
+ <li><p>If <var>handle</var> is <a>undefined</a>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>If there is an active <a>user prompt</a>, that prevents the
   focussing of another <a>top-level browsing context</a>,
@@ -3672,7 +3667,7 @@ with a "<code>moz:</code>" prefix:
  <li><p>If <var>handle</var> is equal to the associated <a>window handle</a>
   for some <a>top-level browsing context</a> in the <a>current session</a>,
   set the <a>session</a>’s <a>current browsing context</a>
-  to that browsing context, and return <a>success</a> with data <a><code>null</code></a>.
+  to that browsing context, and return <a>success</a> with data <a>null</a>.
 
   <p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such window</a>.
 </ol>
@@ -3742,20 +3737,21 @@ with a "<code>moz:</code>" prefix:
   <a>getting the property</a> "<code>id</code>"
   from the <var>parameters</var> argument.
 
- <li><p>If <var>id</var> is not <a><code>null</code></a>,
- a <code>Number</code> object, or an <a>Object</a> that <a>represents a web
- element</a>, <p>return <a>error</a> with <a>error code</a> <a>no such
- frame</a>.
+ <li><p>If <var>id</var> is not <a>null</a>,
+  a <code>Number</code> object,
+  or an <a>Object</a> that <a>represents a web element</a>,
+  return <a>error</a> with <a>error code</a> <a>no such frame</a>.
 
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+ <li><p><a>Handle any user prompts</a>
+  and return its value if it is an <a>error</a>.
 
  <li><p>Run the substeps of the first matching condition:
 
   <dl class=switch>
-   <dt><var>id</var> is <a><code>null</code></a>
+   <dt><var>id</var> is <a>null</a>
    <dd>
     <ol>
      <li><p>Set the <a>current browsing context</a> to
@@ -3804,7 +3800,7 @@ with a "<code>moz:</code>" prefix:
     </ol>
  </dl>
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 
 <p class=note>WebDriver is not bound by the same origin policy,
@@ -3843,7 +3839,7 @@ with a "<code>moz:</code>" prefix:
   set the <a>current browsing context</a> to
   the <a>parent browsing context</a> of the <a>current browsing context</a>.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- /Switch To Parent Frame -->
 
@@ -4035,25 +4031,25 @@ with a "<code>moz:</code>" prefix:
 <ol>
  <li><p>Let <var>width</var> be the result of
   <a>getting a property</a> named <code>width</code>
-  from the <var>parameters</var> argument, else let it be <a><code>null</code></a>.
+  from the <var>parameters</var> argument, else let it be <a>null</a>.
 
  <li><p>Let <var>height</var> be the result of
   <a>getting a property</a> named <code>height</code>
-  from the <var>parameters</var> argument, else let it be <a><code>null</code></a>.
+  from the <var>parameters</var> argument, else let it be <a>null</a>.
 
  <li><p>Let <var>x</var> be the result of <a>getting a property</a>
   named <code>x</code> from the <var>parameters</var> argument,
-  else let it be <a><code>null</code></a>.
+  else let it be <a>null</a>.
 
  <li><p>Let <var>y</var> be the result of <a>getting a property</a>
   named <code>y</code> from the <var>parameters</var> argument,
-  else let it be <a><code>null</code></a>.
+  else let it be <a>null</a>.
 
- <li><p>If <var>width</var> or <var>height</var> is neither <a><code>null</code></a>
+ <li><p>If <var>width</var> or <var>height</var> is neither <a>null</a>
   nor a <a>Number</a> from 0 to 2<sup>64</sup> − 1,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If <var>x</var> or <var>y</var> is neither <a><code>null</code></a>
+ <li><p>If <var>x</var> or <var>y</var> is neither <a>null</a>
   nor a <a>Number</a> from −(2<sup>63</sup>) to 2<sup>63</sup> − 1,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
@@ -4071,7 +4067,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p><a>Restore the window</a>.
 
- <li><p>If <var>width</var> and <var>height</var> are not <a><code>null</code></a>:
+ <li><p>If <var>width</var> and <var>height</var> are not <a>null</a>:
 
   <ol>
    <li><p>Set the width, in <a>CSS reference pixels</a>,
@@ -4098,7 +4094,7 @@ with a "<code>moz:</code>" prefix:
    </aside>
   </ol>
 
- <li><p>If <var>x</var> and <var>y</var> are not <a><code>null</code></a>:
+ <li><p>If <var>x</var> and <var>y</var> are not <a>null</a>:
 
   <ol>
    <li><p>Run the implementation-specific steps
@@ -4740,10 +4736,12 @@ with a "<code>moz:</code>" prefix:
 
 <ol>
  <li><p>Let <var>evaluateResult</var> be the result of
-  calling <a><code>evaluate</code></a>, with
-  arguments <var>selector</var>, <var>start node</var>,
-  <a><code>null</code></a>, <a>ORDERED_NODE_SNAPSHOT_TYPE</a>, and
-  <a><code>null</code></a>.
+  calling <a><code>evaluate</code></a>,
+  with arguments <var>selector</var>,
+  <var>start node</var>,
+  <a>null</a>,
+  <a>ORDERED_NODE_SNAPSHOT_TYPE</a>,
+  and <a>null</a>.
 
   <p class=note>A snapshot is used to promote operation atomicity.
 
@@ -4811,7 +4809,7 @@ with a "<code>moz:</code>" prefix:
  <li><p>Let <var>selector</var> be the result
   of <a>getting a property</a> called "<code>value</code>".
 
- <li><p>If <var>selector</var> is <a><code>undefined</code></a>,
+ <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>If the <a>current browsing context</a> is <a>no longer
@@ -4821,8 +4819,8 @@ with a "<code>moz:</code>" prefix:
  <li><p>Let <var>start node</var> be
   the <a>current browsing context</a>’s <a>document element</a>.
 
- <li><p>If <var>start node</var> is <a><code>null</code></a>, return
-  <a>error</a> with <a>error code</a> <a>no such element</a>.
+ <li><p>If <var>start node</var> is <a>null</a>,
+  return <a>error</a> with <a>error code</a> <a>no such element</a>.
 
  <li><p>Let <var>result</var> be the result of <a>trying</a> to <a>Find</a>
   with <var>start node</var>, <var>location strategy</var>,
@@ -4865,7 +4863,7 @@ with a "<code>moz:</code>" prefix:
  <li><p>Let <var>selector</var> be the result
   of <a>getting a property</a> called "<code>value</code>".
 
- <li><p>If <var>selector</var> is <a><code>undefined</code></a>,
+ <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>If the <a>current browsing context</a> is <a>no longer
@@ -4875,8 +4873,8 @@ with a "<code>moz:</code>" prefix:
  <li><p>Let <var>start node</var> be
   the <a>current browsing context</a>’s <a>document element</a>.
 
- <li><p>If <var>start node</var> is <a><code>null</code></a>, return
-  <a>error</a> with <a>error code</a> <a>no such element</a>.
+ <li><p>If <var>start node</var> is <a>null</a>,
+  return <a>error</a> with <a>error code</a> <a>no such element</a>.
 
  <li>Return the result of <a>trying</a> to <a>Find</a> with
   <var>start node</var>, <var>location strategy</var>, and <var>selector</var>.
@@ -4915,7 +4913,7 @@ with a "<code>moz:</code>" prefix:
  <li><p>Let <var>selector</var> be the result
   of <a>getting a property</a> called "<code>value</code>".
 
- <li><p>If <var>selector</var> is <a><code>undefined</code></a>,
+ <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>If the <a>current browsing context</a> is <a>no longer
@@ -4968,7 +4966,7 @@ with a "<code>moz:</code>" prefix:
  <li><p>Let <var>selector</var> be the result
   of <a>getting a property</a> called "<code>value</code>".
 
- <li><p>If <var>selector</var> is <a><code>undefined</code></a>,
+ <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>If the <a>current browsing context</a> is <a>no longer
@@ -5068,31 +5066,31 @@ with a "<code>moz:</code>" prefix:
 <dl class=switch>
  <dt><a><code>option</code> element</a> in a valid <a>element context</a>
  <dt><a><code>optgroup</code> element</a> in a valid <a>element context</a>
- <dd><p>The <a><var>element</var></a>'s <a>element context</a>, which
-  is determined by:
+ <dd><p>The <a><var>element</var></a>'s <a>element context</a>,
+  which is determined by:
+
   <ol>
-   <li><p>Let <var>datalist parent</var> be the
-    first <a><code>datalist</code> element</a> reached by traversing
-    the tree in reverse order from <var>element</var>,
-    or <a><code>undefined</code></a> if the root of the tree is
-    reached.
+   <li><p>Let <var>datalist parent</var> be
+    the first <a><code>datalist</code> element</a> reached
+    by traversing the tree in reverse order from <var>element</var>,
+    or <a>undefined</a> if the root of the tree is reached.
+
    <li><p>Let <var>select parent</var> be the
-    first <a><code>select</code> element</a> reached by traversing
-    the tree in reverse order from <var>element</var>,
-    or <a><code>undefined</code></a> if the root of the tree is
-    reached.
-   <li><p>If <var>datalist parent</var>
-    is <a><code>undefined</code></a>, the <a>element context</a>
-    is <var>select parent</var>. Otherwise, the <a>element context</a>
-    is <var>datalist parent</var>.
+    first <a><code>select</code> element</a> reached
+    by traversing the tree in reverse order from <var>element</var>,
+    or <a>undefined</a> if the root of the tree is reached.
+
+   <li><p>If <var>datalist parent</var> is <a>undefined</a>,
+    the <a>element context</a> is <var>select parent</var>.
+    Otherwise, the <a>element context</a> is <var>datalist parent</var>.
   </ol>
+
  <dt><a><code>option</code> element</a> in an invalid <a>element context</a>
  <dd><p>The element does not have a container.
 
  <dt>Otherwise
  <dd><p>The container is the <a>element</a> itself.
 </dl>
-
 
 <section>
 <h3>Is Element Selected</h3>
@@ -5182,7 +5180,7 @@ with a "<code>moz:</code>" prefix:
     <dt>If <var>name</var> is a <a>boolean attribute</a>
     <dd><p>"<code>true</code>" (string)
      if the <var>element</var> <a>has the attribute</a>,
-     otherwise <a><code>null</code></a>.
+     otherwise <a>null</a>.
 
     <dt>Otherwise
     <dd><p>The result of <a>getting an attribute by name</a>
@@ -5234,7 +5232,7 @@ with a "<code>moz:</code>" prefix:
   the <var>element</var>.<a>[[\GetProperty]]</a>(<var>name</var>).
 
  <li><p>Let <var>result</var> be the value of
-  <var>property</var> if not <a><code>undefined</code></a>, or <a><code>null</code></a>.
+  <var>property</var> if not <a>undefined</a>, or <a>null</a>.
 
  <li><p>Return <a>success</a> with data <var>result</var>.
 </ol>
@@ -5327,7 +5325,7 @@ with a "<code>moz:</code>" prefix:
  <li><p>Let <var>rendered text</var> be the result of performing
   implementation-specific steps that are exactly analogous to the
   result of a <a>Call</a>(<a><code>bot.dom.getVisibleText</code></a>,
-   <a><code>null</code></a>, <var>element</var>).
+   <a>null</a>, <var>element</var>).
 
  <li><p>Return <a>success</a> with data <var>rendered text</var>.
 </ol>
@@ -5657,7 +5655,7 @@ with a "<code>moz:</code>" prefix:
 
  <li><p><a>Try</a> to run the <a>post-navigation checks</a>.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- /Element Click -->
 
@@ -5711,7 +5709,7 @@ with a "<code>moz:</code>" prefix:
   required to <a>clear a content editable element</a>. Otherwise,
   follow the steps required to <a>clear a resettable element</a>.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 
 <p>When required to <dfn>clear a content editable element</dfn>
@@ -5798,7 +5796,7 @@ with a "<code>moz:</code>" prefix:
 
 <p>An <a>extended grapheme cluster</a> is <dfn>typeable</dfn>
  if it consists of a single <a>unicode code point</a>
- and the <a>code</a> is not <a><code>undefined</code></a>.
+ and the <a>code</a> is not <a>undefined</a>.
 
 <p>The <dfn>shifted state</dfn> for <var>keyboard</var>
  is the value of <var>keyboard</var>’s
@@ -5944,7 +5942,7 @@ must run the following steps:
 
     <li><p><a>Dispatch a <code>composition event</code></a> with
      arguments <code>"compositionstart"</code>
-     and <a><code>undefined</code></a>.
+     and <a>undefined</a>.
 
     <li><p><a>Dispatch a <code>composition event</code></a> with
      arguments <code>"compositionupdate"</code>
@@ -6028,7 +6026,7 @@ must run the following steps:
 
      <li><p><a>Fire</a> an <a><code>input</code> event</a>.
 
-     <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+     <li><p>Return <a>success</a> with data <a>null</a>.
     </ol>
    </dd>
 
@@ -6053,7 +6051,7 @@ must run the following steps:
       return an <a>error</a> with <a>error code</a> <a>invalid
       argument</a>.
 
-     <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+     <li><p>Return <a>success</a> with data <a>null</a>.
     </ol>
    </dd>
 
@@ -6084,7 +6082,7 @@ must run the following steps:
  <li><p>Remove <var>keyboard</var> from the list of
   <a>active input sources</a>.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- Element Send Keys -->
 </section> <!-- /Element Interaction -->
@@ -6121,11 +6119,11 @@ must run the following steps:
   <a>fragment serializing algorithm</a> on a fictional node whose only
   child is the <a>document element</a> providing <code>true</code> for the
   <code>require well-formed</code> flag. If this causes an exception
-  to be thrown, let <var>source</var> be <a><code>null</code></a>.
+  to be thrown, let <var>source</var> be <a>null</a>.
 
  <li><p>Let <var>source</var> be the result of <a>serializing to string</a>
   the <a>current browsing context</a> <a>active document</a>,
-  if <var>source</var> is <a><code>null</code></a>.
+  if <var>source</var> is <a>null</a>.
 
  <li><p>Return <a>success</a> with data <var>source</var>.
 </ol>
@@ -6149,8 +6147,8 @@ must run the following steps:
  <li><p>Matching on <var>value</var>:
 
   <dl class=switch>
-   <dt><a><code>undefined</code></a>
-   <dt><a><code>null</code></a>
+   <dt><a>undefined</a>
+   <dt><a>null</a>
    <dt>type <a>Boolean</a>
    <dt>type <a>Number</a>
    <dt>type <a>String</a>
@@ -6178,9 +6176,9 @@ must run the following steps:
  of the first matching statement, matching on <var>value</var>:
 
 <dl class=switch>
- <dt><a><code>undefined</code></a>
- <dt><a><code>null</code></a>
- <dd><p><a>Success</a> with data <a><code>null</code></a>.
+ <dt><a>undefined</a>
+ <dt><a>null</a>
+ <dd><p><a>Success</a> with data <a>null</a>.
 
  <dt>type <a>Boolean</a>
  <dt>type <a>Number</a>
@@ -6509,12 +6507,13 @@ must run the following steps:
  When this function is called, the following steps are run:
 
 <ol>
- <li><p>If <var>webdriver callback state</var> is not in the <code>unset</code> state,
-  return <a><code>undefined</code></a>.
+ <li><p>If <var>webdriver callback state</var>
+  is not in the <code>unset</code> state,
+  return <a>undefined</a>.
 
 
  <li><p>If <var>result</var> is not present,
-  let <var>result</var> be <a><code>null</code></a>.
+  let <var>result</var> be <a>null</a>.
 
  <li><p>Let <var>json result</var> be a <a>JSON clone</a>
   of <var>result</var>.
@@ -6522,7 +6521,7 @@ must run the following steps:
  <li><p>Set the <var>webdriver callback state</var>
   to <code>set</code> with data <var>json result</var>.
 
- <li><p>Return <a><code>undefined</code></a>.
+ <li><p>Return <a>undefined</a>.
 </ol>
 </section> <!-- /Execute Async Script -->
 </section> <!-- /Executing Script -->
@@ -6666,7 +6665,7 @@ must run the following steps:
   run the substeps of the first matching condition:
 
   <dl class=switch>
-   <dt><var>name</var> is <a><code>undefined</code></a>
+   <dt><var>name</var> is <a>undefined</a>
    <dt><var>name</var> is equal to <a>cookie name</a>
    <dd><p>Set the <a>cookie expiry time</a>
     to a <a>Unix timestamp</a> in the past.
@@ -6795,7 +6794,7 @@ must run the following steps:
   is a <a>cookie-averse <code>Document</code> object</a>,
   return <a>error</a> with <a>error code</a> <a>invalid cookie domain</a>.
 
- <li><p>If <a>cookie name</a> or <a>cookie value</a> is <a><code>null</code></a>,
+ <li><p>If <a>cookie name</a> or <a>cookie value</a> is <a>null</a>,
   <a>cookie domain</a> is not equal to
   the <a>current browsing context</a>’s <a>active document</a>’s <a>domain</a>,
   <a>cookie secure only</a> or <a>cookie HTTP only</a> are not boolean types,
@@ -6836,7 +6835,7 @@ must run the following steps:
    return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
 
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- /Add Cookie -->
 
@@ -6858,7 +6857,7 @@ must run the following steps:
  allows you to delete either a single cookie by parameter <var>name</var>,
  or all the cookies associated with
  the <a>active document</a>’s <a>address</a>
- if <var>name</var> is <a><code>undefined</code></a>.
+ if <var>name</var> is <a>undefined</a>.
 
 <p>The <a>remote end steps</a> are:
 
@@ -6871,7 +6870,7 @@ must run the following steps:
  <li><p><a>Delete cookies</a> using
   the <var>name</var> parameter as the filter argument.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- /Delete Cookie -->
 
@@ -6903,7 +6902,7 @@ must run the following steps:
 
  <li><p><a>Delete cookies</a>, giving no filtering argument.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- /Delete All Cookies -->
 </section> <!-- /Cookies -->
@@ -7309,7 +7308,7 @@ is also removed.
   of <a>getting a property</a> from <var>parameters</var>
   named <code>actions</code>.
 
- <li><p>If <var>actions</var> is <a><code>undefined</code></a>
+ <li><p>If <var>actions</var> is <a>undefined</a>
   or is not an <a>Array</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
@@ -7363,7 +7362,7 @@ is also removed.
 
  <!-- TODO: consider picking the current input of the right
   type if one exists -->
- <li><p>If <var>id</var> is <a><code>undefined</code></a> or is not a <a>String</a>
+ <li><p>If <var>id</var> is <a>undefined</a> or is not a <a>String</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>If <var>type</var> is equal to <code>"pointer"</code>,
@@ -7374,12 +7373,13 @@ is also removed.
   of <a>trying</a> to <a>process pointer parameters</a>
   with argument <var>parameters data</var>.
 
- <li><p>Let <var>source</var> be the <a>input source</a> in the list
-  of <a>active input sources</a> where that <a>input source</a>’s
-  <a>input id</a> matches <var>id</var>, or <a><code>undefined</code></a> if
-  there is no matching <a>input source</a>.
+ <li><p>Let <var>source</var> be the <a>input source</a>
+  in the list of <a>active input sources</a>
+  where that <a>input source</a>’s <a>input id</a>
+  matches <var>id</var>,
+  or <a>undefined</a> if there is no matching <a>input source</a>.
 
- <li><p>If <var>source</var> is <a><code>undefined</code></a>:
+ <li><p>If <var>source</var> is <a>undefined</a>:
 
   <ol>
    <li>Let <var>source</var> be a new <a>input source</a> created from
@@ -7410,10 +7410,10 @@ is also removed.
   match <var>type</var> return an <a>error</a> with <a>error
   code</a> <a>invalid argument</a>.
 
- <li><p>If <var>parameters</var> is not <a><code>undefined</code></a>, then
-  if its <code>pointerType</code> property does not
-  match <var>source</var>'s <a>pointer type</a> return an <a>error</a>
-  with <a>error code</a> <a>invalid argument</a>.
+ <li><p>If <var>parameters</var> is not <a>undefined</a>,
+  then if its <code>pointerType</code> property does not match
+  <var>source</var>’s <a>pointer type</a>,
+  return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>action items</var> be the result of <a>getting a
   property</a> named <code>actions</code> from
@@ -7463,7 +7463,7 @@ is also removed.
   <li><p>Let <var>parameters</var> be the
    <a>default pointer parameters</a>.
 
-  <li><p>If <var>parameters data</var> is <a><code>undefined</code></a>,
+  <li><p>If <var>parameters data</var> is <a>undefined</a>,
    return <a>success</a> with data <var>parameters</var>.
 
   <li><p>If <var>parameters data</var> is not an <a>Object</a>
@@ -7473,7 +7473,7 @@ is also removed.
    property</a> named <code>pointerType</code> from
    <var>parameters data</var>.
 
-  <li><p>If <var>pointer type</var> is not <a><code>undefined</code></a>:
+  <li><p>If <var>pointer type</var> is not <a>undefined</a>:
 
    <ol>
     <li><p>If <var>pointer type</var> does not have one of the
@@ -7616,7 +7616,7 @@ is also removed.
   of <a>getting the property</a> "<code>duration</code>"
   from <var>action item</var>.
 
- <li><p>If <var>duration</var> is not <a><code>undefined</code></a>
+ <li><p>If <var>duration</var> is not <a>undefined</a>
   and <var>duration</var> is not an <a>Integer</a> greater than or
   equal to 0, return <a>error</a> with <a>error code</a> <a>invalid
   argument</a>.
@@ -7643,7 +7643,7 @@ is also removed.
  <li><p>Set the <code>button</code> property of <var>action</var>
   to <var>button</var>.
 
- <li><p>Return success with data <a><code>null</code></a>.
+ <li><p>Return success with data <a>null</a>.
 </ol>
 
 <p>When required to <dfn>process a pointer move action</dfn> with
@@ -7655,10 +7655,9 @@ is also removed.
   of getting the property <code>duration</code>
   from <var>action item</var>.
 
- <li><p>If <var>duration</var> is not <a><code>undefined</code></a>
-  and <var>duration</var> is not an <a>Integer</a> greater than or
-  equal to 0, return <a>error</a> with <a>error code</a> <a>invalid
-  argument</a>.
+ <li><p>If <var>duration</var> is not <a>undefined</a>
+  and <var>duration</var> is not an <a>Integer</a> greater than or equal to 0,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Set the <code>duration</code> property of <var>action</var>
   to <var>duration</var>.
@@ -7667,8 +7666,8 @@ is also removed.
   of <a>getting the property</a> <code>origin</code>
   from <var>action item</var>.
 
- <li><p>If <var>origin</var> is <a><code>undefined</code></a> let
-  <var>origin</var> equal <code>"viewport"</code>.
+ <li><p>If <var>origin</var> is <a>undefined</a> let
+  <var>origin</var> equal "<code>viewport</code>".
 
  <li><p>If <var>origin</var> is not equal to <code>"viewport"</code> or
   <code>"pointer"</code> and <var>origin</var> is not an <a>Object</a>
@@ -7682,25 +7681,24 @@ is also removed.
   of <a>getting the property</a> <code>x</code>
   from <var>action item</var>.
 
- <li><p>If <var>x</var> is not <a><code>undefined</code></a> or is not
-  an <a>Integer</a> return <a>error</a>
-  with <a>error code</a> <a>invalid argument</a>.
+ <li><p>If <var>x</var> is not <a>undefined</a> or is not an <a>Integer</a>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>Set the <code>x</code> property of <var>action</var>
-  to <var>x</var>.
+ <li><p>Set the <code>x</code> property
+  of <var>action</var> to <var>x</var>.
 
  <li><p>Let <var>y</var> be the result
   of <a>getting the property</a> <code>y</code>
   from <var>action item</var>.
 
- <li><p>If <var>y</var> is not <a><code>undefined</code></a>
+ <li><p>If <var>y</var> is not <a>undefined</a>
   or is not an <a>Integer</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Set the <code>y</code> property of <var>action</var>
   to <var>y</var>.
 
- <li><p>Return success with data <a><code>null</code></a>.
+ <li><p>Return success with data <a>null</a>.
 </ol>
 </section> <!-- /Processing Actions Requests -->
 
@@ -7743,7 +7741,7 @@ is also removed.
     </ul>
   </ol>
 
- <li><p>Return success with data <a><code>null</code></a>.
+ <li><p>Return success with data <a>null</a>.
 </ol>
 
 <p>When required to
@@ -7757,7 +7755,7 @@ is also removed.
  <li><p>For each <var>action object</var> in <var>tick actions</var>:
 
   <ol>
-   <li><p>let <var>duration</var> be <a><code>undefined</code></a>.
+   <li><p>let <var>duration</var> be <a>undefined</a>.
 
    <li><p>If <var>action object</var> has <code>subtype</code>
     property set to <code>"pause"</code> or
@@ -7767,13 +7765,12 @@ is also removed.
     the <code>duration</code> property of
     <var>action object</var>.
 
-   <li><p>If <var>duration</var> is not <a><code>undefined</code></a>, and
-    <var>duration</var> is greater than <var>max duration</var>
+   <li><p>If <var>duration</var> is not <a>undefined</a>,
+    and <var>duration</var> is greater than <var>max duration</var>,
     let <var>max duration</var> be equal to duration.
   </ol>
 
  <li><p>Return <var>max duration</var>.
-
 </ol>
 
 <p>When required to <dfn>dispatch tick actions</dfn> with
@@ -7878,7 +7875,7 @@ is also removed.
  <a>remote end</a> must run the following steps:
 
 <ol>
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- /General Actions -->
 
@@ -7969,13 +7966,14 @@ is also removed.
  <tr><td><code>\uE05D</code></td><td><code>"Delete"</code></td></tr>
 </table>
 
-<p>The <dfn>code</dfn> for <var>key</var> is the value in the last
- column of the following table on the row with <var>key</var> in
- either the first or second column, if any such row exists, otherwise
- it is <a><code>undefined</code></a>.
+<p>The <dfn>code</dfn> for <var>key</var>
+ is the value in the last column of the following table
+ on the row with <var>key</var> in either the first or second column,
+ if any such row exists,
+ otherwise it is <a>undefined</a>.
 
-<p>A <dfn>shifted character</dfn> is one that appears in the second
- column of the following table.
+<p>A <dfn>shifted character</dfn>
+ is one that appears in the second column of the following table.
 
 <!-- TODO This should perhaps return undefined when the shift key
  doesn't match the requirement for producing the character? -->
@@ -8236,7 +8234,7 @@ is also removed.
     </table>
   </ul>
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 
 <aside class=note>
@@ -8315,7 +8313,7 @@ is also removed.
      <tr><td><code>which</code><td><var>which</var></tr>
     </table>
   </ul>
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 
 </section>
@@ -8336,7 +8334,7 @@ is also removed.
   <var>action object</var>'s <code>button</code> property.
 
  <li><p>If the <var>input state</var>'s <code>pressed</code> property
-  contains <var>button</var> return <a>success</a> with data <a><code>null</code></a>.
+  contains <var>button</var> return <a>success</a> with data <a>null</a>.
 
  <li><p>Let <var>x</var> be equal to <var>input state</var>'s
   <code>x</code> property.
@@ -8370,7 +8368,7 @@ is also removed.
   complicated in this case because e.g. pointerDown is only emitted
   if there were no previous buttons held down -->
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 
 <p>When required to <dfn>dispatch a pointerUp action</dfn> with
@@ -8386,8 +8384,8 @@ is also removed.
   <var>action object</var>'s <code>button</code> property.
 
  <li><p>If the <var>input state</var>'s <code>pressed</code> property
-  does not contain <var>button</var> return <a>success</a> with data
-  <a><code>null</code></a>.
+  does not contain <var>button</var>,
+  return <a>success</a> with data <a>null</a>.
 
  <li><p>Let <var>x</var> be equal to <a>action object</a>'s
   <code>x</code> property.
@@ -8418,7 +8416,7 @@ is also removed.
    complicated in this case because e.g. pointerDown is only emitted
    if there were no previous buttons held down -->
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 
 <p>When required to <dfn>dispatch a pointerMove action</dfn> with
@@ -8485,7 +8483,7 @@ is also removed.
 
  <li><p>Let <var>duration</var> be equal to
   <var>action object</var>'s <code>duration</code> property if it
-  is not <a><code>undefined</code></a>, or <var>tick duration</var>
+  is not <a>undefined</a>, or <var>tick duration</var>
   otherwise.
 
  <li><p>If <var>duration</var> is greater than 0 and inside any
@@ -8647,7 +8645,7 @@ is also removed.
   <var>actions by tick</var>. If this results in an <a>error</a>
   return that error.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- Remote End Steps -->
 </section> <!-- Perform Actions -->
@@ -8693,7 +8691,7 @@ is also removed.
  <li><p>Let the <a>current session</a>'s <a>active input sources</a>
   be an empty <a>list</a>.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section><!-- /Releasing Actions -->
 
@@ -8723,7 +8721,7 @@ is also removed.
 
 <p>A <a>user prompt</a> has an associated <dfn>user prompt message</dfn>
  that is the string message shown to the user,
- or <a><code>null</code></a> if the message length is <code>0</code>.
+ or <a>null</a> if the message length is <code>0</code>.
 
 <p>The following <dfn>table of simple dialogs</dfn>
  enumerates all supported <a>simple dialogs</a>,
@@ -8945,7 +8943,7 @@ argument <var>value</var>:
 
  <li><p><a>Dismiss</a> the <a>current user prompt</a>.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section>
 
@@ -8978,7 +8976,7 @@ argument <var>value</var>:
 
  <li><p><a>Accept</a> the <a>current user prompt</a>.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section>
 
@@ -9011,7 +9009,7 @@ argument <var>value</var>:
 
  <li><p>Let <var>message</var> be the text message
   associated with the <a>current user prompt</a>,
-  or otherwise be <a><code>null</code></a>.
+  or otherwise be <a>null</a>.
 
  <li><p>Return <a>success</a> with data <var>message</var>.
 </ol>
@@ -9072,7 +9070,7 @@ argument <var>value</var>:
   to set the value of <a>current user prompt</a>’s text field
   to <var>text</var>.
 
- <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- /Send Alert Text -->
 </section> <!-- /User Prompts -->
@@ -9353,20 +9351,19 @@ argument <var>value</var>:
  considered visible if any part of it is drawn on the canvas within
  the boundaries of the viewport.
 
-<p>The <dfn data-lt="element displayedness|not displayed">element
- displayed</dfn> algorithm is a boolean state where <code>true</code>
- signifies that the element is displayed and <code>false</code>
- signifies that the element is not displayed. To compute the state
- on <var>element</var>, invoke the
- <a>Call</a>(<a><code>bot.dom.isShown</code></a>, <code>null</code>, <var>element</var>)
- . If doing so does not produce an error, return the return
- value from this function call.  Otherwise return an
- <a>error</a> with <a>error code</a> <a>unknown error</a>.
+<p>The <dfn data-lt="element displayedness|not displayed">element displayed</dfn> algorithm
+ is a boolean state where <code>true</code> signifies that the element is displayed
+ and <code>false</code> signifies that the element is not displayed.
+ To compute the state on <var>element</var>,
+ invoke the <a>Call</a>(<a><code>bot.dom.isShown</code></a>,
+ <a>null</a>, <var>element</var>).
+ If doing so does not produce an error,
+ return the return value from this function call.
+ Otherwise return an <a>error</a> with <a>error code</a> <a>unknown error</a>.
 
 <p>This function is typically exposed to <code>GET</code> requests
  with a <a>URI Template</a> of
  <code>/session/{session id}/element/{element id}/displayed</code>.
-
 </section> <!-- /Element Displayedness -->
 
 <section class=appendix>
