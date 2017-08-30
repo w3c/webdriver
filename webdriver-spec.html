@@ -3146,6 +3146,12 @@ with a "<code>moz:</code>" prefix:
   <td><dfn data-lt="normal page loading strategy">normal</dfn>
   <td>"<code>complete</code>"
  </tr>
+
+ <tr>
+  <td>"<code>conservative</code>"
+  <td><dfn data-lt="conservative page loading strategy">conservative</dfn>
+  <td>"<code>complete</code>"
+ </tr>
 </table>
 
 <p>When asked to <dfn>deserialize as a page load strategy</dfn> with
@@ -3188,6 +3194,11 @@ with a "<code>moz:</code>" prefix:
   readiness</a> state associated with the <a>current
   session</a>’s <a>page loading strategy</a>, which can be found in
   the <a>table of page load strategies</a>.
+
+ <li><p>If the <a>current session</a>'s <a>page loading strategy</a>
+  is <a>conservative</a>, wait for all additional
+  remote resources to finish loading. Otherwise, continue with this
+  algorithm.
 
  <li><p>Wait for the the <a>current browsing context</a>’s
   <a>document readiness</a> state to reach
@@ -3318,12 +3329,13 @@ with a "<code>moz:</code>" prefix:
  <p>Figure out if next paragraph is actually required:
 
  <blockquote>
-  <p>When a page contains a META tag with the "http-equiv" attribute set to "refresh",
-   a response MUST be returned if the timeout is greater than 1 second
-   and the other criteria for determining whether a page is loaded are met.
-   When the refresh period is 1 second or less
-   and the page loading strategy is "normal" or "conservative"
-   implementations MUST wait for the refresh to complete before responding.
+  <p>When a page contains a META tag with the "http-equiv" attribute
+   set to "refresh", a response MUST be returned if the timeout is
+   greater than 1 second and the other criteria for determining
+   whether a page is loaded are met.  When the refresh period is 1
+   second or less and the page loading strategy is "<a>normal</a>" or
+   "<a>conservative</a>" implementations MUST wait for the refresh to
+   complete before responding.
  </blockquote>
 </div>
 
