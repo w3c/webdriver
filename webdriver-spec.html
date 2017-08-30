@@ -964,14 +964,15 @@ in the spec, as demonstrated in a (yet to be developed)
   <ol>
    <li><p>Let <var>parse result</var> be the result of
     <a>parsing as JSON</a> with <var>request</var>’s
-    <a>body</a> as the argument.
+    <a>body</a> as the argument. If this process throws an exception,
+    return an <a>error</a> with <a>error code</a> <a>invalid
+    argument</a> and jump back to step 1 in this overall algorithm.
 
-   <li><p>If <var>parse result</var> is an <a>error</a> or if it is a <a>success</a>
-    but its associated data is not an <a>Object</a>,
+   <li><p>If <var>parse result</var> is not an <a>Object</a>,
     <a>send an error</a> with <a>error code</a> <a>invalid argument</a>
     and jump back to step 1 in this overall algorithm.
 
-    <p>Otherwise, let <var>parameters</var> be <var>parse result</var>’s data.
+    <p>Otherwise, let <var>parameters</var> be <var>parse result</var>.
   </ol>
 
   <p>Otherwise, let <var>parameters</var> be <a><code>null</code></a>.</p>
