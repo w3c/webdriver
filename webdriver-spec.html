@@ -4542,44 +4542,6 @@ with a "<code>moz:</code>" prefix:
 </ol>
 </section> <!-- /Element Interactability -->
 
-<section>
-<h3>Get Active Element</h3>
-
-<table class="simple jsoncommand">
- <tr>
-  <th>HTTP Method</th>
-  <th>URI Template</th>
- </tr>
- <tr>
-  <td>GET</td>
-  <td>/session/{<var>session id</var>}/element/active</td>
- </tr>
-</table>
-
-<p><dfn>Get Active Element</dfn> returns
- the <a href=https://html.spec.whatwg.org/#dom-document-activeelement>active element</a>
- of the <a>current browsing context</a>’s
- <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>.
-
-<p>The <a>remote end steps</a> are:
-
-<ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
-
- <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
-
- <li><p>Let <var>active element</var> be the <a>active element</a>
-  of the <a>current browsing context</a>’s <a>document element</a>.
-
- <li><p>Let <var>active web element</var>
-  be the <a data-lt="JSON serialization of an element">JSON serialization</a>
-  of <var>active element</var>.
-
- <li><p>Return <a>success</a> with data <var>active web element</var>.
-</ol>
-</section> <!-- /Get Active Element -->
 </section> <!-- /Elements -->
 
 <section>
@@ -5028,6 +4990,46 @@ with a "<code>moz:</code>" prefix:
   <var>start node</var>, <var>location strategy</var>, and <var>selector</var>.
 </ol>
 </section> <!-- /Find Elements From Element -->
+
+<section>
+<h3>Get Active Element</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>URI Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/element/active</td>
+ </tr>
+</table>
+
+<p><dfn>Get Active Element</dfn> returns
+ the <a href=https://html.spec.whatwg.org/#dom-document-activeelement>active element</a>
+ of the <a>current browsing context</a>’s
+ <a href=https://dom.spec.whatwg.org/#concept-element>document element</a>.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current browsing context</a> is <a>no longer
+  open</a>, return <a>error</a> with <a>error code</a> <a>no such
+  window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
+ <li><p>Let <var>active element</var> be the <a>active element</a>
+  of the <a>current browsing context</a>’s <a>document element</a>.
+
+ <li><p>Let <var>active web element</var>
+  be the <a data-lt="JSON serialization of an element">JSON serialization</a>
+  of <var>active element</var>.
+
+ <li><p>Return <a>success</a> with data <var>active web element</var>.
+</ol>
+</section> <!-- /Get Active Element -->
+
 </section> <!-- /Element Retrieval -->
 
 <section>
