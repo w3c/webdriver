@@ -5029,26 +5029,19 @@ with a "<code>moz:</code>" prefix:
 <p>To <dfn>calculate the absolute position</dfn> of <a><var>element</var></a>:
 
 <ol>
- <li><p>Let <var>x</var> and <var>y</var> both be 0.
-
  <li><p>Let <var>rect</var> be the value
   returned by calling <a>getBoundingClientRect</a>.
 
- <li><p>Let <var>rect x</var> be the result
-  of <a>getting the property</a> "<code>x</code>"
-  from <var>rect</var>.
+ <li><p>Let <var>window</var> be the <a>associated window</a>
+  of <a>current top-level browsing context</a>.
 
- <li><p>Let <var>rect y</var> be the result
-  of <a>getting the property</a> "<code>y</code>"
-  from <var>rect</var>.
+ <li><p>Let <var>x</var> be
+  (<a>scrollX</a> of <var>window</var> +
+  <var>rect</var>’s <a>x coordinate</a>).
 
- <li><p>Let <var>scroll x</var> be the value returned by calling <a>scrollX</a>.
-
- <li><p>Let <var>scroll y</var> be the value returned by calling <a>scrollY</a>.
-
- <li><p>Set <var>x</var> to (<var>scroll x</var> + <var>rect x</var>)
-
- <li><p>Set <var>y</var> to (<var>scroll y</var> + <var>rect y</var>)
+ <li><p>Let <var>y</var> be
+  (<a>scrollY</a> of <var>window</var> +
+  <var>rect</var>’s <a>y coordinate</a>).
 
  <li><p>Return a pair of (<var>x</var>, <var>y</var>).
 </ol>
