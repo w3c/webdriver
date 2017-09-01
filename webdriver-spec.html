@@ -4282,28 +4282,42 @@ with a "<code>moz:</code>" prefix:
 <p>An ECMAScript <a>Object</a> <dfn>represents a web element</dfn>
  if it has a <a>web element identifier</a> <a>own property</a>.
 
-<p>Each <a>browsing context</a> has an associated list of
- <dfn data-lt="known element">known elements</dfn>.
+<p>Each <a>browsing context</a> has an associated <dfn>list of
+ known elements</dfn>.
  When the <a>browsing context</a> is <a>discarded</a>,
- the list of <a>known elements</a> is discarded along with it.
+ the <a>list of known elements</a> is discarded along with it.
 
-<p>To <dfn>get a known element</dfn>
- with argument <var>reference</var>,
- let <var>element</var> be the <a>known element</a>
- which <a>web element reference</a> matches <var>reference</var>.
- If there are none, return <a>error</a>
- with <a>error code</a> <a>no such element</a>.
- If <var>element</var> <a>is stale</a>, return
+<p>To <dfn>get a known element</dfn> with
+ argument <var>reference</var>, run the following steps:
+
+<ol>
+ <li>Let <var>element</var> be the item in the <a>current browsing
+ context</a>'s <a>list of known elements</a> for which the <a>web
+ element reference</a> matches <var>reference</var>, if such an
+ element exists. Otherwise return <a>error</a> with <a>error
+ code</a> <a>no such element</a>.
+ <li>If <var>element</var> <a>is stale</a>, return
  <a>error</a> with <a>error code</a>
- <a>stale element reference</a>. Otherwise return
- <a>success</a> with <var>element</var>.
+ <a>stale element reference</a>.
+ <li>Return <a>success</a> with <var>element</var>.
+</ol>
+
+<p>To <dfn>get a known connected element</dfn> with
+argument <var>reference</var>, run the following steps:
+<ol>
+  <li>Let <var>element</var> be the result of <a>trying</a> to <a>get
+  a known element</a> with argument <var>reference</var>.
+  <li>If <var>element</var> is not <a>connected</a>
+  return <a>error</a> with error code <a>stale element reference</a>.
+  <li>Return <a>success</a> with <var>element</var>.
+</ol>
 
 <p>To <dfn data-lt="create an element">create a web element reference</dfn>
  for an <a><var>element</var></a>:
 
 <ol>
  <li><p>For each <var>known element</var>
-  of the <a>current browsing context</a>’s <a>known elements</a>:
+  of the <a>current browsing context</a>’s <a>list of known elements</a>:
 
   <ol>
    <li><p>If <var>known element</var> <a>equals</a> <var>element</var>,
@@ -4311,7 +4325,7 @@ with a "<code>moz:</code>" prefix:
   </ol>
 
  <li><p>Add <var>element</var> to
-  the <a>known elements</a> of the <a>current browsing context</a>.
+  the <a>list of known elements</a> of the <a>current browsing context</a>.
 
  <li><p>Return <a>success</a> with the
   <var>element</var>’s <a>web element reference</a>.
@@ -4921,7 +4935,7 @@ with a "<code>moz:</code>" prefix:
   window</a>.
 
  <li><p>Let <var>start node</var> be the result
-  of <a>trying</a> to <a>get a known element</a>
+  of <a>trying</a> to <a>get a known connected element</a>
   with argument <var>element id</var>.
 
  <li>Let <var>result</var> be the value of <a>trying</a> to <a>Find</a> with
@@ -4974,7 +4988,7 @@ with a "<code>moz:</code>" prefix:
   window</a>.
 
  <li><p>Let <var>start node</var> be the result
-  of <a>trying</a> to <a>get a known element</a>
+  of <a>trying</a> to <a>get a known connected element</a>
   with argument <var>element id</var>.
 
  <li>Return the result of <a>trying</a> to <a>Find</a> with
@@ -5121,7 +5135,7 @@ with a "<code>moz:</code>" prefix:
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known element</a>
+  of <a>trying</a> to <a>get a known connected element</a>
   with argument <var>element id</var>.
 
  <li><p>Let <var>selected</var> be the value
@@ -5265,7 +5279,7 @@ with a "<code>moz:</code>" prefix:
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known element</a>
+  of <a>trying</a> to <a>get a known connected element</a>
   with argument <var>element id</var>.
 
  <li><p>Let <var>computed value</var> be
@@ -5319,7 +5333,7 @@ with a "<code>moz:</code>" prefix:
   an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known element</a>
+  of <a>trying</a> to <a>get a known connected element</a>
   with argument <var>element id</var>.
 
  <li><p>Let <var>rendered text</var> be the result of performing
@@ -5414,7 +5428,7 @@ with a "<code>moz:</code>" prefix:
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known element</a>
+  of <a>trying</a> to <a>get a known connected element</a>
   with argument <var>element id</var>.
 
  <li><p><a>Calculate the absolute position</a> of <var>element</var>
@@ -5471,7 +5485,7 @@ with a "<code>moz:</code>" prefix:
   and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known element</a>
+  of <a>trying</a> to <a>get a known connected element</a>
   with argument <var>element id</var>.
 
  <li><p>Let <var>enabled</var> be a boolean initially set to true
@@ -5529,7 +5543,7 @@ with a "<code>moz:</code>" prefix:
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>element</var> be the result of <a>trying</a>
-  to <a>get a known element</a> by reference <var>element id</var>.
+  to <a>get a known connected element</a> by reference <var>element id</var>.
 
  <li><p>If the <var>element</var> is
   an <a><code>input</code> element</a> in the <a>file upload state</a>
@@ -5685,7 +5699,7 @@ with a "<code>moz:</code>" prefix:
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known element</a>
+  of <a>trying</a> to <a>get a known connected element</a>
   with argument <var>element id</var>.
 
  <li><p>If <var>element</var> is neither <a>content editable</a> nor
@@ -5979,7 +5993,7 @@ must run the following steps:
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known element</a>
+  of <a>trying</a> to <a>get a known connected element</a>
   with argument <var>element id</var>.
 
  <li><p><a>Scroll into view</a> the <var>element</var>.
@@ -8457,7 +8471,7 @@ is also removed.
    <dd>
     <ol>
      <li><p>Let <var>element</var> be equal to the result
-      of <a>trying</a> to <a>get a known element</a> with
+      of <a>trying</a> to <a>get a known connected element</a> with
       argument <var>origin</var>.
 
      <li><p>Let <var>x element</var> and <var>y element</var> be the
@@ -9244,7 +9258,7 @@ argument <var>value</var>:
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>element</var> be the result of
-  <a>trying</a> to <a>get a known element</a>
+  <a>trying</a> to <a>get a known connected element</a>
   with argument <var>element id</var>.
 
  <li><p>If asked to <var>scroll</var>,
