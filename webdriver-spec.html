@@ -3667,9 +3667,18 @@ with a "<code>moz:</code>" prefix:
  <li><p>If <var>handle</var> is equal to the associated <a>window handle</a>
   for some <a>top-level browsing context</a> in the <a>current session</a>,
   set the <a>session</a>’s <a>current browsing context</a>
-  to that browsing context, and return <a>success</a> with data <a>null</a>.
+  to that browsing context.
 
   <p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p>Update any implementation-specific state that would result
+  from the user selecting the <a>current browsing context</a> for
+  interaction, without altering OS-level focus.
+
+  <p class="note">For example in a tabbed browser, make the tab
+   containing the browsing context the selected tab.
+
+ <li><p>Return <a>success</a> with date <a>null</a>.
 </ol>
 </section> <!-- /Switch To Window -->
 
@@ -3800,6 +3809,10 @@ with a "<code>moz:</code>" prefix:
     </ol>
  </dl>
 
+ <li><p>Update any implementation-specific state that would result
+  from the user selecting the <a>current browsing context</a> for
+  interaction, without altering OS-level focus.
+
  <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 
@@ -3838,6 +3851,10 @@ with a "<code>moz:</code>" prefix:
   the <a>current top-level browsing context</a>,
   set the <a>current browsing context</a> to
   the <a>parent browsing context</a> of the <a>current browsing context</a>.
+
+ <li><p>Update any implementation-specific state that would result
+  from the user selecting the <a>current browsing context</a> for
+  interaction, without altering OS-level focus.
 
  <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
