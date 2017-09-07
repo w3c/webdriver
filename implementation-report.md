@@ -8,3 +8,4 @@ Currently tests are being tracked on [http://wpt.fyi/webdriver](http://wpt.fyi/w
 * [Microsoft Edge](https://developer.microsoft.com/en-us/microsoft-edge/platform/status/webdriver/)
 * [Apple Safari](https://developer.microsoft.com/en-us/microsoft-edge/platform/status/webdriver/)
 * WebKit GTK port (Implementation Report to be added)
+* [Selenium IEDriverServer](https://github.com/SeleniumHQ/selenium/wiki/W3C-WebDriver-Status)
