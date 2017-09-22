@@ -2891,7 +2891,7 @@ with a "<code>moz:</code>" prefix:
 </section> <!-- /Delete Session -->
 
 <section>
-<h3>Status</h3>
+<h3><dfn>Status</dfn></h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -2904,18 +2904,20 @@ with a "<code>moz:</code>" prefix:
  </tr>
 </table>
 
-<p>The <dfn>Status</dfn> <a>command</a>
- returns information about whether a <a>remote end</a>
- is in a state in which it can create <a data-lt="new session">new sessions</a>
- and can additionally include arbitrary meta information
- that is specific to the implementation.
+<aside class=note>
+ <p><a>Status</a> returns information
+  about whether a <a>remote end</a>
+  is in a state in which it can create <a data-lt="new session">new sessions</a>,
+  but may additionally include arbitrary meta information
+  that is specific to the implementation.
 
-<p>The <a>readiness state</a> is represented
- by the <code>ready</code> property of the body,
- which is false if an attempt to <a data-lt="new session">create a session</a>
- at the current time would fail.
- However, the value true does not guarantee
- that a <a>New Session</a> command will succeed.
+ <p>The <a>remote end</a>’s <a>readiness state</a> is represented
+  by the <code>ready</code> property of the body,
+  which is false if an attempt to <a data-lt="new session">create a session</a>
+  at the current time would fail.
+  However, the value true does not guarantee
+  that a <a>New Session</a> command will succeed.
+</aside>
 
 <p>Implementations may optionally include
  additional meta information as part of the body,
