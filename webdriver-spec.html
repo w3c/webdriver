@@ -925,17 +925,19 @@ in the spec, as demonstrated in a (yet to be developed)
   <a>send an error</a> with <var>request match</var>’s <a>error code</a>
   and jump to step 1.
 
-  <p>Otherwise, let <var>command</var> and <var>url variables</var>
-   be <var>request match</var>’s data.
+  <p>Otherwise, let <var>command</var> and <var>command parameters</var>
+   be <var>request match</var>’s data. Let <var>url variables</var> be a
+   <a>url variables</a> dictionary mapping the <var>command parameters</var>
+   to their corresponding values.
 
-  <li><p>If <var>session id</var> is among the variables defined by <var>url variables</var>:
+  <li><p>If <var>session id</var> is among the variables defined by <var>command parameters</var>:
 
    <p class=note>This condition is intended to exclude the <a>New Session</a> and <a>Status</a>
     <a>commands</a> and any <a>extension commands</a> which do not operate on a particular <a>session</a>.
 
   <ol>
    <li><p>Let <var>session id</var> be the corresponding variable
-    from <var>url variables</var>.
+    from <var>command parameters</var>.
 
    <li><p>Let the <a>current session</a> be the <a>session</a>
     with <a data-lt="session id">ID</a> <var>session id</var>
@@ -987,7 +989,8 @@ in the spec, as demonstrated in a (yet to be developed)
 
  <li><p>Let <var>response result</var> be the return value
   obtained by running the <a>remote end steps</a> for <var>command</var>
-  with one named argument for each entry in <var>url variables</var> and an
+  with an argument named <var>url variables</var> whose value is
+  <var>url variables</var> and an
   additional argument named <var>parameters</var> whose value is
   <var>parameters</var>.
 
@@ -1076,6 +1079,9 @@ in the spec, as demonstrated in a (yet to be developed)
  <li><p><a data-lt="write bytes">Write</a> <var>response bytes</var>
   to the <a>connection</a>.
 </ol>
+<p>A <dfn data-lt="url variables">url variable</dfn> dictionary is defined
+  as the mapping of a <a>command</a>'s <a>URI template</a> variable names
+  to their corresponding values.
 </section> <!-- /Processing Model -->
 
 <section>
