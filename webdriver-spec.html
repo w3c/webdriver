@@ -4535,8 +4535,9 @@ argument <var>reference</var>, run the following steps:
   </select>
 </aside>
 
-<p>In order to produce a <dfn>pointer-interactable paint tree</dfn>
- from an <var><a>element</a></var>:
+<p>An <var><a>element</a></var>’s
+ <dfn>pointer-interactable paint tree</dfn>
+ is produced this way:
 
 <ol>
  <li><p>If <var>element</var> is <a>not in the same tree</a>
@@ -4545,7 +4546,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>rectangles</var> be
   the <a><code>DOMRect</code></a> sequence
-  returned by calling <var>element</var>’s <a>getClientRects</a>.
+  returned by calling <a>getClientRects</a>.
 
  <!--
   An element which style property `display` is "none"
@@ -4554,15 +4555,13 @@ argument <var>reference</var>, run the following steps:
  <li><p>If <var>rectangles</var> has the length of 0,
   return an empty sequence.
 
- <li><p>Let <var>center point</var> be
-  the <a>in-view center point</a> of <var>element</var>
-  given the first indexed element of <var>rectangles</var>.
+ <li><p>Let <var>center point</var> be the <a>in-view center point</a>
+  of the first indexed element in <var>rectangles</var>.
 
  <li><p>Return the <a>elements from point</a>
   given the coordinates <var>center point</var>.
 </ol>
 </section> <!-- /Element Interactability -->
-
 </section> <!-- /Elements -->
 
 <section>
