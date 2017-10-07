@@ -4960,7 +4960,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>start node</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li>Let <var>result</var> be the value of <a>trying</a> to <a>Find</a> with
   <var>start node</var>, <var>location strategy</var>,
@@ -5013,7 +5013,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>start node</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li>Return the result of <a>trying</a> to <a>Find</a> with
   <var>start node</var>, <var>location strategy</var>, and <var>selector</var>.
@@ -5160,7 +5160,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>selected</var> be the value
   corresponding to the first matching statement:
@@ -5210,7 +5210,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li>Let <var>result</var> be the result of the first matching condition:
 
@@ -5264,7 +5264,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>property</var> be the result of calling
   the <var>element</var>.<a>[[\GetProperty]]</a>(<var>name</var>).
@@ -5304,18 +5304,18 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>
-  from <var>url variables</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>computed value</var> be the result of the first matching condition:
   <dl class="switch">
-   <dt>if the <a>current browsing context</a>’s <a>document</a>
+   <dt><a>current browsing context</a>’s <a>document</a>
    <a data-lt="document type">type</a> is not "<code>xml</code>"
-   <dd> the <a>computed value</a> of parameter <var>property name</var>
-    from <var>element</var>’s style declarations
+   <dd><a>computed value</a> of parameter <var>property name</var>
+    from <var>element</var>’s style declarations. <var>property name</var>
+    is obtained from <a>url variables</a>.
 
    <dt>Otherwise
-   <dd> let it be ""
+   <dd> "" (empty string) 
   </dl>
 
  <li>Return <a>success</a> with data <var>computed value</var>.
@@ -5364,7 +5364,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>rendered text</var> be the result of performing
   implementation-specific steps that are exactly analogous to the
@@ -5402,7 +5402,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>qualified name</var> be the result of getting
   <var>element</var>’s <a>tagName</a> content <a>attribute</a>.
@@ -5459,7 +5459,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p><a>Calculate the absolute position</a> of <var>element</var>
   and let it be <var>coordinates</var>.
@@ -5516,7 +5516,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>enabled</var> be a boolean initially set to true
   if the <a>current browsing context</a>’s
@@ -6024,7 +6024,7 @@ must run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p><a>Scroll into view</a> the <var>element</var>.
 
@@ -6790,7 +6790,8 @@ must run the following steps:
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
- <li><p>If the <var>name</var> matches a <a>cookie</a>’s <a>cookie name</a>
+ <li><p>If the <a>url variable</a> <var>name</var>
+  matches a <a>cookie</a>’s <a>cookie name</a>
   amongst <a>all associated cookies</a>
   of the <a>current browsing context</a>’s <a>active document</a>,
   return <a>success</a> with the <a>serialized cookie</a> as data.
@@ -6898,7 +6899,8 @@ must run the following steps:
 </table>
 
 <p>The <dfn>Delete Cookie</dfn> <a>command</a>
- allows you to delete either a single cookie by parameter <var>name</var>,
+ allows you to delete either a single cookie by parameter
+ <a>url variable</a> <var>name</var>
  or all the cookies associated with
  the <a>active document</a>’s <a>address</a>
  if <var>name</var> is <a>undefined</a>.
@@ -6912,7 +6914,8 @@ must run the following steps:
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
  <li><p><a>Delete cookies</a> using
-  the <var>name</var> parameter as the filter argument.
+  the <a>url variable</a> <var>name</var> parameter
+  as the filter argument.
 
  <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
@@ -9288,7 +9291,7 @@ argument <var>value</var>:
 
  <li><p>Let <var>element</var> be the result of
   <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p>If asked to <var>scroll</var>,
   <a>scroll into view</a> the <var>element</var>.
