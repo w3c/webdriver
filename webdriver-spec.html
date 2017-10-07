@@ -5304,13 +5304,19 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with argument <var>element id</var>
+  from <var>url variables</var>.
 
- <li><p>Let <var>computed value</var> be
-  the <a>computed value</a> of parameter <var>property name</var>
-  from <var>element</var>’s style declarations if the <a>current browsing context</a>’s
-   <a>document</a> <a data-lt="document type">type</a> is not "<code>xml</code>",
-   else let it be "".
+ <li><p>Let <var>computed value</var> be the result of the first matching condition:
+  <dl class="switch">
+   <dt>if the <a>current browsing context</a>’s <a>document</a>
+   <a data-lt="document type">type</a> is not "<code>xml</code>"
+   <dd> the <a>computed value</a> of parameter <var>property name</var>
+    from <var>element</var>’s style declarations
+
+   <dt>Otherwise
+   <dd> let it be ""
+  </dl>
 
  <li>Return <a>success</a> with data <var>computed value</var>.
 </ol>
