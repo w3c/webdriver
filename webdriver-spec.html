@@ -1511,7 +1511,7 @@ in the spec, as demonstrated in a (yet to be developed)
  <p>Certain commands may also annotate <a>errors</a>
   with additional <a>error data</a>.
   Notably, this is the case for commands
-  which invoke the <a>user prompt handler</a>,
+  <a>handle any user prompts</a>
   where the <a>user prompt message</a>
   may be included in a "<code>text</code>" field:
 
@@ -1958,13 +1958,6 @@ with a "<code>moz:</code>" prefix:
   <td>JSON <a>Object</a>
   <td>Describes the <a>timeouts</a> imposed on certain session operations.
  </tr>
-
- <tr>
-  <td><dfn>Unhandled prompt behavior</dfn>
-  <td>"<code>unhandledPromptBehavior</code>"
-  <td>string
-  <td>Describes the <a>current session</a>’s <a>user prompt handler</a>.
- </tr>
 </table>
 
 <section>
@@ -2256,10 +2249,6 @@ with a "<code>moz:</code>" prefix:
      <dd><p>Let <var>deserialized</var> be the result of <a>trying</a>
       to <a>deserialize as a timeout</a> with argument <var>value</var>.
 
-     <dt><var>name</var> equals "<code>unhandledPromptBehavior</code>"
-     <dd><p>Let <var>deserialized</var> be the result of <a>trying</a>
-      to <a>deserialize as an unhandled prompt behavior</a> with argument
-      <var>value</var>.
 
      <dt><var>name</var> is the key of an <a>extension capability</a>
      <dd><p>Let <var>deserialized</var> be the result of <a>trying</a>
@@ -2585,9 +2574,6 @@ with a "<code>moz:</code>" prefix:
  The state can be unset by providing
  an "<code>acceptInsecureCerts</code>" <a>capability</a> with the value true.
  Unless stated otherwise, it is set.
-
-<p>A <a>session</a> has an associated <a>user prompt handler</a>. Unless stated
-  otherwise it is <a>null</a>.
 
 <p>A <a>session</a> has an associated list of <a>active input sources</a>.
 
@@ -6342,10 +6328,10 @@ must run the following steps:
  an <a data-lt="missing value default state">unhandled</a> <a>user prompt</a> appears.
 
 <p>If at any point during the algorithm a <a>user prompt</a> appears,
- the <a>user prompt handler</a> must be invoked.
- If its return value is an <a>error</a>,
- it must immediately return with that error
- and abort all subsequent substeps of this algorithm.
+ the algorithm for <a data-lt="handle any user prompts">handling any
+ user prompts</a> must be invoked.  If its return value is
+ an <a>error</a>, it must immediately return with that error and abort
+ all subsequent substeps of this algorithm.
 
 <ol>
  <li><p>Let <var>window</var> be the <a>associated window</a>
@@ -8738,9 +8724,7 @@ is also removed.
  before the <a>event loop</a> is <a>unpaused</a>
  and control is returned to the <a>current top-level browsing context</a>.
 
-<p>By default <a>user prompts</a> are not handled automatically
- unless a <a>user prompt handler</a> has been defined.
- When a <a>user prompt</a> appears,
+<p>When a <a>user prompt</a> appears,
  it is the task of the subsequent <a>command</a> to handle it.
  If the subsequent requested <a>command</a> is not one listed in this chapter,
  an <a>unexpected alert open</a> <a>error</a> will be returned.
@@ -8748,8 +8732,7 @@ is also removed.
 <p><a>User prompts</a> that are spawned
  from <a><code>beforeunload</code></a> event handlers,
  are <a>dismissed</a> implicitly upon <a data-lt=go>navigation</a> or
- or <a>close window</a>,
- regardless of the defined <a>user prompt handler</a>.
+ or <a>close window</a>.
 
 <p>A <a>user prompt</a> has an associated <dfn>user prompt message</dfn>
  that is the string message shown to the user,
@@ -8807,67 +8790,6 @@ is also removed.
 <p>To <dfn data-lt="accepting|accepted|accepts">accept</dfn> the <a>current user prompt</a>,
  do so as if the user would click the <b>OK</b> button.
 
-<p>A <dfn>user prompt handler</dfn> is an <a>enumerated attribute</a>
- defining what action the <a>remote end</a> must take
- when a <a>user prompt</a> is encountered. This is defined by the
- <a>unhandled prompt behavior</a> capability.  The
- following <dfn>known prompt handling approaches table</dfn> lists the
- keywords and states for the attribute:
-
-<table class=simple>
- <tr>
-  <th>Keyword
-  <th>State
-  <th>Description
- </tr>
-
- <tr>
-  <td>"<code>dismiss</code>"
-  <td><dfn>Dismiss state</dfn>
-  <td>All <a>simple dialogs</a> encountered should be <a>dismissed</a>.
- </tr>
-
- <tr>
-  <td>"<code>accept</code>"
-  <td><dfn>Accept state</dfn>
-  <td>All <a>simple dialogs</a> encountered should be <a>accepted</a>.
- </tr>
-
- <tr>
-  <td>"<code>dismiss and notify</code>"
-  <td><dfn>Dismiss and notify state</dfn>
-  <td>All <a>simple dialogs</a> encountered should be <a>dismissed</a>,
-      and an error returned that the dialog was handled.
- </tr>
-
- <tr>
-  <td>"<code>accept and notify</code>"
-  <td><dfn>Accept and notify state</dfn>
-  <td>All <a>simple dialogs</a> encountered should be <a>accepted</a>,
-      and an error returned that the dialog was handled.
- </tr>
-
- <tr>
-  <td>"<code>ignore</code>"
-  <td><dfn>Ignore state</dfn>
-  <td>All <a>simple dialogs</a> encountered should be left to the user to handle.
- </tr>
-</table>
-
-<p>When required to <dfn>deserialize as an unhandled prompt behavior</dfn> an
-argument <var>value</var>:
-
-<ol>
- <li><p>If <var>value</var> is not a <a>string</a> return
-  an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
- <li><p>If <var>value</var> is not present as a <code>keyword</code>
-  in the <a>known prompt handling approaches table</a> return an <a>error</a> with <a>error
-  code</a> <a>invalid argument</a>.
-
- <li><p>Return <a>success</a> with data <var>value</var>.
-</ol>
-
 <p>An <dfn>annotated unexpected alert open error</dfn>
  is an <a>error</a> with <a>error code</a> <a>unexpected alert open</a>
  and an optional <a>error data</a> dictionary
@@ -8886,43 +8808,9 @@ argument <var>value</var>:
  <li><p>If there is no <a>current user prompt</a>,
   abort these steps and return <a>success</a>.
 
- <li><p>Perform the following substeps based on the <a>current session</a>'s
-  <a>user prompt handler</a>:
+ <li><p><a>Dismiss</a> the <a>current user prompt</a>.
 
-  <dl class=switch>
-   <dt><a>dismiss state</a>
-   <dd><p><a>Dismiss</a> the <a>current user prompt</a>.
-
-   <dt><a>accept state</a>
-   <dd><p><a>Accept</a> the <a>current user prompt</a>.
-
-   <dt><a>dismiss and notify state</a>
-   <dd>
-    <ol>
-     <li><p><a>Dismiss</a> the <a>current user prompt</a>.
-     <li><p>Return an <a>annotated unexpected alert open error</a>.
-    </ol>
-
-   <dt><a>accept and notify state</a>
-   <dd>
-    <ol>
-     <li><p><a>Accept</a> the <a>current user prompt</a>.
-     <li><p>Return an <a>annotated unexpected alert open error</a>.
-    </ol>
-
-   <dt><a>ignore state</a>
-   <dd><p>Return an <a>annotated unexpected alert open error</a>.
-
-   <dt><a>missing value default state</a>
-   <dt>not in the <a>table of simple dialogs</a>
-   <dd>
-    <ol>
-     <li><p><a>Dismiss</a> the <a>current user prompt</a>.
-     <li><p>Return an <a>annotated unexpected alert open error</a>.
-    </ol>
-  </dl>
-
- <li><p>Return <a>success</a>.
+ <li><p>Return an <a>annotated unexpected alert open error</a>.
 </ol>
 
 <aside class=example>
