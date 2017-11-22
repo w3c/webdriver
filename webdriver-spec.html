@@ -5696,7 +5696,34 @@ argument <var>reference</var>, run the following steps:
  </tr>
 </table>
 
-<p>The <a>remote end steps</a> are:
+<p>To <dfn>clear a content editable element</dfn>:
+
+<ol>
+ <li><p>If <var>element</var>’s <a><code>innerHTML</code> IDL attribute</a>
+  is an empty string do nothing and return.
+
+ <li><p>Run the <a>focusing steps</a> for <var>element</var>.
+
+ <li><p>Set <var>element</var>’s <a><code>innerHTML</code> IDL attribute</a>
+  to an empty string.
+
+ <li><p>Run the <a>unfocusing steps</a> for the <var>element</var>.
+</ol>
+
+<p>To <dfn>clear a resettable element</dfn>:
+
+<ol>
+ <li><p>If <var>element</var>'s <a>value</a> is an empty string
+  do nothing and return.
+
+ <li><p>Run the <a>focusing steps</a> for <var>element</var>.
+
+ <li><p>Run <var>element</var>’s <a>reset algorithm</a>.
+
+ <li><p>Run the <a>unfocusing steps</a> for the <var>element</var>.
+</ol>
+
+<p>The <a>remote end steps</a> for <a>Element Clear</a> are:
 
 <ol>
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
@@ -5729,35 +5756,6 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
-
-<p>When required to <dfn>clear a content editable element</dfn>
- a <a>remote end</a> must run the following steps:
-
-<ol>
- <li><p>If <var>element</var>'s <a><code>innerHTML</code> IDL
-  attribute</a> is an empty string do nothing and return.
-
- <li><p>Run the <a>focusing steps</a> for <var>element</var>.
-
- <li><p>Set <var>element</var>'s <a><code>innerHTML</code> IDL
-  attribute</a> to an empty string.
-
- <li><p>Run the <a>unfocusing steps</a> for the <var>element</var>.
-</ol> <!-- /clearing a content editable element -->
-
-<p>When required to <dfn>clear a resettable element</dfn> a <a>remote
- end</a> must run the following steps:
-
-<ol>
- <li><p>If <var>element</var>'s <a>value</a> is an empty string do
- nothing and return.
-
- <li><p>Run the <a>focusing steps</a> for <var>element</var>.
-
- <li><p>Run <var>element</var>'s <a>reset algorithm</a>.
-
- <li><p>Run the <a>unfocusing steps</a> for the <var>element</var>.
-</ol> <!-- /clearing an editable element -->
 </section> <!-- /Element Clear -->
 
 <section>
