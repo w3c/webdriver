@@ -925,17 +925,19 @@ in the spec, as demonstrated in a (yet to be developed)
   <a>send an error</a> with <var>request match</var>’s <a>error code</a>
   and jump to step 1.
 
-  <p>Otherwise, let <var>command</var> and <var>url variables</var>
-   be <var>request match</var>’s data.
+  <p>Otherwise, let <var>command</var> and <var>command parameters</var>
+   be <var>request match</var>’s data. Let <var>url variables</var> be a
+   <a>url variables</a> dictionary mapping the <var>command parameters</var>
+   to their corresponding values.
 
-  <li><p>If <var>session id</var> is among the variables defined by <var>url variables</var>:
+  <li><p>If <var>session id</var> is among the variables defined by <var>command parameters</var>:
 
    <p class=note>This condition is intended to exclude the <a>New Session</a> and <a>Status</a>
     <a>commands</a> and any <a>extension commands</a> which do not operate on a particular <a>session</a>.
 
   <ol>
    <li><p>Let <var>session id</var> be the corresponding variable
-    from <var>url variables</var>.
+    from <var>command parameters</var>.
 
    <li><p>Let the <a>current session</a> be the <a>session</a>
     with <a data-lt="session id">ID</a> <var>session id</var>
@@ -987,7 +989,8 @@ in the spec, as demonstrated in a (yet to be developed)
 
  <li><p>Let <var>response result</var> be the return value
   obtained by running the <a>remote end steps</a> for <var>command</var>
-  with one named argument for each entry in <var>url variables</var> and an
+  with an argument named <var>url variables</var> whose value is
+  <var>url variables</var> and an
   additional argument named <var>parameters</var> whose value is
   <var>parameters</var>.
 
@@ -1076,6 +1079,9 @@ in the spec, as demonstrated in a (yet to be developed)
  <li><p><a data-lt="write bytes">Write</a> <var>response bytes</var>
   to the <a>connection</a>.
 </ol>
+<p>A <dfn data-lt="url variables">url variable</dfn> dictionary is defined
+  as the mapping of a <a>command</a>'s <a>URI template</a> variable names
+  to their corresponding values.
 </section> <!-- /Processing Model -->
 
 <section>
@@ -4936,7 +4942,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>start node</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li>Let <var>result</var> be the value of <a>trying</a> to <a>Find</a> with
   <var>start node</var>, <var>location strategy</var>,
@@ -4989,7 +4995,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>start node</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li>Return the result of <a>trying</a> to <a>Find</a> with
   <var>start node</var>, <var>location strategy</var>, and <var>selector</var>.
@@ -5136,7 +5142,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>selected</var> be the value
   corresponding to the first matching statement:
@@ -5186,7 +5192,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li>Let <var>result</var> be the result of the first matching condition:
 
@@ -5240,7 +5246,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>property</var> be the result of calling
   the <var>element</var>.<a>[[\GetProperty]]</a>(<var>name</var>).
@@ -5280,13 +5286,19 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
- <li><p>Let <var>computed value</var> be
-  the <a>computed value</a> of parameter <var>property name</var>
-  from <var>element</var>’s style declarations if the <a>current browsing context</a>’s
-   <a>document</a> <a data-lt="document type">type</a> is not "<code>xml</code>",
-   else let it be "".
+ <li><p>Let <var>computed value</var> be the result of the first matching condition:
+  <dl class="switch">
+   <dt><a>current browsing context</a>’s <a>document</a>
+   <a data-lt="document type">type</a> is not "<code>xml</code>"
+   <dd><a>computed value</a> of parameter <var>property name</var>
+    from <var>element</var>’s style declarations. <var>property name</var>
+    is obtained from <a>url variables</a>.
+
+   <dt>Otherwise
+   <dd> "" (empty string) 
+  </dl>
 
  <li>Return <a>success</a> with data <var>computed value</var>.
 </ol>
@@ -5334,7 +5346,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>rendered text</var> be the result of performing
   implementation-specific steps that are exactly analogous to the
@@ -5372,7 +5384,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>qualified name</var> be the result of getting
   <var>element</var>’s <a>tagName</a> content <a>attribute</a>.
@@ -5429,7 +5441,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p><a>Calculate the absolute position</a> of <var>element</var>
   and let it be <var>coordinates</var>.
@@ -5486,7 +5498,7 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>enabled</var> be a boolean initially set to true
   if the <a>current browsing context</a>’s
@@ -5543,7 +5555,7 @@ argument <var>reference</var>, run the following steps:
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Let <var>element</var> be the result of <a>trying</a>
-  to <a>get a known connected element</a> by reference <var>element id</var>.
+  to <a>get a known connected element</a> with argument <var>element id</var>.
 
  <li><p>If the <var>element</var> is
   an <a><code>input</code> element</a> in the <a>file upload state</a>
@@ -5994,7 +6006,7 @@ must run the following steps:
 
  <li><p>Let <var>element</var> be the result
   of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p><a>Scroll into view</a> the <var>element</var>.
 
@@ -6760,7 +6772,8 @@ must run the following steps:
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
- <li><p>If the <var>name</var> matches a <a>cookie</a>’s <a>cookie name</a>
+ <li><p>If the <a>url variable</a> <var>name</var>
+  matches a <a>cookie</a>’s <a>cookie name</a>
   amongst <a>all associated cookies</a>
   of the <a>current browsing context</a>’s <a>active document</a>,
   return <a>success</a> with the <a>serialized cookie</a> as data.
@@ -6868,7 +6881,8 @@ must run the following steps:
 </table>
 
 <p>The <dfn>Delete Cookie</dfn> <a>command</a>
- allows you to delete either a single cookie by parameter <var>name</var>,
+ allows you to delete either a single cookie by parameter
+ <a>url variable</a> <var>name</var>
  or all the cookies associated with
  the <a>active document</a>’s <a>address</a>
  if <var>name</var> is <a>undefined</a>.
@@ -6882,7 +6896,8 @@ must run the following steps:
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
  <li><p><a>Delete cookies</a> using
-  the <var>name</var> parameter as the filter argument.
+  the <a>url variable</a> <var>name</var> parameter
+  as the filter argument.
 
  <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
@@ -9258,7 +9273,7 @@ argument <var>value</var>:
 
  <li><p>Let <var>element</var> be the result of
   <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  with <a>url variable</a> <var>element id</var>.
 
  <li><p>If asked to <var>scroll</var>,
   <a>scroll into view</a> the <var>element</var>.
