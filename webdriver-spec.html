@@ -529,6 +529,8 @@ in the spec, as demonstrated in a (yet to be developed)
    <!-- offsetLeft --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetleft>offsetLeft</a></dfn>
    <!-- offsetParent --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetparent>offsetParent</a></dfn>
    <!-- offsetTop --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsettop>offsetTop</a></dfn>
+   <!-- outerHeight --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-outerheight>outerHeight</a></dfn>
+   <!-- outerWidth --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-outerwidth>outerWidth</a></dfn>
    <!-- screenX --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-screenx>screenX</a></dfn>
    <!-- screenY --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-screeny>screenY</a></dfn>
    <!-- scrollX --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-window-scrollx">scrollX</a></dfn>
@@ -3912,7 +3914,7 @@ with a "<code>moz:</code>" prefix:
 
 <p>A <a>top-level browsing context</a>’s <dfn>window rect</dfn>
  is defined as a dictionary of the <a>screenX</a>, <a>screenY</a>,
- <code>width</code> and <code>height</code> attributes
+ <a>outerWidth</a> and <a>outerHeight</a> attributes
  of the <a><code>WindowProxy</code></a>.
  Its <dfn data-lt="json serialization of window rect">JSON representation</dfn> is the following:
 
@@ -3924,22 +3926,11 @@ with a "<code>moz:</code>" prefix:
  <dd><p><a><code>WindowProxy</code></a>’s <a>screenY</a> attribute.
 
  <dt>"<code>width</code>"
- <dd><p>Width of the <a>top-level browsing context</a>’s outer dimensions,
-  including any browser chrome
-  and externally drawn window decorations
-  in <a>CSS pixels</a>.
+ <dd><p><a><code>WindowProxy</code></a>’s <a>outerWidth</a> attribute.
 
  <dt>"<code>height</code>"
- <dd><p>Height of the <a>top-level browsing context</a>’s outer dimensions,
-  including any browser chrome
-  and externally drawn window decorations
-  in <a>CSS pixels</a>.
+ <dd><p><a><code>WindowProxy</code></a>’s <a>outerHeight</a> attribute.
 </dl>
-
-<p class="example">In some user agents the operating system’s
- window dimensions including decorations,
- are provided by the proprietary <code>window.outerWidth</code>
- and <code>window.outerHeight</code> [[!DOM]] properties.
 
 <p>To <dfn>maximize the window</dfn>,
  given an operating system level window
@@ -4097,6 +4088,14 @@ with a "<code>moz:</code>" prefix:
 
     <p>Particular implementations may have other limitations
      such as not being able to resize in single-pixel increments.
+
+    <p>This is intended to mutate the value of the <a>current
+     top-level browsing context</a>'s <a><code>WindowProxy</code></a>'s
+     <a>outerWidth</a> and <a>outerHeight</a>
+     properties. Specifically, the value of <a>outerWidth</a> should
+     be as close as possible to <var>width</var> and the value
+     of <a>outerHeight</a> should be as close as possible
+     to <var>height</var>.
    </aside>
   </ol>
 
