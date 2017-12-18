@@ -24,7 +24,7 @@ Working Group], and has produced the following documents:
 
 [WebDriver]: https://w3c.github.io/webdriver/webdriver-spec.html
 [Web Testing Activity]: https://www.w3.org/testing/Activity
-[Browser Testing- and ToolsWorking Group]: https://www.w3.org/testing/browser/
+[Browser Testing- and Tools Working Group]: https://www.w3.org/testing/browser/
 
 
 Contribute
@@ -43,7 +43,7 @@ from disk in a browser.
 You may add your name to the [Acknowledgements] section in your
 first PR, even for trivial fixes.  The names are sorted lexicographically.
 
-See [[CONTRIBUTING.md]] for more guidelines.
+See <CONTRIBUTING.md> for more guidelines.
 
 [good commit message]: https://github.com/erlang/otp/wiki/Writing-good-commit-messages
 [Acknowledgements]: https://w3c.github.io/webdriver/webdriver-spec.html#acknowledgements
