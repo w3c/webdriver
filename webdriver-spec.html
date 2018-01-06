@@ -671,11 +671,11 @@ in the spec, as demonstrated in a (yet to be developed)
 <section>
 <h3>Extensions</h3>
 
-<p>WebDriver aims to allow other standards
- to <a data-lt="extension commands">provide extensions</a> to support new functionality,
- and to allow conformance tests that cannot be implemented
- entirely in <a href=https://tc39.github.io/ecma262/>ECMAScript</a>
- to be written in a vendor-neutral way.
+<p>WebDriver provides a mechanism for others to define extensions to the protocol
+ for the purposes of automating functionality that cannot be implemented entirely
+ in <a href=https://tc39.github.io/ecma262/>ECMAScript</a>. This allows other
+ web standards to support the automation of new platform features. It also
+ allows vendors to expose functionality that is specific to their browser.
 </section>
 </section> <!-- /Design Notes -->
 
@@ -1790,28 +1790,35 @@ in the spec, as demonstrated in a (yet to be developed)
 <section>
 <h2>Protocol Extensions</h2>
 
-<p>The protocol is designed to allow extension to meet vendor-specific needs.
- Commands that are specific to a user agent
+<p>Using the terminology defined in this section, others may define additional
+ commands that seamlessly integrate with the standard protocol. This allows
+ vendors to expose functionality that is specific to their user agent, and it
+ also allows other web standards to define commands for automating new platform
+ features.
+
+<p>Commands defined in this way
  are called <dfn data-lt="extension command">extension commands</dfn>
  and behave no differently than other <a>commands</a>;
  each has a dedicated HTTP endpoint and a set of <a>remote end steps</a>.
 
 <p>Each <a>extension command</a> has an associated
- <dfn>extension command name</dfn>
+ <dfn>extension command URI Template</dfn>
  that is a <a>URI Template</a> string,
  and which should bear some resemblance to what the command performs.
- The name is used to form an <a>extension command</a>’s
- <a data-lt="extension command URI Template">URI Template</a>.
-
-<p>The <a>extension command</a>’s <dfn>extension command URI Template</dfn>
- is a <a>URI Template</a> composed of the <a>extension command prefix</a>,
- followed by "<code>/</code>",
- and the <a>extension command</a>’s <a data-lt="extension command name">name</a>.
- The <a>extension command URI Template</a>,
+ This value,
  along with the HTTP method and <a>extension command</a>,
  is added to the <a>table of endpoints</a>
  and thus follows the same rules for <a>request routing</a>
  as that of other built-in <a>commands</a>.
+
+<p>In order to avoid potential resource conflicts with other implementations,
+ vendor-specific <a data-lt="extension command URI Template">extension command URI Templates</a> must begin with one
+ or more path segments which uniquely identifies the vendor and UA.
+ It is suggested that vendors use their vendor prefixes
+ without additional characters as outlined in [[CSS21]],
+ notably in <a href=https://www.w3.org/TR/CSS21/syndata.html#vendor-keywords>section 4.1.2.2 on <i>vendor keywords</i></a>,
+ as the name for this path element,
+ and include a vendor-chosen UA identifier.
 
 <aside class=note>
  If the <a>extension command URI Template</a> includes a variable named
@@ -1822,24 +1829,15 @@ in the spec, as demonstrated in a (yet to be developed)
 <aside class=example>
  <p>This might lead to a URL of the form
   <code>/session/5d376174-36f0-11e5-9b9a-6bdf200a3f7f/<var>ms</var>/<var>edge</var>/<var>context</var></code>,
-  where <var>/session/{<var>session id</var>}/ms/edge</var> is an <a>extension command prefix</a>
-  based on the vendor prefix associated with Microsoft,
-  and <var>context</var> the <a>extension command name</a>
+  where <code>session/{<var>session id</var>}</code> associates the request
+  with the specified session, <code>ms/edge</code> identifies the command as
+  specific to the Edge browser distributed by Microsoft,
+  and <code>context</code> describes the functionality
   that, in the context of Edge, allows a <a>local end</a>
   to switch between browser-specific contexts.
   Requesting this URL will call the <a>extension command</a>’s
   <a>remote end steps</a>.
 </aside>
-
-<p>An <dfn>extension command prefix</dfn>
- is a <a>URI Template</a> string that forms a <a>URL</a> path part,
- separating <a>extension commands</a> from other <a>commands</a>
- in order to avoid potential resource conflicts with other implementations.
- It is suggested that vendors use their vendor prefixes
- without additional characters as outlined in [[CSS21]],
- notably in <a href=https://www.w3.org/TR/CSS21/syndata.html#vendor-keywords>section 4.1.2.2 on <i>vendor keywords</i></a>,
- as the name for this path element,
- and include a vendor-chosen UA identifier.
 
 <p><a>Remote ends</a> may also introduce
  <dfn data-lt="extension capability">extension capabilities</dfn>
