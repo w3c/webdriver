@@ -3,7 +3,7 @@
 Currently tests are being tracked on [http://wpt.fyi/webdriver](http://wpt.fyi/webdriver).
 
 A cached result of tests from multiple different vendors is stored
-[results/html/all.html](here).
+[here](https://w3c.github.io/webdriver/results/html/all.html).
 
 ## Status Documents from Vendors
 
