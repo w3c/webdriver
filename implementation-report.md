@@ -2,6 +2,9 @@
 
 Currently tests are being tracked on [http://wpt.fyi/webdriver](http://wpt.fyi/webdriver).
 
+A cached result of tests from multiple different vendors is stored
+[results/html/all.html](here).
+
 ## Status Documents from Vendors
 
 * [Mozilla Firefox](https://developer.mozilla.org/en-US/docs/Mozilla/QA/Marionette/WebDriver/status)
