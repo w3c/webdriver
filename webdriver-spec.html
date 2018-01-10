@@ -5617,23 +5617,26 @@ argument <var>reference</var>, run the following steps:
 
        <li><p>Run the <a>focusing steps</a> on <var>parent node</var>.
 
-       <li><p><a>Fire</a> an <a><code>input</code></a> event at <var>parent node</var>.
+       <li><p>If <var>element</var> is not <a>disabled</a>:
 
-       <li><p>Let <var>previous selectedness</var> be equal to <var>element</var>
-         <a>selectedness</a>.
+        <ol>
+         <li><p><a>Fire</a> an <a><code>input</code></a> event at <var>parent node</var>.
 
-       <li><p>If <var>element</var>’s <a>container</a>
-        has the <a><code>multiple</code> attribute</a>,
-        toggle the <var>element</var>’s <a>selectedness</a> state
-        by setting it to the opposite value of its current <a>selectedness</a>.
+         <li><p>Let <var>previous selectedness</var> be equal
+          to <var>element</var> <a>selectedness</a>.
 
-        <p>Otherwise,
-         set the <var>element</var>’s <a>selectedness</a> state to true.
+         <li><p>If <var>element</var>’s <a>container</a>
+          has the <a><code>multiple</code> attribute</a>,
+          toggle the <var>element</var>’s <a>selectedness</a> state
+          by setting it to the opposite value of its current <a>selectedness</a>.
 
-       <li><p>If <var>previous selectedness</var> is false:
-         <ol>
-          <li><p><a>Fire</a> a <a><code>change</code></a> event at <var>parent node</var>.
-         </ol>
+          <p>Otherwise,
+           set the <var>element</var>’s <a>selectedness</a> state to true.
+
+         <li><p>If <var>previous selectedness</var> is false,
+          <a>fire</a> a <a><code>change</code></a> event
+          at <var>parent node</var>.
+        </ol>
 
        <li><p><a>Fire</a> a <a>mouseUp event</a> at <var>parent node</var>.
 
