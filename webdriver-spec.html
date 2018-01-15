@@ -5851,13 +5851,24 @@ argument <var>reference</var>, run the following steps:
  <li><p>If <var>element</var> is not <a>interactable</a>,
   return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
 
- <li><p>If <var>element</var> is <a>disabled</a>,
-  <a>read only</a>, or has <a>pointer events disabled</a>,
-  return <a>error</a> with <a>error code</a> <a>invalid element state</a>.
+ <li><p>Run the substeps of the first matching statement:
 
- <li>If <var>element</var> is <a>content editable</a>
-  follow the steps to <a>clear a content editable element</a>.
-  Otherwise, follow the steps required to <a>clear a resettable element</a>.
+  <dl class=switch>
+   <dt><var>element</var> is a <a>mutable form control element</a>
+   <dd>
+    <ol>
+     <li><p>If <var>element</var> is <a>disabled</a> or <a>read only</a>,
+      return <a>error</a> with <a>error code</a> <a>invalid element state</a>.
+
+     <li><p>Invoke the steps to <a>clear a resettable element</a>.
+    </ol>
+
+   <dt><var>element</var> is a <a>mutable element</a>
+   <dd><p>Invoke the steps to <a>clear a content editable element</a>.
+
+   <dt>Otherwise
+   <dd><p>Return <a>error</a> with <a>error code</a> <a>invalid element state</a>.
+  </dl>
 
  <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
