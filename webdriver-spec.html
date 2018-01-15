@@ -5804,8 +5804,23 @@ argument <var>reference</var>, run the following steps:
 <p>To <dfn>clear a resettable element</dfn>:
 
 <ol>
- <li><p>If <var>element</var>'s <a>value</a> is an empty string
-  do nothing and return.
+ <li><p>Let <var>empty</var> be the result of the first matching condition:
+
+  <dl class=switch>
+   <dt><var>element</var> is an <a><code>input</code> element</a>
+    whose <a><code>type</code> attribute</a> is in the <a>File Upload state</a>
+   <dd>True if the list of <a>selected files</a> has a length of 0,
+    and false otherwise.
+
+   <dt>Otherwise
+   <dd>True if its <a>value</a> IDL attribute is an empty string,
+    and false otherwise.
+  </dl>
+
+ <li><p>If <var>element</var> is a <a>candidate for constraint validation</a>
+  it <a>satisfies its constraints</a>,
+  and <var>empty</var> is true,
+  abort these substeps.
 
  <li><p>Invoke the <a>focusing steps</a> for <var>element</var>.
 
