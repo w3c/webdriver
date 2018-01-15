@@ -53,6 +53,20 @@ var respecConfig = {
 <script>selectionchange.start()</script>
 <script src=issue.js></script>
 
+<style>
+/* ul.brief to create inline comma separated lists */
+ul.brief::before {
+  content: '\21D2\A0';
+  font: 1.2em/1.45 Helvetica Neue, sans-serif;
+}
+ul.brief li { display: inline }
+ul.brief li::after { content: ", " }
+ul.brief li:last-child::after { content: "" }
+
+/* dl.subcategories when the definition list subdivides a definition */
+dl.subcategories { margin-left: 2em }
+</style>
+
 <section id=abstract>
 <p>WebDriver is a remote control interface
  that enables introspection and control of user agents.
@@ -285,16 +299,17 @@ in the spec, as demonstrated in a (yet to be developed)
   <ul>
    <!-- 2D context creation algorithm --> <li><dfn><a href=https://html.spec.whatwg.org/#2d-context-creation-algorithm>2D context creation algorithm</a></dfn>
    <!-- A browsing context is discarded --> <li><dfn data-lt=discarded><a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>A browsing context is discarded</a></dfn>
+   <!-- A serialization of the bitmap as a file --> <li><dfn data-lt="a serialization of the canvas element’s bitmap as a file"><a href=https://html.spec.whatwg.org/#a-serialisation-of-the-bitmap-as-a-file>A serialization of the bitmap as a file</a></dfn>
+   <!-- API length --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-fe-api-value">API value</a></dfn>
    <!-- Active document --> <li><dfn><a href=https://html.spec.whatwg.org/#active-document>Active document</a></dfn>
    <!-- Active element --> <li><dfn>Active element</dfn> being the <a href=https://html.spec.whatwg.org/#dom-document-activeelement><code>activeElement</code></a> attribute on <a href=https://html.spec.whatwg.org/#document><code>Document</code></a>
-   <!-- API length --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-fe-api-value">API value</a></dfn>
-   <!-- A serialization of the bitmap as a file --> <li><dfn data-lt="a serialization of the canvas element’s bitmap as a file"><a href=https://html.spec.whatwg.org/#a-serialisation-of-the-bitmap-as-a-file>A serialization of the bitmap as a file</a></dfn>
    <!-- Associated window --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-document-window>Associated window</a></dfn>
    <!-- Body element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-body-element><code>body</code> element</a></dfn>
    <!-- Boolean attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#boolean-attribute>Boolean attribute</a></dfn>
    <!-- Browsing context --> <li><dfn data-lt="browsing contexts"><a href=https://html.spec.whatwg.org/#browsing-context>Browsing context</a></dfn>
    <!-- Button --> <li><dfn><a href="https://html.spec.whatwg.org/#button-state-%28type=button%29">Button</a></dfn> state
    <!-- Buttons --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-button>Buttons</a></dfn>
+   <!-- Candidate for constraint validation --> <li><dfn><a href=https://html.spec.whatwg.org/#candidate-for-constraint-validation>Candidate for constraint validation</a></dfn>
    <!-- Canvas context mode --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-context-mode>Canvas context mode</a></dfn>
    <!-- Checkbox --> <li><dfn><a href="https://html.spec.whatwg.org/#checkbox-state-%28type=checkbox%29">Checkbox</a></dfn> state
    <!-- Checkedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-checked>Checkedness</a></dfn>
@@ -303,7 +318,6 @@ in the spec, as demonstrated in a (yet to be developed)
    <!-- Clean up after running a script --> <li><dfn><a href="https://html.spec.whatwg.org/#clean-up-after-running-script">Clean up after running a script</a></dfn>
    <!-- Close a browsing context --> <li><dfn data-lt="close|closes"><a href=https://html.spec.whatwg.org/#close-a-browsing-context>Close a browsing context</a></dfn>
    <!-- Code entry-point --> <li><dfn><a href=https://html.spec.whatwg.org/#code-entry-point>Code entry-point</a></dfn>
-   <!-- Color state --> <li><dfn><a href="https://html.spec.whatwg.org/#color-state-(type=color)"><code>color</code> state</a></dfn>
    <!-- Cookie-averse Document object --> <li><dfn><a href=https://html.spec.whatwg.org/#cookie-averse-document-object>Cookie-averse <code>Document</code> object</a></dfn>
    <!-- Current entry --> <li><dfn><a href=https://html.spec.whatwg.org/#current-entry>Current entry</a></dfn>
    <!-- Dirty checkedness flag --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-input-checked-dirty-flag>Dirty checkedness flag</a></dfn>
@@ -344,34 +358,35 @@ in the spec, as demonstrated in a (yet to be developed)
    <!-- Raw value --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-textarea-raw-value>Raw value</a></dfn>
    <!-- Refresh state pragma directive --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-meta-http-equiv-refresh>Refresh state pragma directive</a></dfn>
    <!-- Reset algorithm --> <li><dfn data-lt="reset algorithms"><a href=https://html.spec.whatwg.org/#concept-form-reset-control>Reset algorithm</a></dfn>
-   <!-- Reset Button --> <li><dfn><a href="https://html.spec.whatwg.org/#reset-button-state-%28type=reset%29">Reset Button</a></dfn> state
    <!-- Resettable element --> <li><dfn data-lt="resettable elements"><a href=https://html.spec.whatwg.org/#category-reset>Resettable</a></dfn> element
+   <!-- Resettable element --> <li><dfn><a href=https://html.spec.whatwg.org/#category-reset>Resettable element</a></dfn>
    <!-- Run the animation frame callbacks --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#run-the-animation-frame-callbacks">Run the animation frame callbacks</a></dfn>
-   <!-- Script execution environment --> <li><dfn><a href=https://html.spec.whatwg.org/#environment>Script execution environment</a></dfn>
+   <!-- Satisfies its constraints --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fv-valid>Satisfies its constraints</a></dfn>
    <!-- Script --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-script>Script</a></dfn>
+   <!-- Script execution environment --> <li><dfn><a href=https://html.spec.whatwg.org/#environment>Script execution environment</a></dfn>
    <!-- Selectedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-option-selectedness>Selectedness</a></dfn>
    <!-- Session history --> <li><dfn><a href=https://html.spec.whatwg.org/#session-history>Session history</a></dfn>
-   <!-- setSelectionRange --> <li><dfn data-lt="set selection range"><a href=https://html.spec.whatwg.org/#dom-textarea/input-setselectionrange><code>setSelectionRange</code></a></dfn>
    <!-- Settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#settings-object>Settings object</a></dfn>
    <!-- Simple dialogs --> <li><dfn data-lt="simple dialog"><a href=https://html.spec.whatwg.org/#simple-dialogs>Simple dialogs</a></dfn>
    <!-- Submit Button --> <li><dfn><a href="https://html.spec.whatwg.org/#submit-button-state-%28type=submit%29">Submit Button</a></dfn> state
    <!-- Submittable elements --> <li><dfn data-lt="submittable element"><a href=https://html.spec.whatwg.org/#category-submit>Submittable elements</a></dfn>
    <!-- Suffering from bad input --> <li><dfn><a href=https://html.spec.whatwg.org/#suffering-from-bad-input>Suffering from bad input</a></dfn>
    <!-- Top-level browsing context --> <li><dfn data-lt="top-level browsing contexts"><a href=https://html.spec.whatwg.org/#top-level-browsing-context>Top-level browsing context</a></dfn>
-   <!-- Traverse the history by a delta --> <li><dfn><a href=https://html.spec.whatwg.org/#traverse-the-history-by-a-delta>Traverse the history by a delta</a></dfn>
    <!-- Traverse the history --> <li><dfn data-lt="traversing the history"><a href=https://html.spec.whatwg.org/#traverse-the-history>Traverse the history</a></dfn>
+   <!-- Traverse the history by a delta --> <li><dfn><a href=https://html.spec.whatwg.org/#traverse-the-history-by-a-delta>Traverse the history by a delta</a></dfn>
    <!-- Tree order --> <li><dfn><a href=https://html.spec.whatwg.org/#tree-order>Tree order</a></dfn>
    <!-- Unfocusing steps --><li><dfn><a href=https://html.spec.whatwg.org/#unfocusing-steps>unfocusing steps</a></dfn>
    <!-- User prompt --> <li><dfn data-lt="user prompts"><a href=https://html.spec.whatwg.org/#user-prompts>User prompt</a></dfn>
    <!-- Value --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-value>Value</a></dfn>
    <!-- Value mode flag --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-output-mode>Value mode flag</a></dfn>
    <!-- Value sanitization algorithm --> <li><dfn><a href=https://html.spec.whatwg.org/#value-sanitization-algorithm>Value sanitization algorithm</a></dfn>
-   <!-- window.alert --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-alert><code>alert</code></a></dfn>
-   <!-- window confirm --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-confirm><code>confirm</code></a></dfn>
    <!-- Window object --> <li><dfn><a href=https://html.spec.whatwg.org/#the-window-object><code>Window</code></a></dfn> object
-   <!-- window.prompt --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-prompt><code>prompt</code></a></dfn>
    <!-- WindowProxy exotic object --> <li><dfn><a href=https://html.spec.whatwg.org/#windowproxy><code>WindowProxy</code></a></dfn> exotic object
    <!-- WorkerNavigator --> <li><dfn data-lt="workernavigator"><a href=https://html.spec.whatwg.org/#workernavigator>WorkerNavigator object</a></dfn>
+   <!-- setSelectionRange --> <li><dfn data-lt="set selection range"><a href=https://html.spec.whatwg.org/#dom-textarea/input-setselectionrange><code>setSelectionRange</code></a></dfn>
+   <!-- window confirm --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-confirm><code>confirm</code></a></dfn>
+   <!-- window.alert --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-alert><code>alert</code></a></dfn>
+   <!-- window.prompt --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-prompt><code>prompt</code></a></dfn>
   </ul>
 
  <dd><p>The HTML specification also defines a number of elements
@@ -393,6 +408,24 @@ in the spec, as demonstrated in a (yet to be developed)
    <!-- textarea element --> <li><dfn data-lt="textarea elements|textarea"><a href=https://html.spec.whatwg.org/#the-textarea-element><code>textarea</code> element</a></dfn>
   </ul>
 
+ <dd><p>The HTML specification also defines <em>states</em>
+  of the <a><code>input</code> element</a>:
+  <ul>
+   <!-- Color state --> <li><dfn><a href="https://html.spec.whatwg.org/#color-state-(type=color)">Color state</a></dfn>
+   <!-- Date state --> <li><dfn><a href="https://html.spec.whatwg.org/#date-state-(type=date)">Date state</a></dfn>
+   <!-- Email state --> <li><dfn><a href="https://html.spec.whatwg.org/#e-mail-state-(type=email)">Email state</a></dfn>
+   <!-- Local Date and Time state --> <li><dfn><a href="https://html.spec.whatwg.org/#local-date-and-time-state-(type=datetime-local)">Local Date and Time state</a></dfn>
+   <!-- Month state --> <li><dfn><a href="https://html.spec.whatwg.org/#month-state-(type=month)">Month state</a></dfn>
+   <!-- Number state --> <li><dfn><a href="https://html.spec.whatwg.org/#number-state-(type=number)">Number state</a></dfn>
+   <!-- Password state --> <li><dfn><a href="https://html.spec.whatwg.org/#password-state-(type=password)">Password state</a></dfn>
+   <!-- Range state --> <li><dfn><a href="https://html.spec.whatwg.org/#range-state-(type=range)">Range state</a></dfn>
+   <!-- Telephone state --> <li><dfn><a href="https://html.spec.whatwg.org/#telephone-state-(type=tel)">Telephone state</a></dfn>
+   <!-- Text and Search state --> <li><dfn><a href="https://html.spec.whatwg.org/#text-(type=text)-state-and-search-state-(type=search)">Text and Search state</a></dfn>
+   <!-- Time state --> <li><dfn><a href="https://html.spec.whatwg.org/#time-state-(type=time)">Time state</a></dfn>
+   <!-- URL state --> <li><dfn><a href="https://html.spec.whatwg.org/#url-state-(type=url)">URL state</a></dfn>
+   <!-- Week state --> <li><dfn><a href="https://html.spec.whatwg.org/#week-state-(type=week)">Week state</a></dfn>
+  </ul>
+
  <dd><p>The HTML specification also defines a range of different attributes:
   <ul>
    <!-- Canvas height attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-canvas-height><code>canvas</code>’s height attribute</a></dfn>
@@ -406,7 +439,8 @@ in the spec, as demonstrated in a (yet to be developed)
 
  <dd><p>The HTML Editing APIs specification defines the following terms: [[!EDITING]]
   <ul>
-   <!-- Content Editable --> <li><dfn><a href=https://w3c.github.io/editing/contentEditable.html>Content editable</a></dfn></li>
+   <!-- Content editable --> <li><dfn><a href=https://w3c.github.io/editing/contentEditable.html>Content editable</a></dfn>
+   <!-- Editing host --> <li><dfn data-lt="editing hosts"><a href=https://w3c.github.io/editing/execCommand.html#editing-host>Editing host</a></dfn>
   </ul>
 
  <dd><p>The following events are also defined in the HTML specification:
@@ -4395,19 +4429,39 @@ argument <var>reference</var>, run the following steps:
   <a>Call</a>(<a>scrollIntoView</a>, <var>options</var>).
 </ol>
 
-<p>An <a>element</a> is considered <dfn>editable</dfn>
- if one or more of the following conditions are met:
+<p><dfn>Editable</dfn> <a>elements</a>
+ are those that can be used for <a data-lt="element send keys">typing</a>
+ and <a data-lt="element clear">clearing</a>,
+ and they fall into two subcategories:
 
-<ul>
- <li><p><var>element</var> is an <a><code>input</code> element</a>
-  for which the <a><code>input</code> event applies</a>,
-  and which is neither in the <a>checkbox</a> state
-  nor <a>radio button</a> state
+<dl class=subcategories>
+ <dt><dfn data-lt="mutable form control element">Mutable form control elements</dfn>
+ <dd><p>Denotes <a><code>input</code> elements</a>
+  whose <a><code>type</code> attribute</a>
+  is in one of the following states:
 
- <li><p><var>element</var> is a <a><code>textarea</code> element</a>
+  <ul class=brief>
+   <li><a data-lt="Text and Search state">Text and Search</a></li>
+   <li><a data-lt="URL state">URL</a></li>
+   <li><a data-lt="Telephone state">Telephone</a></li>
+   <li><a data-lt="Email state">Email</a></li>
+   <li><a data-lt="Password state">Password</a></li>
+   <li><a data-lt="Date state">Date</a></li>
+   <li><a data-lt="Month state">Month</a></li>
+   <li><a data-lt="Week state">Week</a></li>
+   <li><a data-lt="Time state">Time</a></li>
+   <li><a data-lt="Local Date and Time state">Local Date and Time</a></li>
+   <li><a data-lt="Number state">Number</a></li>
+   <li><a data-lt="Range state">Range</a></li>
+   <li><a data-lt="Color state">Color</a></li>
+   <li><a data-lt="File Upload state">File Upload</a></li>
+  </ul>
 
- <li><p><var>element</var> is <a>content editable</a>
-</ul>
+  <p>And the <a><code>textarea</code> element</a>.
+
+ <dt><dfn data-lt="mutable element">Mutable elements</dfn>
+ <dd><p>Denotes elements that are <a>editing hosts</a> or <a>content editable</a>.
+</dl>
 
 <p>An <a>element</a> is said to have
  <dfn data-lt="pointer events are not disabled">pointer events disabled</dfn>
