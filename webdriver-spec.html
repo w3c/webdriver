@@ -768,32 +768,48 @@ in the spec, as demonstrated in a (yet to be developed)
 </section> <!-- /Terminology -->
 
 <section>
+<h2>Interface</h2>
 
-<h2 data-dfn-for="NavigatorAutomationInformation">Interface</h2>
-
-<p>If the <dfn>webdriver-active flag</dfn> is true,
- the user agent must support <dfn>NavigatorAutomationInformation</dfn> interface:
-
- <pre class=idl>
- Navigator includes NavigatorAutomationInformation;
-</pre>
+<p>
+The <dfn>webdriver-active flag</dfn>
+is set to true when the user agent is under remote control.
+It is initially false.
 
 <pre class=idl>
- interface mixin NavigatorAutomationInformation {
- readonly attribute boolean webdriver; // always returns true
- };
+<a>Navigator</a> includes <a>NavigatorAutomationInformation</a>;
 </pre>
 
-<p data-dfn-for="NavigatorAutomationInformation">Note that the <dfn>webdriver</dfn>
- property should not be exposed on <code><a>WorkerNavigator</a></code>, and it must be
- a getter that always returns true.
+<p>
+Note that the <a><code>NavigatorAutomationInformation</code></a> interface
+should not be exposed on <a><code>WorkerNavigator</code></a>.
 
-<p>This property defines a standard way for a co-operating user agent to inform a website
-  that it is controlled by WebDriver.
+<pre class=idl>
+interface mixin <dfn>NavigatorAutomationInformation</dfn> {
+	readonly attribute boolean <a>webdriver</a>;
+};
+</pre>
 
-<p class="note" style="display: none">It is acknowledged that this is
- complementary to the Evil Bit [[!RFC3514]].
+<dl>
+<dt><dfn data-lt=navigator-webdriver><code>webdriver</code></dfn>
+<dd><p>Returns true if <a>webdriver-active flag</a> is true,
+false otherwise.
+</dl>
 
+<aside class=example>
+<p>
+For web authors (non-normative):
+
+<dl>
+<dt><code>navigator</code>.<a><code>webdriver</code></a>
+<dd><p>
+Defines a standard way for co-operating user agents
+to inform the document that it is controlled by WebDriver,
+for example so that alternate code paths can be triggered during automation.
+</dl>
+</aside>
+
+<p style="display: none">
+It is acknowledged that this is complementary to the Evil Bit [[!RFC3514]].
 </section>
 
 <section>
