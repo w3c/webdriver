@@ -4871,7 +4871,7 @@ argument <var>reference</var>, run the following steps:
 </section> <!-- /Locator Strategies -->
 
 <section>
-<h3>Find Element</h3>
+<h3><dfn>Find Element</dfn></h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -4884,9 +4884,23 @@ argument <var>reference</var>, run the following steps:
  </tr>
 </table>
 
-<p>The <dfn>Find Element</dfn> <a>command</a>
- is used to find an <a>element</a> in the <a>current browsing context</a>
- that can be used for future <a>commands</a>.
+<aside class=note>
+<p>
+The <a>Find Element</a> <a>command</a>
+is used to find an <a>element</a> in the <a>current browsing context</a>
+that can be used as the <a>web element</a> context
+for future element-centric <a>commands</a>.
+
+<p>
+For example, consider this pseudo code
+which retrieves an element with the <code>#toremove</code> ID
+and uses this as the argument for a script it injects
+to remove it from the HTML document:
+
+<pre><code>let body = session.find.css("#toremove");
+session.execute("arguments[0].remove()", [body]);
+</code></pre>
+</aside>
 
 <p>The <a>remote end steps</a> are:
 
