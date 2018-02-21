@@ -3698,10 +3698,11 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
   </tr>
 </table>
 
-<p class=note>This command is used
- to select the <a>current top-level browsing context</a>
- for the current <a>session</a>,
- i.e. the one that will be used for processing <a>commands</a>.
+<p class=note>
+Switching window will select the <a>current top-level browsing context</a>
+used as the target for all subsequent <a>commands</a>.
+In a tabbed browser, this will typically
+make the tab containing the <a>browsing context</a> the selected tab.
 
 <p>The <a>remote end steps</a> are:
 
@@ -3727,9 +3728,6 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
  <li><p>Update any implementation-specific state that would result
   from the user selecting the <a>current browsing context</a> for
   interaction, without altering OS-level focus.
-
-  <p class="note">For example in a tabbed browser, make the tab
-   containing the browsing context the selected tab.
 
  <li><p>Return <a>success</a> with date <a>null</a>.
 </ol>
