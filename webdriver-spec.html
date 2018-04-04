@@ -1027,7 +1027,8 @@ It is acknowledged that this is complementary to the Evil Bit [[!RFC3514]].
     </ol>
   </ol>
 
- <li><p>If <var>request</var>’s <a>method</a> is POST:
+ <li><p>If <var>request</var>’s <a>method</a> is <code>POST</code>
+  or <code>PUT</code>:
 
   <ol>
    <li><p>Let <var>parse result</var> be the result of
@@ -1542,6 +1543,26 @@ It is acknowledged that this is complementary to the Evil Bit [[!RFC3514]].
   <td><a>Take Element Screenshot</a></td>
  </tr>
 </table>
+
+<p>The table of endpoint nodes for an <a>intermediary node</a> has the following
+endpoints:
+
+<table class=simple>
+ <tr>
+  <th>Method</th>
+  <th>URI Template</th>
+  <th>Command</th>
+ </tr>
+
+ <tr><td>POST</td><td>/session</td><td><a>New Session</a></td></tr>
+ <tr><td>DELETE</td><td>/session/{<var>session id</var>}</td><td><a>Delete Session</a></td></tr>
+ <tr><td>GET</td><td>/status</td><td><a>Status</a></td></tr>
+ <tr><td>DELETE</td><td>/session/{<var>session id</var>}/{/<var>paths*</var>}</td><td><a>Pass Through</a></td></tr>
+ <tr><td>GET</td><td>/session/{<var>session id</var>}/{/<var>paths*</var>}</td><td><a>Pass Through</a></td></tr>
+ <tr><td>POST</td><td>/session/{<var>session id</var>}/{/<var>paths*</var>}</td><td><a>Pass Through</a></td></tr>
+ <tr><td>PUT</td><td>/session/{<var>session id</var>}/{/<var>paths*</var>}</td><td><a>Pass Through</a></td></tr>
+</table>
+
 </section> <!-- /List of Endpoints -->
 
 <section>
@@ -9373,6 +9394,90 @@ that evaluates to false, the <a>element</a> will not be <a>scrolled into view</a
 </ol>
 </section> <!-- /Take Element Screenshot -->
 </section> <!-- /Screen Capture -->
+
+<section>
+<h2>Intermediary Node Commands</h2>
+
+<p>In most cases, an intermediary node simply needs to accept incoming
+commands from <a>downstream</a>, identify the correct <a>associated
+session</a> and forward the command <a>upstream</a>, awaiting the
+response and sending it back <a>downstream</a>. However, there are some
+commands that behave differently in an intermediary node, and some that
+are specific to <a>intermediary nodes</a>.
+
+<section>
+<h3>Pass Through</h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>Path Template</th>
+ </tr>
+ <tr>
+  <td>DELETE</td>
+  <td>/session/{<var>session id</var>}{/<var>paths</var>*}</td>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}{/<var>paths</var>*}</td>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}{/<var>paths</var>*}</td>
+ </tr>
+ <tr>
+  <td>PUT</td>
+  <td>/session/{<var>session id</var>}{/<var>paths</var>*}</td>
+ </tr>
+</table>
+
+<p>The <dfn>Pass Through</dfn> <a>command</a> forwards a command from
+ a <a>downstream</a> neighbor <a>upstream</a> to an <a>associated
+ session</a>, and the returns the response back to
+ the <a>downstream</a> neighbor.
+
+<p>The <a>remote end steps</a> are:
+<ol>
+ <li><p>If there is no <a>associated session</a> for the
+  reference <var>session</var> return an <a>error</a> with
+  <a>error code</a> <a>invalid session id</a>.
+
+ <li><p>Let <var>upstream url</var> be a <a>URL</a> created by
+  concatenating the <a>associated session</a>'s <a>URL</a>, <a>URL
+  prefix</a>, "<code>/session/</code>", the reference to
+  <var>session id</var>, and the referenced <var>paths</var>.
+
+ <li><p>Let <var>connection</var> be the result of creating a new HTTP
+  connection to <var>upstream url</var> with the same <a>method</a> as
+  this command was called with. How this is done is outside the scope
+  of this specification.
+
+  <p class=issue>Set the headers of the HTTP request.
+
+ <li><p>If <a>method</a> is <code>POST</code> or <code>PUT</code>:
+  <ol>
+   <li><p>Let <var>data</var> be the result of <a data-lt="json
+    serialization">serializing as JSON</a> <var>parameters</var>.
+
+   <p class=note>This must create a JSON <a>Object</a> that is
+    isomorphic to the original JSON <a>Object</a> parsed in step 6 of
+    the <a href="#processing-model">processing model</a>.
+
+   <li><p>Transmit <var>data</var> to the <a>upstream</a> node
+    using <var>connection</var>.
+  </ol>
+
+ <li><p>Await the <var>response</var> from the <a>upstream</a>
+  node. Let <var>status code</var> be the <a>HTTP status</a> sent from
+  the <a>upstream</a> node.
+
+ <li><p><a>Send a response</a> with arguments <var>status code</var>
+  and <var>response</var>.
+</ol>
+
+</section> <!-- /Pass Through -->
+
+</section> <!-- /Intermediary Node Commands -->
 
 <section class=appendix>
 <h2>Privacy Considerations</h2>
