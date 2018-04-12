@@ -2549,6 +2549,66 @@ with a "<code>moz:</code>" prefix:
 </ol>
 
 </section> <!-- /Processing Capabilities -->
+
+<aside class=example>
+  <p>Capabilities are meant for defining a failsafe matrix selection of a
+    browser configuration in a distributed WebDriver environment. When
+    communicating directly with an endpoint node (i.e. geckodriver),
+    <a>capabilities</a> dictionaries are only used for carrying
+    browser-specific configuration (i.e. <var>moz:firefoxOptions</var>);
+    however, when talking to an <a>intermediary node</a> multiplexer,
+    the request will likely be forwarded to another node: <a>capabilities</a>
+    are used for selecting a node in this network that matches the capability
+    requirements.</p>
+
+    <p>If there is a requirement to have a Firefox webdriver, with no specific
+      requirements in terms of operating system, the requirement object
+      would be:</p>
+
+<pre>{
+  "alwaysMatch": {
+    "browserName": "firefox"
+  }
+}</pre>
+
+    <p>If Firefosx is still a requirement, but the operating system is also
+      to be taken into account and it must be either <code>linux</code> or
+      <code>windows</code>, the requirement object would be:
+
+<pre>{
+  "alwaysMatch": {
+    "browserName: "firefox"
+  },
+  "firstMatch": [
+    {"platformName": "windows"},
+    {"platformName: "linux"}
+  ]
+}</pre>
+
+    <p>This system allows complex matrix selections; if the requirements
+      dictate that any browser picked must supports ignoring <a>insecure TLS
+      certificates</a>, but also that (1) if it’s Firefox, it must also support
+      changing the window dimensions, (2) if it's Safari, there is no
+      further requirements:
+
+<pre>{
+  "alwaysMatch": {
+    "acceptInsecureCerts": true
+   },
+  "firstMatch": [
+    { "browserName": "firefox", "setWindowRect":true },
+    { "browserName": "safari" }
+  ]
+}</pre>
+  <p>Basically, the <a>intermediary node</a> will pick the first webdriver in
+    the network that fits the requirements listed in a
+    <code>firstMatch</code> entry (that is, either
+    <code>{ "browserName": "firefox", "setWindowRect": true }</code> or
+    <code>{ "browserName": "safari" }</code>), but <i>always</i> making sure
+    that <code>{ "acceptInsecureCerts": true }</code> is satisfied.
+  </p>
+ </aside>
+
 </section> <!-- /Capabilities -->
 
 <section>
@@ -5342,7 +5402,7 @@ The <a>remote end steps</a> are:
     is obtained from <a>url variables</a>.
 
    <dt>Otherwise
-   <dd> "" (empty string) 
+   <dd> "" (empty string)
   </dl>
 
  <li>Return <a>success</a> with data <var>computed value</var>.
