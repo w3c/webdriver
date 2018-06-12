@@ -158,6 +158,7 @@ dl.subcategories { margin-left: 2em }
    <!-- NodeList --> <li><dfn><a href=https://dom.spec.whatwg.org/#nodelist><code>NodeList</code></a></dfn>
    <!-- querySelectorAll --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall"><code>querySelectorAll</code></a></dfn>
    <!-- querySelector --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselector"><code>querySelector</code></a></dfn>
+   <!-- shadowRoot --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-element-shadowroot"><code>shadowRoot</code></a></dfn>
    <!-- tagName --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-tagname>tagName</a></dfn>
    <!-- Text node --> <li><dfn><a href=https://dom.spec.whatwg.org/#text><code>Text</code> node</a></dfn>
   </ul>
@@ -1326,6 +1327,12 @@ It is acknowledged that this is complementary to the Evil Bit [[!RFC3514]].
  </tr>
 
  <tr>
+   <td>POST
+   <td>/session/{<var>session id</var>}/shadow
+   <td><a>Switch to Shadow DOM</a>
+ </tr>
+
+ <tr>
   <td>GET</td>
   <td>/session/{<var>session id</var>}/window/rect</td>
   <td><a>Get Window Rect</a></td>
@@ -1722,6 +1729,13 @@ It is acknowledged that this is complementary to the Evil Bit [[!RFC3514]].
   <td><code>no such element</code>
   <td>An element could not be located on the page
    using the given search parameters.
+ </tr>
+
+ <tr>
+   <td><dfn>no such shadow dom</dfn>
+   <td>404
+   <td><code>no such shadow dom</code>
+   <td>The element does not have a Shadow DOM attached to it.
  </tr>
 
  <tr>
@@ -3760,6 +3774,73 @@ make the tab containing the <a>browsing context</a> the selected tab.
   and compare it with the set after the action is performed.
 </aside>
 </section> <!-- /Get Window Handles -->
+
+<section>
+<h3><dfn>Switch to Shadow DOM</dfn></h3>
+
+<table class="simple jsoncommand">
+  <tr>
+    <th>HTTP Method</th>
+    <th>URI Template</th>
+  </tr>
+  <tr>
+   <td>POST</td>
+   <td>/session/{<var>session id</var>}/shadow</td>
+  </tr>
+</table>
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+
+  <li><p>Let <var>id</var> be the result of
+   <a>getting the property</a> "<code>id</code>"
+   from the <var>parameters</var> argument.
+
+  <li><p>If <var>id</var> is not <a>null</a>,
+   or an <a>Object</a> that <a>represents a web element</a>,
+   return <a>error</a> with <a>error code</a> <a>no such shadow dom</a>.
+
+  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
+   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+  <li><p><a>Handle any user prompts</a>
+   and return its value if it is an <a>error</a>.
+
+  <li><p>Run the substeps of the first matching condition:
+
+    <dl class=switch>
+     <dt><var>id</var> is <a>null</a>
+     <dd>
+      <ol>
+       <li><p>Set the <a>current browsing context</a> to
+        the <a>current top-level browsing context</a>.
+      </ol>
+
+      <dt><var>id</var> <a>represents a web element</a>
+      <dd>
+       <ol>
+        <li><p>Let <var>element</var> be the result
+         of <a>trying</a> to <a>get a known element</a>
+         by <a>web element reference</a> <var>id</var>.
+
+        <li><p>If <var>element</var> <a>is stale</a>,
+         return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
+
+        <li><p>Let <var>shadowRoot</var> be the result of getting
+        <var>element</var>'s <a><code>shadowRoot</code></a>.
+
+        <li><p>If <var>shadowRoot</var> is <a>null</a>
+          return <a>error</a> with <a>error code</a> <a>no such shadow dom</a>.
+
+        <li><p>Set the <a>current browsing context</a> to <var>element</var>’s
+         <a><code>shadowRoot</code></a>.
+       </ol>
+    </dl>
+
+  <li><p>Return <a>success</a> with data <a>null</a>.
+</ol>
+</section> <!-- /Switch to Shadow DOM -->
 
 <section>
 <h3><dfn>Switch To Frame</dfn></h3>
