@@ -43,5 +43,5 @@ See <CONTRIBUTING.md> for more guidelines.
 
 [good commit message]: https://github.com/erlang/otp/wiki/Writing-good-commit-messages
 [Acknowledgements]: https://w3c.github.io/webdriver/#acknowledgements
-[Web Platform Tests]: https://github.com/w3c/web-platform-tests/tree/master/webdriver
+[Web Platform Tests]: https://github.com/web-platform-tests/wpt/tree/master/webdriver
 [ReSpec]: https://github.com/w3c/respec/wiki
