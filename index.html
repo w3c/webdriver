@@ -215,6 +215,7 @@ dl.subcategories { margin-left: 2em }
  <dd><p>The following terms are defined in the ECMAScript Language Specification: [[!ECMA-262]]
   <ul>
    <!-- Abrupt Completion --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-completion-record-specification-type">Abrupt Completion</a></dfn>
+   <!-- CreateResolvingFunctions --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-createresolvingfunctions>CreateResolvingFunctions</a></dfn>
    <!-- Directive prologue --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Directive prologue</a></dfn>
    <!-- Early error --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-16>Early error</a></dfn>
    <!-- Function --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24>Function</a></dfn>
@@ -6601,7 +6602,10 @@ This is a function that, when called, returns its first argument as the response
 
   <li><p>Run the following substeps <a>in parallel</a>:
   <ol>
-    <li><p>Append resolve to <var>arguments</var>.
+    <li><p>Let <var>resolvingFunctions</var> be <a>CreateResolvingFunctions</a>(<var>promise</var>).
+
+    <li><p>Append <var>resolvingFunctions</var><code>.[[\Resolve]]</code></var> to
+      <var>arguments</var>.
 
     <li><p>Let <var>result</var> be the result of <a>promise-calling</a>
       <a>execute a function body</a>, with arguments
