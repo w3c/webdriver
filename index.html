@@ -214,7 +214,7 @@ dl.subcategories { margin-left: 2em }
  <dt>ECMAScript
  <dd><p>The following terms are defined in the ECMAScript Language Specification: [[!ECMA-262]]
   <ul>
-   <!-- Abrupt Completion --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-completion-record-specification-type">Abrupt Completion</a></dfn>
+   <!-- Completion --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-completion-record-specification-type">Completion</a></dfn>
    <!-- CreateResolvingFunctions --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-createresolvingfunctions>CreateResolvingFunctions</a></dfn>
    <!-- Directive prologue --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Directive prologue</a></dfn>
    <!-- Early error --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-16>Early error</a></dfn>
@@ -6433,15 +6433,11 @@ of the <a>current browsing context</a> <a>active document</a>.
 </ol>
 
 <p>The rules to <dfn>execute a function body</dfn> are as follows.
- The algorithm will return <a>success</a>
- with the <a data-lt="clone an object">JSON representation</a>
- of the function’s return value,
- or an <a>error</a> if the evaluation of the function
- results in a JavaScript exception being thrown.
+ The algorithm returns <a data-lt="completion">an ECMASCript completion record</a>.
 
 <p>If at any point during the algorithm a <a>user prompt</a> appears,
  abort all subsequent substeps of this algorithm, and return
- <a>success</a> with data <var>null</var>.
+ <a>Completion</a> { [[\Type]]: normal, [[\Value]]: <var>null</var>, [[\Target]]: empty }.
 
 <ol>
  <li><p>Let <var>window</var> be the <a>associated window</a>
@@ -6456,7 +6452,8 @@ of the <a>current browsing context</a> <a>active document</a>.
 
  <li><p>If <var>body</var> is not parsable as a <a>FunctionBody</a>
   or if parsing detects an <a>early error</a>,
-  return <a>error</a> with <a>error code</a> <a>javascript error</a>.
+  return
+  <a>Completion</a> { [[\Type]]: normal, [[\Value]]: <var>null</var>, [[\Target]]: empty }.
 
  <li><p>If <var>body</var> begins with a <a>directive prologue</a>
   that contains a <a>use strict directive</a>
@@ -6498,13 +6495,7 @@ of the <a>current browsing context</a> <a>active document</a>.
  <li><p><a>Clean up after running a script</a>
   with <var>environment settings</var>.
 
- <li><p>If <var>completion</var> is an <a>abrupt completion</a>,
-  return an <a>error</a> with <a>error code</a> <a>javascript error</a>.
-
- <li><p>Let <var>json data</var> be a <a>JSON clone</a>
-  of <var>completion</var><code>.[[\Value]]</code>.
-
- <li><p>Return <a>success</a> with data <var>json data</var>.
+ <li><p>Return <var>completion</var>.
 </ol>
 
 <p class="note">The above algorithm is not associated
@@ -6545,8 +6536,11 @@ of the <a>current browsing context</a> <a>active document</a>.
         <a>execute a function body</a>, with arguments
         <var>body</var> and <var>arguments</var>.
 
-     <li><p>If <var>result</var> is an error,
-       <a>reject</a> <var>promise</var> with <var>result</var>.
+    <li><p>Upon fulfillment of <var>result</var> with value <var>v</var>,
+      <a>resolve</a> <var>promise</var> with value <var>v</var>.
+
+    <li><p>Upon rejection of <var>result</var> with value <var>r</var>,
+      <a>reject</a> <var>promise</var> with value <var>r</var>.
    </ol>
 
   <li><p>If <var>promise</var> is still pending and
@@ -6555,12 +6549,13 @@ of the <a>current browsing context</a> <a>active document</a>.
     <a>error code</a> <a>script timeout</a>.
 
   <li><p>Upon fulfillment of <var>promise</var> with value <var>v</var>,
-      return <a>success</a> with data <var>v</var>.
+      let <var>result</var> be a <a>JSON clone</a> of <var>v</var>, and
+      return <a>success</a> with data <var>result</var>.
 
   <li><p>Upon rejection of <var>promise</var> with reason <var>r</var>,
-      if <var>r</var> is an <a>error</a>, return <var>r</var>.
-      Otherwise, return <a>error</a> with <a>error code</a> <a>javascript error</a>
-      and data <var>r</var>.
+      let <var>result</var> be a <a>JSON clone</a> of <var>r</var>, and
+      return <a>error</a> with <a>error code</a> <a>javascript error</a>
+      and data <var>result</var>.
 </ol>
 </section> <!-- /Execute Script -->
 
@@ -6581,10 +6576,9 @@ of the <a>current browsing context</a> <a>active document</a>.
 <p class=note>
 The <a>Execute Async Script</a> <a>command</a>
 causes JavaScript to execute as an anonymous function.
-Unlike the <a>Execute Script</a> <a>command</a>,
-the result of the function is ignored.
-instead an additional argument is provided as the final argument to the function.
-This is a function that, when called, returns its first argument as the response.
+An additional value is provided as the final argument to the function.
+This is a function that should be invoked to signal the completion of the asynchronous operation.
+The first argument provided to the function will be serialized to JSON and returned by <a>Execute Async Script</a>.
 
 <p>The <a>remote end steps</a> are:
 
@@ -6611,8 +6605,11 @@ This is a function that, when called, returns its first argument as the response
       <a>execute a function body</a>, with arguments
       <var>body</var> and <var>arguments</var>.
 
-    <li><p>If <var>result</var> is an error,
-      <a>reject</a> <var>promise</var> with <var>result</var>.
+    <li><p>Upon fulfillment of <var>result</var> with value <var>v</var>,
+      <a>resolve</a> <var>promise</var> with value <var>v</var>.
+
+    <li><p>Upon rejection of <var>result</var> with value <var>r</var>,
+      <a>reject</a> <var>promise</var> with value <var>r</var>.
   </ol>
 
   <li><p>If <var>promise</var> is still pending and
@@ -6621,12 +6618,13 @@ This is a function that, when called, returns its first argument as the response
    <a>error code</a> <a>script timeout</a>.
 
   <li><p>Upon fulfillment of <var>promise</var> with value <var>v</var>,
-    return <a>success</a> with data <var>v</var>.
+      let <var>result</var> be a <a>JSON clone</a> of <var>v</var>, and
+      return <a>success</a> with data <var>result</var>.
 
   <li><p>Upon rejection of <var>promise</var> with reason <var>r</var>,
-    if <var>r</var> is an <a>error</a>, return <var>r</var>.
-    Otherwise, return <a>error</a> with <a>error code</a> <a>javascript error</a>
-    and data <var>r</var>.
+      let <var>result</var> be a <a>JSON clone</a> of <var>r</var>, and
+      return <a>error</a> with <a>error code</a> <a>javascript error</a>
+      and data <var>result</var>.
 </ol>
 </section> <!-- /Execute Async Script -->
 </section> <!-- /Executing Script -->
