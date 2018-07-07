@@ -221,10 +221,15 @@ dl.subcategories { margin-left: 2em }
    <!-- Function --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24>Function</a></dfn>
    <!-- FunctionCreate --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-functioncreate>FunctionCreate</a></dfn>
    <!-- FunctionBody --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-13>FunctionBody</a></dfn>
+   <!-- Get --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-get-o-p>Get</a></dfn>
    <!-- Global environment --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-10.2.3>Global environment</a></dfn>
+   <!-- IsCallable --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-iscallable>IsCallable</a></dfn>
    <!-- Own property --> <li><dfn data-lt="own properties"><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>Own property</a></dfn>
    <!-- parseFloat --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></dfn>
+   <!-- Promise --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-promise-constructor>Promise</a></dfn>
+   <!-- PromiseResolve --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-promise-resolve>PromiseResolve</a></dfn>
    <!-- realm --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-code-realms">realm</a></dfn>
+   <!-- Type --> <li><dfn data-lt="ecmascript type"><a href=https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values>Type</a></dfn>
    <!-- Use strict directive --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Use strict directive</a></dfn>
   </ul>
 
@@ -6437,7 +6442,7 @@ of the <a>current browsing context</a> <a>active document</a>.
 
 <p>If at any point during the algorithm a <a>user prompt</a> appears,
  abort all subsequent substeps of this algorithm, and return
- <a>Completion</a> { [[\Type]]: normal, [[\Value]]: <var>null</var>, [[\Target]]: empty }.
+ <a>Completion</a> { [[\Type]]: <code>normal</code>, [[\Value]]: <var>null</var>, [[\Target]]: <code>empty</code> }.
 
 <ol>
  <li><p>Let <var>window</var> be the <a>associated window</a>
@@ -6453,7 +6458,7 @@ of the <a>current browsing context</a> <a>active document</a>.
  <li><p>If <var>body</var> is not parsable as a <a>FunctionBody</a>
   or if parsing detects an <a>early error</a>,
   return
-  <a>Completion</a> { [[\Type]]: normal, [[\Value]]: <var>null</var>, [[\Target]]: empty }.
+  <a>Completion</a> { [[\Type]]: <code>normal</code>, [[\Value]]: <var>null</var>, [[\Target]]: <code>empty</code> }.
 
  <li><p>If <var>body</var> begins with a <a>directive prologue</a>
   that contains a <a>use strict directive</a>
@@ -6532,14 +6537,14 @@ of the <a>current browsing context</a> <a>active document</a>.
 
  <li><p>Run the following substeps <a>in parallel</a>:
    <ol>
-     <li><p>Let <var>result</var> be the result of <a>promise-calling</a>
+     <li><p>Let <var>scriptPromise</var> be the result of <a>promise-calling</a>
         <a>execute a function body</a>, with arguments
         <var>body</var> and <var>arguments</var>.
 
-    <li><p>Upon fulfillment of <var>result</var> with value <var>v</var>,
+    <li><p>Upon fulfillment of <var>scriptPromise</var> with value <var>v</var>,
       <a>resolve</a> <var>promise</var> with value <var>v</var>.
 
-    <li><p>Upon rejection of <var>result</var> with value <var>r</var>,
+    <li><p>Upon rejection of <var>scriptPromise</var> with value <var>r</var>,
       <a>reject</a> <var>promise</var> with value <var>r</var>.
    </ol>
 
@@ -6576,7 +6581,7 @@ of the <a>current browsing context</a> <a>active document</a>.
 The <a>Execute Async Script</a> <a>command</a>
 causes JavaScript to execute as an anonymous function.
 An additional value is provided as the final argument to the function.
-This is a function that should be invoked to signal the completion of the asynchronous operation.
+This is a function that may be invoked to signal the completion of the asynchronous operation.
 The first argument provided to the function will be serialized to JSON and returned by <a>Execute Async Script</a>.
 
 <p>The <a>remote end steps</a> are:
@@ -6600,14 +6605,36 @@ The first argument provided to the function will be serialized to JSON and retur
     <li><p>Append <var>resolvingFunctions</var><code>.[[\Resolve]]</code></var> to
       <var>arguments</var>.
 
-    <li><p>Let <var>result</var> be the result of <a>promise-calling</a>
+    <li><p>Let <var>result</var> be the result of calling
       <a>execute a function body</a>, with arguments
       <var>body</var> and <var>arguments</var>.
 
-    <li><p>Upon fulfillment of <var>result</var> with value <var>v</var>,
+    <li><p>If <var>scriptResult</var>.[[\Type]] is not <code>normal</code>, then <a>reject</a>
+      <var>promise</var> with value <var>scriptResult</var>.[[\Value]], and abort these steps.
+
+      <p class=note>Prior revisions of this specification did not recognize the
+        return value of the provided script. In order to preserve legacy behavior,
+        the return value only influences the command if it is a "thenable" object or
+        if determining this produces an exception.
+
+    <li><p>If <a data-lt="ecmascript type">Type</a>(<var>scriptResult</var>.[[\Value]])
+      is not <a>Object</a>, then abort these steps.
+
+    <li><p>Let <var>then</var> be <a>Get</a>(<var>scriptResult</var>.[[\Value]], "then").
+
+    <li><p>If <var>then</var>.[[\Type]] is not <code>normal</code>, then <a>reject</a>
+      <var>promise</var> with value <var>then</var>.[[\Value]], and abort these steps.
+
+    <li><p>If <a>IsCallable</a>(<var>then</var>.[[\Type]]) is <code>false</code>,
+      then abort these steps.
+
+    <li><p>Let <var>scriptPromise</var> be <a>PromiseResolve</a>(<a>Promise</a>,
+      <var>scriptResult</var>.[[\Value]]).
+
+    <li><p>Upon fulfillment of <var>scriptPromise</var> with value <var>v</var>,
       <a>resolve</a> <var>promise</var> with value <var>v</var>.
 
-    <li><p>Upon rejection of <var>result</var> with value <var>r</var>,
+    <li><p>Upon rejection of <var>scriptPromise</var> with value <var>r</var>,
       <a>reject</a> <var>promise</var> with value <var>r</var>.
   </ol>
 
