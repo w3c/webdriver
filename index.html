@@ -2007,6 +2007,7 @@ with a "<code>moz:</code>" prefix:
   <td>"<code>unhandledPromptBehavior</code>"
   <td>string
   <td>Describes the <a>current session</a>’s <a>user prompt handler</a>.
+   Defaults to the <a>dismiss and notify state</a>.
  </tr>
 </table>
 
@@ -2637,8 +2638,9 @@ with a "<code>moz:</code>" prefix:
  an "<code>acceptInsecureCerts</code>" <a>capability</a> with the value true.
  Unless stated otherwise, it is set.
 
-<p>A <a>session</a> has an associated <a>user prompt handler</a>. Unless stated
-  otherwise it is <a>null</a>.
+<p>
+A <a>session</a> has an associated <a>user prompt handler</a>.
+Unless stated otherwise it is in the <a>dismiss and notify state</a>.
 
 <p>A <a>session</a> has an associated list of <a>active input sources</a>.
 
@@ -8869,12 +8871,12 @@ It also clears all the internal state of the virtual devices.
 <p>To <dfn data-lt="accepting|accepted|accepts">accept</dfn> the <a>current user prompt</a>,
  do so as if the user would click the <b>OK</b> button.
 
-<p>A <dfn>user prompt handler</dfn> is an <a>enumerated attribute</a>
- defining what action the <a>remote end</a> must take
- when a <a>user prompt</a> is encountered. This is defined by the
- <a>unhandled prompt behavior</a> capability.  The
- following <dfn>known prompt handling approaches table</dfn> lists the
- keywords and states for the attribute:
+<p>
+The <dfn>user prompt handler</dfn> defines what action
+the <a>remote end</a> must take when a <a>user prompt</a> is encountered.
+This is defined by the <a>unhandled prompt behavior</a> capability.
+The following <dfn>known prompt handling approaches table</dfn>
+lists the keywords and states for the attribute:
 
 <table class=simple>
  <tr>
@@ -8924,8 +8926,8 @@ argument <var>value</var>:
   an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>If <var>value</var> is not present as a <code>keyword</code>
-  in the <a>known prompt handling approaches table</a> return an <a>error</a> with <a>error
-  code</a> <a>invalid argument</a>.
+  in the <a>known prompt handling approaches table</a>
+  return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Return <a>success</a> with data <var>value</var>.
 </ol>
@@ -8945,46 +8947,40 @@ argument <var>value</var>:
  a <a>remote end</a> must take the following steps:
 
 <ol>
- <li><p>If there is no <a>current user prompt</a>,
-  abort these steps and return <a>success</a>.
+<li><p>
+If there is no <a>current user prompt</a>,
+abort these steps and return <a>success</a>.
 
- <li><p>Perform the following substeps based on the <a>current session</a>'s
-  <a>user prompt handler</a>:
+<li><p>
+Perform the following substeps
+based on the <a>current session</a>'s <a>user prompt handler</a>:
 
-  <dl class=switch>
-   <dt><a>dismiss state</a>
-   <dd><p><a>Dismiss</a> the <a>current user prompt</a>.
+<dl class=switch>
+<dt><a>dismiss state</a>
+<dd><p><a>Dismiss</a> the <a>current user prompt</a>.
 
-   <dt><a>accept state</a>
-   <dd><p><a>Accept</a> the <a>current user prompt</a>.
+<dt><a>accept state</a>
+<dd><p><a>Accept</a> the <a>current user prompt</a>.
 
-   <dt><a>dismiss and notify state</a>
-   <dd>
-    <ol>
-     <li><p><a>Dismiss</a> the <a>current user prompt</a>.
-     <li><p>Return an <a>annotated unexpected alert open error</a>.
-    </ol>
+<dt><a>dismiss and notify state</a>
+<dd>
+<ol>
+<li><p><a>Dismiss</a> the <a>current user prompt</a>.
+<li><p>Return an <a>annotated unexpected alert open error</a>.
+</ol>
 
-   <dt><a>accept and notify state</a>
-   <dd>
-    <ol>
-     <li><p><a>Accept</a> the <a>current user prompt</a>.
-     <li><p>Return an <a>annotated unexpected alert open error</a>.
-    </ol>
+<dt><a>accept and notify state</a>
+<dd>
+<ol>
+<li><p><a>Accept</a> the <a>current user prompt</a>.
+<li><p>Return an <a>annotated unexpected alert open error</a>.
+</ol>
 
-   <dt><a>ignore state</a>
-   <dd><p>Return an <a>annotated unexpected alert open error</a>.
+<dt><a>ignore state</a>
+<dd><p>Return an <a>annotated unexpected alert open error</a>.
+</dl>
 
-   <dt><a>missing value default state</a>
-   <dt>not in the <a>table of simple dialogs</a>
-   <dd>
-    <ol>
-     <li><p><a>Dismiss</a> the <a>current user prompt</a>.
-     <li><p>Return an <a>annotated unexpected alert open error</a>.
-    </ol>
-  </dl>
-
- <li><p>Return <a>success</a>.
+<li><p>Return <a>success</a>.
 </ol>
 
 <aside class=example>
