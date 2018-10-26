@@ -646,6 +646,7 @@ dl.subcategories { margin-left: 2em }
       <!-- Promise calling --> <li><dfn data-lt='promise-call'><a href="https://www.w3.org/2001/tag/doc/promises-guide#promise-calling">Promise-calling</a></dfn>
       <!-- Reject --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#reject-promise">reject</a></dfn>
       <!-- Resolve --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#resolve-promise">resolve</a></dfn>
+      <!-- waiting for all --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide/#waiting-for-all">waiting for all</a></dfn>
     </ul>
 
   <dt>XML Namespaces
@@ -7898,9 +7899,15 @@ is also removed.
  a <a>remote end</a> must run the following steps:
 
 <ol>
+ <li><p>Let <var>action promises</var> be an empty <a>list</a>.
+
  <li><p>For each <var>action object</var> in <var>tick actions</var>:
 
   <ol>
+   <li><p>Let <var>action promise</var> be <a>a new Promise</a>.
+
+   <li><p>Append <var>action promise</var> to <var>action promises</var>.
+
    <li><p>Let <var>source id</var> be equal to the value
     of <var>action object</var>'s <code>id</code> property.
 
@@ -7979,12 +7986,29 @@ is also removed.
      </tr>
     </table>
 
-   <li><a>Try</a> to run <var>algorithm</var> with arguments
-    <var>source id</var>, <var>action object</var>,
-    <var>device state</var> and <var>tick duration</var>.
+   <li><p>Run the following substeps <a>in parallel</a>:
+
+   <li>Let <var>action result</var> be the result of running
+    <var>algorithm</var> with arguments <var>source id</var>,
+    <var>action object</var>, <var>device state</var> and
+    <var>tick duration</var>.
+
+   <li><p>If <var>action result</var> is an <a>error</a>, <a>reject</a>
+    <var>action promise</var> with <var>action result</var>,
+    and abort these steps.
+
+   <li><p><a>Resolve</a> <var>action result</a> with <a>undefined</a>.
   </ol>
 
- <li><p>Return <a>success</a> with data <a>null</a>.
+ <li><p>Let <var>all actions</var> be the result of <a>waiting for all</a>
+  of <var>action promises</var>.
+
+ <li><p>Wait until <var>all actions</var> settles.
+
+ <li><p>If <var>all actions</var> rejected with <var>reason</var>,
+  return <a>error</a> with data <var>reason</var>.
+
+ <li><p>Else, return <a>success</a> with data <a>null</a>.
 </ol>
 
 <section> <!-- General Actions -->
