@@ -761,6 +761,12 @@ when it receives a particular <a>command</a>.
 
  <tr>
   <td>POST</td>
+  <td>/session/{<var>session id</var>}/window/new</td>
+  <td><a>Create Window</a></td>
+ </tr>
+
+ <tr>
+  <td>POST</td>
   <td>/session/{<var>session id</var>}/frame</td>
   <td><a>Switch To Frame</a></td>
  </tr>
@@ -3229,6 +3235,76 @@ make the tab containing the <a>browsing context</a> the selected tab.
   and compare it with the set after the action is performed.
 </aside>
 </section> <!-- /Get Window Handles -->
+
+<section>
+<h3><dfn>Create Window</dfn></h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>URI Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/window/new</td>
+ </tr>
+</table>
+
+<p>Create a new <a>top-level browsing context</a>.
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the implementation does not support creating new top-level
+  browsing contexts, return <a>error</a> with <a>error code</a>
+  <a>unsupported operation</a>.
+
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
+ <li><p>Let <var>type hint</var> be the result of <a>getting the property</a>
+  "<code>type</code>" from the <var>parameters</var> argument.
+
+ <li><p>Create a new <a>top-level browsing context</a> by running
+  the <a>window open steps</a> with <var>url</var> set to
+  "<code>about:blank</code>", <var>target</var> set to the empty
+  string, and <var>features</var> set to "<code>noopener</code>" and
+  the user agent configured to create a new browing context. This must
+  be done without invoking the <a>focusing steps</a> for the created browsing
+  context. If <var>type hint</var> has the value "<code>tab</code>",
+  and the implementation supports multiple browsing context in the
+  same OS window, the new browsing context should share an OS window
+  with the <a>current browsing context</a>. If <var>type hint</var> is
+  "<code>window</code>", and the implementation supports multiple
+  browsing contexts in seperate OS windows, the created browsing
+  context should be in a new OS window. In all other cases the details
+  of how the browsing context is presented to the user are
+  implementation defined.
+
+ <li><p>Let <var>handle</var> be the
+  associated <a>window handle</a> of the newly created window.
+
+ <li><p>Let <var>type</var> be "<code>tab</code>" if the newly created
+  window shares an OS-level window with the <a>current browsing
+  context</a>, or "<code>window</code>" otherwise.
+
+ <li><p>Let <var>result</var> be a new JSON <a>Object</a> initialised with:
+
+ <dl>
+  <dt>"<code>handle</code>"
+  <dd>The value of <var>handle</var>.
+
+  <dt>"<code>type</code>"
+  <dd>The value of <var>type</var>.
+
+ </dl>
+
+ <li><p>Return <a>success</a> with data <var>result</var>.
+</ol>
+
+</section> <!-- /Create Window -->
 
 <section>
 <h3><dfn>Switch To Frame</dfn></h3>
@@ -9384,6 +9460,7 @@ to automatically sort each list alphabetically.
    <!-- Value mode flag --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-output-mode>Value mode flag</a></dfn>
    <!-- Value sanitization algorithm --> <li><dfn><a href=https://html.spec.whatwg.org/#value-sanitization-algorithm>Value sanitization algorithm</a></dfn>
    <!-- Window object --> <li><dfn><a href=https://html.spec.whatwg.org/#the-window-object><code>Window</code></a></dfn> object
+   <!-- Window open steps --> <li><dfn><a href=https://html.spec.whatwg.org/#window-open-steps>Window open steps</a></dfn>
    <!-- WindowProxy exotic object --> <li><dfn><a href=https://html.spec.whatwg.org/#windowproxy><code>WindowProxy</code></a></dfn> exotic object
    <!-- WorkerNavigator --> <li><dfn data-lt="workernavigator"><a href=https://html.spec.whatwg.org/#workernavigator>WorkerNavigator object</a></dfn>
    <!-- setSelectionRange --> <li><dfn data-lt="set selection range"><a href=https://html.spec.whatwg.org/#dom-textarea/input-setselectionrange><code>setSelectionRange</code></a></dfn>
