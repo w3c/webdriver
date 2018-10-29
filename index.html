@@ -8606,25 +8606,19 @@ is also removed.
   is not <a>undefined</a>, or <var>tick duration</var>
   otherwise.
 
- <li><p>Run the following substeps <a>in parallel</a>:
+ <li><p>If <var>duration</var> is greater than 0 and inside any
+  implementation-defined bounds, <a>asynchronously wait</a> for an
+  implementation defined amount of time to pass.
 
- <ol>
-   <li><p>If <var>duration</var> is greater than 0 and inside any
-    implementation-defined bounds, <a>asynchronously wait</a> for an
-    implementation defined amount of time to pass.
+  <aside><p>This wait allows the implementation to model the overall
+   pointer move as a series of small movements occurring at an
+   implementation defined rate (e.g. one movement per
+   vsync).</p></aside>
+ </li>
 
-    <aside><p>This wait allows the implementation to model the overall
-     pointer move as a series of small movements occurring at an
-     implementation defined rate (e.g. one movement per
-     vsync).</p></aside>
-   </li>
-
-   <li><p><a>Perform a pointer move</a> with arguments
-    <var>source id</var>, <var>input state</var>, <var>duration</var>,
-    <var>start x</var>, <var>start y</var>, <var>x</var>, <var>y</var>.
- </ol>
-
- <li><p>Return <a>success</a> with data <a>null</a>.
+ <li><p><a>Perform a pointer move</a> with arguments
+  <var>source id</var>, <var>input state</var>, <var>duration</var>,
+  <var>start x</var>, <var>start y</var>, <var>x</var>, <var>y</var>.
 </ol>
 
 <p>When required to <dfn>perform a pointer move</dfn> with
