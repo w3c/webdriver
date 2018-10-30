@@ -7984,12 +7984,13 @@ is also removed.
       <td><a>Dispatch a pointerCancel action</a>
      </tr>
     </table>
+
+   <li><a>Try</a> to run <var>algorithm</var> with arguments
+    <var>source id</var>, <var>action object</var>,
+    <var>device state</var> and <var>tick duration</var>.
   </ol>
 
- <li><p>Return the result of running <var>algorithm</var> with
-  arguments <var>source id</var>, <var>action object</var>,
-  <var>device state</var> and <var>tick duration</var>.
-
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 
 <section> <!-- General Actions -->
@@ -8626,6 +8627,8 @@ is also removed.
  <li><p><a>Perform a pointer move</a> with arguments
   <var>source id</var>, <var>input state</var>, <var>duration</var>,
   <var>start x</var>, <var>start y</var>, <var>x</var>, <var>y</var>.
+
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 
 <p>When required to <dfn>perform a pointer move</dfn> with
@@ -8697,18 +8700,36 @@ is also removed.
 
  <li><p>If <var>last</var> is true, return.
 
- <li><p><a>Asynchronously wait</a> for an implementation defined
-  amount of time to pass.
+ <li><p>Run the following substeps <a>in parallel</a>:
 
- <aside><p>This wait allows the implementation to model the overall
-  pointer move as a series of small movements occurring at an
-  implementation defined rate (e.g. one movement per
-  vsync).</aside>
+  <aside class=note>
+   <p>This algorithm may trigger multiple events spread across some
+    duration. Parallelism is applied intentionally in order to manage the
+    scheduling of these events relative to the events triggered by other
+    actions in the same tick.
 
- <li><p><a>Perform a pointer move</a> with arguments
-  <var>source id</var>, <var>input state</var>, <var>duration</var>,
-  <var>start x</var>, <var>start y</var>, <var>target x</var>,
-  <var>target y</var>.
+   <p>The initial pointer movement is performed synchronously. This ensures
+    determinism in the sequence of the first event triggered by each action in
+    the tick.
+
+   <p>Subsequent movements (if any) are performed asynchronously. This allows
+    events from two <a>pointerMove</a> actions in the tick to be interspersed.
+  </aside>
+
+ <ol>
+   <li><p><a>Asynchronously wait</a> for an implementation defined
+    amount of time to pass.
+
+   <aside><p>This wait allows the implementation to model the overall
+    pointer move as a series of small movements occurring at an
+    implementation defined rate (e.g. one movement per
+    vsync).</aside>
+
+   <li><p><a>Perform a pointer move</a> with arguments
+    <var>source id</var>, <var>input state</var>, <var>duration</var>,
+    <var>start x</var>, <var>start y</var>, <var>target x</var>,
+    <var>target y</var>.
+ </ol>
 
 </ol>
 
@@ -8723,6 +8744,8 @@ is also removed.
   the pointer with ID <var>source id</var> having
   type <var>pointerType</var>, in accordance with the requirements of
   [[!UI-EVENTS]] and [[!POINTER-EVENTS]].
+
+ <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- /Pointer Actions -->
 </section> <!-- /Dispatching Actions -->
