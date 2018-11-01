@@ -2015,6 +2015,13 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
+  <td><dfn>Strict file interactability</dfn>
+  <td>"<code>strictFileInteractability</code>"
+  <td>boolean
+  <td>Defines the <a>current session</a>’s <a>strict file interactability</a>.
+ </tr>
+
+ <tr>
   <td><dfn>Unhandled prompt behavior</dfn>
   <td>"<code>unhandledPromptBehavior</code>"
   <td>string
@@ -2316,6 +2323,12 @@ with a "<code>moz:</code>" prefix:
      <dd><p>Let <var>deserialized</var> be the result of <a>trying</a>
       to <a>deserialize as a proxy</a> with argument <var>value</var>.
 
+     <dt><var>name</var> equals "<code>strictFileInteractability</code>"
+     <dd><p>If <var>value</var> is not a <a>boolean</a> return
+      an <a>error</a> with <a>error code</a> <a>invalid
+      argument</a>. Otherwise, let <var>deserialized</var> be
+      set to <var>value</var>
+
      <dt><var>name</var> equals "<code>timeouts</code>"
      <dd><p>Let <var>deserialized</var> be the result of <a>trying</a>
       to <a>deserialize as a timeout</a> with argument <var>value</var>.
@@ -2417,9 +2430,14 @@ with a "<code>moz:</code>" prefix:
    <dd><a>Lowercase</a> name of the current platform as a <a>string</a>.
 
    <dt>"<code>acceptInsecureCerts</code>"
-   <dd><a>Boolean</a> initially set to <code>false</code>,
+   <dd><a>Boolean</a> initially set to false,
     indicating the session will not implicitly trust untrusted
     or self-signed TLS certificates on <a data-lt=go>navigation</a>.
+
+   <dt>"<code>strictFileInteractability</code>"
+    <dd><a>Boolean</a> initially set to false,
+    indicating that interactabilty checks will be applied to
+    &lt;input type=file&gt;.
 
    <dt>"<code>setWindowRect</code>"
    <dd>Boolean indicating whether the <a>remote end</a> supports all of the
@@ -2650,6 +2668,9 @@ with a "<code>moz:</code>" prefix:
  an "<code>acceptInsecureCerts</code>" <a>capability</a> with the value true.
  Unless stated otherwise, it is set.
 
+<p>A <a>session</a> has an associated <dfn>strict file interactability</dfn>
+ state which is a boolean.
+
 <p>
 A <a>session</a> has an associated <a>user prompt handler</a>.
 Unless stated otherwise it is in the <a>dismiss and notify state</a>.
@@ -2844,6 +2865,14 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
     set the <a>page loading strategy</a> to <i>normal</i> and <a>set a
     property</a> of <var>capabilities</var> with name
     "<code>pageLoadStrategy</code>" and value "<code>normal</code>".
+
+   <li><p>Let <var>strictFileInteractability</var> be the result of getting property
+    "<code>strictFileInteractability</code>" from <var>capabilities</var>.
+
+   <li><p>If <var>strictFileInteractability</var> is a boolean,
+    set the <a>current session</a>’s <a>strict file interactability</a> to
+    <var>strictFileInteractability</var>. Otherwise set the
+    <a>current session</a>'s <var>strict file interactability</a> to false.
 
    <li><p>Let <var>proxy</var> be the result of getting property
     "<code>proxy</code>" from <var>capabilities</var> and run the
@@ -6131,22 +6160,29 @@ must run the following steps:
   of <a>trying</a> to <a>get a known connected element</a>
   with <a>url variable</a> <var>element id</var>.
 
- <li><p><a>Scroll into view</a> the <var>element</var>.
+ <li><p>Let <var>file</var> be true if <var>element</var> is
+   <a><code>input</code> element</a> in the <a>file upload state</a>, or false
+   otherwise.
 
- <li><p>Wait in an implementation-specific way up to the <a>session
-  implicit wait timeout</a> for <var>element</var> to
-  become <a>keyboard-interactable</a>.
+ <li><p>If <var>file</var> is false or the <a>current session</a>'s
+  <a>strict file interactability</a>, is true run the following substeps:
+  <ol>
+   <li><p><a>Scroll into view</a> the <var>element</var>.
 
- <li><p>If <var>element</var> is not <a>keyboard-interactable</a>,
-  return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
+   <li><p>Wait in an implementation-specific way up to the <a>session
+    implicit wait timeout</a> for <var>element</var> to
+    become <a>keyboard-interactable</a>.
 
- <li><p>If <var>element</var> is not the <a>active element</a> run
-  the <a>focusing steps</a> for the <var>element</var>.
+   <li><p>If <var>element</var> is not <a>keyboard-interactable</a>,
+    return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
+
+   <li><p>If <var>element</var> is not the <a>active element</a> run
+    the <a>focusing steps</a> for the <var>element</var>.
+  </ol>
 
  <li><p>Run the substeps of the first matching condition:
   <dl class="switch">
-   <dt><var>element</var> is an <a><code>input</code> element</a> whose
-    <a><code>type</code> attribute</a> is <a>File</a>.
+   <dt><var>file</var> is false.
    <dd>
     <ol>
      <li><p>Let <var>files</var> be the result of splitting <var>text</var>
