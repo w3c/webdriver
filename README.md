@@ -1,7 +1,7 @@
 WebDriver Standard
 ==================
 
-[WebDriver] is a remote control interface that enables introspection
+WebDriver is a remote control interface that enables introspection
 and control of user agents.  It provides a platform- and language-neutral
 wire protocol as a way for out-of-process programs to remotely
 instruct the behavior of web browsers.
@@ -16,10 +16,9 @@ control a — possibly separate — browser.
 The standard is authored by the W3C [Browser Testing- and Tools
 Working Group], and has produced the following documents:
 
-  * **Living Standard**: https://w3c.github.io/webdriver/
-  * **Candidate Recommendation** version 1: https://www.w3.org/TR/webdriver/
+  * **Living Document**: https://w3c.github.io/webdriver/
+  * **Candidate Recommendation** level 1: https://www.w3.org/TR/webdriver1/
 
-[WebDriver]: https://w3c.github.io/webdriver/
 [Browser Testing- and Tools Working Group]: https://www.w3.org/testing/browser/
 
 
