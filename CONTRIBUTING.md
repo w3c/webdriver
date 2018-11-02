@@ -27,3 +27,20 @@ comment with:
 If you are making a pull request on behalf of someone else but you
 had no part in designing the  feature, you can remove yourself with
 the above syntax.
+
+
+Specification validation
+------------------------
+
+We run a set of automated tests, including HTML validation and [ReSpec]
+linting, on all PRs and changes submitted to the specification.
+You can run these tests locally this way:
+
+	make test
+
+Ensure you have [respec] installed first:
+
+	npm install -g respec
+
+[ReSpec]: https://github.com/w3c/respec
+[respec]: https://www.npmjs.com/package/respec
