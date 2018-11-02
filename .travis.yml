@@ -1,9 +1,6 @@
-language: generic
-sudo: false
+language: node_js
+node_js:
+- "node"
 
-script: ./validate
-
-notifications:
-  email:
-    on_success: never
-    on_failure: always
+before_script: npm install -g respec
+script: make test
