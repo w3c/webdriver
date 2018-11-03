@@ -6385,19 +6385,15 @@ of the <a>current browsing context</a> <a>active document</a>.
  <dt>instance of <a>Array</a>
  <dd>
   <ol>
-   <li><p>If <var>value</var> is in <var>seen</var>,
-    return <a>error</a> with <a>error code</a> <a>javascript error</a>.
+   <li><p>Let <var>result list</var> be an empty list.
 
-   <li><p>Append <var>value</var> to <var>seen</var>.
+   <li><p>For each <var>item</var> of <var>value</var>,
+    add the result of <a>trying</a> to <a>clone an object</a>
+    with arguments <var>item</var> and <var>seen</var>
+    and the <a>internal JSON clone algorithm</a> as the <var>clone algorithm</var>
+    to <var>result list</var>.
 
-   <li><p>Let <var>result</var> be the value of running the
-    <a>clone an object</a> algorithm with arguments <var>value</var> and
-    <var>seen</var>, and the <a>internal JSON clone algorithm</a> as the
-    <var>clone algorithm</var>.
-
-   <li><p>Remove the last element of <var>seen</var>.
-
-   <li><p>Return <var>result</var>.
+   <li><p>Return <a>success</a> with <var>result list</var>.
   </ol>
 
  <dt>instance of <a>element</a>
