@@ -674,7 +674,7 @@ rather than performance, in mind.
 </section> <!-- /Conformance -->
 
 <section>
-<h2>Design Notes</h2>
+<h2>Design</h2>
 
 <i>This section is non-normative</i>
 
@@ -966,7 +966,7 @@ It is acknowledged that this is complementary to the Evil Bit [[!RFC3514]].
 </section>
 
 <section>
-<h3>Processing Model</h3>
+<h3>Processing model</h3>
 
 <p>The <a>remote end</a> is an HTTP server
  reading requests from the client and writing responses,
@@ -1155,10 +1155,10 @@ It is acknowledged that this is complementary to the Evil Bit [[!RFC3514]].
 <p>A <dfn data-lt="url variables">url variable</dfn> dictionary is defined
   as the mapping of a <a>command</a>'s <a>URI template</a> variable names
   to their corresponding values.
-</section> <!-- /Processing Model -->
+</section> <!-- /Processing model -->
 
 <section>
-<h3>Routing Requests</h3>
+<h3>Routing requests</h3>
 
 <p><dfn data-lt="routing requests">Request routing</dfn>
  is the process of going from a <a>HTTP request</a>
@@ -1212,10 +1212,10 @@ It is acknowledged that this is complementary to the Evil Bit [[!RFC3514]].
  <li><p>Return <a>success</a> with data
   <var>command</var> and <var>parameters</var>.
 </ol>
-</section> <!-- /Routing Requests -->
+</section> <!-- /Routing requests -->
 
 <section>
-<h3>List of Endpoints</h3>
+<h3>Endpoints</h3>
 
 <p>The following <dfn data-lt=endpoints>table of endpoints</dfn> lists
  the <a>method</a> and <a>URI template</a> for each <a>endpoint
@@ -1553,10 +1553,10 @@ It is acknowledged that this is complementary to the Evil Bit [[!RFC3514]].
   <td><a>Take Element Screenshot</a></td>
  </tr>
 </table>
-</section> <!-- /List of Endpoints -->
+</section> <!-- /Endpoints -->
 
 <section>
-<h3>Handling Errors</h3>
+<h3>Errors</h3>
 
 <p><a>Errors</a> are represented in the WebDriver protocol
  by an <a>HTTP response</a> with an <a>HTTP status</a> in the 4xx or 5xx range,
@@ -1833,10 +1833,10 @@ It is acknowledged that this is complementary to the Evil Bit [[!RFC3514]].
  is a mapping of string keys to JSON serializable values
  that can optionally be included with <a>error</a> objects.
 
-</section> <!-- /Handling Errors -->
+</section> <!-- /Errors -->
 
 <section>
-<h2>Protocol Extensions</h2>
+<h2>Extensions</h2>
 
 <p>Using the terminology defined in this section, others may define additional
  commands that seamlessly integrate with the standard protocol. This allows
@@ -1924,8 +1924,8 @@ It is acknowledged that this is complementary to the Evil Bit [[!RFC3514]].
 }</pre>
 </aside>
 
-</section> <!-- /Protocol Extensions -->
-</section> <!-- /The WebDriver Protocol -->
+</section> <!-- /Extensions -->
+</section> <!-- /Protocol -->
 
 <section>
 <h2>Capabilities</h2>
@@ -2011,8 +2011,7 @@ with a "<code>moz:</code>" prefix:
   <td><dfn>Window dimensioning/positioning</dfn>
   <td>"<code>setWindowRect</code>"
   <td>boolean
-   <td>Indicates whether the remote end supports all of the <a>commands</a> in
-   <a href=#resizing-and-positioning-windows>Resizing and Positioning Windows</a>.
+  <td>Indicates whether the remote end supports all of the <a href=#resizing-and-positioning-windows>resizing and repositioning</a> <a>commands</a>.
  </tr>
 
  <tr>
@@ -2204,7 +2203,7 @@ with a "<code>moz:</code>" prefix:
 </section> <!-- /Proxy -->
 
 <section>
-<h3>Processing Capabilities</h3>
+<h3>Processing capabilities</h3>
 
 <p>To <dfn data-lt="capabilities processing">process capabilities</dfn>
  with argument <var>parameters</var>,
@@ -2448,8 +2447,7 @@ with a "<code>moz:</code>" prefix:
     &lt;input type=file&gt;.
 
    <dt>"<code>setWindowRect</code>"
-   <dd>Boolean indicating whether the <a>remote end</a> supports all of the
-    <a>commands</a> in <a href=#resizing-and-positioning-windows>Resizing and Positioning Windows</a>.
+   <dd>Boolean indicating whether the <a>remote end</a> supports all of the <a href=#resizing-and-positioning-windows>resizing and positioning</a> <a>commands</a>.
   </dl>
 
  <li><p>Optionally add <a>extension capabilities</a> as entries
@@ -2578,7 +2576,7 @@ with a "<code>moz:</code>" prefix:
  <li><p>Return <a>success</a> with data <var>matched capabilities</var>.
 </ol>
 
-</section> <!-- /Processing Capabilities -->
+</section> <!-- /Processing capabilities -->
 </section> <!-- /Capabilities -->
 
 <section>
@@ -3598,7 +3596,7 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
 </section> <!-- /Navigation -->
 
 <section>
-<h2>Command Contexts</h2>
+<h2>Contexts</h2>
 
 <p>Many WebDriver <a>commands</a> happen in the context of either
  the <a>current browsing context</a> or <a>current top-level browsing context</a>.
@@ -3937,7 +3935,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
 </section> <!-- /Switch To Parent Frame -->
 
 <section>
-<h2>Resizing and Positioning Windows</h2>
+<h2>Resizing and positioning windows</h2>
 
 <p>WebDriver provides <a>commands</a>
  for interacting with the operating system window
@@ -4345,7 +4343,7 @@ corresponding to the <a>current top-level browsing context</a>.
 </section> <!-- /Fullscreen Window -->
 
 </section> <!-- /Switch To Window -->
-</section> <!-- /Command Contexts -->
+</section> <!-- /Contexts -->
 
 <section>
 <h2>Elements</h2>
@@ -4514,7 +4512,7 @@ argument <var>reference</var>, run the following steps:
 
 
 <section>
-<h3>Element Interactability</h3>
+<h3>Interactability</h3>
 
 <p>In order to determine if an <a>element</a>
  can be interacted with using pointer actions,
@@ -4650,11 +4648,11 @@ argument <var>reference</var>, run the following steps:
  <li><p>Return the <a>elements from point</a>
   given the coordinates <var>center point</var>.
 </ol>
-</section> <!-- /Element Interactability -->
-</section> <!-- /Elements -->
+</section> <!-- /Interactability -->
+
 
 <section>
-<h2>Element Retrieval</h2>
+<h3 id=element-retrieval>Retrieval</h3>
 
 <p>The <a>Find Element</a>,
  <a>Find Elements</a>,
@@ -4703,7 +4701,7 @@ argument <var>reference</var>, run the following steps:
 </ol>
 
 <section>
-<h3>Locator Strategies</h3>
+<h4>Locator strategies</h4>
 
 <p>An <dfn data-lt=strategy>element location strategy</dfn>
  is an <a>enumerated attribute</a>
@@ -4745,7 +4743,7 @@ argument <var>reference</var>, run the following steps:
 </table>
 
 <section>
-<h4>CSS Selectors</h4>
+<h5>CSS selectors</h5>
 
 <p>To find a <a>web element</a> with
  the <dfn>CSS Selector</dfn> <a>strategy</a>
@@ -4760,10 +4758,10 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Return <a>success</a> with data <var>elements</var>.
 </ol>
-</section> <!-- /CSS Selectors -->
+</section> <!-- /CSS selectors -->
 
 <section>
-<h4>Link Text</h4>
+<h5>Link text</h5>
 
 <p>To find a <a>web element</a>
  with the <dfn data-lt="link text selector">Link Text</dfn> <a>strategy</a>
@@ -4795,10 +4793,10 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Return <a>success</a> with data <var>result</var>.
 </ol>
-</section> <!-- /Link Text -->
+</section> <!-- /Link text -->
 
 <section>
-<h4>Partial Link Text</h4>
+<h5>Partial link text</h5>
 
 <p>The <dfn data-lt="partial link text selector">Partial link text</dfn> <a>strategy</a>
  is very similar to the <a>Link Text</a> <a>strategy</a>,
@@ -4833,10 +4831,10 @@ argument <var>reference</var>, run the following steps:
 
  <li><p>Return <a>success</a> with data <var>result</var>.
 </ol>
-</section> <!-- /Partial Link Text -->
+</section> <!-- /Partial link text -->
 
 <section>
-<h4>Tag Name</h4>
+<h5>Tag name</h5>
 
 <p>To find a <a>web element</a> with the <dfn>Tag
  Name</dfn> <a>strategy</a> return <a>success</a> with data set to the
@@ -4845,10 +4843,10 @@ argument <var>reference</var>, run the following steps:
  <var>selector</var>, with the <a>context object</a> equal to the
  <var>start node</var>.
 
-</section> <!-- /Tag Name -->
+</section> <!-- /Tag name -->
 
 <section>
-<h4>XPath</h4>
+<h5>XPath</h5>
 
 <p>To find a <a>web element</a> with
  the <dfn>XPath Selector</dfn> <a>strategy</a>
@@ -4896,10 +4894,10 @@ argument <var>reference</var>, run the following steps:
 
 </ol>
 </section> <!-- /XPath -->
-</section> <!-- /Locator Strategies -->
+</section> <!-- /Locator strategies -->
 
 <section>
-<h3><dfn>Find Element</dfn></h3>
+<h4><dfn>Find Element</dfn></h4>
 
 <table class="simple jsoncommand">
  <tr>
@@ -4969,7 +4967,7 @@ session.execute("arguments[0].remove()", [body]);
 </section> <!-- /Find Element -->
 
 <section>
-<h3><dfn>Find Elements</dfn></h3>
+<h4><dfn>Find Elements</dfn></h4>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5016,7 +5014,7 @@ session.execute("arguments[0].remove()", [body]);
 </section> <!-- /Find Elements -->
 
 <section>
-<h3><dfn>Find Element From Element</dfn></h3>
+<h4><dfn>Find Element From Element</dfn></h4>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5066,7 +5064,7 @@ session.execute("arguments[0].remove()", [body]);
 </section> <!-- /Find Element From Element -->
 
 <section>
-<h3><dfn>Find Elements From Element</dfn></h3>
+<h4><dfn>Find Elements From Element</dfn></h4>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5111,7 +5109,7 @@ session.execute("arguments[0].remove()", [body]);
 </section> <!-- /Find Elements From Element -->
 
 <section>
-<h3><dfn>Get Active Element</dfn></h3>
+<h4><dfn>Get Active Element</dfn></h4>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5142,10 +5140,10 @@ session.execute("arguments[0].remove()", [body]);
   <p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such element</a>.
 </ol>
 </section> <!-- /Get Active Element -->
-</section> <!-- /Element Retrieval -->
+</section> <!-- /Retrieval -->
 
 <section>
-<h2>Element State</h2>
+<h3>State</h3>
 
 <p>To <dfn>calculate the absolute position</dfn> of <a><var>element</var></a>:
 
@@ -5214,7 +5212,7 @@ session.execute("arguments[0].remove()", [body]);
 </dl>
 
 <section>
-<h3><dfn>Is Element Selected</dfn></h3>
+<h4><dfn>Is Element Selected</dfn></h4>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5268,7 +5266,7 @@ or on <a><code>option</code> elements</a>.
 </section> <!-- /Is Element Selected -->
 
 <section>
-<h3><dfn>Get Element Attribute</dfn></h3>
+<h4><dfn>Get Element Attribute</dfn></h4>
 
 <table class="simple jsoncommand">
   <tr>
@@ -5320,7 +5318,7 @@ The <a>remote end steps</a> are:
 </section> <!-- /Get Element Attribute -->
 
 <section>
-<h3><dfn>Get Element Property</dfn></h3>
+<h4><dfn>Get Element Property</dfn></h4>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5357,7 +5355,7 @@ The <a>remote end steps</a> are:
 </section> <!-- /Get Element Property -->
 
 <section>
-<h3><dfn>Get Element CSS Value</dfn></h3>
+<h4><dfn>Get Element CSS Value</dfn></h4>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5400,7 +5398,7 @@ The <a>remote end steps</a> are:
 </section> <!-- /Get CSS Value -->
 
 <section>
-<h3><dfn>Get Element Text</dfn></h3>
+<h4><dfn>Get Element Text</dfn></h4>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5459,7 +5457,7 @@ with the <a>Unicode character property</a> <code>"WSpace=Y"</code>.
 </section> <!-- /Get Element Text -->
 
 <section>
-<h3><dfn>Get Element Tag Name</dfn></h3>
+<h4><dfn>Get Element Tag Name</dfn></h4>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5492,7 +5490,7 @@ with the <a>Unicode character property</a> <code>"WSpace=Y"</code>.
 </section> <!-- /Get Element Tag Name -->
 
 <section>
-<h3><dfn>Get Element Rect</dfn></h3>
+<h4><dfn>Get Element Rect</dfn></h4>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5575,7 +5573,7 @@ Width of the <a>web element</a>’s
 </section> <!-- /Get Element Rect -->
 
 <section>
-<h3><dfn>Is Element Enabled</dfn></h3>
+<h4><dfn>Is Element Enabled</dfn></h4>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5614,10 +5612,10 @@ Width of the <a>web element</a>’s
  <li><p>Return <a>success</a> with data <var>enabled</var>.
 </ol>
 </section> <!-- /Is Element Enabled -->
-</section> <!-- /Element State -->
+</section> <!-- /State -->
 
 <section>
-<h2>Element Interaction</h2>
+<h3 id=element-interaction>Interaction</h3>
 
 <p>The <a>element</a> interaction <a>commands</a>
  provide a high-level instruction set for manipulating form controls.
@@ -5653,7 +5651,7 @@ Width of the <a>web element</a>’s
  to an empty string (thus clearing the element’s child nodes).
 
 <section>
-<h3><dfn>Element Click</dfn></h3>
+<h4><dfn>Element Click</dfn></h4>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5833,7 +5831,7 @@ an <a>element not interactable</a> <a>error</a> is returned.
 </section> <!-- /Element Click -->
 
 <section>
-<h3><dfn>Element Clear</dfn></h3>
+<h4><dfn>Element Clear</dfn></h4>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5930,7 +5928,7 @@ an <a>element not interactable</a> <a>error</a> is returned.
 </section> <!-- /Element Clear -->
 
 <section>
-<h3><dfn>Element Send Keys</dfn></h3>
+<h4><dfn>Element Send Keys</dfn></h4>
 
 <table class="simple jsoncommand">
  <tr>
@@ -6281,11 +6279,12 @@ must run the following steps:
 
  <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
-</section> <!-- Element Send Keys -->
-</section> <!-- /Element Interaction -->
+</section> <!-- /Element Send Keys -->
+</section> <!-- /Interaction -->
+</section> <!-- /Elements -->
 
 <section>
-<h2>Document Handling</h2>
+<h2>Document</h2>
 
 <section>
 <h3><dfn>Get Page Source</dfn></h3>
@@ -6745,7 +6744,9 @@ The first argument provided to the function will be serialized to JSON and retur
 </ol>
 </section> <!-- /Execute Async Script -->
 </section> <!-- /Executing Script -->
-</section> <!-- /Document Handling -->
+</section> <!-- /Document -->
+
+
 <section>
 <h2>Cookies</h2>
 
@@ -8903,11 +8904,11 @@ It also clears all the internal state of the virtual devices.
  <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section><!-- /Releasing Actions -->
-
 </section><!-- /Actions -->
 
+
 <section>
-<h2>User Prompts</h2>
+<h2>User prompts</h2>
 
 <p>This chapter describes interaction with various types of <a>user prompts</a>.
  The common denominator for user prompts is that they are
@@ -9271,10 +9272,11 @@ sets the text field of a <a>window.<code>prompt</code></a>
  <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
 </section> <!-- /Send Alert Text -->
-</section> <!-- /User Prompts -->
+</section> <!-- /User prompts -->
+
 
 <section>
-<h2>Screen Capture</h2>
+<h2>Screen capture</h2>
 
 <p>Screenshots are a mechanism for providing
  additional visual diagnostic information.
@@ -9465,21 +9467,23 @@ that evaluates to false, the <a>element</a> will not be <a>scrolled into view</a
  <li><p>Return <a>success</a> with data <var>encoded string</var>.
 </ol>
 </section> <!-- /Take Element Screenshot -->
-</section> <!-- /Screen Capture -->
+</section> <!-- /Screen capture -->
+
 
 <section class=appendix>
-<h2>Privacy Considerations</h2>
+<h2>Privacy</h2>
 
-<p>It is advisable that <a>remote ends</a>
- create a new profile when <a data-lt="new session">creating a new session</a>.
- This prevents potentially sensitive session data
- from being accessible to new <a>sessions</a>,
- ensuring both privacy
- and preventing state from bleeding through to the next session.
+<p>
+It is advisable that <a>remote ends</a>
+create a new profile when <a data-lt="new session">creating a new session</a>.
+This prevents potentially sensitive session data
+from being accessible to new <a>sessions</a>,
+ensuring both privacy and preventing state from bleeding through to the next session.
 </section>
 
+
 <section class=appendix>
-<h2>Security Considerations</h2>
+<h2>Security</h2>
 
 <p>A user agent can rely on a command-line flag
  or a configuration option
@@ -9519,8 +9523,9 @@ that evaluates to false, the <a>element</a> will not be <a>scrolled into view</a
  so that it easy to identify automation windows.
 </section>
 
+
 <section class=appendix>
-<h2>Element Displayedness</h2>
+<h2>Element displayedness</h2>
 
 <p>Although WebDriver does not define a primitive
  to ascertain the visibility of an <a>element</a> in the <a>viewport</a>,
@@ -9557,64 +9562,68 @@ that evaluates to false, the <a>element</a> will not be <a>scrolled into view</a
 <p>This function is typically exposed to <code>GET</code> requests
  with a <a>URI Template</a> of
  <code>/session/{session id}/element/{element id}/displayed</code>.
-</section> <!-- /Element Displayedness -->
+</section> <!-- /Element displayedness -->
+
 
 <section class=appendix>
 <h2>Acknowledgements</h2>
 
-<p>There have been a lot of people that have helped make
- <a href=#abstract>browser automation</a> possible over the years
- and thereby furthered the goals of this standard.
- In particular, thanks goes to the
- <a href=http://www.seleniumhq.org/>Selenium</a> Open Source community,
- without which this standard would never have been possible.
+<p>
+There have been a lot of people that have helped make
+<a href=#abstract>browser automation</a> possible over the years
+and thereby furthered the goals of this standard.
+In particular, thanks goes to the
+<a href=https://www.seleniumhq.org/>Selenium</a> Open Source community,
+without which this standard would never have been possible.
 
-<p>This standard is authored by
+<p>
+This standard is authored by
 
- <!-- ~~~ run sort(1) on this ~~~ -->
+<!-- ~~~ run sort(1) on this ~~~ -->
 
- <!-- Aleksey Chemakin --> Aleksey Chemakin,
- <!-- Andreas Tolfsen --> <a href=https://sny.no>Andreas Tolfsen</a>,
- <!-- Andrey Botalov --> Andrey Botalov,
- <!-- Clayton Martin --> Clayton Martin,
- <!-- Daniel Wagner-Hall --> Daniel Wagner-Hall,
- <!-- David Burns --> <a href=http://www.theautomatedtester.co.uk/>David Burns</a>,
- <!-- Eran Messeri --> Eran Messeri,
- <!-- Erik Wilde --> Erik Wilde,
- <!-- Gábor Csárdi --> Gábor Csárdi,
- <!-- Geoffrey Sneddon --> Geoffrey Sneddon,
- <!-- James Graham --> James Graham,
- <!-- Jason Juang --> Jason Juang,
- <!-- Jason Leyba --> Jason Leyba,
- <!-- Jim Evans --> Jim Evans,
- <!-- John Jansen --> John Jansen,
- <!-- Luke Inman-Semerau --> Luke Inman-Semerau,
- <!-- Maja Frydrychowicz --> <a href=http://www.erranderr.com/>Maja Frydrychowicz</a>,
- <!-- Malini Das --> Malini Das,
- <!-- Marc Fisher --> Marc Fisher,
- <!-- Mike Pennisi --> Mike Pennisi,
- <!-- Ondřej Machulda --> Ondřej Machulda,
- <!-- Randall Kent --> Randall Kent,
- <!-- Seva Lotoshnikov --> Seva Lotoshnikov,
- <!-- Simon Stewart --> <a href=http://www.rocketpoweredjetpants.com/>Simon Stewart</a>,
- <!-- Titus Fortner --> Titus Fortner,
- <!-- Vangelis Katsikaros --> and Vangelis Katsikaros.
+<!-- Aleksey Chemakin --> Aleksey Chemakin,
+<!-- Andreas Tolfsen --> <a href=https://sny.no>Andreas Tolfsen</a>,
+<!-- Andrey Botalov --> Andrey Botalov,
+<!-- Clayton Martin --> Clayton Martin,
+<!-- Daniel Wagner-Hall --> Daniel Wagner-Hall,
+<!-- David Burns --> <a href=http://www.theautomatedtester.co.uk/>David Burns</a>,
+<!-- Eran Messeri --> Eran Messeri,
+<!-- Erik Wilde --> Erik Wilde,
+<!-- Gábor Csárdi --> Gábor Csárdi,
+<!-- Geoffrey Sneddon --> Geoffrey Sneddon,
+<!-- James Graham --> James Graham,
+<!-- Jason Juang --> Jason Juang,
+<!-- Jason Leyba --> Jason Leyba,
+<!-- Jim Evans --> Jim Evans,
+<!-- John Jansen --> John Jansen,
+<!-- Luke Inman-Semerau --> Luke Inman-Semerau,
+<!-- Maja Frydrychowicz --> <a href=http://www.erranderr.com/>Maja Frydrychowicz</a>,
+<!-- Malini Das --> Malini Das,
+<!-- Marc Fisher --> Marc Fisher,
+<!-- Mike Pennisi --> Mike Pennisi,
+<!-- Ondřej Machulda --> Ondřej Machulda,
+<!-- Randall Kent --> Randall Kent,
+<!-- Seva Lotoshnikov --> Seva Lotoshnikov,
+<!-- Simon Stewart --> <a href=http://www.rocketpoweredjetpants.com/>Simon Stewart</a>,
+<!-- Titus Fortner --> Titus Fortner,
+<!-- Vangelis Katsikaros --> and Vangelis Katsikaros.
 
- <!-- ~~~ end sort ~~~ -->
+<!-- ~~~ end sort ~~~ -->
 
- The work is coordinated and edited by
- <a href=http://www.theautomatedtester.co.uk/>David Burns</a>
- and <a href=http://www.rocketpoweredjetpants.com/>Simon Stewart</a>.
+The work is coordinated and edited by
+<a href=http://www.theautomatedtester.co.uk/>David Burns</a>
+and <a href=http://www.rocketpoweredjetpants.com/>Simon Stewart</a>.
 
-<p>Thanks to
- Berge Schwebs Bjørlo,
- Lukas Tetzlaff,
- Malcolm Rowe,
- Michael[tm] Smith,
- Nathan Bloomfield,
- Philippe Le Hégaret,
- Robin Berjon,
- Ross Patterson,
- and Wilhelm Joys Andersen
- for proofreading and suggesting areas for improvement.
+<p>
+Thanks to
+Berge Schwebs Bjørlo,
+Lukas Tetzlaff,
+Malcolm Rowe,
+Michael[tm] Smith,
+Nathan Bloomfield,
+Philippe Le Hégaret,
+Robin Berjon,
+Ross Patterson,
+and Wilhelm Joys Andersen
+for proofreading and suggesting areas for improvement.
 </section>
