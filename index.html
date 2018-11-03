@@ -6376,28 +6376,13 @@ of the <a>current browsing context</a> <a>active document</a>.
  <dt>type <a>String</a>
  <dd><p><a>Success</a> with data <var>value</var>.
 
- <dt>instance of <a>element</a>
- <dd><p>If the <var>element</var> <a>is stale</a>,
-  return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
-
   <p>Otherwise, return <a>success</a>
    with the <a data-lt="JSON serialization of an element">serialization to JSON</a>
    of the <a>web element</a> <var>value</var>.
 
- <dt>a <a><code>WindowProxy</code></a> object
- <dd><p>If the associated <a>browsing context</a>
-  of the <a><code>WindowProxy</code></a> object
-  in <var>value</var> has been <a>discarded</a>,
-  return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
-
-  <p>Otherwise return <a>success</a>
-   with the <a>JSON serialization of the <code>WindowProxy</code> object</a>
-   of <var>value</var>.
-
  <dt>instance of <a>NodeList</a>
  <dt>instance of <a>HTMLCollection</a>
  <dt>instance of <a>Array</a>
- <dt>instance of <a>Object</a>
  <dd>
   <ol>
    <li><p>If <var>value</var> is in <var>seen</var>,
@@ -6414,7 +6399,24 @@ of the <a>current browsing context</a> <a>active document</a>.
 
    <li><p>Return <var>result</var>.
   </ol>
- </dd>
+
+ <dt>instance of <a>element</a>
+ <dd><p>If the <var>element</var> <a>is stale</a>,
+  return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
+
+  <p>Otherwise return <a>success</a>
+   with the <a data-lt="JSON serialization of an element">JSON serialization</a>
+   of <var>value</var>.
+
+ <dt>a <a><code>WindowProxy</code></a> object
+ <dd><p>If the associated <a>browsing context</a>
+  of the <a><code>WindowProxy</code></a> object
+  in <var>value</var> has been <a>discarded</a>,
+  return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
+
+  <p>Otherwise return <a>success</a>
+   with the <a data-lt="JSON serialization of the WindowProxy object">JSON serialization</a>
+   of <var>value</var>.
 
  <dt>has an <a>own property</a> named "<code>toJSON</code>" that is
   a <a>Function</a>
@@ -6422,7 +6424,22 @@ of the <a>current browsing context</a> <a>active document</a>.
   <a>Call</a>(<code>toJSON</code>).
 
  <dt>Otherwise</dt>
- <dd><p><a>Error</a> with <a>error code</a> <a>javascript error</a>.
+ <dd>
+  <ol>
+   <li><p>If <var>value</var> is in <var>seen</var>,
+    return <a>error</a> with <a>error code</a> <a>javascript error</a>.
+
+   <li><p>Append <var>value</var> to <var>seen</var>.
+
+   <li><p>Let <var>result</var> be the value of running the
+    <a>clone an object</a> algorithm with arguments <var>value</var> and
+    <var>seen</var>, and the <a>internal JSON clone algorithm</a> as the
+    <var>clone algorithm</var>.
+
+   <li><p>Remove the last element of <var>seen</var>.
+
+   <li><p>Return <var>result</var>.
+  </ol>
 </dl>
 
 <p>To <dfn>clone an object</dfn>,
