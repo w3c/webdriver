@@ -4872,9 +4872,10 @@ but provides the best compatibility with existing users.
 </aside>
 
 <p>
-When processing text, <dfn>whitespace</dfn> is defined as
-characters from the Unicode Character Database ([[UAX44]])
-with the <a>Unicode character property</a> <code>"WSpace=Y"</code>.
+When processing text,
+<dfn>whitespace</dfn> is defined as characters from the Unicode Character Database
+with the <a>Unicode character property</a> "<code>WSpace=Y</code>" or "<code>WS</code>".
+[[!UAX44]]
 
 <p>The <a>remote end steps</a> are:
 
@@ -5433,51 +5434,55 @@ with arguments <var>text</var> and <var>keyboard</var>, a <a>remote
 end</a> must for each <var>char</var> corresponding to an indexed
 property in <var>text</var>:
 
-  <ol>
-   <li><p>If <var>char</var> is a <a>shifted character</a> and
-    the <a>shifted state</a> of <var>keyboard</var>
-    is <code>false</code>, create a new <a>action object</a>
-    with <var>keyboard</var>'s <code>id</code>, <code>"key"</code>,
-    and <code>"keyDown"</code>, and set its <code>value</code>
-    property to <code>U+E008</code> ("left shift"). <a>Dispatch a
-    keyDown action</a> with this <a>action object</a>
-    and <var>keyboard</var>'s <a>key input state</a>.
+<ol>
 
-   <li><p>If <var>char</var> is not a <a>shifted character</a> and
-    the <a>shifted state</a> of <var>keyboard</var>
-    is <code>true</code>, create a new <a>action object</a>
-    with <var>keyboard</var>'s <code>id</code>, <code>"key"</code>,
-    and <code>"keyUp"</code>, and set its <code>value</code>
-    property to <code>U+E008</code> ("left shift"). <a>Dispatch a
-    keyUp action</a> with this <a>action object</a>
-    and <var>keyboard</var>'s <a>key input state</a>.
+<li><p>
+If <var>char</var> is a <a>shifted character</a>
+and the <a>shifted state</a> of <var>keyboard</var> is false,
+create a new <a>action object</a> with <var>keyboard</var>’s <code>id</code>,
+"<code>key</code>", and "<code>keyDown</code>",
+and set its <code>value</code> property to U+E008 ("left shift").
+<a>Dispatch a keyDown action</a> with this <a>action object</a>
+and <var>keyboard</var>’s <a>key input state</a>.
 
-   <li><p>Let <var>keydown action</var> be a new <a>action object</a>
-    constructed with
-    arguments <var>keyboard</var>'s <code>id</code>, <code>"key"</code>,
-    and <code>"keyDown"</code>.
+<li><p>
+If <var>char</var> is not a <a>shifted character</a>
+and the <a>shifted state</a> of <var>keyboard</var> is true,
+create a new <a>action object</a> with <var>keyboard</var>’s <code>id</code>,
+"<code>key"</code>", and "<code>keyUp</code>",
+and set its <code>value</code> property to U+E008 ("left shift").
+<a>Dispatch a keyUp action</a> with this <a>action object</a>
+and <var>keyboard</var>’s <a>key input state</a>.
 
-   <li><p>Set the <code>value</code> property of <var>keydown
-    action</var> to <var>char</var>
+<li><p>
+Let <var>keydown action</var> be a new <a>action object</a>
+constructed with arguments <var>keyboard</var>’s
+<code>id</code>, "<code>key</code>", and "<code>keyDown</code>".
 
-   <li><p><a>Dispatch a keyDown action</a> with arguments <var>keydown
-    action</var> and <var>keyboard</var>'s <a>key input state</a>.
+<li><p>
+Set the <code>value</code> property of <var>keydown action</var> to <var>char</var>.
 
-   <li><p>Let <var>keyup action</var> be a copy of <var>keydown
-    action</var> with the <code>subtype</code> property changed
-    to <code>"keyUp"</code>.
+<li><p>
+<a>Dispatch a keyDown action</a> with arguments
+<var>keydown action</var> and <var>keyboard</var>’s <a>key input state</a>.
 
-   <li><p><a>Dispatch a keyUp action</a> with arguments <var>keyup
-    action</var> and <var>keyboard</var>'s <a>key input state</a>.
-</ol> <!-- /dispatch events for a typeable grapheme cluster -->
+<li><p>
+Let <var>keyup action</var> be a copy of <var>keydown action</var>
+with the <code>subtype</code> property changed to "<code>keyUp</code>".
 
-<p>When required to <dfn>dispatch a <code>composition
-event</code></dfn> with arguments <var>type</var>
-and <var>cluster</var> the <a>remote end</a> must <a>perform
-implementation-specific action dispatch steps</a> equivalent to
-sending composition events in accordance with the requirements of
-[[!UI-EVENTS]], and producing the following event with the specified
-properties.
+<li><p>
+<a>Dispatch a keyUp action</a> with arguments
+<var>keyup action</var> and <var>keyboard</var>’s <a>key input state</a>.
+
+</ol>
+
+<p>
+When required to <dfn>dispatch a composition event</dfn>
+with arguments <var>type</var> and <var>cluster</var>,
+the <a>remote end</a> must <a>perform implementation-specific action dispatch steps</a>
+equivalent to sending composition events
+in accordance with the requirements of [[!UI-EVENTS]],
+and producing the following event with the specified properties.
 
 <ul>
  <li><a href=https://www.w3.org/TR/uievents/#events-compositionevents><code>composition event</code></a> with properties:
@@ -5497,96 +5502,106 @@ properties.
  </table>
 </ul>
 
-<p>When required to <dfn>dispatch actions for a string</dfn> with
-arguments <var>text</var> and <var>keyboard</var>, a <a>remote end</a>
-must run the following steps:
+<p>
+When required to <dfn>dispatch actions for a string</dfn>
+with arguments <var>text</var> and <var>keyboard</var>,
+a <a>remote end</a> must run the following steps:
 
 <ol>
- <li><p>Let <var>clusters</var> be an array created by
-  <a>breaking <var>text</var> into extended grapheme clusters</a>.
 
- <li><p>Let <var>undo actions</var> be an empty dictionary.
+<li><p>
+Let <var>clusters</var> be an array created by
+<a>breaking <var>text</var> into extended grapheme clusters</a>.
 
- <li><p>Let <var>current typeable text</var> be an empty string.
+<li><p>
+Let <var>undo actions</var> be an empty dictionary.
 
- <li><p>For each <var>cluster</var> corresponding to an indexed
-  property in <var>clusters</var> run the substeps of the first
-  matching statement:
+<li><p>
+Let <var>current typeable text</var> be an empty string.
 
- <dl class="switch">
-  <dt><var>cluster</var> is the <a>null key</a>
-  <dd>
-   <ol>
-    <li><p><a>Dispatch the events for a typeable string</a> with
-     arguments <var>current typeable text</var>
-     and <var>keyboard</var>. Reset <var>current typeable text</var> to
-     an empty string.
+<li><p>
+For each <var>cluster</var> corresponding to an indexed property in <var>clusters</var>
+run the substeps of the first matching statement:
 
-    <li><a>Clear the modifier key state</a> with arguments
-     being <var>undo actions</var>
-     and <var>keyboard</var>.
-    <li><p>If the previous step results in an <a>error</a>, return that
-     <a>error</a>.
-    <li>Reset <var>undo actions</var> to be an empty dictionary.
-   </ol>
+<dl class=switch>
+<dt><var>cluster</var> is the <a>null key</a>
+<dd><ol>
+<li><p>
+<a>Dispatch the events for a typeable string</a>
+with arguments <var>current typeable text</var> and <var>keyboard</var>.
+Reset <var>current typeable text</var> to an empty string.
 
-  <dt><var>cluster</var> is a <a>modifier key</a>
-  <dd>
-   <ol>
-    <li><p><a>Dispatch the events for a typeable string</a> with
-     arguments <var>current typeable text</var>
-     and <var>keyboard</var>. Reset <var>current typeable text</var> to
-     an empty string.
+<li><p>
+<a>Clear the modifier key state</a> with arguments
+being <var>undo actions</var> and <var>keyboard</var>.
 
-    <li><p>Let <var>keydown action</var> be an <a>action object</a>
-     constructed with arguments <var>keyboard</var>'s
-     id, <code>"key"</code>, and <code>"keyDown"</code>.
+<li><p>
+If the previous step results in an <a>error</a>, return that <a>error</a>.
 
-    <li><p>Set the <code>value</code> property of <var>keydown
-     action</var> to <var>cluster</var>.
+<li><p>
+Reset <var>undo actions</var> to be an empty dictionary.
+</ol>
 
-    <li><p><a>Dispatch a keyDown action</a> with
-     arguments <var>keydown action</var>
-     and <var>keyboard</var>'s <a>key input state</a>.
+<dt><var>cluster</var> is a <a>modifier key</a>
+<dd><ol>
+<li><p>
+<a>Dispatch the events for a typeable string</a>
+with arguments <var>current typeable text</var> and <var>keyboard</var>.
+Reset <var>current typeable text</var> to an empty string.
 
-    <li><p>Add an entry to <var>undo actions</var> with
-     key <var>cluster</var> and value being a copy of <var>keydown
-     action</var> with the <code>subtype</code> modified
-     to <code>"keyUp"</code>.
-   </ol>
+<li><p>
+Let <var>keydown action</var> be an <a>action object</a>
+constructed with arguments <var>keyboard</var>’s ID,
+"<code>key</code>",
+and "<code>keyDown</code>".
 
-  <dt><var>cluster</var> is <a>typeable</a>
-  <dd>Append <var>cluster</var> to <var>current typeable text</var>.
+<li><p>
+Set the <code>value</code> property of <var>keydown action</var> to <var>cluster</var>.
 
-  <dt>Otherwise
-  <dd>
-   <ol>
-    <li><p><a>Dispatch the events for a typeable string</a> with
-     arguments <var>current typeable text</var>
-     and <var>keyboard</var>. Reset <var>current typeable text</var> to
-     an empty string.
+<li><p>
+<a>Dispatch a keyDown action</a> with arguments
+<var>keydown action</var> and <var>keyboard</var>’s <a>key input state</a>.
 
-    <li><p><a>Dispatch a <code>composition event</code></a> with
-     arguments <code>"compositionstart"</code>
-     and <a>undefined</a>.
+<li><p>
+Add an entry to <var>undo actions</var> with key <var>cluster</var>
+and value being a copy of <var>keydown action</var>
+with the <code>subtype</code> modified to "<code>keyUp</code>".
+</ol>
 
-    <li><p><a>Dispatch a <code>composition event</code></a> with
-     arguments <code>"compositionupdate"</code>
-     and <var>cluster</var>.
+<dt><var>cluster</var> is <a>typeable</a>
+<dd><p>
+Append <var>cluster</var> to <var>current typeable text</var>.
 
-    <li><p><a>Dispatch a <code>composition event</code></a> with
-     arguments <code>"compositionend"</code>
-     and <var>cluster</var>.
-   </ol>
- </dl>
+<dt>Otherwise
 
- <li><p><a>Dispatch the events for a typeable string</a> with
-  arguments <var>current typeable text</var>
-  and <var>keyboard</var>.
+<dd><ol>
+<li><p>
+<a>Dispatch the events for a typeable string</a> with arguments
+<var>current typeable text</var> and <var>keyboard</var>.
+Reset <var>current typeable text</var> to an empty string.
 
- <li><p><a>Clear the modifier key state</a> with arguments <var>undo
-  actions</var> and <var>keyboard</var>.  If an <a>error</a> is
-  returned, return that <a>error</a>
+<li><p>
+<a>Dispatch a <code>composition event</code></a> with arguments
+"<code>compositionstart</code>" and <a>undefined</a>.
+
+<li><p>
+<a>Dispatch a <code>composition event</code></a> with arguments
+"<code>compositionupdate</code>" and <var>cluster</var>.
+
+<li><p>
+<a>Dispatch a <code>composition event</code></a> with arguments
+"<code>compositionend</code>" and <var>cluster</var>.
+</ol>
+</dl>
+
+<li><p>
+<a>Dispatch the events for a typeable string</a> with arguments
+<var>current typeable text</var> and <var>keyboard</var>.
+
+<li><p>
+<a>Clear the modifier key state</a> with arguments
+<var>undo actions</var> and <var>keyboard</var>.
+If an <a>error</a> is returned, return that <a>error</a>
 </ol> <!-- /create actions from a string -->
 
 <p>The <a>remote end steps</a> for <a>Element Send Keys</a> are:
@@ -6788,14 +6803,17 @@ describe the state associated with each <a>input source</a>.
  and <code>alt</code>, <code>shift</code>, <code>ctrl</code>,
  and <code>meta</code> all set to <code>false</code>.
 
-<p>A <a>pointer input source</a>'s <a>input source state</a> is
- a <dfn>pointer input state</dfn> object. This consists of
- a <code>subtype</code> property, which has the possible
- values <code>"mouse"</code>, <code>"pen"</code>,
- and <code>"touch"</code>, a <code>pressed</code> property which is a
- set of unsigned integers, an <code>x</code> property which is an
- unsigned integer, and a <code>y</code> property which is an unsigned
- integer.
+<p>
+A <a>pointer input source</a>’s <a>input source state</a>
+is a <dfn>pointer input state</dfn> object.
+This consists of a <code>subtype</code> property,
+which has the possible values
+"<code>mouse</code>",
+"<code>pen</code>",
+and "<code>touch</code>",
+a <code>pressed</code> property which is a set of unsigned integers,
+an <code>x</code> property which is an unsigned integer,
+and a <code>y</code> property which is an unsigned integer.
 
 <p>When required to <dfn>create a new pointer input state</dfn> object
  with arguments <var>subtype</var> an implementation must return
@@ -7005,8 +7023,8 @@ describe the state associated with each <a>input source</a>.
   named <code>type</code> from <var>action sequence</var>.
 
  <li><p>If <var>type</var> is
-  not <code>"key"</code>, <code>"pointer"</code>,
-  or <code>"none"</code>, return an <a>error</a> with
+  not "<code>key</code>", "<code>pointer</code>",
+  or "<code>none</code>", return an <a>error</a> with
   <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>id</var> be the result of
@@ -7018,7 +7036,7 @@ describe the state associated with each <a>input source</a>.
  <li><p>If <var>id</var> is <a>undefined</a> or is not a <a>String</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If <var>type</var> is equal to <code>"pointer"</code>,
+ <li><p>If <var>type</var> is equal to "<code>pointer</code>",
   let <var>parameters data</var> be the result
   of <a>getting the property</a> "<code>parameters</code>"
   from <var>action sequence</var>.
@@ -7084,17 +7102,17 @@ describe the state associated with each <a>input source</a>.
     return <a>error</a> with <a>error code</a>
     <a>invalid argument</a>.
 
-   <li><p>If <var>type</var> is <code>"none"</code>
+   <li><p>If <var>type</var> is "<code>none</code>"
     let <var>action</var> be the result of <a>trying</a> to <a>process
     a null action</a> with parameters <var>id</var>, and
     <var>action item</var>.
 
-   <li><p>Otherwise, if <var>type</var> is <code>"key"</code>
+   <li><p>Otherwise, if <var>type</var> is "<code>key</code>"
     let <var>action</var> be the result of <a>trying</a> to <a>process
     a key action</a> with parameters <var>id</var>, and
     <var>action item</var>.
 
-   <li><p>Otherwise, if <var>type</var> is <code>"pointer"</code>
+   <li><p>Otherwise, if <var>type</var> is "<code>pointer</code>"
     let <var>action</var> be the result of <a>trying</a> to <a>process
     a pointer action</a> with parameters <var>id</var>,
     <var>parameters</var>, and <var>action item</var>.
@@ -7113,33 +7131,39 @@ describe the state associated with each <a>input source</a>.
  the following steps:
 
 <ol>
-  <li><p>Let <var>parameters</var> be the
-   <a>default pointer parameters</a>.
+<li><p>
+Let <var>parameters</var> be the <a>default pointer parameters</a>.
 
-  <li><p>If <var>parameters data</var> is <a>undefined</a>,
-   return <a>success</a> with data <var>parameters</var>.
+<li><p>
+If <var>parameters data</var> is <a>undefined</a>,
+return <a>success</a> with data <var>parameters</var>.
 
-  <li><p>If <var>parameters data</var> is not an <a>Object</a>
-   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+<li><p>
+If <var>parameters data</var> is not an <a>Object</a>,
+return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-  <li><p>Let <var>pointer type</var> be the result of <a>getting a
-   property</a> named <code>pointerType</code> from
-   <var>parameters data</var>.
+<li><p>
+Let <var>pointer type</var> be the result
+of <a>getting a property</a> named <code>pointerType</code>
+from <var>parameters data</var>.
 
-  <li><p>If <var>pointer type</var> is not <a>undefined</a>:
+<li><p>
+If <var>pointer type</var> is not <a>undefined</a>:
 
-   <ol>
-    <li><p>If <var>pointer type</var> does not have one of the
-     values <code>"mouse"</code>, <code>"pen"</code>,
-     or <code>"touch"</code> return <a>error</a> with
-     <a>error code</a> <a>invalid argument</a>.
+  <ol>
+  <li><p>
+  If <var>pointer type</var> does not have one of the values
+  "<code>mouse</code>",
+  "<code>pen</code>",
+  or "<code>touch</code>",
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-    <li><p>Set the <code>pointerType</code> property
-     of <var>parameters</var> to <var>pointer type</var>.
-   </ol>
+  <li><p>
+  Set the <code>pointerType</code> property of <var>parameters</var>
+  to <var>pointer type</var>.
+  </ol>
 
-  <li><p>Return <a>success</a> with data <var>parameters</var>.
-
+<li><p>Return <a>success</a> with data <var>parameters</var>.
 </ol>
 
 <p>An <dfn>action object</dfn> constructed with
@@ -7149,115 +7173,140 @@ describe the state associated with each <a>input source</a>.
  to <var>subtype</var>. Specific action objects have further
  properties added by other algorithms in this specification.
 
-<p>When required to <dfn>process a null action</dfn> with
- arguments <var>id</var> and <var>action item</var>, a <a>remote
- end</a> must perform the following steps:</p>
+<p>
+When required to <dfn>process a null action</dfn> with arguments
+<var>id</var> and <var>action item</var>,
+a <a>remote end</a> must perform the following steps:</p>
 
 <ol>
- <li><p>Let <var>subtype</var> be the result of <a>getting a property</a>
-  named <code>type</code> from <var>action item</var>.
+<li><p>
+Let <var>subtype</var> be the result of <a>getting a property</a>
+named <code>type</code> from <var>action item</var>.
 
- <li><p>If <var>subtype</var> is not <code>"pause"</code>
-  return <a>error</a> with <a>error code</a>
-  <a>invalid argument</a>.
+<li><p>
+If <var>subtype</var> is not "<code>pause</code>",
+return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>Let <var>action</var> be an <a>action object</a> constructed
-  with arguments <var>id</var>, <code>"none"</code>, and
-  <var>subtype</var>.
+<li><p>
+Let <var>action</var> be an <a>action object</a> constructed with arguments
+<var>id</var>,
+<code>"none"</code>,
+and <var>subtype</var>.
 
- <li><p>Let <var>result</var> be the result of <a>trying</a>
-  to <a>process a pause action</a> with arguments
-  <var>action item</var>, and <var>action</var>.
+<li><p>
+Let <var>result</var> be the result
+of <a>trying</a> to <a>process a pause action</a>
+with arguments <var>action item</var> and <var>action</var>.
 
- <li><p>Return <var>result</var>.
-
+<li><p>
+Return <var>result</var>.
 </ol>
 
-<p>When required to <dfn>process a key action</dfn> with
- arguments <var>id</var> and <var>action item</var>, a <a>remote
- end</a> must perform the following steps:</p>
+<p>
+When required to <dfn>process a key action</dfn> with arguments
+<var>id</var> and <var>action item</var>,
+a <a>remote end</a> must perform the following steps:</p>
 
 <ol>
- <li><p>Let <var>subtype</var> be the result of <a>getting a property</a>
-  named <code>type</code> from <var>action item</var>.
+<li><p>
+Let <var>subtype</var> be the result of <a>getting a property</a>
+named <code>type</code> from <var>action item</var>.
 
- <li><p>If <var>subtype</var> is not one of the
-  values <code>"keyUp"</code>, <code>"keyDown"</code>,
-  or <code>"pause"</code>, return an <a>error</a> with
-  <a>error code</a> <a>invalid argument</a>.
+<li><p>
+If <var>subtype</var> is not one of the values
+"<code>keyUp</code>",
+"<code>keyDown</code>",
+or "<code>pause</code>",
+return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>Let <var>action</var> be an <a>action object</a>
-  constructed with arguments <var>id</var>,
-  <code>"key"</code>, and <var>subtype</var>.
+<li><p>
+Let <var>action</var> be an <a>action object</a> constructed with arguments
+<var>id</var>,
+"<code>key</code>",
+and <var>subtype</var>.
 
- <li><p>If <var>subtype</var> is <code>"pause"</code>;
-  let <var>result</var> be the result of <a>trying</a> to
-  <a>process a pause action</a> with arguments
-  <var>action item</var>, and <var>action</var>, and return
-  <var>result</var>.
+<li><p>
+If <var>subtype</var> is "<code>pause</code>",
+let <var>result</var> be the result
+of <a>trying</a> to <a>process a pause action</a> with arguments
+<var>action item</var> and <var>action</var>,
+and return <var>result</var>.
 
- <li><p>Let <var>key</var> be the result of <a>getting a property</a>
-  named <code>value</code> from <var>action item</var>.
+<li><p>
+Let <var>key</var> be the result
+of <a>getting a property</a> named <code>value</code>
+from <var>action item</var>.
 
- <li><p>If <var>key</var> is not a <a>String</a> containing a
-  single <a>unicode code point</a> <span class="issue">or grapheme
-  cluster?</span> return <a>error</a> with
-  <a>error code</a> <a>invalid argument</a>.
+<li><p>
+If <var>key</var> is not a <a>String</a> containing a single <a>unicode code point</a>
+<span class=issue>or grapheme cluster?</span>
+return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>Set the <code>value</code> property on <var>action</var>
-  to <var>key</var>.
+<li><p>
+Set the <code>value</code> property on <var>action</var> to <var>key</var>.
 
- <li><p>Return success with data <var>action</var>.
-
+<li><p>
+Return success with data <var>action</var>.
 </ol>
 
-<p>When required to <dfn>process a pointer action</dfn> with
- arguments <var>id</var>, <var>parameters</var>, and
- <var>action item</var>, a <a>remote end</a> must perform the
- following steps:</p>
+<p>
+When required to <dfn>process a pointer action</dfn> with arguments
+<var>id</var>,
+<var>parameters</var>,
+and <var>action item</var>,
+a <a>remote end</a> must perform the following steps:</p>
 
 <ol>
- <li><p>Let <var>subtype</var> be the result of <a>getting a property</a>
-  named <code>type</code> from <var>action item</var>.
+<li><p>
+Let <var>subtype</var> be the result
+of <a>getting a property</a> named <code>type</code>
+from <var>action item</var>.
 
- <li><p>If <var>subtype</var> is not one of the
-  values <code>pause</code>, <code>"pointerUp"</code>,
-  <code>"pointerDown"</code>, <code>"pointerMove"</code>,
-  or <code>"pointerCancel"</code> return an <a>error</a> with
-  <a>error code</a> <a>invalid argument</a>.
+<li><p>
+If <var>subtype</var> is not one of the values
+"<code>pause</code>",
+"<code>pointerUp</code>",
+"<code>pointerDown</code>",
+"<code>pointerMove</code>",
+or "<code>pointerCancel</code>",
+return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>Let <var>action</var> be an <a>action object</a> constructed
-  with arguments <var>id</var>, <code>"pointer"</code>, and
-  <var>subtype</var>.
+<li><p>
+Let <var>action</var> be an <a>action object</a> constructed with arguments
+<var>id</var>,
+"<code>pointer</code>",
+and <var>subtype</var>.
 
- <li><p>If <var>subtype</var> is <code>"pause"</code>;
-  let <var>result</var> be the result of <a>trying</a> to
-  <a>process a pause action</a> with arguments
-  <var>action item</var>, and <var>action</var>, and return
-  <var>result</var>.
+<li><p>
+If <var>subtype</var> is "<code>pause</code>",
+let <var>result</var> be the result of <a>trying</a> to
+<a>process a pause action</a> with arguments
+<var>action item</var> and <var>action</var>,
+and return <var>result</var>.
 
- <li><p>Set the <code>pointerType</code> property of <var>action</var>
-  equal to the <code>pointerType</code> property
-  of <var>parameters</var>.
+<li><p>
+Set the <code>pointerType</code> property of <var>action</var>
+equal to the <code>pointerType</code> property of <var>parameters</var>.
 
- <li><p>If <var>subtype</var> is <code>"pointerUp"</code>
-  or <code>"pointerDown"</code>, <a>process a pointer up or pointer
-  down action</a> with arguments <var>action item</var>,
-  and <var>action</var>. If doing so results in an <a>error</a>,
-  return that <a>error</a>.
+<li><p>
+If <var>subtype</var> is "<code>pointerUp</code>" or "<code>pointerDown</code>",
+<a>process a pointer up or pointer down action</a> with arguments
+<var>action item</var> and <var>action</var>.
+If doing so results in an <a>error</a>, return that <a>error</a>.
 
- <li><p>If <var>subtype</var> is <code>"pointerMove"</code>
-  <a>process a pointer move action</a> with arguments
-  <var>action item</var>, and <var>action</var>. If doing so results
-  in an <a>error</a>, return that <a>error</a>.
+<li><p>
+If <var>subtype</var> is "<code>pointerMove</code>"
+<a>process a pointer move action</a> with arguments
+<var>action item</var> and <var>action</var>.
+If doing so results in an <a>error</a>, return that <a>error</a>.
 
- <li><p>If <var>subtype</var>
-  is <code>"pointerCancel"</code>
-  <span class="issue">process a pointer cancel action</span>. If doing
-  so results in an <a>error</a>, return that <a>error</a>.
+<li><p>
+If <var>subtype</var> is "<code>pointerCancel</code>"
+<span class=issue>process a pointer cancel action</span>.
+If doing so results in an <a>error</a>, return that <a>error</a>.
 
- <li><p>Return <a>success</a> with data <var>action</var>.
-
+<li><p>
+Return <a>success</a> with data <var>action</var>.
 </ol>
 
 <p>When required to <dfn>process a pause action</dfn> with
@@ -7322,8 +7371,8 @@ describe the state associated with each <a>input source</a>.
  <li><p>If <var>origin</var> is <a>undefined</a> let
   <var>origin</var> equal "<code>viewport</code>".
 
- <li><p>If <var>origin</var> is not equal to <code>"viewport"</code> or
-  <code>"pointer"</code> and <var>origin</var> is not an <a>Object</a>
+ <li><p>If <var>origin</var> is not equal to "<code>viewport</code>"
+  or "<code>pointer</code>" and <var>origin</var> is not an <a>Object</a>
   that <a>represents a web element</a>, return <a>error</a> with
   <a>error code</a> <a>invalid argument</a>.
 
@@ -7412,10 +7461,10 @@ describe the state associated with each <a>input source</a>.
    <li><p>let <var>duration</var> be <a>undefined</a>.
 
    <li><p>If <var>action object</var> has <code>subtype</code>
-    property set to <code>"pause"</code> or
-    <var>action object</var> has <code>type</code> property set
-    to <code>"pointer"</code> and <code>subtype</code> property set
-    to <code>"pointerMove"</code>, let <var>duration</var> be equal to
+    property set to "<code>pause</code>"
+    or <var>action object</var> has <code>type</code> property set
+    to "<code>pointer</code>" and <code>subtype</code> property set
+    to "<code>pointerMove</code>", let <var>duration</var> be equal to
     the <code>duration</code> property of
     <var>action object</var>.
 
@@ -7460,58 +7509,18 @@ describe the state associated with each <a>input source</a>.
     <var>source type</var> and the <var>action object</var>'s
     <code>subtype</code> property, to a dispatch action algorithm.
 
-    <table class=simple>
-     <tr>
-      <th><var>source type</var>
-      <th><code>subtype</code> property
-      <th>Dispatch action algorithm
-     </tr>
-     <tr>
-      <td><code>"none"</code>
-      <td><code>"pause"</code>
-      <td><a>Dispatch a pause action</a>
-     </tr>
-     <tr>
-      <td><code>"key"</code>
-      <td><code>"pause"</code>
-      <td><a>Dispatch a pause action</a>
-     </tr>
-     <tr>
-      <td><code>"key"</code>
-      <td><code>"keyDown"</code>
-      <td><a>Dispatch a keyDown action</a>
-     </tr>
-     <tr>
-      <td><code>"key"</code>
-      <td><code>"keyUp"</code>
-      <td><a>Dispatch a keyUp action</a>
-     </tr>
-     <tr>
-      <td><code>"pointer"</code>
-      <td><code>"pause"</code>
-      <td><a>Dispatch a pause action</a>
-     </tr>
-     <tr>
-      <td><code>"pointer"</code>
-      <td><code>"pointerDown"</code>
-      <td><a>Dispatch a pointerDown action</a>
-     </tr>
-     <tr>
-      <td><code>"pointer"</code>
-      <td><code>"pointerUp"</code>
-      <td><a>Dispatch a pointerUp action</a>
-     </tr>
-     <tr>
-      <td><code>"pointer"</code>
-      <td><code>"pointerMove"</code>
-      <td><a>Dispatch a pointerMove action</a>
-     </tr>
-     <tr>
-      <td><code>"pointer"</code>
-      <td><code>"pointerCancel"</code>
-      <td><a>Dispatch a pointerCancel action</a>
-     </tr>
-    </table>
+<table class=simple>
+<tr><th><var>source type</var>	<th><code>subtype</code> property	<th>Dispatch action algorithm
+<tr><td>"<code>none</code>"	<td>"<code>pause</code>"		<td><a>Dispatch a pause action</a>
+<tr><td>"<code>key</code>"	<td>"<code>pause</code>"		<td><a>Dispatch a pause action</a>
+<tr><td>"<code>key</code>"	<td>"<code>keyDown</code>"		<td><a>Dispatch a keyDown action</a>
+<tr><td>"<code>key</code>"	<td>"<code>keyUp</code>"		<td><a>Dispatch a keyUp action</a>
+<tr><td>"<code>pointer</code>"	<td>"<code>pause</code>"		<td><a>Dispatch a pause action</a>
+<tr><td>"<code>pointer</code>"	<td>"<code>pointerDown</code>"		<td><a>Dispatch a pointerDown action</a>
+<tr><td>"<code>pointer</code>"	<td>"<code>pointerUp</code>"		<td><a>Dispatch a pointerUp action</a>
+<tr><td>"<code>pointer</code>"	<td>"<code>pointerMove</code>		<td><a>Dispatch a pointerMove action</a>
+<tr><td>"<code>pointer</code>"	<td>"<code>pointerCancel</code>		<td><a>Dispatch a pointerCancel action</a>
+</table>
 
    <li><a>Try</a> to run <var>algorithm</var> with arguments
     <var>source id</var>, <var>action object</var>,
@@ -8103,11 +8112,11 @@ describe the state associated with each <a>input source</a>.
   of <var>origin</var>:
 
   <dl>
-   <dt><code>"viewport"</code></dt>
+   <dt>"<code>viewport</code>"
    <dd><p>Let <var>x</var> equal <var>x offset</var> and
     <var>y</var> equal <var>y offset</var>.</dd>
 
-   <dt><code>"pointer"</code></dt>
+   <dt>"<code>pointer</code>"
    <dd><p>Let <var>x</var> equal <var>start x</var> +
     <var>x offset</var> and <var>y</var> equal
     <var>start y</var> + <var>y  offset</var>.</dd>
@@ -8217,10 +8226,10 @@ describe the state associated with each <a>input source</a>.
     <code>altKey</code>, and <code>metaKey</code> from the
     <a>calculated global key state</a>. Type specific properties for the
     pointer that are not exposed through the WebDriver API must be set to
-    the default value specified for hardware that doesn't support that
-    property. In the case where the <var>pointerType</var> is <code>"pen"</code>
-    or <code>"touch"</code>, and <var>buttons</var> is empty, this may
-    be a no-op. For a pointer of type <code>"mouse"</code>, this will
+    the default value specified for hardware that doesn’t support that
+    property. In the case where the <var>pointerType</var> is "<code>pen</code>"
+    or "<code>touch</code>", and <var>buttons</var> is empty, this may
+    be a no-op. For a pointer of type "<code>mouse</code>" this will
     always produce events including at least
     a <code>pointerMove</code> event.
 
