@@ -64,28 +64,30 @@ dl.subcategories { margin-left: 2em }
 </style>
 
 <section id=abstract>
-<p>WebDriver is a remote control interface
- that enables introspection and control of user agents.
- It provides a platform- and language-neutral wire protocol
- as a way for out-of-process programs
- to remotely instruct the behavior of web browsers.
+<p>
+WebDriver is a remote control interface
+that enables introspection and control of user agents.
+It provides a platform- and language-neutral wire protocol
+as a way for out-of-process programs
+to remotely instruct the behavior of web browsers.
 
-<p>Provided is a set of interfaces
- to discover and manipulate DOM elements in web documents
- and to control the behavior of a user agent.
- It is primarily intended to allow web authors to write tests
- that automate a user agent from a separate controlling process,
- but may also be used in such a way as to allow in-browser scripts
- to control a — possibly separate — browser.
-
+<p>
+Provided is a set of interfaces
+to discover and manipulate DOM elements in web documents
+and to control the behavior of a user agent.
+It is primarily intended to allow web authors to write tests
+that automate a user agent from a separate controlling process,
+but may also be used in such a way as to allow in-browser scripts
+to control a — possibly separate — browser.
 </section>
+
 
 <!-- ReSpec complains if removed completely -->
 <section id=sotd>
-  <p>
-    Use <a href="https://github.com/w3c/webdriver">GitHub w3c/webdriver</a> for comments/issues.
-  </p>
+<p>
+Use <a href=https://github.com/w3c/webdriver>GitHub w3c/webdriver</a> for comments/issues.
 </section>
+
 
 <section>
 <h2>Conformance</h2>
@@ -101,619 +103,55 @@ or specific steps may be implemented in any manner,
 so long as the end result is equivalent.
 Algorithms in this document are typically written with readability,
 rather than performance, in mind.
+</section>
 
-<section>
-<h3>Index</h3>
-
-<p>This specification relies on several other underlying specifications.
-
-<!--
- Each item in the list begins with a comment
- with term described using the characters [a-zA-Z].
- This is so that the list items can be piped through sort(1)
- to automatically sort each list alphabetically.
--->
-
-<dl>
- <dt>Web App Security
- <dd><p>The following terms are defined
-  in the Content Security Policy Level 3 specification: [[!CSP3]]
-  <ul>
-   <li><dfn><a href="https://www.w3.org/TR/CSP/#directives">Directives</a></dfn>
-   <li><dfn data-lt="blocked by content security policy"><a href=https://w3c.github.io/webappsec-csp/#should-block-navigation-response>Should block navigation response</a></dfn>
-  </ul>
-
- <dt>DOM
- <dd><p>The following terms are defined
-  in the Document Object Model specification: [[!DOM]]
-  <ul>
-   <!-- Attribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-attribute>Attribute</a></dfn>
-   <!-- comapreDocumentPosition --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-comparedocumentposition>compareDocumentPosition</a></dfn>
-   <!-- connected --> <li><dfn><a href=https://dom.spec.whatwg.org/#connected>connected</a></dfn>
-   <!-- context object --><li><dfn><a href="https://dom.spec.whatwg.org/#context-object">context object</a></dfn>
-   <!-- Descendant --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-tree-descendant>Descendant</a></dfn>
-   <!-- Document element --> <li><dfn><a href=https://dom.spec.whatwg.org/#document-element>Document element</a></dfn>
-   <!-- Document --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document>Document</a></dfn>
-   <!-- DOCUMENT_POSITION_DISCONNECTED --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-document_position_disconnected>DOCUMENT_POSITION_DISCONNECTED</a></dfn> (1)
-   <!-- Document type --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-type>Document type</a></dfn>
-   <!-- Document URL --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-url>Document URL</a></dfn>
-   <!-- Element --> <li><dfn data-lt=elements><a href=https://dom.spec.whatwg.org/#concept-element>Element</a></dfn>
-   <!-- Equals --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node-equals>Equals</a></dfn>
-   <!-- Event --> <li><dfn><a href=https://dom.spec.whatwg.org/#event>Event</a></dfn>
-   <!-- Fire an event --> <li><dfn data-lt="fire|fires|fired|event fires|event fired|event firing"><a href=https://dom.spec.whatwg.org/#concept-event-fire>Fire an event</a></dfn>
-   <!-- Get an attribute by name --> <li><dfn data-lt="getting an attribute by name"><a href=https://dom.spec.whatwg.org/#concept-element-attributes-get-by-name>Get an attribute by name</a></dfn>
-   <!-- getAttribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-getattribute>getAttribute</a></dfn>
-   <!-- getElementsByTagName --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-element-getelementsbytagname"><code>getElementsByTagName</code></a></dfn>
-   <!-- hasAttribute --> <li><dfn data-lt="has the attribute"><a href=https://dom.spec.whatwg.org/#dom-element-hasattribute>hasAttribute</a></dfn>
-   <!-- HTMLCollection --> <li><dfn><a href=https://dom.spec.whatwg.org/#htmlcollection><code>HTMLCollection</code></a></dfn>
-   <!-- Inclusive descendant --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-tree-inclusive-descendant>Inclusive descendant</a></dfn>
-   <!-- isTrusted --> <li><dfn data-lt='is trusted'><a href="https://dom.spec.whatwg.org/#dom-event-istrusted">isTrusted</a></dfn>
-   <!-- Node document --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node-document>Node document</a></dfn>
-   <!-- Node length --> <li><dfn><a href="https://dom.spec.whatwg.org/#concept-node-length">Node Length</a></dfn>
-   <!-- Node --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node>Node</a></dfn>
-   <!-- NodeList --> <li><dfn><a href=https://dom.spec.whatwg.org/#nodelist><code>NodeList</code></a></dfn>
-   <!-- querySelectorAll --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall"><code>querySelectorAll</code></a></dfn>
-   <!-- querySelector --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselector"><code>querySelector</code></a></dfn>
-   <!-- tagName --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-tagname>tagName</a></dfn>
-   <!-- Text node --> <li><dfn><a href=https://dom.spec.whatwg.org/#text><code>Text</code> node</a></dfn>
-  </ul>
-
- <dd><p>The following attributes are defined
-  in the Document Object Model specification: [[!DOM]]
-  <ul>
-   <!-- textContent attribute --> <li><dfn data-lt=textContent><a href=https://dom.spec.whatwg.org/#dom-node-textcontent><code>textContent</code> attribute</a></dfn>
-  </ul>
-
- <dd><p>The following attributes are defined in
-  the DOM Parsing and Serialisation specification: [[!DOM-PARSING]]
-  <ul>
-   <!-- innerHTML IDL Attribute--> <li><dfn><a href=https://w3c.github.io/DOM-Parsing/#dom-element-innerhtml><code>innerHTML</code> IDL attribute</a></dfn>
-   <!-- outerHTML IDL Attribute--> <li><dfn><a href=https://w3c.github.io/DOM-Parsing/#dom-element-outerhtml><code>outerHTML</code> IDL attribute</a></dfn>
-   <!-- serializeToString --> <li><dfn data-lt="serializing to string"><a href=https://w3c.github.io/DOM-Parsing/#dom-xmlserializer-serializetostring><code>serializeToString</code></a></dfn>
-  </ul>
-
- <dd><p>The following attributes are defined
-  in the UI Events specification: [[!UI-EVENTS]]
-  <ul>
-   <!-- Activation trigger --> <li><dfn><a href=https://w3c.github.io/uievents/#activation-trigger>Activation trigger</a></dfn>
-   <!-- click event --> <li><dfn><a href="https://w3c.github.io/uievents/#event-type-click">click event</a></dfn>
-   <!-- Keyboard Event --> <li><dfn><a href=https://w3c.github.io/uievents/#keyboardevent>Keyboard event</a></dfn>
-   <!-- Keyboard event order --> <li><dfn><a href=https://w3c.github.io/uievents/#events-keyboard-event-order>Keyboard event order</a></dfn>
-   <!-- keyDown event --> <li><dfn data-lt="keyDown-Event"><a href=https://w3c.github.io/uievents/#event-type-keydown>keyDown event</a></dfn>
-   <!-- keyPress event --> <li><dfn data-lt="keyPress-Event"><a href=https://w3c.github.io/uievents/#event-type-keypress>keyPress event</a></dfn>
-   <!-- keyUp event --> <li><dfn data-lt="keyUp-Event"><a href=https://w3c.github.io/uievents/#event-type-keyup>keyUp event</a></dfn>
-   <!-- mouseDown event --> <li><dfn><a href=https://w3c.github.io/uievents/#event-type-mousedown>mouseDown event</a></dfn>
-   <!-- Mouse event --> <li><dfn><a href=https://w3c.github.io/uievents/#mouseevent>Mouse event</a></dfn>
-   <!-- Mouse event order --> <li><dfn><a href=https://w3c.github.io/uievents/#events-mouseevent-event-order>Mouse event order</a></dfn>
-   <!-- mouseMove event --> <li><dfn><a href="https://w3c.github.io/uievents/#event-type-mousemove">mouseMove event</a></dfn>
-   <!-- mouseOver event --> <li><dfn><a href="https://w3c.github.io/uievents/#event-type-mouseover">mouseOver event</a></dfn>
-   <!-- mouseUp event --> <li><dfn><a href=https://w3c.github.io/uievents/#event-type-mouseup>mouseUp event</a></dfn>
-  </ul>
-
- <dd><p>The following attributes are defined
-  in the UI Events Code specification: [[!UIEVENTS-CODE]]
-  <ul>
-   <li><dfn data-lt="keyboard event code"><a href=https://www.w3.org/TR/uievents-code/#code-value-tables>Keyboard event code tables</a></dfn>
-  </ul>
-
- <dd><p>The following attributes are defined
-  in the UI Events Code specification: [[!UIEVENTS-KEY]]
-  <ul>
-   <li><dfn data-lt="modifier key"><a href=https://www.w3.org/TR/uievents-key/#keys-modifier>Keyboard modifier keys</a></dfn>
-  </ul>
-
- <dt>DOM Parsing
- <dd><p>The following terms are defined in the DOM Parsing and Serialization Specification: [[!DOMPARSING]]
-  <ul>
-   <li><!-- Fragment serializing algorithm --><dfn><a href="https://w3c.github.io/DOM-Parsing/#dfn-fragment-parsing-algorithm">Fragment serializing algorithm</a></dfn>
-  </ul>
- </dd>
-
- <dt>ECMAScript
- <dd><p>The following terms are defined in the ECMAScript Language Specification: [[!ECMA-262]]
-  <ul>
-    <!-- Iterable --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-iterable-interface>Iterable</a></dfn>
-   <!-- Completion --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-completion-record-specification-type">Completion</a></dfn>
-   <!-- CreateResolvingFunctions --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-createresolvingfunctions>CreateResolvingFunctions</a></dfn>
-   <!-- Directive prologue --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Directive prologue</a></dfn>
-   <!-- Early error --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-16>Early error</a></dfn>
-   <!-- Function --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24>Function</a></dfn>
-   <!-- FunctionBody --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-13>FunctionBody</a></dfn>
-   <!-- FunctionCreate --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-functioncreate>FunctionCreate</a></dfn>
-   <!-- Get --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-get-o-p>Get</a></dfn>
-   <!-- Global environment --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-10.2.3>Global environment</a></dfn>
-   <!-- IsCallable --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-iscallable>IsCallable</a></dfn>
-   <!-- Own property --> <li><dfn data-lt="own properties"><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>Own property</a></dfn>
-   <!-- Promise --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-promise-constructor>Promise</a></dfn>
-   <!-- PromiseResolve --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-promise-resolve>PromiseResolve</a></dfn>
-   <!-- Type --> <li><dfn data-lt="ecmascript type" data-lt-noDefault><a href=https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values>Type</a></dfn>
-   <!-- Use strict directive --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Use strict directive</a></dfn>
-   <!-- parseFloat --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></dfn>
-   <!-- realm --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-code-realms">realm</a></dfn>
-  </ul>
-
- <dd>This specification also presumes that you are able to call
-  some of the <dfn data-lt="internal method"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>internal methods</a></dfn>
-  from the ECMAScript Language Specification:
-  <ul>
-   <!-- Call --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-13.2.1>Call</a></dfn>
-   <!-- Class --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>[[\Class]]</a></dfn>
-   <!-- GetOwnProperty --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.1>[[\GetOwnProperty]]</a></dfn>
-   <!-- GetProperty --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.2>[[\GetProperty]]</a></dfn>
-   <!-- Index of --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.5.4.7>Index of</a></dfn>
-   <!-- Put --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.5>[[\Put]]</a></dfn>
-   <!-- Substring --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.5.4.15>Substring</a></dfn>
-  </ul>
-
- <dd>The ECMAScript Language Specification also defines the following
-  types, values, and operations that are used throughout this
-  specification:
-  <ul>
-   <!-- Array --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-11.1.4>Array</a></dfn>
-   <!-- Boolean type --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.14>Boolean</a></dfn> type
-   <!-- List --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.8>List</a></dfn>
-   <!-- Max Safe Integer --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer>maximum safe integer</a></dfn>
-   <!-- null --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.11>Null</a></dfn>
-   <!-- Number --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.19>Number</a></dfn>
-   <!-- Object --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.2.1>Object</a></dfn>
-   <!-- Parse --> <li><dfn><a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.2">[[\Parse]]</a></dfn>
-   <!-- String --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.18>String</a></dfn>
-   <!-- Stringify --> <li><dfn><a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.3">[[\Stringify]]</a></dfn>
-   <!-- ToInteger --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger>ToInteger</a></dfn>
-   <!-- undefined --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.9>Undefined</a></dfn>
-  </ul>
-
- <dt>Fetch
- <dd><p>The following terms are defined in the WHATWG Fetch specification: [[!FETCH]]
-  <ul>
-   <!-- Body --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-body>Body</a></dfn>
-   <!-- Header --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header">Header</a></dfn>
-   <!-- Header Name --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header-name">Header Name</a></dfn>
-   <!-- Header Value --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header-value">Header Value</a></dfn>
-   <!-- Local Scheme --> <li><dfn><a href="https://fetch.spec.whatwg.org/#local-scheme">Local scheme</a></dfn>
-   <!-- Method --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-method>Method</a></dfn>
-   <!-- Response --> <li><dfn data-lt="http response"><a href=https://fetch.spec.whatwg.org/#concept-response>Response</a></dfn>
-   <!-- Request --> <li><dfn data-lt="http request"><a href=https://fetch.spec.whatwg.org/#concept-request>Request</a></dfn>
-   <!-- Set Header --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header-list-set">Set Header</a></dfn>
-   <!-- Status --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response-status>HTTP Status</a></dfn>
-   <!-- Status message --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response-status-message>Status message</a></dfn>
-  </ul>
-
- <dt>File
- <dd><p>The following interfaces are defined in the W3C File API specification: [[!FILEAPI]]
-  <ul>
-   <!-- FileList --> <li><dfn><a href=https://w3c.github.io/FileAPI/#dfn-filelist><code>FileList</code></a></dfn>
-  </ul>
-
- <dt>Fullscreen
- <dd><p>The following terms are defined in the WHATWG Fullscreen specification: [[!FULLSCREEN]]
-   <ul>
-     <!-- Fullscreen element --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fullscreen-element">Fullscreen element</a></dfn>
-     <!-- Fullscreen an element --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fullscreen-an-element">Fullscreen an element</a></dfn>
-     <!-- Fullscreen is supported --> <li><dfn  data-lt='support fullscreen'><a href="https://fullscreen.spec.whatwg.org/#fullscreen-is-supported">Fullscreen is supported</a></dfn>
-     <!-- Fully exit fullscreen --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fully-exit-fullscreen">fully exit fullscreen</a></dfn>
-     <!-- Unfullscreen a document --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#unfullscreen-a-document">unfullscreen a document</a></dfn>
-   </ul>
-
- <dt>HTML
- <dd><p>The following terms are defined in the HTML specification: [[!HTML]]
-  <ul>
-   <!-- 2D context creation algorithm --> <li><dfn><a href=https://html.spec.whatwg.org/#2d-context-creation-algorithm>2D context creation algorithm</a></dfn>
-   <!-- A browsing context is discarded --> <li><dfn data-lt=discarded><a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>A browsing context is discarded</a></dfn>
-   <!-- A serialization of the bitmap as a file --> <li><dfn data-lt="a serialization of the canvas element’s bitmap as a file"><a href=https://html.spec.whatwg.org/#a-serialisation-of-the-bitmap-as-a-file>A serialization of the bitmap as a file</a></dfn>
-   <!-- API length --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-fe-api-value">API value</a></dfn>
-   <!-- Active document --> <li><dfn><a href=https://html.spec.whatwg.org/#active-document>Active document</a></dfn>
-   <!-- Active element --> <li><dfn>Active element</dfn> being the <a href=https://html.spec.whatwg.org/#dom-document-activeelement><code>activeElement</code></a> attribute on <a href=https://html.spec.whatwg.org/#document><code>Document</code></a>
-   <!-- Associated window --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-document-window>Associated window</a></dfn>
-   <!-- Body element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-body-element><code>body</code> element</a></dfn>
-   <!-- Boolean attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#boolean-attribute>Boolean attribute</a></dfn>
-   <!-- Browsing context --> <li><dfn data-lt="browsing contexts"><a href=https://html.spec.whatwg.org/#browsing-context>Browsing context</a></dfn>
-   <!-- Button --> <li><dfn><a href="https://html.spec.whatwg.org/#button-state-%28type=button%29">Button</a></dfn> state
-   <!-- Buttons --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-button>Buttons</a></dfn>
-   <!-- Candidate for constraint validation --> <li><dfn><a href=https://html.spec.whatwg.org/#candidate-for-constraint-validation>Candidate for constraint validation</a></dfn>
-   <!-- Canvas context mode --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-context-mode>Canvas context mode</a></dfn>
-   <!-- Checkbox --> <li><dfn><a href="https://html.spec.whatwg.org/#checkbox-state-%28type=checkbox%29">Checkbox</a></dfn> state
-   <!-- Checkedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-checked>Checkedness</a></dfn>
-   <!-- Child browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#child-browsing-context>Child browsing context</a></dfn>
-   <!-- Clean up after running a callback --> <li><dfn><a href="https://html.spec.whatwg.org/#clean-up-after-running-a-callback">Clean up after running a callback</a></dfn>
-   <!-- Clean up after running a script --> <li><dfn><a href="https://html.spec.whatwg.org/#clean-up-after-running-script">Clean up after running a script</a></dfn>
-   <!-- Close a browsing context --> <li><dfn data-lt="close|closes"><a href=https://html.spec.whatwg.org/#close-a-browsing-context>Close a browsing context</a></dfn>
-   <!-- Code entry-point --> <li><dfn><a href=https://html.spec.whatwg.org/#code-entry-point>Code entry-point</a></dfn>
-   <!-- Cookie-averse Document object --> <li><dfn><a href=https://html.spec.whatwg.org/#cookie-averse-document-object>Cookie-averse <code>Document</code> object</a></dfn>
-   <!-- Current entry --> <li><dfn><a href=https://html.spec.whatwg.org/#current-entry>Current entry</a></dfn>
-   <!-- Dirty checkedness flag --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-input-checked-dirty-flag>Dirty checkedness flag</a></dfn>
-   <!-- Dirty value flag --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-dirty>Dirty value flag</a></dfn>
-   <!-- Disabled --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-disabled>Disabled</a></dfn>
-   <!-- Document address --> <li><dfn data-lt=address><a href=https://dom.spec.whatwg.org/#concept-document-url>Document address</a></dfn>
-   <!-- Document readiness --> <li><dfn><a href=https://html.spec.whatwg.org/#current-document-readiness>Document readiness</a></dfn>
-   <!-- Document title --> <li><dfn data-lt=title><a href=https://html.spec.whatwg.org/#document.title>Document title</a></dfn>
-   <!-- Element contexts --> <li><dfn data-lt="element context"><a href=https://html.spec.whatwg.org/#concept-element-contexts>Element contexts</a></dfn>
-   <!-- Enumerated attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#enumerated-attribute>Enumerated attribute</a></dfn>
-   <!-- Environment settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#environment-settings-object>Environment settings object</a></dfn>
-   <!-- Event loop --> <li><dfn><a href=https://html.spec.whatwg.org/#event-loop>Event loop</a></dfn>
-   <!-- File --> <li><dfn><a href="https://html.spec.whatwg.org/#file-upload-state-%28type=file%29">File</a></dfn> state
-   <!-- File upload state --> <li><dfn><a href="https://html.spec.whatwg.org/#file-upload-state-(type=file)">File upload state</a></dfn>
-   <!-- Focusing steps --> <li><dfn><a href="https://html.spec.whatwg.org/#focusing-steps">Focusing steps</a></dfn>
-   <!-- Fousable area --><li><dfn><a href=https://html.spec.whatwg.org/#focusable-area>Focusable area</a></dfn>
-   <!-- GetOwnProperty of a Window object --> <li><dfn data-lt="window.[[\getOwnProperty]]"><a href=https://html.spec.whatwg.org/#windowproxy-getownproperty><code>[[\GetOwnProperty]]</code> of a <code>Window</code> object</a></dfn>
-   <!-- HTMLAllCollection --> <li><dfn><a href=https://html.spec.whatwg.org/#htmlallcollection><code>HTMLAllCollection</code></a></dfn>
-   <!-- HTMLFormControlCollection --> <li><dfn><a href=https://html.spec.whatwg.org/#htmlformcontrolscollection><code>HTMLFormControlsCollection</code></a></dfn>
-   <!-- HTMLOptionsCollection --> <li><dfn><a href=https://html.spec.whatwg.org/#htmloptionscollection><code>HTMLOptionsCollection</code></a></dfn>
-   <!-- Hidden --> <li><dfn><a href="https://html.spec.whatwg.org/#hidden-state-%28type=hidden%29">Hidden</a></dfn> state
-   <!-- Image Button --> <li><dfn><a href="https://html.spec.whatwg.org/#image-button-state-%28type=image%29">Image Button</a></dfn> state
-   <!-- In parallel --> <li><dfn><a href="https://html.spec.whatwg.org/#in-parallel">In parallel</a></dfn>
-   <!-- Input event applies --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-input-apply><code>input</code> event applies</a></dfn>
-   <!-- Input type file selected --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-input-type-file-selected">Selected Files</a></dfn>
-   <!-- Joint session history --> <li><dfn><a href=https://html.spec.whatwg.org/#joint-session-history>Joint session history</a></dfn>
-   <!-- Mature (navigation) --> <li><dfn data-lt="matured"><a href=https://html.spec.whatwg.org/#concept-navigate-mature>Mature</a></dfn> navigation.
-   <!-- Missing value default state --> <li><dfn><a href=https://html.spec.whatwg.org/#missing-value-default>Missing value default state</a></dfn>
-   <!-- Mutable --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-mutable>Mutable</a></dfn>
-   <!-- Navigate --> <li><dfn data-lt="navigating|navigation"><a href=https://html.spec.whatwg.org/#navigate>Navigate</a></dfn>
-   <!-- Navigator --> <li><dfn data-lt="navigator"><a href=https://html.spec.whatwg.org/#navigator>Navigator object</a></dfn>
-   <!-- Nested browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#nested-browsing-context>Nested browsing context</a></dfn>
-   <!-- Origin-clean --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-origin-clean>Origin-clean</a></dfn>
-   <!-- Overridden reload --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/dom.html#an-overridden-reload">An overridden reload</a></dfn>
-   <!-- Parent browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#parent-browsing-context>Parent browsing context</a></dfn>
-   <!-- Pause --> <li><dfn data-lt=unpaused><a href=https://html.spec.whatwg.org/#pause>HTML Pause</a></dfn>
-   <!-- Prepare to run a callback --> <li><dfn><a href="https://html.spec.whatwg.org/#prepare-to-run-a-callback">Prepare to run a callback</a></dfn>
-   <!-- Prepare to run a script --> <li><dfn><a href="https://html.spec.whatwg.org/#prepare-to-run-script">Prepare to run a script</a></dfn>
-   <!-- Prompt to unload a document --> <li><dfn data-lt="prompting to unload"><a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>Prompt to unload a document</a></dfn>
-   <!-- Radio button --> <li><dfn><a href="https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29">Radio Button</a></dfn> state
-   <!-- Raw value --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-textarea-raw-value>Raw value</a></dfn>
-   <!-- Refresh state pragma directive --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-meta-http-equiv-refresh>Refresh state pragma directive</a></dfn>
-   <!-- Reset algorithm --> <li><dfn data-lt="reset algorithms"><a href=https://html.spec.whatwg.org/#concept-form-reset-control>Reset algorithm</a></dfn>
-   <!-- Resettable element --> <li><dfn data-lt="resettable elements"><a href=https://html.spec.whatwg.org/#category-reset>Resettable</a></dfn> element
-   <!-- Resettable element --> <li><dfn><a href=https://html.spec.whatwg.org/#category-reset>Resettable element</a></dfn>
-   <!-- Run the animation frame callbacks --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#run-the-animation-frame-callbacks">Run the animation frame callbacks</a></dfn>
-   <!-- Satisfies its constraints --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fv-valid>Satisfies its constraints</a></dfn>
-   <!-- Script --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-script>Script</a></dfn>
-   <!-- Script execution environment --> <li><dfn><a href=https://html.spec.whatwg.org/#environment>Script execution environment</a></dfn>
-   <!-- Selectedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-option-selectedness>Selectedness</a></dfn>
-   <!-- Session history --> <li><dfn><a href=https://html.spec.whatwg.org/#session-history>Session history</a></dfn>
-   <!-- Settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#settings-object>Settings object</a></dfn>
-   <!-- Simple dialogs --> <li><dfn data-lt="simple dialog"><a href=https://html.spec.whatwg.org/#simple-dialogs>Simple dialogs</a></dfn>
-   <!-- Submit Button --> <li><dfn><a href="https://html.spec.whatwg.org/#submit-button-state-%28type=submit%29">Submit Button</a></dfn> state
-   <!-- Submittable elements --> <li><dfn data-lt="submittable element"><a href=https://html.spec.whatwg.org/#category-submit>Submittable elements</a></dfn>
-   <!-- Suffering from bad input --> <li><dfn><a href=https://html.spec.whatwg.org/#suffering-from-bad-input>Suffering from bad input</a></dfn>
-   <!-- Top-level browsing context --> <li><dfn data-lt="top-level browsing contexts"><a href=https://html.spec.whatwg.org/#top-level-browsing-context>Top-level browsing context</a></dfn>
-   <!-- Traverse the history --> <li><dfn data-lt="traversing the history"><a href=https://html.spec.whatwg.org/#traverse-the-history>Traverse the history</a></dfn>
-   <!-- Traverse the history by a delta --> <li><dfn><a href=https://html.spec.whatwg.org/#traverse-the-history-by-a-delta>Traverse the history by a delta</a></dfn>
-   <!-- Tree order --> <li><dfn><a href=https://html.spec.whatwg.org/#tree-order>Tree order</a></dfn>
-   <!-- Unfocusing steps --><li><dfn><a href=https://html.spec.whatwg.org/#unfocusing-steps>unfocusing steps</a></dfn>
-   <!-- User prompt --> <li><dfn data-lt="user prompts"><a href=https://html.spec.whatwg.org/#user-prompts>User prompt</a></dfn>
-   <!-- Value --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-value>Value</a></dfn>
-   <!-- Value mode flag --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-output-mode>Value mode flag</a></dfn>
-   <!-- Value sanitization algorithm --> <li><dfn><a href=https://html.spec.whatwg.org/#value-sanitization-algorithm>Value sanitization algorithm</a></dfn>
-   <!-- Window object --> <li><dfn><a href=https://html.spec.whatwg.org/#the-window-object><code>Window</code></a></dfn> object
-   <!-- WindowProxy exotic object --> <li><dfn><a href=https://html.spec.whatwg.org/#windowproxy><code>WindowProxy</code></a></dfn> exotic object
-   <!-- WorkerNavigator --> <li><dfn data-lt="workernavigator"><a href=https://html.spec.whatwg.org/#workernavigator>WorkerNavigator object</a></dfn>
-   <!-- setSelectionRange --> <li><dfn data-lt="set selection range"><a href=https://html.spec.whatwg.org/#dom-textarea/input-setselectionrange><code>setSelectionRange</code></a></dfn>
-   <!-- window confirm --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-confirm><code>confirm</code></a></dfn>
-   <!-- window.alert --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-alert><code>alert</code></a></dfn>
-   <!-- window.prompt --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-prompt><code>prompt</code></a></dfn>
-  </ul>
-
- <dd><p>The HTML specification also defines a number of elements
-  which this specification has special-cased behavior for:
-  <ul>
-   <!-- a element --> <li><dfn data-lt="a elements"><a href=https://html.spec.whatwg.org/#the-a-element><code>a</code> element</a></dfn>
-   <!-- area element --> <li><dfn data-lt=area><a href=https://html.spec.whatwg.org/#the-area-element><code>area</code> element</a></dfn>
-   <!-- canvas element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-canvas-element><code>canvas</code> element</a></dfn>
-   <!-- datalist element --> <li><dfn data-lt=datalist><a href=https://html.spec.whatwg.org/#the-datalist-element><code>datalist</code> element</a></dfn>
-   <!-- frame element --> <li><dfn data-lt=frame><a href=https://html.spec.whatwg.org/#frame><code>frame</code> element</a></dfn>
-   <!-- HTML Element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-html-element><code>html</code> element</a></dfn>
-   <!-- iframe element --> <li><dfn data-lt=iframe><a href=https://html.spec.whatwg.org/#the-iframe-element><code>iframe</code> element</a></dfn>
-   <!-- input element --> <li><dfn data-lt="input elements"><a href=https://html.spec.whatwg.org/#the-input-element><code>input</code> element</a></dfn>
-   <!-- map element --> <li><a href=https://html.spec.whatwg.org/#the-map-element><dfn><code>map</code> element</dfn></a>
-   <!-- optgroup element --> <li><dfn data-lt=optgroup><a href=https://html.spec.whatwg.org/#the-optgroup-element><code>optgroup</code> element</a></dfn>
-   <!-- option element --> <li><dfn data-lt="option elements|option"><a href=https://html.spec.whatwg.org/#the-option-element><code>option</code> element</a></dfn>
-   <!-- output element --> <li><dfn data-lt=output><a href=https://html.spec.whatwg.org/#the-output-element><code>output</code> element</a></dfn>
-   <!-- select element --> <li><dfn data-lt="code elements"><a href=https://html.spec.whatwg.org/#the-select-element><code>select</code> element</a></dfn>
-   <!-- textarea element --> <li><dfn data-lt="textarea elements|textarea"><a href=https://html.spec.whatwg.org/#the-textarea-element><code>textarea</code> element</a></dfn>
-  </ul>
-
- <dd><p>The HTML specification also defines <em>states</em>
-  of the <a><code>input</code> element</a>:
-  <ul>
-   <!-- Color state --> <li><dfn><a href="https://html.spec.whatwg.org/#color-state-(type=color)">Color state</a></dfn>
-   <!-- Date state --> <li><dfn><a href="https://html.spec.whatwg.org/#date-state-(type=date)">Date state</a></dfn>
-   <!-- Email state --> <li><dfn><a href="https://html.spec.whatwg.org/#e-mail-state-(type=email)">Email state</a></dfn>
-   <!-- Local Date and Time state --> <li><dfn><a href="https://html.spec.whatwg.org/#local-date-and-time-state-(type=datetime-local)">Local Date and Time state</a></dfn>
-   <!-- Month state --> <li><dfn><a href="https://html.spec.whatwg.org/#month-state-(type=month)">Month state</a></dfn>
-   <!-- Number state --> <li><dfn><a href="https://html.spec.whatwg.org/#number-state-(type=number)">Number state</a></dfn>
-   <!-- Password state --> <li><dfn><a href="https://html.spec.whatwg.org/#password-state-(type=password)">Password state</a></dfn>
-   <!-- Range state --> <li><dfn><a href="https://html.spec.whatwg.org/#range-state-(type=range)">Range state</a></dfn>
-   <!-- Telephone state --> <li><dfn><a href="https://html.spec.whatwg.org/#telephone-state-(type=tel)">Telephone state</a></dfn>
-   <!-- Text and Search state --> <li><dfn><a href="https://html.spec.whatwg.org/#text-(type=text)-state-and-search-state-(type=search)">Text and Search state</a></dfn>
-   <!-- Time state --> <li><dfn><a href="https://html.spec.whatwg.org/#time-state-(type=time)">Time state</a></dfn>
-   <!-- URL state --> <li><dfn><a href="https://html.spec.whatwg.org/#url-state-(type=url)">URL state</a></dfn>
-   <!-- Week state --> <li><dfn><a href="https://html.spec.whatwg.org/#week-state-(type=week)">Week state</a></dfn>
-  </ul>
-
- <dd><p>The HTML specification also defines a range of different attributes:
-  <ul>
-   <!-- Canvas height attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-canvas-height><code>canvas</code>’s height attribute</a></dfn>
-   <!-- Canvas width attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-canvas-width><code>canvas</code>’ width attribute</a></dfn>
-   <!-- Checked content attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-input-checked>Checked</a></dfn>
-   <!-- Multiple attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-input-multiple><code>multiple</code> attribute</a></dfn>
-   <!-- readOnly attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#the-readonly-attribute><code>readOnly</code> attribute</a></dfn>
-   <!-- Type attribute --> <li><dfn data-lt=type><a href=https://html.spec.whatwg.org/#attr-input-type><code>type</code> attribute</a></dfn>
-   <!-- Value attribute --><li><dfn><a href=https://html.spec.whatwg.org/#dom-input-value><code>value</code> attribute</a></dfn>
-  </ul>
-
- <dd><p>The HTML Editing APIs specification defines the following terms: [[!EDITING]]
-  <ul>
-   <!-- Content editable --> <li><dfn><a href=https://w3c.github.io/editing/contentEditable.html>Content editable</a></dfn>
-   <!-- Editing host --> <li><dfn data-lt="editing hosts"><a href=https://w3c.github.io/editing/execCommand.html#editing-host>Editing host</a></dfn>
-  </ul>
-
- <dd><p>The following events are also defined in the HTML specification:
-  <ul>
-   <!-- beforeunload --> <li><dfn><a href=https://html.spec.whatwg.org/#event-beforeunload><code>beforeunload</code></a></dfn>
-   <!-- change --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/indices.html#event-change"><code>change</code></a></dfn>
-   <!-- DOMContentLoaded --> <li><dfn><a href=https://html.spec.whatwg.org/#event-domcontentloaded><code>DOMContentLoaded</code></a></dfn>
-   <!-- input --> <li><dfn><a href=https://html.spec.whatwg.org/#event-input><code>input</code></a></dfn>
-   <!-- load --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/indices.html#event-load"><code>load</code></a></dfn>
-   <!-- PageHide --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/indices.html#event-pagehide"><code>pageHide</code></a></dfn>
-   <!-- PageShow --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/indices.html#event-pageshow"><code>pageShow</code></a></dfn>
-  </ul>
-
- <dd><p>The “data” URL scheme specification defines the following terms: [[!RFC2397]]
-  <ul>
-   <!-- data: url --> <li><dfn><a href=https://tools.ietf.org/html/rfc2397#section-2><code>data:</code> URL</a></dfn>
-  </ul>
-
- <dt>HTTP and related specifications
- <dd><p>To be <dfn>HTTP compliant</dfn>,
-  it is supposed that the implementation supports the relevant subsets of
-  [[!RFC7230]], [[!RFC7231]], [[!RFC7232]], [[!RFC7234]], and [[!RFC7235]].
-
- <dd><p>The following terms are defined in the Cookie specification: [[!RFC6265]]
-  <ul>
-   <!-- Compute cookie-string --> <li><dfn><a href=https://tools.ietf.org/html/rfc6265#section-5.4>Compute <code>cookie-string</code></a></dfn>
-   <!-- Cookie --> <li><dfn data-lt=cookies><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Cookie</a></dfn>
-   <!-- Cookie store --> <li><dfn><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Cookie store</a></dfn>
-   <!-- Receives a cookie --> <li><dfn data-lt="receiving a cookie"><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Receives a cookie</a></dfn>
-  </ul>
-
- <dd><p>The following terms are defined in
-  the Hypertext Transfer Protocol (HTTP) Status Code Registry:
-  <ul>
-   <!-- Status code registry --> <li><dfn><a href=http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml>Status code registry</a></dfn>
-  </ul>
-
- <dd>The following terms are defined in
-  the Netscape Navigator Proxy Auto-Config File Format:
-  <ul>
-   <!-- Proxy autoconfiguration --> <li><dfn><a href=https://web.archive.org/web/20070602031929/http://wp.netscape.com/eng/mozilla/2.0/relnotes/demo/proxy-live.html>Proxy autoconfiguration</a></dfn>
-  </ul>
-
-  <dd><p>The specification uses
-   <dfn data-lt="uri template">URI Templates</dfn>. [[!URI-TEMPLATE]]
-
- <dt>Infra
- <dd>The following terms are defined
-  in the Infra standard: [[!INFRA]]
-   <ul>
-    <!-- ASCII lowercase --> <li><dfn data-lt="lowercase"><a href=https://infra.spec.whatwg.org/#ascii-lowercase>ASCII lowercase</a></dfn>
-    <!-- Javascript String's length --> <li><dfn><a href="https://infra.spec.whatwg.org/#javascript-string-length">JavaScript string's length</a></dfn>
-    <!-- queue --> <li><dfn><a href=https://infra.spec.whatwg.org/#queues>queue</a></dfn>
-   </ul>
-
- <dt>Interaction
- <dd>The following terms are defined in the
-   Page Visibility Specification [[!PAGE-VISIBILITY]]
-   <ul>
-    <!-- visibility hidden --> <li><dfn data-lt="visibility hidden"><a href="https://www.w3.org/TR/page-visibility/#dom-visibilitystate-hidden">Visibility state <code>hidden</code></a></dfn>    <!-- visibility state --> <li><dfn>Visibility state</dfn> being the <a href="https://www.w3.org/TR/page-visibility/#visibility-states-and-the-visibilitystate-enum"><code>visibilityState</code></a> attribute on <a>Document</a>    <!-- visibility visible --> <li><dfn data-lt="visibility visible"><a href="https://www.w3.org/TR/page-visibility/#dom-visibilitystate-visible">Visibility state <code>visible</code></a></dfn>
-   </ul>
-
- <dt>Selenium
- <dd>The following functions are defined within
-  the <a href="http://www.seleniumhq.org">Selenium</a> project, at
-  revision <code>1721e627e3b5ab90a06e82df1b088a33a8d11c20</code>.
-  <ul>
-   <!-- bot.dom.getVisibleText --> <li><dfn><a href="https://github.com/SeleniumHQ/selenium/blob/e09e28f016c9f53196cf68d6f71991c5af4a35d4/javascript/atoms/dom.js#L981"><code>bot.dom.getVisibleText</code></a></dfn>
-   <!-- bot.dom.isShown --> <li><dfn><a href="https://github.com/SeleniumHQ/selenium/blob/e09e28f016c9f53196cf68d6f71991c5af4a35d4/javascript/atoms/dom.js#L437"><code>bot.dom.isShown</code></a></dfn>
-  </ul>
-
- <dt>Styling
- <dd>The following terms are defined in
-  the CSS Values and Units Module Level 3 specification: [[!CSS3-VALUES]]
-  <ul>
-   <!-- CSS pixels --> <li><dfn><a href=https://www.w3.org/TR/css-values-3/#px>CSS pixels</a></dfn>
-  </ul>
-
- <dd>The following properties are defined in
-  the CSS Basic Box Model Level 3 specification: [[!CSS3-BOX]]
-   <ul>
-    <!-- Visibility property --> <li>The <dfn><a href=https://drafts.csswg.org/css-box/#visibility-prop><code>visibility</code></a></dfn> property
-   </ul>
-
- <dd>The following terms are defined in
-  the CSS Device Adaptation Module Level 1 specification: [[!CSS-DEVICE-ADAPT]]
-   <ul>
-    <!-- Initial viewport --><li><dfn data-lt=viewport><a href=https://drafts.csswg.org/css-device-adapt/#initial-viewport>Initial viewport</a></dfn>,
-     sometimes here referred to as the <i>viewport</i>.
-   </ul>
-
- <dd>The following properties are defined in
-  the CSS Display Module Level 3 specification: [[!CSS3-DISPLAY]]
-  <ul>
-   <!-- Display property --> <li>The <dfn><a href=https://drafts.csswg.org/css-display/#the-display-properties><code>display</code></a></dfn> property
-  </ul>
-
- <dd>The following terms are defined in
-  the Geometry Interfaces Module Level 1 specification: [[!GEOMETRY-1]]
-  <ul>
-   <!-- DOMRect --> <li><a href="https://www.w3.org/TR/geometry-1/#dom-domrect"><dfn><code>DOMRect</code></dfn></a>
-   <!-- Rectangle --> <li><dfn data-lt="bounding rectangle"><a href=https://drafts.fxtf.org/geometry/#rectangle>Rectangle</a></dfn>
-   <!-- Rectangle height dimension --> <li><dfn data-lt="height dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-height-dimension>Rectangle height dimension</a></dfn>
-   <!-- Rectangle width dimension --> <li><dfn data-lt="width dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-width-dimension>Rectangle width dimension</a></dfn>
-   <!-- Rectangle x coordinate --> <li><dfn data-lt="x coordinate"><a href=https://drafts.fxtf.org/geometry/#rectangle-x-coordinate>Rectangle x coordinate</a></dfn>
-   <!-- Rectangle y coordinate --> <li><dfn data-lt="y coordinate"><a href=https://drafts.fxtf.org/geometry/#rectangle-y-coordinate>Rectangle y coordinate</a></dfn>
-  </ul>
-
- <dd>The following terms are defined in
-  the CSS Cascading and Inheritance Level 4 specification: [[!CSS-CASCADE-4]]
-  <ul>
-   <!-- Computed Value --> <li><dfn><a href=https://drafts.csswg.org/css-cascade-4/#computed-value>Computed value</a></dfn>
-  </ul>
-
- <dd>The following terms are defined in the CSS Object Model: [[!CSSOM]]:
-  <ul>
-   <!-- Resolved value --> <li><dfn><a href=https://drafts.csswg.org/cssom/#resolved-value>Resolved value</a></dfn>
-  </ul>
-
- <dd>The following functions are defined in
-  the CSSOM View Module: [[!CSSOM-VIEW]]:
-  <ul>
-   <!-- getBoundingClientRect() --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-element-getboundingclientrect">getBoundingClientRect</a></dfn>
-   <!-- elementFromPoint --> <li><dfn>Element from point</dfn> as <a href="https://drafts.csswg.org/cssom-view/#dom-document-elementfrompoint">elementFromPoint()</a>
-   <!-- elementsFromPoint --> <li><dfn data-lt="paint order|paint tree">Elements from point</dfn> as <a href=https://drafts.csswg.org/cssom-view/#dom-document-elementsfrompoint>elementsFromPoint()</a>
-   <!-- getClientRects --> <li><dfn data-lt="DOM client rectangle"><a href=https://drafts.csswg.org/cssom-view/#dom-range-getclientrects>getClientRects</a></dfn>
-   <!-- innerHeight --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerheight>innerHeight</a></dfn>
-   <!-- innerWidth --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerwidth>innerWidth</a></dfn>
-   <!-- moveTo --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-moveto>moveTo(x, y)</a></dfn>
-   <!-- offsetLeft --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetleft>offsetLeft</a></dfn>
-   <!-- offsetParent --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetparent>offsetParent</a></dfn>
-   <!-- offsetTop --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsettop>offsetTop</a></dfn>
-   <!-- outerHeight --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-outerheight>outerHeight</a></dfn>
-   <!-- outerWidth --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-outerwidth>outerWidth</a></dfn>
-   <!-- screenX --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-screenx>screenX</a></dfn>
-   <!-- screenY --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-screeny>screenY</a></dfn>
-   <!-- scrollX --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-window-scrollx">scrollX</a></dfn>
-   <!-- scrollY --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-window-scrolly">scrollY</a></dfn>
-   <!-- scrollIntoView --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-element-scrollintoview>scrollIntoView</a></dfn>
-   <!-- ScrollIntoViewOptions --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dictdef-scrollintoviewoptions><code>ScrollIntoViewOptions</code></a></dfn>
-   <!-- ScrollIntoViewOptions block --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-scrollintoviewoptions-block>Logical scroll position "<code>block</code>"</a></dfn>
-   <!-- ScrollIntoViewOptions inline --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-scrollintoviewoptions-inline>Logical scroll position "<code>inline</code>"</a></dfn>
-  </ul>
-
- <dt>SOCKS Proxy and related specification:
- <dd><p>To be <dfn>SOCKS Proxy</dfn>
-  and <dfn data-lt=authenticating>SOCKS authentication</dfn> compliant,
-  it is supposed that the implementation supports the relevant subsets of
-  [[!RFC1928]] and [[!RFC1929]].
-
- <dt>Unicode
- <dd>The following terms are defined in the  standard: [[!Unicode]]
-  <ul>
-   <!-- Code point --> <li><dfn data-lt="unicode code point"><a href=http://www.unicode.org/versions/Unicode9.0.0/ch03.pdf#G2212>Code Point</a></dfn>
-   <!-- Extended grapheme cluster --> <li><dfn data-lt="grapheme cluster"><a href=http://www.unicode.org/versions/Unicode9.0.0/ch03.pdf#G2213>Extended grapheme cluster</a></dfn>
-  </ul>
-
- <dt>Unicode Standard Annex #29
- <dd>The following terms are defined in the standard: [[!UAX29]]
-  <ul>
-   <!-- Breaking text into extended grapheme clusters --><li><dfn data-lt="breaking text into extended grapheme clusters"><a href=http://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries>Grapheme cluster boundaries</a></dfn>
-  </ul>
-
- <dt>Unicode Standard Annex #44
- <dd>The following terms are defined in the standard: [[!UAX44]]
-  <ul>
-   <!-- Unicode character property --> <li><dfn><a href=http://unicode.org/reports/tr44/#Properties>Unicode character property</a></dfn>
-  </ul>
-
- <dt>URLs
- <dd>The following terms are defined in the WHATWG URL standard: [[!URL]]
-  <ul>
-   <!-- Absolute URL --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-absolute>Absolute URL</a></dfn>
-   <!-- Absolute URL with fragment --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-absolute-with-fragment>Absolute URL with fragment</a></dfn>
-   <!-- Default port --> <li><dfn><a href="https://url.spec.whatwg.org/#default-port">Default port</a></dfn>
-   <!-- Domain --><li><dfn data-lt="domains"><a href="https://url.spec.whatwg.org/#concept-domain">Domain</a></dfn>
-   <!-- Host --> <li><dfn><a href="https://url.spec.whatwg.org/#concept-host">Host</a></dfn>
-   <!-- includes credentials --> <li><dfn><a href="https://url.spec.whatwg.org/#include-credentials">Includes credentials</a></dfn>
-   <!-- IPv4 address --> <li><dfn data-lt="ipv4 addresses"><a href="https://url.spec.whatwg.org/#concept-ipv4">IPv4 address</a></dfn>
-   <!-- IPv6 address --> <li><dfn data-lt="ipv6 addresses"><a href="https://url.spec.whatwg.org/#concept-ipv6">IPv6 address</a></dfn>
-   <!-- Is Special --> <li><dfn><a href="https://url.spec.whatwg.org/#is-special">Is special</a></dfn>
-   <!-- Path-absolute URL --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-path-absolute>Path-absolute URL</a></dfn>
-   <!-- Path --> <li><dfn><a href=https://url.spec.whatwg.org/#concept-url-path>Path</a></dfn>
-   <!-- Port --> <li><dfn><a href="https://url.spec.whatwg.org/#concept-url-port">Port</a></dfn>
-   <!-- URL --> <li><dfn><a href=https://url.spec.whatwg.org/#concept-url>URL</a></dfn>
-   <!-- URL serializer --> <li><dfn><a href=https://url.spec.whatwg.org/#concept-url-serializer>URL serializer</a></dfn>
-  </ul>
-
- <dt>Web IDL
- <dd><p>The IDL fragments in this specification
-  must be interpreted as required for conforming IDL fragments,
-  as described in the Web IDL specification. [[!WEBIDL]]
-  <ul>
-   <!-- DOMException --> <li><a href="https://heycam.github.io/webidl/#dfn-DOMException"><dfn><code>DOMException</code></dfn></a>
-   <!-- Sequence --> <li><a href="https://heycam.github.io/webidl/#idl-sequence"><dfn>Sequence</dfn></a>
-   <!-- Supported property indices --> <li><dfn data-lt="supported property index"><a href=https://heycam.github.io/webidl/#dfn-supported-property-indices>Supported property indices</a></dfn>
-   <!-- SyntaxError --> <li><dfn><a href="https://heycam.github.io/webidl/#syntaxerror"><code>SyntaxError</code></a></dfn></li>
-
-  </ul>
-
-  <dt>Promises Guide <!-- Eventually this will be merged into WebIDL -->
-  <dd><p>The following terms are defined in the Promises Guide. [[!PROMISES-GUIDE]]
-    <ul>
-      <!-- a new promise --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#a-new-promise">A new promise</a></dfn>
-      <!-- Promise calling --> <li><dfn data-lt='promise-call'><a href="https://www.w3.org/2001/tag/doc/promises-guide#promise-calling">Promise-calling</a></dfn>
-      <!-- Reject --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#reject-promise">reject</a></dfn>
-      <!-- Resolve --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#resolve-promise">resolve</a></dfn>
-    </ul>
-
-  <dt>XML Namespaces
-  <dd><p>The following terms are defined in the Namespaces in XML [[!XML-NAMES]]
-    <ul>
-      <!-- qualified element name --><li><a href="https://www.w3.org/TR/REC-xml-names/#ns-using"><dfn>qualified element name</dfn></a>
-    </ul>
-
-
-  <dt>XPATH
-  <dd><p>The following terms are defined in the Document Object Model XPath standard [[!XPATH]]
-    <ul>
-      <!-- evaluate --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate"><dfn><code>evaluate</code></dfn></a>
-      <!-- ORDERED_NODE_SNAPSHOT_TYPE --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE"><dfn><code>ORDERED_NODE_SNAPSHOT_TYPE</code></dfn></a>
-      <!-- snapshotItem --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-snapshotItem"><dfn><code>snapshotItem</code></dfn></a>
-      <!-- XPathException --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathException"><dfn><code>XPathException</code></dfn></a>
-    </ul>
-</dl>
-</section> <!-- /Index -->
-</section> <!-- /Conformance -->
 
 <section class=informative>
 <h2>Design</h2>
 
-<p>The WebDriver standard attempts to follow a number of design goals:
+<p>
+The WebDriver standard attempts to follow a number of design goals:
 
 <section>
 <h3>Compatibility</h3>
 
-<p>This specification is derived from the popular
- <a href=http://www.seleniumhq.org>Selenium WebDriver</a> browser automation framework.
- Selenium is a long-lived project,
- and due to its age and breadth of use
- it has a wide range of expected functionality.
- This specification uses these expectations to inform its design.
- Where improvements or clarifications have been made,
- they have been made with care to allow existing users of Selenium WebDriver
- to avoid unexpected breakages.
+<p>
+This specification is derived from the popular
+<a href=http://www.seleniumhq.org>Selenium WebDriver</a> browser automation framework.
+Selenium is a long-lived project,
+and due to its age and breadth of use
+it has a wide range of expected functionality.
+This specification uses these expectations to inform its design.
+Where improvements or clarifications have been made,
+they have been made with care to allow existing users of Selenium WebDriver
+to avoid unexpected breakages.
 </section>
 
 <section>
 <h3>Simplicity</h3>
 
-<p>The largest intended group of users of this specification
- are software developers and testers
- writing automated tests and other tooling,
- such as monitoring or load testing, that relies on automating a browser.
- As such, care has been taken to provide commands
- that simplify common tasks such as <a data-lt="Element Send Keys">typing into</a>
- and <a data-lt="Element Click">clicking</a> elements.
+<p>
+The largest intended group of users of this specification
+are software developers and testers
+writing automated tests and other tooling,
+such as monitoring or load testing, that relies on automating a browser.
+As such, care has been taken to provide commands
+that simplify common tasks such as <a data-lt="Element Send Keys">typing into</a>
+and <a data-lt="Element Click">clicking</a> elements.
 </section>
 
 <section>
 <h3>Extensions</h3>
 
-<p>WebDriver provides a mechanism for others to define extensions to the protocol
- for the purposes of automating functionality that cannot be implemented entirely
- in <a href=https://tc39.github.io/ecma262/>ECMAScript</a>. This allows other
- web standards to support the automation of new platform features. It also
- allows vendors to expose functionality that is specific to their browser.
+<p>
+WebDriver provides a mechanism for others to define extensions to the protocol
+for the purposes of automating functionality that cannot be implemented entirely
+in <a href=https://tc39.github.io/ecma262/>ECMAScript</a>. This allows other
+web standards to support the automation of new platform features. It also
+allows vendors to expose functionality that is specific to their browser.
 </section>
 </section> <!-- /Design Notes -->
+
 
 <section>
 <h2>Terminology</h2>
@@ -9643,4 +9081,574 @@ Robin Berjon,
 Ross Patterson,
 and Wilhelm Joys Andersen
 for proofreading and suggesting areas for improvement.
+</section>
+
+<section>
+<h2>Index</h2>
+
+<p>
+This specification relies on several other underlying specifications.
+
+<!--
+Each item in the list begins with a comment
+with term described using the characters [a-zA-Z].
+This is so that the list items can be piped through sort(1)
+to automatically sort each list alphabetically.
+-->
+
+<dl>
+ <dt>Web App Security
+ <dd><p>The following terms are defined
+  in the Content Security Policy Level 3 specification: [[!CSP3]]
+  <ul>
+   <li><dfn><a href="https://www.w3.org/TR/CSP/#directives">Directives</a></dfn>
+   <li><dfn data-lt="blocked by content security policy"><a href=https://w3c.github.io/webappsec-csp/#should-block-navigation-response>Should block navigation response</a></dfn>
+  </ul>
+
+ <dt>DOM
+ <dd><p>The following terms are defined
+  in the Document Object Model specification: [[!DOM]]
+  <ul>
+   <!-- Attribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-attribute>Attribute</a></dfn>
+   <!-- comapreDocumentPosition --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-comparedocumentposition>compareDocumentPosition</a></dfn>
+   <!-- connected --> <li><dfn><a href=https://dom.spec.whatwg.org/#connected>connected</a></dfn>
+   <!-- context object --><li><dfn><a href="https://dom.spec.whatwg.org/#context-object">context object</a></dfn>
+   <!-- Descendant --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-tree-descendant>Descendant</a></dfn>
+   <!-- Document element --> <li><dfn><a href=https://dom.spec.whatwg.org/#document-element>Document element</a></dfn>
+   <!-- Document --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document>Document</a></dfn>
+   <!-- DOCUMENT_POSITION_DISCONNECTED --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-document_position_disconnected>DOCUMENT_POSITION_DISCONNECTED</a></dfn> (1)
+   <!-- Document type --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-type>Document type</a></dfn>
+   <!-- Document URL --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-url>Document URL</a></dfn>
+   <!-- Element --> <li><dfn data-lt=elements><a href=https://dom.spec.whatwg.org/#concept-element>Element</a></dfn>
+   <!-- Equals --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node-equals>Equals</a></dfn>
+   <!-- Event --> <li><dfn><a href=https://dom.spec.whatwg.org/#event>Event</a></dfn>
+   <!-- Fire an event --> <li><dfn data-lt="fire|fires|fired|event fires|event fired|event firing"><a href=https://dom.spec.whatwg.org/#concept-event-fire>Fire an event</a></dfn>
+   <!-- Get an attribute by name --> <li><dfn data-lt="getting an attribute by name"><a href=https://dom.spec.whatwg.org/#concept-element-attributes-get-by-name>Get an attribute by name</a></dfn>
+   <!-- getAttribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-getattribute>getAttribute</a></dfn>
+   <!-- getElementsByTagName --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-element-getelementsbytagname"><code>getElementsByTagName</code></a></dfn>
+   <!-- hasAttribute --> <li><dfn data-lt="has the attribute"><a href=https://dom.spec.whatwg.org/#dom-element-hasattribute>hasAttribute</a></dfn>
+   <!-- HTMLCollection --> <li><dfn><a href=https://dom.spec.whatwg.org/#htmlcollection><code>HTMLCollection</code></a></dfn>
+   <!-- Inclusive descendant --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-tree-inclusive-descendant>Inclusive descendant</a></dfn>
+   <!-- isTrusted --> <li><dfn data-lt='is trusted'><a href="https://dom.spec.whatwg.org/#dom-event-istrusted">isTrusted</a></dfn>
+   <!-- Node document --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node-document>Node document</a></dfn>
+   <!-- Node length --> <li><dfn><a href="https://dom.spec.whatwg.org/#concept-node-length">Node Length</a></dfn>
+   <!-- Node --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node>Node</a></dfn>
+   <!-- NodeList --> <li><dfn><a href=https://dom.spec.whatwg.org/#nodelist><code>NodeList</code></a></dfn>
+   <!-- querySelectorAll --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall"><code>querySelectorAll</code></a></dfn>
+   <!-- querySelector --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselector"><code>querySelector</code></a></dfn>
+   <!-- tagName --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-tagname>tagName</a></dfn>
+   <!-- Text node --> <li><dfn><a href=https://dom.spec.whatwg.org/#text><code>Text</code> node</a></dfn>
+  </ul>
+
+ <dd><p>The following attributes are defined
+  in the Document Object Model specification: [[!DOM]]
+  <ul>
+   <!-- textContent attribute --> <li><dfn data-lt=textContent><a href=https://dom.spec.whatwg.org/#dom-node-textcontent><code>textContent</code> attribute</a></dfn>
+  </ul>
+
+ <dd><p>The following attributes are defined in
+  the DOM Parsing and Serialisation specification: [[!DOM-PARSING]]
+  <ul>
+   <!-- innerHTML IDL Attribute--> <li><dfn><a href=https://w3c.github.io/DOM-Parsing/#dom-element-innerhtml><code>innerHTML</code> IDL attribute</a></dfn>
+   <!-- outerHTML IDL Attribute--> <li><dfn><a href=https://w3c.github.io/DOM-Parsing/#dom-element-outerhtml><code>outerHTML</code> IDL attribute</a></dfn>
+   <!-- serializeToString --> <li><dfn data-lt="serializing to string"><a href=https://w3c.github.io/DOM-Parsing/#dom-xmlserializer-serializetostring><code>serializeToString</code></a></dfn>
+  </ul>
+
+ <dd><p>The following attributes are defined
+  in the UI Events specification: [[!UI-EVENTS]]
+  <ul>
+   <!-- Activation trigger --> <li><dfn><a href=https://w3c.github.io/uievents/#activation-trigger>Activation trigger</a></dfn>
+   <!-- click event --> <li><dfn><a href="https://w3c.github.io/uievents/#event-type-click">click event</a></dfn>
+   <!-- Keyboard Event --> <li><dfn><a href=https://w3c.github.io/uievents/#keyboardevent>Keyboard event</a></dfn>
+   <!-- Keyboard event order --> <li><dfn><a href=https://w3c.github.io/uievents/#events-keyboard-event-order>Keyboard event order</a></dfn>
+   <!-- keyDown event --> <li><dfn data-lt="keyDown-Event"><a href=https://w3c.github.io/uievents/#event-type-keydown>keyDown event</a></dfn>
+   <!-- keyPress event --> <li><dfn data-lt="keyPress-Event"><a href=https://w3c.github.io/uievents/#event-type-keypress>keyPress event</a></dfn>
+   <!-- keyUp event --> <li><dfn data-lt="keyUp-Event"><a href=https://w3c.github.io/uievents/#event-type-keyup>keyUp event</a></dfn>
+   <!-- mouseDown event --> <li><dfn><a href=https://w3c.github.io/uievents/#event-type-mousedown>mouseDown event</a></dfn>
+   <!-- Mouse event --> <li><dfn><a href=https://w3c.github.io/uievents/#mouseevent>Mouse event</a></dfn>
+   <!-- Mouse event order --> <li><dfn><a href=https://w3c.github.io/uievents/#events-mouseevent-event-order>Mouse event order</a></dfn>
+   <!-- mouseMove event --> <li><dfn><a href="https://w3c.github.io/uievents/#event-type-mousemove">mouseMove event</a></dfn>
+   <!-- mouseOver event --> <li><dfn><a href="https://w3c.github.io/uievents/#event-type-mouseover">mouseOver event</a></dfn>
+   <!-- mouseUp event --> <li><dfn><a href=https://w3c.github.io/uievents/#event-type-mouseup>mouseUp event</a></dfn>
+  </ul>
+
+ <dd><p>The following attributes are defined
+  in the UI Events Code specification: [[!UIEVENTS-CODE]]
+  <ul>
+   <li><dfn data-lt="keyboard event code"><a href=https://www.w3.org/TR/uievents-code/#code-value-tables>Keyboard event code tables</a></dfn>
+  </ul>
+
+ <dd><p>The following attributes are defined
+  in the UI Events Code specification: [[!UIEVENTS-KEY]]
+  <ul>
+   <li><dfn data-lt="modifier key"><a href=https://www.w3.org/TR/uievents-key/#keys-modifier>Keyboard modifier keys</a></dfn>
+  </ul>
+
+ <dt>DOM Parsing
+ <dd><p>The following terms are defined in the DOM Parsing and Serialization Specification: [[!DOMPARSING]]
+  <ul>
+   <li><!-- Fragment serializing algorithm --><dfn><a href="https://w3c.github.io/DOM-Parsing/#dfn-fragment-parsing-algorithm">Fragment serializing algorithm</a></dfn>
+  </ul>
+ </dd>
+
+ <dt>ECMAScript
+ <dd><p>The following terms are defined in the ECMAScript Language Specification: [[!ECMA-262]]
+  <ul>
+    <!-- Iterable --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-iterable-interface>Iterable</a></dfn>
+   <!-- Completion --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-completion-record-specification-type">Completion</a></dfn>
+   <!-- CreateResolvingFunctions --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-createresolvingfunctions>CreateResolvingFunctions</a></dfn>
+   <!-- Directive prologue --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Directive prologue</a></dfn>
+   <!-- Early error --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-16>Early error</a></dfn>
+   <!-- Function --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24>Function</a></dfn>
+   <!-- FunctionBody --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-13>FunctionBody</a></dfn>
+   <!-- FunctionCreate --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-functioncreate>FunctionCreate</a></dfn>
+   <!-- Get --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-get-o-p>Get</a></dfn>
+   <!-- Global environment --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-10.2.3>Global environment</a></dfn>
+   <!-- IsCallable --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-iscallable>IsCallable</a></dfn>
+   <!-- Own property --> <li><dfn data-lt="own properties"><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>Own property</a></dfn>
+   <!-- Promise --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-promise-constructor>Promise</a></dfn>
+   <!-- PromiseResolve --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-promise-resolve>PromiseResolve</a></dfn>
+   <!-- Type --> <li><dfn data-lt="ecmascript type" data-lt-noDefault><a href=https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values>Type</a></dfn>
+   <!-- Use strict directive --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Use strict directive</a></dfn>
+   <!-- parseFloat --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></dfn>
+   <!-- realm --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-code-realms">realm</a></dfn>
+  </ul>
+
+ <dd>This specification also presumes that you are able to call
+  some of the <dfn data-lt="internal method"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>internal methods</a></dfn>
+  from the ECMAScript Language Specification:
+  <ul>
+   <!-- Call --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-13.2.1>Call</a></dfn>
+   <!-- Class --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>[[\Class]]</a></dfn>
+   <!-- GetOwnProperty --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.1>[[\GetOwnProperty]]</a></dfn>
+   <!-- GetProperty --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.2>[[\GetProperty]]</a></dfn>
+   <!-- Index of --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.5.4.7>Index of</a></dfn>
+   <!-- Put --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.5>[[\Put]]</a></dfn>
+   <!-- Substring --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-15.5.4.15>Substring</a></dfn>
+  </ul>
+
+ <dd>The ECMAScript Language Specification also defines the following
+  types, values, and operations that are used throughout this
+  specification:
+  <ul>
+   <!-- Array --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-11.1.4>Array</a></dfn>
+   <!-- Boolean type --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.14>Boolean</a></dfn> type
+   <!-- List --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-8.8>List</a></dfn>
+   <!-- Max Safe Integer --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer>maximum safe integer</a></dfn>
+   <!-- null --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.11>Null</a></dfn>
+   <!-- Number --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.19>Number</a></dfn>
+   <!-- Object --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.2.1>Object</a></dfn>
+   <!-- Parse --> <li><dfn><a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.2">[[\Parse]]</a></dfn>
+   <!-- String --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.18>String</a></dfn>
+   <!-- Stringify --> <li><dfn><a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.12.3">[[\Stringify]]</a></dfn>
+   <!-- ToInteger --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger>ToInteger</a></dfn>
+   <!-- undefined --> <li><dfn><a href=http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.9>Undefined</a></dfn>
+  </ul>
+
+ <dt>Fetch
+ <dd><p>The following terms are defined in the WHATWG Fetch specification: [[!FETCH]]
+  <ul>
+   <!-- Body --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-body>Body</a></dfn>
+   <!-- Header --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header">Header</a></dfn>
+   <!-- Header Name --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header-name">Header Name</a></dfn>
+   <!-- Header Value --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header-value">Header Value</a></dfn>
+   <!-- Local Scheme --> <li><dfn><a href="https://fetch.spec.whatwg.org/#local-scheme">Local scheme</a></dfn>
+   <!-- Method --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-method>Method</a></dfn>
+   <!-- Response --> <li><dfn data-lt="http response"><a href=https://fetch.spec.whatwg.org/#concept-response>Response</a></dfn>
+   <!-- Request --> <li><dfn data-lt="http request"><a href=https://fetch.spec.whatwg.org/#concept-request>Request</a></dfn>
+   <!-- Set Header --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header-list-set">Set Header</a></dfn>
+   <!-- Status --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response-status>HTTP Status</a></dfn>
+   <!-- Status message --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response-status-message>Status message</a></dfn>
+  </ul>
+
+ <dt>File
+ <dd><p>The following interfaces are defined in the W3C File API specification: [[!FILEAPI]]
+  <ul>
+   <!-- FileList --> <li><dfn><a href=https://w3c.github.io/FileAPI/#dfn-filelist><code>FileList</code></a></dfn>
+  </ul>
+
+ <dt>Fullscreen
+ <dd><p>The following terms are defined in the WHATWG Fullscreen specification: [[!FULLSCREEN]]
+   <ul>
+     <!-- Fullscreen element --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fullscreen-element">Fullscreen element</a></dfn>
+     <!-- Fullscreen an element --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fullscreen-an-element">Fullscreen an element</a></dfn>
+     <!-- Fullscreen is supported --> <li><dfn  data-lt='support fullscreen'><a href="https://fullscreen.spec.whatwg.org/#fullscreen-is-supported">Fullscreen is supported</a></dfn>
+     <!-- Fully exit fullscreen --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fully-exit-fullscreen">fully exit fullscreen</a></dfn>
+     <!-- Unfullscreen a document --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#unfullscreen-a-document">unfullscreen a document</a></dfn>
+   </ul>
+
+ <dt>HTML
+ <dd><p>The following terms are defined in the HTML specification: [[!HTML]]
+  <ul>
+   <!-- 2D context creation algorithm --> <li><dfn><a href=https://html.spec.whatwg.org/#2d-context-creation-algorithm>2D context creation algorithm</a></dfn>
+   <!-- A browsing context is discarded --> <li><dfn data-lt=discarded><a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>A browsing context is discarded</a></dfn>
+   <!-- A serialization of the bitmap as a file --> <li><dfn data-lt="a serialization of the canvas element’s bitmap as a file"><a href=https://html.spec.whatwg.org/#a-serialisation-of-the-bitmap-as-a-file>A serialization of the bitmap as a file</a></dfn>
+   <!-- API length --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-fe-api-value">API value</a></dfn>
+   <!-- Active document --> <li><dfn><a href=https://html.spec.whatwg.org/#active-document>Active document</a></dfn>
+   <!-- Active element --> <li><dfn>Active element</dfn> being the <a href=https://html.spec.whatwg.org/#dom-document-activeelement><code>activeElement</code></a> attribute on <a href=https://html.spec.whatwg.org/#document><code>Document</code></a>
+   <!-- Associated window --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-document-window>Associated window</a></dfn>
+   <!-- Body element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-body-element><code>body</code> element</a></dfn>
+   <!-- Boolean attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#boolean-attribute>Boolean attribute</a></dfn>
+   <!-- Browsing context --> <li><dfn data-lt="browsing contexts"><a href=https://html.spec.whatwg.org/#browsing-context>Browsing context</a></dfn>
+   <!-- Button --> <li><dfn><a href="https://html.spec.whatwg.org/#button-state-%28type=button%29">Button</a></dfn> state
+   <!-- Buttons --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-button>Buttons</a></dfn>
+   <!-- Candidate for constraint validation --> <li><dfn><a href=https://html.spec.whatwg.org/#candidate-for-constraint-validation>Candidate for constraint validation</a></dfn>
+   <!-- Canvas context mode --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-context-mode>Canvas context mode</a></dfn>
+   <!-- Checkbox --> <li><dfn><a href="https://html.spec.whatwg.org/#checkbox-state-%28type=checkbox%29">Checkbox</a></dfn> state
+   <!-- Checkedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-checked>Checkedness</a></dfn>
+   <!-- Child browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#child-browsing-context>Child browsing context</a></dfn>
+   <!-- Clean up after running a callback --> <li><dfn><a href="https://html.spec.whatwg.org/#clean-up-after-running-a-callback">Clean up after running a callback</a></dfn>
+   <!-- Clean up after running a script --> <li><dfn><a href="https://html.spec.whatwg.org/#clean-up-after-running-script">Clean up after running a script</a></dfn>
+   <!-- Close a browsing context --> <li><dfn data-lt="close|closes"><a href=https://html.spec.whatwg.org/#close-a-browsing-context>Close a browsing context</a></dfn>
+   <!-- Code entry-point --> <li><dfn><a href=https://html.spec.whatwg.org/#code-entry-point>Code entry-point</a></dfn>
+   <!-- Cookie-averse Document object --> <li><dfn><a href=https://html.spec.whatwg.org/#cookie-averse-document-object>Cookie-averse <code>Document</code> object</a></dfn>
+   <!-- Current entry --> <li><dfn><a href=https://html.spec.whatwg.org/#current-entry>Current entry</a></dfn>
+   <!-- Dirty checkedness flag --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-input-checked-dirty-flag>Dirty checkedness flag</a></dfn>
+   <!-- Dirty value flag --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-dirty>Dirty value flag</a></dfn>
+   <!-- Disabled --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-disabled>Disabled</a></dfn>
+   <!-- Document address --> <li><dfn data-lt=address><a href=https://dom.spec.whatwg.org/#concept-document-url>Document address</a></dfn>
+   <!-- Document readiness --> <li><dfn><a href=https://html.spec.whatwg.org/#current-document-readiness>Document readiness</a></dfn>
+   <!-- Document title --> <li><dfn data-lt=title><a href=https://html.spec.whatwg.org/#document.title>Document title</a></dfn>
+   <!-- Element contexts --> <li><dfn data-lt="element context"><a href=https://html.spec.whatwg.org/#concept-element-contexts>Element contexts</a></dfn>
+   <!-- Enumerated attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#enumerated-attribute>Enumerated attribute</a></dfn>
+   <!-- Environment settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#environment-settings-object>Environment settings object</a></dfn>
+   <!-- Event loop --> <li><dfn><a href=https://html.spec.whatwg.org/#event-loop>Event loop</a></dfn>
+   <!-- File --> <li><dfn><a href="https://html.spec.whatwg.org/#file-upload-state-%28type=file%29">File</a></dfn> state
+   <!-- File upload state --> <li><dfn><a href="https://html.spec.whatwg.org/#file-upload-state-(type=file)">File upload state</a></dfn>
+   <!-- Focusing steps --> <li><dfn><a href="https://html.spec.whatwg.org/#focusing-steps">Focusing steps</a></dfn>
+   <!-- Fousable area --><li><dfn><a href=https://html.spec.whatwg.org/#focusable-area>Focusable area</a></dfn>
+   <!-- GetOwnProperty of a Window object --> <li><dfn data-lt="window.[[\getOwnProperty]]"><a href=https://html.spec.whatwg.org/#windowproxy-getownproperty><code>[[\GetOwnProperty]]</code> of a <code>Window</code> object</a></dfn>
+   <!-- HTMLAllCollection --> <li><dfn><a href=https://html.spec.whatwg.org/#htmlallcollection><code>HTMLAllCollection</code></a></dfn>
+   <!-- HTMLFormControlCollection --> <li><dfn><a href=https://html.spec.whatwg.org/#htmlformcontrolscollection><code>HTMLFormControlsCollection</code></a></dfn>
+   <!-- HTMLOptionsCollection --> <li><dfn><a href=https://html.spec.whatwg.org/#htmloptionscollection><code>HTMLOptionsCollection</code></a></dfn>
+   <!-- Hidden --> <li><dfn><a href="https://html.spec.whatwg.org/#hidden-state-%28type=hidden%29">Hidden</a></dfn> state
+   <!-- Image Button --> <li><dfn><a href="https://html.spec.whatwg.org/#image-button-state-%28type=image%29">Image Button</a></dfn> state
+   <!-- In parallel --> <li><dfn><a href="https://html.spec.whatwg.org/#in-parallel">In parallel</a></dfn>
+   <!-- Input event applies --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-input-apply><code>input</code> event applies</a></dfn>
+   <!-- Input type file selected --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-input-type-file-selected">Selected Files</a></dfn>
+   <!-- Joint session history --> <li><dfn><a href=https://html.spec.whatwg.org/#joint-session-history>Joint session history</a></dfn>
+   <!-- Mature (navigation) --> <li><dfn data-lt="matured"><a href=https://html.spec.whatwg.org/#concept-navigate-mature>Mature</a></dfn> navigation.
+   <!-- Missing value default state --> <li><dfn><a href=https://html.spec.whatwg.org/#missing-value-default>Missing value default state</a></dfn>
+   <!-- Mutable --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-mutable>Mutable</a></dfn>
+   <!-- Navigate --> <li><dfn data-lt="navigating|navigation"><a href=https://html.spec.whatwg.org/#navigate>Navigate</a></dfn>
+   <!-- Navigator --> <li><dfn data-lt="navigator"><a href=https://html.spec.whatwg.org/#navigator>Navigator object</a></dfn>
+   <!-- Nested browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#nested-browsing-context>Nested browsing context</a></dfn>
+   <!-- Origin-clean --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-origin-clean>Origin-clean</a></dfn>
+   <!-- Overridden reload --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/dom.html#an-overridden-reload">An overridden reload</a></dfn>
+   <!-- Parent browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#parent-browsing-context>Parent browsing context</a></dfn>
+   <!-- Pause --> <li><dfn data-lt=unpaused><a href=https://html.spec.whatwg.org/#pause>HTML Pause</a></dfn>
+   <!-- Prepare to run a callback --> <li><dfn><a href="https://html.spec.whatwg.org/#prepare-to-run-a-callback">Prepare to run a callback</a></dfn>
+   <!-- Prepare to run a script --> <li><dfn><a href="https://html.spec.whatwg.org/#prepare-to-run-script">Prepare to run a script</a></dfn>
+   <!-- Prompt to unload a document --> <li><dfn data-lt="prompting to unload"><a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>Prompt to unload a document</a></dfn>
+   <!-- Radio button --> <li><dfn><a href="https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29">Radio Button</a></dfn> state
+   <!-- Raw value --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-textarea-raw-value>Raw value</a></dfn>
+   <!-- Refresh state pragma directive --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-meta-http-equiv-refresh>Refresh state pragma directive</a></dfn>
+   <!-- Reset algorithm --> <li><dfn data-lt="reset algorithms"><a href=https://html.spec.whatwg.org/#concept-form-reset-control>Reset algorithm</a></dfn>
+   <!-- Resettable element --> <li><dfn data-lt="resettable elements"><a href=https://html.spec.whatwg.org/#category-reset>Resettable</a></dfn> element
+   <!-- Resettable element --> <li><dfn><a href=https://html.spec.whatwg.org/#category-reset>Resettable element</a></dfn>
+   <!-- Run the animation frame callbacks --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#run-the-animation-frame-callbacks">Run the animation frame callbacks</a></dfn>
+   <!-- Satisfies its constraints --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fv-valid>Satisfies its constraints</a></dfn>
+   <!-- Script --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-script>Script</a></dfn>
+   <!-- Script execution environment --> <li><dfn><a href=https://html.spec.whatwg.org/#environment>Script execution environment</a></dfn>
+   <!-- Selectedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-option-selectedness>Selectedness</a></dfn>
+   <!-- Session history --> <li><dfn><a href=https://html.spec.whatwg.org/#session-history>Session history</a></dfn>
+   <!-- Settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#settings-object>Settings object</a></dfn>
+   <!-- Simple dialogs --> <li><dfn data-lt="simple dialog"><a href=https://html.spec.whatwg.org/#simple-dialogs>Simple dialogs</a></dfn>
+   <!-- Submit Button --> <li><dfn><a href="https://html.spec.whatwg.org/#submit-button-state-%28type=submit%29">Submit Button</a></dfn> state
+   <!-- Submittable elements --> <li><dfn data-lt="submittable element"><a href=https://html.spec.whatwg.org/#category-submit>Submittable elements</a></dfn>
+   <!-- Suffering from bad input --> <li><dfn><a href=https://html.spec.whatwg.org/#suffering-from-bad-input>Suffering from bad input</a></dfn>
+   <!-- Top-level browsing context --> <li><dfn data-lt="top-level browsing contexts"><a href=https://html.spec.whatwg.org/#top-level-browsing-context>Top-level browsing context</a></dfn>
+   <!-- Traverse the history --> <li><dfn data-lt="traversing the history"><a href=https://html.spec.whatwg.org/#traverse-the-history>Traverse the history</a></dfn>
+   <!-- Traverse the history by a delta --> <li><dfn><a href=https://html.spec.whatwg.org/#traverse-the-history-by-a-delta>Traverse the history by a delta</a></dfn>
+   <!-- Tree order --> <li><dfn><a href=https://html.spec.whatwg.org/#tree-order>Tree order</a></dfn>
+   <!-- Unfocusing steps --><li><dfn><a href=https://html.spec.whatwg.org/#unfocusing-steps>unfocusing steps</a></dfn>
+   <!-- User prompt --> <li><dfn data-lt="user prompts"><a href=https://html.spec.whatwg.org/#user-prompts>User prompt</a></dfn>
+   <!-- Value --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-value>Value</a></dfn>
+   <!-- Value mode flag --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-output-mode>Value mode flag</a></dfn>
+   <!-- Value sanitization algorithm --> <li><dfn><a href=https://html.spec.whatwg.org/#value-sanitization-algorithm>Value sanitization algorithm</a></dfn>
+   <!-- Window object --> <li><dfn><a href=https://html.spec.whatwg.org/#the-window-object><code>Window</code></a></dfn> object
+   <!-- WindowProxy exotic object --> <li><dfn><a href=https://html.spec.whatwg.org/#windowproxy><code>WindowProxy</code></a></dfn> exotic object
+   <!-- WorkerNavigator --> <li><dfn data-lt="workernavigator"><a href=https://html.spec.whatwg.org/#workernavigator>WorkerNavigator object</a></dfn>
+   <!-- setSelectionRange --> <li><dfn data-lt="set selection range"><a href=https://html.spec.whatwg.org/#dom-textarea/input-setselectionrange><code>setSelectionRange</code></a></dfn>
+   <!-- window confirm --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-confirm><code>confirm</code></a></dfn>
+   <!-- window.alert --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-alert><code>alert</code></a></dfn>
+   <!-- window.prompt --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-prompt><code>prompt</code></a></dfn>
+  </ul>
+
+ <dd><p>The HTML specification also defines a number of elements
+  which this specification has special-cased behavior for:
+  <ul>
+   <!-- a element --> <li><dfn data-lt="a elements"><a href=https://html.spec.whatwg.org/#the-a-element><code>a</code> element</a></dfn>
+   <!-- area element --> <li><dfn data-lt=area><a href=https://html.spec.whatwg.org/#the-area-element><code>area</code> element</a></dfn>
+   <!-- canvas element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-canvas-element><code>canvas</code> element</a></dfn>
+   <!-- datalist element --> <li><dfn data-lt=datalist><a href=https://html.spec.whatwg.org/#the-datalist-element><code>datalist</code> element</a></dfn>
+   <!-- frame element --> <li><dfn data-lt=frame><a href=https://html.spec.whatwg.org/#frame><code>frame</code> element</a></dfn>
+   <!-- HTML Element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-html-element><code>html</code> element</a></dfn>
+   <!-- iframe element --> <li><dfn data-lt=iframe><a href=https://html.spec.whatwg.org/#the-iframe-element><code>iframe</code> element</a></dfn>
+   <!-- input element --> <li><dfn data-lt="input elements"><a href=https://html.spec.whatwg.org/#the-input-element><code>input</code> element</a></dfn>
+   <!-- map element --> <li><a href=https://html.spec.whatwg.org/#the-map-element><dfn><code>map</code> element</dfn></a>
+   <!-- optgroup element --> <li><dfn data-lt=optgroup><a href=https://html.spec.whatwg.org/#the-optgroup-element><code>optgroup</code> element</a></dfn>
+   <!-- option element --> <li><dfn data-lt="option elements|option"><a href=https://html.spec.whatwg.org/#the-option-element><code>option</code> element</a></dfn>
+   <!-- output element --> <li><dfn data-lt=output><a href=https://html.spec.whatwg.org/#the-output-element><code>output</code> element</a></dfn>
+   <!-- select element --> <li><dfn data-lt="code elements"><a href=https://html.spec.whatwg.org/#the-select-element><code>select</code> element</a></dfn>
+   <!-- textarea element --> <li><dfn data-lt="textarea elements|textarea"><a href=https://html.spec.whatwg.org/#the-textarea-element><code>textarea</code> element</a></dfn>
+  </ul>
+
+ <dd><p>The HTML specification also defines <em>states</em>
+  of the <a><code>input</code> element</a>:
+  <ul>
+   <!-- Color state --> <li><dfn><a href="https://html.spec.whatwg.org/#color-state-(type=color)">Color state</a></dfn>
+   <!-- Date state --> <li><dfn><a href="https://html.spec.whatwg.org/#date-state-(type=date)">Date state</a></dfn>
+   <!-- Email state --> <li><dfn><a href="https://html.spec.whatwg.org/#e-mail-state-(type=email)">Email state</a></dfn>
+   <!-- Local Date and Time state --> <li><dfn><a href="https://html.spec.whatwg.org/#local-date-and-time-state-(type=datetime-local)">Local Date and Time state</a></dfn>
+   <!-- Month state --> <li><dfn><a href="https://html.spec.whatwg.org/#month-state-(type=month)">Month state</a></dfn>
+   <!-- Number state --> <li><dfn><a href="https://html.spec.whatwg.org/#number-state-(type=number)">Number state</a></dfn>
+   <!-- Password state --> <li><dfn><a href="https://html.spec.whatwg.org/#password-state-(type=password)">Password state</a></dfn>
+   <!-- Range state --> <li><dfn><a href="https://html.spec.whatwg.org/#range-state-(type=range)">Range state</a></dfn>
+   <!-- Telephone state --> <li><dfn><a href="https://html.spec.whatwg.org/#telephone-state-(type=tel)">Telephone state</a></dfn>
+   <!-- Text and Search state --> <li><dfn><a href="https://html.spec.whatwg.org/#text-(type=text)-state-and-search-state-(type=search)">Text and Search state</a></dfn>
+   <!-- Time state --> <li><dfn><a href="https://html.spec.whatwg.org/#time-state-(type=time)">Time state</a></dfn>
+   <!-- URL state --> <li><dfn><a href="https://html.spec.whatwg.org/#url-state-(type=url)">URL state</a></dfn>
+   <!-- Week state --> <li><dfn><a href="https://html.spec.whatwg.org/#week-state-(type=week)">Week state</a></dfn>
+  </ul>
+
+ <dd><p>The HTML specification also defines a range of different attributes:
+  <ul>
+   <!-- Canvas height attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-canvas-height><code>canvas</code>’s height attribute</a></dfn>
+   <!-- Canvas width attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-canvas-width><code>canvas</code>’ width attribute</a></dfn>
+   <!-- Checked content attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-input-checked>Checked</a></dfn>
+   <!-- Multiple attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-input-multiple><code>multiple</code> attribute</a></dfn>
+   <!-- readOnly attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#the-readonly-attribute><code>readOnly</code> attribute</a></dfn>
+   <!-- Type attribute --> <li><dfn data-lt=type><a href=https://html.spec.whatwg.org/#attr-input-type><code>type</code> attribute</a></dfn>
+   <!-- Value attribute --><li><dfn><a href=https://html.spec.whatwg.org/#dom-input-value><code>value</code> attribute</a></dfn>
+  </ul>
+
+ <dd><p>The HTML Editing APIs specification defines the following terms: [[!EDITING]]
+  <ul>
+   <!-- Content editable --> <li><dfn><a href=https://w3c.github.io/editing/contentEditable.html>Content editable</a></dfn>
+   <!-- Editing host --> <li><dfn data-lt="editing hosts"><a href=https://w3c.github.io/editing/execCommand.html#editing-host>Editing host</a></dfn>
+  </ul>
+
+ <dd><p>The following events are also defined in the HTML specification:
+  <ul>
+   <!-- beforeunload --> <li><dfn><a href=https://html.spec.whatwg.org/#event-beforeunload><code>beforeunload</code></a></dfn>
+   <!-- change --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/indices.html#event-change"><code>change</code></a></dfn>
+   <!-- DOMContentLoaded --> <li><dfn><a href=https://html.spec.whatwg.org/#event-domcontentloaded><code>DOMContentLoaded</code></a></dfn>
+   <!-- input --> <li><dfn><a href=https://html.spec.whatwg.org/#event-input><code>input</code></a></dfn>
+   <!-- load --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/indices.html#event-load"><code>load</code></a></dfn>
+   <!-- PageHide --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/indices.html#event-pagehide"><code>pageHide</code></a></dfn>
+   <!-- PageShow --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/indices.html#event-pageshow"><code>pageShow</code></a></dfn>
+  </ul>
+
+ <dd><p>The “data” URL scheme specification defines the following terms: [[!RFC2397]]
+  <ul>
+   <!-- data: url --> <li><dfn><a href=https://tools.ietf.org/html/rfc2397#section-2><code>data:</code> URL</a></dfn>
+  </ul>
+
+ <dt>HTTP and related specifications
+ <dd><p>To be <dfn>HTTP compliant</dfn>,
+  it is supposed that the implementation supports the relevant subsets of
+  [[!RFC7230]], [[!RFC7231]], [[!RFC7232]], [[!RFC7234]], and [[!RFC7235]].
+
+ <dd><p>The following terms are defined in the Cookie specification: [[!RFC6265]]
+  <ul>
+   <!-- Compute cookie-string --> <li><dfn><a href=https://tools.ietf.org/html/rfc6265#section-5.4>Compute <code>cookie-string</code></a></dfn>
+   <!-- Cookie --> <li><dfn data-lt=cookies><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Cookie</a></dfn>
+   <!-- Cookie store --> <li><dfn><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Cookie store</a></dfn>
+   <!-- Receives a cookie --> <li><dfn data-lt="receiving a cookie"><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Receives a cookie</a></dfn>
+  </ul>
+
+ <dd><p>The following terms are defined in
+  the Hypertext Transfer Protocol (HTTP) Status Code Registry:
+  <ul>
+   <!-- Status code registry --> <li><dfn><a href=http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml>Status code registry</a></dfn>
+  </ul>
+
+ <dd>The following terms are defined in
+  the Netscape Navigator Proxy Auto-Config File Format:
+  <ul>
+   <!-- Proxy autoconfiguration --> <li><dfn><a href=https://web.archive.org/web/20070602031929/http://wp.netscape.com/eng/mozilla/2.0/relnotes/demo/proxy-live.html>Proxy autoconfiguration</a></dfn>
+  </ul>
+
+  <dd><p>The specification uses
+   <dfn data-lt="uri template">URI Templates</dfn>. [[!URI-TEMPLATE]]
+
+ <dt>Infra
+ <dd>The following terms are defined
+  in the Infra standard: [[!INFRA]]
+   <ul>
+    <!-- ASCII lowercase --> <li><dfn data-lt="lowercase"><a href=https://infra.spec.whatwg.org/#ascii-lowercase>ASCII lowercase</a></dfn>
+    <!-- Javascript String's length --> <li><dfn><a href="https://infra.spec.whatwg.org/#javascript-string-length">JavaScript string's length</a></dfn>
+    <!-- queue --> <li><dfn><a href=https://infra.spec.whatwg.org/#queues>queue</a></dfn>
+   </ul>
+
+ <dt>Interaction
+ <dd>The following terms are defined in the
+   Page Visibility Specification [[!PAGE-VISIBILITY]]
+   <ul>
+    <!-- visibility hidden --> <li><dfn data-lt="visibility hidden"><a href="https://www.w3.org/TR/page-visibility/#dom-visibilitystate-hidden">Visibility state <code>hidden</code></a></dfn>    <!-- visibility state --> <li><dfn>Visibility state</dfn> being the <a href="https://www.w3.org/TR/page-visibility/#visibility-states-and-the-visibilitystate-enum"><code>visibilityState</code></a> attribute on <a>Document</a>    <!-- visibility visible --> <li><dfn data-lt="visibility visible"><a href="https://www.w3.org/TR/page-visibility/#dom-visibilitystate-visible">Visibility state <code>visible</code></a></dfn>
+   </ul>
+
+ <dt>Selenium
+ <dd>The following functions are defined within
+  the <a href="http://www.seleniumhq.org">Selenium</a> project, at
+  revision <code>1721e627e3b5ab90a06e82df1b088a33a8d11c20</code>.
+  <ul>
+   <!-- bot.dom.getVisibleText --> <li><dfn><a href="https://github.com/SeleniumHQ/selenium/blob/e09e28f016c9f53196cf68d6f71991c5af4a35d4/javascript/atoms/dom.js#L981"><code>bot.dom.getVisibleText</code></a></dfn>
+   <!-- bot.dom.isShown --> <li><dfn><a href="https://github.com/SeleniumHQ/selenium/blob/e09e28f016c9f53196cf68d6f71991c5af4a35d4/javascript/atoms/dom.js#L437"><code>bot.dom.isShown</code></a></dfn>
+  </ul>
+
+ <dt>Styling
+ <dd>The following terms are defined in
+  the CSS Values and Units Module Level 3 specification: [[!CSS3-VALUES]]
+  <ul>
+   <!-- CSS pixels --> <li><dfn><a href=https://www.w3.org/TR/css-values-3/#px>CSS pixels</a></dfn>
+  </ul>
+
+ <dd>The following properties are defined in
+  the CSS Basic Box Model Level 3 specification: [[!CSS3-BOX]]
+   <ul>
+    <!-- Visibility property --> <li>The <dfn><a href=https://drafts.csswg.org/css-box/#visibility-prop><code>visibility</code></a></dfn> property
+   </ul>
+
+ <dd>The following terms are defined in
+  the CSS Device Adaptation Module Level 1 specification: [[!CSS-DEVICE-ADAPT]]
+   <ul>
+    <!-- Initial viewport --><li><dfn data-lt=viewport><a href=https://drafts.csswg.org/css-device-adapt/#initial-viewport>Initial viewport</a></dfn>,
+     sometimes here referred to as the <i>viewport</i>.
+   </ul>
+
+ <dd>The following properties are defined in
+  the CSS Display Module Level 3 specification: [[!CSS3-DISPLAY]]
+  <ul>
+   <!-- Display property --> <li>The <dfn><a href=https://drafts.csswg.org/css-display/#the-display-properties><code>display</code></a></dfn> property
+  </ul>
+
+ <dd>The following terms are defined in
+  the Geometry Interfaces Module Level 1 specification: [[!GEOMETRY-1]]
+  <ul>
+   <!-- DOMRect --> <li><a href="https://www.w3.org/TR/geometry-1/#dom-domrect"><dfn><code>DOMRect</code></dfn></a>
+   <!-- Rectangle --> <li><dfn data-lt="bounding rectangle"><a href=https://drafts.fxtf.org/geometry/#rectangle>Rectangle</a></dfn>
+   <!-- Rectangle height dimension --> <li><dfn data-lt="height dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-height-dimension>Rectangle height dimension</a></dfn>
+   <!-- Rectangle width dimension --> <li><dfn data-lt="width dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-width-dimension>Rectangle width dimension</a></dfn>
+   <!-- Rectangle x coordinate --> <li><dfn data-lt="x coordinate"><a href=https://drafts.fxtf.org/geometry/#rectangle-x-coordinate>Rectangle x coordinate</a></dfn>
+   <!-- Rectangle y coordinate --> <li><dfn data-lt="y coordinate"><a href=https://drafts.fxtf.org/geometry/#rectangle-y-coordinate>Rectangle y coordinate</a></dfn>
+  </ul>
+
+ <dd>The following terms are defined in
+  the CSS Cascading and Inheritance Level 4 specification: [[!CSS-CASCADE-4]]
+  <ul>
+   <!-- Computed Value --> <li><dfn><a href=https://drafts.csswg.org/css-cascade-4/#computed-value>Computed value</a></dfn>
+  </ul>
+
+ <dd>The following terms are defined in the CSS Object Model: [[!CSSOM]]:
+  <ul>
+   <!-- Resolved value --> <li><dfn><a href=https://drafts.csswg.org/cssom/#resolved-value>Resolved value</a></dfn>
+  </ul>
+
+ <dd>The following functions are defined in
+  the CSSOM View Module: [[!CSSOM-VIEW]]:
+  <ul>
+   <!-- getBoundingClientRect() --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-element-getboundingclientrect">getBoundingClientRect</a></dfn>
+   <!-- elementFromPoint --> <li><dfn>Element from point</dfn> as <a href="https://drafts.csswg.org/cssom-view/#dom-document-elementfrompoint">elementFromPoint()</a>
+   <!-- elementsFromPoint --> <li><dfn data-lt="paint order|paint tree">Elements from point</dfn> as <a href=https://drafts.csswg.org/cssom-view/#dom-document-elementsfrompoint>elementsFromPoint()</a>
+   <!-- getClientRects --> <li><dfn data-lt="DOM client rectangle"><a href=https://drafts.csswg.org/cssom-view/#dom-range-getclientrects>getClientRects</a></dfn>
+   <!-- innerHeight --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerheight>innerHeight</a></dfn>
+   <!-- innerWidth --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerwidth>innerWidth</a></dfn>
+   <!-- moveTo --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-moveto>moveTo(x, y)</a></dfn>
+   <!-- offsetLeft --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetleft>offsetLeft</a></dfn>
+   <!-- offsetParent --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetparent>offsetParent</a></dfn>
+   <!-- offsetTop --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsettop>offsetTop</a></dfn>
+   <!-- outerHeight --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-outerheight>outerHeight</a></dfn>
+   <!-- outerWidth --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-outerwidth>outerWidth</a></dfn>
+   <!-- screenX --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-screenx>screenX</a></dfn>
+   <!-- screenY --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-screeny>screenY</a></dfn>
+   <!-- scrollX --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-window-scrollx">scrollX</a></dfn>
+   <!-- scrollY --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-window-scrolly">scrollY</a></dfn>
+   <!-- scrollIntoView --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-element-scrollintoview>scrollIntoView</a></dfn>
+   <!-- ScrollIntoViewOptions --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dictdef-scrollintoviewoptions><code>ScrollIntoViewOptions</code></a></dfn>
+   <!-- ScrollIntoViewOptions block --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-scrollintoviewoptions-block>Logical scroll position "<code>block</code>"</a></dfn>
+   <!-- ScrollIntoViewOptions inline --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-scrollintoviewoptions-inline>Logical scroll position "<code>inline</code>"</a></dfn>
+  </ul>
+
+ <dt>SOCKS Proxy and related specification:
+ <dd><p>To be <dfn>SOCKS Proxy</dfn>
+  and <dfn data-lt=authenticating>SOCKS authentication</dfn> compliant,
+  it is supposed that the implementation supports the relevant subsets of
+  [[!RFC1928]] and [[!RFC1929]].
+
+ <dt>Unicode
+ <dd>The following terms are defined in the  standard: [[!Unicode]]
+  <ul>
+   <!-- Code point --> <li><dfn data-lt="unicode code point"><a href=http://www.unicode.org/versions/Unicode9.0.0/ch03.pdf#G2212>Code Point</a></dfn>
+   <!-- Extended grapheme cluster --> <li><dfn data-lt="grapheme cluster"><a href=http://www.unicode.org/versions/Unicode9.0.0/ch03.pdf#G2213>Extended grapheme cluster</a></dfn>
+  </ul>
+
+ <dt>Unicode Standard Annex #29
+ <dd>The following terms are defined in the standard: [[!UAX29]]
+  <ul>
+   <!-- Breaking text into extended grapheme clusters --><li><dfn data-lt="breaking text into extended grapheme clusters"><a href=http://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries>Grapheme cluster boundaries</a></dfn>
+  </ul>
+
+ <dt>Unicode Standard Annex #44
+ <dd>The following terms are defined in the standard: [[!UAX44]]
+  <ul>
+   <!-- Unicode character property --> <li><dfn><a href=http://unicode.org/reports/tr44/#Properties>Unicode character property</a></dfn>
+  </ul>
+
+ <dt>URLs
+ <dd>The following terms are defined in the WHATWG URL standard: [[!URL]]
+  <ul>
+   <!-- Absolute URL --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-absolute>Absolute URL</a></dfn>
+   <!-- Absolute URL with fragment --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-absolute-with-fragment>Absolute URL with fragment</a></dfn>
+   <!-- Default port --> <li><dfn><a href="https://url.spec.whatwg.org/#default-port">Default port</a></dfn>
+   <!-- Domain --><li><dfn data-lt="domains"><a href="https://url.spec.whatwg.org/#concept-domain">Domain</a></dfn>
+   <!-- Host --> <li><dfn><a href="https://url.spec.whatwg.org/#concept-host">Host</a></dfn>
+   <!-- includes credentials --> <li><dfn><a href="https://url.spec.whatwg.org/#include-credentials">Includes credentials</a></dfn>
+   <!-- IPv4 address --> <li><dfn data-lt="ipv4 addresses"><a href="https://url.spec.whatwg.org/#concept-ipv4">IPv4 address</a></dfn>
+   <!-- IPv6 address --> <li><dfn data-lt="ipv6 addresses"><a href="https://url.spec.whatwg.org/#concept-ipv6">IPv6 address</a></dfn>
+   <!-- Is Special --> <li><dfn><a href="https://url.spec.whatwg.org/#is-special">Is special</a></dfn>
+   <!-- Path-absolute URL --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-path-absolute>Path-absolute URL</a></dfn>
+   <!-- Path --> <li><dfn><a href=https://url.spec.whatwg.org/#concept-url-path>Path</a></dfn>
+   <!-- Port --> <li><dfn><a href="https://url.spec.whatwg.org/#concept-url-port">Port</a></dfn>
+   <!-- URL --> <li><dfn><a href=https://url.spec.whatwg.org/#concept-url>URL</a></dfn>
+   <!-- URL serializer --> <li><dfn><a href=https://url.spec.whatwg.org/#concept-url-serializer>URL serializer</a></dfn>
+  </ul>
+
+ <dt>Web IDL
+ <dd><p>The IDL fragments in this specification
+  must be interpreted as required for conforming IDL fragments,
+  as described in the Web IDL specification. [[!WEBIDL]]
+  <ul>
+   <!-- DOMException --> <li><a href="https://heycam.github.io/webidl/#dfn-DOMException"><dfn><code>DOMException</code></dfn></a>
+   <!-- Sequence --> <li><a href="https://heycam.github.io/webidl/#idl-sequence"><dfn>Sequence</dfn></a>
+   <!-- Supported property indices --> <li><dfn data-lt="supported property index"><a href=https://heycam.github.io/webidl/#dfn-supported-property-indices>Supported property indices</a></dfn>
+   <!-- SyntaxError --> <li><dfn><a href="https://heycam.github.io/webidl/#syntaxerror"><code>SyntaxError</code></a></dfn></li>
+
+  </ul>
+
+  <dt>Promises Guide <!-- Eventually this will be merged into WebIDL -->
+  <dd><p>The following terms are defined in the Promises Guide. [[!PROMISES-GUIDE]]
+    <ul>
+      <!-- a new promise --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#a-new-promise">A new promise</a></dfn>
+      <!-- Promise calling --> <li><dfn data-lt='promise-call'><a href="https://www.w3.org/2001/tag/doc/promises-guide#promise-calling">Promise-calling</a></dfn>
+      <!-- Reject --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#reject-promise">reject</a></dfn>
+      <!-- Resolve --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#resolve-promise">resolve</a></dfn>
+    </ul>
+
+  <dt>XML Namespaces
+  <dd><p>The following terms are defined in the Namespaces in XML [[!XML-NAMES]]
+    <ul>
+      <!-- qualified element name --><li><a href="https://www.w3.org/TR/REC-xml-names/#ns-using"><dfn>qualified element name</dfn></a>
+    </ul>
+
+  <dt>XPATH
+  <dd><p>The following terms are defined in the Document Object Model XPath standard [[!XPATH]]
+    <ul>
+      <!-- evaluate --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate"><dfn><code>evaluate</code></dfn></a>
+      <!-- ORDERED_NODE_SNAPSHOT_TYPE --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE"><dfn><code>ORDERED_NODE_SNAPSHOT_TYPE</code></dfn></a>
+      <!-- snapshotItem --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-snapshotItem"><dfn><code>snapshotItem</code></dfn></a>
+      <!-- XPathException --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathException"><dfn><code>XPathException</code></dfn></a>
+    </ul>
+</dl>
 </section>
