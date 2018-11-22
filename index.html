@@ -311,19 +311,14 @@ It is acknowledged that this is complementary to the Evil Bit [[!RFC3514]].
   and so are bound by the requirements on a <a>remote end</a> in terms
   of the wire protocol.
 
-<p>A <a>remote end</a>’s <dfn>readiness state</dfn> is the value corresponding
- to the first matching statement:
-
-<dl class=switch>
- <dt>the maximum <a>active sessions</a> is equal to the length of the list of
-  <a>active sessions</a>
- <dt>the node is an <a>intermediary node</a> and is known to be in a state in
-   which attempting to create a <a>new session</a> would fail
- <dd><p>False
-
- <dt>Otherwise
- <dd><p>True
-</dl>
+<p>
+The <dfn>readiness state</dfn> of a <a>remote end</a>
+indicates whether it is free to accept new connections.
+It must be false if the maximum <a>active sessions</a>
+is equal to the length of the list of <a>active sessions</a>,
+or if the node is an <a>intermediary node</a>
+and is known to be in a state in which attempting to create <a>new sessions</a> would fail.
+In all other cases it must be true.
 
 <p class=example>If the <a>intermediary node</a>
  is a multiplexer that manages
@@ -2174,7 +2169,7 @@ Unless stated otherwise it is in the <a>dismiss and notify state</a>.
  so that the <a>connection</a> is not prematurely closed.
 
 <section>
-<h3><dfn data-lt="creating a new session">New Session</dfn></h3>
+<h3 id=new-session><dfn data-lt="new sessions|creating a new session">New Session</dfn></h3>
 
 <table class="simple jsoncommand">
  <tr>
