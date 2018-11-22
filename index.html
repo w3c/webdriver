@@ -11,7 +11,6 @@ var respecConfig = {
   specStatus: "LD",
   prEnd: "2018-05-24",
   shortName: "webdriver",
-  subtitle:  "Living Document",
   // publishDate: "2009-08-06",
   // copyrightStart: "2005"
   previousPublishDate: "2018-05-24",
@@ -311,19 +310,14 @@ It is acknowledged that this is complementary to the Evil Bit [[!RFC3514]].
   and so are bound by the requirements on a <a>remote end</a> in terms
   of the wire protocol.
 
-<p>A <a>remote end</a>’s <dfn>readiness state</dfn> is the value corresponding
- to the first matching statement:
-
-<dl class=switch>
- <dt>the maximum <a>active sessions</a> is equal to the length of the list of
-  <a>active sessions</a>
- <dt>the node is an <a>intermediary node</a> and is known to be in a state in
-   which attempting to create a <a>new session</a> would fail
- <dd><p>False
-
- <dt>Otherwise
- <dd><p>True
-</dl>
+<p>
+The <dfn>readiness state</dfn> of a <a>remote end</a>
+indicates whether it is free to accept new connections.
+It must be false if the maximum <a>active sessions</a>
+is equal to the length of the list of <a>active sessions</a>,
+or if the node is an <a>intermediary node</a>
+and is known to be in a state in which attempting to create <a>new sessions</a> would fail.
+In all other cases it must be true.
 
 <p class=example>If the <a>intermediary node</a>
  is a multiplexer that manages
@@ -2177,7 +2171,7 @@ Unless stated otherwise it is in the <a>dismiss and notify state</a>.
  so that the <a>connection</a> is not prematurely closed.
 
 <section>
-<h3><dfn data-lt="creating a new session">New Session</dfn></h3>
+<h3 id=new-session><dfn data-lt="new sessions|creating a new session">New Session</dfn></h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -5799,13 +5793,13 @@ and whose:
 
 <ul>
 <li><a>initial value</a> of the <code>toString</code> <a>own property</a> is <code>Arguments</code>
-<li>type is <a>Array</a>
-<li>type is <a><code>FileList</code></a>
-<li>type is <a><code>HTMLAllCollection</code></a>
-<li>type is <a><code>HTMLCollection</code></a>
-<li>type is <a><code>HTMLFormControlsCollection</code></a>
-<li>type is <a><code>HTMLOptionsCollection</code></a>
-<li>type is <a><code>NodeList</code></a>
+<li>instance of <a>Array</a>
+<li>instance of <a><code>FileList</code></a>
+<li>instance of <a><code>HTMLAllCollection</code></a>
+<li>instance of <a><code>HTMLCollection</code></a>
+<li>instance of <a><code>HTMLFormControlsCollection</code></a>
+<li>instance of <a><code>HTMLOptionsCollection</code></a>
+<li>instance of <a><code>NodeList</code></a>
 </ul>
 
 <p>
@@ -5834,8 +5828,8 @@ a <a>remote end</a> must run the following steps:
    <dd><p>Return the <a data-lt="deserialize a web element">deserialized</a>
     <a>web element</a> of <var>value</var>.
 
-   <dt>type <a>Array</a>
-   <dt>type <a>Object</a>
+   <dt>instance of <a>Array</a>
+   <dt>instance of <a>Object</a>
    <dd><p>Return the result of running the <a>clone an object</a> algorithm
     with arguments <var>value</var> and <var>seen</var>,
     and the <a>JSON deserialize</a> algorithm as the clone algorithm.
