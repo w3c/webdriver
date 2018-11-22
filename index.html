@@ -418,7 +418,7 @@ when it receives a particular <a>command</a>.
  and how it is established are out of scope.
 
 <p>After such a <a>connection</a> has been established,
- a <a>remote end</a> MUST run the following steps:</p>
+ a <a>remote end</a> must run the following steps:</p>
 
 <ol>
  <li><p><a>Read bytes</a> from the <a>connection</a> until a
@@ -1379,8 +1379,8 @@ when it receives a particular <a>command</a>.
  to describe the full feature set for a <a>session</a>.
 
 <p>The following <dfn>table of standard capabilities</dfn>
- enumerates the capabilities each implementation MUST support.
- An implementation MAY define additional <a>extension capabilities</a>.
+ enumerates the capabilities each implementation must support.
+ An implementation may define additional <a>extension capabilities</a>.
 
 <aside class="example">
 <p>As an example, Mozilla could elect to hide new features behind capabilities
@@ -2190,17 +2190,16 @@ creates a new WebDriver <a>session</a> with the <a>endpoint node</a>.
 If the creation fails, a <a>session not created</a> <a>error</a> is returned.
 
 <p>If the <a>remote end</a> is an <a>intermediary node</a>,
- it MAY use the result of the <a>capabilities processing</a> algorithm
+ it may use the result of the <a>capabilities processing</a> algorithm
  to route the <a>new session</a> request to the appropriate <a>endpoint node</a>.
- An <a>intermediary node</a> MAY also define <a>extension capabilities</a>
- to assist in this process, however, these specific capabilities MUST NOT be
- forwarded to the <a>endpoint node</a>.
+ An <a>intermediary node</a> is free to define <a>extension capabilities</a>
+ to assist in this process, however, these specific capabilities
+ must not be forwarded to the <a>endpoint node</a>.
 
-<p>If the <a>intermediary node</a> requires additional information
- unrelated to user agent features,
- it is RECOMMENDED that this information be passed as top-level parameters,
+<p>If the <a>intermediary node</a> requires additional information unrelated to user agent features,
+ it is recommended that this information be passed as top-level parameters,
  and not as part of the requested <a>capabilities</a>.
- An <a>intermediary node</a> MUST forward custom,
+ An <a>intermediary node</a> must forward custom,
  top-level parameters (i.e. non-<a>capabilities</a>) to subsequent <a>remote end</a> nodes.
 
 <aside class=example>
@@ -2218,9 +2217,8 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
 }</pre>
 
  <p>However, because an <a>intermediary node</a> cannot forward
- <a>extension capabilities</a> specific to that implementation to
- an <a>endpoint node</a>, the following is also permitted by this
- specification:
+ <a>extension capabilities</a> specific to that implementation to an <a>endpoint node</a>,
+ the following is also permitted by this specification:
 
  <pre>{
     "capabilities": {
@@ -2236,15 +2234,13 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
     }
 }</pre>
 
- <p>Once all <a data-lt="merging capabilities">capabilities are
-  merged</a> from this example, an <a>endpoint node</a> would receive
-  <a>New Session</a> capabilities identical to:
+ <p>Once all <a data-lt="merging capabilities">capabilities are merged</a> from this example,
+  an <a>endpoint node</a> would receive <a>New Session</a> capabilities identical to:
 
  <pre>[
     {"browserName": "chrome", "platformName": "linux"},
     {"browserName": "edge", "platformName": "linux"}
 ]</pre>
-
 </aside>
 
 <p>The <a>remote end steps</a> are:
