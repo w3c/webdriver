@@ -1,11 +1,16 @@
-# WebDriver implementation report
+WebDriver implementation report
+===============================
 
-Currently tests are being tracked on [http://wpt.fyi/webdriver](http://wpt.fyi/webdriver).
+Implementation interoperability is verified through [Web Platform Tests].
+There is a [dashboard] tracking test results
+and interoperability between the major implementations.
 
-A cached result of tests from multiple different vendors is stored
-[here](https://w3c.github.io/webdriver/results/html/all.html).
+[Web Platform Tests]: https://github.com/web-platform-tests/wpt/tree/master/webdriver
+[dashboard]: https://wpt.fyi/results/webdriver/tests?aligned
 
-## Status Documents from Vendors
+
+Vendor status documents
+-----------------------
 
 * [Mozilla Firefox](https://bugzilla.mozilla.org/showdependencytree.cgi?id=721859&hide_resolved=1)
 * [Microsoft Edge](https://docs.microsoft.com/en-us/microsoft-edge/webdriver#w3c-webdriver)
@@ -13,3 +18,4 @@ A cached result of tests from multiple different vendors is stored
 * [WebKit GTK port](http://trac.webkit.org/wiki/WebDriverStatus)
 * [Selenium IEDriverServer](https://github.com/SeleniumHQ/selenium/wiki/W3C-WebDriver-Status)
 * [Chrome](https://chromium.googlesource.com/chromium/src/+/master/docs/chromedriver_status.md)
+

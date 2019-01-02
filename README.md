@@ -36,12 +36,16 @@ styling.  To preview your changes, just load `index.html` from disk
 in a browser.  To verify the integrity of the document you can run
 `make test`.
 
+For more information about the interoperability of driver
+implementations, see the [implementation report].
+
 You may add your name to the [Acknowledgements] section in your
 first PR, even for trivial fixes.  The names are sorted lexicographically.
 
 See [CONTRIBUTING.md] for more guidelines.
 
 [good commit message]: https://github.com/erlang/otp/wiki/Writing-good-commit-messages
+[implementation report]: ./ImplementationReport.md
 [Acknowledgements]: https://w3c.github.io/webdriver/#acknowledgements
 [Web Platform Tests]: https://github.com/web-platform-tests/wpt/tree/master/webdriver
 [ReSpec]: https://github.com/w3c/respec/wiki
