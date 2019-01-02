@@ -32,8 +32,9 @@ Platform Tests] repository.
 
 We use [ReSpec] to help us maintain referential integrity,
 bibliographical data, and perform other mundane tasks such as
-styling.  To preview your changes, just load `index.html`
-from disk in a browser.
+styling.  To preview your changes, just load `index.html` from disk
+in a browser.  To verify the integrity of the document you can run
+`make test`.
 
 You may add your name to the [Acknowledgements] section in your
 first PR, even for trivial fixes.  The names are sorted lexicographically.
