@@ -1193,7 +1193,7 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>script timeout</dfn>
+  <td><dfn>script timeout error</dfn>
   <td>500
   <td><code>script timeout</code>
   <td>A script did not complete before its timeout expired.
@@ -1461,10 +1461,10 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
-  <td><a>Session timeouts configuration</a>
+  <td><a>Session timeouts</a>
   <td>"<code>timeouts</code>"
   <td>JSON <a>Object</a>
-  <td>Describes the <a>timeouts</a> imposed on certain session operations.
+  <td>Describes the <a href=#timeouts>timeouts</a> imposed on certain session operations.
  </tr>
 
  <tr>
@@ -1784,7 +1784,7 @@ with a "<code>moz:</code>" prefix:
 
      <dt><var>name</var> equals "<code>timeouts</code>"
      <dd><p>Let <var>deserialized</var> be the result of <a>trying</a>
-      to <a>deserialize as a timeout</a> with argument <var>value</var>.
+      to <a>JSON deserialize</a> as a <a>timeouts configuration</a> the <var>value</var>.
 
      <dt><var>name</var> equals "<code>unhandledPromptBehavior</code>"
      <dd><p>Let <var>deserialized</var> be the result of <a>trying</a>
@@ -2090,22 +2090,12 @@ with a "<code>moz:</code>" prefix:
  is the <a>top-level browsing context</a> of the <a>current browsing
  context</a>.
 
-<p>A <a>session</a> has an associated <dfn>session script timeout</dfn>
- that specifies a time to wait for scripts to run. If equal to <a>null</a>
- then <a>session script timeout</a> will be indefinite.
- Unless stated otherwise it is 30,000 milliseconds.
-
-<p>A <a>session</a> has an associated <dfn>session page load timeout</dfn>
- that specifies a time to wait for the page loading to complete.
- Unless stated otherwise it is 300,000 milliseconds.
-
-<p>A <a>session</a> has an associated <dfn>session implicit wait
- timeout</dfn> that specifies a time to wait in milliseconds for
- the <a>element location strategy</a>
- when <a href=#element-retrieval>retrieving elements</a> and when
- waiting for an <a>element</a> to become <a>interactable</a> when
- performing <a href=#element-interaction>element interaction</a> .
- Unless stated otherwise it is zero milliseconds.
+<p>
+A <a>session</a> has an associated <dfn data-lt="session script timeout|session page load timeout|session implicit wait timeout">session timeouts</dfn>
+that records the timeout duration values used to control the behavior
+of <a href=#executing-script>script evaluation</a>,
+<a href=#navigation>navigation</a>,
+and <a href=#elements>element retrieval</a>.
 
 <p>A <a>session</a> has an associated <dfn>page loading strategy</dfn>,
  which is one of the keywords from the <a>table of page load strategies</a>.
@@ -2339,45 +2329,19 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
        </dl>
    </li>
 
-   <li><p>Let <var>timeouts</var> be the result of getting property
-    "<code>timeouts</code>" from <var>capabilities</var>.
-
-   <li><p>If <var>timeouts</var> is a <a>session timeouts configuration</a> object:
+   <li><p>If <var>capabilities</var> has a property with the key "<code>timeouts</code>":
 
     <ol>
-      <li><p>If <var>timeouts</var> has a numeric property with key "<code>implicit</code>",
-      set the <a>current session</a>’s <a>session implicit wait timeout</a>
-      to the value of property "<code>implicit</code>".
-      Otherwise, set the <a>session implicit wait timeout</a> to 0 (zero) milliseconds.
+     <li><p>Let <var>timeouts</var> be the result of <a>trying</a>
+      to <a>JSON deserialize</a> as a <a>timeouts configuration</a>
+      the value of the "<code>timeouts</code>" property.
 
-     <li><p>If <var>timeouts</var> has a numeric property with key "<code>pageLoad</code>",
-      set the <a>current session</a>’s <a>session page load timeout</a>
-      to the value of property "<code>pageLoad</code>".
-      Otherwise, set the <a>session page load timeout</a> to 300,000 milliseconds.
-
-     <li><p>If <var>timeouts</var> has a numeric property with key "<code>script</code>",
-      set the <a>current session</a>’s <a>session script timeout</a>
-      to the value of property "<code>script</code>".
-      Otherwise, set the <a>session script timeout</a> to 30,000 milliseconds.
+     <li><p>Make the <a>session timeouts</a> the new <var>timeouts</var>.
     </ol>
-   </li>
-
-   <li><p>Let <var>configured timeouts</var> be a new JSON <a>Object</a>.
-
-   <li><p>Set a property on <var>configured timeouts</var> with name
-   "<code>implicit</code>" and value equal to the <a>current
-   session</a>’s <a>session implicit wait timeout</a>.
-
-   <li><p>Set a property on <var>configured timeouts</var> with name
-   "<code>pageLoad</code>" and value equal to the <a>current
-   session</a>’s <a>session page load timeout</a>.
-
-   <li><p>Set a property on <var>configured timeouts</var> with name
-   "<code>script</code>" and value equal to the <a>current
-   session</a>’s <a>session script timeout</a>.
 
    <li><p>Set a property on <var>capabilities</var> with name
-   "<code>timeouts</code>" and value <var>configured timeouts</var>.
+    "<code>timeouts</code>" and value that of the
+    <a>JSON deserialization</a> of the <a>session timeouts</a>.
 
    <li><p>Apply changes to the user agent for any implementation-defined capabilities
     selected during the <a>capabilities processing</a> step.
@@ -2480,6 +2444,150 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
  <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
 </section> <!-- /Status -->
+</section> <!-- /Sessions -->
+
+<section>
+<h2>Timeouts</h2>
+
+<p>
+A <dfn>timeouts configuration</dfn> is a record
+of the different timeouts that control the behavior of
+<a href=#executing-script>script evaluation</a>,
+<a href=#navigation>navigation</a>,
+and <a href=#elements>element retrieval</a>:
+
+<table class=simple>
+<tr>
+<th>Field
+<th>Default
+<th>JSON key
+<th>Optional<sup>†</sup>
+<th>Nullable
+<th>Description<sup>†</sup>
+</tr>
+
+<tr>
+<td><dfn>Script timeout</dfn>
+<td>30,000
+<td>"<code>script</code>"
+<td>✓
+<td>✓
+<td>
+<p>
+Specifies when to interrupt a script that is being
+<a href=#executing-script>evaluated</a>.
+
+<p>
+A <a>null</a> value implies that scripts should never be interrupted,
+but instead run indefinitely.
+</tr>
+
+<tr>
+<td><dfn>Page load timeout</dfn>
+<td>300,000
+<td>"<code>pageLoad</code>"
+<td>✓
+<td>
+<td>
+<p>
+Provides the timeout limit used to interrupt
+an explicit <a data-lt=navigate>navigation</a> attempt.
+</tr>
+
+<tr>
+<td><dfn>Implicit wait timeout</dfn>
+<td>0
+<td>"<code>implicit</code>"
+<td>✓
+<td>
+<td>
+<p>
+Specifies a time to wait for the <a>element location strategy</a> to complete
+when <a href=#element-retrieval>location an element</a>
+</tr>
+</table>
+
+<!-- This should be a <figcaption>, but we can fix that later: -->
+<p style="text-align: right; font-size: 90%">
+<sup>†</sup> Informative.
+
+<p>
+The <a>timeouts configuration</a>’s <a>JSON serialization</a>
+is expressed as a JSON <a>Object</a> with the following properties:
+
+<dl>
+<dt>"<code>script</code>"
+<dd><a>Script timeout</a>’s value, if set, or its default value.
+
+<dt>"<code>pageLoad</code>"
+<dd><a>Page load timeout</a>’s value, if set, or its default value.
+
+<dt>"<code>implicit</code>"
+<dd><a>Implicit wait timeout</a>’s value, if set, or its default value.
+</dl>
+
+<p>
+To <a>JSON deserialize</a> an input <var>value</var>
+into a <a>timeouts configuration</a> record:
+
+<ol>
+<li><p>
+Let <var>timeouts</var> be a new <a>timeouts configuration</a>.
+
+<li><p>
+If <var>value</var> is not a JSON <a>Object</a>,
+return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+<li><p>
+If <var>value</var> has a property with the key "<code>script</code>":
+
+ <ol>
+ <li><p>
+ Let <var>script duration</var> be the value of property "<code>script</code>".
+
+ <li><p>
+ If <var>script duration</var> is a number and less than 0 or greater than 2<sup>16</sup> – 1,
+ or it is not <a>null</a>,
+ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>
+ Set <var>timeouts</var>’s <a>script timeout</a> to <var>script duration</var>.
+ </ol>
+
+<li><p>
+If <var>value</var> has a property with the key "<code>pageLoad</code>":
+
+ <ol>
+ <li><p>
+ Let <var>page load duration</var> be the value of property "<code>pageLoad</code>".
+
+ <li><p>
+ If <var>page load duration</var> is less than 0 or greater than 2<sup>16</sup> – 1,
+ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>
+ Set <var>timeouts</var>’s <a>page load timeout</a> to <var>page load duration</var>.
+ </ol>
+
+<li><p>
+If <var>value</var> has a property with the key "<code>implicit</code>":
+
+ <ol>
+ <li><p>
+ Let <var>implicit duration</var> be the value of property "<code>implicit</code>".
+
+ <li><p>
+ If <var>implicit duration</var> is less than 0 or greater than 2<sup>16</sup> – 1,
+ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>
+ Set <var>timeouts</var>’s <a>implicit wait timeout</a> to <var>implicit duration</var>.
+ </ol>
+
+<li><p>
+Return <a>success</a> with data <var>timeouts</var>.
+</ol>
+
 
 <section>
 <h3><dfn>Get Timeouts</dfn></h3>
@@ -2495,29 +2603,15 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
  </tr>
 </table>
 
-<p>The <a>remote end steps</a> are:
-
-<ol>
- <li><p>Let <var>body</var> be a new JSON <a>Object</a>
-  with the following properties:
-
-  <dl>
-   <dt>"<code>script</code>"
-   <dd><a>session script timeout</a>
-
-   <dt>"<code>pageLoad</code>"
-   <dd><a>session page load timeout</a>
-
-   <dt>"<code>implicit</code>"
-   <dd><a>session implicit wait timeout</a>
-  </dl>
-
- <li><p>Return <a>success</a> with data <var>body</var>.
-</ol>
+<p>
+The <a>remote end step</a> is to return <a>success</a>
+with data being the <a>JSON serialization</a>
+of the <a>active session</a>’s <a>timeouts configuration</a>.
 </section> <!-- /Get Timeouts -->
 
+
 <section>
-<h3><dfn data-lt="timeouts|set timeout">Set Timeouts</dfn></h3>
+<h3><dfn>Set Timeouts</dfn></h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -2530,98 +2624,25 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
  </tr>
 </table>
 
-<p>The following <dfn>table of session timeouts</dfn>
- enumerates the different timeout types that may be set
- using the <a>Set Timeouts</a> command.
- The keywords given in the first column
- maps to the timeout type given in the second.
-
-<table class=simple>
- <tr>
-  <th>Keyword
-  <th>Type
-  <th>Description
- </tr>
-
- <tr>
-  <td>"<code>script</code>"
-  <td><a>session script timeout</a>
-  <td>Determines when to interrupt a script that is being
-   <a href=#executing-script>evaluated</a>.
- </tr>
-
- <tr>
-  <td>"<code>pageLoad</code>"
-  <td><a>session page load timeout</a>
-  <td>Provides the timeout limit used to interrupt
-  <a data-lt=navigate>navigation</a> of the <a>browsing context</a>.
- </tr>
-
- <tr>
-  <td>"<code>implicit</code>"
-  <td><a>session implicit wait timeout</a>
-  <td>Gives the timeout of when to abort
-   <a href=#element-retrieval>locating an element</a>.
- </tr>
-</table>
-
-<p>A <dfn>session timeouts configuration</dfn> is a
- JSON <a>Object</a>. It consists of the properties named after the
- keys in the <a>table of session timeouts</a>.
-
-<p>The steps to <dfn>deserialize as a timeout</dfn> with
- argument <var>parameters</var> are:
+<p>
+The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If <var>parameters</var> is not a JSON <a>Object</a>,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+<li><p>
+Let <var>timeouts</var> be the result of <a>trying</a> to
+<a>JSON deserialize</a> as a <a>timeouts configuration</a>
+the request’s <var>parameters</var>.
 
- <li><p>For each enumerable <a>own property</a>
-  in <var>parameters</var>, run the following substeps:
-  <ol>
-   <li><p>Let <var>name</var> be the name of the property.
+<li><p>
+Make the <a>session timeouts</a> the new <var>timeouts</var>.
 
-   <li><p>Let <var>value</var> be the result of <a>getting a
-    property</a> named <var>name</var> from <var>parameters</var>.
-
-   <li><p>Find the <var>timeout type</var> from the <a>table of session timeouts</a>
-    by looking it up by its keyword <var>key</var>.
-
-    <p>If no keyword matches <var>key</var>,
-     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
-   <li><p>If <var>value</var> is not an <a>integer</a>,
-    or it is less than 0 or greater than the <a>maximum safe integer</a>,
-    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-   </ol>
-
- <li><p>Return <a>success</a> with data <var>parameters</var>.
+<li><p>
+Return <a>success</a> with data <a>null</a>.
 </ol>
 
-<p>The <a>remote end steps</a>
- of the <a>Set Timeouts</a> <a>command</a> are:
-
-<ol>
- <li>Let <var>parameters</var> be the result of <a>trying</a>
-  to <a>deserialize as a timeout</a> <var>parameters</var>.
-
- <li><p>For each enumerable <a>own property</a> in <var>parameters</var>:
-  <ol>
-   <li><p>Let <var>key</var> be the name of the property.
-
-   <li><p>Let <var>value</var> be the result of <a>getting the property</a>
-    <var>name</var> from <var>parameters</var>.
-
-   <li><p>Find the <var>timeout type</var> from the <a>table of session timeouts</a>
-    by looking it up by its keyword <var>key</var>.
-
-   <li><p>Set <var>timeout type</var>’s <var>value</var>.
-  </ol>
-
- <li><p>Return <a>success</a> with data <a>null</a>.
-</ol>
 </section> <!-- /Set Timeout -->
-</section> <!-- /Sessions -->
+</section> <!-- /Timeouts -->
+
 
 <section>
 <h2>Navigation</h2>
@@ -6167,8 +6188,8 @@ a <a>remote end</a> must run the following steps:
    </ol>
 
   <li><p>If <var>promise</var> is still pending and
-    <a>session script timeout</a> milliseconds is reached,
-    return <a>error</a> with <a>error code</a> <a>script timeout</a>.
+    the <a>session script timeout</a> is reached,
+    return <a>error</a> with <a>error code</a> <a data-lt="script timeout error">script timeout</a>.
 
   <li><p>Upon fulfillment of <var>promise</var> with value <var>v</var>,
       let <var>result</var> be a <a>JSON clone</a> of <var>v</var>, and
@@ -6258,7 +6279,7 @@ The first argument provided to the function will be serialized to JSON and retur
 
   <li><p>If <var>promise</var> is still pending and
    <a>session script timeout</a> milliseconds is reached,
-   return <a>error</a> with <a>error code</a> <a>script timeout</a>.
+   return <a>error</a> with <a>error code</a> <a data-lt="script timeout error">script timeout</a>.
 
   <li><p>Upon fulfillment of <var>promise</var> with value <var>v</var>,
       let <var>result</var> be a <a>JSON clone</a> of <var>v</var>, and
