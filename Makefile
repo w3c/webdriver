@@ -9,7 +9,7 @@ respec = respec2html --disable-sandbox -ew
 
 out := $(shell mktemp)
 
-test: validate respec
+test: validate
 
 validate: index.html
 	@$(curl) $(VALIDATOR_OPTS) -F out=gnu -F doc=@$< $(VALIDATOR) | sed -e 's/^"$<"/$</g' >$(out)
