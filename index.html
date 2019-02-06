@@ -189,6 +189,10 @@ An <dfn>integer</dfn> is a <a>Number</a> that is unchanged
 under the <a>ToInteger</a> operation.
 
 <p>
+A <dfn>floating-point number</dfn> is a <a>Number</a> that is
+produced by the <a>parseFloat</a> operation.
+
+<p>
 The <dfn>initial value</dfn> of an ECMAScript property
 is the value defined by the platform for that property,
 i.e. the value it would have in the absence of any shadowing by content script.
@@ -6888,8 +6892,7 @@ describe the state associated with each <a>input source</a>.
  and <code>alt</code>, <code>shift</code>, <code>ctrl</code>,
  and <code>meta</code> all set to <code>false</code>.
 
-<p>
-A <a>pointer input source</a>’s <a>input source state</a>
+<p>A <a>pointer input source</a>’s <a>input source state</a>
 is a <dfn>pointer input state</dfn> object.
 This consists of a <code>subtype</code> property,
 which has the possible values
@@ -6899,12 +6902,20 @@ and "<code>touch</code>",
 a <code>pressed</code> property which is a set of unsigned integers,
 an <code>x</code> property which is an unsigned integer,
 and a <code>y</code> property which is an unsigned integer.
+Additionally, it also contains optional properties
+<code>width</code>, <code>height</code>, <code>pressure</code>, and
+<code>tangentialPressure</code> which are floating-point numbers, and
+<code>tiltX</code>, <code>tiltY</code>, and <code>twist</code> which
+are integers in accordance with the requirements of [[!POINTER-EVENTS]].
 
 <p>When required to <dfn>create a new pointer input state</dfn> object
  with arguments <var>subtype</var> an implementation must return
  a <a>pointer input state</a> object with <code>subtype</code> set
- to <var>subtype</var>, <code>pressed</code> set to an empty set and
- both <code>x</code> and <code>y</code> set to <code>0</code>.
+ to <var>subtype</var>, <code>pressed</code> set to an empty set,
+ both <code>x</code> and <code>y</code> set to <code>0</code>, and
+ <code>width</code>, <code>height</code>, <code>pressure</code>,
+ <code>tangentialPressure</code>, <code>tiltX</code>, <code>tiltY</code>,
+ and <code>twist</code> are set to null.
 
 <p>Each <a>session</a> has an associated <dfn>input state table</dfn>.
  This is a map between <a>input id</a>
@@ -7026,7 +7037,7 @@ In particular, the dispatched events
 will have the <a><code>isTrusted</code></a> attribute set to true.
 
 <p>
-The most robust way to despatch these events
+The most robust way to dispatch these events
 is by creating them in the browser implementation itself.
 Sending operating system specific input messages to the browser’s window
 has the disadvantage that the browser being automated
@@ -7387,6 +7398,12 @@ If <var>subtype</var> is "<code>pointerMove</code>"
 If doing so results in an <a>error</a>, return that <a>error</a>.
 
 <li><p>
+If <var>subtype</var> is "<code>pointerUp</code>" or "<code>pointerDown</code>"
+or "<code>pointerMove</code>", <a>process optional pointer properties</a> with
+arguments <var>action item</var> and <var>action</var>.
+If doing so results in an <a>error</a>, return that <a>error</a>.
+
+<li><p>
 If <var>subtype</var> is "<code>pointerCancel</code>"
 <span class=issue>process a pointer cancel action</span>.
 If doing so results in an <a>error</a>, return that <a>error</a>.
@@ -7485,6 +7502,132 @@ Return <a>success</a> with data <var>action</var>.
 
  <li><p>Set the <code>y</code> property of <var>action</var>
   to <var>y</var>.
+
+ <li><p>Return success with data <a>null</a>.
+</ol>
+
+<p>When required to <dfn>process optional pointer properties</dfn>
+ with arguments <var>action item</var>, and <var>action</var>, a
+ <a>remote end</a> must run the following steps in accordance with
+ the requirements of [[!POINTER-EVENTS]]:</p>
+
+<ol>
+ <li><p>Let <var>width</var> be the result
+  of getting the property <code>width</code>
+  from <var>action item</var>.
+
+ <li><p>If <var>width</var> is not <a>undefined</a>:
+
+  <ol>
+   <li><p>
+   If <var>width</var> is not a <a>Floating-Point Number</a> greater than or equal to 1,
+   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+   <li><p>
+   Set the <code>width</code> property of <var>action</var>
+   to <var>width</var>.
+  </ol>
+
+ <li><p>Let <var>height</var> be the result
+  of getting the property <code>height</code>
+  from <var>action item</var>.
+
+ <li><p>If <var>height</var> is not <a>undefined</a>:
+
+  <ol>
+   <li><p>
+   If <var>height</var> is not a <a>Floating-Point Number</a> greater than or equal to 1,
+   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+   <li><p>
+   Set the <code>height</code> property of <var>action</var>
+   to <var>height</var>.
+  </ol>
+
+ <li><p>If <var>width</var> is not <a>undefined</a> while
+  <var>height</var> is <a>undefined</a> or vice versa
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Let <var>pressure</var> be the result
+  of getting the property <code>pressure</code>
+  from <var>action item</var>.
+
+ <li><p>If <var>pressure</var> is not <a>undefined</a>:
+
+  <ol>
+   <li><p>
+   If <var>pressure</var> is not a <a>Floating-Point Number</a> in the range of [0, 1]
+   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+   <li><p>
+   Set the <code>pressure</code> property of <var>action</var>
+   to <var>pressure</var>.
+  </ol>
+
+ <li><p>Let <var>tangentialPressure</var> be the result
+  of getting the property <code>tangentialPressure</code>
+  from <var>action item</var>.
+
+ <li><p>If <var>tangentialPressure</var> is not <a>undefined</a>:
+
+  <ol>
+   <li><p>
+   If <var>tangentialPressure</var> is not a <a>Floating-Point Number</a>
+   in the range of [-1, 1]
+   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+   <li><p>
+   Set the <code>tangentialPressure</code> property of <var>action</var>
+   to <var>tangentialPressure</var>.
+  </ol>
+
+ <li><p>Let <var>tiltX</var> be the result
+  of getting the property <code>tiltX</code>
+  from <var>action item</var>.
+
+ <li><p>If <var>tiltX</var> is not <a>undefined</a>:
+
+  <ol>
+   <li><p>
+   If <var>tiltX</var> is not an <a>Integer</a> in the range of [-90, 90]
+   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+   <li><p>
+   Set the <code>tiltX</code> property of <var>action</var>
+   to <var>tiltX</var>.
+  </ol>
+
+ <li><p>Let <var>tiltY</var> be the result
+  of getting the property <code>tiltY</code>
+  from <var>action item</var>.
+
+ <li><p>If <var>tiltY</var> is not <a>undefined</a>:
+
+  <ol>
+   <li><p>
+   If <var>tiltY</var> is not an <a>Integer</a> in the range of [-90, 90]
+   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+   <li><p>
+   Set the <code>tiltY</code> property of <var>action</var>
+   to <var>tiltY</var>.
+  </ol>
+
+ <li><p>Let <var>twist</var> be the result
+  of getting the property <code>twist</code>
+  from <var>action item</var>.
+
+ <li><p>If <var>twist</var> is not <a>undefined</a>:
+
+  <ol>
+   <li><p>
+   If <var>twist</var> is not an <a>Integer</a> in the range of [0, 359]
+   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+   <li><p>
+   Set the <code>twist</code> property of <var>action</var>
+   to <var>twist</var>.
+  </ol>
 
  <li><p>Return success with data <a>null</a>.
 </ol>
@@ -9168,6 +9311,7 @@ This standard is authored by
 <!-- Sam Sneddon --> Sam Sneddon,
 <!-- Seva Lotoshnikov --> Seva Lotoshnikov,
 <!-- Simon Stewart --> <a href=http://www.rocketpoweredjetpants.com/>Simon Stewart</a>,
+<!-- Timotius Arya Margo --> Timotius Arya Margo,
 <!-- Titus Fortner --> Titus Fortner,
 <!-- Vangelis Katsikaros --> and Vangelis Katsikaros.
 
