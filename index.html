@@ -6908,20 +6908,56 @@ and "<code>touch</code>",
 a <code>pressed</code> property which is a set of unsigned integers,
 an <code>x</code> property which is an unsigned integer,
 and a <code>y</code> property which is an unsigned integer.
-Additionally, it also contains optional properties
-<code>width</code>, <code>height</code>, <code>pressure</code>, and
-<code>tangentialPressure</code> which are floating-point numbers, and
-<code>tiltX</code>, <code>tiltY</code>, and <code>twist</code> which
-are integers in accordance with the requirements of [[!POINTER-EVENTS]].
+
+<p>Additionally, a <a>pointer input state</a> object also contains
+<dfn>optional pointer properties</dfn> as shown in the table below
+in accordance with the requirements of [[!POINTER-EVENTS]].
+
+<table class=simple>
+ <thead>
+  <tr>
+   <th>Property
+   <th>Type
+  </tr>
+ </thead>
+ <tr>
+  <td><code>width</code>
+  <td><a>floating-point number</a>
+ </tr>
+ <tr>
+  <td><code>height</code>
+  <td><a>floating-point number</a>
+ </tr>
+ <tr>
+  <td><code>pressure</code>
+  <td><a>floating-point number</a>
+ </tr>
+ <tr>
+  <td><code>tangentialPressure</code>
+  <td><a>floating-point number</a>
+ </tr>
+ <tr>
+  <td><code>tiltX</code>
+  <td><a>integer</a>
+ </tr>
+ <tr>
+  <td><code>tiltY</code>
+  <td><a>integer</a>
+ </tr>
+ <tr>
+  <td><code>twist</code>
+  <td><a>integer</a>
+ </tr>
+</table>
 
 <p>When required to <dfn>create a new pointer input state</dfn> object
  with arguments <var>subtype</var> an implementation must return
  a <a>pointer input state</a> object with <code>subtype</code> set
  to <var>subtype</var>, <code>pressed</code> set to an empty set,
- both <code>x</code> and <code>y</code> set to <code>0</code>, and
+ both <code>x</code> and <code>y</code> set to <code>0</code>,
  <code>width</code>, <code>height</code>, <code>pressure</code>,
  <code>tangentialPressure</code>, <code>tiltX</code>, <code>tiltY</code>,
- and <code>twist</code> are set to null.
+ and <code>twist</code> set to <a>null</a>.
 
 <p>Each <a>session</a> has an associated <dfn>input state table</dfn>.
  This is a map between <a>input id</a>
@@ -8249,6 +8285,9 @@ Return <a>success</a> with data <var>action</var>.
   <var>input state</var>’s <code>pressed</code> property, and
   let <var>buttons</var> be the resulting value of that property.
 
+ <li><p><a>Set input state optional pointer properties</a> with
+  arguments <var>action object</var>, <var>input state</var>.
+
  <li><p>Append a copy of <var>action object</var> with
   the <var>subtype</var> property changed to <var>pointerUp</var> to
   the <a>current session</a>’s <a>input cancel list</a>.
@@ -8258,7 +8297,9 @@ Return <a>success</a> with data <var>action</var>.
   numbered <var>button</var> on the pointer with ID
   <var>source id</var>, having type <var>pointerType</var> at
   viewport x coordinate <var>x</var>, viewport y
-  coordinate <var>y</var>, with buttons <var>buttons</var> depressed
+  coordinate <var>y</var>, with buttons <var>buttons</var> depressed,
+  and type specific properties set to the <var>input state</var>’s
+  <a>optional pointer properties</a> that are not <a>null</a>,
   in accordance with the requirements of [[!UI-EVENTS]] and
   [[!POINTER-EVENTS]]. The generated events must
   set <code>ctrlKey</code>, <code>shiftKey</code>, <code>altKey</code>,
@@ -8296,6 +8337,9 @@ Return <a>success</a> with data <var>action</var>.
  <li><p>Let <var>y</var> be equal to <var>input state</var>’s
   <code>y</code> property.
 
+ <li><p><a>Set input state optional pointer properties</a> with
+  arguments <var>action object</var>, <var>input state</var>.
+
  <li><p>Remove <var>button</var> from the set corresponding
   to <var>input state</var>’s <code>pressed</code> property, and
   let <var>buttons</var> be the resulting value of that
@@ -8307,6 +8351,8 @@ Return <a>success</a> with data <var>action</var>.
   <var>source id</var> having type <var>pointerType</var> at
   viewport x coordinate <var>x</var>, viewport y
   coordinate <var>y</var>, with buttons <var>buttons</var> depressed,
+  and type specific properties set to the <var>input state</var>’s
+  <a>optional pointer properties</a> that are not <a>null</a>,
   in accordance with the requirements of [[!UI-EVENTS]] and
   [[!POINTER-EVENTS]].  The generated events must
   set <code>ctrlKey</code>, <code>shiftKey</code>, <code>altKey</code>,
@@ -8384,6 +8430,9 @@ Return <a>success</a> with data <var>action</var>.
   return <a>error</a> with error code <a>move target out of
   bounds</a>.
 
+ <li><p><a>Set input state optional pointer properties</a> with
+  arguments <var>action object</var>, <var>input state</var>.
+
  <li><p>Let <var>duration</var> be equal to
   <var>action object</var>’s <code>duration</code> property if it
   is not <a>undefined</a>, or <var>tick duration</var>
@@ -8455,7 +8504,9 @@ Return <a>success</a> with data <var>action</var>.
     viewport x coordinate <var>current x</var>, viewport y
     coordinate <var>y</var> to viewport x coordinate <var>x</var> and
     viewport y coordinate <var>y</var>, with
-    buttons <var>buttons</var> depressed, in accordance with the
+    buttons <var>buttons</var> depressed, and type specific properties
+    set to the <var>input state</var>’s <a>optional pointer properties</a>
+    that are not <a>null</a>, in accordance with the
     requirements of [[!UI-EVENTS]] and [[!POINTER-EVENTS]]. The
     generated events must set <code>ctrlKey</code>, <code>shiftKey</code>,
     <code>altKey</code>, and <code>metaKey</code> from the
@@ -8506,6 +8557,54 @@ Return <a>success</a> with data <var>action</var>.
     <var>target y</var>.
  </ol>
 
+</ol>
+
+<p>When required to <dfn>set input state optional pointer properties</dfn>
+ with arguments <var>action object</var>, <var>input state</var>,
+ an implementation must run the following steps:
+
+<ol>
+ <li><p>Let <var>width</var> be equal to
+  <var>action object</var>’s <code>width</code> property.
+
+ <li><p>If <var>width</var> is not <a>undefined</a>, let <var>input state</var>’s
+  <code>width</code> property equal <var>width</var>.
+
+ <li><p>Let <var>height</var> be equal to
+  <var>action object</var>’s <code>height</code> property.
+
+ <li><p>If <var>height</var> is not <a>undefined</a>, let <var>input state</var>’s
+  <code>height</code> property equal <var>height</var>.
+
+ <li><p>Let <var>pressure</var> be equal to
+  <var>action object</var>’s <code>pressure</code> property.
+
+ <li><p>If <var>pressure</var> is not <a>undefined</a>, let <var>input state</var>’s
+  <code>pressure</code> property equal <var>pressure</var>.
+
+ <li><p>Let <var>tangentialPressure</var> be equal to
+  <var>action object</var>’s <code>tangentialPressure</code> property.
+
+ <li><p>If <var>tangentialPressure</var> is not <a>undefined</a>, let <var>input state</var>’s
+  <code>tangentialPressure</code> property equal <var>tangentialPressure</var>.
+
+ <li><p>Let <var>tiltX</var> be equal to
+  <var>action object</var>’s <code>tiltX</code> property.
+
+ <li><p>If <var>tiltX</var> is not <a>undefined</a>, let <var>input state</var>’s
+  <code>tiltX</code> property equal <var>tiltX</var>.
+
+ <li><p>Let <var>tiltY</var> be equal to
+  <var>action object</var>’s <code>tiltY</code> property.
+
+ <li><p>If <var>tiltY</var> is not <a>undefined</a>, let <var>input state</var>’s
+  <code>tiltY</code> property equal <var>tiltY</var>.
+
+ <li><p>Let <var>twist</var> be equal to
+  <var>action object</var>’s <code>twist</code> property.
+
+ <li><p>If <var>twist</var> is not <a>undefined</a>, let <var>input state</var>’s
+  <code>twist</code> property equal <var>twist</var>.
 </ol>
 
 <p>When required to <dfn>dispatch a pointerCancel action</dfn> with
