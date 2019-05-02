@@ -135,14 +135,7 @@ allows vendors to expose functionality that is specific to their browser.
 </section> <!-- /Design Notes -->
 
 
-<section>
-<h2>Conformance</h2>
-
-<p>
-All diagrams, examples, and notes in this specification are non-normative,
-as are all sections explicitly marked non-normative.
-Everything else in this specification is normative.
-
+<section id="conformance">
 <p>
 Conformance requirements phrased as algorithms
 or specific steps may be implemented in any manner,
@@ -182,7 +175,7 @@ is a 128 bits long URN that requires no central registration process.
 <dfn>Generating a UUID</dfn> means
 <i>Creating a UUID From Truly Random or Pseudo-Random Numbers</i>,
 and converting it to the string representation.
-[[!RFC4122]]
+[[RFC4122]]
 
 <p>
 The <dfn data-lt="Unix timestamp">Unix Epoch</dfn>
@@ -262,7 +255,7 @@ for example so that alternate code paths can be triggered during automation.
 </aside>
 
 <p style="display: none">
-It is acknowledged that this is complementary to the Evil Bit [[!RFC3514]].
+It is acknowledged that this is complementary to the Evil Bit [[RFC3514]].
 </section>
 
 <section>
@@ -424,7 +417,7 @@ when it receives a particular <a>command</a>.
  <li><p><a>Read bytes</a> from the <a>connection</a> until a
   complete <a>HTTP request</a> can be constructed from the data.
   Let <var>request</var> be a <a>request</a> constructed from the
-  received data, according to the requirements of [[!RFC7230]]. If it
+  received data, according to the requirements of [[RFC7230]]. If it
   is not possible to construct a complete <a>HTTP request</a>,
   the <a>remote end</a> must either close the <a>connection</a>,
   return an HTTP response with status code 500, or return
@@ -588,7 +581,7 @@ when it receives a particular <a>command</a>.
   "<code>value</code>" set to <var>data</var>.
 
  <li><p>Let <var>response bytes</var> be the byte sequence resulting
-  from serializing <var>response</var> according to the rules in [[!RFC7230]].
+  from serializing <var>response</var> according to the rules in [[RFC7230]].
 
  <li><p><a data-lt="write bytes">Write</a> <var>response bytes</var>
   to the <a>connection</a>.
@@ -1347,7 +1340,7 @@ when it receives a particular <a>command</a>.
  it is suggested that the key used to denote
  the <a>extension capability</a> namespace
  is based on the <a href=https://www.w3.org/TR/CSS21/syndata.html#vendor-keywords>vendor keywords</a>
- listed in [[!CSS21]]
+ listed in [[CSS21]]
  and precedes the first "<code>:</code>" character in the string.
 
 <aside class=example>
@@ -4967,7 +4960,7 @@ but provides the best compatibility with existing users.
 When processing text,
 <dfn>whitespace</dfn> is defined as characters from the Unicode Character Database
 with the <a>Unicode character property</a> "<code>WSpace=Y</code>" or "<code>WS</code>".
-[[!UAX44]]
+[[UAX44]]
 
 <p>The <a>remote end steps</a> are:
 
@@ -5573,7 +5566,7 @@ When required to <dfn>dispatch a composition event</dfn>
 with arguments <var>type</var> and <var>cluster</var>,
 the <a>remote end</a> must <a>perform implementation-specific action dispatch steps</a>
 equivalent to sending composition events
-in accordance with the requirements of [[!UI-EVENTS]],
+in accordance with the requirements of [[UI-EVENTS]],
 and producing the following event with the specified properties.
 
 <ul>
@@ -6300,15 +6293,15 @@ The first argument provided to the function will be serialized to JSON and retur
 <h2>Cookies</h2>
 
 <p>This section describes the interaction with <a>cookies</a>
- as described in [[!RFC6265]].
+ as described in [[RFC6265]].
 
-<p>A <a>cookie</a> is described in [[!RFC6265]]
+<p>A <a>cookie</a> is described in [[RFC6265]]
  by a name-value pair holding the cookie’s data,
  followed by zero or more attribute-value pairs describing its characteristics.
 
 <p>The following <dfn>table for cookie conversion</dfn>
  defines the cookie concepts relevant to WebDriver,
- how these are referred to in [[!RFC6265]],
+ how these are referred to in [[RFC6265]],
  what keys they map to in a <a>serialized cookie</a>,
  as well as the attribute-value keys needed
  when constructing a list of arguments for <a>creating a cookie</a>.
@@ -6404,7 +6397,7 @@ The first argument provided to the function will be serialized to JSON and retur
 </table>
 
 <p>A <dfn>serialized cookie</dfn> is a JSON <a>Object</a>
- where a <a>cookie</a>’s [[!RFC6265]] fields
+ where a <a>cookie</a>’s [[RFC6265]] fields
  listed in the <a>table for cookie conversion</a>
  are mapped using the <i>JSON Key</i>
  and the associated field’s value from the <a>cookie store</a>.
@@ -6420,7 +6413,7 @@ The first argument provided to the function will be serialized to JSON and retur
 
 <p>When the <a>remote end</a> is instructed
  to <dfn data-lt="creating a cookie">create a cookie</dfn>,
- this is synonymous to carrying out the steps described in [[!RFC6265]]
+ this is synonymous to carrying out the steps described in [[RFC6265]]
  <a href=https://tools.ietf.org/html/rfc6265#section-5.3>section 5.3</a>,
  under <a>receiving a cookie</a>,
  except the user agent may not ignore the received cookie in its entirety
@@ -7923,7 +7916,7 @@ Return <a>success</a> with data <var>action</var>.
   the <code>charCode</code>, <code>keyCode</code>
   and <code>which</code> properties appropriate for a key with
   key <var>key</var> and location <var>location</var> on a 102 key US
-  keyboard, following the guidelines in [[!UI-EVENTS]].
+  keyboard, following the guidelines in [[UI-EVENTS]].
 
  <li><p>If <var>key</var> is <code>"Alt"</code>, let
   <var>device state’s</var> <code>alt</code> property be true.
@@ -7946,7 +7939,7 @@ Return <a>success</a> with data <var>action</var>.
 
  <li><p><a data-lt=perform-actions>Perform implementation-specific
   action dispatch steps</a> equivalent to pressing a key on the
-  keyboard in accordance with the requirements of [[!UI-EVENTS]], and
+  keyboard in accordance with the requirements of [[UI-EVENTS]], and
   producing the following events, as appropriate, with the specified
   properties.  This will always produce events including at least
   a <code>keyDown</code> event.
@@ -8029,7 +8022,7 @@ Return <a>success</a> with data <var>action</var>.
   the <code>charCode</code>, <code>keyCode</code>
   and <code>which</code> properties appropriate for a key with
   key <var>key</var> and location <var>location</var> on a 102 key US
-  keyboard, following the guidelines in [[!UI-EVENTS]].
+  keyboard, following the guidelines in [[UI-EVENTS]].
 
  <li><p>If <var>key</var> is <code>"Alt"</code>, let
   <var>device state’s</var> <code>alt</code> property be false.
@@ -8048,7 +8041,7 @@ Return <a>success</a> with data <var>action</var>.
 
  <li><p><a data-lt=perform-actions>Perform implementation-specific
   action dispatch steps</a> equivalent to releasing a key on the
-  keyboard in accordance with the requirements of [[!UI-EVENTS]], and
+  keyboard in accordance with the requirements of [[UI-EVENTS]], and
   producing at least the following events with the specified
   properties:
   <ul>
@@ -8117,8 +8110,8 @@ Return <a>success</a> with data <var>action</var>.
   <var>source id</var>, having type <var>pointerType</var> at
   viewport x coordinate <var>x</var>, viewport y
   coordinate <var>y</var>, with buttons <var>buttons</var> depressed
-  in accordance with the requirements of [[!UI-EVENTS]] and
-  [[!POINTER-EVENTS]]. The generated events must
+  in accordance with the requirements of [[UI-EVENTS]] and
+  [[POINTER-EVENTS]]. The generated events must
   set <code>ctrlKey</code>, <code>shiftKey</code>, <code>altKey</code>,
   and <code>metaKey</code> from the <a>calculated global key state</a>.
   Type specific properties for the pointer that are not
@@ -8165,8 +8158,8 @@ Return <a>success</a> with data <var>action</var>.
   <var>source id</var> having type <var>pointerType</var> at
   viewport x coordinate <var>x</var>, viewport y
   coordinate <var>y</var>, with buttons <var>buttons</var> depressed,
-  in accordance with the requirements of [[!UI-EVENTS]] and
-  [[!POINTER-EVENTS]].  The generated events must
+  in accordance with the requirements of [[UI-EVENTS]] and
+  [[POINTER-EVENTS]].  The generated events must
   set <code>ctrlKey</code>, <code>shiftKey</code>, <code>altKey</code>,
   and <code>metaKey</code> from the <a>calculated global key state</a>.
   Type specific properties for the pointer that are not
@@ -8314,7 +8307,7 @@ Return <a>success</a> with data <var>action</var>.
     coordinate <var>y</var> to viewport x coordinate <var>x</var> and
     viewport y coordinate <var>y</var>, with
     buttons <var>buttons</var> depressed, in accordance with the
-    requirements of [[!UI-EVENTS]] and [[!POINTER-EVENTS]]. The
+    requirements of [[UI-EVENTS]] and [[POINTER-EVENTS]]. The
     generated events must set <code>ctrlKey</code>, <code>shiftKey</code>,
     <code>altKey</code>, and <code>metaKey</code> from the
     <a>calculated global key state</a>. Type specific properties for the
@@ -8376,7 +8369,7 @@ Return <a>success</a> with data <var>action</var>.
   action dispatch steps</a> equivalent to cancelling the any action of
   the pointer with ID <var>source id</var> having
   type <var>pointerType</var>, in accordance with the requirements of
-  [[!UI-EVENTS]] and [[!POINTER-EVENTS]].
+  [[UI-EVENTS]] and [[POINTER-EVENTS]].
 
  <li><p>Return <a>success</a> with data <a>null</a>.
 </ol>
@@ -8916,7 +8909,7 @@ sets the text field of a <a>window.<code>prompt</code></a>
   using "<code>image/png</code>" as an argument.
 
  <li><p>Let <var>data url</var> be a <a><code>data:</code> URL</a>
-  representing <var>file</var>. [[!RFC2397]]
+  representing <var>file</var>. [[RFC2397]]
 
  <li><p>Let <var>index</var> be the <a>index of</a> "<code>,</code>"
   in <var>data url</var>.
@@ -9073,7 +9066,7 @@ ensuring both privacy and preventing state from bleeding through to the next ses
  The default setting for this might be
  to limit connections to the IPv4 localhost
  CIDR range <code>127.0.0.0/8</code>
- and the IPv6 localhost address <code>::1</code>. [[!RFC4632]]
+ and the IPv6 localhost address <code>::1</code>. [[RFC4632]]
 
 <p>It is also suggested that user agents
  make an effort to visually distinguish
@@ -9214,7 +9207,7 @@ to automatically sort each list alphabetically.
 <dl>
  <dt>Web App Security
  <dd><p>The following terms are defined
-  in the Content Security Policy Level 3 specification: [[!CSP3]]
+  in the Content Security Policy Level 3 specification: [[CSP3]]
   <ul>
    <li><dfn><a href="https://www.w3.org/TR/CSP/#directives">Directives</a></dfn>
    <li><dfn data-lt="blocked by content security policy"><a href=https://w3c.github.io/webappsec-csp/#should-block-navigation-response>Should block navigation response</a></dfn>
@@ -9222,7 +9215,7 @@ to automatically sort each list alphabetically.
 
  <dt>DOM
  <dd><p>The following terms are defined
-  in the Document Object Model specification: [[!DOM]]
+  in the Document Object Model specification: [[DOM]]
   <ul>
    <!-- Attribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-attribute>Attribute</a></dfn>
    <!-- comapreDocumentPosition --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-comparedocumentposition>compareDocumentPosition</a></dfn>
@@ -9256,13 +9249,13 @@ to automatically sort each list alphabetically.
   </ul>
 
  <dd><p>The following attributes are defined
-  in the Document Object Model specification: [[!DOM]]
+  in the Document Object Model specification: [[DOM]]
   <ul>
    <!-- textContent attribute --> <li><dfn data-lt=textContent><a href=https://dom.spec.whatwg.org/#dom-node-textcontent><code>textContent</code> attribute</a></dfn>
   </ul>
 
  <dd><p>The following attributes are defined in
-  the DOM Parsing and Serialisation specification: [[!DOM-PARSING]]
+  the DOM Parsing and Serialisation specification: [[DOM-PARSING]]
   <ul>
    <!-- innerHTML IDL Attribute--> <li><dfn><a href=https://w3c.github.io/DOM-Parsing/#dom-element-innerhtml><code>innerHTML</code> IDL attribute</a></dfn>
    <!-- outerHTML IDL Attribute--> <li><dfn><a href=https://w3c.github.io/DOM-Parsing/#dom-element-outerhtml><code>outerHTML</code> IDL attribute</a></dfn>
@@ -9270,7 +9263,7 @@ to automatically sort each list alphabetically.
   </ul>
 
  <dd><p>The following attributes are defined
-  in the UI Events specification: [[!UI-EVENTS]]
+  in the UI Events specification: [[UI-EVENTS]]
   <ul>
    <!-- Activation trigger --> <li><dfn><a href=https://w3c.github.io/uievents/#activation-trigger>Activation trigger</a></dfn>
    <!-- click event --> <li><dfn><a href="https://w3c.github.io/uievents/#event-type-click">click event</a></dfn>
@@ -9288,26 +9281,26 @@ to automatically sort each list alphabetically.
   </ul>
 
  <dd><p>The following attributes are defined
-  in the UI Events Code specification: [[!UIEVENTS-CODE]]
+  in the UI Events Code specification: [[UIEVENTS-CODE]]
   <ul>
    <li><dfn data-lt="keyboard event code"><a href=https://www.w3.org/TR/uievents-code/#code-value-tables>Keyboard event code tables</a></dfn>
   </ul>
 
  <dd><p>The following attributes are defined
-  in the UI Events Code specification: [[!UIEVENTS-KEY]]
+  in the UI Events Code specification: [[UIEVENTS-KEY]]
   <ul>
    <li><dfn data-lt="modifier key"><a href=https://www.w3.org/TR/uievents-key/#keys-modifier>Keyboard modifier keys</a></dfn>
   </ul>
 
  <dt>DOM Parsing
- <dd><p>The following terms are defined in the DOM Parsing and Serialization Specification: [[!DOMPARSING]]
+ <dd><p>The following terms are defined in the DOM Parsing and Serialization Specification: [[DOMPARSING]]
   <ul>
    <li><!-- Fragment serializing algorithm --><dfn><a href="https://w3c.github.io/DOM-Parsing/#dfn-fragment-serializing-algorithm">Fragment serializing algorithm</a></dfn>
   </ul>
  </dd>
 
  <dt>ECMAScript
- <dd><p>The following terms are defined in the ECMAScript Language Specification: [[!ECMA-262]]
+ <dd><p>The following terms are defined in the ECMAScript Language Specification: [[ECMA-262]]
   <ul>
     <!-- Iterable --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-iterable-interface>Iterable</a></dfn>
    <!-- Completion --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-completion-record-specification-type">Completion</a></dfn>
@@ -9361,13 +9354,13 @@ to automatically sort each list alphabetically.
   </ul>
 
  <dt>Encoding
- <dd><p>The following terms are defined in the WHATWG Encoding specification: [[!ENCODING]]
+ <dd><p>The following terms are defined in the WHATWG Encoding specification: [[ENCODING]]
   <ul>
    <!-- UTF-8 Encode --> <li><dfn><a href="https://encoding.spec.whatwg.org/#utf-8-encode">UTF-8 Encode</a></dfn>
   </ul>
 
  <dt>Fetch
- <dd><p>The following terms are defined in the WHATWG Fetch specification: [[!FETCH]]
+ <dd><p>The following terms are defined in the WHATWG Fetch specification: [[FETCH]]
   <ul>
    <!-- Body --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-body>Body</a></dfn>
    <!-- Header --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header">Header</a></dfn>
@@ -9383,13 +9376,13 @@ to automatically sort each list alphabetically.
   </ul>
 
  <dt>File
- <dd><p>The following interfaces are defined in the W3C File API specification: [[!FILEAPI]]
+ <dd><p>The following interfaces are defined in the W3C File API specification: [[FILEAPI]]
   <ul>
    <!-- FileList --> <li><dfn><a href=https://w3c.github.io/FileAPI/#dfn-filelist><code>FileList</code></a></dfn>
   </ul>
 
  <dt>Fullscreen
- <dd><p>The following terms are defined in the WHATWG Fullscreen specification: [[!FULLSCREEN]]
+ <dd><p>The following terms are defined in the WHATWG Fullscreen specification: [[FULLSCREEN]]
    <ul>
      <!-- Fullscreen element --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fullscreen-element">Fullscreen element</a></dfn>
      <!-- Fullscreen an element --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fullscreen-an-element">Fullscreen an element</a></dfn>
@@ -9399,7 +9392,7 @@ to automatically sort each list alphabetically.
    </ul>
 
  <dt>HTML
- <dd><p>The following terms are defined in the HTML specification: [[!HTML]]
+ <dd><p>The following terms are defined in the HTML specification: [[HTML]]
   <ul>
    <!-- 2D context creation algorithm --> <li><dfn><a href=https://html.spec.whatwg.org/#2d-context-creation-algorithm>2D context creation algorithm</a></dfn>
    <!-- A browsing context is discarded --> <li><dfn data-lt=discarded><a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>A browsing context is discarded</a></dfn>
@@ -9545,7 +9538,7 @@ to automatically sort each list alphabetically.
    <!-- Value attribute --><li><dfn><a href=https://html.spec.whatwg.org/#dom-input-value><code>value</code> attribute</a></dfn>
   </ul>
 
- <dd><p>The HTML Editing APIs specification defines the following terms: [[!EDITING]]
+ <dd><p>The HTML Editing APIs specification defines the following terms: [[EDITING]]
   <ul>
    <!-- Content editable --> <li><dfn><a href=https://w3c.github.io/editing/contentEditable.html>Content editable</a></dfn>
    <!-- Editing host --> <li><dfn data-lt="editing hosts"><a href=https://w3c.github.io/editing/execCommand.html#editing-host>Editing host</a></dfn>
@@ -9562,7 +9555,7 @@ to automatically sort each list alphabetically.
    <!-- PageShow --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/indices.html#event-pageshow"><code>pageShow</code></a></dfn>
   </ul>
 
- <dd><p>The “data” URL scheme specification defines the following terms: [[!RFC2397]]
+ <dd><p>The “data” URL scheme specification defines the following terms: [[RFC2397]]
   <ul>
    <!-- data: url --> <li><dfn><a href=https://tools.ietf.org/html/rfc2397#section-2><code>data:</code> URL</a></dfn>
   </ul>
@@ -9570,9 +9563,9 @@ to automatically sort each list alphabetically.
  <dt>HTTP and related specifications
  <dd><p>To be <dfn>HTTP compliant</dfn>,
   it is supposed that the implementation supports the relevant subsets of
-  [[!RFC7230]], [[!RFC7231]], [[!RFC7232]], [[!RFC7234]], and [[!RFC7235]].
+  [[RFC7230]], [[RFC7231]], [[RFC7232]], [[RFC7234]], and [[RFC7235]].
 
- <dd><p>The following terms are defined in the Cookie specification: [[!RFC6265]]
+ <dd><p>The following terms are defined in the Cookie specification: [[RFC6265]]
   <ul>
    <!-- Compute cookie-string --> <li><dfn><a href=https://tools.ietf.org/html/rfc6265#section-5.4>Compute <code>cookie-string</code></a></dfn>
    <!-- Cookie --> <li><dfn data-lt=cookies><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Cookie</a></dfn>
@@ -9593,11 +9586,11 @@ to automatically sort each list alphabetically.
   </ul>
 
   <dd><p>The specification uses
-   <dfn data-lt="uri template">URI Templates</dfn>. [[!URI-TEMPLATE]]
+   <dfn data-lt="uri template">URI Templates</dfn>. [[URI-TEMPLATE]]
 
  <dt>Infra
  <dd>The following terms are defined
-  in the Infra standard: [[!INFRA]]
+  in the Infra standard: [[INFRA]]
    <ul>
     <!-- ASCII lowercase --> <li><dfn data-lt="lowercase"><a href=https://infra.spec.whatwg.org/#ascii-lowercase>ASCII lowercase</a></dfn>
     <!-- Javascript String's length --> <li><dfn><a href="https://infra.spec.whatwg.org/#javascript-string-length">JavaScript string’s length</a></dfn>
@@ -9606,7 +9599,7 @@ to automatically sort each list alphabetically.
 
  <dt>Interaction
  <dd>The following terms are defined in the
-   Page Visibility Specification [[!PAGE-VISIBILITY]]
+   Page Visibility Specification [[PAGE-VISIBILITY]]
    <ul>
     <!-- visibility hidden --> <li><dfn data-lt="visibility hidden"><a href="https://www.w3.org/TR/page-visibility/#dom-visibilitystate-hidden">Visibility state <code>hidden</code></a></dfn>    <!-- visibility state --> <li><dfn>Visibility state</dfn> being the <a href="https://www.w3.org/TR/page-visibility/#visibility-states-and-the-visibilitystate-enum"><code>visibilityState</code></a> attribute on <a>Document</a>    <!-- visibility visible --> <li><dfn data-lt="visibility visible"><a href="https://www.w3.org/TR/page-visibility/#dom-visibilitystate-visible">Visibility state <code>visible</code></a></dfn>
    </ul>
@@ -9622,32 +9615,32 @@ to automatically sort each list alphabetically.
 
  <dt>Styling
  <dd>The following terms are defined in
-  the CSS Values and Units Module Level 3 specification: [[!CSS3-VALUES]]
+  the CSS Values and Units Module Level 3 specification: [[CSS3-VALUES]]
   <ul>
    <!-- CSS pixels --> <li><dfn><a href=https://www.w3.org/TR/css-values-3/#px>CSS pixels</a></dfn>
   </ul>
 
  <dd>The following properties are defined in
-  the CSS Basic Box Model Level 3 specification: [[!CSS3-BOX]]
+  the CSS Basic Box Model Level 3 specification: [[CSS3-BOX]]
    <ul>
     <!-- Visibility property --> <li>The <dfn><a href=https://drafts.csswg.org/css-box/#visibility-prop><code>visibility</code></a></dfn> property
    </ul>
 
  <dd>The following terms are defined in
-  the CSS Device Adaptation Module Level 1 specification: [[!CSS-DEVICE-ADAPT]]
+  the CSS Device Adaptation Module Level 1 specification: [[CSS-DEVICE-ADAPT]]
    <ul>
     <!-- Initial viewport --><li><dfn data-lt=viewport><a href=https://drafts.csswg.org/css-device-adapt/#initial-viewport>Initial viewport</a></dfn>,
      sometimes here referred to as the <i>viewport</i>.
    </ul>
 
  <dd>The following properties are defined in
-  the CSS Display Module Level 3 specification: [[!CSS3-DISPLAY]]
+  the CSS Display Module Level 3 specification: [[CSS3-DISPLAY]]
   <ul>
    <!-- Display property --> <li>The <dfn><a href=https://drafts.csswg.org/css-display/#the-display-properties><code>display</code></a></dfn> property
   </ul>
 
  <dd>The following terms are defined in
-  the Geometry Interfaces Module Level 1 specification: [[!GEOMETRY-1]]
+  the Geometry Interfaces Module Level 1 specification: [[GEOMETRY-1]]
   <ul>
    <!-- DOMRect --> <li><a href="https://www.w3.org/TR/geometry-1/#dom-domrect"><dfn><code>DOMRect</code></dfn></a>
    <!-- Rectangle --> <li><dfn data-lt="bounding rectangle"><a href=https://drafts.fxtf.org/geometry/#rectangle>Rectangle</a></dfn>
@@ -9658,18 +9651,18 @@ to automatically sort each list alphabetically.
   </ul>
 
  <dd>The following terms are defined in
-  the CSS Cascading and Inheritance Level 4 specification: [[!CSS-CASCADE-4]]
+  the CSS Cascading and Inheritance Level 4 specification: [[CSS-CASCADE-4]]
   <ul>
    <!-- Computed Value --> <li><dfn><a href=https://drafts.csswg.org/css-cascade-4/#computed-value>Computed value</a></dfn>
   </ul>
 
- <dd>The following terms are defined in the CSS Object Model: [[!CSSOM]]:
+ <dd>The following terms are defined in the CSS Object Model: [[CSSOM]]:
   <ul>
    <!-- Resolved value --> <li><dfn><a href=https://drafts.csswg.org/cssom/#resolved-value>Resolved value</a></dfn>
   </ul>
 
  <dd>The following functions are defined in
-  the CSSOM View Module: [[!CSSOM-VIEW]]:
+  the CSSOM View Module: [[CSSOM-VIEW]]:
   <ul>
    <!-- getBoundingClientRect() --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-element-getboundingclientrect">getBoundingClientRect</a></dfn>
    <!-- elementFromPoint --> <li><dfn>Element from point</dfn> as <a href="https://drafts.csswg.org/cssom-view/#dom-document-elementfrompoint">elementFromPoint()</a>
@@ -9697,29 +9690,29 @@ to automatically sort each list alphabetically.
  <dd><p>To be <dfn>SOCKS Proxy</dfn>
   and <dfn data-lt=authenticating>SOCKS authentication</dfn> compliant,
   it is supposed that the implementation supports the relevant subsets of
-  [[!RFC1928]] and [[!RFC1929]].
+  [[RFC1928]] and [[RFC1929]].
 
  <dt>Unicode
- <dd>The following terms are defined in the  standard: [[!Unicode]]
+ <dd>The following terms are defined in the  standard: [[Unicode]]
   <ul>
    <!-- Code point --> <li><dfn data-lt="unicode code point"><a href=https://www.unicode.org/versions/Unicode9.0.0/ch03.pdf#G2212>Code Point</a></dfn>
    <!-- Extended grapheme cluster --> <li><dfn data-lt="grapheme cluster"><a href=https://www.unicode.org/versions/Unicode9.0.0/ch03.pdf#G2213>Extended grapheme cluster</a></dfn>
   </ul>
 
  <dt>Unicode Standard Annex #29
- <dd>The following terms are defined in the standard: [[!UAX29]]
+ <dd>The following terms are defined in the standard: [[UAX29]]
   <ul>
    <!-- Breaking text into extended grapheme clusters --><li><dfn data-lt="breaking text into extended grapheme clusters"><a href=https://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries>Grapheme cluster boundaries</a></dfn>
   </ul>
 
  <dt>Unicode Standard Annex #44
- <dd>The following terms are defined in the standard: [[!UAX44]]
+ <dd>The following terms are defined in the standard: [[UAX44]]
   <ul>
    <!-- Unicode character property --> <li><dfn><a href=https://unicode.org/reports/tr44/#Properties>Unicode character property</a></dfn>
   </ul>
 
  <dt>URLs
- <dd>The following terms are defined in the WHATWG URL standard: [[!URL]]
+ <dd>The following terms are defined in the WHATWG URL standard: [[URL]]
   <ul>
    <!-- Absolute URL --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-absolute>Absolute URL</a></dfn>
    <!-- Absolute URL with fragment --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-absolute-with-fragment>Absolute URL with fragment</a></dfn>
@@ -9740,7 +9733,7 @@ to automatically sort each list alphabetically.
  <dt>Web IDL
  <dd><p>The IDL fragments in this specification
   must be interpreted as required for conforming IDL fragments,
-  as described in the Web IDL specification. [[!WEBIDL]]
+  as described in the Web IDL specification. [[WEBIDL]]
   <ul>
    <!-- DOMException --> <li><a href="https://heycam.github.io/webidl/#dfn-DOMException"><dfn><code>DOMException</code></dfn></a>
    <!-- Sequence --> <li><a href="https://heycam.github.io/webidl/#idl-sequence"><dfn>Sequence</dfn></a>
@@ -9750,7 +9743,7 @@ to automatically sort each list alphabetically.
   </ul>
 
   <dt>Promises Guide <!-- Eventually this will be merged into WebIDL -->
-  <dd><p>The following terms are defined in the Promises Guide. [[!PROMISES-GUIDE]]
+  <dd><p>The following terms are defined in the Promises Guide. [[PROMISES-GUIDE]]
     <ul>
       <!-- a new promise --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#a-new-promise">A new promise</a></dfn>
       <!-- Promise calling --> <li><dfn data-lt='promise-call'><a href="https://www.w3.org/2001/tag/doc/promises-guide#promise-calling">Promise-calling</a></dfn>
@@ -9759,13 +9752,13 @@ to automatically sort each list alphabetically.
     </ul>
 
   <dt>XML Namespaces
-  <dd><p>The following terms are defined in the Namespaces in XML [[!XML-NAMES]]
+  <dd><p>The following terms are defined in the Namespaces in XML [[XML-NAMES]]
     <ul>
       <!-- qualified element name --><li><a href="https://www.w3.org/TR/REC-xml-names/#ns-using"><dfn>qualified element name</dfn></a>
     </ul>
 
   <dt>XPATH
-  <dd><p>The following terms are defined in the Document Object Model XPath standard [[!XPATH]]
+  <dd><p>The following terms are defined in the Document Object Model XPath standard [[XPATH]]
     <ul>
       <!-- evaluate --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator-evaluate"><dfn><code>evaluate</code></dfn></a>
       <!-- ORDERED_NODE_SNAPSHOT_TYPE --><li><a href="https://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathResult-ORDERED-NODE-SNAPSHOT-TYPE"><dfn><code>ORDERED_NODE_SNAPSHOT_TYPE</code></dfn></a>
