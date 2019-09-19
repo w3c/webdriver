@@ -5800,20 +5800,24 @@ If an <a>error</a> is returned, return that <a>error</a>
    </dd>
 
    <dt><var><a>element</a></var> is <a>content editable</a>
-   <dd>Set the text insertion caret after any child content.
-
-   <dt>Otherwise
-   <dd>
-    <ol>
-     <li><p>Let <var>current text length</var> be the <a>JavaScript
-      string’s length</a> of <var><a>element</a></var>’s <a>API value</a>.
-
-     <li><p>Set the text insertion caret using <a>set selection range</a>
-      using <var>current text length</var> for both the <code>start</code>
-      and <code>end</code> parameters.
+    <dd><ol><li><p>If <var>element</var> has focus, do not modify the 
+     text insertion caret.
+     <li><p>Else, set the text insertion caret after any child content.
     </ol>
-   </dd>
-  </dl>
+    <dt>Otherwise
+    <dd>
+     <ol>
+       <li><p>If <var>element</var> has focus, do not modify the
+         text insertion caret.
+      <li><p>Else, let <var>current text length</var> be the <a>JavaScript
+       string’s length</a> of <var><a>element</a></var>’s <a>API value</a>.
+ 
+      <li><p>Set the text insertion caret using <a>set selection range</a>
+       using <var>current text length</var> for both the <code>start</code>
+       and <code>end</code> parameters.
+     </ol>
+    </dd>
+   </dl>
 
  <li><p>Let <var>keyboard</var> be a new <a>key input source</a>.
 
