@@ -5832,20 +5832,21 @@ If an <a>error</a> is returned, return that <a>error</a>
    </dd>
 
    <dt><var><a>element</a></var> is <a>content editable</a>
-   <dd>Set the text insertion caret after any child content.
-
-   <dt>Otherwise
-   <dd>
-    <ol>
-     <li><p>Let <var>current text length</var> be the <a>JavaScript
-      string’s length</a> of <var><a>element</a></var>’s <a>API value</a>.
-
-     <li><p>Set the text insertion caret using <a>set selection range</a>
-      using <var>current text length</var> for both the <code>start</code>
-      and <code>end</code> parameters.
-    </ol>
-   </dd>
-  </dl>
+    <dd>If <var><a>element</a></var> does not currently have focus,
+      set the text insertion caret after any child content.
+    <dt>Otherwise
+    <dd>
+     <ol>
+       <li><p>If <var>element</var> does not currently have focus, 
+        let <var>current text length</var> be the <a>JavaScript
+       string’s length</a> of <var><a>element</a></var>’s <a>API value</a>.
+ 
+      <li><p>Set the text insertion caret using <a>set selection range</a>
+       using <var>current text length</var> for both the <code>start</code>
+       and <code>end</code> parameters.
+     </ol>
+    </dd>
+   </dl>
 
  <li><p>Let <var>keyboard</var> be a new <a>key input source</a>.
 
@@ -8989,8 +8990,6 @@ sets the text field of a <a>window.<code>prompt</code></a>
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
-
- <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>When the user agent is next to <a>run the animation frame callbacks</a>:
   <ol>
