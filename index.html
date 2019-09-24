@@ -885,6 +885,18 @@ when it receives a particular <a>command</a>.
   <td><a>Is Element Enabled</a></td>
  </tr>
 
+<tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/computedrole</td>
+  <td><a>Get Computed Role</a></td>
+</tr>
+
+<tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/computedlabel</td>
+  <td><a>Get Computed Label</a></td>
+</tr>
+
  <tr>
   <td>POST</td>
   <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/click</td>
@@ -5153,6 +5165,73 @@ Width of the <a>web element</a>’s
  <li><p>Return <a>success</a> with data <var>enabled</var>.
 </ol>
 </section> <!-- /Is Element Enabled -->
+
+<section>
+  <h4><dfn>Get Computed Role</dfn></h4>
+
+  <table class="simple jsoncommand">
+    <tr>
+      <th>HTTP Method</th>
+      <th>URI Template</th>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/computedrole</td>
+    </tr>
+  </table>
+
+  <p>The <a>remote end steps</a> are:
+  
+  <ol>
+    <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
+        return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+    <li><p><a>Handle any user prompts</a>
+        and return its value if it is an <a>error</a>.
+
+    <li><p>Let <var>element</var> be the result
+        of <a>trying</a> to <a>get a known connected element</a>
+        with <a>url variable</a> <var>element id</var>.
+
+    <li><p>Let <var>role</var> be the result of computing the <a>WAI-ARIA role</a>.
+
+    <li><p>Return <a>success</a> with data <var>role</var>.
+  </ol>
+</section> <!-- /Get Element Computed Role -->
+
+<section>
+  <h4><dfn>Get Computed Label</dfn></h4>
+
+  <table class="simple jsoncommand">
+    <tr>
+      <th>HTTP Method</th>
+      <th>URI Template</th>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/computedlabel</td>
+    </tr>
+  </table>
+
+  <p>The <a>remote end steps</a> are:
+  
+    <ol>
+      <li>
+        <p>If the <a>current browsing context</a> is <a>no longer open</a>,
+          return <a>error</a> with <a>error code</a> <a>no such window</a>.
+  
+      <li><p><a>Handle any user prompts</a>
+          and return its value if it is an <a>error</a>.
+  
+      <li><p>Let <var>element</var> be the result
+          of <a>trying</a> to <a>get a known connected element</a>
+          with <a>url variable</a> <var>element id</var>.
+
+      <li><p>Let <var>label</var> be the result of <a>ARIA computation</a> for the <a>Accessible Name</a> of the <var>element</var>.
+
+      <li><p>Return <a>success</a> with data <var>label</var>.
+    </ol>
+</section> <!-- /Get Element Computed Label -->
 </section> <!-- /State -->
 
 <section>
@@ -9513,6 +9592,24 @@ to automatically sort each list alphabetically.
 -->
 
 <dl>
+ <dt>ARIA
+ <dd>
+   <p>The following terms are defined
+     in the Accessible Rich Internet Applications (WAI-ARIA) 1.2 specification: [wai-aria-1.2]
+     <ul>
+       <li><dfn><a href="https://w3c.github.io/aria/#introroles">WAI-ARIA role</a></dfn>
+     </ul>
+
+  <dt>Accessible Name and Description Computation
+  <dd>
+    <p>The following terms are defined
+      in the Accessible Name and Description Computation 1.1 specification: [accname-1.1]
+      <ul>
+        <li><dfn><a href="https://www.w3.org/TR/accname-1.1/#dfn-accessible-name">Accessible Name</a></dfn>
+        <li><dfn><a data-lt="ARIA computation" href="https://www.w3.org/TR/accname-1.1/#mapping_additional_nd_te">Accessible
+              Name and Description Computation</a></dfn>
+      </ul>
+
  <dt>Web App Security
  <dd><p>The following terms are defined
   in the Content Security Policy Level 3 specification: [[CSP3]]
