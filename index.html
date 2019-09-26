@@ -1187,6 +1187,13 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
+  <td><dfn>no such script</dfn>
+  <td>404
+  <td><code>script timeout</code>
+  <td>No script matching the given script name was found amongst the list of known scripts of the current session.
+ </tr>
+
+ <tr>
   <td><dfn>script timeout error</dfn>
   <td>500
   <td><code>script timeout</code>
@@ -2110,6 +2117,10 @@ and <a href=#elements>element retrieval</a>.
 <p>
 A <a>session</a> has an associated <a>user prompt handler</a>.
 Unless stated otherwise it is in the <a>dismiss and notify state</a>.
+
+<p>A <a>session</a> has an associated <a>list of known scripts</a>.
+
+<p>A <a>session</a> has an associated <a>executable script table</a>.
 
 <p>A <a>session</a> has an associated list of <a>active input sources</a>.
 
@@ -5871,7 +5882,44 @@ of the <a>current browsing context</a> <a>active document</a>.
 </section> <!-- /Get Page Source -->
 
 <section>
-<h3>Executing Script</h3>
+ <h3>Scripts</h3>
+
+ <p>
+  An <dfn>executable script</dfn> is an abstraction used to
+  identify a script when it is transported via the
+  <a href="#protocol">protocol</a>, between <a>remote</a> and
+  <a>local</a> ends.
+
+  Each script has an associated <dfn>executable script name</dfn>
+  that uniquely identifies the script within the <a>current session</a>.
+
+  Each <a>session</a> maintains a <dfn>list of known scripts</dfn>.
+  This list is initially empty. When an <a>executable script name</a>
+  is added to the <a>list of known scripts</a>, a corresponding entry
+  is made in the <a>executable script table</a> where the key is the
+  <a>executable script name</a> and the value is the <var>script</var>.
+  When an <a>executable script name</a> is removed from the
+  <a>list of known scripts</a>, the corresponding entry in
+  the <a>executable script table</a> is also removed.
+
+ <p>Each <a>session</a> has an associated <dfn>executable script table</dfn>.
+  This is a map between <a>executable script name</a>
+  and the script, with one entry for each item in the
+  <a>list of known scripts</a>.
+
+
+ To <dfn>get a known script</dfn> with
+ argument <var>name</var>, run the following steps:
+ <ol>
+ <li>If <var>name</var> does not match an <a>executable script name</a>
+  in the <a>list of known scripts</a> for the <a>current session</a>,
+  return <a>error</a> with <a>error code</a> <a>no such script</a>.
+ <li>Let <var>script</var> be the <a>executable script</a>
+ associated with <var>name</var> in the <a>executable script table</a>.
+</ol>
+
+<section>
+<h3><dfn>Executing Script</dfn></h3>
 
 <p>
 A <dfn>collection</dfn> is an <a>Object</a>
@@ -6052,6 +6100,12 @@ a <a>remote end</a> must run the following steps:
  <li><p>If <var>script</var> is not a <a>String</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
+ <li><p>If <var>script</var> is set and <var>name</var> is set,
+ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>If <var>name</var> is set let <var>script</var> be the result
+ of <a>trying</a> to <a>get a known script</a> with argument <var>name</var>
+
  <li><p>Let <var>args</var> be the result of
   <a>getting a property</a> named <code>args</code>
   from the <var>parameters</var>.
@@ -6135,6 +6189,7 @@ a <a>remote end</a> must run the following steps:
 <p class="note">The above algorithm is not associated
  with any particular element,
  and is therefore not subject to the document CSP <a>directives</a>.
+</section> <!-- /Executing Script -->
 
 <section>
 <h3><dfn>Execute Script</dfn></h3>
@@ -6146,7 +6201,7 @@ a <a>remote end</a> must run the following steps:
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{<var>session id</var>}/execute/sync</td>
+  <td>/session/{<var>session id</var>}/execute/sync/{?<var>name</var>}</td>
  </tr>
 </table>
 
@@ -6202,7 +6257,7 @@ a <a>remote end</a> must run the following steps:
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{<var>session id</var>}/execute/async</td>
+  <td>/session/{<var>session id</var>}/execute/async/{?<var>name</var>}</td>
  </tr>
 </table>
 
@@ -6281,7 +6336,43 @@ The first argument provided to the function will be serialized to JSON and retur
       and data <var>result</var>.
 </ol>
 </section> <!-- /Execute Async Script -->
-</section> <!-- /Executing Script -->
+<section>
+ <h3><dfn>Pin Script</dfn></h3>
+
+ <table class="simple jsoncommand">
+  <tr>
+   <th>HTTP Method</th>
+   <th>URI Template</th>
+  </tr>
+  <tr>
+   <td>POST</td>
+   <td>/session/{<var>session id</var>}/execute/pin/{<var>name</var>}</td>
+  </tr>
+ </table>
+
+ <p>The <a>remote end steps</a> are:
+
+ <ol>
+  <li><p>Let <var>script</var> be the result of
+ <a>getting a property</a> named <var>script</var>
+ from the <var>parameters</var>.
+
+   <li><p>If <var>script</var> is <a>undefined</a> or is not a <a>String</a>,
+ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+   <li><p>If the <a>current browsing context</a> is <a>no longer
+ open</a>, return <a>error</a> with <a>error code</a> <a>no such
+ window</a>.
+
+  <li><p>If <var>name</var> matches an <a>executable script name</a>
+ in the <a>list of known scripts</a> for the <a>current session</a>,
+ remove the script <var>name</var> from the <a>list of known scripts</a>.
+
+ <li><p>Add the script <var>name</var> to the <a>list of known scripts</a>
+ for the <a>current session</a>.
+</ol>
+</section> <!-- /Pin Script -->
+</section> <!-- /Scripts -->
 </section> <!-- /Document -->
 
 
