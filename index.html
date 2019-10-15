@@ -1190,7 +1190,8 @@ when it receives a particular <a>command</a>.
   <td><dfn>no such script</dfn>
   <td>404
   <td><code>script timeout</code>
-  <td>No script matching the given script name was found amongst the list of known scripts of the current session.
+  <td>No script matching the given script name was found amongst the
+  <a>list of known scripts</a> of the current session.
  </tr>
 
  <tr>
@@ -5890,7 +5891,7 @@ of the <a>current browsing context</a> <a>active document</a>.
   <a href="#protocol">protocol</a>, between <a>remote</a> and
   <a>local</a> ends.
 
-  Each script has an associated <dfn>executable script name</dfn>
+  Each script may include an optional associated <dfn>executable script name</dfn>
   that uniquely identifies the script within the <a>current session</a>.
 
   Each <a>session</a> maintains a <dfn>list of known scripts</dfn>.
@@ -5908,8 +5909,8 @@ of the <a>current browsing context</a> <a>active document</a>.
   <a>list of known scripts</a>.
 
 
- To <dfn>get a known script</dfn> with
- argument <var>name</var>, run the following steps:
+ To <dfn>get a script</dfn> with argument <var>name</var>,
+ run the following steps:
  <ol>
  <li>If <var>name</var> does not match an <a>executable script name</a>
   in the <a>list of known scripts</a> for the <a>current session</a>,
@@ -6097,14 +6098,14 @@ a <a>remote end</a> must run the following steps:
   <a>getting a property</a> named <code>script</code>
   from the <var>parameters</var>.
 
- <li><p>If <var>script</var> is not a <a>String</a>,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
  <li><p>If <var>script</var> is set and <var>name</var> is set,
  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
+ <li><p>If <var>script</var> is not a <a>String</a>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
  <li><p>If <var>name</var> is set let <var>script</var> be the result
- of <a>trying</a> to <a>get a known script</a> with argument <var>name</var>
+ of <a>trying</a> to <a>get a script</a> with argument <var>name</var>
 
  <li><p>Let <var>args</var> be the result of
   <a>getting a property</a> named <code>args</code>
@@ -6128,9 +6129,6 @@ a <a>remote end</a> must run the following steps:
  <a>Completion</a> { [[\Type]]: <code>normal</code>, [[\Value]]: <a><code>null</code></a>, [[\Target]]: <code>empty</code> }.
 
 <ol>
- <li><p>Let <var>window</var> be the <a>associated window</a>
-  of the <a>current browsing context</a>’s <a>active document</a>.
-
  <li><p>Let <var>environment settings</var> be
   the <a>environment settings object</a> for <var>window</var>.
 
