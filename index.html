@@ -6198,13 +6198,17 @@ a <a>remote end</a> must run the following steps:
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{<var>session id</var>}/execute/sync/{?<var>name</var>}</td>
+  <td>/session/{<var>session id</var>}/execute/sync</td>
  </tr>
 </table>
 
 <p>The <a>remote end steps</a> are:
 
 <ol>
+ <li><p>Let <var>name</var> be the result of
+  <a>getting a property</a> named <var>name</var>
+  from the <var>parameters</var>.
+
  <li><p>Let <var>body</var> and <var>arguments</var> be the result of
   <a>trying</a> to <a>extract the script arguments from a request</a>
   with argument <var>parameters</var>.
@@ -6254,7 +6258,7 @@ a <a>remote end</a> must run the following steps:
  </tr>
  <tr>
   <td>POST</td>
-  <td>/session/{<var>session id</var>}/execute/async/{?<var>name</var>}</td>
+  <td>/session/{<var>session id</var>}/execute/async</td>
  </tr>
 </table>
 
@@ -6268,6 +6272,10 @@ The first argument provided to the function will be serialized to JSON and retur
 <p>The <a>remote end steps</a> are:
 
 <ol>
+  <li><p>Let <var>name</var> be the result of
+     <a>getting a property</a> named <var>name</var>
+     from the <var>parameters</var>.
+
   <li><p>Let <var>body</var> and <var>arguments</var> by the result of <a>trying</a> to
      <a>extract the script arguments from a request</a> with
      argument <var>parameters</var>.
@@ -6343,18 +6351,25 @@ The first argument provided to the function will be serialized to JSON and retur
   </tr>
   <tr>
    <td>POST</td>
-   <td>/session/{<var>session id</var>}/execute/pin/{<var>name</var>}</td>
+   <td>/session/{<var>session id</var>}/execute/pin</td>
   </tr>
  </table>
 
  <p>The <a>remote end steps</a> are:
 
  <ol>
+  <li><p>Let <var>name</var> be the result of
+  <a>getting a property</a> named <var>name</var>
+  from the <var>parameters</var>.
+
   <li><p>Let <var>script</var> be the result of
  <a>getting a property</a> named <var>script</var>
  from the <var>parameters</var>.
 
    <li><p>If <var>script</var> is <a>undefined</a> or is not a <a>String</a>,
+ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+  <li><p>If <var>name</var> is <a>undefined</a> or is not a <a>String</a>,
  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
   <li><p>If <var>name</var> matches an <a>executable script name</a>
