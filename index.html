@@ -2119,9 +2119,7 @@ and <a href=#elements>element retrieval</a>.
 A <a>session</a> has an associated <a>user prompt handler</a>.
 Unless stated otherwise it is in the <a>dismiss and notify state</a>.
 
-<p>A <a>session</a> has an associated <a>list of known scripts</a>.
-
-<p>A <a>session</a> has an associated <a>executable script table</a>.
+<p>A <a>session</a> has an associated <a>executable script map</a>.
 
 <p>A <a>session</a> has an associated list of <a>active input sources</a>.
 
@@ -5894,30 +5892,27 @@ of the <a>current browsing context</a> <a>active document</a>.
   Each script may include an optional associated <dfn>executable script name</dfn>
   that uniquely identifies the script within the <a>current session</a>.
 
-  Each <a>session</a> maintains a <dfn>list of known scripts</dfn>.
-  This list is initially empty. When an <a>executable script name</a>
-  is added to the <a>list of known scripts</a>, a corresponding entry
-  is made in the <a>executable script table</a> where the key is the
-  <a>executable script name</a> and the value is the <var>script</var>.
-  When an <a>executable script name</a> is removed from the
-  <a>list of known scripts</a>, the corresponding entry in
-  the <a>executable script table</a> is also removed.
+  Each <a>session</a> maintains an <a>ordered map</a> <dfn>executable script map</dfn>,
+  with each entry having a key of an <a>executable script name</a>
+  and a value of an <a>exeuctable script</a>.
+  This map is initially empty.
 
- <p>Each <a>session</a> has an associated <dfn>executable script table</dfn>.
-  This is a map between <a>executable script name</a>
-  and the script, with one entry for each item in the
-  <a>list of known scripts</a>.
+  To add an <a>executable script</a> to the session,
+  for <a>executable script map</a>, key <a>executable script name</a>, and value <var>script</var>,
+  set map[key] to value.
 
+  To remove an <a>executable script</a> from the session,
+  for <a>executable script map</a>, key <a>executable script name</a>, and value <var>script</var>,
+  remove map[key].
 
- To <dfn>get a script</dfn> with argument <var>name</var>,
- run the following steps:
+  To <dfn>get a script</dfn> with argument <var>name</var>, run the following steps:
  <ol>
- <li>If <var>name</var> is not equal to an <a>executable script name</a>
-  in the <a>list of known scripts</a> for the <a>current session</a>,
-  return <a>error</a> with <a>error code</a> <a>no such script</a>.
- <li>Let <var>script</var> be the <a>executable script</a>
- associated with <var>name</var> in the <a>executable script table</a>.
-</ol>
+  <li>If <var>name</var> is not equal to a key in the <a>executable script map</a>
+   for the <a>current session</a>, return <a>error</a> with <a>error code</a>
+   <a>no such script</a>.
+  <li>Let <var>script</var> be the value in the <a>executable script map</a>
+   associated with the key <var>name</var>.
+ </ol>
 
 <p>
 A <dfn>collection</dfn> is an <a>Object</a>
@@ -6357,28 +6352,27 @@ The first argument provided to the function will be serialized to JSON and retur
 
  <p>The <a>remote end steps</a> are:
 
- <ol>
-  <li><p>Let <var>name</var> be the result of
-  <a>getting a property</a> named <var>name</var>
-  from the <var>parameters</var>.
+  <ol>
+   <li><p>Let <var>name</var> be the result of
+ <a>getting a property</a> named <var>name</var>
+ from the <var>parameters</var>.
 
-  <li><p>Let <var>script</var> be the result of
+ <li><p>Let <var>script</var> be the result of
  <a>getting a property</a> named <var>script</var>
  from the <var>parameters</var>.
 
-   <li><p>If <var>script</var> is <a>undefined</a> or is not a <a>String</a>,
+ <li><p>If <var>script</var> is <a>undefined</a> or is not a <a>String</a>,
  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-  <li><p>If <var>name</var> is <a>undefined</a> or is not a <a>String</a>,
+ <li><p>If <var>name</var> is <a>undefined</a> or is not a <a>String</a>,
  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-  <li><p>If <var>name</var> matches an <a>executable script name</a>
- in the <a>list of known scripts</a> for the <a>current session</a>,
- remove the script <var>name</var> from the <a>list of known scripts</a>.
+ <li><p>If <var>name</var> is equal to a key in the <a>executable script map</a>
+ remove the <a>executable script</a> from the session
 
- <li><p>Add the script <var>name</var> to the <a>list of known scripts</a>
- for the <a>current session</a>.
-</ol>
+ <li><p>add the <a>executable script</a> to the session.
+
+ </ol>
 </section> <!-- /Pin Script -->
 </section> <!-- /Scripts -->
 </section> <!-- /Document -->
