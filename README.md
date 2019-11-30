@@ -16,10 +16,9 @@ control a — possibly separate — browser.
 The standard is authored by the W3C [Browser Testing- and Tools
 Working Group], and has produced the following documents:
 
-  * **Living Document**: https://w3c.github.io/webdriver/
-  * **Candidate Recommendation** level 1: https://www.w3.org/TR/webdriver1/
-
-[Browser Testing- and Tools Working Group]: https://www.w3.org/testing/browser/
+* **Living Document**: https://w3c.github.io/webdriver/
+* **Level 2** (Working Draft): https://www.w3.org/TR/webdriver2/
+* **Level 1** (Candidate Recommendation): https://www.w3.org/TR/webdriver1/
 
 
 Contribute
@@ -44,6 +43,8 @@ first PR, even for trivial fixes.  The names are sorted lexicographically.
 
 See [CONTRIBUTING.md] for more guidelines.
 
+
+[Browser Testing- and Tools Working Group]: https://www.w3.org/testing/browser/
 [good commit message]: https://github.com/erlang/otp/wiki/Writing-good-commit-messages
 [implementation report]: ./ImplementationReport.md
 [Acknowledgements]: https://w3c.github.io/webdriver/#acknowledgements
