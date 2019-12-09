@@ -998,6 +998,12 @@ when it receives a particular <a>command</a>.
   <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/screenshot</td>
   <td><a>Take Element Screenshot</a></td>
  </tr>
+
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/print</td>
+  <td><a>Print Page</a></td>
+ </tr>
 </table>
 </section> <!-- /Endpoints -->
 
@@ -9033,6 +9039,267 @@ that evaluates to false, the <a>element</a> will not be <a>scrolled into view</a
 </section> <!-- /Take Element Screenshot -->
 </section> <!-- /Screen capture -->
 
+<section>
+<h2>Print</h2>
+
+<p>The print functions are a mechanism to render the document to a
+ paginated format. It is returned to the <a>local end</a> as a Base64
+ encoded string containing a PDF representation of the paginated
+ document.
+
+<p class=note>
+For historical reasons, all dimensions relating to the printed output
+are specified in inches.
+
+<p>When required to <dfn>parse a page range</dfn> with
+arguments <var>pageRanges</var> and <var>totalPages</var>, an
+implementation must:
+
+<ol>
+  <li>Let <var>pages</var> be an empty <a>Set</a>
+
+  <li>For each <var>range</var> in <var>pageRanges</var>, run the
+  following steps:
+    <ol>
+      <li>If <var>range</var> is not either a <a>Number</a> or
+      a <a>String</a>, return <a>error</a> with <a>error
+      code</a> <a>invalid argument</a>.
+
+      <li><p>If <var>range</var> is a <a>Number</a>:
+        <ol>
+          <li>If <var>range</var> is not an integer or is less than 0,
+      return <a>error</a> with <a>error code</a> <a>invalid
+      argument</a>
+
+          <li>Append <var>range</var> to <var>pages</var>
+        </ol>
+      <p>Otherwise:
+        <ol>
+          <li>Let <var>rangeParts</var> be the result of
+          splitting <var>range</var> on a "<code>-</code>" character.
+
+          <li>If <var>rangeParts</var> has fewer than 1 or more than 2
+          elements, return <a>error</a> with <a>error code</a> <a>invalid
+          argument</a>.
+
+          <li>If rangeParts has one element, append the result
+          of <a>trying</a> to <a>parse as an integer</a> the first
+          element of <var>rangeParts</var>
+          to <var>pages</var>.
+            <p>Otherwise:
+              <ol>
+                <li>If the first element of <var>rangeParts</var>
+                  is <a>equivalent to an empty string</a>,
+                  let <var>lowerBound</var>
+                  be <code>1</code>. Otherwise
+                  let <var>lowerBound</var> be the result
+                  of <a>trying</a> to <a>parse as an integer</a> the
+                  first element of <var>rangeParts</var>.
+
+                <li>If the second element of <var>rangeParts</var>
+                  is <a>equivalent to an empty string</a>
+                  let <var>upperBound</var>
+                  be <var>totalPages</var>. Otherwise
+                  let <var>upperBound</var> be the result
+                  of <a>trying</a> to <a>parse as an integer</a> the
+                  second element of <var>rangeParts</var>.
+
+                <li>If <var>lowerBound</var> is greater
+                than <var>upperBound</var>, return <a>error</a>
+                with <a>error code</a> <a>invalid argument</a>.
+
+                <li>Append all integers in the inclusive
+                range <var>lowerBound</var> to <var>upperBound</var>
+                to <var>pages</var>
+              </ol>
+        </ol>
+   <li>Return <a>success</a> with data <var>pages</var>.
+</ol>
+
+<p>A <a>String</a> is <dfn>equivalent to an empty string</dfn> if it
+has zero length after removing all <a>whitespace</a> characters.
+
+<p>When required to <dfn>parse as an integer</dfn> with
+argument <var>input</var> an implementation must:
+
+<ol>
+  <li>Let <var>stripped</var> be the result of stripping all leading
+  and trailing <a>whitespace</a> characters from <var>input</var>.
+
+  <li>If <var>stripped</var> has zero length, return <a>error</a> with
+  status <a>invalid argument</a>.
+
+  <li>If <var>stripped</var> contains any characters outside the
+  range <code>U+0030</code> - <code>U+0039</code> (i.e. 0 - 9)
+  inclusive, return <a>error</a> with status <a>invalid argument</a>.
+
+  <li>Let <var>output</var> be the result of calling <a>parseInt</a>
+  with string <var>stripped</var> and radix <code>10</code>.
+
+  <li>Return <a>success</a> with data <var>output</var>.
+</ol>
+
+<section>
+<h3><dfn>Print Page</dfn></h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method
+  <th>URI Template
+ </tr>
+ <tr>
+  <td>POST
+  <td>/session/{<var>session id</var>}/print
+ </tr>
+</table>
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+ <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
+ <li><p>Let <var>orientation</var> be the result of <a>getting a
+  property with default</a> named <code>orientation</code> and with
+  default "<code>portrait</code>" from the <var>parameters</var>
+  argument.
+
+ <li><p>If <var>orientation</var> is not a <a>String</a> or does not
+ have one of the values "<code>landscape</code>" or
+ "<code>portrait</code>", return <a>error</a> with <a>error
+ code</a> <a>invalid argument</a>.
+
+ <li><p>Let <var>scale</var> be the result of <a>getting a
+  property with default</a> named <code>scale</code> and with
+  default <code>1</code> from the <var>parameters</var> argument.
+
+ <li><p>If <var>scale</var> is not a <a>Number</a>, or is less
+ than <code>0.1</code> or greater than <code>2</code>
+ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Let <var>background</var> be the result of <a>getting a
+  property with default</a> named <code>background</code> and with
+  default <code>false</code> from the <var>parameters</var> argument.
+
+ <li><p>If <var>background</var> is not a <a>Boolean</a>
+ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Let <var>page</var> be the result of <a>getting a property
+  with default</a> named <code>page</code> and with a default of an
+  empty <a>Object</a> from the <var>parameters</var> argument.
+
+ <li><p>Let <var>pageWidth</var> be the result of <a>getting a
+  property with default</a> named <code>width</code> and with a
+  default of <code>8.5</code> from <var>page</var>.
+
+ <li><p>Let <var>pageHeight</var> be the result of <a>getting a
+  property with default</a> named <code>width</code> and with a
+  default of <code>11</code> from <var>page</var>.
+
+ <li><p>If either of <var>pageWidth</var> or <var>pageHeight</var> is
+ not an <a>Number</a>, or is less then 0, return <a>error</a>
+ with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Let <var>margin</var> be the result of <a>getting a property
+  with default</a> named <code>margin</code> and with a default of an
+  empty <a>Object</a> from the <var>parameters</var> argument.
+
+ <li><p>Let <var>marginTop</var> be the result of <a>getting a
+  property with default</a> named <code>top</code> and with a
+  default of <code>0.39</code> from <var>margin</var>.
+
+ <li><p>Let <var>marginBottom</var> be the result of <a>getting a
+  property with default</a> named <code>bottom</code> and with a
+  default of <code>0.39</code> from <var>margin</var>.
+
+ <li><p>Let <var>marginLeft</var> be the result of <a>getting a
+  property with default</a> named <code>left</code> and with a
+  default of <code>0.39</code> from <var>margin</var>.
+
+ <li><p>Let <var>marginRight</var> be the result of <a>getting a
+  property with default</a> named <code>right</code> and with a
+  default of <code>0.39</code> from <var>margin</var>.
+
+ <li><p>If any
+ of <var>martinTop</var>, <var>marginBottom</var>, <var>marginLeft</var>,
+ or <var>marginRight</var> is not an <a>Number</a>, or is less then 0,
+ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Let <var>shrinkToFit</var> be the result of <a>getting a
+  property with default</a> named <code>shrinkToFit</code> and with
+  default <code>true</code> from the <var>parameters</var> argument.
+
+ <li><p>If <var>shrinkToFit</var> is not a <a>Boolean</a>
+ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Let <var>pageRanges</var> be the result of <a>getting a
+  property with default</a> named <code>pageRanges</code> from
+  the <var>parameters</var> argument with default of an
+  empty <var>Array</var>.
+
+ <li><p>If <var>pageRanges</var> is not an <a>Array</a>
+ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>When the user agent is next to <a>run the animation frame
+ callbacks</a>, let <var>pdfData</var> be the result of <a>trying</a>
+ to take UA-specific steps to generate a paginated representation of
+ the <a>current browsing context</a> as a PDF, with the following
+ paper settings:
+   <table>
+     <tr>
+       <th>Property
+       <th>Value
+     <tr>
+       <td>Width in inches
+       <td><var>pageWidth</var> if <var>orientation</var> is
+         "<code>portrait</code>" otherwise <var>pageHeight</var>
+     <tr>
+       <td>Height in inches
+       <td><var>pageHeight</var> if <var>orientation</var> is
+         "<code>portrait</code>" otherwise <var>pageWidth</var>
+     <tr>
+       <td>Top margin, in inches
+       <td><var>marginTop
+     <tr>
+       <td>Bottom margin, in inches
+       <td><var>marginBottom
+     <tr>
+       <td>Left margin, in inches
+       <td><var>marginLeft
+     <tr>
+       <td>Right margin, in inches
+       <td><var>marginRight
+   </table>
+
+   <p>In addition, the following formatting hints should be applied by the UA:
+     <dl>
+       <dt>If <var>scale</var> is not equal to <code>1</code></dt>
+       <dd>Zoom the size of the content by a factor <var>scale</var>
+       <dt>If <var>background</var> is <code>false</code></dt>
+       <dd>Suppress output of background images
+       <dt>If <var>shrinkToFit</var> is <code>true</code></dt>
+       <dd>Resize the content to match the page width, overriding any
+       page width specified in the content
+     </dl>
+
+  <li><p>If <var>pageRanges</var> is not an empty <a>Array</a>,
+ Let <var>pages</var> be the result of <a>trying</a> to <a>parse a
+ page range</a> with arguments <var>pageRanges</var> and the number of
+ pages contained in <var>pdfData</var>, then remove any pages
+ from <var>pdfData</var> whose one-based index is not contained in
+  <var>pages</var>
+
+  <li><p>Let <var>encoding result</var> be the result of
+  calling <a>Base64 Encode</a> on <var>pdfData</var>.
+
+  <li><p>Let <var>encoded string</var> be <var>encoding result</var>’s data.
+
+  <li><p>Return <a>success</a> with data <var>encoded string</var>
+</section> <!-- /Print Page -->
+</section> <!-- /Print -->
+
 
 <section class=appendix>
 <h2>Privacy</h2>
@@ -9222,6 +9489,14 @@ to automatically sort each list alphabetically.
    <li><dfn data-lt="blocked by content security policy"><a href=https://w3c.github.io/webappsec-csp/#should-block-navigation-response>Should block navigation response</a></dfn>
   </ul>
 
+ <dt>Base16, Base32, and Base64 Data Encodings
+ <dd><p>The following terms are defined
+  in The Base16, Base32, and Base64 Data Encodings specification: [[RFC4648]]
+  <ul>
+   <!-- Base64 Encode --> <li><dfn><a href=https://tools.ietf.org/html/rfc4648#section-4>Base64 Encode</a></dfn>
+  </ul>
+
+
  <dt>DOM
  <dd><p>The following terms are defined
   in the Document Object Model specification: [[DOM]]
@@ -9327,6 +9602,7 @@ to automatically sort each list alphabetically.
    <!-- PromiseResolve --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-promise-resolve>PromiseResolve</a></dfn>
    <!-- Type --> <li><dfn data-lt="ecmascript type" data-lt-noDefault><a href=https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values>Type</a></dfn>
    <!-- Use strict directive --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Use strict directive</a></dfn>
+   <!-- parseInt --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.2>parseInt</a></dfn>
    <!-- parseFloat --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></dfn>
    <!-- realm --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-code-realms">realm</a></dfn>
   </ul>
@@ -9604,6 +9880,7 @@ to automatically sort each list alphabetically.
     <!-- ASCII lowercase --> <li><dfn data-lt="lowercase"><a href=https://infra.spec.whatwg.org/#ascii-lowercase>ASCII lowercase</a></dfn>
     <!-- Javascript String's length --> <li><dfn><a href="https://infra.spec.whatwg.org/#javascript-string-length">JavaScript string’s length</a></dfn>
     <!-- queue --> <li><dfn><a href=https://infra.spec.whatwg.org/#queues>queue</a></dfn>
+    <!-- set --> <li><dfn><a href=https://infra.spec.whatwg.org/#sets>Set</a></dfn>
    </ul>
 
  <dt>Interaction
