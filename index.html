@@ -5476,6 +5476,32 @@ and then sends the provided keys to the <a>element</a>.
 In case the <a>element</a> is not <a>keyboard-interactable</a>,
 an <a>element not interactable</a> <a>error</a> is returned.
 
+<p>
+A <dfn>non-typeable form control</dfn>
+is an <a><code>input</code> element</a>
+whose <a data-lt="input type state"><code>type</code> attribute</a> state
+causes the primary input mechanism
+not to be through means of a keyboard, whether virtual or physical.
+
+<div class=example>
+<p>
+<a>Non-typeable form controls</a> means to refer to
+form control elements rendered by the user agent
+as something other than as a text input control.
+When targetting an <a><code>input</code> element</a>
+in the <a><code>color</code> state</a>
+being presented as a color wheel,
+<a data-lt="Element Send Keys">interaction</a> with it will be simulated,
+rather than typed using key emulation with <a href=#actions>actions</a>.
+
+<p>
+Other examples of <a>non-typeable form controls</a> include
+form controls interacted with via system-native widgets,
+such as a scrolled option list for <a><code>select</code> elements</a>
+and a number keypad for <a><code>input</code> elements</a>
+in the <a><code>number</code> state</a> on non-desktop devices.
+</div>
+
 <p>The <a>key input state</a> used for input
  may be cleared mid-way through “typing”
  by sending the <dfn>null key</dfn>,
@@ -5730,7 +5756,7 @@ If an <a>error</a> is returned, return that <a>error</a>
 
  <li><p>Run the substeps of the first matching condition:
   <dl class="switch">
-   <dt><var>file</var> is true.
+   <dt><var>file</var> is true
    <dd>
     <ol>
      <li><p>Let <var>files</var> be the result of splitting <var>text</var>
@@ -5767,10 +5793,7 @@ If an <a>error</a> is returned, return that <a>error</a>
     </ol>
    </dd>
 
-   <dt>The user agent renders <var>element</var> as something other
-    than a text input control (for example an <a><code>input</code></a>
-    element in the <a><code>color</code> state</a> being presented as a
-    colorwheel):
+   <dt><var><a>element</a></var> is a <a>non-typeable form control</a>
    <dd>
     <ol>
      <li><p>If <var>element</var> does not have an <a>own property</a>
@@ -8991,9 +9014,9 @@ that evaluates to false, the <a>element</a> will not be <a>scrolled into view</a
 
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
- 
+
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
- 
+
  <li><p>Let <var>element</var> be the result of
   <a>trying</a> to <a>get a known connected element</a>
   with <a>url variable</a> <var>element id</var>.
