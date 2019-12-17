@@ -6390,6 +6390,17 @@ The first argument provided to the function will be serialized to JSON and retur
    <a>adding a cookie</a>.
 
  </tr>
+
+ <tr>
+  <td><dfn>Cookie same site</dfn>
+  <td><code>samesite</code>
+  <td>"<code>samesite</code>"
+  <td>"<code>SameSite</code>"
+  <td>✓
+  <td>Whether the cookie applies to a SameSite policy.
+    Defaults to None if omitted when <a>adding a cookie</a>.
+    Can be set to either "<code>Lax</code>" or "<code>Strict</code>".
+ </tr>
 </table>
 
 <p>A <dfn>serialized cookie</dfn> is a JSON <a>Object</a>
@@ -6574,6 +6585,10 @@ The first argument provided to the function will be serialized to JSON and retur
    <dt><a>Cookie expiry time</a>
    <dd><p>The value if the entry exists, otherwise leave unset to
     indicate that this is a session cookie.
+
+   <dt><a>Cookie same site</a>
+   <dd><p>The value if the entry exists, otherwise leave unset to
+    indicate that no same site policy is defined.
   </dl>
 
   <p>If there is an <a>error</a> during this step,
