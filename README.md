@@ -18,7 +18,7 @@ Working Group], and has produced the following documents:
 
 * **Living Document**: https://w3c.github.io/webdriver/
 * **Level 2** (Working Draft): https://www.w3.org/TR/webdriver2/
-* **Level 1** (Candidate Recommendation): https://www.w3.org/TR/webdriver1/
+* **Level 1** (Recommendation): https://www.w3.org/TR/webdriver1/
 
 
 Contribute
