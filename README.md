@@ -35,18 +35,25 @@ styling.  To preview your changes, just load `index.html` from disk
 in a browser.  To verify the integrity of the document you can run
 `make test`.
 
-For more information about the interoperability of driver
-implementations, see the [implementation report].
-
 You may add your name to the [Acknowledgements] section in your
 first PR, even for trivial fixes.  The names are sorted lexicographically.
 
 See [CONTRIBUTING.md] for more guidelines.
 
 
+Vendor status documents
+-----------------------
+
+* [Mozilla Firefox](https://bugzilla.mozilla.org/showdependencytree.cgi?id=721859&hide_resolved=1)
+* [Microsoft Edge](https://docs.microsoft.com/en-us/microsoft-edge/webdriver#w3c-webdriver)
+* [Apple Safari](https://developer.apple.com/library/content/documentation/NetworkingInternetWeb/Conceptual/WebDriverEndpointDoc/Commands/Commands.html)
+* [WebKit GTK port](http://trac.webkit.org/wiki/WebDriverStatus)
+* [Selenium IEDriverServer](https://github.com/SeleniumHQ/selenium/wiki/W3C-WebDriver-Status)
+* [Chrome](https://chromium.googlesource.com/chromium/src/+/master/docs/chromedriver_status.md)
+
+
 [Browser Testing- and Tools Working Group]: https://www.w3.org/testing/browser/
 [good commit message]: https://github.com/erlang/otp/wiki/Writing-good-commit-messages
-[implementation report]: ./ImplementationReport.md
 [Acknowledgements]: https://w3c.github.io/webdriver/#acknowledgements
 [Web Platform Tests]: https://github.com/web-platform-tests/wpt/tree/master/webdriver
 [ReSpec]: https://github.com/w3c/respec/wiki
