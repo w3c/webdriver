@@ -88,8 +88,8 @@ are software developers and testers
 writing automated tests and other tooling,
 such as monitoring or load testing, that relies on automating a browser.
 As such, care has been taken to provide commands
-that simplify common tasks such as <a data-lt="Element Send Keys">typing into</a>
-and <a data-lt="Element Click">clicking</a> elements.
+that simplify common tasks such as <a lt="Element Send Keys">typing into</a>
+and <a lt="Element Click">clicking</a> elements.
 </section>
 
 <section>
@@ -140,7 +140,7 @@ produces the largest integer, closest to positive infinity,
 that is not larger than <var>value</var>.
 
 <p>
-A <dfn data-lt=uuid>Universally Unique IDentifier (UUID)</dfn>
+A <dfn lt=uuid>Universally Unique IDentifier (UUID)</dfn>
 is a 128 bits long URN that requires no central registration process.
 <dfn>Generating a UUID</dfn> means
 <i>Creating a UUID From Truly Random or Pseudo-Random Numbers</i>,
@@ -148,7 +148,7 @@ and converting it to the string representation.
 [[RFC4122]]
 
 <p>
-The <dfn data-lt="Unix timestamp">Unix Epoch</dfn>
+The <dfn lt="Unix timestamp">Unix Epoch</dfn>
 is a value that approximates the number of seconds
 that have elapsed since the Epoch,
 as described by The Open Group Base Specifications Issue 7
@@ -173,7 +173,7 @@ The <dfn>browser chrome</dfn> is a non-normative term
 to refer to the representation through which the user
 interacts with the user agent itself,
 as distinct from the accessed web content.
-Examples of <dfn data-lt="browser chrome element">browser chrome elements</dfn>
+Examples of <dfn lt="browser chrome element">browser chrome elements</dfn>
 include, but are not limited to,
 toolbars (such as the bookmark toolbar),
 menus (such as the file or context menu),
@@ -231,33 +231,33 @@ It is acknowledged that this is complementary to the Evil Bit [[RFC3514]].
 <p>The WebDriver protocol consists of communication between:
 
 <dl>
- <dt><dfn data-lt="local ends|local">Local end</dfn>
+ <dt><dfn lt="local ends|local">Local end</dfn>
  <dd><p>The local end represents the client side of the protocol,
   which is usually in the form of language-specific libraries
   providing an API on top of the WebDriver <a href=#protocol>protocol</a>.
   This specification does not place any restrictions on the details of those libraries
   above the level of the wire protocol.
 
- <dt><dfn data-lt="remote ends|remote">Remote end</dfn>
+ <dt><dfn lt="remote ends|remote">Remote end</dfn>
  <dd>The remote end hosts the server side of the <a href=#protocol>protocol</a>.
   Defining the behavior of a remote end in response to the WebDriver protocol
   forms the largest part of this specification.
 </dl>
 
 <p>For <a>remote ends</a> the standard defines two broad conformance
- classes, known as <dfn data-lt="node type">node types</dfn>:
+ classes, known as <dfn lt="node type">node types</dfn>:
 
 <dl>
- <dt><dfn data-lt="intermediary nodes">Intermediary node</dfn>
+ <dt><dfn lt="intermediary nodes">Intermediary node</dfn>
  <dd>Intermediary nodes are those that act as proxies, implementing
   both the <a>local end</a> and <a>remote end</a> of
   the <a href=#protocol>protocol</a>.  However they are not expected
   to implement <a>remote end steps</a> directly. All nodes between a
   specific <a>intermediary node</a> and a <a>local end</a> are said to
-  be <dfn data-lt="downstream node">downstream</dfn> of that
+  be <dfn lt="downstream node">downstream</dfn> of that
   node. Conversely, any nodes between a specific <a>intermediary
   node</a> and an <a>endpoint node</a> are said to
-  be <dfn data-lt="upstream node">upstream</dfn>.
+  be <dfn lt="upstream node">upstream</dfn>.
 
  <dt><dfn>Endpoint node</dfn>
  <dd>An endpoint node is the final <a>remote end</a>
@@ -281,7 +281,7 @@ In all other cases it must be true.
 
 <p class=example>If the <a>intermediary node</a>
  is a multiplexer that manages
- multiple <a data-lt="endpoint node">endpoint nodes</a>,
+ multiple <a lt="endpoint node">endpoint nodes</a>,
  this might indicate its ability to purvey more <a>sessions</a>,
  for example if it has hit its maximum capacity.
 </section> <!-- /Nodes -->
@@ -311,14 +311,14 @@ In all other cases it must be true.
 
 <p>Where algorithms that return values are fallible,
  they are written in terms of returning either
- <dfn>success</dfn> or <dfn data-lt=errors>error</dfn>.
+ <dfn>success</dfn> or <dfn lt=errors>error</dfn>.
  A <a>success</a> value has an associated <var>data</var> field
  which encapsulates the value returned,
  whereas an <a>error</a> response has an associated <a>error code</a>.
 
 <p>When calling a fallible algorithm,
  the construct “Let <var>result</var> be the result
- of <dfn data-lt="try">trying</dfn> to call <var>algorithm</var>”
+ of <dfn lt="try">trying</dfn> to call <var>algorithm</var>”
  is equivalent to
 
 <ol>
@@ -328,12 +328,12 @@ In all other cases it must be true.
   otherwise let <var>result</var> be <var>temp</var>’s <var>data</var> field.
 </ol>
 
-<p>The result of <dfn data-lt="getting properties|getting the
+<p>The result of <dfn lt="getting properties|getting the
  property">getting a property</dfn> with argument <var>name</var> is
  defined as being the same as the result of calling
  <a>Object</a>.<a>[[\GetOwnProperty]]</a>(<var>name</var>).
 
-<p>The result of <dfn data-lt="getting the property with
+<p>The result of <dfn lt="getting the property with
  default">getting a property with default</dfn> with
  arguments <var>name</var> and <var>default</var> is defined as being
  the same as the result of calling
@@ -341,7 +341,7 @@ In all other cases it must be true.
  results in a value other than <code>undefined</code>
  and <var>default</var> otherwise.
 
-<p><dfn data-lt='set a property'>Setting a property</dfn> with
+<p><dfn lt='set a property'>Setting a property</dfn> with
  arguments <var>name</var> and <var>value</var> is defined as being
  the same as calling
  <a>Object</a>.<a>[[\Put]]</a>(<var>name</var>, <var>value</var>).
@@ -350,7 +350,7 @@ In all other cases it must be true.
   of type JSON <a>Object</a> is defined as the result of
   calling <code>JSON.</code><a>[[\Stringify]]</a>(<var>object</var>).
 
-<p>The result of <dfn data-lt='parsing as json'>JSON deserialization</dfn> with <var>text</var> is defined as
+<p>The result of <dfn lt='parsing as json'>JSON deserialization</dfn> with <var>text</var> is defined as
   the result of calling <code>JSON.</code><a>[[\Parse]]</a>(<var>text</var>).
 </section> <!-- /Algorithms -->
 
@@ -361,7 +361,7 @@ In all other cases it must be true.
 <p>
 The WebDriver protocol is organised into <a>commands</a>.
 Each <a>HTTP request</a> with a method and template defined in this specification
-represents a single <dfn data-lt=commands>command</dfn>,
+represents a single <dfn lt=commands>command</dfn>,
 and therefore each command produces a single <a>HTTP response</a>.
 
 <p>
@@ -421,7 +421,7 @@ when it receives a particular <a>command</a>.
     from <var>command parameters</var>.
 
    <li><p>Let the <a>current session</a> be the <a>session</a>
-    with <a data-lt="session id">ID</a> <var>session id</var>
+    with <a lt="session id">ID</a> <var>session id</var>
     in the list of <a>active sessions</a>,
     or <a><code>null</code></a> if there is no such matching <a>session</a>.
 
@@ -465,7 +465,7 @@ when it receives a particular <a>command</a>.
   <p>Otherwise, let <var>parameters</var> be <a><code>null</code></a>.
 
  <li><p><a>Wait for navigation to complete</a>. If this returns
-  an <a>error</a> <a data-lt="send an error">return its value</a> and
+  an <a>error</a> <a lt="send an error">return its value</a> and
   jump to step 1 in this overall algorithm, otherwise continue.
 
  <li><p>Let <var>response result</var> be the return value
@@ -537,9 +537,9 @@ when it receives a particular <a>command</a>.
   and <a>status message</a> to the string corresponding
   to the description of <var>status</var> in the <a>status code registry</a>.
 
- <li><p><a data-lt="set header">Set</a> the <var>response</var>’s <a>header</a>
-  with <a data-lt="header name">name</a>
-  and <a data-lt="header value">value</a>
+ <li><p><a lt="set header">Set</a> the <var>response</var>’s <a>header</a>
+  with <a lt="header name">name</a>
+  and <a lt="header value">value</a>
   with the following values:
 
   <dl>
@@ -551,17 +551,17 @@ when it receives a particular <a>command</a>.
   </dl>
 
  <li><p>Let <var>response</var>’s <a>body</a> be
-  the <a data-lt="utf-8 encode">UTF-8 encoded</a> <a>JSON
+  the <a lt="utf-8 encode">UTF-8 encoded</a> <a>JSON
   serialization</a> of a JSON <a>Object</a> with a key
   "<code>value</code>" set to <var>data</var>.
 
  <li><p>Let <var>response bytes</var> be the byte sequence resulting
   from serializing <var>response</var> according to the rules in [[RFC7230]].
 
- <li><p><a data-lt="write bytes">Write</a> <var>response bytes</var>
+ <li><p><a lt="write bytes">Write</a> <var>response bytes</var>
   to the <a>connection</a>.
 </ol>
-<p>A <dfn data-lt="url variables">url variable</dfn> dictionary is defined
+<p>A <dfn lt="url variables">url variable</dfn> dictionary is defined
   as the mapping of a <a>command</a>’s <a>URI template</a> variable names
   to their corresponding values.
 </section> <!-- /Processing model -->
@@ -569,9 +569,9 @@ when it receives a particular <a>command</a>.
 <section>
 <h3 id=routing-requests>Routing requests</h3>
 
-<p><dfn data-lt="routing requests">Request routing</dfn>
+<p><dfn lt="routing requests">Request routing</dfn>
  is the process of going from a <a>HTTP request</a>
- to the <a data-lt="remote end steps">series of steps</a> needed
+ to the <a lt="remote end steps">series of steps</a> needed
  to implement the <a>command</a> represented by that request.
 
 <p>A <a>remote end</a> has an associated <dfn>URL prefix</dfn>,
@@ -626,7 +626,7 @@ when it receives a particular <a>command</a>.
 <section>
 <h3 id=endpoints>Endpoints</h3>
 
-<p>The following <dfn data-lt=endpoints>table of endpoints</dfn> lists
+<p>The following <dfn lt=endpoints>table of endpoints</dfn> lists
  the <a>method</a> and <a>URI template</a> for each <a>endpoint
  node</a> <a>command</a>. <a>Extension commands</a> are implicitly
  appended to this table.
@@ -1070,8 +1070,8 @@ when it receives a particular <a>command</a>.
   <td><code>element not interactable</code>
   <td>A <a>command</a> could not be completed
    because the element is not
-   <a data-lt="pointer-interactable">pointer</a>- or
-   <a data-lt="keyboard-interactable">keyboard</a> <a>interactable</a>.
+   <a lt="pointer-interactable">pointer</a>- or
+   <a lt="keyboard-interactable">keyboard</a> <a>interactable</a>.
  </tr>
 
  <tr>
@@ -1104,7 +1104,7 @@ when it receives a particular <a>command</a>.
   <td><code>invalid element state</code>
   <td>A <a>command</a> could not be completed because the element is
    in an invalid state, e.g. attempting to
-   <a data-lt="Element Clear">clear</a> an element that isn’t
+   <a lt="Element Clear">clear</a> an element that isn’t
    both <a>editable</a> and <a>resettable</a>.
  </tr>
 
@@ -1278,7 +1278,7 @@ when it receives a particular <a>command</a>.
  features.
 
 <p>Commands defined in this way
- are called <dfn data-lt="extension command">extension commands</dfn>
+ are called <dfn lt="extension command">extension commands</dfn>
  and behave no differently than other <a>commands</a>;
  each has a dedicated HTTP endpoint and a set of <a>remote end steps</a>.
 
@@ -1293,7 +1293,7 @@ when it receives a particular <a>command</a>.
  as that of other built-in <a>commands</a>.
 
 <p>In order to avoid potential resource conflicts with other implementations,
- vendor-specific <a data-lt="extension command URI Template">extension command URI Templates</a> must begin with one
+ vendor-specific <a lt="extension command URI Template">extension command URI Templates</a> must begin with one
  or more path segments which uniquely identifies the vendor and UA.
  It is suggested that vendors use their vendor prefixes
  without additional characters as outlined in [[CSS21]],
@@ -1320,7 +1320,7 @@ when it receives a particular <a>command</a>.
   <a>remote end steps</a>.
 </aside>
 
-<p>Other specifications may define <dfn data-lt="additional WebDriver
+<p>Other specifications may define <dfn lt="additional WebDriver
 capability">additional WebDriver capabilities</dfn>. Each defined
 capability must have a <dfn>capability name</dfn> which is a string
 not containing a "<code>:</code>" (colon) character,
@@ -1340,7 +1340,7 @@ either <a><code>null</code></a> to indicate the capability is not
 matched, or a non-null JSON-serializable value if the capability is
 matched.
 
-<p>Other specifications may also define <dfn data-lt="WebDriver new
+<p>Other specifications may also define <dfn lt="WebDriver new
 session algorithm">WebDriver new session algorithms</dfn>, which are
 called just after a new session is created, and before the <a>new
 session</a> response is sent to the <a>remote end</a>. These
@@ -1353,7 +1353,7 @@ modify any entry in the capabilities object with a name that's an
 specification.
 
 <p><a>Remote ends</a> may also introduce
- <dfn data-lt="extension capability">extension capabilities</dfn>
+ <dfn lt="extension capability">extension capabilities</dfn>
  that are extra <a>capabilities</a>
  used to provide configuration or fulfill other vendor-specific needs.
  Extension capabilities’ key
@@ -1395,7 +1395,7 @@ specification.
 <section>
 <h2 id=capabilities>Capabilities</h2>
 
-<p>WebDriver <dfn data-lt="capability">capabilities</dfn>
+<p>WebDriver <dfn lt="capability">capabilities</dfn>
  are used to communicate the features supported by a given implementation.
  The <a>local end</a> may use capabilities
  to define which features it requires the <a>remote end</a>
@@ -1450,7 +1450,7 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
-  <td><dfn data-lt="insecure TLS Certificates">Accept insecure TLS certificates</dfn>
+  <td><dfn lt="insecure TLS Certificates">Accept insecure TLS certificates</dfn>
   <td>"<code>acceptInsecureCerts</code>"
   <td>boolean
   <td>Indicates whether untrusted and self-signed TLS certificates
@@ -1597,7 +1597,7 @@ with a "<code>moz:</code>" prefix:
 <p>A <dfn>host and optional port</dfn> for a <var>scheme</var> is
   defined as being a valid <a>host</a>, optionally followed by a colon
   and a valid <a>port</a>. The <a>host</a> may
-  <a data-lt="includes credentials">include credentials</a>. If the
+  <a lt="includes credentials">include credentials</a>. If the
   port is omitted and <var>scheme</var> has a <a>default port</a>,
   this is the implied port. Otherwise, the port is left undefined.
 
@@ -1670,7 +1670,7 @@ with a "<code>moz:</code>" prefix:
 <section>
 <h3 id=processing-capabilities>Processing capabilities</h3>
 
-<p>To <dfn data-lt="capabilities processing">process capabilities</dfn>
+<p>To <dfn lt="capabilities processing">process capabilities</dfn>
  with argument <var>parameters</var>,
  the <a>endpoint node</a> must take the following steps:
 
@@ -1728,7 +1728,7 @@ with a "<code>moz:</code>" prefix:
    to an indexed property in <var>validated first match capabilities</var>:
    <ol>
     <li><p>Let <var>merged</var> be the result of
-     <a>trying</a> to <a data-lt="merging capabilities">merge
+     <a>trying</a> to <a lt="merging capabilities">merge
      capabilities</a> with <var>required capabilities</var>
      and <var>first match capabilities</var> as arguments.
 
@@ -1739,7 +1739,7 @@ with a "<code>moz:</code>" prefix:
    to an indexed property in <var>merged capabilities</var>:
    <ol>
     <li><p>Let <var>matched capabilities</var> be the result of
-     <a>trying</a> to <a data-lt="matching capabilities">match
+     <a>trying</a> to <a lt="matching capabilities">match
      capabilities</a> with <var>capabilities</var> as an
      argument.
 
@@ -2079,7 +2079,7 @@ with a "<code>moz:</code>" prefix:
  and allowing sessions to be routed via a multiplexer
  (known as an <a>intermediary node</a>).
 
-<p>A WebDriver <dfn data-lt="sessions">session</dfn> represents
+<p>A WebDriver <dfn lt="sessions">session</dfn> represents
  the <a>connection</a> between a <a>local end</a> and a specific <a>remote end</a>.
 
 <p>A <a>session</a> is started when
@@ -2108,7 +2108,7 @@ with a "<code>moz:</code>" prefix:
  which is the <a>session</a> in which that <a>command</a> will run.
 
 <p>A <a>remote end</a> has an associated list of
- <dfn data-lt="active session">active sessions</dfn>,
+ <dfn lt="active session">active sessions</dfn>,
  which is a list of all <a>sessions</a> that are currently started.
  A <a>remote end</a> that is not an <a>intermediary node</a>
  has at most one <a>active session</a> at a given time.
@@ -2134,7 +2134,7 @@ with a "<code>moz:</code>" prefix:
  context</a>.
 
 <p>
-A <a>session</a> has an associated <dfn data-lt="session script timeout|session page load timeout|session implicit wait timeout">session timeouts</dfn>
+A <a>session</a> has an associated <dfn lt="session script timeout|session page load timeout|session implicit wait timeout">session timeouts</dfn>
 that records the timeout duration values used to control the behavior
 of <a href=#executing-script>script evaluation</a>,
 <a href=#navigation>navigation</a>,
@@ -2167,7 +2167,7 @@ Unless stated otherwise it is in the <a>dismiss and notify state</a>.
 <p>A <a>session</a> has an associated <a>input cancel list</a>.
 
 <p>A <a>session</a> has an associated <dfn>request queue</dfn> which is a
- <a>queue</a> of <a data-lt=request>requests</a> that are currently awaiting
+ <a>queue</a> of <a lt=request>requests</a> that are currently awaiting
  processing.
 
 <p>When asked to <dfn>close the session</dfn>,
@@ -2210,7 +2210,7 @@ Unless stated otherwise it is in the <a>dismiss and notify state</a>.
  so that the <a>connection</a> is not prematurely closed.
 
 <section>
-<h3 id=new-session><dfn data-lt="new sessions|creating a new session">New Session</dfn></h3>
+<h3 id=new-session><dfn lt="new sessions|creating a new session">New Session</dfn></h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -2273,7 +2273,7 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
     }
 }</pre>
 
- <p>Once all <a data-lt="merging capabilities">capabilities are merged</a> from this example,
+ <p>Once all <a lt="merging capabilities">capabilities are merged</a> from this example,
   an <a>endpoint node</a> would receive <a>New Session</a> capabilities identical to:
 
  <pre>[
@@ -2455,13 +2455,13 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
 <aside class=note>
  <p><a>Status</a> returns information
   about whether a <a>remote end</a>
-  is in a state in which it can create <a data-lt="new session">new sessions</a>,
+  is in a state in which it can create <a lt="new session">new sessions</a>,
   but may additionally include arbitrary meta information
   that is specific to the implementation.
 
  <p>The <a>remote end</a>’s <a>readiness state</a> is represented
   by the <code>ready</code> property of the body,
-  which is false if an attempt to <a data-lt="new session">create a session</a>
+  which is false if an attempt to <a lt="new session">create a session</a>
   at the current time would fail.
   However, the value true does not guarantee
   that a <a>New Session</a> command will succeed.
@@ -2538,7 +2538,7 @@ but instead run indefinitely.
 <td>
 <p>
 Provides the timeout limit used to interrupt
-an explicit <a data-lt=navigate>navigation</a> attempt.
+an explicit <a lt=navigate>navigation</a> attempt.
 </tr>
 
 <tr>
@@ -2727,19 +2727,19 @@ Return <a>success</a> with data <a><code>null</code></a>.
 
  <tr>
   <td>"<code>none</code>"
-  <td><dfn data-lt="none page loading strategy">none</dfn>
+  <td><dfn lt="none page loading strategy">none</dfn>
   <td>
  </tr>
 
  <tr>
   <td>"<code>eager</code>"
-  <td><dfn data-lt="eager page loading strategy">eager</dfn>
+  <td><dfn lt="eager page loading strategy">eager</dfn>
   <td>"<code>interactive</code>"
  </tr>
 
  <tr>
   <td>"<code>normal</code>"
-  <td><dfn data-lt="normal page loading strategy">normal</dfn>
+  <td><dfn lt="normal page loading strategy">normal</dfn>
   <td>"<code>complete</code>"
  </tr>
 </table>
@@ -2758,7 +2758,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
  <li><p>Return <a>success</a> with data <var>value</var>.
 </ol>
 
-<p>When asked to <dfn data-lt="waiting for the navigation to complete">wait for navigation to complete</dfn>,
+<p>When asked to <dfn lt="waiting for the navigation to complete">wait for navigation to complete</dfn>,
  run the following steps:
 
 <ol>
@@ -2931,7 +2931,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>url</var> be the <a data-lt="URL serializer">serialization</a>
+ <li><p>Let <var>url</var> be the <a lt="URL serializer">serialization</a>
   of the <a>current top-level browsing context</a>’s
   <a>active document</a>’s <a>document URL</a>.
 
@@ -2976,7 +2976,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
   whichever occurs sooner.
 
  <li><p>If the previous step completed by the <a>session page load
-   timeout</a> being reached, and <a data-lt="handle any user
+   timeout</a> being reached, and <a lt="handle any user
    prompts">user prompts have been handled</a>, return <a>error</a>
    with <a>error code</a> <a>timeout</a>.
 
@@ -3021,7 +3021,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
    whichever occurs sooner.
 
  <li><p>If the previous step completed by the <a>session page load
-   timeout</a> being reached, and <a data-lt="handle any user
+   timeout</a> being reached, and <a lt="handle any user
    prompts">user prompts have been handled</a>, return <a>error</a>
    with <a>error code</a> <a>timeout</a>.
 
@@ -3129,7 +3129,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
  if it has been <a>discarded</a>.
 
 <p>Each <a>browsing context</a> has an associated
- <dfn data-lt="window handles">window handle</dfn> which uniquely
+ <dfn lt="window handles">window handle</dfn> which uniquely
  identifies it. This must be a <a>String</a> and must not be
  "<code>current</code>".
 
@@ -3439,7 +3439,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
      <li><p>Let <var>child window</var> be
       the <a><code>WindowProxy</code></a> object obtained by
       calling
-      <var>window</var>.<a data-lt='window.[[\getOwnProperty]]'><code>[[\GetOwnProperty]]</code></a>
+      <var>window</var>.<a lt='window.[[\getOwnProperty]]'><code>[[\GetOwnProperty]]</code></a>
       (<var>id</var>).
 
      <li><p>Set the <a>current browsing context</a> to
@@ -3530,7 +3530,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
  an <a>unsupported operation</a> <a>error</a> is returned.
 
 <p>The <a>top-level browsing context</a>
- has an associated <dfn data-lt="window states">window state</dfn>
+ has an associated <dfn lt="window states">window state</dfn>
  which describes what visibility state its OS widget window is in.
  It can be in one of the following states:
 
@@ -3575,13 +3575,13 @@ make the tab containing the <a>browsing context</a> the selected tab.
  the <a>top-level browsing context</a>’s OS window
  cannot enter either of the <a>window states</a>,
  or if this concept is not applicable on the current system,
- the default state must be <a data-lt="normal window state">normal</a>.
+ the default state must be <a lt="normal window state">normal</a>.
 
 <p>A <a>top-level browsing context</a>’s <dfn>window rect</dfn>
  is defined as a dictionary of the <a>screenX</a>, <a>screenY</a>,
  <a>outerWidth</a> and <a>outerHeight</a> attributes
  of the <a><code>WindowProxy</code></a>.
- Its <dfn data-lt="json serialization of window rect">JSON representation</dfn> is the following:
+ Its <dfn lt="json serialization of window rect">JSON representation</dfn> is the following:
 
 <dl>
  <dt>"<code>x</code>"
@@ -3621,7 +3621,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
  Do not return from this operation
  until the <a>visibility state</a>
  of the <a>top-level browsing context</a>’s <a>active document</a>
- has reached the <a data-lt="visibility hidden">hidden</a> state,
+ has reached the <a lt="visibility hidden">hidden</a> state,
  or until the operation times out.
 
 <p>To <dfn>restore the window</dfn>,
@@ -3633,7 +3633,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
  Do not return from this operation
  until the <a>visibility state</a>
  of the <a>top-level browsing context</a>’s <a>active document</a>
- has reached the <a data-lt="visibility visible">visible</a> state,
+ has reached the <a lt="visibility visible">visible</a> state,
  or until the operation times out.
 
 <section>
@@ -3664,7 +3664,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Return <a>success</a>
-  with the <a data-lt="json serialization of window rect">JSON serialization</a>
+  with the <a lt="json serialization of window rect">JSON serialization</a>
   of the <a>current top-level browsing context</a>’s
   <a>window rect</a>.
 </ol>
@@ -3791,7 +3791,7 @@ corresponding to the <a>current top-level browsing context</a>.
   </ol>
 
  <li><p>Return <a>success</a>
-  with the <a data-lt="json serialization of window rect">JSON serialization</a>
+  with the <a lt="json serialization of window rect">JSON serialization</a>
   of the <a>current top-level browsing context</a>’s <a>window rect</a>.
 </ol>
 </section> <!-- /Set Window Rect -->
@@ -3837,7 +3837,7 @@ corresponding to the <a>current top-level browsing context</a>.
   of the <a>current top-level browsing context</a>.
 
  <li><p>Return <a>success</a>
-  with the <a data-lt="json serialization of window rect">JSON serialization</a>
+  with the <a lt="json serialization of window rect">JSON serialization</a>
   of the <a>current top-level browsing context</a>’s
   <a>window rect</a>.
 </ol>
@@ -3880,7 +3880,7 @@ corresponding to the <a>current top-level browsing context</a>.
  <li><p><a>Iconify the window</a>.
 
  <li><p>Return <a>success</a>
-  with the <a data-lt="json serialization of window rect">JSON serialization</a>
+  with the <a lt="json serialization of window rect">JSON serialization</a>
   of the <a>current top-level browsing context</a>’s
   <a>window rect</a>.
 </ol>
@@ -3918,7 +3918,7 @@ corresponding to the <a>current top-level browsing context</a>.
   <a>active document</a>’s <a>document element</a>.
 
  <li><p>Return <a>success</a>
-  with the <a data-lt="json serialization of window rect">JSON serialization</a>
+  with the <a lt="json serialization of window rect">JSON serialization</a>
   of the <a>current top-level browsing context</a>’s
   <a>window rect</a>.
 </ol>
@@ -3930,7 +3930,7 @@ corresponding to the <a>current top-level browsing context</a>.
 <section>
 <h2 id=elements>Elements</h2>
 
-<p>A <dfn data-lt="web elements">web element</dfn>
+<p>A <dfn lt="web elements">web element</dfn>
  is an abstraction used to identify an <a>element</a>
  when it is transported via the <a href="#protocol">protocol</a>,
  between <a>remote</a>- and <a>local</a> ends.
@@ -3978,7 +3978,7 @@ argument <var>reference</var>, run the following steps:
   <li>Return <a>success</a> with <var>element</var>.
 </ol>
 
-<p>To <dfn data-lt="create an element">create a web element reference</dfn>
+<p>To <dfn lt="create an element">create a web element reference</dfn>
  for an <a><var>element</var></a>:
 
 <ol>
@@ -4009,7 +4009,7 @@ argument <var>reference</var>, run the following steps:
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>reference</var> be the result of
-  <a data-lt="getting a property">getting</a>
+  <a lt="getting a property">getting</a>
   the <a>web element identifier</a> property
   from <var>object</var>.
 
@@ -4024,7 +4024,7 @@ argument <var>reference</var>, run the following steps:
  if its <a>node document</a> is not the <a>active document</a>
  or if its <a>context object</a> is not <a>connected</a>.
 
-<p>To <dfn data-lt="scrolls into view|scrolled into view">scroll into view</dfn>
+<p>To <dfn lt="scrolls into view|scrolled into view">scroll into view</dfn>
  an <var><a>element</a></var>
  perform the following steps
  only if the element is not already <a>in view</a>:
@@ -4046,42 +4046,42 @@ argument <var>reference</var>, run the following steps:
 </ol>
 
 <p><dfn>Editable</dfn> <a>elements</a>
- are those that can be used for <a data-lt="element send keys">typing</a>
- and <a data-lt="element clear">clearing</a>,
+ are those that can be used for <a lt="element send keys">typing</a>
+ and <a lt="element clear">clearing</a>,
  and they fall into two subcategories:
 
 <dl class=subcategories>
- <dt><dfn data-lt="mutable form control element">Mutable form control elements</dfn>
+ <dt><dfn lt="mutable form control element">Mutable form control elements</dfn>
  <dd><p>Denotes <a><code>input</code> elements</a>
   that are <a>mutable</a> (e.g. that are not <a>read only</a> or <a>disabled</a>)
   and whose <a><code>type</code> attribute</a>
   is in one of the following states:
 
   <ul class=brief>
-   <li><a data-lt="Text and Search state">Text and Search</a></li>
-   <li><a data-lt="URL state">URL</a></li>
-   <li><a data-lt="Telephone state">Telephone</a></li>
-   <li><a data-lt="Email state">Email</a></li>
-   <li><a data-lt="Password state">Password</a></li>
-   <li><a data-lt="Date state">Date</a></li>
-   <li><a data-lt="Month state">Month</a></li>
-   <li><a data-lt="Week state">Week</a></li>
-   <li><a data-lt="Time state">Time</a></li>
-   <li><a data-lt="Local Date and Time state">Local Date and Time</a></li>
-   <li><a data-lt="Number state">Number</a></li>
-   <li><a data-lt="Range state">Range</a></li>
-   <li><a data-lt="Color state">Color</a></li>
-   <li><a data-lt="File Upload state">File Upload</a></li>
+   <li><a lt="Text and Search state">Text and Search</a></li>
+   <li><a lt="URL state">URL</a></li>
+   <li><a lt="Telephone state">Telephone</a></li>
+   <li><a lt="Email state">Email</a></li>
+   <li><a lt="Password state">Password</a></li>
+   <li><a lt="Date state">Date</a></li>
+   <li><a lt="Month state">Month</a></li>
+   <li><a lt="Week state">Week</a></li>
+   <li><a lt="Time state">Time</a></li>
+   <li><a lt="Local Date and Time state">Local Date and Time</a></li>
+   <li><a lt="Number state">Number</a></li>
+   <li><a lt="Range state">Range</a></li>
+   <li><a lt="Color state">Color</a></li>
+   <li><a lt="File Upload state">File Upload</a></li>
   </ul>
 
   <p>And the <a><code>textarea</code> element</a>.
 
- <dt><dfn data-lt="mutable element">Mutable elements</dfn>
+ <dt><dfn lt="mutable element">Mutable elements</dfn>
  <dd><p>Denotes elements that are <a>editing hosts</a> or <a>content editable</a>.
 </dl>
 
 <p>An <a>element</a> is said to have
- <dfn data-lt="pointer events are not disabled">pointer events disabled</dfn>
+ <dfn lt="pointer events are not disabled">pointer events disabled</dfn>
  if the <a>resolved value</a> of its "<code>pointer-events</code>" style property
  is "<code>none</code>".
 
@@ -4098,22 +4098,22 @@ argument <var>reference</var>, run the following steps:
  WebDriver performs hit-testing to find
  if the interaction will be able to reach the requested element.
 
-<p>An <dfn data-lt=interactable>interactable element</dfn>
+<p>An <dfn lt=interactable>interactable element</dfn>
  is an <a>element</a> which is either
  <a>pointer-interactable</a> or <a>keyboard-interactable</a>.
 
-<p>A <dfn data-lt="pointer-interactable">pointer-interactable element</dfn>
+<p>A <dfn lt="pointer-interactable">pointer-interactable element</dfn>
  is defined to be the first <a>element</a>,
  defined by the <a>paint order</a> found at the <a>center point</a>
  of its rectangle that is inside the <a>viewport</a>,
  excluding the size of any rendered scrollbars.
 
-<p>A <dfn data-lt="keyboard-interactable">keyboard-interactable element</dfn>
+<p>A <dfn lt="keyboard-interactable">keyboard-interactable element</dfn>
  is any <a>element</a> that has a <a>focusable area</a>,
  is a <a><code>body</code> element</a>,
  or is the <a>document element</a>.
 
-<p>An <a>element</a>’s <dfn data-lt="center point">in-view center point</dfn>
+<p>An <a>element</a>’s <dfn lt="center point">in-view center point</dfn>
  is the origin position of the rectangle
  that is the intersection between
  the element’s first <a>DOM client rectangle</a>
@@ -4155,7 +4155,7 @@ argument <var>reference</var>, run the following steps:
  if it is a member of its own <a>pointer-interactable paint tree</a>,
  given the pretense that its <a>pointer events are not disabled</a>.
 
-<p>An <a>element</a> is <dfn data-lt=obscuring>obscured</dfn>
+<p>An <a>element</a> is <dfn lt=obscuring>obscured</dfn>
  if the <a>pointer-interactable paint tree</a>
  at its <a>center point</a> is empty,
  or the first element in this tree
@@ -4163,7 +4163,7 @@ argument <var>reference</var>, run the following steps:
 
 <aside class=example>
  <p>This ascertains if the <a>element</a>’s <a>in-view center point</a>
-  would be possible to <a data-lt="element click">interact</a> with.
+  would be possible to <a lt="element click">interact</a> with.
 
  <p>For example, the <a>paint tree</a> at this button’s
   <a>center point</a>, the red square, is not itself the button or
@@ -4241,7 +4241,7 @@ argument <var>reference</var>, run the following steps:
  Element retrieval searches are performed
  using pre-order traversal of the document’s nodes
  that match the provided selector’s expression.
- Elements are <a data-lt="JSON serialization of an element">serialized</a>
+ Elements are <a lt="JSON serialization of an element">serialized</a>
  and returned as <a>web elements</a>.
 
 <p>When required to <dfn>find</dfn> with arguments
@@ -4273,7 +4273,7 @@ argument <var>reference</var>, run the following steps:
  <li><p>Let <var>result</var> be an empty JSON <a>List</a>.
 
  <li><p>For each <var>element</var> in <var>elements returned</var>,
-  append the <a data-lt="JSON serialization of an element">serialization</a>
+  append the <a lt="JSON serialization of an element">serialization</a>
   of <var>element</var> to <var>result</var>.
 
  <li><p>Return <a>success</a> with data <var>result</var>.
@@ -4282,7 +4282,7 @@ argument <var>reference</var>, run the following steps:
 <section>
 <h4 id=locator-strategies>Locator strategies</h4>
 
-<p>An <dfn data-lt=strategy>element location strategy</dfn>
+<p>An <dfn lt=strategy>element location strategy</dfn>
  is an <a>enumerated attribute</a>
  deciding what technique should be used
  to search for <a>elements</a> in the <a>current browsing context</a>.
@@ -4343,7 +4343,7 @@ argument <var>reference</var>, run the following steps:
 <h5 id=link-text>Link text</h5>
 
 <p>To find a <a>web element</a>
- with the <dfn data-lt="link text selector">Link Text</dfn> <a>strategy</a>
+ with the <dfn lt="link text selector">Link Text</dfn> <a>strategy</a>
  the following steps need to be completed:
 
 <ol>
@@ -4377,7 +4377,7 @@ argument <var>reference</var>, run the following steps:
 <section>
 <h5 id=partial-link-text>Partial link text</h5>
 
-<p>The <dfn data-lt="partial link text selector">Partial link text</dfn> <a>strategy</a>
+<p>The <dfn lt="partial link text selector">Partial link text</dfn> <a>strategy</a>
  is very similar to the <a>Link Text</a> <a>strategy</a>,
  but rather than matching the entire string,
  only a substring needs to match.
@@ -4714,7 +4714,7 @@ session.execute("arguments[0].remove()", [body]);
   of the <a>current browsing context</a>’s <a>document element</a>.
 
  <li><p>If <var>active element</var> is a non-null <a>element</a>,
-  return <a>success</a> with its <a data-lt="JSON serialization of an element">JSON serialization</a>.
+  return <a>success</a> with its <a lt="JSON serialization of an element">JSON serialization</a>.
 
   <p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such element</a>.
 </ol>
@@ -4807,7 +4807,7 @@ session.execute("arguments[0].remove()", [body]);
 <p class=note>
 The <a>Is Element Selected</a> <a>command</a>
 determines if the referenced <a>element</a> is selected or not.
-This operation only makes sense on <a data-lt="input element"><code>input</code> elements</a>
+This operation only makes sense on <a lt="input element"><code>input</code> elements</a>
 of the <a>Checkbox</a>- and <a>Radio Button</a> states,
 or on <a><code>option</code> elements</a>.
 
@@ -4963,7 +4963,7 @@ The <a>remote end steps</a> are:
  <li><p>Let <var>computed value</var> be the result of the first matching condition:
   <dl class="switch">
    <dt><a>current browsing context</a>’s <a>document</a>
-   <a data-lt="document type">type</a> is not "<code>xml</code>"
+   <a lt="document type">type</a> is not "<code>xml</code>"
    <dd><a>computed value</a> of parameter <var>property name</var>
     from <var>element</var>’s style declarations. <var>property name</var>
     is obtained from <a>url variables</a>.
@@ -5090,24 +5090,24 @@ returns the dimensions and coordinates of the given <a>web element</a>.
 The returned value is a dictionary with the following members:
 
 <dl>
-<dt><dfn data-lt="elementrect-x">x</dfn>
+<dt><dfn lt="elementrect-x">x</dfn>
 <dd>
 X axis position of the top-left corner of the <a>web element</a>
 relative to the <a>current browsing context</a>’s
 <a>document element</a> in <a>CSS pixels</a>.
 
-<dt><dfn data-lt="elementrect-y">y</dfn>
+<dt><dfn lt="elementrect-y">y</dfn>
 <dd>
 Y axis position of the top-left corner of the <a>web element</a>
 relative to the <a>current browsing context</a>’s
 <a>document element</a> in <a>CSS pixels</a>.
 
-<dt><dfn data-lt="elementrect-height">height</dfn>
+<dt><dfn lt="elementrect-height">height</dfn>
 <dd>
 Height of the <a>web element</a>’s
 <a>bounding rectangle</a> in <a>CSS pixels</a>.
 
-<dt><dfn data-lt="elementrect-width">width</dfn>
+<dt><dfn lt="elementrect-width">width</dfn>
 <dd>
 Width of the <a>web element</a>’s
 <a>bounding rectangle</a> in <a>CSS pixels</a>.
@@ -5181,7 +5181,7 @@ Width of the <a>web element</a>’s
 
  <li><p>Let <var>enabled</var> be a boolean initially set to true
   if the <a>current browsing context</a>’s
-  <a>document</a> <a data-lt="document type">type</a>
+  <a>document</a> <a lt="document type">type</a>
   is not "<code>xml</code>".
 
   <p>Otherwise, let <var>enabled</var> to false
@@ -5267,7 +5267,7 @@ Width of the <a>web element</a>’s
 <p>The <a>element</a> interaction <a>commands</a>
  provide a high-level instruction set for manipulating form controls.
  Unlike <a>Actions</a>,
- they will implicitly <a data-lt="scroll into view">scroll elements into view</a>
+ they will implicitly <a lt="scroll into view">scroll elements into view</a>
  and check that it is an <a>interactable element</a>.
 
 <p>Some <a>resettable elements</a> define their own <dfn>clear algorithm</dfn>.
@@ -5457,7 +5457,7 @@ an <a>element not interactable</a> <a>error</a> is returned.
   process the DOM events generated by the previous step.
 
  <li><p>Perform implementation-defined steps to allow
-  any <a data-lt="navigation">navigations</a> triggered by the click
+  any <a lt="navigation">navigations</a> triggered by the click
   to start.
 
   <p class="note">It is not always clear how long this will cause the
@@ -5610,7 +5610,7 @@ as something other than as a text input control.
 When targetting an <a><code>input</code> element</a>
 in the <a><code>color</code> state</a>
 being presented as a color wheel,
-<a data-lt="Element Send Keys">interaction</a> with it will be simulated,
+<a lt="Element Send Keys">interaction</a> with it will be simulated,
 rather than typed using key emulation with <a href=#actions>actions</a>.
 
 <p>
@@ -6055,7 +6055,7 @@ a <a>remote end</a> must run the following steps:
    <dd><p>Return <a>success</a> with data <var>value</var>.
 
    <dt><a>Object</a> that <a>represents a web element</a>
-   <dd><p>Return the <a data-lt="deserialize a web element">deserialized</a>
+   <dd><p>Return the <a lt="deserialize a web element">deserialized</a>
     <a>web element</a> of <var>value</var>.
 
    <dt>instance of <a>Array</a>
@@ -6104,7 +6104,7 @@ a <a>remote end</a> must run the following steps:
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
   <p>Otherwise return <a>success</a>
-   with the <a data-lt="JSON serialization of an element">JSON serialization</a>
+   with the <a lt="JSON serialization of an element">JSON serialization</a>
    of <var>value</var>.
 
  <dt>a <a><code>WindowProxy</code></a> object
@@ -6114,7 +6114,7 @@ a <a>remote end</a> must run the following steps:
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
   <p>Otherwise return <a>success</a>
-   with the <a data-lt="JSON serialization of the WindowProxy object">JSON serialization</a>
+   with the <a lt="JSON serialization of the WindowProxy object">JSON serialization</a>
    of <var>value</var>.
 
  <dt>has an <a>own property</a> named "<code>toJSON</code>" that is
@@ -6210,7 +6210,7 @@ a <a>remote end</a> must run the following steps:
 </ol>
 
 <p>The rules to <dfn>execute a function body</dfn> are as follows.
- The algorithm returns <a data-lt="completion">an ECMASCript completion record</a>.
+ The algorithm returns <a lt="completion">an ECMASCript completion record</a>.
 
 <p>If at any point during the algorithm a <a>user prompt</a> appears,
  abort all subsequent substeps of this algorithm, and return
@@ -6322,7 +6322,7 @@ a <a>remote end</a> must run the following steps:
 
   <li><p>If <var>promise</var> is still pending and
     the <a>session script timeout</a> is reached,
-    return <a>error</a> with <a>error code</a> <a data-lt="script timeout error">script timeout</a>.
+    return <a>error</a> with <a>error code</a> <a lt="script timeout error">script timeout</a>.
 
   <li><p>Upon fulfillment of <var>promise</var> with value <var>v</var>,
       let <var>result</var> be a <a>JSON clone</a> of <var>v</var>, and
@@ -6389,7 +6389,7 @@ The first argument provided to the function will be serialized to JSON and retur
         the return value only influences the command if it is a "thenable" object or
         if determining this produces an exception.
 
-    <li><p>If <a data-lt="ecmascript type">Type</a>(<var>scriptResult</var>.[[\Value]])
+    <li><p>If <a lt="ecmascript type">Type</a>(<var>scriptResult</var>.[[\Value]])
       is not <a>Object</a>, then abort these steps.
 
     <li><p>Let <var>then</var> be <a>Get</a>(<var>scriptResult</var>.[[\Value]], "then").
@@ -6412,7 +6412,7 @@ The first argument provided to the function will be serialized to JSON and retur
 
   <li><p>If <var>promise</var> is still pending and
    <a>session script timeout</a> milliseconds is reached,
-   return <a>error</a> with <a>error code</a> <a data-lt="script timeout error">script timeout</a>.
+   return <a>error</a> with <a>error code</a> <a lt="script timeout error">script timeout</a>.
 
   <li><p>Upon fulfillment of <var>promise</var> with value <var>v</var>,
       let <var>result</var> be a <a>JSON clone</a> of <var>v</var>, and
@@ -6553,16 +6553,16 @@ The first argument provided to the function will be serialized to JSON and retur
  and the associated field’s value from the <a>cookie store</a>.
  The optional fields may be omitted.
 
-<p>To get <dfn data-lt="associated cookies">all associated cookies</dfn> to a <a>document</a>,
+<p>To get <dfn lt="associated cookies">all associated cookies</dfn> to a <a>document</a>,
  the user agent must return the enumerated set of <a>cookies</a>
  that meet the requirements set out in the first step of the algorithm in [[RFC6265]] to
  <a>compute <code>cookie-string</code></a> for an ‘HTTP API’, from
  the <a>cookie store</a> of the
  given <a>document</a>’s <a>address</a>. The returned cookies must
- include <a data-lt="cookie HTTP only">HttpOnly cookies</a>.
+ include <a lt="cookie HTTP only">HttpOnly cookies</a>.
 
 <p>When the <a>remote end</a> is instructed
- to <dfn data-lt="creating a cookie">create a cookie</dfn>,
+ to <dfn lt="creating a cookie">create a cookie</dfn>,
  this is synonymous to carrying out the steps described in [[RFC6265]]
  <a href=https://tools.ietf.org/html/rfc6265#section-5.3>section 5.3</a>,
  under <a>receiving a cookie</a>,
@@ -6617,7 +6617,7 @@ The first argument provided to the function will be serialized to JSON and retur
 
   <ol>
    <li><p>Let <var>serialized cookie</var> be the result
-     of <a data-lt="serialized cookie">serializing</a> <var>cookie</var>.
+     of <a lt="serialized cookie">serializing</a> <var>cookie</var>.
 
    <li><p>Append <var>serialized cookie</var> to <var>cookies</var>
   </ol>
@@ -6660,7 +6660,7 @@ The first argument provided to the function will be serialized to JSON and retur
 </section> <!-- /Get Named Cookie -->
 
 <section>
-<h3 id=add-cookie><dfn data-lt="adding a cookie">Add Cookie</dfn></h3>
+<h3 id=add-cookie><dfn lt="adding a cookie">Add Cookie</dfn></h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -6894,7 +6894,7 @@ The objects and properties defined in this section are spec-internal constructs
 and do not correspond to ECMAScript objects.
 For convenience the same terminology is used for their manipulation.
 
-<p>An <dfn data-lt="input sources">input source</dfn> is a virtual device providing input events.
+<p>An <dfn lt="input sources">input source</dfn> is a virtual device providing input events.
  Each <a>input source</a> has an associated <dfn>input id</dfn>,
  which is a string that identifies the particular device,
  and a <dfn>source type</dfn> which determines
@@ -7140,7 +7140,7 @@ and a <code>y</code> property which is an unsigned integer.
 <section>
 <h3 id=ticks>Ticks</h3>
 
-<p>A <dfn data-lt="ticks">tick</dfn> is the basic unit of time over
+<p>A <dfn lt="ticks">tick</dfn> is the basic unit of time over
  which actions can be performed. During a <a>tick</a>, each <a>input source</a> has
  an assigned action — possibly a noop <a>pause</a> action — which may
  result in changes to the user agent internal state and eventually
@@ -7148,7 +7148,7 @@ and a <code>y</code> property which is an unsigned integer.
  after the user agent has had a chance to process all DOM events
  generated in the current <a>tick</a>.
 
-<p><dfn data-lt="asynchronously wait|asynchronous waits">Waiting
+<p><dfn lt="asynchronously wait|asynchronous waits">Waiting
  asynchronously</dfn> means waiting for something to occur whilst
  allowing the browser to continue processing
  the <a href="https://html.spec.whatwg.org/#event-loop">event
@@ -7203,7 +7203,7 @@ from a machine utilisation perspective.
 <section>
 <h3 id=processing-actions>Processing actions</h3>
 
-<p>The algorithm for <a data-lt="extract an action sequence">
+<p>The algorithm for <a lt="extract an action sequence">
  extracting an action sequence from a request</a> takes the
  JSON <a>Object</a> representing an action sequence, validates the
  input, and returns a data structure that is the transpose of the
@@ -7688,7 +7688,7 @@ Return <a>success</a> with data <var>action</var>.
 </ol>
 
 <p>When required to
- <dfn data-lt="computing the tick duration">compute the tick duration</dfn>
+ <dfn lt="computing the tick duration">compute the tick duration</dfn>
  with argument <var>tick actions</var>, a <a>remote end</a>
  must take the following steps:</p>
 
@@ -8687,12 +8687,12 @@ It also clears all the internal state of the virtual devices.
 <p>The <dfn>current user prompt</dfn> is said to be the active <a>user prompt</a>,
  which can be one of the entries on the <a>table of simple dialogs</a>.
 
-<p>To <dfn data-lt="dismissed|dismisses">dismiss</dfn>
+<p>To <dfn lt="dismissed|dismisses">dismiss</dfn>
  the <a>current user prompt</a>,
  do so as if the user would click the <b>Cancel</b> or <b>OK</b> button,
  whichever is present, in that order.
 
-<p>To <dfn data-lt="accepting|accepted|accepts">accept</dfn> the <a>current user prompt</a>,
+<p>To <dfn lt="accepting|accepted|accepts">accept</dfn> the <a>current user prompt</a>,
  do so as if the user would click the <b>OK</b> button.
 
 <p>
@@ -8764,7 +8764,7 @@ argument <var>value</var>:
  <dl>
   <dt>"<code>text</code>"
   <dd>The <a>current user prompt</a>’s
-   <a data-lt="user prompt message">message</a>.
+   <a lt="user prompt message">message</a>.
  </dl>
 
 <p>In order to <dfn>handle any user prompts</dfn>
@@ -8812,7 +8812,7 @@ based on the <a>current session</a>’s <a>user prompt handler</a>:
 When returning an <a>error</a> with <a>unexpected alert open</a>,
 a <a>remote end</a> may choose to return the <a>user prompt message</a>
 as part of an additional "<code>data</code>" <a>Object</a>
-on the <a data-lt="send an error">error representation</a>:
+on the <a lt="send an error">error representation</a>:
 
 <pre><code>
 {
@@ -8843,7 +8843,7 @@ on the <a data-lt="send an error">error representation</a>:
 <p class=note>
 The <a>Dismiss Alert</a> <a>command</a>
 <a>dismisses</a> a <a>simple dialog</a>
-if <a data-lt="current user prompt">present</a>.
+if <a lt="current user prompt">present</a>.
 A request to <a>dismiss</a> an <a>alert</a> <a>user prompt</a>,
 which may not necessarily have a dismiss button,
 has the same effect as <a>accepting</a> it.
@@ -9017,8 +9017,8 @@ sets the text field of a <a>window.<code>prompt</code></a>
   <a>rectangle y coordinate</a> + <a>rectangle height dimension</a>).
 
  <li><p>Let <var>canvas</var> be a new <a><code>canvas</code> element</a>,
-  and set its <a data-lt="canvas width attribute">width</a>
-  and <a data-lt="canvas height attribute">height</a>
+  and set its <a lt="canvas width attribute">width</a>
+  and <a lt="canvas height attribute">height</a>
   to <var>paint width</var> and <var>paint height</var>, respectively.
 
  <li><p>Let <var>context</var>, a <a>canvas context mode</a>,
@@ -9046,7 +9046,7 @@ sets the text field of a <a>window.<code>prompt</code></a>
  <li><p>Return <a>success</a> with <var>canvas</var>.
 </ol>
 
-<p>To <dfn data-lt="encoding a canvas as base64">encode a canvas as
+<p>To <dfn lt="encoding a canvas as base64">encode a canvas as
  Base64 a <code>canvas</code> <a>element</a></dfn>:
 
 <ol>
@@ -9444,7 +9444,7 @@ argument <var>input</var> an implementation must:
 
 <p>
 It is advisable that <a>remote ends</a>
-create a new profile when <a data-lt="new session">creating a new session</a>.
+create a new profile when <a lt="new session">creating a new session</a>.
 This prevents potentially sensitive session data
 from being accessible to new <a>sessions</a>,
 ensuring both privacy and preventing state from bleeding through to the next session.
@@ -9518,7 +9518,7 @@ ensuring both privacy and preventing state from bleeding through to the next ses
  considered visible if any part of it is drawn on the canvas within
  the boundaries of the viewport.
 
-<p>The <dfn data-lt="element displayedness|not displayed">element displayed</dfn> algorithm
+<p>The <dfn lt="element displayedness|not displayed">element displayed</dfn> algorithm
  is a boolean state where <code>true</code> signifies that the element is displayed
  and <code>false</code> signifies that the element is not displayed.
  To compute the state on <var>element</var>,
@@ -9641,7 +9641,7 @@ to automatically sort each list alphabetically.
   in the Content Security Policy Level 3 specification: [[CSP3]]
   <ul>
    <li><dfn><a href="https://www.w3.org/TR/CSP/#directives">Directives</a></dfn>
-   <li><dfn data-lt="blocked by content security policy"><a href=https://w3c.github.io/webappsec-csp/#should-block-navigation-response>Should block navigation response</a></dfn>
+   <li><dfn lt="blocked by content security policy"><a href=https://w3c.github.io/webappsec-csp/#should-block-navigation-response>Should block navigation response</a></dfn>
   </ul>
 
  <dt>Base16, Base32, and Base64 Data Encodings
@@ -9666,17 +9666,17 @@ to automatically sort each list alphabetically.
    <!-- DOCUMENT_POSITION_DISCONNECTED --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-document_position_disconnected>DOCUMENT_POSITION_DISCONNECTED</a></dfn> (1)
    <!-- Document type --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-type>Document type</a></dfn>
    <!-- Document URL --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-url>Document URL</a></dfn>
-   <!-- Element --> <li><dfn data-lt=elements><a href=https://dom.spec.whatwg.org/#concept-element>Element</a></dfn>
+   <!-- Element --> <li><dfn lt=elements><a href=https://dom.spec.whatwg.org/#concept-element>Element</a></dfn>
    <!-- Equals --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node-equals>Equals</a></dfn>
    <!-- Event --> <li><dfn><a href=https://dom.spec.whatwg.org/#event>Event</a></dfn>
-   <!-- Fire an event --> <li><dfn data-lt="fire|fires|fired|event fires|event fired|event firing"><a href=https://dom.spec.whatwg.org/#concept-event-fire>Fire an event</a></dfn>
-   <!-- Get an attribute by name --> <li><dfn data-lt="getting an attribute by name"><a href=https://dom.spec.whatwg.org/#concept-element-attributes-get-by-name>Get an attribute by name</a></dfn>
+   <!-- Fire an event --> <li><dfn lt="fire|fires|fired|event fires|event fired|event firing"><a href=https://dom.spec.whatwg.org/#concept-event-fire>Fire an event</a></dfn>
+   <!-- Get an attribute by name --> <li><dfn lt="getting an attribute by name"><a href=https://dom.spec.whatwg.org/#concept-element-attributes-get-by-name>Get an attribute by name</a></dfn>
    <!-- getAttribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-getattribute>getAttribute</a></dfn>
    <!-- getElementsByTagName --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-element-getelementsbytagname"><code>getElementsByTagName</code></a></dfn>
-   <!-- hasAttribute --> <li><dfn data-lt="has the attribute"><a href=https://dom.spec.whatwg.org/#dom-element-hasattribute>hasAttribute</a></dfn>
+   <!-- hasAttribute --> <li><dfn lt="has the attribute"><a href=https://dom.spec.whatwg.org/#dom-element-hasattribute>hasAttribute</a></dfn>
    <!-- HTMLCollection --> <li><dfn><a href=https://dom.spec.whatwg.org/#htmlcollection><code>HTMLCollection</code></a></dfn>
    <!-- Inclusive descendant --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-tree-inclusive-descendant>Inclusive descendant</a></dfn>
-   <!-- isTrusted --> <li><dfn data-lt='is trusted'><a href="https://dom.spec.whatwg.org/#dom-event-istrusted"><code>isTrusted</code></a></dfn>
+   <!-- isTrusted --> <li><dfn lt='is trusted'><a href="https://dom.spec.whatwg.org/#dom-event-istrusted"><code>isTrusted</code></a></dfn>
    <!-- Node document --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node-document>Node document</a></dfn>
    <!-- Node length --> <li><dfn><a href="https://dom.spec.whatwg.org/#concept-node-length">Node Length</a></dfn>
    <!-- Node --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node>Node</a></dfn>
@@ -9690,7 +9690,7 @@ to automatically sort each list alphabetically.
  <dd><p>The following attributes are defined
   in the Document Object Model specification: [[DOM]]
   <ul>
-   <!-- textContent attribute --> <li><dfn data-lt=textContent><a href=https://dom.spec.whatwg.org/#dom-node-textcontent><code>textContent</code> attribute</a></dfn>
+   <!-- textContent attribute --> <li><dfn lt=textContent><a href=https://dom.spec.whatwg.org/#dom-node-textcontent><code>textContent</code> attribute</a></dfn>
   </ul>
 
  <dd><p>The following terms are defined in
@@ -9699,7 +9699,7 @@ to automatically sort each list alphabetically.
    <!-- fragment serializing algorithm --> <li><dfn><a href="https://w3c.github.io/DOM-Parsing/#dfn-fragment-serializing-algorithm">fragment serializing algorithm</a></dfn>
    <!-- innerHTML IDL Attribute--> <li><dfn><a href=https://w3c.github.io/DOM-Parsing/#dom-innerhtml-innerhtml><code>innerHTML</code> IDL attribute</a></dfn>
    <!-- outerHTML IDL Attribute--> <li><dfn><a href=https://w3c.github.io/DOM-Parsing/#dom-element-outerhtml><code>outerHTML</code> IDL attribute</a></dfn>
-   <!-- serializeToString --> <li><dfn data-lt="serializing to string"><a href=https://w3c.github.io/DOM-Parsing/#dom-xmlserializer-serializetostring><code>serializeToString</code> method</a></dfn>
+   <!-- serializeToString --> <li><dfn lt="serializing to string"><a href=https://w3c.github.io/DOM-Parsing/#dom-xmlserializer-serializetostring><code>serializeToString</code> method</a></dfn>
   </ul>
 
  <dd><p>The following attributes are defined
@@ -9709,9 +9709,9 @@ to automatically sort each list alphabetically.
    <!-- click event --> <li><dfn><a href="https://w3c.github.io/uievents/#event-type-click">click event</a></dfn>
    <!-- Keyboard Event --> <li><dfn><a href=https://w3c.github.io/uievents/#keyboardevent>Keyboard event</a></dfn>
    <!-- Keyboard event order --> <li><dfn><a href=https://w3c.github.io/uievents/#events-keyboard-event-order>Keyboard event order</a></dfn>
-   <!-- keyDown event --> <li><dfn data-lt="keyDown-Event"><a href=https://w3c.github.io/uievents/#event-type-keydown>keyDown event</a></dfn>
-   <!-- keyPress event --> <li><dfn data-lt="keyPress-Event"><a href=https://w3c.github.io/uievents/#event-type-keypress>keyPress event</a></dfn>
-   <!-- keyUp event --> <li><dfn data-lt="keyUp-Event"><a href=https://w3c.github.io/uievents/#event-type-keyup>keyUp event</a></dfn>
+   <!-- keyDown event --> <li><dfn lt="keyDown-Event"><a href=https://w3c.github.io/uievents/#event-type-keydown>keyDown event</a></dfn>
+   <!-- keyPress event --> <li><dfn lt="keyPress-Event"><a href=https://w3c.github.io/uievents/#event-type-keypress>keyPress event</a></dfn>
+   <!-- keyUp event --> <li><dfn lt="keyUp-Event"><a href=https://w3c.github.io/uievents/#event-type-keyup>keyUp event</a></dfn>
    <!-- mouseDown event --> <li><dfn><a href=https://w3c.github.io/uievents/#event-type-mousedown>mouseDown event</a></dfn>
    <!-- Mouse event --> <li><dfn><a href=https://w3c.github.io/uievents/#mouseevent>Mouse event</a></dfn>
    <!-- Mouse event order --> <li><dfn><a href=https://w3c.github.io/uievents/#events-mouseevent-event-order>Mouse event order</a></dfn>
@@ -9723,13 +9723,13 @@ to automatically sort each list alphabetically.
  <dd><p>The following attributes are defined
   in the UI Events Code specification: [[UIEVENTS-CODE]]
   <ul>
-   <li><dfn data-lt="keyboard event code"><a href=https://www.w3.org/TR/uievents-code/#code-value-tables>Keyboard event code tables</a></dfn>
+   <li><dfn lt="keyboard event code"><a href=https://www.w3.org/TR/uievents-code/#code-value-tables>Keyboard event code tables</a></dfn>
   </ul>
 
  <dd><p>The following attributes are defined
   in the UI Events Code specification: [[UIEVENTS-KEY]]
   <ul>
-   <li><dfn data-lt="modifier key"><a href=https://www.w3.org/TR/uievents-key/#keys-modifier>Keyboard modifier keys</a></dfn>
+   <li><dfn lt="modifier key"><a href=https://www.w3.org/TR/uievents-key/#keys-modifier>Keyboard modifier keys</a></dfn>
   </ul>
 
  <dt>ECMAScript
@@ -9746,10 +9746,10 @@ to automatically sort each list alphabetically.
    <!-- Get --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-get-o-p>Get</a></dfn>
    <!-- Global environment --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-10.2.3>Global environment</a></dfn>
    <!-- IsCallable --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-iscallable>IsCallable</a></dfn>
-   <!-- Own property --> <li><dfn data-lt="own properties"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>Own property</a></dfn>
+   <!-- Own property --> <li><dfn lt="own properties"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>Own property</a></dfn>
    <!-- Promise --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-promise-constructor>Promise</a></dfn>
    <!-- PromiseResolve --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-promise-resolve>PromiseResolve</a></dfn>
-   <!-- Type --> <li><dfn data-lt="ecmascript type" data-lt-noDefault><a href=https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values>Type</a></dfn>
+   <!-- Type --> <li><dfn lt="ecmascript type" data-lt-noDefault><a href=https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values>Type</a></dfn>
    <!-- Use strict directive --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Use strict directive</a></dfn>
    <!-- parseInt --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.2>parseInt</a></dfn>
    <!-- parseFloat --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></dfn>
@@ -9757,7 +9757,7 @@ to automatically sort each list alphabetically.
   </ul>
 
  <dd>This specification also presumes that you are able to call
-  some of the <dfn data-lt="internal method"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>internal methods</a></dfn>
+  some of the <dfn lt="internal method"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>internal methods</a></dfn>
   from the ECMAScript Language Specification:
   <ul>
    <!-- Call --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-13.2.1>Call</a></dfn>
@@ -9802,8 +9802,8 @@ to automatically sort each list alphabetically.
    <!-- Header Value --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header-value">Header Value</a></dfn>
    <!-- Local Scheme --> <li><dfn><a href="https://fetch.spec.whatwg.org/#local-scheme">Local scheme</a></dfn>
    <!-- Method --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-request-method>Method</a></dfn>
-   <!-- Response --> <li><dfn data-lt="http response"><a href=https://fetch.spec.whatwg.org/#concept-response>Response</a></dfn>
-   <!-- Request --> <li><dfn data-lt="http request"><a href=https://fetch.spec.whatwg.org/#concept-request>Request</a></dfn>
+   <!-- Response --> <li><dfn lt="http response"><a href=https://fetch.spec.whatwg.org/#concept-response>Response</a></dfn>
+   <!-- Request --> <li><dfn lt="http request"><a href=https://fetch.spec.whatwg.org/#concept-request>Request</a></dfn>
    <!-- Set Header --> <li><dfn><a href="https://fetch.spec.whatwg.org/#concept-header-list-set">Set Header</a></dfn>
    <!-- Status --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response-status>HTTP Status</a></dfn>
    <!-- Status message --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response-status-message>Status message</a></dfn>
@@ -9820,7 +9820,7 @@ to automatically sort each list alphabetically.
    <ul>
      <!-- Fullscreen element --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fullscreen-element">Fullscreen element</a></dfn>
      <!-- Fullscreen an element --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fullscreen-an-element">Fullscreen an element</a></dfn>
-     <!-- Fullscreen is supported --> <li><dfn  data-lt='support fullscreen'><a href="https://fullscreen.spec.whatwg.org/#fullscreen-is-supported">Fullscreen is supported</a></dfn>
+     <!-- Fullscreen is supported --> <li><dfn  lt='support fullscreen'><a href="https://fullscreen.spec.whatwg.org/#fullscreen-is-supported">Fullscreen is supported</a></dfn>
      <!-- Fully exit fullscreen --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fully-exit-fullscreen">fully exit fullscreen</a></dfn>
      <!-- Unfullscreen a document --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#unfullscreen-a-document">unfullscreen a document</a></dfn>
    </ul>
@@ -9829,15 +9829,15 @@ to automatically sort each list alphabetically.
  <dd><p>The following terms are defined in the HTML specification: [[HTML]]
   <ul>
    <!-- 2D context creation algorithm --> <li><dfn><a href=https://html.spec.whatwg.org/#2d-context-creation-algorithm>2D context creation algorithm</a></dfn>
-   <!-- A browsing context is discarded --> <li><dfn data-lt=discarded><a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>A browsing context is discarded</a></dfn>
-   <!-- A serialization of the bitmap as a file --> <li><dfn data-lt="a serialization of the canvas element’s bitmap as a file"><a href=https://html.spec.whatwg.org/#a-serialisation-of-the-bitmap-as-a-file>A serialization of the bitmap as a file</a></dfn>
+   <!-- A browsing context is discarded --> <li><dfn lt=discarded><a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>A browsing context is discarded</a></dfn>
+   <!-- A serialization of the bitmap as a file --> <li><dfn lt="a serialization of the canvas element’s bitmap as a file"><a href=https://html.spec.whatwg.org/#a-serialisation-of-the-bitmap-as-a-file>A serialization of the bitmap as a file</a></dfn>
    <!-- API length --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-fe-api-value">API value</a></dfn>
    <!-- Active document --> <li><dfn><a href=https://html.spec.whatwg.org/#active-document>Active document</a></dfn>
    <!-- Active element --> <li><dfn>Active element</dfn> being the <a href=https://html.spec.whatwg.org/#dom-document-activeelement><code>activeElement</code></a> attribute on <a href=https://html.spec.whatwg.org/#document><code>Document</code></a>
    <!-- Associated window --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-document-window>Associated window</a></dfn>
    <!-- Body element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-body-element><code>body</code> element</a></dfn>
    <!-- Boolean attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#boolean-attribute>Boolean attribute</a></dfn>
-   <!-- Browsing context --> <li><dfn data-lt="browsing contexts"><a href=https://html.spec.whatwg.org/#browsing-context>Browsing context</a></dfn>
+   <!-- Browsing context --> <li><dfn lt="browsing contexts"><a href=https://html.spec.whatwg.org/#browsing-context>Browsing context</a></dfn>
    <!-- Button --> <li><dfn><a href="https://html.spec.whatwg.org/#button-state-%28type=button%29">Button</a></dfn> state
    <!-- Buttons --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-button>Buttons</a></dfn>
    <!-- Candidate for constraint validation --> <li><dfn><a href=https://html.spec.whatwg.org/#candidate-for-constraint-validation>Candidate for constraint validation</a></dfn>
@@ -9847,17 +9847,17 @@ to automatically sort each list alphabetically.
    <!-- Child browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#child-browsing-context>Child browsing context</a></dfn>
    <!-- Clean up after running a callback --> <li><dfn><a href="https://html.spec.whatwg.org/#clean-up-after-running-a-callback">Clean up after running a callback</a></dfn>
    <!-- Clean up after running a script --> <li><dfn><a href="https://html.spec.whatwg.org/#clean-up-after-running-script">Clean up after running a script</a></dfn>
-   <!-- Close a browsing context --> <li><dfn data-lt="close|closes"><a href=https://html.spec.whatwg.org/#close-a-browsing-context>Close a browsing context</a></dfn>
+   <!-- Close a browsing context --> <li><dfn lt="close|closes"><a href=https://html.spec.whatwg.org/#close-a-browsing-context>Close a browsing context</a></dfn>
    <!-- Code entry-point --> <li><dfn><a href=https://html.spec.whatwg.org/#code-entry-point>Code entry-point</a></dfn>
    <!-- Cookie-averse Document object --> <li><dfn><a href=https://html.spec.whatwg.org/#cookie-averse-document-object>Cookie-averse <code>Document</code> object</a></dfn>
    <!-- Current entry --> <li><dfn><a href=https://html.spec.whatwg.org/#current-entry>Current entry</a></dfn>
    <!-- Dirty checkedness flag --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-input-checked-dirty-flag>Dirty checkedness flag</a></dfn>
    <!-- Dirty value flag --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-dirty>Dirty value flag</a></dfn>
    <!-- Disabled --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-disabled>Disabled</a></dfn>
-   <!-- Document address --> <li><dfn data-lt=address><a href=https://dom.spec.whatwg.org/#concept-document-url>Document address</a></dfn>
+   <!-- Document address --> <li><dfn lt=address><a href=https://dom.spec.whatwg.org/#concept-document-url>Document address</a></dfn>
    <!-- Document readiness --> <li><dfn><a href=https://html.spec.whatwg.org/#current-document-readiness>Document readiness</a></dfn>
-   <!-- Document title --> <li><dfn data-lt=title><a href=https://html.spec.whatwg.org/#document.title>Document title</a></dfn>
-   <!-- Element contexts --> <li><dfn data-lt="element context"><a href=https://html.spec.whatwg.org/#concept-element-contexts>Element contexts</a></dfn>
+   <!-- Document title --> <li><dfn lt=title><a href=https://html.spec.whatwg.org/#document.title>Document title</a></dfn>
+   <!-- Element contexts --> <li><dfn lt="element context"><a href=https://html.spec.whatwg.org/#concept-element-contexts>Element contexts</a></dfn>
    <!-- Enumerated attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#enumerated-attribute>Enumerated attribute</a></dfn>
    <!-- Environment settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#environment-settings-object>Environment settings object</a></dfn>
    <!-- Event loop --> <li><dfn><a href=https://html.spec.whatwg.org/#event-loop>Event loop</a></dfn>
@@ -9865,7 +9865,7 @@ to automatically sort each list alphabetically.
    <!-- File upload state --> <li><dfn><a href="https://html.spec.whatwg.org/#file-upload-state-(type=file)">File upload state</a></dfn>
    <!-- Focusing steps --> <li><dfn><a href="https://html.spec.whatwg.org/#focusing-steps">Focusing steps</a></dfn>
    <!-- Fousable area --><li><dfn><a href=https://html.spec.whatwg.org/#focusable-area>Focusable area</a></dfn>
-   <!-- GetOwnProperty of a Window object --> <li><dfn data-lt="window.[[\getOwnProperty]]"><a href=https://html.spec.whatwg.org/#windowproxy-getownproperty><code>[[\GetOwnProperty]]</code> of a <code>Window</code> object</a></dfn>
+   <!-- GetOwnProperty of a Window object --> <li><dfn lt="window.[[\getOwnProperty]]"><a href=https://html.spec.whatwg.org/#windowproxy-getownproperty><code>[[\GetOwnProperty]]</code> of a <code>Window</code> object</a></dfn>
    <!-- HTMLAllCollection --> <li><dfn><a href=https://html.spec.whatwg.org/#htmlallcollection><code>HTMLAllCollection</code></a></dfn>
    <!-- HTMLFormControlCollection --> <li><dfn><a href=https://html.spec.whatwg.org/#htmlformcontrolscollection><code>HTMLFormControlsCollection</code></a></dfn>
    <!-- HTMLOptionsCollection --> <li><dfn><a href=https://html.spec.whatwg.org/#htmloptionscollection><code>HTMLOptionsCollection</code></a></dfn>
@@ -9875,24 +9875,24 @@ to automatically sort each list alphabetically.
    <!-- Input event applies --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-input-apply><code>input</code> event applies</a></dfn>
    <!-- Input type file selected --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-input-type-file-selected">Selected Files</a></dfn>
    <!-- Joint session history --> <li><dfn><a href=https://html.spec.whatwg.org/#joint-session-history>Joint session history</a></dfn>
-   <!-- Mature (navigation) --> <li><dfn data-lt="matured"><a href=https://html.spec.whatwg.org/#concept-navigate-mature>Mature</a></dfn> navigation.
+   <!-- Mature (navigation) --> <li><dfn lt="matured"><a href=https://html.spec.whatwg.org/#concept-navigate-mature>Mature</a></dfn> navigation.
    <!-- Missing value default state --> <li><dfn><a href=https://html.spec.whatwg.org/#missing-value-default>Missing value default state</a></dfn>
    <!-- Mutable --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-mutable>Mutable</a></dfn>
-   <!-- Navigate --> <li><dfn data-lt="navigating|navigation"><a href=https://html.spec.whatwg.org/#navigate>Navigate</a></dfn>
-   <!-- Navigator --> <li><dfn data-lt="navigator"><a href=https://html.spec.whatwg.org/#navigator>Navigator object</a></dfn>
+   <!-- Navigate --> <li><dfn lt="navigating|navigation"><a href=https://html.spec.whatwg.org/#navigate>Navigate</a></dfn>
+   <!-- Navigator --> <li><dfn lt="navigator"><a href=https://html.spec.whatwg.org/#navigator>Navigator object</a></dfn>
    <!-- Nested browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#nested-browsing-context>Nested browsing context</a></dfn>
    <!-- Origin-clean --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-origin-clean>Origin-clean</a></dfn>
    <!-- Overridden reload --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/dom.html#an-overridden-reload">An overridden reload</a></dfn>
    <!-- Parent browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#parent-browsing-context>Parent browsing context</a></dfn>
-   <!-- Pause --> <li><dfn data-lt=unpaused><a href=https://html.spec.whatwg.org/#pause>HTML Pause</a></dfn>
+   <!-- Pause --> <li><dfn lt=unpaused><a href=https://html.spec.whatwg.org/#pause>HTML Pause</a></dfn>
    <!-- Prepare to run a callback --> <li><dfn><a href="https://html.spec.whatwg.org/#prepare-to-run-a-callback">Prepare to run a callback</a></dfn>
    <!-- Prepare to run a script --> <li><dfn><a href="https://html.spec.whatwg.org/#prepare-to-run-script">Prepare to run a script</a></dfn>
-   <!-- Prompt to unload a document --> <li><dfn data-lt="prompting to unload"><a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>Prompt to unload a document</a></dfn>
+   <!-- Prompt to unload a document --> <li><dfn lt="prompting to unload"><a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>Prompt to unload a document</a></dfn>
    <!-- Radio button --> <li><dfn><a href="https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29">Radio Button</a></dfn> state
    <!-- Raw value --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-textarea-raw-value>Raw value</a></dfn>
    <!-- Refresh state pragma directive --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-meta-http-equiv-refresh>Refresh state pragma directive</a></dfn>
-   <!-- Reset algorithm --> <li><dfn data-lt="reset algorithms"><a href=https://html.spec.whatwg.org/#concept-form-reset-control>Reset algorithm</a></dfn>
-   <!-- Resettable element --> <li><dfn data-lt="resettable elements|resettable"><a href=https://html.spec.whatwg.org/#category-reset>Resettable element</a></dfn>
+   <!-- Reset algorithm --> <li><dfn lt="reset algorithms"><a href=https://html.spec.whatwg.org/#concept-form-reset-control>Reset algorithm</a></dfn>
+   <!-- Resettable element --> <li><dfn lt="resettable elements|resettable"><a href=https://html.spec.whatwg.org/#category-reset>Resettable element</a></dfn>
    <!-- Run the animation frame callbacks --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#run-the-animation-frame-callbacks">Run the animation frame callbacks</a></dfn>
    <!-- Satisfies its constraints --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fv-valid>Satisfies its constraints</a></dfn>
    <!-- Script --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-script>Script</a></dfn>
@@ -9900,24 +9900,24 @@ to automatically sort each list alphabetically.
    <!-- Selectedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-option-selectedness>Selectedness</a></dfn>
    <!-- Session history --> <li><dfn><a href=https://html.spec.whatwg.org/#session-history>Session history</a></dfn>
    <!-- Settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#settings-object>Settings object</a></dfn>
-   <!-- Simple dialogs --> <li><dfn data-lt="simple dialog"><a href=https://html.spec.whatwg.org/#simple-dialogs>Simple dialogs</a></dfn>
+   <!-- Simple dialogs --> <li><dfn lt="simple dialog"><a href=https://html.spec.whatwg.org/#simple-dialogs>Simple dialogs</a></dfn>
    <!-- Submit Button --> <li><dfn><a href="https://html.spec.whatwg.org/#submit-button-state-%28type=submit%29">Submit Button</a></dfn> state
-   <!-- Submittable elements --> <li><dfn data-lt="submittable element"><a href=https://html.spec.whatwg.org/#category-submit>Submittable elements</a></dfn>
+   <!-- Submittable elements --> <li><dfn lt="submittable element"><a href=https://html.spec.whatwg.org/#category-submit>Submittable elements</a></dfn>
    <!-- Suffering from bad input --> <li><dfn><a href=https://html.spec.whatwg.org/#suffering-from-bad-input>Suffering from bad input</a></dfn>
-   <!-- Top-level browsing context --> <li><dfn data-lt="top-level browsing contexts"><a href=https://html.spec.whatwg.org/#top-level-browsing-context>Top-level browsing context</a></dfn>
-   <!-- Traverse the history --> <li><dfn data-lt="traversing the history"><a href=https://html.spec.whatwg.org/#traverse-the-history>Traverse the history</a></dfn>
+   <!-- Top-level browsing context --> <li><dfn lt="top-level browsing contexts"><a href=https://html.spec.whatwg.org/#top-level-browsing-context>Top-level browsing context</a></dfn>
+   <!-- Traverse the history --> <li><dfn lt="traversing the history"><a href=https://html.spec.whatwg.org/#traverse-the-history>Traverse the history</a></dfn>
    <!-- Traverse the history by a delta --> <li><dfn><a href=https://html.spec.whatwg.org/#traverse-the-history-by-a-delta>Traverse the history by a delta</a></dfn>
    <!-- Tree order --> <li><dfn><a href=https://html.spec.whatwg.org/#tree-order>Tree order</a></dfn>
    <!-- Unfocusing steps --><li><dfn><a href=https://html.spec.whatwg.org/#unfocusing-steps>unfocusing steps</a></dfn>
-   <!-- User prompt --> <li><dfn data-lt="user prompts"><a href=https://html.spec.whatwg.org/#user-prompts>User prompt</a></dfn>
+   <!-- User prompt --> <li><dfn lt="user prompts"><a href=https://html.spec.whatwg.org/#user-prompts>User prompt</a></dfn>
    <!-- Value --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-value>Value</a></dfn>
    <!-- Value mode flag --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-output-mode>Value mode flag</a></dfn>
    <!-- Value sanitization algorithm --> <li><dfn><a href=https://html.spec.whatwg.org/#value-sanitization-algorithm>Value sanitization algorithm</a></dfn>
    <!-- Window object --> <li><dfn><a href=https://html.spec.whatwg.org/#the-window-object><code>Window</code></a></dfn> object
    <!-- Window open steps --> <li><dfn><a href=https://html.spec.whatwg.org/#window-open-steps>Window open steps</a></dfn>
    <!-- WindowProxy exotic object --> <li><dfn><a href=https://html.spec.whatwg.org/#windowproxy><code>WindowProxy</code></a></dfn> exotic object
-   <!-- WorkerNavigator --> <li><dfn data-lt="workernavigator"><a href=https://html.spec.whatwg.org/#workernavigator>WorkerNavigator object</a></dfn>
-   <!-- setSelectionRange --> <li><dfn data-lt="set selection range"><a href=https://html.spec.whatwg.org/#dom-textarea/input-setselectionrange><code>setSelectionRange</code></a></dfn>
+   <!-- WorkerNavigator --> <li><dfn lt="workernavigator"><a href=https://html.spec.whatwg.org/#workernavigator>WorkerNavigator object</a></dfn>
+   <!-- setSelectionRange --> <li><dfn lt="set selection range"><a href=https://html.spec.whatwg.org/#dom-textarea/input-setselectionrange><code>setSelectionRange</code></a></dfn>
    <!-- window confirm --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-confirm><code>confirm</code></a></dfn>
    <!-- window.alert --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-alert><code>alert</code></a></dfn>
    <!-- window.prompt --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-prompt><code>prompt</code></a></dfn>
@@ -9926,20 +9926,20 @@ to automatically sort each list alphabetically.
  <dd><p>The HTML specification also defines a number of elements
   which this specification has special-cased behavior for:
   <ul>
-   <!-- a element --> <li><dfn data-lt="a elements"><a href=https://html.spec.whatwg.org/#the-a-element><code>a</code> element</a></dfn>
-   <!-- area element --> <li><dfn data-lt=area><a href=https://html.spec.whatwg.org/#the-area-element><code>area</code> element</a></dfn>
+   <!-- a element --> <li><dfn lt="a elements"><a href=https://html.spec.whatwg.org/#the-a-element><code>a</code> element</a></dfn>
+   <!-- area element --> <li><dfn lt=area><a href=https://html.spec.whatwg.org/#the-area-element><code>area</code> element</a></dfn>
    <!-- canvas element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-canvas-element><code>canvas</code> element</a></dfn>
-   <!-- datalist element --> <li><dfn data-lt=datalist><a href=https://html.spec.whatwg.org/#the-datalist-element><code>datalist</code> element</a></dfn>
-   <!-- frame element --> <li><dfn data-lt=frame><a href=https://html.spec.whatwg.org/#frame><code>frame</code> element</a></dfn>
+   <!-- datalist element --> <li><dfn lt=datalist><a href=https://html.spec.whatwg.org/#the-datalist-element><code>datalist</code> element</a></dfn>
+   <!-- frame element --> <li><dfn lt=frame><a href=https://html.spec.whatwg.org/#frame><code>frame</code> element</a></dfn>
    <!-- HTML Element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-html-element><code>html</code> element</a></dfn>
-   <!-- iframe element --> <li><dfn data-lt=iframe><a href=https://html.spec.whatwg.org/#the-iframe-element><code>iframe</code> element</a></dfn>
-   <!-- input element --> <li><dfn data-lt="input elements"><a href=https://html.spec.whatwg.org/#the-input-element><code>input</code> element</a></dfn>
+   <!-- iframe element --> <li><dfn lt=iframe><a href=https://html.spec.whatwg.org/#the-iframe-element><code>iframe</code> element</a></dfn>
+   <!-- input element --> <li><dfn lt="input elements"><a href=https://html.spec.whatwg.org/#the-input-element><code>input</code> element</a></dfn>
    <!-- map element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-map-element><code>map</code> element</a></dfn>
-   <!-- optgroup element --> <li><dfn data-lt=optgroup><a href=https://html.spec.whatwg.org/#the-optgroup-element><code>optgroup</code> element</a></dfn>
-   <!-- option element --> <li><dfn data-lt="option elements|option"><a href=https://html.spec.whatwg.org/#the-option-element><code>option</code> element</a></dfn>
-   <!-- output element --> <li><dfn data-lt=output><a href=https://html.spec.whatwg.org/#the-output-element><code>output</code> element</a></dfn>
-   <!-- select element --> <li><dfn data-lt="code elements"><a href=https://html.spec.whatwg.org/#the-select-element><code>select</code> element</a></dfn>
-   <!-- textarea element --> <li><dfn data-lt="textarea elements|textarea"><a href=https://html.spec.whatwg.org/#the-textarea-element><code>textarea</code> element</a></dfn>
+   <!-- optgroup element --> <li><dfn lt=optgroup><a href=https://html.spec.whatwg.org/#the-optgroup-element><code>optgroup</code> element</a></dfn>
+   <!-- option element --> <li><dfn lt="option elements|option"><a href=https://html.spec.whatwg.org/#the-option-element><code>option</code> element</a></dfn>
+   <!-- output element --> <li><dfn lt=output><a href=https://html.spec.whatwg.org/#the-output-element><code>output</code> element</a></dfn>
+   <!-- select element --> <li><dfn lt="code elements"><a href=https://html.spec.whatwg.org/#the-select-element><code>select</code> element</a></dfn>
+   <!-- textarea element --> <li><dfn lt="textarea elements|textarea"><a href=https://html.spec.whatwg.org/#the-textarea-element><code>textarea</code> element</a></dfn>
   </ul>
 
  <dd><p>The HTML specification also defines <em>states</em>
@@ -9962,19 +9962,19 @@ to automatically sort each list alphabetically.
 
  <dd><p>The HTML specification also defines a range of different attributes:
   <ul>
-   <!-- Canvas height attribute --> <li><dfn data-lt="canvas height attribute"><a href=https://html.spec.whatwg.org/#attr-canvas-height><code>canvas</code>’s height attribute</a></dfn>
-   <!-- Canvas width attribute --> <li><dfn data-lt="canvas width attribute"><a href=https://html.spec.whatwg.org/#attr-canvas-width><code>canvas</code>’ width attribute</a></dfn>
+   <!-- Canvas height attribute --> <li><dfn lt="canvas height attribute"><a href=https://html.spec.whatwg.org/#attr-canvas-height><code>canvas</code>’s height attribute</a></dfn>
+   <!-- Canvas width attribute --> <li><dfn lt="canvas width attribute"><a href=https://html.spec.whatwg.org/#attr-canvas-width><code>canvas</code>’ width attribute</a></dfn>
    <!-- Checked content attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-input-checked>Checked</a></dfn>
    <!-- Multiple attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-input-multiple><code>multiple</code> attribute</a></dfn>
    <!-- readOnly attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#the-readonly-attribute><code>readOnly</code> attribute</a></dfn>
-   <!-- Type attribute --> <li><dfn data-lt=type><a href=https://html.spec.whatwg.org/#attr-input-type><code>type</code> attribute</a></dfn>
+   <!-- Type attribute --> <li><dfn lt=type><a href=https://html.spec.whatwg.org/#attr-input-type><code>type</code> attribute</a></dfn>
    <!-- Value attribute --><li><dfn><a href=https://html.spec.whatwg.org/#dom-input-value><code>value</code> attribute</a></dfn>
   </ul>
 
  <dd><p>The HTML Editing APIs specification defines the following terms: [[EDITING]]
   <ul>
    <!-- Content editable --> <li><dfn><a href=https://w3c.github.io/editing/contentEditable.html>Content editable</a></dfn>
-   <!-- Editing host --> <li><dfn data-lt="editing hosts"><a href=https://w3c.github.io/editing/execCommand.html#editing-host>Editing host</a></dfn>
+   <!-- Editing host --> <li><dfn lt="editing hosts"><a href=https://w3c.github.io/editing/execCommand.html#editing-host>Editing host</a></dfn>
   </ul>
 
  <dd><p>The following events are also defined in the HTML specification:
@@ -10001,9 +10001,9 @@ to automatically sort each list alphabetically.
  <dd><p>The following terms are defined in the Cookie specification: [[RFC6265]]
   <ul>
    <!-- Compute cookie-string --> <li><dfn><a href=https://tools.ietf.org/html/rfc6265#section-5.4>Compute <code>cookie-string</code></a></dfn>
-   <!-- Cookie --> <li><dfn data-lt=cookies><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Cookie</a></dfn>
+   <!-- Cookie --> <li><dfn lt=cookies><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Cookie</a></dfn>
    <!-- Cookie store --> <li><dfn><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Cookie store</a></dfn>
-   <!-- Receives a cookie --> <li><dfn data-lt="receiving a cookie"><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Receives a cookie</a></dfn>
+   <!-- Receives a cookie --> <li><dfn lt="receiving a cookie"><a href=https://tools.ietf.org/html/rfc6265#section-5.3>Receives a cookie</a></dfn>
   </ul>
 
 <dd><p>The following terms are defined in the Same Site Cookie specification: [[RFC6265bis]]
@@ -10025,13 +10025,13 @@ to automatically sort each list alphabetically.
   </ul>
 
   <dd><p>The specification uses
-   <dfn data-lt="uri template">URI Templates</dfn>. [[URI-TEMPLATE]]
+   <dfn lt="uri template">URI Templates</dfn>. [[URI-TEMPLATE]]
 
  <dt>Infra
  <dd>The following terms are defined
   in the Infra standard: [[INFRA]]
    <ul>
-    <!-- ASCII lowercase --> <li><dfn data-lt="lowercase"><a href=https://infra.spec.whatwg.org/#ascii-lowercase>ASCII lowercase</a></dfn>
+    <!-- ASCII lowercase --> <li><dfn lt="lowercase"><a href=https://infra.spec.whatwg.org/#ascii-lowercase>ASCII lowercase</a></dfn>
     <!-- string length --> <li><dfn><a href="https://infra.spec.whatwg.org/#string-length">string length</a></dfn>
     <!-- queue --> <li><dfn><a href=https://infra.spec.whatwg.org/#queues>queue</a></dfn>
     <!-- set --> <li><dfn><a href=https://infra.spec.whatwg.org/#sets>Set</a></dfn>
@@ -10041,9 +10041,9 @@ to automatically sort each list alphabetically.
  <dd>The following terms are defined in the
    Page Visibility Specification [[PAGE-VISIBILITY]]
    <ul>
-    <!-- visibility hidden --> <li><dfn data-lt="visibility hidden"><a href="https://www.w3.org/TR/page-visibility/#dom-visibilitystate-hidden">Visibility state <code>hidden</code></a></dfn>
+    <!-- visibility hidden --> <li><dfn lt="visibility hidden"><a href="https://www.w3.org/TR/page-visibility/#dom-visibilitystate-hidden">Visibility state <code>hidden</code></a></dfn>
     <!-- visibility state --> <li><dfn>Visibility state</dfn> being the <a href="https://www.w3.org/TR/page-visibility/#visibility-states-and-the-visibilitystate-enum"><code>visibilityState</code></a> attribute on <a>Document</a>
-    <!-- visibility visible --> <li><dfn data-lt="visibility visible"><a href="https://www.w3.org/TR/page-visibility/#dom-visibilitystate-visible">Visibility state <code>visible</code></a></dfn>
+    <!-- visibility visible --> <li><dfn lt="visibility visible"><a href="https://www.w3.org/TR/page-visibility/#dom-visibilitystate-visible">Visibility state <code>visible</code></a></dfn>
    </ul>
 
  <dt>Selenium
@@ -10071,7 +10071,7 @@ to automatically sort each list alphabetically.
  <dd>The following terms are defined in
   the CSS Device Adaptation Module Level 1 specification: [[CSS-DEVICE-ADAPT]]
    <ul>
-    <!-- Initial viewport --><li><dfn data-lt=viewport><a href=https://drafts.csswg.org/css-device-adapt/#initial-viewport>Initial viewport</a></dfn>,
+    <!-- Initial viewport --><li><dfn lt=viewport><a href=https://drafts.csswg.org/css-device-adapt/#initial-viewport>Initial viewport</a></dfn>,
      sometimes here referred to as the <i>viewport</i>.
    </ul>
 
@@ -10085,11 +10085,11 @@ to automatically sort each list alphabetically.
   the Geometry Interfaces Module Level 1 specification: [[GEOMETRY-1]]
   <ul>
    <!-- DOMRect --> <li><dfn><a href="https://www.w3.org/TR/geometry-1/#dom-domrect"><code>DOMRect</code></a></dfn>
-   <!-- Rectangle --> <li><dfn data-lt="bounding rectangle"><a href=https://drafts.fxtf.org/geometry/#rectangle>Rectangle</a></dfn>
-   <!-- Rectangle height dimension --> <li><dfn data-lt="height dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-height-dimension>Rectangle height dimension</a></dfn>
-   <!-- Rectangle width dimension --> <li><dfn data-lt="width dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-width-dimension>Rectangle width dimension</a></dfn>
-   <!-- Rectangle x coordinate --> <li><dfn data-lt="x coordinate"><a href=https://drafts.fxtf.org/geometry/#rectangle-x-coordinate>Rectangle x coordinate</a></dfn>
-   <!-- Rectangle y coordinate --> <li><dfn data-lt="y coordinate"><a href=https://drafts.fxtf.org/geometry/#rectangle-y-coordinate>Rectangle y coordinate</a></dfn>
+   <!-- Rectangle --> <li><dfn lt="bounding rectangle"><a href=https://drafts.fxtf.org/geometry/#rectangle>Rectangle</a></dfn>
+   <!-- Rectangle height dimension --> <li><dfn lt="height dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-height-dimension>Rectangle height dimension</a></dfn>
+   <!-- Rectangle width dimension --> <li><dfn lt="width dimension"><a href=https://drafts.fxtf.org/geometry/#rectangle-width-dimension>Rectangle width dimension</a></dfn>
+   <!-- Rectangle x coordinate --> <li><dfn lt="x coordinate"><a href=https://drafts.fxtf.org/geometry/#rectangle-x-coordinate>Rectangle x coordinate</a></dfn>
+   <!-- Rectangle y coordinate --> <li><dfn lt="y coordinate"><a href=https://drafts.fxtf.org/geometry/#rectangle-y-coordinate>Rectangle y coordinate</a></dfn>
   </ul>
 
  <dd>The following terms are defined in
@@ -10108,8 +10108,8 @@ to automatically sort each list alphabetically.
   <ul>
    <!-- getBoundingClientRect() --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-element-getboundingclientrect">getBoundingClientRect</a></dfn>
    <!-- elementFromPoint --> <li><dfn>Element from point</dfn> as <a href="https://drafts.csswg.org/cssom-view/#dom-document-elementfrompoint">elementFromPoint()</a>
-   <!-- elementsFromPoint --> <li><dfn data-lt="paint order|paint tree">Elements from point</dfn> as <a href=https://drafts.csswg.org/cssom-view/#dom-document-elementsfrompoint>elementsFromPoint()</a>
-   <!-- getClientRects --> <li><dfn data-lt="DOM client rectangle"><a href=https://drafts.csswg.org/cssom-view/#dom-range-getclientrects>getClientRects</a></dfn>
+   <!-- elementsFromPoint --> <li><dfn lt="paint order|paint tree">Elements from point</dfn> as <a href=https://drafts.csswg.org/cssom-view/#dom-document-elementsfrompoint>elementsFromPoint()</a>
+   <!-- getClientRects --> <li><dfn lt="DOM client rectangle"><a href=https://drafts.csswg.org/cssom-view/#dom-range-getclientrects>getClientRects</a></dfn>
    <!-- innerHeight --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerheight>innerHeight</a></dfn>
    <!-- innerWidth --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerwidth>innerWidth</a></dfn>
    <!-- moveTo --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-moveto>moveTo(x, y)</a></dfn>
@@ -10135,21 +10135,21 @@ to automatically sort each list alphabetically.
 
  <dt>SOCKS Proxy and related specification:
  <dd><p>To be <dfn>SOCKS Proxy</dfn>
-  and <dfn data-lt=authenticating>SOCKS authentication</dfn> compliant,
+  and <dfn lt=authenticating>SOCKS authentication</dfn> compliant,
   it is supposed that the implementation supports the relevant subsets of
   [[RFC1928]] and [[RFC1929]].
 
  <dt>Unicode
  <dd>The following terms are defined in the  standard: [[Unicode]]
   <ul>
-   <!-- Code point --> <li><dfn data-lt="unicode code point"><a href=https://www.unicode.org/versions/Unicode9.0.0/ch03.pdf#G2212>Code Point</a></dfn>
-   <!-- Extended grapheme cluster --> <li><dfn data-lt="grapheme cluster"><a href=https://www.unicode.org/versions/Unicode9.0.0/ch03.pdf#G2213>Extended grapheme cluster</a></dfn>
+   <!-- Code point --> <li><dfn lt="unicode code point"><a href=https://www.unicode.org/versions/Unicode9.0.0/ch03.pdf#G2212>Code Point</a></dfn>
+   <!-- Extended grapheme cluster --> <li><dfn lt="grapheme cluster"><a href=https://www.unicode.org/versions/Unicode9.0.0/ch03.pdf#G2213>Extended grapheme cluster</a></dfn>
   </ul>
 
  <dt>Unicode Standard Annex #29
  <dd>The following terms are defined in the standard: [[UAX29]]
   <ul>
-   <!-- Breaking text into extended grapheme clusters --><li><dfn data-lt="breaking text into extended grapheme clusters"><a href=https://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries>Grapheme cluster boundaries</a></dfn>
+   <!-- Breaking text into extended grapheme clusters --><li><dfn lt="breaking text into extended grapheme clusters"><a href=https://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries>Grapheme cluster boundaries</a></dfn>
   </ul>
 
  <dt>Unicode Standard Annex #44
@@ -10164,11 +10164,11 @@ to automatically sort each list alphabetically.
    <!-- Absolute URL --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-absolute>Absolute URL</a></dfn>
    <!-- Absolute URL with fragment --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-absolute-with-fragment>Absolute URL with fragment</a></dfn>
    <!-- Default port --> <li><dfn><a href="https://url.spec.whatwg.org/#default-port">Default port</a></dfn>
-   <!-- Domain --><li><dfn data-lt="domains"><a href="https://url.spec.whatwg.org/#concept-domain">Domain</a></dfn>
+   <!-- Domain --><li><dfn lt="domains"><a href="https://url.spec.whatwg.org/#concept-domain">Domain</a></dfn>
    <!-- Host --> <li><dfn><a href="https://url.spec.whatwg.org/#concept-host">Host</a></dfn>
    <!-- includes credentials --> <li><dfn><a href="https://url.spec.whatwg.org/#include-credentials">Includes credentials</a></dfn>
-   <!-- IPv4 address --> <li><dfn data-lt="ipv4 addresses"><a href="https://url.spec.whatwg.org/#concept-ipv4">IPv4 address</a></dfn>
-   <!-- IPv6 address --> <li><dfn data-lt="ipv6 addresses"><a href="https://url.spec.whatwg.org/#concept-ipv6">IPv6 address</a></dfn>
+   <!-- IPv4 address --> <li><dfn lt="ipv4 addresses"><a href="https://url.spec.whatwg.org/#concept-ipv4">IPv4 address</a></dfn>
+   <!-- IPv6 address --> <li><dfn lt="ipv6 addresses"><a href="https://url.spec.whatwg.org/#concept-ipv6">IPv6 address</a></dfn>
    <!-- Is Special --> <li><dfn><a href="https://url.spec.whatwg.org/#is-special">Is special</a></dfn>
    <!-- Path-absolute URL --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-path-absolute>Path-absolute URL</a></dfn>
    <!-- Path --> <li><dfn><a href=https://url.spec.whatwg.org/#concept-url-path>Path</a></dfn>
@@ -10184,7 +10184,7 @@ to automatically sort each list alphabetically.
   <ul>
    <!-- DOMException --> <li><dfn><a href="https://heycam.github.io/webidl/#dfn-DOMException"><code>DOMException</code></a></dfn>
    <!-- Sequence --> <li><dfn><a href="https://heycam.github.io/webidl/#idl-sequence">Sequence</a></dfn>
-   <!-- Supported property indices --> <li><dfn data-lt="supported property index"><a href=https://heycam.github.io/webidl/#dfn-supported-property-indices>Supported property indices</a></dfn>
+   <!-- Supported property indices --> <li><dfn lt="supported property index"><a href=https://heycam.github.io/webidl/#dfn-supported-property-indices>Supported property indices</a></dfn>
    <!-- SyntaxError --> <li><dfn><a href="https://heycam.github.io/webidl/#syntaxerror"><code>SyntaxError</code></a></dfn></li>
 
   </ul>
@@ -10193,7 +10193,7 @@ to automatically sort each list alphabetically.
   <dd><p>The following terms are defined in the Promises Guide. [[PROMISES-GUIDE]]
     <ul>
       <!-- a new promise --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#a-new-promise">A new promise</a></dfn>
-      <!-- Promise calling --> <li><dfn data-lt='promise-call'><a href="https://www.w3.org/2001/tag/doc/promises-guide#promise-calling">Promise-calling</a></dfn>
+      <!-- Promise calling --> <li><dfn lt='promise-call'><a href="https://www.w3.org/2001/tag/doc/promises-guide#promise-calling">Promise-calling</a></dfn>
       <!-- Reject --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#reject-promise">reject</a></dfn>
       <!-- Resolve --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#resolve-promise">resolve</a></dfn>
     </ul>
