@@ -337,27 +337,27 @@ In all other cases it must be true.
 <p>The result of <dfn lt="getting properties|getting the
  property|getting a property">getting a property</dfn> with argument <var>name</var> is
  defined as being the same as the result of calling
- <a>Object</a>.<a>[[\GetOwnProperty]]</a>(<var>name</var>).
+ <a>Object</a>.<a>\[[GetOwnProperty]]</a>(<var>name</var>).
 
 <p>The result of <dfn lt="getting the property with
  default|getting a property with default">getting a property with default</dfn> with
  arguments <var>name</var> and <var>default</var> is defined as being
  the same as the result of calling
- <a>Object</a>.<a>[[\GetOwnProperty]]</a>(<var>name</var>) if that
+ <a>Object</a>.<a>\[[GetOwnProperty]]</a>(<var>name</var>) if that
  results in a value other than <code>undefined</code>
  and <var>default</var> otherwise.
 
 <p><dfn lt='set a property'>Setting a property</dfn> with
  arguments <var>name</var> and <var>value</var> is defined as being
  the same as calling
- <a>Object</a>.<a>[[\Put]]</a>(<var>name</var>, <var>value</var>).
+ <a>Object</a>.<a>\[[Put]]</a>(<var>name</var>, <var>value</var>).
 
 <p>The result of <dfn>JSON serialization</dfn> with <var>object</var>
   of type JSON <a>Object</a> is defined as the result of
-  calling <code>JSON.</code><a>[[\Stringify]]</a>(<var>object</var>).
+  calling <code>JSON.</code><a>\[[Stringify]]</a>(<var>object</var>).
 
 <p>The result of <dfn lt='parsing as json|JSON deserialization'>JSON deserialization</dfn> with <var>text</var> is defined as
-  the result of calling <code>JSON.</code><a>[[\Parse]]</a>(<var>text</var>).
+  the result of calling <code>JSON.</code><a>\[[Parse]]</a>(<var>text</var>).
 </section> <!-- /Algorithms -->
 
 
@@ -3445,7 +3445,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
      <li><p>Let <var>child window</var> be
       the <a><code>WindowProxy</code></a> object obtained by
       calling
-      <var>window</var>.<a lt='window.[[\getOwnProperty]]'><code>[[\GetOwnProperty]]</code></a>
+      <var>window</var>.<a lt='window.\[[getOwnProperty]]'><code>\[[GetOwnProperty]]</code></a>
       (<var>id</var>).
 
      <li><p>Set the <a>current browsing context</a> to
@@ -4930,7 +4930,7 @@ The <a>remote end steps</a> are:
   with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>property</var> be the result of calling
-  the <var>element</var>.<a>[[\GetProperty]]</a>(<var>name</var>).
+  the <var>element</var>.<a>\[[GetProperty]]</a>(<var>name</var>).
 
  <li><p>Let <var>result</var> be the value of
   <var>property</var> if not <a>undefined</a>, or <a><code>null</code></a>.
@@ -6220,7 +6220,7 @@ a <a>remote end</a> must run the following steps:
 
 <p>If at any point during the algorithm a <a>user prompt</a> appears,
  abort all subsequent substeps of this algorithm, and return
- <a>Completion</a> { [[\Type]]: <code>normal</code>, [[\Value]]: <a><code>null</code></a>, [[\Target]]: <code>empty</code> }.
+ <a>Completion</a> { \[[Type]]: <code>normal</code>, \[[Value]]: <a><code>null</code></a>, \[[Target]]: <code>empty</code> }.
 
 <ol>
  <li><p>Let <var>window</var> be the <a>associated window</a>
@@ -6236,7 +6236,7 @@ a <a>remote end</a> must run the following steps:
  <li><p>If <var>body</var> is not parsable as a <a>FunctionBody</a>
   or if parsing detects an <a>early error</a>,
   return
-  <a>Completion</a> { [[\Type]]: <code>normal</code>, [[\Value]]: <a><code>null</code></a>, [[\Target]]: <code>empty</code> }.
+  <a>Completion</a> { \[[Type]]: <code>normal</code>, \[[Value]]: <a><code>null</code></a>, \[[Target]]: <code>empty</code> }.
 
  <li><p>If <var>body</var> begins with a <a>directive prologue</a>
   that contains a <a>use strict directive</a>
@@ -6380,34 +6380,34 @@ The first argument provided to the function will be serialized to JSON and retur
   <ol>
     <li><p>Let <var>resolvingFunctions</var> be <a>CreateResolvingFunctions</a>(<var>promise</var>).
 
-    <li><p>Append <var>resolvingFunctions</var><code>.[[\Resolve]]</code> to
+    <li><p>Append <var>resolvingFunctions</var><code>.\[[Resolve]]</code> to
       <var>arguments</var>.
 
     <li><p>Let <var>result</var> be the result of calling
       <a>execute a function body</a>, with arguments
       <var>body</var> and <var>arguments</var>.
 
-    <li><p>If <var>scriptResult</var>.[[\Type]] is not <code>normal</code>, then <a>reject</a>
-      <var>promise</var> with value <var>scriptResult</var>.[[\Value]], and abort these steps.
+    <li><p>If <var>scriptResult</var>.\[[Type]] is not <code>normal</code>, then <a>reject</a>
+      <var>promise</var> with value <var>scriptResult</var>.\[[Value]], and abort these steps.
 
       <p class=note>Prior revisions of this specification did not recognize the
         return value of the provided script. In order to preserve legacy behavior,
         the return value only influences the command if it is a "thenable" object or
         if determining this produces an exception.
 
-    <li><p>If <a lt="ecmascript type">Type</a>(<var>scriptResult</var>.[[\Value]])
+    <li><p>If <a lt="ecmascript type">Type</a>(<var>scriptResult</var>.\[[Value]])
       is not <a>Object</a>, then abort these steps.
 
-    <li><p>Let <var>then</var> be <a>Get</a>(<var>scriptResult</var>.[[\Value]], "then").
+    <li><p>Let <var>then</var> be <a>Get</a>(<var>scriptResult</var>.\[[Value]], "then").
 
-    <li><p>If <var>then</var>.[[\Type]] is not <code>normal</code>, then <a>reject</a>
-      <var>promise</var> with value <var>then</var>.[[\Value]], and abort these steps.
+    <li><p>If <var>then</var>.\[[Type]] is not <code>normal</code>, then <a>reject</a>
+      <var>promise</var> with value <var>then</var>.\[[Value]], and abort these steps.
 
-    <li><p>If <a>IsCallable</a>(<var>then</var>.[[\Type]]) is <code>false</code>,
+    <li><p>If <a>IsCallable</a>(<var>then</var>.\[[Type]]) is <code>false</code>,
       then abort these steps.
 
     <li><p>Let <var>scriptPromise</var> be <a>PromiseResolve</a>(<a>Promise</a>,
-      <var>scriptResult</var>.[[\Value]]).
+      <var>scriptResult</var>.\[[Value]]).
 
     <li><p>Upon fulfillment of <var>scriptPromise</var> with value <var>v</var>,
       <a>resolve</a> <var>promise</var> with value <var>v</var>.
@@ -9767,11 +9767,11 @@ to automatically sort each list alphabetically.
   from the ECMAScript Language Specification:
   <ul>
    <!-- Call --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-13.2.1>Call</a></dfn>
-   <!-- Class --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>[[\Class]]</a></dfn>
-   <!-- GetOwnProperty --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.12.1>[[\GetOwnProperty]]</a></dfn>
-   <!-- GetProperty --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.12.2>[[\GetProperty]]</a></dfn>
+   <!-- Class --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>\[[Class]]</a></dfn>
+   <!-- GetOwnProperty --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.12.1>\[[GetOwnProperty]]</a></dfn>
+   <!-- GetProperty --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.12.2>\[[GetProperty]]</a></dfn>
    <!-- Index of --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.5.4.7>Index of</a></dfn>
-   <!-- Put --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.12.5>[[\Put]]</a></dfn>
+   <!-- Put --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.12.5>\[[Put]]</a></dfn>
    <!-- Substring --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.5.4.15>Substring</a></dfn>
   </ul>
 
@@ -9786,9 +9786,9 @@ to automatically sort each list alphabetically.
    <!-- null --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-4.3.11><code>null</code></a></dfn>
    <!-- Number --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-4.3.19>Number</a></dfn>
    <!-- Object --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-4.2.1>Object</a></dfn>
-   <!-- Parse --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.12.2>[[\Parse]]</a></dfn>
+   <!-- Parse --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.12.2>\[[Parse]]</a></dfn>
    <!-- String --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-4.3.18>String</a></dfn>
-   <!-- Stringify --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.12.3>[[\Stringify]]</a></dfn>
+   <!-- Stringify --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.12.3>\[[Stringify]]</a></dfn>
    <!-- ToInteger --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/6.0/#sec-tointeger>ToInteger</a></dfn>
    <!-- undefined --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-4.3.9>Undefined</a></dfn>
   </ul>
@@ -9871,7 +9871,7 @@ to automatically sort each list alphabetically.
    <!-- File upload state --> <li><dfn><a href="https://html.spec.whatwg.org/#file-upload-state-(type=file)">File upload state</a></dfn>
    <!-- Focusing steps --> <li><dfn><a href="https://html.spec.whatwg.org/#focusing-steps">Focusing steps</a></dfn>
    <!-- Fousable area --><li><dfn><a href=https://html.spec.whatwg.org/#focusable-area>Focusable area</a></dfn>
-   <!-- GetOwnProperty of a Window object --> <li><dfn lt="window.[[\getOwnProperty]]"><a href=https://html.spec.whatwg.org/#windowproxy-getownproperty><code>[[\GetOwnProperty]]</code> of a <code>Window</code> object</a></dfn>
+   <!-- GetOwnProperty of a Window object --> <li><dfn lt="window.\[[getOwnProperty]]"><a href=https://html.spec.whatwg.org/#windowproxy-getownproperty><code>\[[GetOwnProperty]]</code> of a <code>Window</code> object</a></dfn>
    <!-- HTMLAllCollection --> <li><dfn><a href=https://html.spec.whatwg.org/#htmlallcollection><code>HTMLAllCollection</code></a></dfn>
    <!-- HTMLFormControlCollection --> <li><dfn><a href=https://html.spec.whatwg.org/#htmlformcontrolscollection><code>HTMLFormControlsCollection</code></a></dfn>
    <!-- HTMLOptionsCollection --> <li><dfn><a href=https://html.spec.whatwg.org/#htmloptionscollection><code>HTMLOptionsCollection</code></a></dfn>
