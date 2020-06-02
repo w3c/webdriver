@@ -1359,6 +1359,26 @@ when it receives a particular <a>command</a>.
   <a>remote end steps</a>.
 </aside>
 
+<p>Other specifications may define <dfn data-lt="additional WebDriver
+capability">additional WebDriver capabilities</dfn>. Each defined
+capability must have a <dfn>capability name</dfn> which is a string
+not containing a "<code>:</code>" (colon) character,
+an <dfn>additional capability deserialization algorithm</dfn> which is
+a set of steps taking a single argument <var>value</var> which has a
+JSON type, returning either <a>success</a> wrapping the deserialized
+capability value or <a>error</a>.
+
+<p>An <a>additional WebDriver capability</a> may also define
+a <dfn>matched capability serialization algorithm</dfn>, which is a
+set of steps used to determine if a capability is matched by the
+current implementation and provide any computed value to return to the
+user. This set of steps takes a single argument <var>value</var>,
+which is the output of the corresponding <a>additional capability
+deserialization algorithm</a>, and returns
+either <a><code>null</code></a> to indicate the capability is not
+matched, or a non-null JSON-serializable value if the capability is
+matched.
+
 <p><a>Remote ends</a> may also introduce
  <dfn data-lt="extension capability">extension capabilities</dfn>
  that are extra <a>capabilities</a>
@@ -1751,7 +1771,7 @@ with a "<code>moz:</code>" prefix:
      argument.
 
     <li><p>If <var>matched capabilities</var> is not <a><code>null</code></a>,
-     return <var>matched capabilities</var>.
+     return <a>success</a> with data <var>matched capabilities</var>.
   </ol>
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
@@ -1815,6 +1835,14 @@ with a "<code>moz:</code>" prefix:
      <dt><var>name</var> equals "<code>unhandledPromptBehavior</code>"
      <dd><p>Let <var>deserialized</var> be the result of <a>trying</a>
       to <a>deserialize as an unhandled prompt behavior</a> with argument
+      <var>value</var>.
+
+     <dt><var>name</var> is the name of an <a>additional WebDriver
+     capability</a>
+     <dd><p>Let <var>deserialized</var> be the result of <a>trying</a>
+      to run the <a>additional capability deserialization
+      algorithm</a> for the extension capability corresponding
+      to <var>name</var>, with argument
       <var>value</var>.
 
      <dt><var>name</var> is the key of an <a>extension capability</a>
@@ -1946,6 +1974,7 @@ with a "<code>moz:</code>" prefix:
  <li><p>For each <var>name</var> and <var>value</var> corresponding
   to <var>capability</var>’s <a>own properties</a>:
   <ol>
+  <li><p>Let <var>match value</var> equal <var>value</var>.
    <li><p>Run the substeps of the first matching <var>name</var>:
 
     <dl class=switch>
@@ -2036,15 +2065,28 @@ with a "<code>moz:</code>" prefix:
        will not be established.
 
      <dt><strong>Otherwise</strong>
-       <dd><p>If <var>name</var> is the key of an
-      <a>extension capability</a>, <p>let <var>value</var> be the
-       result of <a>trying</a> implementation-specific steps to match
-       on <var>name</var> with <var>value</var>. If the match is not
-       successful, return <a>success</a> with data <a><code>null</code></a>.
-   </dl>
+       <dd>
+         <ul>
+           <li>
+             <p>If <var>name</var> is the name of an <a>additional
+                WebDriver capability</a> which defines a <a>matched
+                capability serialization algorithm</a>, let <var>match
+                value</var> be the result of running the <a>matched
+                capability serialization algorithm</a> for
+                capability <var>name</var> with
+                argument <var>value</var>.</li>
+
+           <li>
+             <p>Otherwise, if <var>name</var> is the key of an
+               <a>extension capability</a>, let <var>match value</var> be the
+               result of <a>trying</a> implementation-specific steps to
+               match on <var>name</var> with <var>value</var>. If the
+               match is not successful, return <a>success</a> with
+               data <a><code>null</code></a>.
+    </dl>
 
    <li><p><a>Set a property</a> on <var>matched capabilities</var>
-    with name <var>name</var> and value <var>value</var>.
+    with name <var>name</var> and value <var>match value</var>.
   </ol>
 
  <li><p>Return <a>success</a> with data <var>matched capabilities</var>.
