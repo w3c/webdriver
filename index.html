@@ -219,7 +219,7 @@ and decorations (such as operating system widget borders).
 </section> <!-- /Terminology -->
 
 
-<section data-dfn-for=NavigatorAutomationInformation data-link-for=NavigatorAutomationInformation>
+<section>
 <h2>Interface</h2>
 
 <p>
@@ -228,18 +228,15 @@ is set to true when the user agent is under remote control.
 It is initially false.
 
 <pre class=idl>
-<a>Navigator</a> includes <a>NavigatorAutomationInformation</a>;
-</pre>
-
-<p>
-Note that the <dfn>NavigatorAutomationInformation</dfn> interface
-should not be exposed on <a><code>WorkerNavigator</code></a>.
-
-<pre class=idl>
 interface mixin NavigatorAutomationInformation {
-	readonly attribute boolean webdriver;
+  readonly attribute boolean webdriver;
 };
+Navigator includes NavigatorAutomationInformation;
 </pre>
+
+<p class=note>
+The {{NavigatorAutomationInformation}} interface
+should not be exposed on {{WorkerNavigator}}.
 
 <dl>
 <dt><dfn>webdriver</dfn>
