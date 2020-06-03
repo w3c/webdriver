@@ -7951,8 +7951,8 @@ Return <a>success</a> with data <var>action</var>.
 <tr><td>"<code>pointer</code>"	<td>"<code>pointerUp</code>"		<td><a>Dispatch a pointerUp action</a>
 <tr><td>"<code>pointer</code>"	<td>"<code>pointerMove</code>		<td><a>Dispatch a pointerMove action</a>
 <tr><td>"<code>pointer</code>"	<td>"<code>pointerCancel</code>		<td><a>Dispatch a pointerCancel action</a>
-<tr><td>"<code>wheel</code>"	<td>"<code>pause</code>"		<td><a>Dispatch a pause action</a>
-<tr><td>"<code>wheel</code>"	<td>"<code>scroll</code>"		<td><a>Dispatch a scroll action</a>	
+<tr><td>"<code>wheel</code>"    <td>"<code>pause</code>"                <td><a>Dispatch a pause action</a>
+<tr><td>"<code>wheel</code>"    <td>"<code>scroll</code>"               <td><a>Dispatch a scroll action</a>	
 </table>
 
    <li><a>Try</a> to run <var>algorithm</var> with arguments
@@ -8721,6 +8721,195 @@ Return <a>success</a> with data <var>action</var>.
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 </section> <!-- /pointer-actions -->
+
+
+<section>
+<h4>Wheel actions</h4>
+
+<p>When required to <dfn>dispatch a scroll action</dfn> with
+ arguments <var>source id</var>, <var>action object</var>,
+ <var>input state</var> and <var>tick duration</var> a
+ <a>remote end</a> must run the following steps:
+
+<ol>
+ <li><p>Let <var>x offset</var> be equal to the <code>x</code>
+  property of <var>action object</var>.
+
+ <li><p>Let <var>y offset</var> be equal to the <code>y</code>
+  property of <var>action object</var>.
+
+ <li><p>Let <var>start x</var> be equal to the <code>x</code>
+  property of <var>input state</var>.
+
+ <li><p>Let <var>start y</var> be equal to the <code>y</code>
+  property of <var>input state</var>.
+
+ <li><p>Let <var>origin</var> be equal to the <code>origin</code>
+  property of <var>action object</var>.
+
+ <li><p>Run the substeps of the first matching value
+  of <var>origin</var>:
+
+  <dl>
+   <dt>"<code>viewport</code>"
+   <dd><p>Let <var>x</var> equal <var>x offset</var> and
+    <var>y</var> equal <var>y offset</var>.</dd>
+
+   <dt>"<code>pointer</code>"
+   <dd><p>Let <var>x</var> equal <var>start x</var> +
+    <var>x offset</var> and <var>y</var> equal
+    <var>start y</var> + <var>y  offset</var>.</dd>
+
+   <dt>An object that <a>represents a web element</a></dt>
+   <dd>
+    <ol>
+     <li><p>Let <var>element</var> be equal to the result
+      of <a>trying</a> to <a>get a known connected element</a> with
+      argument <var>origin</var>.
+
+     <li><p>Let <var>x element</var> and <var>y element</var> be the
+      result of calculating the <a>in-view center point</a>
+      of <var>element</var>.
+
+     <li><p>Let <var>x</var> equal <var>x element</var> +
+      <var>x offset</var>, and <var>y</var> equal
+      <var>y element</var> + <var>y offset</var>.
+    </ol>
+   </dd>
+  </dl>
+
+ <li><p>If <var>x</var> is less than 0 or greater than the width of
+  the viewport in <a>CSS pixels</a>, then
+  return <a>error</a> with error code <a>move target out of
+  bounds</a>.
+
+ <li><p>If <var>y</var> is less than 0 or greater than the height of
+  the viewport in <a>CSS pixels</a>, then
+  return <a>error</a> with error code <a>move target out of
+  bounds</a>.
+	 
+ <li><p>Let <var>delta x</var> be equal to the <code>delta x</code>
+  property of <var>action object</var>.
+
+ <li><p>Let <var>delta y</var> be equal to the <code>delta y</code>
+  property of <var>action object</var>.
+
+ <li><p>Let <var>duration</var> be equal to
+  <var>action object</var>’s <code>duration</code> property if it
+  is not <a>undefined</a>, or <var>tick duration</var>
+  otherwise.
+
+ <li><p>If <var>duration</var> is greater than 0 and inside any
+  implementation-defined bounds, <a>asynchronously wait</a> for an
+  implementation defined amount of time to pass.
+
+  <aside><p>This wait allows the implementation to model the overall
+   pointer move as a series of small movements occurring at an
+   implementation defined rate (e.g. one movement per
+   vsync).</p></aside>
+ </li>
+
+ <li><p><a>Perform a scroll</a> with arguments
+  <var>source id</var>, <var>input state</var>, <var>duration</var>,
+  <var>x</var>, <var>y</var>, <var>delta x</var>, <var>delta y</var>.
+
+ <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+</ol>
+
+<p>When required to <dfn>perform a scroll</dfn> with
+ arguments <var>source id</var>, <var>input state</var>,
+ <var>duration</var>, <var>x</var>, <var>y</var>,
+ <var>target delta x</var> and <var>target delta y</var>,
+ an implementation must run the following steps:
+
+<ol>
+ <li><p>Let <var>time delta</var> be the time since the beginning of
+  the current <a>tick</a>, measured in milliseconds on a monotonic
+  clock.
+
+ <li><p>Let <var>duration ratio</var> be the ratio of
+  <var>time delta</var> and <var>duration</var>, if <var>duration</var>
+  is greater than 0, or 1 otherwise.
+
+ <li><p>If <var>duration ratio</var> is 1, or close enough to 1 that
+  the implementation will not further subdivide the move action,
+  let <var>last</var> be true. Otherwise let <var>last</var>
+  be <code>false</code>.
+
+ <li><p>Let <var>current delta x</var> equal the <code>delta x</code>
+  property of <var>input state</var>.
+
+ <li><p>Let <var>current delta y</var> equal the <code>delta y</code>
+  property of <var>input state</var>.
+
+ <li><p>If <var>last</var> is true, let <var>delta x</var> equal
+  <var>target delta x</var> - <var>current delta x</var> and
+  <var>delta y</var> equal <var>target delta y</var> -
+  <var>current delta y</var>.
+
+  <p>Otherwise let <var>delta x</var> equal an approximation
+   to <var>duration ratio</var> &times; <var>target delta x</var>,
+   and <var>delta y</var> equal an approximation to
+   <var>duration ratio</var> &times; <var>target delta y</var>.
+ 
+ <li><p>If <var>current delta x</var> is not equal to
+  <var>target delta x</var> or <var>current delta y</var> is not equal
+  to <var>target delta y</var>, run the following steps:
+
+  <ol>
+   <li><p><a>Perform implementation-specific
+    action dispatch steps</a> equivalent to wheel scroll with
+    ID <var>source id</var> at viewport x coordinate <var>x</var>,
+    viewport y coordinate <var>y</var>, <var>delta x</var>,
+    <var>delta y</var>, in accordance with the
+    requirements of [[UI-EVENTS]].
+
+   <li><p>Let <var>input state</var>’s <code>x</code> property
+    equal <var>x</var> and <code>y</code> property
+    equal <var>y</var>.
+	   
+   <li><p>Let <var>input state</var>’s <code>delta x</code> property
+    equal <var>delta x</var>  + <var>current delta x</var> and
+    <code>delta y</code> property equal
+    <var>delta y</var>  + <var>current delta y</var>.	   
+  </ol>
+
+ <li><p>If <var>last</var> is true, return.
+
+ <li><p>Run the following substeps <a>in parallel</a>:
+
+  <aside class=note>
+   <p>This algorithm may trigger multiple events spread across some
+    duration. Parallelism is applied intentionally in order to manage the
+    scheduling of these events relative to the events triggered by other
+    actions in the same tick.
+
+   <p>The initial scroll is performed synchronously. This ensures
+    determinism in the sequence of the first event triggered by each
+    action in the tick.
+
+   <p>Subsequent scrolls (if any) are performed asynchronously. This allows
+    events from two <a>scroll</a> actions in the tick to be interspersed.
+  </aside>
+
+ <ol>
+   <li><p><a>Asynchronously wait</a> for an implementation defined
+    amount of time to pass.
+
+   <aside><p>This wait allows the implementation to model the overall
+    scroll as a series of small scrolls occurring at an
+    implementation defined rate (e.g. one scroll per
+    vsync).</aside>
+
+   <li><p><a>Perform a scroll</a> with arguments
+    <var>source id</var>, <var>input state</var>, <var>duration</var>,
+    <var>x</var>, <var>y</var>, <var>delta x</var>, <var>delta y</var>,
+    <var>target delta x</var>, <var>target delta y</var>.
+ </ol>
+
+</ol>
+
+</section> <!-- /wheel-actions -->
 </section> <!-- /dispatching-actions -->
 
 
