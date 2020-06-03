@@ -7279,7 +7279,7 @@ from a machine utilisation perspective.
 
  <li><p>If <var>type</var> is
   not "<code>key</code>", "<code>pointer</code>",
-  "<code>wheel</code>",	or "<code>none</code>",
+  "<code>wheel</code>", or "<code>none</code>",
   return an <a>error</a> with
   <a>error code</a> <a>invalid argument</a>.
 
@@ -7666,11 +7666,11 @@ If <var>deltaX</var> is not <a>undefined</a> and is not an <a>Integer</a>,
 return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
 <li><p>
-Set the <code>deltaX</code> property of <var>action</var> to <var>deltaX</var>.
+Set the <code>delta x</code> property of <var>action</var> to <var>delta x</var>.
 
 <li><p>
-Let <var>deltaY</var> be the result of <a>getting the property</a>
-<code>deltaY</code> from <var>action item</var>.
+Let <var>delta y</var> be the result of <a>getting the property</a>
+<code>delta y</code> from <var>action item</var>.
 
 <li><p>
 If <var>deltaY</var> is not <a>undefined</a> and is not an <a>Integer</a>,
@@ -7678,6 +7678,10 @@ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
 <li><p>
 Set the <code>deltaY</code> property of <var>action</var> to <var>deltaY</var>.
+
+<li><p>
+If <var>delta x</var> is not <a>undefined</a> and is not an <a>Integer</a>,
+return <a>error</a> with <a>error code</a> <a>invalid argument</a>.        
 
 <li><p>
 Return <a>success</a> with data <var>action</var>.
@@ -7886,16 +7890,16 @@ Return <a>success</a> with data <var>action</var>.
     <code>subtype</code> property, to a dispatch action algorithm.
 
 <table class=simple>
-<tr><th><var>source type</var>	<th><code>subtype</code> property	<th>Dispatch action algorithm
-<tr><td>"<code>none</code>"	<td>"<code>pause</code>"		<td><a>Dispatch a pause action</a>
-<tr><td>"<code>key</code>"	<td>"<code>pause</code>"		<td><a>Dispatch a pause action</a>
-<tr><td>"<code>key</code>"	<td>"<code>keyDown</code>"		<td><a>Dispatch a keyDown action</a>
-<tr><td>"<code>key</code>"	<td>"<code>keyUp</code>"		<td><a>Dispatch a keyUp action</a>
-<tr><td>"<code>pointer</code>"	<td>"<code>pause</code>"		<td><a>Dispatch a pause action</a>
-<tr><td>"<code>pointer</code>"	<td>"<code>pointerDown</code>"		<td><a>Dispatch a pointerDown action</a>
-<tr><td>"<code>pointer</code>"	<td>"<code>pointerUp</code>"		<td><a>Dispatch a pointerUp action</a>
-<tr><td>"<code>pointer</code>"	<td>"<code>pointerMove</code>		<td><a>Dispatch a pointerMove action</a>
-<tr><td>"<code>pointer</code>"	<td>"<code>pointerCancel</code>		<td><a>Dispatch a pointerCancel action</a>
+<tr><th><var>source type</var>  <th><code>subtype</code> property       <th>Dispatch action algorithm
+<tr><td>"<code>none</code>"     <td>"<code>pause</code>"                <td><a>Dispatch a pause action</a>
+<tr><td>"<code>key</code>"      <td>"<code>pause</code>"                <td><a>Dispatch a pause action</a>
+<tr><td>"<code>key</code>"      <td>"<code>keyDown</code>"              <td><a>Dispatch a keyDown action</a>
+<tr><td>"<code>key</code>"      <td>"<code>keyUp</code>"                <td><a>Dispatch a keyUp action</a>
+<tr><td>"<code>pointer</code>"  <td>"<code>pause</code>"                <td><a>Dispatch a pause action</a>
+<tr><td>"<code>pointer</code>"  <td>"<code>pointerDown</code>"          <td><a>Dispatch a pointerDown action</a>
+<tr><td>"<code>pointer</code>"  <td>"<code>pointerUp</code>"            <td><a>Dispatch a pointerUp action</a>
+<tr><td>"<code>pointer</code>"  <td>"<code>pointerMove</code>           <td><a>Dispatch a pointerMove action</a>
+<tr><td>"<code>pointer</code>"  <td>"<code>pointerCancel</code>         <td><a>Dispatch a pointerCancel action</a>
 <tr><td>"<code>wheel</code>"    <td>"<code>pause</code>"                <td><a>Dispatch a pause action</a>
 <tr><td>"<code>wheel</code>"    <td>"<code>scroll</code>"               <td><a>Dispatch a scroll action</a>	
 </table>
@@ -8793,13 +8797,15 @@ Return <a>success</a> with data <var>action</var>.
   <var>current delta y</var>.
 
   <p>Otherwise let <var>delta x</var> equal an approximation
-   to <var>duration ratio</var> &times; <var>target delta x</var>,
+   to <var>duration ratio</var> &times; <var>target delta x</var> -
+   <var>current delta x</var>,
    and <var>delta y</var> equal an approximation to
-   <var>duration ratio</var> &times; <var>target delta y</var>.
+   <var>duration ratio</var> &times; <var>target delta y</var> -
+   <var>current delta y</var>.
  
- <li><p>If <var>current delta x</var> is not equal to
-  <var>target delta x</var> or <var>current delta y</var> is not equal
-  to <var>target delta y</var>, run the following steps:
+ <li><p>If <var>delta x</var> is not equal to <var>0</var> or
+  <var>delta y</var> is not equal to <var>0</var>,
+  run the following steps:
 
   <ol>
    <li><p><a>Perform implementation-specific
