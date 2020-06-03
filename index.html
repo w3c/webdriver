@@ -7022,6 +7022,11 @@ describe the state associated with each <a>input source</a>.
   <td>"<code>pointer</code>"
   <td><a>pointer input state</a>
  </tr>
+
+ <tr>
+  <td>"<code>wheel</code>"
+  <td><a>wheel input state</a>
+ </tr>	
 </table>
 
 <p>A <a>null input source</a>’s <a>input source state</a> is
@@ -7274,7 +7279,8 @@ from a machine utilisation perspective.
 
  <li><p>If <var>type</var> is
   not "<code>key</code>", "<code>pointer</code>",
-  or "<code>none</code>", return an <a>error</a> with
+  "<code>wheel</code>",	or "<code>none</code>",
+  return an <a>error</a> with
   <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>id</var> be the result of
@@ -7562,6 +7568,116 @@ If doing so results in an <a>error</a>, return that <a>error</a>.
 If <var>subtype</var> is "<code>pointerCancel</code>"
 <span class=issue>process a pointer cancel action</span>.
 If doing so results in an <a>error</a>, return that <a>error</a>.
+
+<li><p>
+Return <a>success</a> with data <var>action</var>.
+</ol>
+
+<p>
+When required to <dfn>process a wheel action</dfn> with arguments
+<var>id</var>,
+and <var>action item</var>,
+a <a>remote end</a> must perform the following steps:</p>
+
+<ol>
+<li><p>
+Let <var>subtype</var> be the result
+of <a>getting a property</a> named <code>type</code>
+from <var>action item</var>.
+
+<li><p>
+If <var>subtype</var> is not the value
+"<code>pause</code>", or
+"<code>scroll</code>",
+return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+<li><p>
+Let <var>action</var> be an <a>action object</a> constructed with arguments
+<var>id</var>,
+"<code>wheel</code>",
+and <var>subtype</var>.
+
+<li><p>
+If <var>subtype</var> is "<code>pause</code>",
+let <var>result</var> be the result of <a>trying</a> to
+<a>process a pause action</a> with arguments
+<var>action item</var> and <var>action</var>,
+and return <var>result</var>.
+
+<li><p>
+Let <var>duration</var> be the result of <a>getting a property</a>
+named <code>duration</code> from <var>action item</var>.
+
+<li><p>
+If <var>duration</var> is not <a>undefined</a> and <var>duration</var>
+is not an <a>Integer</a> greater than or equal to 0, return <a>error</a>
+with <a>error code</a> <a>invalid argument</a>.
+
+<li><p>
+Set the <code>duration</code> property of <var>action</var>
+to <var>duration</var>.
+
+<li><p>
+Let <var>origin</var> be the result of <a>getting the property</a>
+<code>origin</code> from <var>action item</var>.
+
+<li><p>
+If <var>origin</var> is <a>undefined</a> let
+<var>origin</var> equal "<code>viewport</code>".
+
+<li><p>
+If <var>origin</var> is not equal to "<code>viewport</code>"
+or "<code>pointer</code>" and <var>origin</var> is not an <a>Object</a>
+that <a>represents a web element</a>, return <a>error</a> with
+<a>error code</a> <a>invalid argument</a>.
+
+<li><p>
+Set the <code>origin</code> property of <var>action</var>
+to <var>origin</var>.
+
+<li><p>
+Let <var>x</var> be the result of <a>getting the property</a>
+<code>x</code> from <var>action item</var>.
+
+<li><p>
+If <var>x</var> is not <a>undefined</a> and is not an <a>Integer</a>,
+return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+<li><p>
+Set the <code>x</code> property of <var>action</var> to <var>x</var>.
+
+<li><p>
+Let <var>y</var> be the result of <a>getting the property</a>
+<code>y</code> from <var>action item</var>.
+
+<li><p>
+If <var>y</var> is not <a>undefined</a> and is not an <a>Integer</a>,
+return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+<li><p>
+Set the <code>y</code> property of <var>action</var> to <var>y</var>.
+
+<li><p>
+Let <var>deltaX</var> be the result of <a>getting the property</a>
+<code>deltaX</code> from <var>action item</var>.
+
+<li><p>
+If <var>deltaX</var> is not <a>undefined</a> and is not an <a>Integer</a>,
+return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+<li><p>
+Set the <code>deltaX</code> property of <var>action</var> to <var>deltaX</var>.
+
+<li><p>
+Let <var>deltaY</var> be the result of <a>getting the property</a>
+<code>deltaY</code> from <var>action item</var>.
+
+<li><p>
+If <var>deltaY</var> is not <a>undefined</a> and is not an <a>Integer</a>,
+return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+<li><p>
+Set the <code>deltaY</code> property of <var>action</var> to <var>deltaY</var>.
 
 <li><p>
 Return <a>success</a> with data <var>action</var>.
