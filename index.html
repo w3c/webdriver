@@ -6976,6 +6976,7 @@ For convenience the same terminology is used for their manipulation.
     or left to scroll the page down, up, right or left.</td>
   </tr>
  </table>
+
 <p>Each <a>session</a> maintains a <a>list</a> of <dfn>active input
 sources</dfn>. This list is initially empty. When an <a>input
 source</a> is added to the list of <a>active input sources</a>, a
@@ -7056,6 +7057,18 @@ and a <code>y</code> property which is an unsigned integer.
  a <a>pointer input state</a> object with <code>subtype</code> set
  to <var>subtype</var>, <code>pressed</code> set to an empty set and
  both <code>x</code> and <code>y</code> set to <code>0</code>.
+	
+<p>A <a>wheel input source</a>’s <a>input source state</a> is a
+ <dfn>wheel input state</dfn> object. This is an object with an
+ <code>x</code> property which is an unsigned integer, a <code>y</code>
+ property which is an unsigned integer, a <code>deltaX</code> property
+ which is an integer, and a <code>deltaY</code> property which is an
+ integer.
+
+<p>When required to <dfn>create a new wheel input state object</dfn>,
+ an implementation must return a <a>wheel input state</a> object with
+ the <code>x</code>, <code>y</code>, <code>deltaX</code>, and
+ <code>deltaY</code> properties all set to <code>0</code>.
 
 <p>Each <a>session</a> has an associated <dfn>input state table</dfn>.
  This is a map between <a>input id</a>
