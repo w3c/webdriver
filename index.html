@@ -1017,9 +1017,9 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td>POST</td>
-  <td>/session/{<var>session id</var>}/screenshot</td>
-  <td><a>Take Screenshot with option</a></td>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/screenshot/full</td>
+  <td><a>Take Fullpage Screenshot</a></td>
  </tr>
 
  <tr>
@@ -9041,7 +9041,7 @@ sets the text field of a <a>window.<code>prompt</code></a>
  and a <a>command</a> <a>Take Element Screenshot</a>
  for doing the same with the visible region of an <a>element</a>’s
  <a>bounding rectangle</a> after it has been <a>scrolled into view</a>.
- It also provides a <a>Take Screenshot with option</a> <a>command</a>
+ It also provides a <a>Take Fullpage Screenshot</a> <a>command</a>
  to optionally capture the <a>fullpage region</a>.
 
 <p>An <a>element</a>’s <dfn data-lt="fullpage region">fullpage region</dfn>
@@ -9291,7 +9291,7 @@ that evaluates to false, the <a>element</a> will not be <a>scrolled into view</a
 </section> <!-- /Take Element Screenshot -->
 
 <section>
-<h3><dfn>Take Screenshot with option</dfn></h3>
+<h3><dfn>Take Fullpage Screenshot</dfn></h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -9299,8 +9299,8 @@ that evaluates to false, the <a>element</a> will not be <a>scrolled into view</a
   <th>URI Template</th>
  </tr>
  <tr>
-  <td>POST</td>
-  <td>/session/{<var>session id</var>}/screenshot</td>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/screenshot/full</td>
  </tr>
 </table>
 
@@ -9310,11 +9310,7 @@ that evaluates to false, the <a>element</a> will not be <a>scrolled into view</a
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p>Let <var>fullpage</var> be the result of <a>getting a
-    property with default</a> named <code>fullpage</code> and with
-    default <code>true</code> from the <var>parameters</var> argument.
-
-    <li><p>If <var>fullpage</var> is true, when the user agent is next to <a>run the animation frame callbacks</a>:
+    <li><p>When the user agent is next to <a>run the animation frame callbacks</a>:
   <ol>
 
    <li><p>Let <var>content rect</var> be the <a>current top-level browsing context</a>’s
@@ -9334,7 +9330,6 @@ that evaluates to false, the <a>element</a> will not be <a>scrolled into view</a
   </ol>
 
  <li><p>Return <a>success</a> with data <var>encoded string</var>.
- <li><p>Otherwise, run the steps for <a>Take Screenshot</a>
 </ol>
 
 </section> <!-- /Take Screenshot with option -->
