@@ -7119,16 +7119,7 @@ and a <code>y</code> property which is an unsigned integer.
  both <code>x</code> and <code>y</code> set to <code>0</code>.
 	
 <p>A <a>wheel input source</a>’s <a>input source state</a> is a
- <dfn>wheel input state</dfn> object. This is an object with an
- <code>x</code> property which is an unsigned integer, a <code>y</code>
- property which is an unsigned integer, a <code>deltaX</code> property
- which is an integer, and a <code>deltaY</code> property which is an
- integer.
-
-<p>When required to <dfn>create a new wheel input state object</dfn>,
- an implementation must return a <a>wheel input state</a> object with
- the <code>x</code>, <code>y</code>, <code>deltaX</code>, and
- <code>deltaY</code> properties all set to <code>0</code>.
+ <dfn>wheel input state</dfn> object. This is always an empty object.
 
 <p>Each <a>session</a> has an associated <dfn>input state table</dfn>.
  This is a map between <a>input id</a>
@@ -8728,7 +8719,7 @@ Return <a>success</a> with data <var>action</var>.
 
 <p>When required to <dfn>dispatch a scroll action</dfn> with
  arguments <var>source id</var>, <var>action object</var>,
- <var>input state</var> and <var>tick duration</var> a
+ and <var>tick duration</var> a
  <a>remote end</a> must run the following steps:
 
 <ol>
@@ -8737,12 +8728,6 @@ Return <a>success</a> with data <var>action</var>.
 
  <li><p>Let <var>y offset</var> be equal to the <code>y</code>
   property of <var>action object</var>.
-
- <li><p>Let <var>start x</var> be equal to the <code>x</code>
-  property of <var>input state</var>.
-
- <li><p>Let <var>start y</var> be equal to the <code>y</code>
-  property of <var>input state</var>.
 
  <li><p>Let <var>origin</var> be equal to the <code>origin</code>
   property of <var>action object</var>.
@@ -8754,11 +8739,6 @@ Return <a>success</a> with data <var>action</var>.
    <dt>"<code>viewport</code>"
    <dd><p>Let <var>x</var> equal <var>x offset</var> and
     <var>y</var> equal <var>y offset</var>.</dd>
-
-   <dt>"<code>pointer</code>"
-   <dd><p>Let <var>x</var> equal <var>start x</var> +
-    <var>x offset</var> and <var>y</var> equal
-    <var>start y</var> + <var>y  offset</var>.</dd>
 
    <dt>An object that <a>represents a web element</a></dt>
    <dd>
@@ -8810,16 +8790,18 @@ Return <a>success</a> with data <var>action</var>.
  </li>
 
  <li><p><a>Perform a scroll</a> with arguments
-  <var>source id</var>, <var>input state</var>, <var>duration</var>,
-  <var>x</var>, <var>y</var>, <var>delta x</var>, <var>delta y</var>.
+  <var>source id</var>, <var>duration</var>,
+  <var>x</var>, <var>y</var>, <var>delta x</var>, <var>delta y</var>,
+  <var>0</var>, <var>0</var>.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 
 <p>When required to <dfn>perform a scroll</dfn> with
- arguments <var>source id</var>, <var>input state</var>,
+ arguments <var>source id</var>,
  <var>duration</var>, <var>x</var>, <var>y</var>,
- <var>target delta x</var> and <var>target delta y</var>,
+ <var>target delta x</var>, <var>target delta y</var>,
+ <var>current delta x</var> and <var>current delta y</var>,
  an implementation must run the following steps:
 
 <ol>
@@ -8835,12 +8817,6 @@ Return <a>success</a> with data <var>action</var>.
   the implementation will not further subdivide the move action,
   let <var>last</var> be true. Otherwise let <var>last</var>
   be <code>false</code>.
-
- <li><p>Let <var>current delta x</var> equal the <code>deltaX</code>
-  property of <var>input state</var>.
-
- <li><p>Let <var>current delta y</var> equal the <code>deltaY</code>
-  property of <var>input state</var>.
 
  <li><p>If <var>last</var> is true, let <var>delta x</var> equal
   <var>target delta x</var> - <var>current delta x</var> and
@@ -8865,14 +8841,10 @@ Return <a>success</a> with data <var>action</var>.
     viewport y coordinate <var>y</var>, deltaX value <var>delta x</var>,
     deltaY value <var>delta y</var>, in accordance with the
     requirements of [[UI-EVENTS]].
-
-   <li><p>Let <var>input state</var>’s <code>x</code> property
-    equal <var>x</var> and <code>y</code> property
-    equal <var>y</var>.
-	   
-   <li><p>Let <var>input state</var>’s <code>deltaX</code> property
+ 
+   <li><p>Let <code>current delta x</code> property
     equal <var>delta x</var>  + <var>current delta x</var> and
-    <code>deltaY</code> property equal
+    <code>current delta y</code> property equal
     <var>delta y</var>  + <var>current delta y</var>.	   
   </ol>
 
@@ -8904,9 +8876,10 @@ Return <a>success</a> with data <var>action</var>.
     vsync).</aside>
 
    <li><p><a>Perform a scroll</a> with arguments
-    <var>source id</var>, <var>input state</var>, <var>duration</var>,
-    <var>x</var>, <var>y</var>, <var>target delta x</var>,
-    <var>target delta y</var>.
+    <var>source id</var>, <var>duration</var>,
+    <var>x</var>, <var>y</var>,
+    <var>target delta x</var>, <var>target delta y</var>,
+    <var>current delta x</var>, <var>current delta y</var>.
  </ol>
 
 </ol>
