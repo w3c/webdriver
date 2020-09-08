@@ -3465,20 +3465,21 @@ make the tab containing the <a>browsing context</a> the selected tab.
   or an <a>Object</a> that <a>represents a web element</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
-
- <li><p><a>Handle any user prompts</a>
-  and return its value if it is an <a>error</a>.
-
  <li><p>Run the substeps of the first matching condition:
 
   <dl class=switch>
    <dt><var>id</var> is <a><code>null</code></a>
    <dd>
     <ol>
+      <li><p>If the <a>current top-level browsing context</a> is <a>no
+            longer open</a>, return <a>error</a> with <a>error code</a> <a>no
+            such window</a>.
+
+      <li><p><a>Handle any user prompts</a>
+          and return its value if it is an <a>error</a>.
+
      <li><p><a>Set the current browsing context</a> with
-      the <a>current top-level browsing context</a>.
+         the <a>current top-level browsing context</a>.
     </ol>
 
    <dt><var>id</var> is a <code>Number</code> object
@@ -3486,6 +3487,13 @@ make the tab containing the <a>browsing context</a> the selected tab.
     <ol>
      <li><p>If <var>id</var> is less than 0 or greater than 2<sup>16</sup> – 1,
       return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+     <li><p>If the <a>current browsing context</a> is <a>no
+           longer open</a>, return <a>error</a> with <a>error code</a> <a>no
+           such window</a>.
+
+     <li><p><a>Handle any user prompts</a>
+         and return its value if it is an <a>error</a>.
 
      <li><p>Let <var>window</var> be the <a>associated window</a>
       of the <a>current browsing context</a>’s <a>active document</a>.
@@ -3507,6 +3515,13 @@ make the tab containing the <a>browsing context</a> the selected tab.
    <dt><var>id</var> <a>represents a web element</a>
    <dd>
     <ol>
+     <li><p>If the <a>current browsing context</a> is <a>no
+           longer open</a>, return <a>error</a> with <a>error code</a> <a>no
+           such window</a>.
+
+     <li><p><a>Handle any user prompts</a>
+         and return its value if it is an <a>error</a>.
+
      <li><p>Let <var>element</var> be the result
       of <a>trying</a> to <a>get a known element</a>
       by <a>web element reference</a> <var>id</var>.
@@ -3556,8 +3571,9 @@ make the tab containing the <a>browsing context</a> the selected tab.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current parent browsing context</a> is <a>no longer
+  open</a>, return <a>error</a> with <a>error code</a> <a>no such
+  window</a>.
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
