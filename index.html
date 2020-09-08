@@ -2160,14 +2160,14 @@ with a "<code>moz:</code>" prefix:
  representation of a <a>UUID</a>) used to uniquely identify this
  session.  Unless stated otherwise it is <a><code>null</code></a>.
 
-<p>A <a>session</a> has an associated <dfn>current browsing context</dfn>,
- which is the <a>browsing context</a> against which <a>commands</a> will run.
-
-<p>A <a>session</a> has an associated
- <dfn>current top-level browsing context</dfn>, which is the <a>current browsing
- context</a> if it itself is a <a>top-level browsing context</a>, and otherwise
- is the <a>top-level browsing context</a> of the <a>current browsing
- context</a>.
+<p>A <a>session</a> has an associated <dfn>current browsing
+ context</dfn>, which is the <a>browsing context</a> against
+ which <a>commands</a> will run, an associated <dfn>current parent
+ browsing context</dfn>, which is set to the parent of the <a>current
+ browsing context</a> when changing browsing contexts, and an
+ associated <dfn>current top-level browsing context</dfn>, which is
+ set to the top-browsing context ancestor of the <a>current browsing
+ context</a>, when changing browsing contexts.</p>
 
 <p>
 A <a>session</a> has an associated <dfn data-lt="session script timeout|session page load timeout|session implicit wait timeout">session timeouts</dfn>
@@ -2432,10 +2432,9 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
 
  <li><p>Set the <a>webdriver-active flag</a> to true.</p>
 
- <li><p>Set the <a>current top-level browsing context</a>
-  for <var>session</var> in an implementation-specific way. This
-  should be the <a>top-level browsing context</a> of the UA’s
-  <a>current browsing context</a>.
+ <li><p><a>Set the current top-level browsing context</a>
+   for <var>session</var> with the <a>top-level browsing context</a>
+   of the UA’s <a>current browsing context</a>.
 
   <p class="note">WebDriver implementations typically start a
    completely new browser instance, but there is no requirement in
@@ -2932,8 +2931,8 @@ Return <a>success</a> with data <a><code>null</code></a>.
   <li><p><a>Try</a> to run the <a>post-navigation checks</a>.
  </ol>
 
- <li><p>Set the <a>current browsing context</a>
-  to the <a>current top-level browsing context</a>.
+ <li><p><a>Set the current browsing context</a> with the <a>current
+  top-level browsing context</a>.
 
  <li><p>If the <a>current top-level browsing context</a> contains
   a <a>refresh state pragma directive</a> of <var>time</var> 1 second
@@ -3101,8 +3100,8 @@ Return <a>success</a> with data <a><code>null</code></a>.
    <li><p><a>Try</a> to run the <a>post-navigation checks</a>.
   </ol>
 
- <li><p>Set the <a>current browsing context</a>
-  to the <a>current top-level browsing context</a>.
+ <li><p><a>Set the current browsing context</a> with <a>current
+  top-level browsing context</a>.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
@@ -3193,6 +3192,28 @@ Return <a>success</a> with data <a><code>null</code></a>.
    <dd><p>Associated <a>window handle</a>
     of the <var>window</var>’s <a>browsing context</a>.
   </dl>
+</ol>
+
+<p>When required to <dfn>set the current browsing context</dfn> given
+   a <var>context</var>, an implementation must follow the following
+   steps:
+<ol>
+  <li>Set the <a>current session</a>’s <a>current browsing
+      context</a> to <var>context</var>.
+  <li>Set the <a>current session</a>’s <a>current parent browsing
+    context</a> to the <a>parent browsing context</a>
+    of <var>context</var>, if that context exists, or <a>null</a>
+    otherwise.
+</ol>
+
+<p>When required to <dfn>set the current top-level browsing
+   context</dfn> given a <var>context</var>, an implementation must
+   follow the following steps:
+<ol>
+  <li>Assert: <var>context</var> is a <a>top-level browsing context</a>.
+  <li>Set the <a>current session</a>’s <a>current top-level browsing
+      context</a> to <var>context</var>.
+  <li><a>Set the current browsing context</a> to <var>context</var>.
 </ol>
 
 <p class=note>
@@ -3292,10 +3313,11 @@ make the tab containing the <a>browsing context</a> the selected tab.
   focussing of another <a>top-level browsing context</a>,
   return <a>error</a> with <a>error code</a> <a>unexpected alert open</a>.
 
- <li><p>If <var>handle</var> is equal to the associated <a>window handle</a>
-  for some <a>top-level browsing context</a> in the <a>current session</a>,
-  set the <a>session</a>’s <a>current browsing context</a>
-  to that browsing context.
+ <li><p>If <var>handle</var> is equal to the associated <a>window
+  handle</a> for some <a>top-level browsing context</a> in
+  the <a>current session</a>, let <var>context</var> be the that
+  browsing context, and
+  <a>set the current top-level browsing context</a> with <var>context</var>.
 
   <p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
@@ -3455,7 +3477,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
    <dt><var>id</var> is <a><code>null</code></a>
    <dd>
     <ol>
-     <li><p>Set the <a>current browsing context</a> to
+     <li><p><a>Set the current browsing context</a> with
       the <a>current top-level browsing context</a>.
     </ol>
 
@@ -3478,7 +3500,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
       <var>window</var>.<a data-lt='window.[[\getOwnProperty]]'><code>[[\GetOwnProperty]]</code></a>
       (<var>id</var>).
 
-     <li><p>Set the <a>current browsing context</a> to
+     <li><p><a>Set the current browsing context</a> with
       <var>child window</var>’s <a>browsing context</a>.
     </ol>
 
@@ -3496,8 +3518,8 @@ make the tab containing the <a>browsing context</a> the selected tab.
       or <a><code>iframe</code></a> element,
       return <a>error</a> with <a>error code</a> <a>no such frame</a>.
 
-     <li><p>Set the <a>current browsing context</a> to <var>element</var>’s
-      <a>nested browsing context</a>.
+     <li><p><a>Set the current browsing context</a>
+     with <var>element</var>’s <a>nested browsing context</a>.
     </ol>
  </dl>
 
@@ -3539,10 +3561,9 @@ make the tab containing the <a>browsing context</a> the selected tab.
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p>If the <a>current browsing context</a> is not equal to
-  the <a>current top-level browsing context</a>,
-  set the <a>current browsing context</a> to
-  the <a>parent browsing context</a> of the <a>current browsing context</a>.
+ <li><p>If the <a>current session</a>'s <a>current parent browsing
+ context</a> is not <a>null</a>, <a>set the current browsing
+ context</a> with the <a>current parent browsing context</a>.
 
  <li><p>Update any implementation-specific state that would result
   from the user selecting the <a>current browsing context</a> for
