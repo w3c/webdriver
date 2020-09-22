@@ -1019,7 +1019,7 @@ when it receives a particular <a>command</a>.
  <tr>
   <td>GET</td>
   <td>/session/{<var>session id</var>}/screenshot/full</td>
-  <td><a>Take Fullpage Screenshot</a></td>
+  <td><a>Take Full Page Screenshot</a></td>
  </tr>
 
  <tr>
@@ -9041,74 +9041,8 @@ sets the text field of a <a>window.<code>prompt</code></a>
  and a <a>command</a> <a>Take Element Screenshot</a>
  for doing the same with the visible region of an <a>element</a>’s
  <a>bounding rectangle</a> after it has been <a>scrolled into view</a>.
- It also provides a <a>Take Fullpage Screenshot</a> <a>command</a>
- to optionally capture the <a>fullpage region</a>.
-
-<p>An <a>element</a>’s <dfn data-lt="fullpage region">fullpage region</dfn>
- is the rendered rectangle that encompasses the maximal scrollable width
- and height,
- it can be calculated this way:
-<ol>
- <li><p>Let <var>x</var> be 0
-
- <li><p>Let <var>y</var> be 0
-
- <li><p>Let <var>width</var> be the value
-  returned by
-  <p><a>max</a>(document.body.scrollWidth, document.documentElement.scrollWidth,
-                document.body.offsetWidth, document.documentElement.offsetWidth,
-                document.body.clientWidth, document.documentElement.clientWidth)
-
- <li><p>Let <var>height</var> be the value
-  returned by
-  <p><a>max</a>(document.body.scrollHeight, document.documentElement.scrollHeight,
-                document.body.offsetHeight, document.documentElement.offsetHeight,
-                document.body.clientHeight, document.documentElement.clientHeight)
-
-  <li><p>Return {<var>x</var>, <var>y</var>, <var>width</var>, <var>height</var>}.
-</ol>
-
-<p>In order to <dfn>draw a bounding box from the fullpage region</dfn>,
- given a <a>rectangle</a>:
-
-<ol>
- <li><p>If either the <a>rectangle</a>’s width or height
-  is 0 <a>CSS pixels</a>,
-  return <a>error</a> with <a>error code</a> <a>unable to capture screen</a>.
-
- <li><p>Let <var>paint width</var> be the <a>rectangle</a>’s width
-
- <li><p>Let <var>paint height</var> be the <a>rectangle</a>’s height
-
- <li><p>Let <var>canvas</var> be a new <a><code>canvas</code> element</a>,
-  and set its <a data-lt="canvas width attribute">width</a>
-  and <a data-lt="canvas height attribute">height</a>
-  to <var>paint width</var> and <var>paint height</var>, respectively.
-
- <li><p>Let <var>context</var>, a <a>canvas context mode</a>,
-  be the result of invoking the <a>2D context creation algorithm</a>
-  given <var>canvas</var> as the target.
-
- <li><p>Complete implementation specific steps equivalent to
-  drawing the region of the framebuffer
-  specified by the following coordinates onto <var>context</var>:
-
-  <dl>
-   <dt>X coordinate
-   <dd><a>rectangle x coordinate</a>
-
-   <dt>Y coordinate
-   <dd><a>rectangle y coordinate</a>
-
-   <dt>Width
-   <dd><var>paint width</var>
-
-   <dt>Height
-   <dd><var>paint height</var>
-  </dl>
-
- <li><p>Return <a>success</a> with <var>canvas</var>.
-</ol>
+ It also provides a <a>Take Full Page Screenshot</a> <a>command</a>
+ to capture the scrollable region of the <a>top-level browsing context</a>’s <a>scrolling element</a>
 
 <p>In order to <dfn>draw a bounding box from the framebuffer</dfn>,
  given a <a>rectangle</a>:
@@ -9155,6 +9089,45 @@ sets the text field of a <a>window.<code>prompt</code></a>
 
  <li><p>Return <a>success</a> with <var>canvas</var>.
 </ol>
+
+<p>In order to <dfn>draw a scrollable region from the framebuffer</dfn>,
+ given a <a>scrolling element</a>:
+
+<ol>
+ <li><p>If either the <a>initial viewport</a>’s width or height
+  is 0 <a>CSS pixels</a>,
+  return <a>error</a> with <a>error code</a> <a>unable to capture screen</a>.
+
+ <li><p>Let <var>canvas</var> be a new <a><code>canvas</code> element</a>,
+  and set its <a data-lt="canvas width attribute">width</a>
+  and <a data-lt="canvas height attribute">height</a>
+  to <a>scrolling element</a> <a>scrollWidth</a> and <a>scrollHeight</a>, respectively.
+
+ <li><p>Let <var>context</var>, a <a>canvas context mode</a>,
+  be the result of invoking the <a>2D context creation algorithm</a>
+  given <var>canvas</var> as the target.
+
+ <li><p>Complete implementation specific steps equivalent to
+  drawing the region of the framebuffer
+  specified by the following coordinates onto <var>context</var>:
+
+  <dl>
+   <dt>X coordinate
+   <dd>0
+
+   <dt>Y coordinate
+   <dd>0
+
+   <dt>Width
+   <dd><a>scrolling element</a> <a>scrollWidth</a>
+
+   <dt>Height
+   <dd><a>scrolling element</a> <a>scrollHeight</a>
+  </dl>
+
+ <li><p>Return <a>success</a> with <var>canvas</var>.
+</ol>
+
 
 <p>To <dfn data-lt="encoding a canvas as base64">encode a canvas as
  Base64 a <code>canvas</code> <a>element</a></dfn>:
@@ -9291,7 +9264,7 @@ that evaluates to false, the <a>element</a> will not be <a>scrolled into view</a
 </section> <!-- /Take Element Screenshot -->
 
 <section>
-<h3><dfn>Take Fullpage Screenshot</dfn></h3>
+<h3><dfn>Take Full Page Screenshot</dfn></h3>
 
 <table class="simple jsoncommand">
  <tr>
@@ -9313,12 +9286,9 @@ that evaluates to false, the <a>element</a> will not be <a>scrolled into view</a
     <li><p>When the user agent is next to <a>run the animation frame callbacks</a>:
   <ol>
 
-   <li><p>Let <var>content rect</var> be the <a>current top-level browsing context</a>’s
-    <a>document element</a>’s <a>fullpage region</a>.
-
    <li><p>Let <var>screenshot result</var> be the result of <a>trying</a> to call
-    <a>draw a bounding box from the fullpage region</a>,
-    given <var>content rect</var> as an argument.
+    <a>draw a scrollable region from the framebuffer</a>,
+    given <a>scrolling element</a> as an argument.
 
    <li><p>Let <var>canvas</var> be a <a><code>canvas</code> element</a>
     of <var>screenshot result</var>’s data.
@@ -10228,6 +10198,15 @@ to automatically sort each list alphabetically.
     <!-- Initial viewport --><li><dfn data-lt=viewport><a href=https://drafts.csswg.org/css-device-adapt/#initial-viewport>Initial viewport</a></dfn>,
      sometimes here referred to as the <i>viewport</i>.
    </ul>
+
+ <dd>The following terms are defined in
+  the CSSOM View Module: [[CSSOM-VIEW]]
+    <ul>
+      <!-- scrolling element --><li><dfn><a href=https://www.w3.org/TR/cssom-view-1/#dom-document-scrollingelement>Scrolling element</a></dfn>
+
+      <!-- scrollWidth --> <li><dfn><a href=https://www.w3.org/TR/cssom-view-1/#dom-element-scrollwidth>scrollWidth</a></dfn>
+      <!-- scrollHeight --> <li><dfn><a href=https://www.w3.org/TR/cssom-view-1/#dom-element-scrollheight>scrollHeight</a></dfn>
+    </ul>
 
  <dd>The following properties are defined in
   the CSS Display Module Level 3 specification: [[CSS3-DISPLAY]]
