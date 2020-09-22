@@ -2628,8 +2628,8 @@ If <var>value</var> has a property with the key "<code>script</code>":
  Let <var>script duration</var> be the value of property "<code>script</code>".
 
  <li><p>
- If <var>script duration</var> is a number and less than 0 or greater than 2<sup>16</sup> – 1,
- or it is not <a><code>null</code></a>,
+ If <var>script duration</var> is a number and less than 0 or greater than
+ <a>maximum safe integer</a>, or it is not <a><code>null</code></a>,
  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>
@@ -2644,8 +2644,9 @@ If <var>value</var> has a property with the key "<code>pageLoad</code>":
  Let <var>page load duration</var> be the value of property "<code>pageLoad</code>".
 
  <li><p>
- If <var>page load duration</var> is less than 0 or greater than 2<sup>16</sup> – 1,
- return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+ If <var>page load duration</var> is less than 0 or greater than
+ <a>maximum safe integer</a>, return <a>error</a> with
+ <a>error code</a> <a>invalid argument</a>.
 
  <li><p>
  Set <var>timeouts</var>’s <a>page load timeout</a> to <var>page load duration</var>.
@@ -2659,8 +2660,9 @@ If <var>value</var> has a property with the key "<code>implicit</code>":
  Let <var>implicit duration</var> be the value of property "<code>implicit</code>".
 
  <li><p>
- If <var>implicit duration</var> is less than 0 or greater than 2<sup>16</sup> – 1,
- return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+ If <var>implicit duration</var> is less than 0 or greater than
+ <a>maximum safe integer</a>, return <a>error</a> with
+ <a>error code</a> <a>invalid argument</a>.
 
  <li><p>
  Set <var>timeouts</var>’s <a>implicit wait timeout</a> to <var>implicit duration</var>.
@@ -7118,7 +7120,7 @@ describe the state associated with each <a>input source</a>.
  <tr>
   <td>"<code>wheel</code>"
   <td><a>wheel input state</a>
- </tr>	
+ </tr>
 </table>
 
 <p>A <a>null input source</a>’s <a>input source state</a> is
@@ -7154,7 +7156,7 @@ and a <code>y</code> property which is an unsigned integer.
  a <a>pointer input state</a> object with <code>subtype</code> set
  to <var>subtype</var>, <code>pressed</code> set to an empty set and
  both <code>x</code> and <code>y</code> set to <code>0</code>.
-	
+
 <p>A <a>wheel input source</a>’s <a>input source state</a> is a
  <dfn>wheel input state</dfn> object. This is always an empty object.
 
@@ -7406,7 +7408,7 @@ from a machine utilisation perspective.
      <dd>Create a new <a>pointer input source</a>. Let the
       new <a>input source</a>’s <a>pointer type</a> be set to the value
       of <var>parameters</var>’s <code>pointerType</code> property.
-    
+
      <dt>"<code>wheel</code>"
      <dd>Create a new <a>wheel input source</a>.
     </dl>
@@ -7980,7 +7982,7 @@ Return <a>success</a> with data <var>action</var>.
 <tr><td>"<code>pointer</code>"  <td>"<code>pointerMove</code>           <td><a>Dispatch a pointerMove action</a>
 <tr><td>"<code>pointer</code>"  <td>"<code>pointerCancel</code>         <td><a>Dispatch a pointerCancel action</a>
 <tr><td>"<code>wheel</code>"    <td>"<code>pause</code>"                <td><a>Dispatch a pause action</a>
-<tr><td>"<code>wheel</code>"    <td>"<code>scroll</code>"               <td><a>Dispatch a scroll action</a>	
+<tr><td>"<code>wheel</code>"    <td>"<code>scroll</code>"               <td><a>Dispatch a scroll action</a>
 </table>
 
    <li><a>Try</a> to run <var>algorithm</var> with arguments
@@ -8804,7 +8806,7 @@ Return <a>success</a> with data <var>action</var>.
   the viewport in <a>CSS pixels</a>, then
   return <a>error</a> with error code <a>move target out of
   bounds</a>.
-	 
+
  <li><p>Let <var>delta x</var> be equal to the <code>deltaX</code>
   property of <var>action object</var>.
 
@@ -8866,7 +8868,7 @@ Return <a>success</a> with data <var>action</var>.
    and <var>delta y</var> equal an approximation to
    <var>duration ratio</var> &times; <var>target delta y</var> -
    <var>current delta y</var>.
- 
+
  <li><p>If <var>delta x</var> is not equal to <var>0</var> or
   <var>delta y</var> is not equal to <var>0</var>,
   run the following steps:
@@ -8878,11 +8880,11 @@ Return <a>success</a> with data <var>action</var>.
     viewport y coordinate <var>y</var>, deltaX value <var>delta x</var>,
     deltaY value <var>delta y</var>, in accordance with the
     requirements of [[UI-EVENTS]].
- 
+
    <li><p>Let <code>current delta x</code> property
     equal <var>delta x</var>  + <var>current delta x</var> and
     <code>current delta y</code> property equal
-    <var>delta y</var>  + <var>current delta y</var>.	   
+    <var>delta y</var>  + <var>current delta y</var>.
   </ol>
 
  <li><p>If <var>last</var> is true, return.
