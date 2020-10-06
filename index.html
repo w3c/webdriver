@@ -194,6 +194,10 @@ as described by The Open Group Base Specifications Issue 7
 An <dfn>integer</dfn> is a <a>Number</a> that is unchanged
 under the <a>ToInteger</a> operation.
 
+<p>A <dfn>millisecond timestamp</dfn> is an <a>Integer</a> that
+approximates the number of milliseconds that have elapsed since the
+<a>Unix Epoch</a>.
+
 <p>
 The <dfn>initial value</dfn> of an ECMAScript property
 is the value defined by the platform for that property,
@@ -681,6 +685,30 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
+  <td>GET</td>
+  <td>/session/{session id}</td>
+  <td><a>Get Session</a></td>
+ </tr>
+ 
+ <tr>
+  <td>POST</td>
+  <td>/session/async</td>
+  <td><a>Async New Session</a></td>
+ </tr>
+ 
+ <tr>
+  <td>GET</td>
+  <td>/session/async/{<var>session creation job id</var>}{/<var>event</var>}
+  <td><a>Async New Session Status</a></td>
+ </tr>
+ 
+ <tr>
+  <td>DELETE</td>
+  <td>/session/async/{<var>session creation job id</var>}
+  <td><a>Cancel New Session</a></td>
+ </tr>
+
+ <tr>
   <td>DELETE</td>
   <td>/session/{<var>session id</var>}</td>
   <td><a>Delete Session</a></td>
@@ -1145,10 +1173,26 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
+  <td><dfn>invalid event id</dfn>
+  <td>400
+  <td><code>invalid event id</code>
+  <td>Argument was an invalid event ID.
+ </tr>
+
+ <tr>
   <td><dfn>invalid selector</dfn>
   <td>400
   <td><code>invalid selector</code>
   <td>Argument was an invalid selector.
+ </tr>
+
+ <tr>
+  <td><dfn>invalid session creation job id</dfn>
+  <td>404
+  <td><code>invalid session creation job id</code>
+  <td>Occurs if the given <a>session creation job id</a> is not in the list of <a>session creation jobs</a>,
+   or is in the list but has a <a data-lt="session creation status">status</a> of
+   "<code>cancelled</code>" or "<code>failed</code>".
  </tr>
 
  <tr>
@@ -1157,6 +1201,13 @@ when it receives a particular <a>command</a>.
   <td><code>invalid session id</code>
   <td>Occurs if the given <a>session id</a> is not in the list of <a>active sessions</a>,
    meaning the <a>session</a> either does not exist or that it’s not active.
+ </tr>
+
+ <tr>
+  <td><dfn>invalid timeout</dfn>
+  <td>400
+  <td><code>invalid timeout</code>
+  <td>Argument was an invalid timeout.
  </tr>
 
  <tr>
@@ -2139,8 +2190,203 @@ with a "<code>moz:</code>" prefix:
  an <a>intermediary node</a> will also <a>close the session</a> of
  the <a>associated session</a>.
 
-<p>All <a>commands</a>, except <a>New Session</a> and <a>Status</a>,
- have an associated <dfn>current session</dfn>,
+<p>A <a>remote end</a> has an associated
+ <dfn>maximum timeout for async session creation</dfn> in milliseconds
+ (an Integer). It may be <a><code>null</code></a> if “unlimited”.
+
+ <p>A <a>remote end</a> has an associated
+  <dfn>wait time for async session creation</dfn> in milliseconds
+  (an Integer). It may be <a><code>null</code></a> if “unlimited”.
+
+<p>A <dfn>session creation job</dfn> is a task to create a session:</a>
+
+<table class=simple>
+<tr>
+<th>Field
+<th>Default
+<th>JSON key
+<th>Optional<sup>†</sup>
+<th>Nullable
+<th>Description<sup>†</sup>
+</tr>
+
+<tr>
+<td><dfn>Session creation job ID</dfn>
+<td>
+<td>"<code>sessionCreationJobId</code>"
+<td>
+<td>
+<td>A string representation of a <a>UUID</a> used to uniquely identify this job.
+</tr>
+
+<tr>
+<td><dfn>Session creation status</dfn>
+<td>"<code>queuing</code>"
+<td>"<code>status</code>"
+<td>
+<td>
+<td>String indicating session creation status,
+ one of "<code>queueing</code>", "<code>creating</code>", "<code>created</code>",
+ "<code>failed</code>", and "<code>cancelled</code>".
+</tr>
+
+<tr>
+<td><dfn>Capabilities request</dfn>
+<td>Empty JSON <a>Object</a>
+<td>"<code>capabilitiesRequest</code>"
+<td>
+<td>
+<td>The capabilities request.
+</tr>
+
+<tr>
+<td><dfn>Session creation timeout</dfn>
+<td>600,000
+<td>"<code>timeout</code>"
+<td>
+<td>✓
+<td>Specified as an <a>integer</a> in milliseconds.
+ If session creation is not achieved within this timeout,
+ the job should be failed.
+ If <a><code>null</code></a>,
+ there is no timeout beyond implementation limits.
+</tr>
+
+<tr>
+<td><dfn>Session creation requested time</dfn>
+<td>
+<td>"<code>requestedTime</code>"
+<td>
+<td>
+<td>When the session creation was requested as a <a>millisecond timestamp</a>.
+</tr>
+
+<tr>
+<td><dfn>Session creation ended time</dfn>
+<td>
+<td>"<code>endedTime</code>"
+<td>✓
+<td>
+<td>When the job ended in success or failure as a <a>millisecond timestamp</a>.
+</tr>
+
+<tr>
+<td><a>Session ID</a>
+<td>
+<td>"<code>sessionId</code>"
+<td>✓
+<td>
+<td><a>Session ID</a> of the created session.
+</tr>
+
+<tr>
+<td><dfn>Session creation events</dfn>
+<td>Empty JSON <a>List</a>
+<td>"<code>events</code>"
+<td>
+<td>
+<td>Time-ordered list of session creation events.
+</tr>
+
+<tr>
+<td><dfn>Session creation data</dfn>
+<td></a>
+<td>"<code>data</code>"
+<td>✓
+<td>
+<td>Object containing implementation-defined data associated with this job.
+</tr>
+</table>
+
+<p>A <dfn>session creation event</dfn> is an event that occurred in the course of trying to create a session:
+
+<table class=simple>
+<tr>
+<th>Field
+<th>Default
+<th>JSON key
+<th>Optional
+<th>Nullable
+<th>Description
+</tr>
+
+<tr>
+<td><dfn>Event ID</dfn>
+<td>
+<td>"<code>eventId</code>"
+<td>
+<td>
+<td>A string representation of a <a>UUID</a> used to uniquely identify this event.
+</tr>
+
+<tr>
+<td><dfn>Event time</dfn>
+<td>
+<td>"<code>time</code>"
+<td>
+<td>
+<td>Event time as a <a>millisecond timestamp</a>.
+</tr>
+
+<tr>
+<td><dfn>Event type</dfn>
+<td>"<code>progress</code>"
+<td>"<code>type</code>"
+<td>✓
+<td>
+<td>Type of this event: "<code>progress</code>" or "<code>error</code>" <span class=issue>or a vendor-prefixed extension type</span>
+</tr>
+
+<tr>
+<td><dfn>Message</dfn>
+<td>
+<td>"<code>message</code>"
+<td>
+<td>
+<td>Human readable description of an event.
+</tr>
+
+<tr>
+<td><dfn>Event data</dfn>
+<td>
+<td>"<code>data</code>"
+<td>✓
+<td>
+<td>Object containing implementation-defined data associated with this event.
+</tr>
+
+<tr>
+<td><dfn>Event stack trace</dfn>
+<td>""
+<td>"<code>stacktrace</code>"
+<td>✓
+<td>
+<td>A stack trace report of the active stack frames at the time when the event occurred.
+</tr>
+</table>
+
+<p>A <a>remote end</a> will maintain a list of <dfn>session creation jobs</dfn>.
+
+<p>With an implementation-specific schedule and priority,
+ a remote end should work on session creation jobs with a
+ <a data-lt="session creation status">status</a> of "<code>queueing</code>".
+
+<p>For each <a>session creation job</a>, an <a>intermediary node</a> will
+ maintain a list of <dfn>associated session creation jobs</dfn>.
+ These include each <a>session creation job</a> on any <a>upstream</a> neighbor
+ that is created when the <a>intermediary node</a> executes the
+ <a>Async New Session</a> <a>command</a> to complete the job.
+
+<p>For each <a>session creation job</a>, an <a>intermediary node</a> will
+ maintain a associated list of sessions. These include
+ each <a>session</a> on any <a>upstream</a> neighbor that is created
+ when the <a>intermediary node</a> executes a <a>New
+ Session</a> <a>command</a> to complete the job.
+
+<a>New Session</a>, <a>Async New Session</a>, and <a>Status</a> <a>commands</a>
+ have no associated <a>session</a> or <a>session creation job</a>.
+
+<p>All other <a>commands</a> have an associated <dfn>current session</dfn>,
  which is the <a>session</a> in which that <a>command</a> will run.
 
 <p>A <a>remote end</a> has an associated list of
@@ -2448,6 +2694,254 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
  <li><p>Return <a>success</a> with data <var>body</var>.
 </ol>
 </section> <!-- /New Session -->
+
+<section>
+<h3><dfn>Get Session</dfn></h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>URI Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{session id}</td>
+ </tr>
+</table>
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>Let <var>body</var> be a JSON <a>Object</a> initialised with:
+  <dl>
+    <dl>
+      <dt>"<code>sessionId</code>"
+      <dd>The <a>session id</a> of the <a>current session</a>.
+
+      <dt>"<code>capabilities</code>"
+      <dd>The capabilities of the <a>current session</a>.
+
+      <dt>"<code>capabilitiesRequest</code>"
+      <dd>The capabilities request for the <a>current session</a>.
+    </dl>
+  </dl>
+
+  <li><p>Return success with data <var>body</var>.
+</section> <!-- /Get Session -->
+
+<section>
+<h3><dfn>Async New Session</dfn></h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>URI Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/async</td>
+ </tr>
+</table>
+
+<p>The <a>remote end</a> steps are:
+
+<ol>
+ <li><p>Let <var>session creation requested time</var> be the current time
+  in milliseconds since the Epoch as an integer.
+
+ <li><p>Let <var>timeout</var> be the result of <a>getting the
+  property</a> named <var>timeout</var> from <var>parameters</var>.
+
+  <ol>
+   <li><p>If <a>maximum timeout for async session creation</a> is an <a>integer</a>,
+    and <var>timeout</var> is undefined,
+    let <var>timeout</var> be <a>min</a>(600,000, <a>maximum timeout for async session creation</a>).
+    <li><p>If <a>maximum timeout for async session creation</a> is <a><code>null</code></a>,
+    and <var>timeout</var> is undefined,
+    let <var>timeout</var> be 600,000</a>.
+   <li><p>If <var>timeout</var> is <a><code>null</code></a>,
+    let <var>timeout</var> be <a>maximum timeout for async session creation</a>.
+   <li><p>If <a>maximum timeout for async session creation</a> is an <a>integer</a>,
+    and less than <var>timeout</var>,
+    return <a>error</a> with <a>error code</a> <a>invalid timeout</a>.
+   <li><p>If <a>timeout</a> is not <a><code>null</code></a> or an <a>integer</a>,
+    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  </ol>
+
+ <li><p>If the <a>remote end</a> is an <a>intermediary node</a>, take
+  implementation-defined steps that either result in returning
+  an <a>error</a> with <a>error code</a> <a>session not created</a>,
+  or in returning a <a>success</a> with data that is isomorphic to
+  that returned by <a>remote ends</a> according to the rest of this
+  algorithm.
+
+ <li><p>If the <a>maximum active sessions</a> is equal to
+  the length of the list of <a>active sessions</a>,
+  return <a>error</a> with <a>error code</a> <a>session not created</a>.
+
+ <li><p>Let <var>capabilities</var> be the result
+   of <a>trying</a> to <a>process capabilities</a>
+   with <var>parameters</var> as an argument.
+
+ <li><p>If <var>capabilities</var> is <a><code>null</code></a>,
+   return <a>error</a> with <a>error code</a> <a>session not created</a>.
+
+ <li><p>Let <var>session creation job</var> be a new JSON <a>Object</a>
+  with the following properties:
+
+  <dl>
+    <dt>"<code>sessionCreationJobId</code>"
+    <dd>The result of <a>generating a UUID</a>.
+
+    <dt>"<code>status</code>"
+    <dd>The String constant "<code>queuing</code>".
+
+    <dt>"<code>capabilitiesRequest</code>"
+    <dd>The result of <a>getting the property</a> named <var>capabilities</var> from <var>parameters</var>.
+
+    <dt>"<code>timeout</code>"
+    <dd><var>timeout</var>’s value.
+
+    <dt>"<code>requestedTime</code>"
+    <dd><var>session creation requested time</var>’s value.
+
+    <dt>"<code>events</code>"
+    <dd>An empty JSON <a>List</a>.
+
+     <dt>"<code>data</code>"
+     <dd>A JSON <a>Object</a> with implementation-specific data.
+   </dl>
+
+  <li>Add the <var>session creation job</var> to the list of
+   <a>session creation jobs</a>.
+</ol>
+
+</section> <!-- /Async New Session -->
+
+<section>
+<h3><dfn>Async New Session Status</dfn></h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>URI Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/async/{<var>session creation job id</var>}{/<var>event</var>}</td>
+ </tr>
+</table>
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+  <ol>
+    <li><p>Let <var>session creation job</var> be the job in <a>session creation jobs</a>
+     with a <a>session creation job id</a> matching <var>session creation job id</var>.
+
+    <li><p>If <var>session creation job</var> is <a><code>null</code></a>,
+     return <a>error</a> with <a>error code</a> <a>invalid session creation job id</a>.
+
+    <li><p>Let <var>body</var> be a <a>JSON clone</a> of <var>session creation job</var>.
+
+    <li><p>If <var>event</var> is defined:
+
+     <ol>
+      <li><p>Let <var>filtered events</var> be an empty JSON <a>List</a>.
+
+      <li><p>Let <var>found</var> be false.
+
+      <li><p>Let <var>events</var> be the value of <a>getting a property</a> named <var>events</var> from <var>body</var>.
+
+      <li><p>For each <var>event object</var> in <var>events</var> in reverse order:
+
+      <ol>
+       <li><p>If <var>found</var> is true, then break.
+
+       <li><p>Let <var>event id</var> be the value of <a>getting a property</a> named <var>eventId</var> from <var>event object</var>.
+
+       <li><p>If <var>event</var> equals <var>event id</var>,
+        set <var>found</var> to true.
+
+       <li><p>Prepend <var>event object</var> to <var>filtered events</var>.
+      </ol>
+
+      <li><p>If <var>found</var> is false,
+       return <a>error</a> with <a>error code</a> <a>invalid event id</a>.
+
+      <li>Set property <var>events</var> in <var>body</var> to <var>filtered events</var>.
+     </ol>
+
+ <li><p>Let <var>status</var> be the value of <a>getting a property</a> named <var>status</var> from <var>body</var>.
+
+ <li><p>Let <var>cache timeout</var> be <a><code>null</code></a>.
+
+ <li><p>If <var>status</var> is "<code>queueing</code>" or "<code>creating</code>",
+  then set <var>cache timeout</var> to 1,000
+  or an implementation-defined predicted interval to the next event.
+
+ <li><p><a>Set a property</a> on <var>body</var> with name <var>cacheTimeout</code> and value <var>cache timeout</var>.
+
+  <p class=note>Local ends may use the <var>cacheTimeout</var> property to hint when to next poll for status.
+
+ <li><p>Return success with data <var>body</var>.
+</ol>
+</section> <!-- /Async New Session Status -->
+
+<section>
+<h3><dfn>Cancel New Session</dfn></h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>URI Template</th>
+ </tr>
+ <tr>
+  <td>DELETE</td>
+  <td>/session/async/{<var>session creation job id</var>}</td>
+ </tr>
+</table>
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>Let <var>session creation job</var> be the job in <a>session creation jobs</a>
+  with a <a>session creation job id</a> matching <var>session creation job id</var>.
+
+ <li><p>If <var>session creation job</var> is <a><code>null</code></a>,
+  return <a>error</a> with <a>error code</a> <a>invalid session creation job id</a>.
+
+ <li><p>If <var>session creation job</var> has a <a data-lt="session creation status">status</a> of
+  "<code>cancelled</code>" or "<code>failed</code>",
+  return <a>error</a> with <a>error code</a> <a>invalid session creation job id</a>.
+
+ <li><p>If <var>session creation job</var> has a <a data-lt="session creation status">status</a> of
+  "<code>created</code>":
+
+  <ol>
+   <li>Set the <a data-lt="session creation status">status</a> to "<code>cancelled</code>".
+
+   <li>If <var>session creation job</var>’s job <a>session ID</a> references an <a>active session</a>,
+   schedule a background job to <a>try</a> to <a>close the session</a>.
+  </ol>
+
+ <li><p>If <var>session creation job</var> has a <a data-lt="session creation status">status</a> of
+  "<code>queuing</code>" or "<code>creating</code>"
+  and its <a>session ID</a> references an <a>active session</a>:
+
+  <ol>
+   <li>Set <var>session creation job</var>’s <a data-lt="session creation status">status</a> to "<code>cancelled</code>".
+   <li>Set <var>session creation job</var>’s <a data-lt="session creation ended time">ended time</a> to the current <a>millisecond timestamp</a>.
+   <li>Schedule a background job to cancel the session creation.
+  </ol>
+
+ <li><p>Return success with data <a><code>null</code></a>.
+</ol>
+
+<div class="issue" title="Cancel session creation">
+ <p>Define how to cancel session creation.</p>
+</div>
+</section> <!-- /Cancel New Session -->
 
 <section>
 <h3><dfn>Delete Session</dfn></h3>
@@ -8882,9 +9376,9 @@ Return <a>success</a> with data <var>action</var>.
     requirements of [[UI-EVENTS]].
 
    <li><p>Let <code>current delta x</code> property
-    equal <var>delta x</var>  + <var>current delta x</var> and
+    equal <var>delta x</var>  <var>current delta x</var> and
     <code>current delta y</code> property equal
-    <var>delta y</var>  + <var>current delta y</var>.
+    <var>delta y</var>  <var>current delta y</var>.
   </ol>
 
  <li><p>If <var>last</var> is true, return.
