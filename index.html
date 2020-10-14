@@ -8693,6 +8693,33 @@ Return <a>success</a> with data <var>action</var>.
   <var>input state</var>’s <code>pressed</code> property, and
   let <var>buttons</var> be the resulting value of that property.
 
+ <li><p>Let <var>width</var> be equal to <var>action object</var>’s
+  <code>width</code> property.
+
+ <li><p>Let <var>height</var> be equal to <var>action object</var>’s
+  <code>height</code> property.
+
+ <li><p>Let <var>pressure</var> be equal to <var>action object</var>’s
+  <code>pressure</code> property.
+
+ <li><p>Let <var>tangentialPressure</var> be equal to
+  <var>action object</var>’s <code>tangentialPressure</code> property.
+
+ <li><p>Let <var>tiltX</var> be equal to <var>action object</var>’s
+  <code>tiltX</code> property.
+
+ <li><p>Let <var>tiltY</var> be equal to <var>action object</var>’s
+  <code>tiltY</code> property.
+
+ <li><p>Let <var>twist</var> be equal to <var>action object</var>’s
+  <code>twist</code> property.
+
+ <li><p>Let <var>altitudeAngle</var> be equal to <var>action object</var>’s
+  <code>altitudeAngle</code> property.
+
+ <li><p>Let <var>azimuthAngle</var> be equal to <var>action object</var>’s
+  <code>azimuthAngle</code> property.
+
  <li><p>Append a copy of <var>action object</var> with
   the <var>subtype</var> property changed to "<code>pointerUp</code>" to
   the <a>current session</a>’s <a>input cancel list</a>.
@@ -8702,7 +8729,10 @@ Return <a>success</a> with data <var>action</var>.
   numbered <var>button</var> on the pointer with ID
   <var>source id</var>, having type <var>pointerType</var> at
   viewport x coordinate <var>x</var>, viewport y
-  coordinate <var>y</var>, with buttons <var>buttons</var> depressed
+  coordinate <var>y</var>, <var>width</var>, <var>height</var>,
+  <var>pressure</var>, <var>tangentialPressure</var>, <var>tiltX</var>,
+  <var>tiltY</var>, <var>twist</var>, <var>altitudeAngle</var>,
+  <var>azimuthAngle</var>, with buttons <var>buttons</var> depressed
   in accordance with the requirements of [[UI-EVENTS]] and
   [[POINTER-EVENTS]]. The generated events must
   set <code>ctrlKey</code>, <code>shiftKey</code>, <code>altKey</code>,
@@ -8843,9 +8873,39 @@ Return <a>success</a> with data <var>action</var>.
    vsync).</p></aside>
  </li>
 
+ <li><p>Let <var>width</var> be equal to <var>action object</var>’s
+  <code>width</code> property.
+
+ <li><p>Let <var>height</var> be equal to <var>action object</var>’s
+  <code>height</code> property.
+
+ <li><p>Let <var>pressure</var> be equal to <var>action object</var>’s
+  <code>pressure</code> property.
+
+ <li><p>Let <var>tangentialPressure</var> be equal to
+  <var>action object</var>’s <code>tangentialPressure</code> property.
+
+ <li><p>Let <var>tiltX</var> be equal to <var>action object</var>’s
+  <code>tiltX</code> property.
+
+ <li><p>Let <var>tiltY</var> be equal to <var>action object</var>’s
+  <code>tiltY</code> property.
+
+ <li><p>Let <var>twist</var> be equal to <var>action object</var>’s
+  <code>twist</code> property.
+
+ <li><p>Let <var>altitudeAngle</var> be equal to <var>action object</var>’s
+  <code>altitudeAngle</code> property.
+
+ <li><p>Let <var>azimuthAngle</var> be equal to <var>action object</var>’s
+  <code>azimuthAngle</code> property.
+
  <li><p><a>Perform a pointer move</a> with arguments
   <var>source id</var>, <var>input state</var>, <var>duration</var>,
-  <var>start x</var>, <var>start y</var>, <var>x</var>, <var>y</var>.
+  <var>start x</var>, <var>start y</var>, <var>x</var>, <var>y</var>,
+  <var>width</var>, <var>height</var>, <var>pressure</var>,
+  <var>tangentialPressure</var>, <var>tiltX</var>, <var>tiltY</var>,
+  <var>twist</var>, <var>altitudeAngle</var>, <var>azimuthAngle</var>.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
@@ -8853,7 +8913,10 @@ Return <a>success</a> with data <var>action</var>.
 <p>When required to <dfn>perform a pointer move</dfn> with
  arguments <var>source id</var>, <var>input state</var>,
  <var>duration</var>, <var>start x</var>, <var>start y</var>,
- <var>target x</var> and <var>target y</var>, an implementation must
+ <var>target x</var> and <var>target y</var>, <var>width</var>,
+ <var>height</var>, <var>pressure</var>, <var>tangentialPressure</var>,
+ <var>tiltX</var>, <var>tiltY</var>, <var>twist</var>,
+ <var>altitudeAngle</var>, <var>azimuthAngle</var>, an implementation must
  run the following steps:
 
 <ol>
@@ -8898,7 +8961,10 @@ Return <a>success</a> with data <var>action</var>.
     ID <var>source id</var> having type <var>pointerType</var> from
     viewport x coordinate <var>current x</var>, viewport y
     coordinate <var>current y</var> to viewport x coordinate <var>x</var> and
-    viewport y coordinate <var>y</var>, with
+    viewport y coordinate <var>y</var>, <var>width</var>, <var>height</var>,
+    <var>pressure</var>, <var>tangentialPressure</var>, <var>tiltX</var>,
+    <var>tiltY</var>, <var>twist</var>, <var>altitudeAngle</var>,
+    <var>azimuthAngle</var>, with
     buttons <var>buttons</var> depressed, in accordance with the
     requirements of [[UI-EVENTS]] and [[POINTER-EVENTS]]. The
     generated events must set <code>ctrlKey</code>, <code>shiftKey</code>,
