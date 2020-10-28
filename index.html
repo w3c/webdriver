@@ -1341,6 +1341,14 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
+  <td><dfn>unknown session</dfn>
+  <td>404
+  <td><code>unknown session</code>
+  <td>The requested <a>sessionId</a> did not match 
+    with any <a>sessionId</a> known by an intermediary node.
+ </tr>
+
+ <tr>
   <td><dfn>unsupported operation</dfn>
   <td>500
   <td><code>unsupported operation</code>
@@ -2231,17 +2239,8 @@ with a "<code>moz:</code>" prefix:
 </tr>
 
 <tr>
-<td><dfn>Capabilities request</dfn>
-<td>Empty JSON <a>Object</a>
-<td>"<code>capabilitiesRequest</code>"
-<td>
-<td>
-<td>The capabilities request.
-</tr>
-
-<tr>
 <td><dfn>Session creation timeout</dfn>
-<td>600,000
+<td>
 <td>"<code>timeout</code>"
 <td>
 <td>✓
@@ -2720,11 +2719,12 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
 
       <dt>"<code>capabilities</code>"
       <dd>The capabilities of the <a>current session</a>.
-
-      <dt>"<code>capabilitiesRequest</code>"
-      <dd>The capabilities request for the <a>current session</a>.
     </dl>
   </dl>
+
+  <li><p>If the <a>session id</a> is not matching with any
+    of the <var>session id</var> in the list of <a>active sessions</a>,
+    return <a>error</a> with <a>error code</a> <a>unknown session</a>.
 
   <li><p>Return success with data <var>body</var>.
 </section> <!-- /Get Session -->
@@ -2746,23 +2746,20 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
 <p>The <a>remote end</a> steps are:
 
 <ol>
- <li><p>Let <var>session creation requested time</var> be the current time
-  in milliseconds since the Epoch as an integer.
-
  <li><p>Let <var>timeout</var> be the result of <a>getting the
   property</a> named <var>timeout</var> from <var>parameters</var>.
 
   <ol>
    <li><p>If <a>maximum timeout for async session creation</a> is an <a>integer</a>,
     and <var>timeout</var> is undefined,
-    let <var>timeout</var> be <a>min</a>(600,000, <a>maximum timeout for async session creation</a>).
+    let <var>timeout</var> be <a>min</a>(an implementation-defined maximum timeout, <a>maximum timeout for async session creation</a>).
     <li><p>If <a>maximum timeout for async session creation</a> is <a><code>null</code></a>,
     and <var>timeout</var> is undefined,
-    let <var>timeout</var> be 600,000</a>.
+    let <var>timeout</var> be an implementation-defined maximum timeout</a>.
    <li><p>If <var>timeout</var> is <a><code>null</code></a>,
     let <var>timeout</var> be <a>maximum timeout for async session creation</a>.
    <li><p>If <a>maximum timeout for async session creation</a> is an <a>integer</a>,
-    and less than <var>timeout</var>,
+    and less than <var>maximum timeout for async session creation</var>,
     return <a>error</a> with <a>error code</a> <a>invalid timeout</a>.
    <li><p>If <a>timeout</a> is not <a><code>null</code></a> or an <a>integer</a>,
     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
@@ -2807,9 +2804,6 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
 
     <dt>"<code>events</code>"
     <dd>An empty JSON <a>List</a>.
-
-     <dt>"<code>data</code>"
-     <dd>A JSON <a>Object</a> with implementation-specific data.
    </dl>
 
   <li>Add the <var>session creation job</var> to the list of
@@ -2913,7 +2907,7 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
 
  <li><p>If <var>session creation job</var> has a <a data-lt="session creation status">status</a> of
   "<code>cancelled</code>" or "<code>failed</code>",
-  return <a>error</a> with <a>error code</a> <a>invalid session creation job id</a>.
+  return success with data <a><code>null</code></a>.
 
  <li><p>If <var>session creation job</var> has a <a data-lt="session creation status">status</a> of
   "<code>created</code>":
@@ -2922,7 +2916,7 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
    <li>Set the <a data-lt="session creation status">status</a> to "<code>cancelled</code>".
 
    <li>If <var>session creation job</var>’s job <a>session ID</a> references an <a>active session</a>,
-   schedule a background job to <a>try</a> to <a>close the session</a>.
+   <a>try</a> to <a>close the session</a>
   </ol>
 
  <li><p>If <var>session creation job</var> has a <a data-lt="session creation status">status</a> of
@@ -2932,15 +2926,12 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
   <ol>
    <li>Set <var>session creation job</var>’s <a data-lt="session creation status">status</a> to "<code>cancelled</code>".
    <li>Set <var>session creation job</var>’s <a data-lt="session creation ended time">ended time</a> to the current <a>millisecond timestamp</a>.
-   <li>Schedule a background job to cancel the session creation.
+   <li><a>Try</a> to <a>close the session</a>.
   </ol>
 
  <li><p>Return success with data <a><code>null</code></a>.
 </ol>
 
-<div class="issue" title="Cancel session creation">
- <p>Define how to cancel session creation.</p>
-</div>
 </section> <!-- /Cancel New Session -->
 
 <section>
