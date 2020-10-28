@@ -194,10 +194,6 @@ as described by The Open Group Base Specifications Issue 7
 An <dfn>integer</dfn> is a <a>Number</a> that is unchanged
 under the <a>ToInteger</a> operation.
 
-<p>A <dfn>millisecond timestamp</dfn> is an <a>Integer</a> that
-approximates the number of milliseconds that have elapsed since the
-<a>Unix Epoch</a>.
-
 <p>
 The <dfn>initial value</dfn> of an ECMAScript property
 is the value defined by the platform for that property,
@@ -2257,7 +2253,7 @@ with a "<code>moz:</code>" prefix:
 <td>"<code>requestedTime</code>"
 <td>
 <td>
-<td>When the session creation was requested as a <a>millisecond timestamp</a>.
+<td>When the session creation was requested as a <a>Date</a>.
 </tr>
 
 <tr>
@@ -2266,7 +2262,7 @@ with a "<code>moz:</code>" prefix:
 <td>"<code>endedTime</code>"
 <td>✓
 <td>
-<td>When the job ended in success or failure as a <a>millisecond timestamp</a>.
+<td>When the job ended in success or failure as a <a>Date</a>.
 </tr>
 
 <tr>
@@ -2285,15 +2281,6 @@ with a "<code>moz:</code>" prefix:
 <td>
 <td>
 <td>Time-ordered list of session creation events.
-</tr>
-
-<tr>
-<td><dfn>Session creation data</dfn>
-<td></a>
-<td>"<code>data</code>"
-<td>✓
-<td>
-<td>Object containing implementation-defined data associated with this job.
 </tr>
 </table>
 
@@ -2711,6 +2698,12 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
 <p>The <a>remote end steps</a> are:
 
 <ol>
+ <li><p>Let <var>session</var> be a job in <a>active sessions</a>
+  with a <a>session id</a> matching <var>session id</var>
+
+ <li><p>If <var>session</var> is <code>null</code>,
+  return <a>error</a> with <a>error code</a> <a>unknown session</a>.
+
  <li><p>Let <var>body</var> be a JSON <a>Object</a> initialised with:
   <dl>
     <dl>
@@ -2721,10 +2714,6 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
       <dd>The capabilities of the <a>current session</a>.
     </dl>
   </dl>
-
-  <li><p>If the <a>session id</a> is not matching with any
-    of the <var>session id</var> in the list of <a>active sessions</a>,
-    return <a>error</a> with <a>error code</a> <a>unknown session</a>.
 
   <li><p>Return success with data <var>body</var>.
 </section> <!-- /Get Session -->
@@ -2792,9 +2781,6 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
 
     <dt>"<code>status</code>"
     <dd>The String constant "<code>queuing</code>".
-
-    <dt>"<code>capabilitiesRequest</code>"
-    <dd>The result of <a>getting the property</a> named <var>capabilities</var> from <var>parameters</var>.
 
     <dt>"<code>timeout</code>"
     <dd><var>timeout</var>’s value.
@@ -10613,6 +10599,7 @@ to automatically sort each list alphabetically.
     <!-- Iterable --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-iterable-interface>Iterable</a></dfn>
    <!-- Completion --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-completion-record-specification-type">Completion</a></dfn>
    <!-- CreateResolvingFunctions --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-createresolvingfunctions>CreateResolvingFunctions</a></dfn>
+   <!-- Date --> <li><dfn><a href=https://tc39.es/ecma262/#sec-date-constructor>Date</a></dfn>
    <!-- Directive prologue --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Directive prologue</a></dfn>
    <!-- Early error --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-16>Early error</a></dfn>
    <!-- Function --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24>Function</a></dfn>
