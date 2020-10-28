@@ -2354,8 +2354,8 @@ with a "<code>moz:</code>" prefix:
 <p>A <a>remote end</a> will maintain a list of <dfn>session creation jobs</dfn>.
 
 <p>With an implementation-specific schedule and priority,
- a remote end should work on session creation jobs with a
- <a data-lt="session creation status">status</a> of "<code>queueing</code>".
+ a remote end should take implementation-defined steps on <a>session creation jobs</a>
+ with a <a data-lt="session creation status">status</a> of "<code>queueing</code>".
 
 <p>For each <a>session creation job</a>, an <a>intermediary node</a> will
  maintain a list of <dfn>associated session creation jobs</dfn>.
@@ -2827,8 +2827,6 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
     <li><p>If <var>event</var> is defined:
 
      <ol>
-      <li><p>Let <var>filtered events</var> be an empty JSON <a>List</a>.
-
       <li><p>Let <var>found</var> be false.
 
       <li><p>Let <var>events</var> be the value of <a>getting a property</a> named <var>events</var> from <var>body</var>.
@@ -2843,13 +2841,11 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
        <li><p>If <var>event</var> equals <var>event id</var>,
         set <var>found</var> to true.
 
-       <li><p>Prepend <var>event object</var> to <var>filtered events</var>.
+       <li>Set property <var>event</var> in <var>body</var> to <var>filtered event</var>.
       </ol>
 
       <li><p>If <var>found</var> is false,
        return <a>error</a> with <a>error code</a> <a>invalid event id</a>.
-
-      <li>Set property <var>events</var> in <var>body</var> to <var>filtered events</var>.
      </ol>
 
  <li><p>Let <var>status</var> be the value of <a>getting a property</a> named <var>status</var> from <var>body</var>.
