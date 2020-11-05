@@ -681,9 +681,21 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
+  <td>GET</td>
+  <td>/session/{session id}</td>
+  <td><a>Get Session</a></td>
+ </tr>
+
+ <tr>
   <td>DELETE</td>
   <td>/session/{<var>session id</var>}</td>
   <td><a>Delete Session</a></td>
+ </tr>
+
+ <tr>
+  <td>POST</td>
+  <td>/session/async</td>
+  <td><a>Async New Session</a></td>
  </tr>
 
  <tr>
@@ -2139,8 +2151,15 @@ with a "<code>moz:</code>" prefix:
  an <a>intermediary node</a> will also <a>close the session</a> of
  the <a>associated session</a>.
 
-<p>All <a>commands</a>, except <a>New Session</a> and <a>Status</a>,
- have an associated <dfn>current session</dfn>,
+<p>An <a>intermediary node</a> will also maintain a list of
+ <dfn>session creation jobs</dfn>. These include a mapping from
+ a <dfn>session creation id</dfn> to a <a>session id</a> of
+ an <a>associated session</a>.
+
+<a>New Session</a>, <a>Async New Session</a>, and <a>Status</a> <a>commands</a>
+ have no associated <a>session</a> or <a>session creation job</a>.
+
+<p>All other <a>commands</a> have an associated <dfn>current session</dfn>,
  which is the <a>session</a> in which that <a>command</a> will run.
 
 <p>A <a>remote end</a> has an associated list of
@@ -2450,6 +2469,55 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
 </section> <!-- /New Session -->
 
 <section>
+ <h3><dfn>Get Session</dfn></h3>
+  
+ <table class="simple jsoncommand">
+  <tr>
+   <th>HTTP Method</th>
+   <th>URI Template</th>
+  </tr>
+  <tr>
+   <td>GET</td>
+   <td>/session/{session id}</td>
+  </tr>
+ </table>
+  
+ <p>The <a>remote end steps</a> are:
+  
+ <ol>
+  <li><p>Let <var>session</var> be a job in <a>active sessions</a>
+   with a <a>session id</a> matching <var>session id</var>
+  
+  <li><p>If <a>Remote end</a> is an <a>endpoint node</a> and
+   <var>session</var> is <code>null</code>, return <a>error</a>
+   with <a>error code</a> <a>unknown session</a>.
+  
+  <li><p>If <a>Remote end</a> is an <a>intermediary node</a> and
+   <var>session</var> is <code>null</code>, let <var>session</var>
+   be a job in <a>session creation job</a> with a <a>session id</a>
+   matching <var>session creation id</var>
+  
+  <li><p>If <a>Remote end</a> is an <a>intermediary node</a> and
+   <var>session</var> is <code>null</code>, return <a>error</a>
+   with <a>error code</a> <a>unknown session</a>.
+  
+  <li><p>Let <var>body</var> be a JSON <a>Object</a> initialised with:
+   <dl>
+    <dl>
+     <dt>"<code>sessionId</code>"
+     <dd>The <a>session id</a> of the <a>current session</a>.
+    
+     <dt>"<code>capabilities</code>"
+     <dd>The capabilities of the <a>current session</a>.
+    </dl>
+   </dl>
+  
+  <li><p>Return success with data <var>body</var>.
+   This conversation was marked as resolved by christian-bromann
+ </ol>
+</section> <!-- /Get Session -->
+
+<section>
 <h3><dfn>Delete Session</dfn></h3>
 
 <table class="simple jsoncommand">
@@ -2472,6 +2540,58 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 </section> <!-- /Delete Session -->
+
+<section>
+<h3><dfn>Async New Session</dfn></h3>
+
+<table class="simple jsoncommand">
+  <tr>
+  <th>HTTP Method</th>
+  <th>URI Template</th>
+  </tr>
+  <tr>
+  <td>POST</td>
+  <td>/session/async</td>
+  </tr>
+</table>
+
+<p>The <a>remote end</a> steps are:
+
+<ol>
+ <li><p>Perform the following substeps based on the <a>remote end</a>’s type:
+  <dl class=switch>
+   <dt><a>Remote end</a> is an <a>endpoint node</a>
+   <dd>
+    <ol>
+     <li><p>Execute steps defined in <a>New Session</a>
+    </ol>
+   
+   <dt><a>Remote end</a> is an <a>intermediary node</a>
+   <dd>
+    <ol>
+     <li><p>Use the result of the <a>capabilities processing</a> algorithm
+      to route the <a>new session</a> request to the appropriate <a>endpoint node</a>.
+      An <a>intermediary node</a> is free to define <a>extension capabilities</a>
+      to assist in this process, however, these specific capabilities
+      must not be forwarded to the <a>endpoint node</a>.
+
+      <li><p>Let <var>session creation job</var> be a new JSON <a>Object</a>
+       with the following properties:
+      
+       <dl>
+        <dt>"<code>sessionCreationId</code>"
+        <dd>The result of <a>generating a UUID</a>.
+       </dl>
+      
+      <li>Add the <var>session creation job</var> to the list of
+       <a>session creation jobs</a>.
+
+      <li><p>Return <a>success</a> with data <var>session creation job</var>.
+   </ol>
+  </dl>
+</ol>
+
+</section> <!-- /Async New Session -->
 
 <section>
 <h3><dfn>Status</dfn></h3>
