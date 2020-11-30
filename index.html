@@ -1012,14 +1012,14 @@ when it receives a particular <a>command</a>.
 
  <tr>
   <td>GET</td>
-  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/screenshot</td>
-  <td><a>Take Element Screenshot</a></td>
+  <td>/session/{<var>session id</var>}/screenshot/full</td>
+  <td><a>Take Full Screenshot</a></td>
  </tr>
 
  <tr>
   <td>GET</td>
-  <td>/session/{<var>session id</var>}/screenshot/full</td>
-  <td><a>Take Full Page Screenshot</a></td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/screenshot</td>
+  <td><a>Take Element Screenshot</a></td>
  </tr>
 
  <tr>
@@ -9038,11 +9038,11 @@ sets the text field of a <a>window.<code>prompt</code></a>
 
 <p>WebDriver provides the <a>Take Screenshot</a> <a>command</a>
  to capture the <a>top-level browsing context</a>’s <a>initial viewport</a>,
+ and the <a>Take Full Screenshot</a> <a>command</a>
+ to capture the scrollable region of the <a>top-level browsing context</a>’s <a>scrolling element</a>,
  and a <a>command</a> <a>Take Element Screenshot</a>
  for doing the same with the visible region of an <a>element</a>’s
  <a>bounding rectangle</a> after it has been <a>scrolled into view</a>.
- It also provides a <a>Take Full Page Screenshot</a> <a>command</a>
- to capture the scrollable region of the <a>top-level browsing context</a>’s <a>scrolling element</a>
 
 <p>In order to <dfn>draw a bounding box from the framebuffer</dfn>,
  given a <a>rectangle</a>:
@@ -9200,6 +9200,47 @@ sets the text field of a <a>window.<code>prompt</code></a>
 </section> <!-- /Take Screenshot -->
 
 <section>
+<h3><dfn>Take Full Screenshot</dfn></h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>URI Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/screenshot/full</td>
+ </tr>
+</table>
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+    <li><p>When the user agent is next to <a>run the animation frame callbacks</a>:
+  <ol>
+
+   <li><p>Let <var>screenshot result</var> be the result of <a>trying</a> to call
+    <a>draw a scrollable region from the framebuffer</a>,
+    given <a>scrolling element</a> as an argument.
+
+   <li><p>Let <var>canvas</var> be a <a><code>canvas</code> element</a>
+    of <var>screenshot result</var>’s data.
+
+   <li><p>Let <var>encoding result</var> be the result of <a>trying</a>
+    <a>encoding a canvas as Base64</a> <var>canvas</var>.
+
+   <li><p>Let <var>encoded string</var> be <var>encoding result</var>’s data.
+  </ol>
+
+ <li><p>Return <a>success</a> with data <var>encoded string</var>.
+</ol>
+
+</section> <!-- /Take Full Screenshot -->
+
+<section>
 <h3><dfn>Take Element Screenshot</dfn></h3>
 
 <table class="simple jsoncommand">
@@ -9262,47 +9303,6 @@ that evaluates to false, the <a>element</a> will not be <a>scrolled into view</a
  <li><p>Return <a>success</a> with data <var>encoded string</var>.
 </ol>
 </section> <!-- /Take Element Screenshot -->
-
-<section>
-<h3><dfn>Take Full Page Screenshot</dfn></h3>
-
-<table class="simple jsoncommand">
- <tr>
-  <th>HTTP Method</th>
-  <th>URI Template</th>
- </tr>
- <tr>
-  <td>GET</td>
-  <td>/session/{<var>session id</var>}/screenshot/full</td>
- </tr>
-</table>
-
-<p>The <a>remote end steps</a> are:
-
-<ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
-
-    <li><p>When the user agent is next to <a>run the animation frame callbacks</a>:
-  <ol>
-
-   <li><p>Let <var>screenshot result</var> be the result of <a>trying</a> to call
-    <a>draw a scrollable region from the framebuffer</a>,
-    given <a>scrolling element</a> as an argument.
-
-   <li><p>Let <var>canvas</var> be a <a><code>canvas</code> element</a>
-    of <var>screenshot result</var>’s data.
-
-   <li><p>Let <var>encoding result</var> be the result of <a>trying</a>
-    <a>encoding a canvas as Base64</a> <var>canvas</var>.
-
-   <li><p>Let <var>encoded string</var> be <var>encoding result</var>’s data.
-  </ol>
-
- <li><p>Return <a>success</a> with data <var>encoded string</var>.
-</ol>
-
-</section> <!-- /Take Screenshot with option -->
 </section> <!-- /Screen capture -->
 
 <section>
