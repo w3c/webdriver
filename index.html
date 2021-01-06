@@ -819,6 +819,12 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/element/{element id}/shadow</td>
+  <td><a>Get Element Shadow Root</a></td>
+ </tr>
+
+ <tr>
   <td>POST</td>
   <td>/session/{<var>session id</var>}/element</td>
   <td><a>Find Element</a></td>
@@ -840,6 +846,18 @@ when it receives a particular <a>command</a>.
   <td>POST</td>
   <td>/session/{<var>session id</var>}/element/{element id}/elements</td>
   <td><a>Find Elements From Element</a></td>
+ </tr>
+
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/shadow/{shadow id}/element</td>
+  <td><a>Find Element From Shadow Root</a></td>
+ </tr>
+
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/shadow/{shadow id}/elements</td>
+  <td><a>Find Elements From Shadow Root</a></td>
  </tr>
 
  <tr>
@@ -1216,6 +1234,13 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
+  <td><dfn>no such shadow root</dfn>
+  <td>404
+  <td><code>no such shadow root</code>
+  <td>The element does not have a shadow root.
+ </tr>
+
+ <tr>
   <td><dfn>script timeout error</dfn>
   <td>500
   <td><code>script timeout</code>
@@ -1235,6 +1260,14 @@ when it receives a particular <a>command</a>.
   <td><code>stale element reference</code>
   <td>A <a>command</a> failed because
    the referenced <a>element</a> is no longer attached to the DOM.
+ </tr>
+
+ <tr>
+  <td><dfn>detached shadow root</dfn>
+  <td>404
+  <td><code>detached shadow root</code>
+  <td>A <a>command</a> failed because
+   the referenced <a>shadow root</a> is no longer attached to the DOM.
  </tr>
 
  <tr>
@@ -4314,6 +4347,103 @@ argument <var>reference</var>, run the following steps:
 </ol>
 </section> <!-- /Interactability -->
 
+<section>
+<h3 id=shadow-root>Shadow Roots</h3>
+<p>A <dfn data-lt="shadow roots">shadow root</dfn>
+  is an abstraction used to identify a <a>shadow root</a>
+  when it is transported via the <a href="#protocol">protocol</a>,
+  between <a>remote</a>- and <a>local</a> ends.
+ 
+ <p>The <dfn>shadow root identifier</dfn> is the string constant
+  "<code>shadow-6066-11e4-a52e-4f735466cecf</code>".
+ 
+ <p>Each <a>shadow root</a> has an associated <dfn>shadow root
+  reference</dfn> that uniquely identifies the <a>element</a> across
+  all <a>browsing contexts</a>.  The <a>shadow root reference</a> for
+  every <a>shadow root</a> representing the same <a>shadow root</a> must be the
+  same. It must be a string, and should be the result of <a>generating
+  a UUID</a>.
+ 
+ <p>An ECMAScript <a>Object</a> <dfn>represents a shadow root</dfn>
+  if it has a <a>shadow root identifier</a> <a>own property</a>.
+ 
+ <p>Each <a>browsing context</a> has an associated <dfn>list of
+  known shadow roots</dfn>.
+  When the <a>browsing context</a> is <a>discarded</a>,
+  the <a>list of known shadow roots</a> is discarded along with it.
+
+  <p>To <dfn>get a known shadow root</dfn> with
+    argument <var>reference</var>, run the following steps:
+   
+   <ol>
+    <li>Let <var>shadow</var> be the item in the <a>current browsing
+    context</a>’s <a>list of known shadow roots</a> for which the <a>shadow
+    root reference</a> is equal to <var>reference</var>, if such a
+    shadow root exists. Otherwise return <a>error</a> with <a>error
+    code</a> <a>no such element</a>.
+    <li>If <var>shadow</var> <a>is detached</a>, return
+    <a>error</a> with <a>error code</a>
+    <a>detached shadow root</a>.
+    <li>Return <a>success</a> with <var>shadow</var>.
+   </ol>
+   
+   <p>To <dfn>get a known connected shadow root</dfn> with
+   argument <var>reference</var>, run the following steps:
+   <ol>
+     <li>Let <var>shadow</var> be the result of <a>trying</a> to <a>get
+     a known shadow root</a> with argument <var>reference</var>.
+     <li>If <var>shadow</var> <a>is detached</a>
+     return <a>error</a> with error code <a>detached shadow root</a>.
+     <li>Return <a>success</a> with <var>shadow</var>.
+   </ol>
+   
+   <p>To <dfn data-lt="create a shadow root">create a shadow root reference</dfn>
+    for a <a><var>shadow root</var></a>:
+   
+   <ol>
+    <li><p>For each <var>known shadow root</var>
+     of the <a>current browsing context</a>’s <a>list of known shadow roots</a>:
+   
+     <ol>
+      <li><p>If <var>known shadow root</var> <a>equals</a> <var>shadow root</var>,
+       return <a>success</a> with <var>known shadow root</var>’s <a>shadow root reference</a>.
+     </ol>
+   
+    <li><p>Add <var>shadow</var> to
+     the <a>list of known shadow roots</a> of the <a>current browsing context</a>.
+   
+    <li><p>Return <a>success</a> with the
+     <var>shadow</var>’s <a>shadow root reference</a>.
+   </ol>
+   
+   <p>The <dfn>JSON serialization of a shadow root</dfn>
+    is a JSON <a>Object</a> where the <a>shadow root identifier</a> key
+    is mapped to the <a>shadow root</a>’s <a>shadow root reference</a>.
+   
+   <p>When required to <dfn>deserialize a shadow root</dfn>
+    by a JSON <a>Object</a> <var>object</var> that <a>represents a shadow root</a>:
+   
+   <ol>
+    <li><p>If <var>object</var> has no <a>own property</a> <a>shadow root identifier</a>,
+     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+   
+    <li><p>Let <var>reference</var> be the result of
+     <a data-lt="getting a property">getting</a>
+     the <a>shadow root identifier</a> property
+     from <var>object</var>.
+   
+    <li><p>Let <var>shadow</var> be the result
+     of <a>trying</a> to <a>get a known shadow root</a>
+     with argument <var>reference</var>.
+   
+    <li><p>Return <a>success</a> with data <var>shadow</var>.
+   </ol>
+   
+   <p>An <a>shadow root</a> <dfn>is detached</dfn>
+    if its <a>node document</a> is not the <a>active document</a>
+    or if the element node referred to as its <a>document fragment host</a>
+    <a>is stale</a>.
+   </section> <!-- Shadow Roots -->
 
 <section>
 <h3 id=element-retrieval>Retrieval</h3>
@@ -4321,7 +4451,9 @@ argument <var>reference</var>, run the following steps:
 <p>The <a>Find Element</a>,
  <a>Find Elements</a>,
  <a>Find Element From Element</a>,
- and <a>Find Elements From Element</a> <a>commands</a>
+ <a>Find Elements From Element</a>,
+ <a>Find Element From Shadow Root</a>,
+ and <a>Find Elements From Shadow Root</a> <a>commands</a>
  allow lookup of individual elements and collections of elements.
  Element retrieval searches are performed
  using pre-order traversal of the document’s nodes
@@ -4773,6 +4905,101 @@ session.execute("arguments[0].remove()", [body]);
 </section> <!-- /Find Elements From Element -->
 
 <section>
+<h4><dfn>Find Element From Shadow Root</dfn></h4>
+
+<table class="simple jsoncommand">
+  <tr>
+  <th>HTTP Method</th>
+  <th>URI Template</th>
+  </tr>
+  <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/shadow/{<var>shadow id</var>}/element</td>
+  </tr>
+</table>
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+  <li><p>Let <var>location strategy</var> be the result
+  of <a>getting a property</a> called "<code>using</code>".
+
+  <li><p>If <var>location strategy</var> is not present as a keyword in the
+  <a>table of location strategies</a>, return <a>error</a> with
+  <a>error code</a> <a>invalid argument</a>.
+
+  <li><p>Let <var>selector</var> be the result
+  of <a>getting a property</a> called "<code>value</code>".
+
+  <li><p>If <var>selector</var> is <a>undefined</a>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+  <li><p>If the <a>current browsing context</a> is <a>no longer
+  open</a>, return <a>error</a> with <a>error code</a> <a>no such
+  window</a>.
+
+  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
+  <li><p>Let <var>start node</var> be the result
+  of <a>trying</a> to <a>get a known connected shadow root</a>
+  with <a>url variable</a> <var>shadow id</var>.
+
+  <li>Let <var>result</var> be the value of <a>trying</a> to <a>Find</a> with
+  <var>start node</var>, <var>location strategy</var>,
+  and <var>selector</var>.
+
+  <li><p>If <var>result</var> is empty, return <a>error</a>
+  with <a>error code</a> <a>no such shadow root</a>. Otherwise, return the
+  first element of <var>result</var>.
+</ol>
+</section> <!-- /Find Element From Shadow Root -->
+
+<section>
+<h4><dfn>Find Elements From Shadow Root</dfn></h4>
+
+<table class="simple jsoncommand">
+  <tr>
+  <th>HTTP Method</th>
+  <th>URI Template</th>
+  </tr>
+  <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/shadow/{<var>shadow id</var>}/elements</td>
+  </tr>
+</table>
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+  <li><p>Let <var>location strategy</var> be the result
+  of <a>getting a property</a> called "<code>using</code>".
+
+  <li><p>If <var>location strategy</var> is not present as a keyword in the
+  <a>table of location strategies</a>, return <a>error</a> with
+  <a>error code</a> <a>invalid argument</a>.
+
+  <li><p>Let <var>selector</var> be the result
+  of <a>getting a property</a> called "<code>value</code>".
+
+  <li><p>If <var>selector</var> is <a>undefined</a>,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+  <li><p>If the <a>current browsing context</a> is <a>no longer
+  open</a>, return <a>error</a> with <a>error code</a> <a>no such
+  window</a>.
+
+  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
+  <li><p>Let <var>start node</var> be the result
+  of <a>trying</a> to <a>get a known connected shadow root</a>
+  with <a>url variable</a> <var>shadow id</var>.
+
+  <li>Return the result of <a>trying</a> to <a>Find</a> with
+  <var>start node</var>, <var>location strategy</var>, and <var>selector</var>.
+</ol>
+</section> <!-- /Find Elements From Shadow Root -->
+  
+<section>
 <h4><dfn>Get Active Element</dfn></h4>
 
 <table class="simple jsoncommand">
@@ -4804,6 +5031,57 @@ session.execute("arguments[0].remove()", [body]);
   <p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such element</a>.
 </ol>
 </section> <!-- /Get Active Element -->
+
+<section>
+<h4><dfn>Get Element Shadow Root</dfn></h4>
+
+<table class="simple jsoncommand">
+  <tr>
+  <th>HTTP Method</th>
+  <th>URI Template</th>
+  </tr>
+  <tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/element/shadow</td>
+  </tr>
+</table>
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+  <li><p>If the <a>current browsing context</a> is <a>no longer
+  open</a>, return <a>error</a> with <a>error code</a> <a>no such
+  window</a>.
+
+  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
+  <li><p>Let <var>element</var> be the result
+    of <a>trying</a> to <a>get a known connected element</a>
+    with <a>url variable</a> <var>element id</var>.  
+
+  <li><p>Let <var>shadow root</var> be the result of getting an
+    <a>own property</a> named "shadowRoot" from <var>element</var>.
+
+  <li><p>If <var>shadow root</var> is undefined, return <a>error</a>
+    with <a>error code</a> <a>no such shadow root</a>.
+
+  <li><p>Let <var>shadow root node type</var> be the result of
+    getting an <a>own property</a> named "nodeType" from
+    <var>shadow root</var>.
+
+  <li><p>If <var>shadow root node type</var> is undefined, or has
+    a value other than 11, return <a>error</a> with <a>error code</a>
+    <a>no such shadow root</a>.
+
+  <li><p>Let <var>shadow host</var> be the result of getting an
+    <a>own property</a> named "host" of <var>shadow root</var>.
+
+  <li><p>If <var>shadow host</var> is not undefined or null, return
+    <a>create a shadow root reference</a>.
+    
+  <p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such shadow root</a>.
+</ol>
+</section> <!-- /Get Element Shadow Root -->
 </section> <!-- /Retrieval -->
 
 <section>
@@ -10346,6 +10624,7 @@ to automatically sort each list alphabetically.
    <!-- Document element --> <li><dfn><a href=https://dom.spec.whatwg.org/#document-element>Document element</a></dfn>
    <!-- Document --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document>Document</a></dfn>
    <!-- DOCUMENT_POSITION_DISCONNECTED --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-document_position_disconnected>DOCUMENT_POSITION_DISCONNECTED</a></dfn> (1)
+   <!-- document fragment host --> <li><dfn data-lt="document fragment host"><a href=https://dom.spec.whatwg.org/#concept-documentfragment-host><code>document fragment host</code></a></dfn>
    <!-- Document type --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-type>Document type</a></dfn>
    <!-- Document URL --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-url>Document URL</a></dfn>
    <!-- Element --> <li><dfn data-lt=elements><a href=https://dom.spec.whatwg.org/#concept-element>Element</a></dfn>
@@ -10373,7 +10652,7 @@ to automatically sort each list alphabetically.
   in the Document Object Model specification: [[DOM]]
   <ul>
    <!-- textContent attribute --> <li><dfn data-lt=textContent><a href=https://dom.spec.whatwg.org/#dom-node-textcontent><code>textContent</code> attribute</a></dfn>
-  </ul>
+   </ul>
 
  <dd><p>The following terms are defined in
   the DOM Parsing and Serialization specification: [[DOM-PARSING]]
