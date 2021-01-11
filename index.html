@@ -850,13 +850,13 @@ when it receives a particular <a>command</a>.
 
  <tr>
   <td>POST</td>
-  <td>/session/{<var>session id</var>}/shadow/{shadow id}/element</td>
+  <td>/session/{<var>session id</var>}/shadow/<var>{shadow id}</var>/element</td>
   <td><a>Find Element From Shadow Root</a></td>
  </tr>
 
  <tr>
   <td>POST</td>
-  <td>/session/{<var>session id</var>}/shadow/{shadow id}/elements</td>
+  <td>/session/{<var>session id</var>}/shadow/<var>{shadow id}</var>/elements</td>
   <td><a>Find Elements From Shadow Root</a></td>
  </tr>
 
@@ -4352,13 +4352,13 @@ argument <var>reference</var>, run the following steps:
 <p>A <dfn data-lt="shadow roots">shadow root</dfn>
   is an abstraction used to identify a <a>shadow root</a>
   when it is transported via the <a href="#protocol">protocol</a>,
-  between <a>remote</a>- and <a>local</a> ends.
+  between <a>remote</a> and <a>local</a> ends.
  
  <p>The <dfn>shadow root identifier</dfn> is the string constant
   "<code>shadow-6066-11e4-a52e-4f735466cecf</code>".
  
  <p>Each <a>shadow root</a> has an associated <dfn>shadow root
-  reference</dfn> that uniquely identifies the <a>element</a> across
+  reference</dfn> that uniquely identifies the <a>shadow root</a> across
   all <a>browsing contexts</a>.  The <a>shadow root reference</a> for
   every <a>shadow root</a> representing the same <a>shadow root</a> must be the
   same. It must be a string, and should be the result of <a>generating
@@ -4385,16 +4385,6 @@ argument <var>reference</var>, run the following steps:
     <a>error</a> with <a>error code</a>
     <a>detached shadow root</a>.
     <li>Return <a>success</a> with <var>shadow</var>.
-   </ol>
-   
-   <p>To <dfn>get a known connected shadow root</dfn> with
-   argument <var>reference</var>, run the following steps:
-   <ol>
-     <li>Let <var>shadow</var> be the result of <a>trying</a> to <a>get
-     a known shadow root</a> with argument <var>reference</var>.
-     <li>If <var>shadow</var> <a>is detached</a>
-     return <a>error</a> with error code <a>detached shadow root</a>.
-     <li>Return <a>success</a> with <var>shadow</var>.
    </ol>
    
    <p>To <dfn data-lt="create a shadow root">create a shadow root reference</dfn>
@@ -4439,7 +4429,7 @@ argument <var>reference</var>, run the following steps:
     <li><p>Return <a>success</a> with data <var>shadow</var>.
    </ol>
    
-   <p>An <a>shadow root</a> <dfn>is detached</dfn>
+   <p>A <a>shadow root</a> <dfn>is detached</dfn>
     if its <a>node document</a> is not the <a>active document</a>
     or if the element node referred to as its <a>document fragment host</a>
     <a>is stale</a>.
@@ -4941,7 +4931,7 @@ session.execute("arguments[0].remove()", [body]);
   <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
   <li><p>Let <var>start node</var> be the result
-  of <a>trying</a> to <a>get a known connected shadow root</a>
+  of <a>trying</a> to <a>get a known shadow root</a>
   with <a>url variable</a> <var>shadow id</var>.
 
   <li>Let <var>result</var> be the value of <a>trying</a> to <a>Find</a> with
@@ -4991,7 +4981,7 @@ session.execute("arguments[0].remove()", [body]);
   <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
   <li><p>Let <var>start node</var> be the result
-  of <a>trying</a> to <a>get a known connected shadow root</a>
+  of <a>trying</a> to <a>get a known shadow root</a>
   with <a>url variable</a> <var>shadow id</var>.
 
   <li>Return the result of <a>trying</a> to <a>Find</a> with
@@ -5070,8 +5060,8 @@ session.execute("arguments[0].remove()", [body]);
     <var>shadow root</var>.
 
   <li><p>If <var>shadow root node type</var> is undefined, or has
-    a value other than 11, return <a>error</a> with <a>error code</a>
-    <a>no such shadow root</a>.
+    a value other than <a>DOCUMENT_FRAGMENT_NODE</a>, return <a>error</a>
+    with <a>error code</a> <a>no such shadow root</a>.
 
   <li><p>Let <var>shadow host</var> be the result of getting an
     <a>own property</a> named "host" of <var>shadow root</var>.
@@ -10625,6 +10615,7 @@ to automatically sort each list alphabetically.
    <!-- Document --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document>Document</a></dfn>
    <!-- DOCUMENT_POSITION_DISCONNECTED --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-document_position_disconnected>DOCUMENT_POSITION_DISCONNECTED</a></dfn> (1)
    <!-- document fragment host --> <li><dfn data-lt="document fragment host"><a href=https://dom.spec.whatwg.org/#concept-documentfragment-host><code>document fragment host</code></a></dfn>
+   <!-- DOCUMENT_FRAGMENT_NODE --> <li><dfn data-lt="DOCUMENT_FRAGMENT_NODE"><a href="https://dom.spec.whatwg.org/#dom-node-document_fragment_node">DOCUMENT_FRAGMENT_NODE</a></dfn></li>
    <!-- Document type --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-type>Document type</a></dfn>
    <!-- Document URL --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-url>Document URL</a></dfn>
    <!-- Element --> <li><dfn data-lt=elements><a href=https://dom.spec.whatwg.org/#concept-element>Element</a></dfn>
