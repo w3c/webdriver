@@ -4140,7 +4140,7 @@ argument <var>reference</var>, run the following steps:
 
 <p>An <a>element</a> <dfn>is stale</dfn>
  if its <a>node document</a> is not the <a>active document</a>
- or if its <a>context object</a> is not <a>connected</a>.
+ or if it is not <a>connected</a>.
 
 <p>To <dfn data-lt="scrolls into view|scrolled into view">scroll into view</dfn>
  an <var><a>element</a></var>
@@ -4536,11 +4536,11 @@ argument <var>reference</var>, run the following steps:
  the following steps need to be completed:
 
 <ol>
- <li><p>Let <var>elements</var> be the result of
-  calling <a>querySelectorAll</a> with <var>selector</var> with
-  the <a>context object</a> equal to the <var>start node</var>. If
-  this causes an exception to be thrown, return <a>error</a>
-  with <a>error code</a> <a>invalid selector</a>.
+ <li><p>Let <var>elements</var> be the result of calling
+  <a>querySelectorAll</a> with <var>start node</var> as <a>this</a>
+  and <var>selector</var> as the argument. If this causes an exception
+  to be thrown, return <a>error</a> with <a>error code</a>
+  <a>invalid selector</a>.
 
  <li><p>Return <a>success</a> with data <var>elements</var>.
 </ol>
@@ -4554,10 +4554,9 @@ argument <var>reference</var>, run the following steps:
  the following steps need to be completed:
 
 <ol>
- <li><p>Let <var>elements</var> be the result of
-  calling <a>querySelectorAll</a>, with argument <a><code>a</code>
-  elements</a>, with the <a>context object</a> equal to the
-  <var>start node</var>. If this throws an exception,
+ <li><p>Let <var>elements</var> be the result of calling
+  <a>querySelectorAll</a> with <var>start node</var> as <a>this</a>
+  and "<code>a</code>" as the argument. If this throws an exception,
   return <a>error</a> with <a>error code</a> <a>unknown error</a>.
 
  <li><p>Let <var>result</var> be an empty <a>NodeList</a>.
@@ -4596,10 +4595,9 @@ argument <var>reference</var>, run the following steps:
  the following steps need to be completed:
 
 <ol>
- <li><p>Let <var>elements</var> be the result of
-  calling <a>querySelectorAll</a>, with argument <a><code>a</code>
-  elements</a>, with the <a>context object</a> equal to the
-  <var>start node</var>. If this throws an exception,
+ <li><p>Let <var>elements</var> be the result of calling
+  <a>querySelectorAll</a> with <var>start node</var> as <a>this</a>
+  and "<code>a</code>" as the argument. If this throws an exception,
   return <a>error</a> with <a>error code</a> <a>unknown error</a>.
 
  <li><p>Let <var>result</var> be an empty <a>NodeList</a>.
@@ -4622,12 +4620,11 @@ argument <var>reference</var>, run the following steps:
 <section>
 <h5>Tag name</h5>
 
-<p>To find a <a>web element</a> with the <dfn>Tag
- Name</dfn> <a>strategy</a> return <a>success</a> with data set to the
- result of calling
- <a><code>getElementsByTagName</code></a> with the argument
- <var>selector</var>, with the <a>context object</a> equal to the
- <var>start node</var>.
+<p>To find a <a>web element</a> with the <dfn>Tag Name</dfn>
+ <a>strategy</a> return <a>success</a> with data set to the result of
+ calling <a><code>getElementsByTagName</code></a> with
+ <var>start node</var> as <a>this</a> and <var>selector</var> as the
+ argument.
 
 </section> <!-- /Tag name -->
 
@@ -4665,8 +4662,8 @@ argument <var>reference</var>, run the following steps:
 
   <ol>
    <li>Let <var>node</var> be the result of calling <a>snapshotItem</a> with
-    argument <var>index</var>, with the <a>context object</a> equal to
-    <var>evaluateResult</var>.
+    <var>evaluateResult</var> as <a>this</a> and <var>index</var> as the
+    argument.
 
    <li><p>If <var>node</var> is not an <a>element</a> return an <a>error</a>
     with <a>error code</a> <a>invalid selector</a>.
@@ -10609,7 +10606,6 @@ to automatically sort each list alphabetically.
    <!-- Attribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-attribute>Attribute</a></dfn>
    <!-- compareDocumentPosition --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-comparedocumentposition>compareDocumentPosition</a></dfn>
    <!-- connected --> <li><dfn><a href=https://dom.spec.whatwg.org/#connected>connected</a></dfn>
-   <!-- context object --><li><dfn><a href="https://dom.spec.whatwg.org/#context-object">context object</a></dfn>
    <!-- Descendant --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-tree-descendant>Descendant</a></dfn>
    <!-- Document element --> <li><dfn><a href=https://dom.spec.whatwg.org/#document-element>Document element</a></dfn>
    <!-- Document --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document>Document</a></dfn>
@@ -11138,6 +11134,7 @@ to automatically sort each list alphabetically.
    <!-- Sequence --> <li><dfn><a href="https://heycam.github.io/webidl/#idl-sequence">Sequence</a></dfn>
    <!-- Supported property indices --> <li><dfn data-lt="supported property index"><a href=https://heycam.github.io/webidl/#dfn-supported-property-indices>Supported property indices</a></dfn>
    <!-- SyntaxError --> <li><dfn><a href="https://heycam.github.io/webidl/#syntaxerror"><code>SyntaxError</code></a></dfn></li>
+   <!-- this --> <li><dfn><a href="https://heycam.github.io/webidl/#this">this</a></dfn></li>
 
   </ul>
 
