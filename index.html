@@ -4629,7 +4629,7 @@ argument <var>reference</var>, run the following steps:
 
 <p>An <a href="#dfn-elements" class="internalDFN" data-link-type="dfn">element</a> <dfn data-dfn-type="dfn" id="dfn-is-stale">is stale</dfn>
  if its <a href="#dfn-node-document" class="internalDFN" data-link-type="dfn">node document</a> is not the <a href="#dfn-active-document" class="internalDFN" data-link-type="dfn">active document</a>
- or if its <a href="#dfn-context-object" class="internalDFN" data-link-type="dfn">context object</a> is not <a href="#dfn-connected" class="internalDFN" data-link-type="dfn">connected</a>.
+ or if it is not <a href="#dfn-connected" class="internalDFN" data-link-type="dfn">connected</a>.
 
 </p><p>To <dfn data-lt="scrolls into view|scrolled into view|scroll into view" data-dfn-type="dfn" id="dfn-scrolls-into-view">scroll into view</dfn>
  an <var><a href="#dfn-elements" class="internalDFN" data-link-type="dfn">element</a></var>
@@ -5024,11 +5024,11 @@ argument <var>reference</var>, run the following steps:
  the following steps need to be completed:
 
 </p><ol>
- <li><p>Let <var>elements</var> be the result of
-  calling <a href="#dfn-queryselectorall" class="internalDFN" data-link-type="dfn">querySelectorAll</a> with <var>selector</var> with
-  the <a href="#dfn-context-object" class="internalDFN" data-link-type="dfn">context object</a> equal to the <var>start node</var>. If
-  this causes an exception to be thrown, return <a href="#dfn-errors" class="internalDFN" data-link-type="dfn">error</a>
-  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn">error code</a> <a href="#dfn-invalid-selector" class="internalDFN" data-link-type="dfn">invalid selector</a>.
+ <li><p>Let <var>elements</var> be the result of calling
+  <a href="#dfn-queryselectorall" class="internalDFN" data-link-type="dfn">querySelectorAll</a> with <var>start node</var> as <a href="#dfn-this" class="internalDFN" data-link-type="dfn">this</a>
+  and <var>selector</var> as the argument. If this causes an exception
+  to be thrown, return <a href="#dfn-errors" class="internalDFN" data-link-type="dfn">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn">error code</a>
+  <a href="#dfn-invalid-selector" class="internalDFN" data-link-type="dfn">invalid selector</a>.
 
  </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn">success</a> with data <var>elements</var>.
 </p></li></ol>
@@ -5042,10 +5042,9 @@ argument <var>reference</var>, run the following steps:
  the following steps need to be completed:
 
 </p><ol>
- <li><p>Let <var>elements</var> be the result of
-  calling <a href="#dfn-queryselectorall" class="internalDFN" data-link-type="dfn">querySelectorAll</a>, with argument <a href="#dfn-a-elements" class="internalDFN" data-link-type="dfn"><code>a</code>
-  elements</a>, with the <a href="#dfn-context-object" class="internalDFN" data-link-type="dfn">context object</a> equal to the
-  <var>start node</var>. If this throws an exception,
+ <li><p>Let <var>elements</var> be the result of calling
+  <a href="#dfn-queryselectorall" class="internalDFN" data-link-type="dfn">querySelectorAll</a> with <var>start node</var> as <a href="#dfn-this" class="internalDFN" data-link-type="dfn">this</a>
+  and "<code>a</code>" as the argument. If this throws an exception,
   return <a href="#dfn-errors" class="internalDFN" data-link-type="dfn">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn">error code</a> <a href="#dfn-unknown-error" class="internalDFN" data-link-type="dfn">unknown error</a>.
 
  </p></li><li><p>Let <var>result</var> be an empty <a href="#dfn-nodelist" class="internalDFN" data-link-type="dfn">NodeList</a>.
@@ -5084,10 +5083,9 @@ argument <var>reference</var>, run the following steps:
  the following steps need to be completed:
 
 </p><ol>
- <li><p>Let <var>elements</var> be the result of
-  calling <a href="#dfn-queryselectorall" class="internalDFN" data-link-type="dfn">querySelectorAll</a>, with argument <a href="#dfn-a-elements" class="internalDFN" data-link-type="dfn"><code>a</code>
-  elements</a>, with the <a href="#dfn-context-object" class="internalDFN" data-link-type="dfn">context object</a> equal to the
-  <var>start node</var>. If this throws an exception,
+ <li><p>Let <var>elements</var> be the result of calling
+  <a href="#dfn-queryselectorall" class="internalDFN" data-link-type="dfn">querySelectorAll</a> with <var>start node</var> as <a href="#dfn-this" class="internalDFN" data-link-type="dfn">this</a>
+  and "<code>a</code>" as the argument. If this throws an exception,
   return <a href="#dfn-errors" class="internalDFN" data-link-type="dfn">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn">error code</a> <a href="#dfn-unknown-error" class="internalDFN" data-link-type="dfn">unknown error</a>.
 
  </p></li><li><p>Let <var>result</var> be an empty <a href="#dfn-nodelist" class="internalDFN" data-link-type="dfn">NodeList</a>.
@@ -5110,12 +5108,11 @@ argument <var>reference</var>, run the following steps:
 <section id="tag-name">
 <h5 id="x12-3-1-4-tag-name"><bdi class="secno">12.3.1.4 </bdi>Tag name<a class="self-link" aria-label="§" href="#tag-name"></a></h5>
 
-<p>To find a <a href="#dfn-web-elements" class="internalDFN" data-link-type="dfn">web element</a> with the <dfn data-dfn-type="dfn" id="dfn-tag-name">Tag
- Name</dfn> <a href="#dfn-strategy" class="internalDFN" data-link-type="dfn">strategy</a> return <a href="#dfn-success" class="internalDFN" data-link-type="dfn">success</a> with data set to the
- result of calling
- <a href="#dfn-getelementsbytagname" class="internalDFN" data-link-type="dfn"><code>getElementsByTagName</code></a> with the argument
- <var>selector</var>, with the <a href="#dfn-context-object" class="internalDFN" data-link-type="dfn">context object</a> equal to the
- <var>start node</var>.
+<p>To find a <a href="#dfn-web-elements" class="internalDFN" data-link-type="dfn">web element</a> with the <dfn data-dfn-type="dfn" id="dfn-tag-name">Tag Name</dfn>
+ <a href="#dfn-strategy" class="internalDFN" data-link-type="dfn">strategy</a> return <a href="#dfn-success" class="internalDFN" data-link-type="dfn">success</a> with data set to the result of
+ calling <a href="#dfn-getelementsbytagname" class="internalDFN" data-link-type="dfn"><code>getElementsByTagName</code></a> with
+ <var>start node</var> as <a href="#dfn-this" class="internalDFN" data-link-type="dfn">this</a> and <var>selector</var> as the
+ argument.
 
 </p></section> 
 
@@ -5153,8 +5150,8 @@ argument <var>reference</var>, run the following steps:
 
   </p><ol>
    <li>Let <var>node</var> be the result of calling <a href="#dfn-snapshotitem" class="internalDFN" data-link-type="dfn">snapshotItem</a> with
-    argument <var>index</var>, with the <a href="#dfn-context-object" class="internalDFN" data-link-type="dfn">context object</a> equal to
-    <var>evaluateResult</var>.
+    <var>evaluateResult</var> as <a href="#dfn-this" class="internalDFN" data-link-type="dfn">this</a> and <var>index</var> as the
+    argument.
 
    </li><li><p>If <var>node</var> is not an <a href="#dfn-elements" class="internalDFN" data-link-type="dfn">element</a> return an <a href="#dfn-errors" class="internalDFN" data-link-type="dfn">error</a>
     with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn">error code</a> <a href="#dfn-invalid-selector" class="internalDFN" data-link-type="dfn">invalid selector</a>.
@@ -11218,7 +11215,6 @@ This specification relies on several other underlying specifications.
     <li><dfn data-dfn-type="dfn" id="dfn-attribute"><a href="https://dom.spec.whatwg.org/#concept-attribute">Attribute</a></dfn>
     </li><li><dfn data-dfn-type="dfn" id="dfn-comparedocumentposition"><a href="https://dom.spec.whatwg.org/#dom-node-comparedocumentposition">compareDocumentPosition</a></dfn>
     </li><li><dfn data-dfn-type="dfn" id="dfn-connected"><a href="https://dom.spec.whatwg.org/#connected">connected</a></dfn>
-   </li><li><dfn data-dfn-type="dfn" id="dfn-context-object"><a href="https://dom.spec.whatwg.org/#context-object">context object</a></dfn>
     </li><li><dfn data-dfn-type="dfn" id="dfn-descendant"><a href="https://dom.spec.whatwg.org/#concept-tree-descendant">Descendant</a></dfn>
     </li><li><dfn data-dfn-type="dfn" id="dfn-document-element"><a href="https://dom.spec.whatwg.org/#document-element">Document element</a></dfn>
     </li><li><dfn data-dfn-type="dfn" id="dfn-document"><a href="https://dom.spec.whatwg.org/#concept-document">Document</a></dfn>
@@ -11747,6 +11743,7 @@ This specification relies on several other underlying specifications.
     </li><li><dfn data-dfn-type="dfn" id="dfn-sequence"><a href="https://heycam.github.io/webidl/#idl-sequence">Sequence</a></dfn>
     </li><li><dfn data-lt="supported property index|Supported property indices" data-dfn-type="dfn" id="dfn-supported-property-index"><a href="https://heycam.github.io/webidl/#dfn-supported-property-indices">Supported property indices</a></dfn>
     </li><li><dfn data-dfn-type="dfn" id="dfn-syntaxerror"><a href="https://heycam.github.io/webidl/#syntaxerror"><code>SyntaxError</code></a></dfn></li>
+    <li><dfn data-dfn-type="dfn" id="dfn-this"><a href="https://heycam.github.io/webidl/#this">this</a></dfn></li>
 
   </ul>
 
