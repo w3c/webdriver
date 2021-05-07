@@ -1,0 +1,20 @@
+name: CI
+on:
+  pull_request: {}
+  push:
+    branches: [master]
+
+jobs:
+  main:
+    name: Build, Validate, and Publish
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: w3c/spec-prod@v2
+        with:
+          GH_PAGES_BRANCH: gh-pages
+          W3C_ECHIDNA_TOKEN: ${{ secrets.ECHIDNA_TOKEN }}
+          W3C_WG_DECISION_URL: https://lists.w3.org/Archives/Public/public-browser-tools-testing/2015JulSep/0009.html
+          W3C_BUILD_OVERRIDE: |
+            shortname: webdriver
+            specStatus: WD
