@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		if (chapter)
 			rv = `In chapter [${chapter.text}](${chapter.url})`;
 		if (subchapter)
-			rv += `, section [${subchapter.text}](${subchapter.url}):`;
+			rv += `, section [${subchapter.text}](${subchapter.url})`;
 		if (chapter || subchapter)
 			rv += ":\n";
 		return rv + desc;
