@@ -50,6 +50,7 @@ var respecConfig = {
   group: "browser-tools-testing",
   noIDLSorting: true,
   mdn: true,
+  xref: "web-platform",
 };
 </script>
 <script src=issue.js></script>
@@ -67,7 +68,6 @@ ul.brief li:last-child::after { content: "" }
 /* dl.subcategories when the definition list subdivides a definition */
 dl.subcategories { margin-left: 2em }
 </style>
-
 <section id=abstract>
 <p>
 WebDriver is a remote control interface
@@ -1969,13 +1969,13 @@ with a "<code>moz:</code>" prefix:
 
   <dl>
    <dt>"<code>browserName</code>"
-   <dd><a>Lowercase</a> name of the user agent as a <a>string</a>.
+   <dd>[=ASCII Lowercase=] name of the user agent as a <a>string</a>.
 
    <dt>"<code>browserVersion</code>"
    <dd>The user agent version, as a <a>string</a>.
 
    <dt>"<code>platformName</code>"
-   <dd><a>Lowercase</a> name of the current platform as a <a>string</a>.
+   <dd>[=ASCII Lowercase=] name of the current platform as a <a>string</a>.
 
    <dt>"<code>acceptInsecureCerts</code>"
    <dd><a>Boolean</a> initially set to false,
@@ -2234,7 +2234,7 @@ Unless stated otherwise it is in the <a>dismiss and notify state</a>.
 <p>A <a>session</a> has an associated <a>input cancel list</a>.
 
 <p>A <a>session</a> has an associated <dfn>request queue</dfn> which is a
- <a>queue</a> of <a data-lt=request>requests</a> that are currently awaiting
+ [=queue=] of [=requests=] that are currently awaiting
  processing.
 
 <p>When asked to <dfn>close the session</dfn>,
@@ -4535,7 +4535,7 @@ argument <var>reference</var>, run the following steps:
 
 <ol>
  <li><p>Let <var>elements</var> be the result of calling
-  <a>querySelectorAll</a> with <var>start node</var> as <a>this</a>
+  {{ParentNode/querySelectorAll()}} with <var>start node</var> as <a>this</a>
   and <var>selector</var> as the argument. If this causes an exception
   to be thrown, return <a>error</a> with <a>error code</a>
   <a>invalid selector</a>.
@@ -4553,11 +4553,11 @@ argument <var>reference</var>, run the following steps:
 
 <ol>
  <li><p>Let <var>elements</var> be the result of calling
-  <a>querySelectorAll</a> with <var>start node</var> as <a>this</a>
+  {{ParentNode/querySelectorAll()}} with <var>start node</var> as <a>this</a>
   and "<code>a</code>" as the argument. If this throws an exception,
   return <a>error</a> with <a>error code</a> <a>unknown error</a>.
 
- <li><p>Let <var>result</var> be an empty <a>NodeList</a>.
+ <li><p>Let <var>result</var> be an empty {{NodeList}}.
 
  <li><p>For each <var>element</var> in <var>elements</var>:
 
@@ -4585,7 +4585,7 @@ argument <var>reference</var>, run the following steps:
  is very similar to the <a>Link Text</a> <a>strategy</a>,
  but rather than matching the entire string,
  only a substring needs to match.
- That is, return all <a><code>a</code> elements</a>
+ That is, return all [^a^] elements
  with rendered text that contains the selector expression.
 
 <p>To find a <a>web element</a>
@@ -4594,11 +4594,11 @@ argument <var>reference</var>, run the following steps:
 
 <ol>
  <li><p>Let <var>elements</var> be the result of calling
-  <a>querySelectorAll</a> with <var>start node</var> as <a>this</a>
+  {{ParentNode/querySelectorAll()}} with <var>start node</var> as <a>this</a>
   and "<code>a</code>" as the argument. If this throws an exception,
   return <a>error</a> with <a>error code</a> <a>unknown error</a>.
 
- <li><p>Let <var>result</var> be an empty <a>NodeList</a>.
+ <li><p>Let <var>result</var> be an empty {{NodeList}}.
 
  <li><p>For each <var>element</var> in <var>elements</var>:
 
@@ -4654,7 +4654,7 @@ argument <var>reference</var>, run the following steps:
   exception return <a>error</a> with <a>error code</a> <a>unknown
   error</a>.
 
- <li><p>Let <var>result</var> be an empty <a>NodeList</a>.
+ <li><p>Let <var>result</var> be an empty {{NodeList}}.
 
  <li><p>Repeat, while <var>index</var> is less than <var>length</var>:
 
@@ -5076,7 +5076,7 @@ session.execute("arguments[0].remove()", [body]);
 
 <ol>
  <li><p>Let <var>rect</var> be the value
-  returned by calling <a>getBoundingClientRect</a>.
+  returned by calling {{Element/getBoundingClientRect()}}.
 
  <li><p>Let <var>window</var> be the <a>associated window</a>
   of <a>current top-level browsing context</a>.
@@ -5343,7 +5343,7 @@ The <a>remote end steps</a> are:
 The <a>Get Element Text</a> <a>command</a>
 intends to return an <a>element</a>’s text “as rendered”.
 An <a>element</a>’s rendered text is also used
-for locating <a><code>a</code> elements</a>
+for locating [^a^] elements
 by their <a>link text</a> and <a>partial link text</a>.
 
 <p>
@@ -6290,7 +6290,7 @@ If an <a>error</a> is returned, return that <a>error</a>
      <ol>
        <li><p>If <var>element</var> does not currently have focus,
         let <var>current text length</var> be the
-       <a>string length</a> of <var><a>element</a></var>’s <a>API value</a>.
+        [=string/length=] of <var><a>element</a></var>’s <a>API value</a>.
 
       <li><p>Set the text insertion caret using <a>set selection range</a>
        using <var>current text length</var> for both the <code>start</code>
@@ -7364,7 +7364,7 @@ is also removed.
 <dfn>Input source state</dfn> is used as a generic term to
 describe the state associated with each <a>input source</a>.
 
-<p>The <dfn>corresponding <a>input source state</a> type</dfn>
+<p>The <dfn>corresponding input source state type</dfn>
  for a label <var>action type</var> is given by the following table:
 
 <table class=simple>
@@ -10552,7 +10552,7 @@ and Wilhelm Joys Andersen
 for proofreading and suggesting areas for improvement.
 </section>
 
-<section>
+<section id="index">
 <h2>Index</h2>
 
 <p>
@@ -10629,7 +10629,6 @@ to automatically sort each list alphabetically.
    <!-- Node length --> <li><dfn><a href="https://dom.spec.whatwg.org/#concept-node-length">Node Length</a></dfn>
    <!-- Node --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node>Node</a></dfn>
    <!-- NodeList --> <li><dfn><a href=https://dom.spec.whatwg.org/#nodelist><code>NodeList</code></a></dfn>
-   <!-- querySelectorAll --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall"><code>querySelectorAll</code></a></dfn>
    <!-- querySelector --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselector"><code>querySelector</code></a></dfn>
    <!-- tagName --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-tagname>tagName</a></dfn>
    <!-- Text node --> <li><dfn><a href=https://dom.spec.whatwg.org/#text><code>Text</code> node</a></dfn>
@@ -10874,7 +10873,6 @@ to automatically sort each list alphabetically.
  <dd><p>The HTML specification also defines a number of elements
   which this specification has special-cased behavior for:
   <ul>
-   <!-- a element --> <li><dfn data-lt="a elements"><a href=https://html.spec.whatwg.org/#the-a-element><code>a</code> element</a></dfn>
    <!-- area element --> <li><dfn data-lt=area><a href=https://html.spec.whatwg.org/#the-area-element><code>area</code> element</a></dfn>
    <!-- canvas element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-canvas-element><code>canvas</code> element</a></dfn>
    <!-- datalist element --> <li><dfn data-lt=datalist><a href=https://html.spec.whatwg.org/#the-datalist-element><code>datalist</code> element</a></dfn>
@@ -10979,8 +10977,6 @@ to automatically sort each list alphabetically.
  <dd>The following terms are defined
   in the Infra standard: [[INFRA]]
    <ul>
-    <!-- ASCII lowercase --> <li><dfn data-lt="lowercase"><a href=https://infra.spec.whatwg.org/#ascii-lowercase>ASCII lowercase</a></dfn>
-    <!-- string length --> <li><dfn><a href="https://infra.spec.whatwg.org/#string-length">string length</a></dfn>
     <!-- queue --> <li><dfn><a href=https://infra.spec.whatwg.org/#queues>queue</a></dfn>
     <!-- set --> <li><dfn><a href=https://infra.spec.whatwg.org/#sets>Set</a></dfn>
    </ul>
@@ -11141,10 +11137,7 @@ to automatically sort each list alphabetically.
   <dt>Promises Guide <!-- Eventually this will be merged into WebIDL -->
   <dd><p>The following terms are defined in the Promises Guide. [[PROMISES-GUIDE]]
     <ul>
-      <!-- a new promise --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#a-new-promise">A new promise</a></dfn>
       <!-- Promise calling --> <li><dfn data-lt='promise-call'><a href="https://www.w3.org/2001/tag/doc/promises-guide#promise-calling">Promise-calling</a></dfn>
-      <!-- Reject --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#reject-promise">reject</a></dfn>
-      <!-- Resolve --> <li><dfn><a href="https://www.w3.org/2001/tag/doc/promises-guide#resolve-promise">resolve</a></dfn>
     </ul>
 
   <dt>XML Namespaces
