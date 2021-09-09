@@ -5061,29 +5061,18 @@ session.execute("arguments[0].remove()", [body]);
 
   <li><p>Let <var>element</var> be the result
     of <a>trying</a> to <a>get a known connected element</a>
-    with <a>url variable</a> <var>element id</var>.  
+    with <a>url variable</a> <var>element id</var>.
 
-  <li><p>Let <var>shadow root</var> be the result of getting an
-    <a>own property</a> named "shadowRoot" from <var>element</var>.
+  <li><p>Let <var>shadow root</var> be <var>element<var>'s <a>shadow root</a>.
 
-  <li><p>If <var>shadow root</var> is undefined, return <a>error</a>
+  <li><p>If <var>shadow root</var> is null, return <a>error</a>
     with <a>error code</a> <a>no such shadow root</a>.
 
-  <li><p>Let <var>shadow root node type</var> be the result of
-    getting an <a>own property</a> named "nodeType" from
-    <var>shadow root</var>.
+  <li><p>Let <var>serialized</a> be the <a>shadow root reference object</a>
+  for <var>shadow root</var>.
 
-  <li><p>If <var>shadow root node type</var> is undefined, or has
-    a value other than <a>DOCUMENT_FRAGMENT_NODE</a>, return <a>error</a>
-    with <a>error code</a> <a>no such shadow root</a>.
+  <li><p>Return <a>success</a> with data <var>serialized</var>.
 
-  <li><p>Let <var>shadow host</var> be the result of getting an
-    <a>own property</a> named "host" of <var>shadow root</var>.
-
-  <li><p>If <var>shadow host</var> is not undefined or null, return
-    <a>a new shadow root reference</a>.
-    
-  <p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such shadow root</a>.
 </ol>
 </section> <!-- /Get Element Shadow Root -->
 </section> <!-- /Retrieval -->
