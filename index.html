@@ -538,7 +538,7 @@ when it receives a particular <a>command</a>.
   at the time when the error occurred.
 
   <p>Let <var>body</var> be a new JSON <a>Object</a>
-   initialised with the following properties:
+   initialized with the following properties:
 
   <dl>
    <dt>"<code>error</code>"
@@ -2396,7 +2396,7 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
 
  <li><p>Append <var>session</var> to <a>active sessions</a>.
 
- <li><p>Let <var>body</var> be a JSON <a>Object</a> initialised with:
+ <li><p>Let <var>body</var> be a JSON <a>Object</a> initialized with:
 
   <dl>
    <dt>"<code>sessionId</code>"
@@ -2625,18 +2625,19 @@ when <a href=#element-retrieval>locating an element</a>
 <sup>†</sup> Informative.
 
 <p>
-The <a>timeouts configuration</a>’s <a>JSON serialization</a>
-is expressed as a JSON <a>Object</a> with the following properties:
+The <dfn>timeouts object</dfn> for a <a>timeouts
+configuration</a> <var>timeouts</a> is an <a>object</a> initalized
+with the following properties:
 
 <dl>
 <dt>"<code>script</code>"
-<dd><a>Script timeout</a>’s value, if set, or its default value.
+<dd><var>timeouts</var>' <a>script timeout</a> value, if set, or its default value.
 
 <dt>"<code>pageLoad</code>"
-<dd><a>Page load timeout</a>’s value, if set, or its default value.
+<dd><var>timouts</var>' <a>page load timeout</a>’s value, if set, or its default value.
 
 <dt>"<code>implicit</code>"
-<dd><a>Implicit wait timeout</a>’s value, if set, or its default value.
+<dd><var>timeouts</var>' <a>implicit wait timeout</a>’s value, if set, or its default value.
 </dl>
 
 <p>
@@ -2719,9 +2720,14 @@ Return <a>success</a> with data <var>timeouts</var>.
 </table>
 
 <p>
-The <a>remote end step</a> is to return <a>success</a>
-with data being the <a>JSON serialization</a>
-of the <a>active session</a>’s <a>timeouts configuration</a>.
+The <a>remote end step</a> are:
+
+<ol>
+ <li><p>Let <var>timeouts</var> be the <a>timeouts object</a> for
+ <a>session</a>’s <a>timeouts configuration</a>
+
+ <li><p>Return <a>success</a> with data <var>timeouts</var>.
+</ol>
 </section> <!-- /Get Timeouts -->
 
 
@@ -3207,9 +3213,9 @@ Return <a>success</a> with data <a><code>null</code></a>.
 <p>The <dfn>web frame identifier</dfn>
  is the string constant "<code>frame-075b-4da1-b6ba-e579c2d3230a</code>".
 
-<p>The <dfn>JSON serialization of the <code>WindowProxy</code> object</dfn>
- is the JSON <a>Object</a> obtained by applying the following algorithm
- to the given <a><code>WindowProxy</code></a> object <var>window</var>:
+<p>The <dfn><code>WindowProxy</code> reference object</dfn>
+ with <a><code>WindowProxy</code></a> object <var>window</var> is
+ given by:
 
 <ol>
  <li><p>Let <var>identifier</var> be the <a>web window identifier</a>
@@ -3222,8 +3228,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
 
   <dl>
    <dt><var>identifier</var>
-   <dd><p>Associated <a>window handle</a>
-    of the <var>window</var>’s <a>browsing context</a>.
+   <dd><p>Associated <a>window handle</a> of the <var>window</var>’s <a>browsing context</a>.
   </dl>
 </ol>
 
@@ -3697,20 +3702,23 @@ make the tab containing the <a>browsing context</a> the selected tab.
  is defined as a dictionary of the <a>screenX</a>, <a>screenY</a>,
  <a>outerWidth</a> and <a>outerHeight</a> attributes
  of the <a><code>WindowProxy</code></a>.
- Its <dfn data-lt="json serialization of window rect">JSON representation</dfn> is the following:
+
+<p>The <dfn>WindowRect object</dfn> for
+a <a>WindowProxy</a>, <var>window</var> is a <a>object</a> initalised
+with the following properties:
 
 <dl>
  <dt>"<code>x</code>"
- <dd><p><a><code>WindowProxy</code></a>’s <a>screenX</a> attribute.
+ <dd><p><var>window</var>’s <a>screenX</a> attribute.
 
  <dt>"<code>y</code>"
- <dd><p><a><code>WindowProxy</code></a>’s <a>screenY</a> attribute.
+ <dd><p><var>window</var>’s <a>screenY</a> attribute.
 
  <dt>"<code>width</code>"
- <dd><p><a><code>WindowProxy</code></a>’s <a>outerWidth</a> attribute.
+ <dd><p><var>windows</var>’s <a>outerWidth</a> attribute.
 
  <dt>"<code>height</code>"
- <dd><p><a><code>WindowProxy</code></a>’s <a>outerHeight</a> attribute.
+ <dd><p><var>window</var>’s <a>outerHeight</a> attribute.
 </dl>
 
 <p>To <dfn>maximize the window</dfn>,
@@ -3779,10 +3787,8 @@ make the tab containing the <a>browsing context</a> the selected tab.
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p>Return <a>success</a>
-  with the <a data-lt="json serialization of window rect">JSON serialization</a>
-  of the <a>current top-level browsing context</a>’s
-  <a>window rect</a>.
+ <li><p>Return <a>success</a> with data set to the <a>WindowRect
+  object</a> for the <a>current top-level browsing context</a>.
 </ol>
 </section> <!-- /Get Window Rect -->
 
@@ -3906,9 +3912,8 @@ corresponding to the <a>current top-level browsing context</a>.
    </aside>
   </ol>
 
- <li><p>Return <a>success</a>
-  with the <a data-lt="json serialization of window rect">JSON serialization</a>
-  of the <a>current top-level browsing context</a>’s <a>window rect</a>.
+  <li><p>Return <a>success</a> with data set to the <a>WindowRect
+  object</a> for the <a>current top-level browsing context</a>.
 </ol>
 </section> <!-- /Set Window Rect -->
 
@@ -3952,10 +3957,9 @@ corresponding to the <a>current top-level browsing context</a>.
  <li><p><a>Maximize the window</a>
   of the <a>current top-level browsing context</a>.
 
- <li><p>Return <a>success</a>
-  with the <a data-lt="json serialization of window rect">JSON serialization</a>
-  of the <a>current top-level browsing context</a>’s
-  <a>window rect</a>.
+ <li><p>Return <a>success</a> with data set to the <a>WindowRect
+  object</a> for the <a>current top-level browsing
+  context</a>.
 </ol>
 </section> <!-- /Maximize Window -->
 
@@ -3995,10 +3999,9 @@ corresponding to the <a>current top-level browsing context</a>.
 
  <li><p><a>Iconify the window</a>.
 
- <li><p>Return <a>success</a>
-  with the <a data-lt="json serialization of window rect">JSON serialization</a>
-  of the <a>current top-level browsing context</a>’s
-  <a>window rect</a>.
+ <li><p>Return <a>success</a> with data set to the <a>WindowRect
+  object</a> for the <a>current top-level browsing
+  context</a>.
 </ol>
 </section> <!-- /Minimize Window -->
 
@@ -4033,10 +4036,9 @@ corresponding to the <a>current top-level browsing context</a>.
   with the <a>current top-level browsing context</a>’s
   <a>active document</a>’s <a>document element</a>.
 
- <li><p>Return <a>success</a>
-  with the <a data-lt="json serialization of window rect">JSON serialization</a>
-  of the <a>current top-level browsing context</a>’s
-  <a>window rect</a>.
+  <li><p>Return <a>success</a> with data set to the <a>WindowRect
+  object</a> for the <a>current top-level browsing
+  context</a>.
 </ol>
 </section> <!-- /Fullscreen Window -->
 
@@ -4094,8 +4096,8 @@ argument <var>reference</var>, run the following steps:
   <li>Return <a>success</a> with <var>element</var>.
 </ol>
 
-<p>To <dfn data-lt="create an element">create a web element reference</dfn>
- for an <a><var>element</var></a>:
+<p>To <dfn>get or create a web element reference</dfn>
+ with <a><var>element</var></a>:
 
 <ol>
  <li><p>For each <var>known element</var>
@@ -4113,9 +4115,18 @@ argument <var>reference</var>, run the following steps:
   <var>element</var>’s <a>web element reference</a>.
 </ol>
 
-<p>The <dfn>JSON serialization of an element</dfn>
- is a JSON <a>Object</a> where the <a>web element identifier</a> key
- is mapped to the <a>element</a>’s <a>web element reference</a>.
+<p>The <dfn>web element reference object</dfn> for <var>element</var>
+is given by:
+
+<ol>
+ <li><p>Let <var>identifier</var> be the <a>web element identifier</a>.
+
+ <li><p>Let <var>reference</var> be the result of <a>get or create a
+ web element reference</a> given <var>element</var>.
+
+ <li><p>Return a JSON <a>Object</a> initialized with a property with
+ name <var>identifier</var> and value <var>reference</var>.
+</ol>
 
 <p>When required to <dfn>deserialize a web element</dfn>
  by a JSON <a>Object</a> <var>object</var> that <a>represents a web element</a>:
@@ -4385,8 +4396,8 @@ argument <var>reference</var>, run the following steps:
     <li>Return <a>success</a> with <var>shadow</var>.
    </ol>
    
-   <p>To <dfn data-lt="create a shadow root|a new shadow root reference">create a shadow root reference</dfn>
-    for a <a><var>shadow root</var></a>:
+   <p>To <dfn>get or create a shadow root reference</dfn>
+    with <a><var>shadow root</var></a>:
    
    <ol>
     <li><p>For each <var>known shadow root</var>
@@ -4404,9 +4415,18 @@ argument <var>reference</var>, run the following steps:
      <var>shadow</var>’s <a>shadow root reference</a>.
    </ol>
    
-   <p>The <dfn>JSON serialization of a shadow root</dfn>
-    is a JSON <a>Object</a> where the <a>shadow root identifier</a> key
-    is mapped to the <a>shadow root</a>’s <a>shadow root reference</a>.
+   <p>The <dfn>shadow root reference object</dfn> for <var>shadow
+   root</var> is given by:
+
+   <ol>
+     <li><p>Let <var>identifier</var> be the <a>shadow root identifier</a>.
+
+     <li><p>Let <var>reference</var> be the result of <a>get or create a
+      shadow root reference</a> given <var>shadow root</var>.
+
+   <li><p>Return a JSON <a>Object</a> initialized with a property with
+       name <var>identifier</var> and value <var>reference</var>.
+   </ol>
    
    <p>When required to <dfn>deserialize a shadow root</dfn>
     by a JSON <a>Object</a> <var>object</var> that <a>represents a shadow root</a>:
@@ -4446,8 +4466,6 @@ argument <var>reference</var>, run the following steps:
  Element retrieval searches are performed
  using pre-order traversal of the document’s nodes
  that match the provided selector’s expression.
- Elements are <a data-lt="JSON serialization of an element">serialized</a>
- and returned as <a>web elements</a>.
 
 <p>When required to <dfn>find</dfn> with arguments
  <var>start node</var>, <var>using</var> and <var>value</var>,
@@ -4478,8 +4496,8 @@ argument <var>reference</var>, run the following steps:
  <li><p>Let <var>result</var> be an empty JSON <a>List</a>.
 
  <li><p>For each <var>element</var> in <var>elements returned</var>,
-  append the <a data-lt="JSON serialization of an element">serialization</a>
-  of <var>element</var> to <var>result</var>.
+  append the <a>web element reference object</a> for <var>element</var>,
+  to <var>result</var>.
 
  <li><p>Return <a>success</a> with data <var>result</var>.
 </ol>
@@ -5011,7 +5029,8 @@ session.execute("arguments[0].remove()", [body]);
   of the <a>current browsing context</a>’s <a>document element</a>.
 
  <li><p>If <var>active element</var> is a non-null <a>element</a>,
-  return <a>success</a> with its <a data-lt="JSON serialization of an element">JSON serialization</a>.
+  return <a>success</a> with data set to <a>web element reference
+  object</a> for <var>active element</var>.
 
   <p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such element</a>.
 </ol>
@@ -5480,7 +5499,7 @@ Width of the <a>web element</a>’s
  <li><p>Let <var>rect</var> be <var>element</var>’s
   <a>bounding rectangle</a>.
 
- <li><p>Let <var>body</var> be a new JSON <a>Object</a> initialised with:
+ <li><p>Let <var>body</var> be a new JSON <a>Object</a> initialized with:
 
   <dl>
    <dt>"<code>x</code>"
@@ -6451,9 +6470,8 @@ a <a>remote end</a> must run the following steps:
  <dd><p>If the <var>element</var> <a>is stale</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
-  <p>Otherwise return <a>success</a>
-   with the <a data-lt="JSON serialization of an element">JSON serialization</a>
-   of <var>value</var>.
+  <p>Otherwise return <a>success</a> with data set to the <var>web
+  element reference object</var> for <var>value</var>.
 
  <dt>a <a><code>WindowProxy</code></a> object
  <dd><p>If the associated <a>browsing context</a>
@@ -6461,9 +6479,9 @@ a <a>remote end</a> must run the following steps:
   in <var>value</var> has been <a>discarded</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
-  <p>Otherwise return <a>success</a>
-   with the <a data-lt="JSON serialization of the WindowProxy object">JSON serialization</a>
-   of <var>value</var>.
+  <p>Otherwise return <a>success</a> with data set
+   to <a><code>WindowProxy</code> reference object</a>
+   for <var>value</var>.
 
  <dt>has an <a>own property</a> named "<code>toJSON</code>" that is
   a <a>Function</a>
