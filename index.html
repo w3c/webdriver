@@ -362,29 +362,30 @@ In all other cases it must be true.
 </ol>
 
 <p>The result of <dfn data-lt="getting properties|getting the
- property">getting a property</dfn> with argument <var>name</var> is
- defined as being the same as the result of calling
- <a>Object</a>.<a>[[\GetOwnProperty]]</a>(<var>name</var>).
+ property">getting a property</dfn> with <var>name</var>
+ from <var>object</var> is defined as being the same as the result of
+ calling  <a>Object.[[\GetOwnProperty]]</a>(<var>name</var>) on <var>object</var>.
 
 <p>The result of <dfn data-lt="getting the property with
  default">getting a property with default</dfn> with
- arguments <var>name</var> and <var>default</var> is defined as being
- the same as the result of calling
- <a>Object</a>.<a>[[\GetOwnProperty]]</a>(<var>name</var>) if that
- results in a value other than <code>undefined</code>
- and <var>default</var> otherwise.
+ arguments <var>name</var> and <var>default</var>
+ from <var>object</var> is defined as being the same as the result of
+ calling
+ <a>Object.[[\GetOwnProperty]]</a>(<var>name</var>)
+ on <var>object</var> if that results in a value other
+ than <code>undefined</code> and <var>default</var> otherwise.
 
 <p><dfn data-lt='set a property'>Setting a property</dfn> with
- arguments <var>name</var> and <var>value</var> is defined as being
- the same as calling
- <a>Object</a>.<a>[[\Put]]</a>(<var>name</var>, <var>value</var>).
+ arguments <var>name</var> and <var>value</var> on <var>ovject</var>
+ is defined as being the same as calling
+ <a>Object.[[\Put]]</a>(<var>name</var>, <var>value</var>) on <var>object</var>.
 
 <p>The result of <dfn>JSON serialization</dfn> with <var>object</var>
   of type JSON <a>Object</a> is defined as the result of
-  calling <code>JSON.</code><a>[[\Stringify]]</a>(<var>object</var>).
+  calling <a>stringify</a>(<var>object</var>).
 
 <p>The result of <dfn data-lt='parsing as json'>JSON deserialization</dfn> with <var>text</var> is defined as
-  the result of calling <code>JSON.</code><a>[[\Parse]]</a>(<var>text</var>).
+  the result of calling <a>parse</a>(<var>text</var>).
 </section> <!-- /Algorithms -->
 
 
@@ -4168,8 +4169,8 @@ is given by:
    <dd>"<code>nearest</code>"
   </dl>
 
- <li><p>On the <var><a>element</a></var>,
-  <a>Call</a>(<a>scrollIntoView</a>, <var>options</var>).
+ <li><p>Run <a>Function.[[\Call]]</a>(<a>scrollIntoView</a>, <var>options</var>)
+ with <var>element</var> as the this value.
 </ol>
 
 <p><dfn>Editable</dfn> <a>elements</a>
@@ -5280,7 +5281,7 @@ The <a>remote end steps</a> are:
   with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>property</var> be the result of calling
-  the <var>element</var>.<a>[[\GetProperty]]</a>(<var>name</var>).
+  the <a>Object.[[\GetProperty]]</a>(<var>name</var>) on <var>element</var>.
 
  <li><p>Let <var>result</var> be the value of
   <var>property</var> if not <a>undefined</a>, or <a><code>null</code></a>.
@@ -5384,9 +5385,10 @@ with the <a>Unicode character property</a> "<code>WSpace=Y</code>" or "<code>WS<
   with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>rendered text</var> be the result of performing
-  implementation-specific steps whose result is exactly the same as the
-  result of a <a>Call</a>(<a><code>bot.dom.getVisibleText</code></a>,
-   <a><code>null</code></a>, <var>element</var>).
+  implementation-specific steps whose result is exactly the same as
+  the result of
+  a <a>Function.[[\Call]]</a>(<a><code>null</code></a>, <var>element</var>)
+  with <a><code>bot.dom.getVisibleText</code></a> as the this value.
 
  <li><p>Return <a>success</a> with data <var>rendered text</var>.
 </ol>
@@ -6475,7 +6477,8 @@ a <a>remote end</a> must run the following steps:
  <dt>has an <a>own property</a> named "<code>toJSON</code>" that is
   a <a>Function</a>
  <dd>Return <a>success</a> with the value returned by
-  <a>Call</a>(<code>toJSON</code>).
+  <a>Function.[[\Call]]</a>(<code>toJSON</code>) with <var>value</var>
+  as the this value.
 
  <dt>Otherwise</dt>
  <dd>
@@ -6617,9 +6620,8 @@ a <a>remote end</a> must run the following steps:
   </dl>
 
  <li><p>Let <var>completion</var> be
-  <a>Call</a>(<var>function</var>,
-  <var>window</var>,
-  <var>parameters</var>).
+  <a>Function.[[\Call]]</a>(<var>window</var>,
+  <var>parameters</var>) with <var>function</var> as the this value.
 
  <li><p><a>Clean up after running a callback</a>
   with <var>environment settings</var>.
@@ -10475,8 +10477,8 @@ ensuring both privacy and preventing state from bleeding through to the next ses
  is a boolean state where <code>true</code> signifies that the element is displayed
  and <code>false</code> signifies that the element is not displayed.
  To compute the state on <var>element</var>,
- invoke the <a>Call</a>(<a><code>bot.dom.isShown</code></a>,
- <a><code>null</code></a>, <var>element</var>).
+ invoke the <a>Function.[[\Call]]</a>(<a><code>null</code></a>, <var>element</var>),
+ with <a><code>bot.dom.isShown</code></a> as the this value.
  If doing so does not produce an error,
  return the return value from this function call.
  Otherwise return an <a>error</a> with <a>error code</a> <a>unknown error</a>.
@@ -10709,14 +10711,14 @@ to automatically sort each list alphabetically.
 
  <dd>This specification also presumes that you are able to call
   some of the <dfn data-lt="internal method"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>internal methods</a></dfn>
-  from the ECMAScript Language Specification:
+  from the ECMAScript Language Specification [[ECMAScript]]:
   <ul>
-   <!-- Call --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-13.2.1>Call</a></dfn>
-   <!-- Class --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>[[\Class]]</a></dfn>
-   <!-- GetOwnProperty --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.12.1>[[\GetOwnProperty]]</a></dfn>
-   <!-- GetProperty --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.12.2>[[\GetProperty]]</a></dfn>
+   <!-- Call --> <li><dfn data-dfn-for="Function"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-13.2.1>[[\Call]]</a></dfn>
+   <!-- Class --> <li><dfn data-dfn-for="Object"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>[[\Class]]</a></dfn>
+   <!-- GetOwnProperty --> <li><dfn data-dfn-for="Object"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.12.1>[[\GetOwnProperty]]</a></dfn>
+   <!-- GetProperty --> <li><dfn data-dfn-for="Object"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.12.2>[[\GetProperty]]</a></dfn>
    <!-- Index of --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.5.4.7>Index of</a></dfn>
-   <!-- Put --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.12.5>[[\Put]]</a></dfn>
+   <!-- Put --> <li><dfn data-dfn-for="Object"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.12.5>[[\Put]]</a></dfn>
    <!-- Substring --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.5.4.15>Substring</a></dfn>
   </ul>
 
@@ -10731,9 +10733,9 @@ to automatically sort each list alphabetically.
    <!-- null --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-4.3.11><code>null</code></a></dfn>
    <!-- Number --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-4.3.19>Number</a></dfn>
    <!-- Object --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-4.2.1>Object</a></dfn>
-   <!-- Parse --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.12.2>[[\Parse]]</a></dfn>
+   <!-- parse --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.12.2>parse</a></dfn>
    <!-- String --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-4.3.18>String</a></dfn>
-   <!-- Stringify --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.12.3>[[\Stringify]]</a></dfn>
+   <!-- stringify --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.12.3>stringify</a></dfn>
    <!-- ToInteger --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/6.0/#sec-tointeger>ToInteger</a></dfn>
    <!-- undefined --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-4.3.9>Undefined</a></dfn>
   </ul>
