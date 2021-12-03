@@ -428,8 +428,52 @@ when it receives a particular <a>command</a>.
   received data, according to the requirements of [[RFC7230]]. If it
   is not possible to construct a complete <a>HTTP request</a>,
   the <a>remote end</a> must either close the <a>connection</a>,
-  return an HTTP response with status code 500, or return
-  an <a>error</a> with <a>error code</a> <a>unknown error</a>.
+  return an HTTP response with status code 500, or <a>send an
+  error</a> with <a>error code</a> <a>unknown error</a>, and then
+  jump to step 1.
+
+  <li><p>If <var>request</var> has a <a>Host header</a>,
+  let <var>host</var> be the value of that header. Otherwise
+  let <var>host</var> be null.</p></li>
+
+  <li><p>If <var>request</var> has an <a>Origin header</a>,
+  let <var>origin</var> be the value of that header. Otherwise
+  let <var>origin</var> be null.</p></li>
+
+  <li><p>If any of the following conditions hold:
+   <ul>
+    <li><p><var>host</var> doesn't match the <code>Host</code>
+      grammar [[RFC7230]]</p></li>
+    <li><p>The result of <a>host parsing</a> the <code>uri-host</code>
+        part of <var>host</var> is not an <a>IP address</a>,
+        a <a>domain</a> identical to the
+        <a>host</a> of the HTTP server or to another <a>host</a> the
+        implementation has been configured to allow.</p></li>
+    <li><p>The <code>port</code> part of <var>host</var> is present
+        but doesn't match the port of the HTTP server.</p></li>
+    <li><p>The <code>port</code> part of <var>host</var> is not
+        present, and the port of the HTTP server doesn't match the
+        default port for the request's scheme.</p></li>
+    <li><p>The implementation wants to reject connections
+        with <var>host</var> as the <a>Host header</a>.</p></li>
+   </ul>
+   <p>Then <a>send an error</a> with <a>error code</a> <a>unknown
+  error</a>, and jump to step 1.</p>
+
+  <p class=note>Rejecting connections with unexpected values in the
+  <a>Host header</a> prevents DNS rebinding attacks. Implementations can opt
+  to provide more stringent controls where appropriate, for example
+  only accepting connections when the <var>host</var> value
+  corresponds to a loopback interface [[RFC5735]].</p></li>
+
+  <li><p>If <var>origin</var> is not null, and is not identical to an
+  <a>Origin header</a> value that the implementation has been
+  configured to allow, then stop running these steps and act as if the
+  requested service is not available.</p>
+
+  <p class=note>Rejecting connections with unexpected values in
+  the <a>Origin header</a> is necessary to prevent untrusted websites
+  from establishing a WebDriver session.</p></li>
 
  <li><p>Let <var>request match</var> be the result of the algorithm
   to <a>match a request</a> with <var>request</var>’s
@@ -10957,6 +11001,21 @@ to automatically sort each list alphabetically.
  <dd><p>To be <dfn>HTTP compliant</dfn>,
   it is supposed that the implementation supports the relevant subsets of
   [[RFC7230]], [[RFC7231]], [[RFC7232]], [[RFC7234]], and [[RFC7235]].
+
+ <dd><p>The following terms are defined in the Web Origin Concept specification: [[RFC6454]]
+  <ul>
+   <!-- Origin header --> <li><dfn><a href="https://datatracker.ietf.org/doc/html/rfc6454#section-7">Origin header</a></dfn>
+  </ul>
+
+ <dd><p>The following terms are defined in the Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing specification: [[RFC7230]]
+  <ul>
+   <!-- Host header --> <li><dfn><a href="https://datatracker.ietf.org/doc/html/rfc7230#section-5.4">Host header</a></dfn>
+  </ul>
+
+ <dd><p>The following terms are defined in the Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content specification: [[RFC7231]]
+  <ul>
+   <!-- Content-Type header --> <li><dfn><a href="https://datatracker.ietf.org/doc/html/rfc7231#section-3.1.1.5">Content-Type header</a></dfn>
+  </ul>
 
  <dd><p>The following terms are defined in the Cookie specification: [[RFC6265]]
   <ul>
