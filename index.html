@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en-us" data-issue-url="https://github.com/w3c/webdriver/" data-issue-param-milestone="Level 1"><head>
 <meta charset="utf-8">
-<meta name="generator" content="ReSpec 30.0.5">
+<meta name="generator" content="ReSpec 32.1.0">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <style>
 span.example-title{text-transform:none}
@@ -142,12 +142,12 @@ details.respec-tests-details>ul{width:100%;margin-top:-.3em}
 details.respec-tests-details>li{padding-left:1em}
 .self-link:hover{opacity:1;text-decoration:none;background-color:transparent}
 aside.example .marker>a.self-link{color:inherit}
-.header-wrapper{display:flex;align-items:center}
+.header-wrapper{display:flex;align-items:baseline}
 :is(h2,h3,h4,h5,h6):not(#toc>h2,#abstract>h2,#sotd>h2,.head>h2){position:relative;left:-.5em}
-:is(h2,h3,h4,h5,h6):not(#toch2)+a.self-link{color:inherit;order:-1;position:relative;left:-1.1em;top:.8rem;font-size:1rem;opacity:.5}
+:is(h2,h3,h4,h5,h6):not(#toch2)+a.self-link{color:inherit;order:-1;position:relative;left:-1.1em;font-size:1rem;opacity:.5}
 :is(h2,h3,h4,h5,h6)+a.self-link::before{content:"§";text-decoration:none;color:var(--heading-text)}
+:is(h2,h3)+a.self-link{top:-.2em}
 :is(h4,h5,h6)+a.self-link::before{color:#000}
-:is(h4,h5,h6)+a.self-link{top:.6rem}
 @media (max-width:767px){
 dd{margin-left:0}
 }
@@ -272,28 +272,29 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   "noIDLSorting": true,
   "mdn": "webdriver",
   "xref": "web-platform",
-  "publishISODate": "2022-02-14T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 14 February 2022"
+  "publishISODate": "2022-03-15T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 15 March 2022"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head><body data-cite="WEBIDL CSSOM-VIEW GEOMETRY-1 HTML INFRA URL WEBIDL DOM FETCH" class="h-entry"><div class="head">
-    <a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
-  </a> <h1 id="title" class="title">WebDriver</h1>
-    
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2022-02-14">14 February 2022</time></p>
+    <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
+  </a></p>
+    <h1 id="title" class="title">WebDriver</h1> 
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2022-03-15">15 March 2022</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
         <dt>This version:</dt><dd>
                 <a class="u-url" href="https://w3c.github.io/webdriver/">https://w3c.github.io/webdriver/</a>
-              </dd><dt>Latest published version:</dt><dd>
+              </dd>
+        <dt>Latest published version:</dt><dd>
                 <a href="https://www.w3.org/TR/webdriver2/">https://www.w3.org/TR/webdriver2/</a>
               </dd>
         <dt>Latest editor's draft:</dt><dd><a href="https://w3c.github.io/webdriver/">https://w3c.github.io/webdriver/</a></dd>
         <dt>History:</dt><dd>
-      <a href="https://www.w3.org/standards/history/webdriver2">https://www.w3.org/standards/history/webdriver2</a>
-    </dd><dd>
-        <a href="https://github.com/w3c/webdriver/commits/master">Commit history</a>
-      </dd>
+                    <a href="https://www.w3.org/standards/history/webdriver2">https://www.w3.org/standards/history/webdriver2</a>
+                  </dd><dd>
+                    <a href="https://github.com/w3c/webdriver/commits/master">Commit history</a>
+                  </dd>
         <dt>Test suite:</dt><dd><a href="https://wpt.live/webdriver/">https://wpt.live/webdriver/</a></dd>
         <dt>Implementation report:</dt><dd>
                 <a href="https://wpt.fyi/results/webdriver">https://wpt.fyi/results/webdriver</a>
@@ -301,8 +302,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
         
         
         
-        <dt>Editors:</dt>
-        <dd class="editor p-author h-card vcard" data-editor-id="50228">
+        <dt>Editors:</dt><dd class="editor p-author h-card vcard" data-editor-id="50228">
     <a class="u-url url p-name fn" href="http://www.rocketpoweredjetpants.com/">Simon Stewart</a> (<a class="p-org org h-org" href="https://www.apple.com">Apple</a>)
   </dd><dd class="editor p-author h-card vcard" data-editor-id="50184">
     <a class="u-url url p-name fn" href="http://www.theautomatedtester.co.uk/">David Burns</a> (<a class="p-org org h-org" href="https://www.browserstack.com">BrowserStack</a>)
@@ -684,7 +684,7 @@ In all other cases it must be true.
  The details of these algorithms do not have any normative significance;
  implementations are free to adopt any implementation strategy
  that produces equivalent output to the specification.
- In particular, algorithms in this document are optimised
+ In particular, algorithms in this document are optimized
  for readability rather than performance.
 
 </p><p>Where algorithms that return values are fallible,
@@ -719,7 +719,7 @@ In all other cases it must be true.
  than <code>undefined</code> and <var>default</var> otherwise.
 
 </p><p><dfn data-lt="set a property|Setting a property" id="dfn-set-a-property" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Setting a property</dfn> with
- arguments <var>name</var> and <var>value</var> on <var>ovject</var>
+ arguments <var>name</var> and <var>value</var> on <var>object</var>
  is defined as being the same as calling
  <a href="#dfn-put" class="internalDFN" data-link-type="idl" id="ref-for-dfn-put-1">Object.[[Put]]</a>(<var>name</var>, <var>value</var>) on <var>object</var>.
 
@@ -736,7 +736,7 @@ In all other cases it must be true.
 
 
 <p>
-The WebDriver protocol is organised into <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-2">commands</a>.
+The WebDriver protocol is organized into <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-2">commands</a>.
 Each <a href="#dfn-http-request" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-http-request-1">HTTP request</a> with a method and template defined in this specification
 represents a single <dfn data-lt="commands|command" id="dfn-commands" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">command</dfn>,
 and therefore each command produces a single <a href="#dfn-http-response" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-http-response-1">HTTP response</a>.
@@ -2098,7 +2098,7 @@ with a "<code>moz:</code>" prefix:
   "<code>capabilities</code>" from <var>parameters</var>.
 
   </p><ol>
-   <li><p>If <var>capabilities request</var> is not a JSON object,
+   <li><p>If <var>capabilities request</var> is not a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-13">Object</a>,
     return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-21">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-20">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-9">invalid argument</a>.
   </p></li></ol>
 
@@ -2107,7 +2107,7 @@ with a "<code>moz:</code>" prefix:
 
   </p><ol>
    <li><p>If <var>required capabilities</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-3">undefined</a>,
-    set the value to an empty JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-13">Object</a>.
+    set the value to an empty JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-14">Object</a>.
 
    </p></li><li><p>Let <var>required capabilities</var> be the result
     of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-1">trying</a> to <a href="#dfn-validate-capabilities" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-validate-capabilities-1">validate capabilities</a> with
@@ -2119,7 +2119,7 @@ with a "<code>moz:</code>" prefix:
 
   </p><ol>
    <li><p>If <var>all first match capabilities</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-4">undefined</a>,
-    set the value to a JSON <a href="#dfn-list" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-list-2">List</a> with a single entry of an empty JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-14">Object</a>.
+    set the value to a JSON <a href="#dfn-list" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-list-2">List</a> with a single entry of an empty JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-15">Object</a>.
 
    </p></li><li><p>If <var>all first match capabilities</var> is not a
    JSON <a href="#dfn-list" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-list-3">List</a> with one or more entries, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-22">error</a>
@@ -2173,10 +2173,10 @@ with a "<code>moz:</code>" prefix:
  argument <var>capability</var>:
 
 </p><ol>
- <li><p>If <var>capability</var> is not a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-15">Object</a> return
+ <li><p>If <var>capability</var> is not a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-16">Object</a> return
   an <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-23">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-22">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-11">invalid argument</a>.
 
- </p></li><li><p>Let <var>result</var> be an empty JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-16">Object</a>.
+ </p></li><li><p>Let <var>result</var> be an empty JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-17">Object</a>.
 
  </p></li><li><p>For each enumerable <a href="#dfn-own-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-own-properties-7">own property</a>
   in <var>capability</var>, run the following substeps:
@@ -2256,12 +2256,12 @@ with a "<code>moz:</code>" prefix:
  </li><li>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-8">success</a> with data <var>result</var>.
 </li></ol>
 
-<p>When <dfn id="dfn-merging-capabilities" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">merging capabilities</dfn> with JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-17">Object</a> arguments
+<p>When <dfn id="dfn-merging-capabilities" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">merging capabilities</dfn> with JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-18">Object</a> arguments
  <var>primary</var> and <var>secondary</var>,
  an <a href="#dfn-endpoint-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-endpoint-node-7">endpoint node</a> must take the following steps:
 
 </p><ol>
- <li><p>Let <var>result</var> be a new JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-18">Object</a>.
+ <li><p>Let <var>result</var> be a new JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-19">Object</a>.
 
  </p></li><li><p>For each enumerable <a href="#dfn-own-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-own-properties-8">own property</a> in <var>primary</var>,
   run the following substeps:
@@ -2313,11 +2313,11 @@ with a "<code>moz:</code>" prefix:
 </p></aside></div>
 
 <p>When <dfn id="dfn-matching-capabilities" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">matching capabilities</dfn>
- with JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-19">Object</a> argument <var>capabilities</var>,
+ with JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-20">Object</a> argument <var>capabilities</var>,
  an <a href="#dfn-endpoint-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-endpoint-node-8">endpoint node</a> must take the following steps:
 
 </p><ol>
- <li><p>Let <var>matched capabilities</var> be a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-20">Object</a>
+ <li><p>Let <var>matched capabilities</var> be a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-21">Object</a>
   with the following entries:
 
   </p><dl>
@@ -2337,7 +2337,7 @@ with a "<code>moz:</code>" prefix:
 
    </dd><dt>"<code>strictFileInteractability</code>"
     </dt><dd><a href="#dfn-boolean" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-boolean-5">Boolean</a> initially set to false,
-    indicating that interactabilty checks will be applied to
+    indicating that interactability checks will be applied to
     &lt;input type=file&gt;.
 
    </dd><dt>"<code>setWindowRect</code>"
@@ -2751,7 +2751,7 @@ If the creation fails, a <a href="#dfn-session-not-created" class="internalDFN" 
 
  </p></li><li><p>Append <var>session</var> to <a href="#dfn-active-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-active-session-11">active sessions</a>.
 
- </p></li><li><p>Let <var>body</var> be a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-21">Object</a> initialized with:
+ </p></li><li><p>Let <var>body</var> be a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-22">Object</a> initialized with:
 
   </p><dl>
    <dt>"<code>sessionId</code>"
@@ -2794,7 +2794,7 @@ If the creation fails, a <a href="#dfn-session-not-created" class="internalDFN" 
 
          <dt>Otherwise</dt>
          <dd><a href="#dfn-set-a-property" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-set-a-property-7">Set a property</a> of <var>capabilities</var> with name
-           "<code>proxy</code>" and a value that is a new JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-22">Object</a>.</dd>
+           "<code>proxy</code>" and a value that is a new JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-23">Object</a>.</dd>
        </dl>
    </li>
 
@@ -2897,7 +2897,7 @@ If the creation fails, a <a href="#dfn-session-not-created" class="internalDFN" 
 </p><p>The <a href="#dfn-remote-end-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-end-steps-8">remote end steps</a> are:</p>
 
 <ol>
- <li><p>Let <var>body</var> be a new JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-23">Object</a>
+ <li><p>Let <var>body</var> be a new JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-24">Object</a>
   with the following properties:
 
   </p><dl>
@@ -2981,7 +2981,7 @@ when <a href="#element-retrieval">locating an element</a>
 
 </p><p>
 The <dfn id="dfn-timeouts-object" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">timeouts object</dfn> for a <a href="#dfn-timeouts-configuration" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-timeouts-configuration-3">timeouts
-configuration</a> <var>timeouts</var> is an <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-24">object</a> initalized
+configuration</a> <var>timeouts</var> is an <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-25">object</a> initialized
 with the following properties:
 
 </p><dl>
@@ -2989,7 +2989,7 @@ with the following properties:
 </dt><dd><var>timeouts</var>' <a href="#dfn-script-timeout" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-script-timeout-1">script timeout</a> value, if set, or its default value.
 
 </dd><dt>"<code>pageLoad</code>"
-</dt><dd><var>timouts</var>' <a href="#dfn-page-load-timeout" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-page-load-timeout-1">page load timeout</a>’s value, if set, or its default value.
+</dt><dd><var>timeouts</var>' <a href="#dfn-page-load-timeout" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-page-load-timeout-1">page load timeout</a>’s value, if set, or its default value.
 
 </dd><dt>"<code>implicit</code>"
 </dt><dd><var>timeouts</var>' <a href="#dfn-implicit-wait-timeout" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-implicit-wait-timeout-1">implicit wait timeout</a>’s value, if set, or its default value.
@@ -3004,7 +3004,7 @@ into a <a href="#dfn-timeouts-configuration" class="internalDFN" data-link-type=
 Let <var>timeouts</var> be a new <a href="#dfn-timeouts-configuration" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-timeouts-configuration-5">timeouts configuration</a>.
 
 </p></li><li><p>
-If <var>value</var> is not a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-25">Object</a>,
+If <var>value</var> is not a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-26">Object</a>,
 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-41">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-33">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-17">invalid argument</a>.
 
 </p></li><li><p>
@@ -3673,7 +3673,7 @@ Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-f
 
   </p><p>Otherwise let it be the <a href="#dfn-web-frame-identifier" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-web-frame-identifier-1">web frame identifier</a>.
 
- </p></li><li><p>Return a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-26">Object</a> initialised with the following properties:
+ </p></li><li><p>Return a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-27">Object</a> initialized with the following properties:
 
   </p><dl>
    <dt><var>identifier</var>
@@ -3843,7 +3843,7 @@ make the tab containing the <a href="#dfn-browsing-contexts" class="internalDFN"
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-71">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-55">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-24">invalid argument</a>.
 
  </p></li><li><p>If there is an active <a href="#dfn-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompts-2">user prompt</a>, that prevents the
-  focussing of another <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-9">top-level browsing context</a>,
+  focusing of another <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-9">top-level browsing context</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-72">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-56">error code</a> <a href="#dfn-unexpected-alert-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unexpected-alert-open-1">unexpected alert open</a>.
 
  </p></li><li><p>If <var>handle</var> is equal to the associated <a href="#dfn-window-handles" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-window-handles-4">window
@@ -4045,7 +4045,7 @@ make the tab containing the <a href="#dfn-browsing-contexts" class="internalDFN"
   window shares an OS-level window with the <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-14">current browsing
   context</a>, or "<code>window</code>" otherwise.
 
- </p></li><li><p>Let <var>result</var> be a new JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-27">Object</a> initialised with:
+ </p></li><li><p>Let <var>result</var> be a new JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-28">Object</a> initialized with:
 
  </p><dl>
   <dt>"<code>handle</code>"
@@ -4089,7 +4089,7 @@ make the tab containing the <a href="#dfn-browsing-contexts" class="internalDFN"
 
  </p></li><li><p>If <var>id</var> is not <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-35"><code>null</code></a>,
   a <code>Number</code> object,
-  or an <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-28">Object</a> that <a href="#dfn-represents-a-web-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-represents-a-web-element-1">represents a web element</a>,
+  or an <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-29">Object</a> that <a href="#dfn-represents-a-web-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-represents-a-web-element-1">represents a web element</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-77">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-60">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-25">invalid argument</a>.
 
  </p></li><li><p>Run the substeps of the first matching condition:
@@ -4293,7 +4293,7 @@ make the tab containing the <a href="#dfn-browsing-contexts" class="internalDFN"
  of the <a href="#dfn-windowproxy" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-windowproxy-3"><code>WindowProxy</code></a>.
 
 </p><p>The <dfn id="dfn-windowrect-object" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">WindowRect object</dfn> for
-a <a href="#dfn-windowproxy" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-windowproxy-4">WindowProxy</a>, <var>window</var> is a <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-29">object</a> initalised
+a <a href="#dfn-windowproxy" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-windowproxy-4">WindowProxy</a>, <var>window</var> is an <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-30">Object</a> initialized
 with the following properties:
 
 </p><dl>
@@ -4351,7 +4351,7 @@ with the following properties:
 
 </p><aside class="mdn"><details>
     <summary aria-label="Expand MDN details for GetWindowRect"><span>MDN</span><span> </span></summary>
-    <a title="The Get Window Rect command of the WebDriver API returns the size and position of the given WebElement. Many WebDriver clients present separate API methods for getting an element’s location and dimensions, but as an optimization they both use this primitive." href="https://developer.mozilla.org/en-US/docs/Web/WebDriver/Commands/GetWindowRect">Commands/GetWindowRect</a>
+    <a title="The Get Window Rect command of the WebDriver API returns the size and position of the given WebElement. Many WebDriver clients present separate API methods for getting an element's location and dimensions, but as an optimization they both use this primitive." href="https://developer.mozilla.org/en-US/docs/Web/WebDriver/Commands/GetWindowRect">Commands/GetWindowRect</a>
     
     <table>
     <tr class="chrome yes">
@@ -4429,7 +4429,7 @@ with the following properties:
 
 <aside class="mdn"><details>
     <summary aria-label="Expand MDN details for SetWindowRect"><span>MDN</span><span> </span></summary>
-    <a title="The Set Window Rect command of the WebDriver API alters the size and position of the operating system window associated with the current window. The command acts as the setter of Get Window Rect, which return object you can pass directly as this command’s payload." href="https://developer.mozilla.org/en-US/docs/Web/WebDriver/Commands/SetWindowRect">Commands/SetWindowRect</a>
+    <a title="The Set Window Rect command of the WebDriver API alters the size and position of the operating system window associated with the current window. The command acts as the setter of Get Window Rect, which return object you can pass directly as this command's payload." href="https://developer.mozilla.org/en-US/docs/Web/WebDriver/Commands/SetWindowRect">Commands/SetWindowRect</a>
     
     <table>
     <tr class="chrome yes">
@@ -4744,7 +4744,7 @@ corresponding to the <a href="#dfn-current-top-level-browsing-context" class="in
  same. It must be a string, and should be the result of <a href="#dfn-generating-a-uuid" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-generating-a-uuid-2">generating
  a UUID</a>.
 
-</p><p>An ECMAScript <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-30">Object</a> <dfn id="dfn-represents-a-web-element" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">represents a web element</dfn>
+</p><p>An ECMAScript <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-31">Object</a> <dfn id="dfn-represents-a-web-element" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">represents a web element</dfn>
  if it has a <a href="#dfn-web-element-identifier" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-web-element-identifier-1">web element identifier</a> <a href="#dfn-own-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-own-properties-11">own property</a>.
 
 </p><p>Each <a href="#dfn-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-browsing-contexts-11">browsing context</a> has an associated <dfn id="dfn-list-of-known-elements" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">list of
@@ -4805,12 +4805,12 @@ is given by:
  </p></li><li><p>Let <var>reference</var> be the result of <a href="#dfn-get-or-create-a-web-element-reference" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-or-create-a-web-element-reference-1">get or create a
  web element reference</a> given <var>element</var>.
 
- </p></li><li><p>Return a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-31">Object</a> initialized with a property with
+ </p></li><li><p>Return a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-32">Object</a> initialized with a property with
  name <var>identifier</var> and value <var>reference</var>.
 </p></li></ol>
 
 <p>When required to <dfn id="dfn-deserialize-a-web-element" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">deserialize a web element</dfn>
- by a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-32">Object</a> <var>object</var> that <a href="#dfn-represents-a-web-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-represents-a-web-element-3">represents a web element</a>:
+ by a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-33">Object</a> <var>object</var> that <a href="#dfn-represents-a-web-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-represents-a-web-element-3">represents a web element</a>:
 
 </p><ol>
  <li><p>If <var>object</var> has no <a href="#dfn-own-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-own-properties-12">own property</a> <a href="#dfn-web-element-identifier" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-web-element-identifier-3">web element identifier</a>,
@@ -5053,7 +5053,7 @@ is given by:
   same. It must be a string, and should be the result of <a href="#dfn-generating-a-uuid" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-generating-a-uuid-3">generating
   a UUID</a>.
  
- </p><p>An ECMAScript <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-33">Object</a> <dfn id="dfn-represents-a-shadow-root" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">represents a shadow root</dfn>
+ </p><p>An ECMAScript <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-34">Object</a> <dfn id="dfn-represents-a-shadow-root" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">represents a shadow root</dfn>
   if it has a <a href="#dfn-shadow-root-identifier" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-shadow-root-identifier-1">shadow root identifier</a> <a href="#dfn-own-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-own-properties-13">own property</a>.
  
  </p><p>Each <a href="#dfn-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-browsing-contexts-14">browsing context</a> has an associated <dfn id="dfn-list-of-known-shadow-roots" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">list of
@@ -5104,12 +5104,12 @@ is given by:
      </p></li><li><p>Let <var>reference</var> be the result of <a href="#dfn-get-or-create-a-shadow-root-reference" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-or-create-a-shadow-root-reference-1">get or create a
       shadow root reference</a> given <var>shadow root</var>.
 
-   </p></li><li><p>Return a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-34">Object</a> initialized with a property with
+   </p></li><li><p>Return a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-35">Object</a> initialized with a property with
        name <var>identifier</var> and value <var>reference</var>.
    </p></li></ol>
    
    <p>When required to <dfn id="dfn-deserialize-a-shadow-root" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">deserialize a shadow root</dfn>
-    by a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-35">Object</a> <var>object</var> that <a href="#dfn-represents-a-shadow-root" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-represents-a-shadow-root-1">represents a shadow root</a>:
+    by a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-36">Object</a> <var>object</var> that <a href="#dfn-represents-a-shadow-root" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-represents-a-shadow-root-1">represents a shadow root</a>:
    
    </p><ol>
     <li><p>If <var>object</var> has no <a href="#dfn-own-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-own-properties-14">own property</a> <a href="#dfn-shadow-root-identifier" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-shadow-root-identifier-3">shadow root identifier</a>,
@@ -6307,7 +6307,7 @@ Width of the <a href="#dfn-web-elements" class="internalDFN" data-link-type="dfn
  </p></li><li><p>Let <var>rect</var> be <var>element</var>’s
   <a href="#dfn-bounding-rectangle" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-bounding-rectangle-3">bounding rectangle</a>.
 
- </p></li><li><p>Let <var>body</var> be a new JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-36">Object</a> initialized with:
+ </p></li><li><p>Let <var>body</var> be a new JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-37">Object</a> initialized with:
 
   </p><dl>
    <dt>"<code>x</code>"
@@ -7192,7 +7192,7 @@ of the <a href="#dfn-current-browsing-context" class="internalDFN" data-link-typ
 
 
 <p>
-A <dfn id="dfn-collection" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">collection</dfn> is an <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-37">Object</a>
+A <dfn id="dfn-collection" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">collection</dfn> is an <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-38">Object</a>
 that implements the <a href="#dfn-iterable" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-iterable-1">Iterable</a> interface,
 and whose:
 
@@ -7229,16 +7229,16 @@ a <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-fo
    </dt><dt>type <a href="#dfn-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-string-9">String</a>
    </dt><dd><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-80">success</a> with data <var>value</var>.
 
-   </p></dd><dt><a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-38">Object</a> that <a href="#dfn-represents-a-web-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-represents-a-web-element-4">represents a web element</a>
+   </p></dd><dt><a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-39">Object</a> that <a href="#dfn-represents-a-web-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-represents-a-web-element-4">represents a web element</a>
    </dt><dd><p>Return the <a data-lt="deserialize a web element" href="#dfn-deserialize-a-web-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-deserialize-a-web-element-1">deserialized</a>
     <a href="#dfn-web-elements" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-web-elements-12">web element</a> of <var>value</var>.
 
-   </p></dd><dt><a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-39">Object</a> that <a href="#dfn-represents-a-shadow-root" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-represents-a-shadow-root-2">represents a shadow root</a>
+   </p></dd><dt><a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-40">Object</a> that <a href="#dfn-represents-a-shadow-root" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-represents-a-shadow-root-2">represents a shadow root</a>
    </dt><dd><p>Return the <a data-lt="deserialize a shadow root" href="#dfn-deserialize-a-shadow-root" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-deserialize-a-shadow-root-1">deserialized</a>
     <a href="#dfn-shadow-roots" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-shadow-roots-10">shadow root</a> of <var>value</var>.
 
    </p></dd><dt>instance of <a href="#dfn-array" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-array-2">Array</a>
-   </dt><dt>instance of <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-40">Object</a>
+   </dt><dt>instance of <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-41">Object</a>
    </dt><dd><p>Return the result of running the <a href="#dfn-clone-an-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-clone-an-object-1">clone an object</a> algorithm
     with arguments <var>value</var> and <var>seen</var>,
     and the <a href="#dfn-json-deserialize" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-json-deserialize-5">JSON deserialize</a> algorithm as the clone algorithm.
@@ -7344,7 +7344,7 @@ a <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-fo
     of <var>value</var>.
 
    </p></dd><dt>Otherwise
-   </dt><dd><p>A new <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-41">Object</a>.
+   </dt><dd><p>A new <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-42">Object</a>.
   </p></dd></dl>
 
  </li><li><p>For each enumerable <a href="#dfn-own-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-own-properties-18">own property</a>
@@ -7575,7 +7575,7 @@ The first argument provided to the function will be serialized to JSON and retur
         if determining this produces an exception.
 
     </p></div></li><li><p>If <a data-lt="ecmascript type" href="#dfn-ecmascript-type" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-ecmascript-type-1">Type</a>(<var>scriptResult</var>.[[Value]])
-      is not <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-42">Object</a>, then abort these steps.
+      is not <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-43">Object</a>, then abort these steps.
 
     </p></li><li><p>Let <var>then</var> be <a href="#dfn-get" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-1">Get</a>(<var>scriptResult</var>.[[Value]], "then").
 
@@ -7731,7 +7731,7 @@ The first argument provided to the function will be serialized to JSON and retur
  </td></tr>
 </tbody></table>
 
-<p>A <dfn id="dfn-serialized-cookie" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">serialized cookie</dfn> is a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-43">Object</a>
+<p>A <dfn id="dfn-serialized-cookie" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">serialized cookie</dfn> is a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-44">Object</a>
  where a <a href="#dfn-cookies" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-cookies-3">cookie</a>’s [<cite><a class="bibref" data-link-type="biblio" href="#bib-rfc6265" title="HTTP State Management Mechanism">RFC6265</a></cite>] fields
  listed in the <a href="#dfn-table-for-cookie-conversion" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-table-for-cookie-conversion-1">table for cookie conversion</a>
  are mapped using the <i>JSON Key</i>
@@ -7864,7 +7864,7 @@ The first argument provided to the function will be serialized to JSON and retur
  <li><p>Let <var>data</var> be the result of <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-properties-38">getting a property</a>
   named <code>cookie</code> from the <var>parameters</var> argument.
 
- </p></li><li><p>If <var>data</var> is not a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-44">Object</a>
+ </p></li><li><p>If <var>data</var> is not a JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-45">Object</a>
   with all the required (non-optional) JSON keys
   listed in the <a href="#dfn-table-for-cookie-conversion" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-table-for-cookie-conversion-2">table for cookie conversion</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-228">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-166">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-53">invalid argument</a>.
@@ -7990,7 +7990,7 @@ The first argument provided to the function will be serialized to JSON and retur
 
 
 <p>The Actions API provides a low-level interface
- for providing virtualised device input to the web browser.
+ for providing virtualized device input to the web browser.
  Conceptually, the Actions commands divide time into a series of <a href="#dfn-ticks" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-ticks-1">ticks</a>.
  The <a href="#dfn-local-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-local-ends-16">local end</a> sends a series of actions
  which correspond to the change in state, if any,
@@ -8325,7 +8325,7 @@ and a <code>y</code> property which is an unsigned integer.
    from <var>source</var>.
  </li></ol>
 
- </li><li><p>Let <var>state</var> be a new JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-45">Object</a>.
+ </li><li><p>Let <var>state</var> be a new JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-46">Object</a>.
 
  </p></li><li><p><a href="#dfn-set-a-property" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-set-a-property-15">Set a property</a> on <var>state</var> with
   name <var>pressed</var> and value <var>pressed</var>.
@@ -8392,7 +8392,7 @@ In particular, the dispatched events
 will have the <a data-link-type="idl" data-type="attribute" href="https://dom.spec.whatwg.org/#dom-event-istrusted" id="ref-for-index-term-istrusted-attribute-for-event-1"><code>isTrusted</code></a> attribute set to true.
 
 </p><p>
-The most robust way to despatch these events
+The most robust way to dispatch these events
 is by creating them in the browser implementation itself.
 Sending operating system specific input messages to the browser’s window
 has the disadvantage that the browser being automated
@@ -8416,7 +8416,7 @@ from a machine utilisation perspective.
 
 
 <p>The algorithm for <a data-lt="extract an action sequence" href="#dfn-extract-an-action-sequence" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-extract-an-action-sequence-1">extracting an action sequence from a request</a> takes the
- JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-46">Object</a> representing an action sequence, validates the
+ JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-47">Object</a> representing an action sequence, validates the
  input, and returns a data structure that is the transpose of the
  input JSON, such that the actions to be performed in a single <a href="#dfn-ticks" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-ticks-20">tick</a>
  are grouped together.
@@ -8552,7 +8552,7 @@ from a machine utilisation perspective.
  </p></li><li><p>For each <var>action item</var> in <var>action items</var>:
 
   </p><ol>
-   <li><p>If <var>action item</var> is not an <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-47">Object</a>
+   <li><p>If <var>action item</var> is not an <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-48">Object</a>
     return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-245">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-179">error code</a>
     <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-61">invalid argument</a>.
 
@@ -8598,7 +8598,7 @@ If <var>parameters data</var> is <a href="#dfn-undefined" class="internalDFN" da
 return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-99">success</a> with data <var>parameters</var>.
 
 </p></li><li><p>
-If <var>parameters data</var> is not an <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-48">Object</a>,
+If <var>parameters data</var> is not an <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-49">Object</a>,
 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-246">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-180">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-62">invalid argument</a>.
 
 </p></li><li><p>
@@ -8822,7 +8822,7 @@ If <var>origin</var> is <a href="#dfn-undefined" class="internalDFN" data-link-t
 
 </p></li><li><p>
 If <var>origin</var> is not equal to "<code>viewport</code>"
-or "<code>pointer</code>" and <var>origin</var> is not an <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-49">Object</a>
+or "<code>pointer</code>" and <var>origin</var> is not an <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-50">Object</a>
 that <a href="#dfn-represents-a-web-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-represents-a-web-element-5">represents a web element</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-260">error</a> with
 <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-188">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-70">invalid argument</a>.
 
@@ -9049,7 +9049,7 @@ Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-f
   <var>origin</var> equal "<code>viewport</code>".
 
  </p></li><li><p>If <var>origin</var> is not equal to "<code>viewport</code>"
-  or "<code>pointer</code>" and <var>origin</var> is not an <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-50">Object</a>
+  or "<code>pointer</code>" and <var>origin</var> is not an <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-51">Object</a>
   that <a href="#dfn-represents-a-web-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-represents-a-web-element-6">represents a web element</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-277">error</a> with
   <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-205">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-87">invalid argument</a>.
 
@@ -9336,7 +9336,7 @@ Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-f
 <section id="keyboard-actions"><div class="header-wrapper"><h4 id="x15-4-2-keyboard-actions"><bdi class="secno">15.4.2 </bdi>Keyboard actions</h4><a class="self-link" href="#keyboard-actions" aria-label="Permalink for Section 15.4.2"></a></div>
 
 
-<p>The <dfn id="dfn-normalised-key-value" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">normalised key value</dfn> for a raw key <var>key</var>
+<p>The <dfn id="dfn-normalized-key-value" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">normalized key value</dfn> for a raw key <var>key</var>
  is, if <var>key</var> appears in the table below, the string value in
  the second column on the row containing <var>key</var>’s <a href="#dfn-unicode-code-point" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unicode-code-point-3">unicode
  code point</a> in the first column, otherwise it is <var>key</var>.
@@ -9344,7 +9344,7 @@ Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-f
 </p><table class="simple">
  <tbody><tr>
   <th><var>key</var>’s codepoint
-  </th><th>Normalised key value
+  </th><th>Normalized key value
  </th></tr>
  <tr><td><code>\uE000</code></td><td><code>"Unidentified"</code></td></tr>
  <tr><td><code>\uE001</code></td><td><code>"Cancel"</code></td></tr>
@@ -9600,7 +9600,7 @@ Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-f
  <li><p>Let <var>raw key</var> be equal to the
   <var>action object</var>’s <code>value</code> property.
 
- </p></li><li><p>Let <var>key</var> be equal to the <a href="#dfn-normalised-key-value" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-normalised-key-value-1">normalised key value</a>
+ </p></li><li><p>Let <var>key</var> be equal to the <a href="#dfn-normalized-key-value" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-normalized-key-value-1">normalized key value</a>
   for <var>raw key</var>.
 
  </p></li><li><p>If the <var>input state</var>’s <code>pressed</code> property
@@ -9707,7 +9707,7 @@ Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-f
   <var>action object</var>’s <code>value</code> property.
 
  </p></li><li><p>Let <var>key</var> be equal to the
-  <a href="#dfn-normalised-key-value" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-normalised-key-value-2">normalised key value</a> for <var>raw key</var>.
+  <a href="#dfn-normalized-key-value" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-normalized-key-value-2">normalized key value</a> for <var>raw key</var>.
 
  </p></li><li><p>If the <var>input state</var>’s <code>pressed</code>
   property does not contain <var>key</var>, return.
@@ -9846,7 +9846,7 @@ Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-f
   set <code>ctrlKey</code>, <code>shiftKey</code>, <code>altKey</code>,
   and <code>metaKey</code> from the <a href="#dfn-calculated-global-key-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-calculated-global-key-state-1">calculated global key state</a>.
   Type specific properties for the pointer that are not
-  exposed through the webdriver API must be set to the default value
+  exposed through the WebDriver API must be set to the default value
   specified for hardware that doesn’t support that property.
 
  
@@ -9892,7 +9892,7 @@ Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-f
   set <code>ctrlKey</code>, <code>shiftKey</code>, <code>altKey</code>,
   and <code>metaKey</code> from the <a href="#dfn-calculated-global-key-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-calculated-global-key-state-2">calculated global key state</a>.
   Type specific properties for the pointer that are not
-  exposed through the webdriver API must be set to the default value
+  exposed through the WebDriver API must be set to the default value
   specified for hardware that doesn’t support that property.
 
   
@@ -10595,7 +10595,7 @@ based on the <a href="#dfn-current-session" class="internalDFN" data-link-type="
 <p>
 When returning an <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-303">error</a> with <a href="#dfn-unexpected-alert-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unexpected-alert-open-4">unexpected alert open</a>,
 a <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-ends-99">remote end</a> may choose to return the <a href="#dfn-user-prompt-message" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-message-3">user prompt message</a>
-as part of an additional "<code>data</code>" <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-51">Object</a>
+as part of an additional "<code>data</code>" <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-52">Object</a>
 on the <a data-lt="send an error" href="#dfn-send-an-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-send-an-error-6">error representation</a>:
 
 </p><pre><code aria-busy="false" class="hljs json">
@@ -11104,7 +11104,7 @@ argument <var>input</var> an implementation must:
 
  </p></li><li><p>Let <var>page</var> be the result of <a href="#dfn-getting-the-property-with-default" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-the-property-with-default-4">getting a property
   with default</a> named <code>page</code> and with a default of an
-  empty <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-52">Object</a> from the <var>parameters</var> argument.
+  empty <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-53">Object</a> from the <var>parameters</var> argument.
 
  </p></li><li><p>Let <var>pageWidth</var> be the result of <a href="#dfn-getting-the-property-with-default" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-the-property-with-default-5">getting a
   property with default</a> named <code>width</code> and with a
@@ -11120,7 +11120,7 @@ argument <var>input</var> an implementation must:
 
  </p></li><li><p>Let <var>margin</var> be the result of <a href="#dfn-getting-the-property-with-default" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-the-property-with-default-7">getting a property
   with default</a> named <code>margin</code> and with a default of an
-  empty <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-53">Object</a> from the <var>parameters</var> argument.
+  empty <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-54">Object</a> from the <var>parameters</var> argument.
 
  </p></li><li><p>Let <var>marginTop</var> be the result of <a href="#dfn-getting-the-property-with-default" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-the-property-with-default-8">getting a
   property with default</a> named <code>top</code> and with a
@@ -12805,7 +12805,7 @@ This specification relies on several other underlying specifications.
     <span class="print-only">§10.</span></li><li>
       <a class="index-term" href="#dfn-normal-window-state">Normal window state</a> 
     <span class="print-only">§11.8</span></li><li>
-      <a class="index-term" href="#dfn-normalised-key-value">normalised key value</a> 
+      <a class="index-term" href="#dfn-normalized-key-value">normalized key value</a> 
     <span class="print-only">§15.4.2</span></li><li>
       <a class="index-term" href="#dfn-not-in-the-same-tree">not in the same tree</a> 
     <span class="print-only">§12.4</span></li><li>
@@ -19592,16 +19592,16 @@ This specification relies on several other underlying specifications.
     <a href="#ref-for-dfn-dispatch-a-pause-action-1" title="§ 15.4 Dispatching actions">§ 15.4 Dispatching actions</a> <a href="#ref-for-dfn-dispatch-a-pause-action-2" title="Reference 2">(2)</a> <a href="#ref-for-dfn-dispatch-a-pause-action-3" title="Reference 3">(3)</a> <a href="#ref-for-dfn-dispatch-a-pause-action-4" title="Reference 4">(4)</a> 
   </li>
   </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-normalised-key-value" aria-label="Links in this document to definition: normalised key value">
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-normalized-key-value" aria-label="Links in this document to definition: normalized key value">
       <span class="caret"></span>
       <div>
-        <a class="self-link" href="#dfn-normalised-key-value" aria-label="Permalink for definition: normalised key value. Activate to close this dialog.">Permalink</a>
+        <a class="self-link" href="#dfn-normalized-key-value" aria-label="Permalink for definition: normalized key value. Activate to close this dialog.">Permalink</a>
          
       </div>
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-    <a href="#ref-for-dfn-normalised-key-value-1" title="§ 15.4.2 Keyboard actions">§ 15.4.2 Keyboard actions</a> <a href="#ref-for-dfn-normalised-key-value-2" title="Reference 2">(2)</a> 
+    <a href="#ref-for-dfn-normalized-key-value-1" title="§ 15.4.2 Keyboard actions">§ 15.4.2 Keyboard actions</a> <a href="#ref-for-dfn-normalized-key-value-2" title="Reference 2">(2)</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-code" aria-label="Links in this document to definition: code">
@@ -21529,43 +21529,43 @@ This specification relies on several other underlying specifications.
   </li><li>
     <a href="#ref-for-dfn-object-10" title="§ 7.1 Proxy">§ 7.1 Proxy</a> <a href="#ref-for-dfn-object-11" title="Reference 2">(2)</a> <a href="#ref-for-dfn-object-12" title="Reference 3">(3)</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-13" title="§ 7.2 Processing capabilities">§ 7.2 Processing capabilities</a> <a href="#ref-for-dfn-object-14" title="Reference 2">(2)</a> <a href="#ref-for-dfn-object-15" title="Reference 3">(3)</a> <a href="#ref-for-dfn-object-16" title="Reference 4">(4)</a> <a href="#ref-for-dfn-object-17" title="Reference 5">(5)</a> <a href="#ref-for-dfn-object-18" title="Reference 6">(6)</a> <a href="#ref-for-dfn-object-19" title="Reference 7">(7)</a> <a href="#ref-for-dfn-object-20" title="Reference 8">(8)</a> 
+    <a href="#ref-for-dfn-object-13" title="§ 7.2 Processing capabilities">§ 7.2 Processing capabilities</a> <a href="#ref-for-dfn-object-14" title="Reference 2">(2)</a> <a href="#ref-for-dfn-object-15" title="Reference 3">(3)</a> <a href="#ref-for-dfn-object-16" title="Reference 4">(4)</a> <a href="#ref-for-dfn-object-17" title="Reference 5">(5)</a> <a href="#ref-for-dfn-object-18" title="Reference 6">(6)</a> <a href="#ref-for-dfn-object-19" title="Reference 7">(7)</a> <a href="#ref-for-dfn-object-20" title="Reference 8">(8)</a> <a href="#ref-for-dfn-object-21" title="Reference 9">(9)</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-21" title="§ 8.1 New Session">§ 8.1 New Session</a> <a href="#ref-for-dfn-object-22" title="Reference 2">(2)</a> 
+    <a href="#ref-for-dfn-object-22" title="§ 8.1 New Session">§ 8.1 New Session</a> <a href="#ref-for-dfn-object-23" title="Reference 2">(2)</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-23" title="§ 8.3 Status">§ 8.3 Status</a> 
+    <a href="#ref-for-dfn-object-24" title="§ 8.3 Status">§ 8.3 Status</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-24" title="§ 9. Timeouts">§ 9. Timeouts</a> <a href="#ref-for-dfn-object-25" title="Reference 2">(2)</a> 
+    <a href="#ref-for-dfn-object-25" title="§ 9. Timeouts">§ 9. Timeouts</a> <a href="#ref-for-dfn-object-26" title="Reference 2">(2)</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-26" title="§ 11. Contexts">§ 11. Contexts</a> 
+    <a href="#ref-for-dfn-object-27" title="§ 11. Contexts">§ 11. Contexts</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-27" title="§ 11.5 New Window">§ 11.5 New Window</a> 
+    <a href="#ref-for-dfn-object-28" title="§ 11.5 New Window">§ 11.5 New Window</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-28" title="§ 11.6 Switch To Frame">§ 11.6 Switch To Frame</a> 
+    <a href="#ref-for-dfn-object-29" title="§ 11.6 Switch To Frame">§ 11.6 Switch To Frame</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-29" title="§ 11.8 Resizing and positioning windows">§ 11.8 Resizing and positioning windows</a> 
+    <a href="#ref-for-dfn-object-30" title="§ 11.8 Resizing and positioning windows">§ 11.8 Resizing and positioning windows</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-30" title="§ 12. Elements">§ 12. Elements</a> <a href="#ref-for-dfn-object-31" title="Reference 2">(2)</a> <a href="#ref-for-dfn-object-32" title="Reference 3">(3)</a> 
+    <a href="#ref-for-dfn-object-31" title="§ 12. Elements">§ 12. Elements</a> <a href="#ref-for-dfn-object-32" title="Reference 2">(2)</a> <a href="#ref-for-dfn-object-33" title="Reference 3">(3)</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-33" title="§ 12.2 Shadow Roots">§ 12.2 Shadow Roots</a> <a href="#ref-for-dfn-object-34" title="Reference 2">(2)</a> <a href="#ref-for-dfn-object-35" title="Reference 3">(3)</a> 
+    <a href="#ref-for-dfn-object-34" title="§ 12.2 Shadow Roots">§ 12.2 Shadow Roots</a> <a href="#ref-for-dfn-object-35" title="Reference 2">(2)</a> <a href="#ref-for-dfn-object-36" title="Reference 3">(3)</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-36" title="§ 12.4.7 Get Element Rect">§ 12.4.7 Get Element Rect</a> 
+    <a href="#ref-for-dfn-object-37" title="§ 12.4.7 Get Element Rect">§ 12.4.7 Get Element Rect</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-37" title="§ 13.2 Executing Script">§ 13.2 Executing Script</a> <a href="#ref-for-dfn-object-38" title="Reference 2">(2)</a> <a href="#ref-for-dfn-object-39" title="Reference 3">(3)</a> <a href="#ref-for-dfn-object-40" title="Reference 4">(4)</a> <a href="#ref-for-dfn-object-41" title="Reference 5">(5)</a> 
+    <a href="#ref-for-dfn-object-38" title="§ 13.2 Executing Script">§ 13.2 Executing Script</a> <a href="#ref-for-dfn-object-39" title="Reference 2">(2)</a> <a href="#ref-for-dfn-object-40" title="Reference 3">(3)</a> <a href="#ref-for-dfn-object-41" title="Reference 4">(4)</a> <a href="#ref-for-dfn-object-42" title="Reference 5">(5)</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-42" title="§ 13.2.2 Execute Async Script">§ 13.2.2 Execute Async Script</a> 
+    <a href="#ref-for-dfn-object-43" title="§ 13.2.2 Execute Async Script">§ 13.2.2 Execute Async Script</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-43" title="§ 14. Cookies">§ 14. Cookies</a> 
+    <a href="#ref-for-dfn-object-44" title="§ 14. Cookies">§ 14. Cookies</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-44" title="§ 14.3 Add Cookie">§ 14.3 Add Cookie</a> 
+    <a href="#ref-for-dfn-object-45" title="§ 14.3 Add Cookie">§ 14.3 Add Cookie</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-45" title="§ 15.1.2 State">§ 15.1.2 State</a> 
+    <a href="#ref-for-dfn-object-46" title="§ 15.1.2 State">§ 15.1.2 State</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-46" title="§ 15.3 Processing actions">§ 15.3 Processing actions</a> <a href="#ref-for-dfn-object-47" title="Reference 2">(2)</a> <a href="#ref-for-dfn-object-48" title="Reference 3">(3)</a> <a href="#ref-for-dfn-object-49" title="Reference 4">(4)</a> <a href="#ref-for-dfn-object-50" title="Reference 5">(5)</a> 
+    <a href="#ref-for-dfn-object-47" title="§ 15.3 Processing actions">§ 15.3 Processing actions</a> <a href="#ref-for-dfn-object-48" title="Reference 2">(2)</a> <a href="#ref-for-dfn-object-49" title="Reference 3">(3)</a> <a href="#ref-for-dfn-object-50" title="Reference 4">(4)</a> <a href="#ref-for-dfn-object-51" title="Reference 5">(5)</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-51" title="§ 16. User prompts">§ 16. User prompts</a> 
+    <a href="#ref-for-dfn-object-52" title="§ 16. User prompts">§ 16. User prompts</a> 
   </li><li>
-    <a href="#ref-for-dfn-object-52" title="§ 18.1 Print Page">§ 18.1 Print Page</a> <a href="#ref-for-dfn-object-53" title="Reference 2">(2)</a> 
+    <a href="#ref-for-dfn-object-53" title="§ 18.1 Print Page">§ 18.1 Print Page</a> <a href="#ref-for-dfn-object-54" title="Reference 2">(2)</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-parse" aria-label="Links in this document to definition: parse">
