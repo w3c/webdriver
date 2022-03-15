@@ -338,7 +338,7 @@ In all other cases it must be true.
  The details of these algorithms do not have any normative significance;
  implementations are free to adopt any implementation strategy
  that produces equivalent output to the specification.
- In particular, algorithms in this document are optimised
+ In particular, algorithms in this document are optimized
  for readability rather than performance.
 
 <p>Where algorithms that return values are fallible,
@@ -375,7 +375,7 @@ In all other cases it must be true.
  than <code>undefined</code> and <var>default</var> otherwise.
 
 <p><dfn data-lt='set a property'>Setting a property</dfn> with
- arguments <var>name</var> and <var>value</var> on <var>ovject</var>
+ arguments <var>name</var> and <var>value</var> on <var>object</var>
  is defined as being the same as calling
  <a>Object.[[\Put]]</a>(<var>name</var>, <var>value</var>) on <var>object</var>.
 
@@ -392,7 +392,7 @@ In all other cases it must be true.
 <h3>Commands</h3>
 
 <p>
-The WebDriver protocol is organised into <a>commands</a>.
+The WebDriver protocol is organized into <a>commands</a>.
 Each <a>HTTP request</a> with a method and template defined in this specification
 represents a single <dfn data-lt=commands>command</dfn>,
 and therefore each command produces a single <a>HTTP response</a>.
@@ -1745,7 +1745,7 @@ with a "<code>moz:</code>" prefix:
   "<code>capabilities</code>" from <var>parameters</var>.
 
   <ol>
-   <li><p>If <var>capabilities request</var> is not a JSON object,
+   <li><p>If <var>capabilities request</var> is not a JSON <a>Object</a>,
     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
   </ol>
 
@@ -1984,7 +1984,7 @@ with a "<code>moz:</code>" prefix:
 
    <dt>"<code>strictFileInteractability</code>"
     <dd><a>Boolean</a> initially set to false,
-    indicating that interactabilty checks will be applied to
+    indicating that interactability checks will be applied to
     &lt;input type=file&gt;.
 
    <dt>"<code>setWindowRect</code>"
@@ -2626,7 +2626,7 @@ when <a href=#element-retrieval>locating an element</a>
 
 <p>
 The <dfn>timeouts object</dfn> for a <a>timeouts
-configuration</a> <var>timeouts</var> is an <a>object</a> initalized
+configuration</a> <var>timeouts</var> is an <a>object</a> initialized
 with the following properties:
 
 <dl>
@@ -2634,7 +2634,7 @@ with the following properties:
 <dd><var>timeouts</var>' <a>script timeout</a> value, if set, or its default value.
 
 <dt>"<code>pageLoad</code>"
-<dd><var>timouts</var>' <a>page load timeout</a>’s value, if set, or its default value.
+<dd><var>timeouts</var>' <a>page load timeout</a>’s value, if set, or its default value.
 
 <dt>"<code>implicit</code>"
 <dd><var>timeouts</var>' <a>implicit wait timeout</a>’s value, if set, or its default value.
@@ -3224,7 +3224,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
 
   <p>Otherwise let it be the <a>web frame identifier</a>.
 
- <li><p>Return a JSON <a>Object</a> initialised with the following properties:
+ <li><p>Return a JSON <a>Object</a> initialized with the following properties:
 
   <dl>
    <dt><var>identifier</var>
@@ -3348,7 +3348,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>If there is an active <a>user prompt</a>, that prevents the
-  focussing of another <a>top-level browsing context</a>,
+  focusing of another <a>top-level browsing context</a>,
   return <a>error</a> with <a>error code</a> <a>unexpected alert open</a>.
 
  <li><p>If <var>handle</var> is equal to the associated <a>window
@@ -3456,7 +3456,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
   window shares an OS-level window with the <a>current browsing
   context</a>, or "<code>window</code>" otherwise.
 
- <li><p>Let <var>result</var> be a new JSON <a>Object</a> initialised with:
+ <li><p>Let <var>result</var> be a new JSON <a>Object</a> initialized with:
 
  <dl>
   <dt>"<code>handle</code>"
@@ -3704,7 +3704,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
  of the <a><code>WindowProxy</code></a>.
 
 <p>The <dfn>WindowRect object</dfn> for
-a <a>WindowProxy</a>, <var>window</var> is a <a>object</a> initalised
+a <a>WindowProxy</a>, <var>window</var> is an <a>Object</a> initialized
 with the following properties:
 
 <dl>
@@ -7172,7 +7172,7 @@ The first argument provided to the function will be serialized to JSON and retur
 <h2><dfn>Actions</dfn></h2>
 
 <p>The Actions API provides a low-level interface
- for providing virtualised device input to the web browser.
+ for providing virtualized device input to the web browser.
  Conceptually, the Actions commands divide time into a series of <a>ticks</a>.
  The <a>local end</a> sends a series of actions
  which correspond to the change in state, if any,
@@ -7572,7 +7572,7 @@ In particular, the dispatched events
 will have the {{Event/isTrusted}} attribute set to true.
 
 <p>
-The most robust way to despatch these events
+The most robust way to dispatch these events
 is by creating them in the browser implementation itself.
 Sending operating system specific input messages to the browser’s window
 has the disadvantage that the browser being automated
@@ -8519,7 +8519,7 @@ Return <a>success</a> with data <var>action</var>.
 <section>
 <h4>Keyboard actions</h4>
 
-<p>The <dfn>normalised key value</dfn> for a raw key <var>key</var>
+<p>The <dfn>normalized key value</dfn> for a raw key <var>key</var>
  is, if <var>key</var> appears in the table below, the string value in
  the second column on the row containing <var>key</var>’s <a>unicode
  code point</a> in the first column, otherwise it is <var>key</var>.
@@ -8527,7 +8527,7 @@ Return <a>success</a> with data <var>action</var>.
 <table class=simple>
  <tr>
   <th><var>key</var>’s codepoint
-  <th>Normalised key value
+  <th>Normalized key value
  </tr>
  <tr><td><code>\uE000</code></td><td><code>"Unidentified"</code></td></tr>
  <tr><td><code>\uE001</code></td><td><code>"Cancel"</code></td></tr>
@@ -8784,7 +8784,7 @@ Return <a>success</a> with data <var>action</var>.
  <li><p>Let <var>raw key</var> be equal to the
   <var>action object</var>’s <code>value</code> property.
 
- <li><p>Let <var>key</var> be equal to the <a>normalised key value</a>
+ <li><p>Let <var>key</var> be equal to the <a>normalized key value</a>
   for <var>raw key</var>.
 
  <li><p>If the <var>input state</var>’s <code>pressed</code> property
@@ -8891,7 +8891,7 @@ Return <a>success</a> with data <var>action</var>.
   <var>action object</var>’s <code>value</code> property.
 
  <li><p>Let <var>key</var> be equal to the
-  <a>normalised key value</a> for <var>raw key</var>.
+  <a>normalized key value</a> for <var>raw key</var>.
 
  <li><p>If the <var>input state</var>’s <code>pressed</code>
   property does not contain <var>key</var>, return.
@@ -9030,7 +9030,7 @@ Return <a>success</a> with data <var>action</var>.
   set <code>ctrlKey</code>, <code>shiftKey</code>, <code>altKey</code>,
   and <code>metaKey</code> from the <a>calculated global key state</a>.
   Type specific properties for the pointer that are not
-  exposed through the webdriver API must be set to the default value
+  exposed through the WebDriver API must be set to the default value
   specified for hardware that doesn’t support that property.
 
  <!-- TODO: add some events that should be emitted? This is a bit
@@ -9078,7 +9078,7 @@ Return <a>success</a> with data <var>action</var>.
   set <code>ctrlKey</code>, <code>shiftKey</code>, <code>altKey</code>,
   and <code>metaKey</code> from the <a>calculated global key state</a>.
   Type specific properties for the pointer that are not
-  exposed through the webdriver API must be set to the default value
+  exposed through the WebDriver API must be set to the default value
   specified for hardware that doesn’t support that property.
 
   <!-- TODO: add some events that should be emitted? This is a bit
