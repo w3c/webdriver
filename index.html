@@ -465,11 +465,14 @@ when it receives a particular <a>command</a>.
    <p>Then <a>send an error</a> with <a>error code</a> <a>unknown
   error</a>, and jump to step 1.</p>
 
-  <p class=note>Rejecting connections with unexpected values in the
-  <a>Host header</a> prevents DNS rebinding attacks. Implementations can opt
-  to provide more stringent controls where appropriate, for example
-  only accepting connections when the <var>host</var> value
-  corresponds to a loopback interface [[RFC5735]].</p></li>
+  <p class="note">Rejecting connections with unexpected values in the
+   <a>Host header</a> prevents DNS rebinding attacks. Implementations
+   can opt to provide more stringent controls where appropriate, for
+   example only accepting connections when the <var>host</var> value
+   corresponds to a loopback interface [[RFC5735]]. Further guidance
+   for implementors is given in the <a href="#security">security</a>
+   section.</p>
+  </li>
 
   <li><p>If <var>origin</var> is not undefined and is not identical to
   an <a>Origin header</a> value that the implementation has been
@@ -10494,18 +10497,18 @@ ensuring both privacy and preventing state from bleeding through to the next ses
  and that WebDriver remains disabled
  in publicly consumed versions of the user agent.
 
-<p>To prevent arbitrary machines on the network
- from connecting and creating <a>sessions</a>,
- it is suggested that only connections from
- loopback devices are allowed by default.
-
-<p>The <a>remote end</a> can include
- a configuration option to limit
- the accepted IP range allowed to connect and make requests.
- The default setting for this might be
- to limit connections to the IPv4 localhost
- CIDR range <code>127.0.0.0/8</code>
- and the IPv6 localhost address <code>::1</code>. [[RFC4632]]
+<p>To prevent arbitrary machines on the network from connecting and
+  creating <a>sessions</a>, it is suggested that only connections from
+  loopback devices are allowed by default. However, testing setups
+  commonly put the <a>remote end</a> and <a>local end</a> on different
+  network hosts. Users deploying such a setup are encouraged to
+  restrict access to the remote end to the greatest extent possible,
+  either by restricting network connections to trusted hosts (e.g. in
+  the case of a lab setting, or the remote end running in a containers
+  on the same bridged network), or by routing all connections through
+  an <a>intermediary node</a> that provides authorization and
+  authentication. <a>Remote end</a> implementors are encouraged to
+  provide minimal, opt-in, configuration to support these scenarios.
 
 <p>It is also suggested that user agents
  make an effort to visually distinguish
