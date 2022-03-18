@@ -440,6 +440,10 @@ when it receives a particular <a>command</a>.
   let <var>origin</var> be the value of that header. Otherwise
   let <var>origin</var> be undefined.</p></li>
 
+  <li><p>If <var>request</var> has an <a>Content-Type header</a>,
+  let <var>content-type</var> be the value of that header. Otherwise
+  let <var>content-type</var> be undefined.</p></li>
+
   <li><p>If any of the following conditions hold:
    <ul>
     <li><p><var>host</var> is undefined.</p></li>
@@ -475,6 +479,18 @@ when it receives a particular <a>command</a>.
   <p class=note>Rejecting connections with unexpected values in
   the <a>Origin header</a> is necessary to prevent untrusted websites
   from establishing a WebDriver session.</p></li>
+
+  <li><p>If <var>content-type</var> is not undefined, and
+  ("<code>content-type</code>", <var>content-type</var>) is a
+  [=CORS-safelisted request-header=], or otherwise if the value
+  of <var>content-type</var> is not a <a>Content-Type header</a> the
+  implementation allows, then stop running these steps and act as if
+  the requested service is not available.</p>
+
+  <p class=note>This provides an additional layer of defence against
+  requests originating from untrusted websites. Implementations can
+  choose to implement this by only accepting requests with the
+  "<code>application/json</code>" Content-Type header.</p></li>
 
  <li><p>Let <var>request match</var> be the result of the algorithm
   to <a>match a request</a> with <var>request</var>’s
