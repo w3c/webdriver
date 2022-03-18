@@ -434,14 +434,15 @@ when it receives a particular <a>command</a>.
 
   <li><p>If <var>request</var> has a <a>Host header</a>,
   let <var>host</var> be the value of that header. Otherwise
-  let <var>host</var> be null.</p></li>
+  let <var>host</var> be undefined.</p></li>
 
   <li><p>If <var>request</var> has an <a>Origin header</a>,
   let <var>origin</var> be the value of that header. Otherwise
-  let <var>origin</var> be null.</p></li>
+  let <var>origin</var> be undefined.</p></li>
 
   <li><p>If any of the following conditions hold:
    <ul>
+    <li><p><var>host</var> is undefined.</p></li>
     <li><p><var>host</var> doesn't match the <code>Host</code>
       grammar [[RFC7230]]</p></li>
     <li><p>The result of <a>host parsing</a> the <code>uri-host</code>
@@ -466,8 +467,8 @@ when it receives a particular <a>command</a>.
   only accepting connections when the <var>host</var> value
   corresponds to a loopback interface [[RFC5735]].</p></li>
 
-  <li><p>If <var>origin</var> is not null, and is not identical to an
-  <a>Origin header</a> value that the implementation has been
+  <li><p>If <var>origin</var> is not undefined and is not identical to
+  an <a>Origin header</a> value that the implementation has been
   configured to allow, then stop running these steps and act as if the
   requested service is not available.</p>
 
