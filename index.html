@@ -5791,23 +5791,13 @@ an <a>element not interactable</a> <a>error</a> is returned.
      <li><p><a>Set a property</a> <code>button</code>
       to <code>0</code> on <var>pointer up action</var>.
 
-     <li><p>Let <var>global key state</var> be the result of <a>get the
-     global key state</a> with <var>input state</var>.
+     <li><p>Let <var>actions</var> be the list «<var>pointer move
+     action</var>, <var>pointer down action</var>, <var>pointer move
+     action</var>».
 
-     <li><p><a>Dispatch a pointerMove action</a> with
-     arguments <var>input id</var>, <var>pointer move action</var>,
-     <var>source</var>, <var>global key state</var>, <code>0</code>,
-     and <a>current browsing context</a>.
-
-     <li><p><a>Dispatch a pointerDown action</a> with
-      <var>input id</var>, <var>pointer down action</var>,
-      <var>source</var>, <var>global key state</var>, <code>0</code>,
-      and <a>current browsing context</a>.
-
-     <li><p><a>Dispatch a pointerUp action</a> with
-      arguments <var>input id</var>, <var>pointer up action</var>,
-      <var>source</var>, <var>global key state</var>, <code>0</code>,
-      and <a>current browsing context</a>.
+     <li><p><a>Dispatch a list of actions</a> with <var>input
+     state</var>, <var>actions</var>, and <a>current browsing
+     context</a>.
 
      <li><p><a>Remove an input source</a> with <var>input state</var>
      and <var>input id</var>.
@@ -6006,13 +5996,11 @@ in the <a><code>number</code> state</a> on non-desktop devices.
     return <a>error</a> with <a>error code</a> <a>invalid
     argument</a>.
 
-   <li><p>Let <var>global key state</var> be the result of <a>get the
-   global key state</a> with <var>input state</var>.
+   <li><p>Let <var>actions</var> be the list «<var>action</var>»
 
-   <li><p><a>Dispatch a keyUp action</a> with arguments
-   <var>input id</var>, <var>action</var>, <var>source</var>,
-   <var>global key state</var>, <code>0</code>, and <var>browsing
-   context</var>.
+   <li><p><a>Dispatch a list of actions</a> with <var>input
+   state</var>, <var>actions</var>, and <a>current browsing
+   context</a>.
   </ol>
 </ol>
 
@@ -6043,9 +6031,11 @@ given <var>input state</var>, <var>input id</var>, <var>source</var>,
       "<code>keyDown</code>", and set its <code>value</code> property
       to U+E008 ("left shift").</p>
 
-       <li><p><a>Dispatch a keyDown action</a> with <var>input
-       id</var>, <a>action</a>, <var>source</var>, <var>global key
-       state</var>, <code>0</code>, and <var>browsing context</var>.
+      <li><p>Let <var>actions</var> be the list «<var>action</var>».
+
+      <li><p><a>Dispatch a list of actions</a> with <var>input
+      state</var>, <var>actions</var>, and <a>current browsing
+      context</a>.
     </ol>
 
    <li><p>If <var>char</var> is not a <a>shifted character</a>
@@ -6057,9 +6047,11 @@ given <var>input state</var>, <var>input id</var>, <var>source</var>,
      "<code>keyUp</code>", and set its <code>value</code> property to
      U+E008 ("left shift").</p>
 
-     <li><p><a>Dispatch a keyUp action</a> with <var>input
-      id</var>, <a>action</a>, <var>source</var>, <var>global key
-      state</var>, <code>0</code>, and <var>browsing context</var>.
+     <li><p>Let <var>tick actions</var> be the list «<var>action</var>».
+
+     <li><p><a>Dispatch a list of actions</a> with <var>input
+     state</var>, <var>actions</var>, and <a>current browsing
+     context</a>.
     </ol>
 
    <li><p>Let <var>keydown action</var> be an <a>action object</a>
@@ -6069,17 +6061,15 @@ given <var>input state</var>, <var>input id</var>, <var>source</var>,
    <li><p>Set the <code>value</code> property of <var>keydown
    action</var> to <var>char</var>.
 
-   <li><p><a>Dispatch a keyDown action</a> with <var>input id</var>
-   <var>keydown action</var>, <var>source</var>, <var>global key
-   state</var>, <code>0</code>, and <var>browsing context</var>.
-
    <li><p>Let <var>keyup action</var> be a copy of <var>keydown action</var>
    with the subtype property changed to "<code>keyUp</code>".
 
-   <li><p><a>Dispatch a keyUp action</a> with <var>input id</var>,
-   <var>keyup action</var>, <var>source</var>, <var>global key
-   state</var>, <code>0</code>, and <var>browsing context</var>.
+   <li><p>Let <var>actions</var> be the list «<var>keydown
+   action</var>, </var>keyup action</var>»
 
+   <li><p><a>Dispatch a list of actions</a> with <var>input
+   state</var>, <var>actions</var>, and <a>current browsing
+   context</a>.
   </ol>
 </ol>
 
@@ -6158,10 +6148,12 @@ state</var>, <var>input id</var>, <var>source</var>,
    <li><p>Set the <code>value</code> property of <var>keydown
    action</var> to <var>cluster</var>.
 
-   <li><p><a>Dispatch a keyDown action</a> with arguments
-   <var>input id</var>, <var>keydown action</var>, <var>source</var>,
-   <var>global key state</var>, <code>0</code>, and <var>browsing
-   context</var>.
+   <li><p>Let <var>actions</var> be the list «<var>keydown
+   action</var>»
+
+   <li><p><a>Dispatch a list of actions</a> with <var>input
+   state</var>, <var>actions</var>, and <a>current browsing
+   context</a>.
 
    <li><p>Add an entry to <var>undo actions</var> with
    key <var>cluster</var> and value being a copy of <var>keydown
@@ -7527,6 +7519,9 @@ An <a>input state</a> has the following items:
   objects</a>.  This list is used to manage dispatching events when
   resetting the state of the <a>input source</a>
 
+ <li><p>An <dfn>actions queue</dfn> which is a [=queue=] that ensures
+ that access to the <a>input state</a> is serialized.
+
 </ul>
 
 <p>To <dfn>create an input state</dfn>:
@@ -8447,10 +8442,42 @@ item</var>, and <var>action</var>:</p>
  appropriate point in the sequence.
 
 <p>To <dfn>dispatch actions</dfn> given <var>input
-   state</var>, <var>actions by tick</var>, and <var>browsing
-   context</var>:</p>
+state</var>, <var>actions by tick</var>, and <var>browsing
+context</var>:
 
-<ol class="algorithm">
+<ol class=algorithm>
+ <li><p>Let <var>token</var> be a new unique identifier.
+
+ <li><p>Enqueue <var>token</var> in <var>session</var>'s <a>actions
+ queue</a>.
+
+ <li><p>Wait for <var>token</var> to be the first item
+ in <var>input state</var>'s <a>actions queue</a>.
+
+ <aside class=note>
+   <p>This ensures that only one set of actions can be run at a time,
+   and therefore different actions commands using the same underlying
+   state don't race. In a session that is only a HTTP session only one
+   command can run at a time, so this will never block. But other
+   session types can allow running multiple commands in parallel, in
+   which case this is necessary to ensure sequential access.
+ </aside>
+
+ <li><p>Let <var>actions result</var> be the result of <a>dispatch
+ actions inner</a> with <var>input state</var>, <var>actions by
+ tick</var>, and <var>browsing context</var>
+
+ <li><p>Dequeue <var>input state</var>'s <a>actions queue</a>.
+     <p>Assert: this returns <var>token</var>
+
+ <li><p>Return <var>actions result</var>.
+</ol>
+
+<p>To <dfn>dispatch actions inner</dfn> given <var>input
+state</var>, <var>actions by tick</var>, and <var>browsing
+context</var>:
+
+<ol class=algorithm>
  <li><p>For each item <var>tick actions</var> in
   <var>actions by tick</var>:
 
@@ -8575,6 +8602,25 @@ item</var>, and <var>action</var>:</p>
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 
+<p>To <dfn>dispatch a list of actions</dfn> given <var>input
+state</var>, <var>actions</var> and <var>browsing context<var>:
+
+<aside class=note>
+ <p>This is an entry point for other commands that are written in terms
+ of a sequence of actions of a single input source in a single
+ tick.</p>
+</aside>
+
+<ol class=algorithm>
+ <li><p>Let <var>tick actions</var> be the list «<var>actions</var>»
+
+ <li><p>Let <var>actions by tick</var> be the list «<var>tick
+ actions</var>».
+
+ <li><p>Return the result of <a>dispatch actions</a> with <var>input
+ state</var>, <var>actions by tick</var>, and <a>current browsing
+ context</a>.
+</ol>
 
 <section>
 <h4>General actions</h4>
