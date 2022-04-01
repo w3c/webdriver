@@ -5756,7 +5756,7 @@ an <a>element not interactable</a> <a>error</a> is returned.
      UUID</a>.
 
      <li><p>Let <var>source</var> be the result of <a>create an input
-     source</a> with "<code>pointer</code>".
+     source</a> with <var>input state</var>, and "<code>pointer</code>".
 
      <li><p><a>Add an input source</a> with <var>input
      state</var>, <var>input id</var> and <var>source</var>.
@@ -6321,8 +6321,8 @@ state</var>, <var>input id</var>, <var>source</var>,
  <li><p>Let <var>input id</var> be a the result of <a>generating a
  UUID</a>.
 
- <li><p>Let <var>source</var> be the result of <a>create an
- input source</a> with "<code>key</code>".
+ <li><p>Let <var>source</var> be the result of <a>create an input
+ source</a> with <var>input state</var>, and "<code>key</code>".
 
  <li><p><a>Add an input source</a> with <var>input
  state</var>, <var>input id</var> and <var>source</var>.
@@ -7276,8 +7276,8 @@ The first argument provided to the function will be serialized to JSON and retur
  the type of the input source. Each input source has an <dfn>input
  id</dfn> which is stored as a key in the <a>input state map</a>.
 
-<p>To <dfn>create an input source</dfn> given <var>type</var> and
-optional <var>subtype</var>:
+<p>To <dfn>create an input source</dfn> given <var>input
+state</var>, <var>type</var> and optional <var>subtype</var>:
 
 <ol>
  <li><p>Run the substeps matching the first matching value
@@ -7294,7 +7294,7 @@ optional <var>subtype</var>:
 
     <dt>"<code>pointer</code>"
     <dd>Let <var>source</var> be the result of <a>create a pointer
-    input source</a> with <var>subtype</var>.
+    input source</a> with <var>input state</var> and <var>subtype</var>.
 
     <dt>"<code>wheel</code>"
     <dd>Let <var>source</var> be the result of <a>create a wheel input
@@ -7418,6 +7418,12 @@ input source</a> with the items initalized to their default values.
   <td>
  </tr>
  <tr>
+  <td>pointerId
+  <td>The numeric id of the pointing device. This is a positive
+  integer, with the values 0 and 1 reserved for mouse-type pointers.
+  <td>
+ </tr>
+ <tr>
   <td>pressed
   <td>A set of unsigned integers representing the pointer buttons that
   are currently depressed.
@@ -7468,10 +7474,12 @@ input source</a> with the items initalized to their default values.
  </tr>
 </table>
 
-<p>To <dfn>create a pointer input source</dfn> object
- given <var>subtype</var>, return a new <a>pointer input source</a>
- with subtype set to <var>subtype</var>, and the other items set to
- their default values.
+<p>To <dfn>create a pointer input source</dfn> object given <var>input
+ state</var>, and <var>subtype</var>, return a new <a>pointer input
+ source</a> with subtype set to <var>subtype</var>, pointerId set
+ to <a>get a pointer id</a> with <var>input state</a>
+ and <var>subtype</var>, and the other items set to their default
+ values.
 
 </section> <!-- /Pointer input source -->
 
@@ -7587,7 +7595,7 @@ optional <var>subtype</var>:
 
   <li><p>If <var>source</var> is undefined, set <var>source</var> to
   the result of <a>trying</a> to <a>create an input source</a>
-  with <var>type</var>.
+  with <var>input state</var> and <var>type</var>.
 
  <li><p>Return success with data <var>source</var>.</p></li>
 </ol>
@@ -7632,6 +7640,29 @@ altKey, ctrlKey, metaKey, and shiftKey.
  </ol>
 
  <li><p>Return <var>key state</var>.
+</ol>
+
+<p>To <dfn>get a pointer id</dfn> given <var>input state</var>
+and <var>subtype</var>:
+
+<ol class=algorithm>
+ <li>Let <var>minimum id</var> be 0 if <var>subtype</var> is
+ "<code>mouse</code>', or 2 otherwise.
+
+ <li>Let <var>pointer ids</var> be an empty set.
+
+ <li><p>Let <var>sources</var> be the result of [=map/getting the
+ values=] with <var>input state</var>'s <a>input state map</a>.
+
+ <li><p>For each <var>source</var> in <var>sources</var>.:
+  <ol>
+   <li><p>If <var>source</var> is a <a>pointer input source</a>,
+    append <var>source</var>'s pointerId to <var>pointer ids</var>.
+  </ol>
+
+ <li><p>Return the smallest integer that is greater than or equal
+ to <var>minimum id</var> and that is not contained in <var>pointer
+ ids</var>.
 </ol>
 
 </section> <!-- /input state -->
@@ -8583,9 +8614,9 @@ context</var>:
 </table>
 
    <li><a>Try</a> to run <var>algorithm</var> with arguments
-    <var>input id</var>, <var>action object</var>,
-    <var>source</var>, <var>global key state</var>, <var>tick
-    duration</var>, and <var>browsing context</var>.
+    <var>action object</var>, <var>source</var>, <var>global key
+    state</var>, <var>tick duration</var>, and <var>browsing
+    context</var>.
 
    <li><p>If <var>subtype</var> is "<code>keyDown</code>", append
     a copy of <var>action object</var> with the <var>subtype</var>
@@ -8625,8 +8656,8 @@ state</var>, <var>actions</var> and <var>browsing context<var>:
 <section>
 <h4>General actions</h4>
 
-<p>To <dfn>dispatch a pause action</dfn> given <var>input
-id</var>, <var>action object</var>, <var>source</var>, <var>global key
+<p>To <dfn>dispatch a pause action</dfn> given <var>action
+object</var>, <var>source</var>, <var>global key
 state</var>, <var>tick duration</var>, and <var>browsing
 context</var>:
 
@@ -8895,8 +8926,7 @@ context</var>:
  <tr><td><code>\uE05D</code></td><td>Numpad Delete<td><code>3</code></td></tr>
 </table>
 
-<p>To <dfn>dispatch a keyDown action</dfn> given
-<var>input id</var>, <var>action object</var>,
+<p>To <dfn>dispatch a keyDown action</dfn> given <var>action object</var>,
 <var>source</var>, <var>global key state</var>, <var>tick
 duration</var>, and <var>browsing context</var>:
 
@@ -8997,8 +9027,8 @@ duration</var>, and <var>browsing context</var>:
   key repetition.
 </aside>
 
-<p>To <dfn>dispatch a keyUp action</dfn> given <var>input
-id</var>, <var>action object</var>, <var>source</var>,
+<p>To <dfn>dispatch a keyUp action</dfn> given, <var>action
+object</var>, <var>source</var>,
 <var>global key state</var>, <var>tick duration</var>,
 and <var>browsing context</var>:</p>
 
@@ -9075,7 +9105,7 @@ and <var>browsing context</var>:</p>
 <section>
 <h4>Pointer actions</h4>
 
-<p>To <dfn>dispatch a pointerDown action</dfn> given <var>input id</var>,
+<p>To <dfn>dispatch a pointerDown action</dfn> given
  <var>action object</var>, <var>input state</var>, <var>global key state</var>,
  <var>tick duration</var>, and <var>browsing context</var>:
 
@@ -9128,10 +9158,10 @@ and <var>browsing context</var>:</p>
 
  <li><p><a>Perform implementation-specific action dispatch steps</a>
   on <var>browsing context</var> equivalent to pressing the button
-  numbered <var>button</var> on the pointer with ID
-  <var>input id</var>, having type <var>pointerType</var> at
-  viewport x coordinate <var>x</var>, viewport y
-  coordinate <var>y</var>, <var>width</var>, <var>height</var>,
+  numbered <var>button</var> on the pointer with pointerId equal
+  to <var>input source</var>'s pointerId, having
+  type <var>pointerType</var> at viewport x coordinate <var>x</var>,
+  viewport y coordinate <var>y</var>, <var>width</var>, <var>height</var>,
   <var>pressure</var>, <var>tangentialPressure</var>, <var>tiltX</var>,
   <var>tiltY</var>, <var>twist</var>, <var>altitudeAngle</var>,
   <var>azimuthAngle</var>, with buttons <var>buttons</var> depressed
@@ -9150,8 +9180,8 @@ and <var>browsing context</var>:</p>
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 
-<p>To <dfn>dispatch a pointerUp action</dfn> given <var>input
-id</var>, <var>action object</var>, <var>source</var>,
+<p>To <dfn>dispatch a pointerUp action</dfn> given, <var>action
+object</var>, <var>source</var>,
 <var>global key state</var>, <var>tick duration</var>,
 and <var>browsing context</var>:
 
@@ -9179,12 +9209,13 @@ and <var>browsing context</var>:
 
  <li><p><a>Perform implementation-specific action dispatch steps</a>
   on <var>browsing context</var> equivalent to releasing the button
-  numbered <var>button</var> on the pointer of ID
-  <var>input id</var> having type <var>pointerType</var> at viewport x
-  coordinate <var>x</var>, viewport y coordinate <var>y</var>, with
-  buttons <var>buttons</var> depressed, in accordance with the
-  requirements of [[UI-EVENTS]] and [[POINTER-EVENTS]]. The generated
-  events must set <code>ctrlKey</code>, <code>shiftKey</code>,
+  numbered <var>button</var> on the pointer with pointerId equal
+  to <var>input source</var>'s pointerId, having
+  type <var>pointerType</var> at viewport x coordinate <var>x</var>,
+  viewport y coordinate <var>y</var>, with buttons <var>buttons</var>
+  depressed, in accordance with the requirements of [[UI-EVENTS]] and
+  [[POINTER-EVENTS]]. The generated events must
+  set <code>ctrlKey</code>, <code>shiftKey</code>,
   <code>altKey</code>, and <code>metaKey</code> equal to the
   corresponding items in <var>global key state</var>. Type specific
   properties for the pointer that are not exposed through the
@@ -9198,7 +9229,7 @@ and <var>browsing context</var>:
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 
-<p>To <dfn>dispatch a pointerMove action</dfn> given <var>input id</var>,
+<p>To <dfn>dispatch a pointerMove action</dfn> given
 <var>action object</var>, <var>source</var>, <var>global key state</var>,
 <var>tick duration</var>, and <var>browsing context</var>:
 
@@ -9302,22 +9333,21 @@ and <var>browsing context</var>:
   <code>azimuthAngle</code> property.
 
  <li><p><a>Perform a pointer move</a> with arguments
-  <var>input id</var>, <var>source</var>, <var>global key
-  state</var>, <var>duration</var>, <var>start x</var>, <var>start
-  y</var>, <var>x</var>, <var>y</var>, <var>width</var>, <var>height</var>,
-  <var>pressure</var>, <var>tangentialPressure</var>, <var>tiltX</var>,
-  <var>tiltY</var>, <var>twist</var>, <var>altitudeAngle</var>,
-  <var>azimuthAngle</var>.
+  <var>source</var>, <var>global key state</var>, <var>duration</var>,
+  <var>start x</var>, <var>start y</var>, <var>x</var>, <var>y</var>,
+  <var>width</var>, <var>height</var>, <var>pressure</var>,
+  <var>tangentialPressure</var>, <var>tiltX</var>, <var>tiltY</var>,
+  <var>twist</var>, <var>altitudeAngle</var>, <var>azimuthAngle</var>.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 
-<p>To <dfn>perform a pointer move</dfn> given <var>input id</var>,
- <var>source</var>, <var>global key state</var>, <var>duration</var>,
- <var>start x</var>, <var>start y</var>, <var>target x</var>,
- <var>target y</var>, <var>width</var>, <var>height</var>, <var>pressure</var>,
- <var>tangentialPressure</var>, <var>tiltX</var>, <var>tiltY</var>,
- <var>twist</var>, <var>altitudeAngle</var>, and <var>azimuthAngle</var>:
+<p>To <dfn>perform a pointer move</dfn> given <var>source</var>,
+<var>global key state</var>, <var>duration</var>, <var>start x</var>,
+<var>start y</var>, <var>target x</var>, <var>target y</var>, <var>width</var>,
+<var>height</var>, <var>pressure</var>, <var>tangentialPressure</var>,
+<var>tiltX</var>, <var>tiltY</var>, <var>twist</var>, <var>altitudeAngle</var>,
+and <var>azimuthAngle</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>time delta</var> be the time since the beginning of
@@ -9358,8 +9388,9 @@ and <var>browsing context</var>:
 
    <li><p><a>Perform implementation-specific action dispatch steps</a>
     on <var>browsing context</var> equivalent to moving the pointer
-    with ID <var>input id</var> having type <var>pointerType</var>
-    from viewport x coordinate <var>current x</var>, viewport y
+    with pointerId equal to <var>input source</var>'s pointerId,
+    having type <var>pointerType</var> from viewport x
+    coordinate <var>current x</var>, viewport y
     coordinate <var>current y</var> to viewport x
     coordinate <var>x</var> and viewport y
     coordinate <var>y</var>, <var>width</var>, <var>height</var>,
@@ -9413,23 +9444,23 @@ and <var>browsing context</var>:
     vsync).</aside>
 
    <li><p><a>Perform a pointer move</a> with arguments
-    <var>input id</var>, <var>input state</var>, <var>duration</var>,
+    <var>input state</var>, <var>duration</var>,
     <var>start x</var>, <var>start y</var>, <var>target x</var>,
     <var>target y</var>.
  </ol>
 
 </ol>
 
-<p>To <dfn>dispatch a pointerCancel action</dfn> given  <var>input id</var>,
+<p>To <dfn>dispatch a pointerCancel action</dfn> given
 <var>action object</var>, <var>source</var>, <var>global key state</var>,
 <var>tick duration</var>, and <var>browsing context</var>:
 
 <ol class="algorithm">
  <li><p><a>Perform implementation-specific action dispatch steps</a>
   on <var>browsing context</var> equivalent to cancelling the any
-  action of the pointer with ID <var>input id</var> having
-  type <var>pointerType</var>, in accordance with the requirements of
-  [[UI-EVENTS]] and [[POINTER-EVENTS]].
+  action of the pointer with pointerId equal to <var>source</var>'s
+  pointerId item. having type <var>pointerType</var>, in accordance
+  with the requirements of [[UI-EVENTS]] and [[POINTER-EVENTS]].
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
@@ -9439,7 +9470,7 @@ and <var>browsing context</var>:
 <section>
 <h4>Wheel actions</h4>
 
-<p>To <dfn>dispatch a scroll action</dfn> given <var>input id</var>,
+<p>To <dfn>dispatch a scroll action</dfn> given
 <var>action object</var>, <var>source</var>, <var>global key state</var>,
 <var>tick duration</var>, and <var>browsing context</var>:
 
@@ -9511,14 +9542,14 @@ and <var>browsing context</var>:
  </li>
 
  <li><p><a>Perform a scroll</a> with arguments
-  <var>input id</var>, <var>global key state</var>, <var>duration</var>,
+  <var>global key state</var>, <var>duration</var>,
   <var>x</var>, <var>y</var>, <var>delta x</var>, <var>delta y</var>,
   <var>0</var>, <var>0</var>.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 
-<p>To <dfn>perform a scroll</dfn> given <var>input id</var>,
+<p>To <dfn>perform a scroll</dfn> given
  <var>duration</var>, <var>x</var>, <var>y</var>,
  <var>target delta x</var>, <var>target delta y</var>,
  <var>current delta x</var> and <var>current delta y</var>:
@@ -9555,12 +9586,12 @@ and <var>browsing context</var>:
 
   <ol>
    <li><p><a>Perform implementation-specific action dispatch steps</a>
-    on <var>browsing context</var> equivalent to wheel scroll with
-    ID <var>input id</var> at viewport x coordinate <var>x</var>,
-    viewport y coordinate <var>y</var>, deltaX value <var>delta
-    x</var>, deltaY value <var>delta y</var>, in accordance with the
-    requirements of [[UI-EVENTS]]. The generated
-    events must set <code>ctrlKey</code>, <code>shiftKey</code>,
+    on <var>browsing context</var> equivalent to wheel scroll at
+    viewport x coordinate <var>x</var>, viewport y
+    coordinate <var>y</var>, deltaX value <var>delta x</var>, deltaY
+    value <var>delta y</var>, in accordance with the requirements of
+    [[UI-EVENTS]]. The generated events must
+    set <code>ctrlKey</code>, <code>shiftKey</code>,
     <code>altKey</code>, and <code>metaKey</code> equal to the
     corresponding items in <var>global key state</var>.
 
@@ -9598,8 +9629,7 @@ and <var>browsing context</var>:
     vsync).</aside>
 
    <li><p><a>Perform a scroll</a> with arguments
-    <var>input id</var>, <var>duration</var>,
-    <var>x</var>, <var>y</var>,
+    <var>duration</var>, <var>x</var>, <var>y</var>,
     <var>target delta x</var>, <var>target delta y</var>,
     <var>current delta x</var>, <var>current delta y</var>.
  </ol>
