@@ -7770,6 +7770,80 @@ from a machine utilisation perspective.
  input JSON, such that the actions to be performed in a single <a>tick</a>
  are grouped together.
 
+<p>An <dfn>element origin</dfn> is a Map
+which [=map/exist|contains=] "<code>type</code>" and
+"<code>sharedId</code>", and for which the value of the entry with key
+"<code>type</code>" is "<code>element</code>".
+
+<p>To <dfn>get coordinates relative to an origin</dfn>
+given <var>source</var>, <var>x offset</var>, <var>y offset</var>,
+and <var>origin</var>:
+
+<ol class="algorithm">
+ <li><p>Run the substeps of the first matching value
+  of <var>origin</var>
+  <p>Assert: one of these conditions matches
+
+  <dl>
+   <dt>"<code>viewport</code>"
+   <dd>
+    <ol>
+     <li><p>Let <var>x</var> equal <var>x offset</var> and
+     <var>y</var> equal <var>y offset</var>.
+    </ol>
+   </dd>
+
+   <dt>"<code>pointer</code>"
+   <dd>
+    <p class="note">This is only possible if <var>source</var> is
+    a <a>pointer input source</a></p>
+
+    <ol>
+     <li><p>Let <var>start x</var> be equal to the <code>x</code>
+     property of <var>source</var>.
+
+     <li><p>Let <var>start y</var> be equal to the <code>y</code>
+     property of <var>source</var>.
+
+     <li><p>Let <var>x</var> equal <var>start x</var> +
+     <var>x offset</var> and <var>y</var> equal
+     <var>start y</var> + <var>y  offset</var>.
+    </ol>
+   </dd>
+   <dt>An <a>element origin</a>, or an object that <a>represents a web element</a></dt>
+   <dd>
+    <ol>
+     <li>
+      <p>If <var>origin</var> is an <a>element origin</a>:
+
+      <ol>
+       <li><p>Let <var>element</var> be the item in the <a>current browsing
+          context</a>’s <a>list of known elements</a> for which the <a>web
+          element reference</a> is equal to <var>origin</var>["<code>sharedId</code>"],
+          if such an element exists. Otherwise return <a>error</a> with <a>error
+          code</a> <a>no such element</a>.
+      </ol>
+
+      <p>Otherwise:
+       <ol>
+        <li><p>Let <var>element</var> be equal to the result
+            of <a>trying</a> to <a>get a known connected element</a> with
+            argument <var>origin</var>.
+       </ol>
+     </li>
+     <li><p>Let <var>x element</var> and <var>y element</var> be the
+      result of calculating the <a>in-view center point</a>
+      of <var>element</var>.
+     <li><p>Let <var>x</var> equal <var>x element</var> +
+      <var>x offset</var>, and <var>y</var> equal
+      <var>y element</var> + <var>y offset</var>.
+    </ol>
+   </dd>
+  </dl>
+
+ <li><p>Return (<var>x</var>, <var>y</var>)
+</ol>
+
 <p>To <dfn>extract an action sequence</dfn> with
  <var>input state</var>, and <var>parameters</var>:
 
@@ -8126,9 +8200,9 @@ If <var>origin</var> is <a>undefined</a> let
 
 <li><p>
 If <var>origin</var> is not equal to "<code>viewport</code>"
-or "<code>pointer</code>" and <var>origin</var> is not an <a>Object</a>
-that <a>represents a web element</a>, return <a>error</a> with
-<a>error code</a> <a>invalid argument</a>.
+or "<code>pointer</code>", is not an <a>element origin</a>, and
+is not an <a>Object</a> that <a>represents a web element</a>,
+return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
 <li><p>
 Set the <code>origin</code> property of <var>action</var>
@@ -8345,7 +8419,8 @@ item</var>, and <var>action</var>:</p>
   <var>origin</var> equal "<code>viewport</code>".
 
  <li><p>If <var>origin</var> is not equal to "<code>viewport</code>"
-  or "<code>pointer</code>" and <var>origin</var> is not an <a>Object</a>
+  or "<code>pointer</code>", <var>origin</var> is not an <a>element
+  origin</a>, and <var>origin</var> is not an <a>Object</a>
   that <a>represents a web element</a>, return <a>error</a> with
   <a>error code</a> <a>invalid argument</a>.
 
@@ -9260,50 +9335,17 @@ and <var>browsing context</var>:
  <li><p>Let <var>y offset</var> be equal to the <code>y</code>
   property of <var>action object</var>.
 
- <li><p>Let <var>start x</var> be equal to the <code>x</code>
-  property of <var>source</var>.
-
- <li><p>Let <var>start y</var> be equal to the <code>y</code>
-  property of <var>source</var>.
-
  <li><p>Let <var>origin</var> be equal to the <code>origin</code>
   property of <var>action object</var>.
 
- <li><p>Run the substeps of the first matching value
-  of <var>origin</var>:
-
-  <dl>
-   <dt>"<code>viewport</code>"
-   <dd><p>Let <var>x</var> equal <var>x offset</var> and
-    <var>y</var> equal <var>y offset</var>.</dd>
-
-   <dt>"<code>pointer</code>"
-   <dd><p>Let <var>x</var> equal <var>start x</var> +
-    <var>x offset</var> and <var>y</var> equal
-    <var>start y</var> + <var>y  offset</var>.</dd>
-
-   <dt>An object that <a>represents a web element</a></dt>
-   <dd>
-    <ol>
-     <li><p>Let <var>element</var> be equal to the result
-      of <a>trying</a> to <a>get a known connected element</a> with
-      argument <var>origin</var>.
-
-     <li><p>Let <var>x element</var> and <var>y element</var> be the
-      result of calculating the <a>in-view center point</a>
-      of <var>element</var>.
-
-     <li><p>Let <var>x</var> equal <var>x element</var> +
-      <var>x offset</var>, and <var>y</var> equal
-      <var>y element</var> + <var>y offset</var>.
-    </ol>
-   </dd>
-  </dl>
+ <li><p>Let (<var>x</var>, <var>y</var>) be the result
+  of <a>trying</a> to <a>get coordinates relative to an origin</a>
+  with <var>source</var>, <var>x offset</var>, <var>y offset</var>,
+  and <var>origin</var>.
 
  <li><p>If <var>x</var> is less than 0 or greater than the width of
-  the viewport in <a>CSS pixels</a>, then
-  return <a>error</a> with error code <a>move target out of
-  bounds</a>.
+  the viewport in <a>CSS pixels</a>, then return <a>error</a> with
+  error code <a>move target out of bounds</a>.
 
  <li><p>If <var>y</var> is less than 0 or greater than the height of
   the viewport in <a>CSS pixels</a>, then
@@ -9504,31 +9546,10 @@ and <var>azimuthAngle</var>:
  <li><p>Let <var>origin</var> be equal to the <code>origin</code>
   property of <var>action object</var>.
 
- <li><p>Run the substeps of the first matching value
-  of <var>origin</var>:
-
-  <dl>
-   <dt>"<code>viewport</code>"
-   <dd><p>Let <var>x</var> equal <var>x offset</var> and
-    <var>y</var> equal <var>y offset</var>.</dd>
-
-   <dt>An object that <a>represents a web element</a></dt>
-   <dd>
-    <ol>
-     <li><p>Let <var>element</var> be equal to the result
-      of <a>trying</a> to <a>get a known connected element</a> with
-      argument <var>origin</var>.
-
-     <li><p>Let <var>x element</var> and <var>y element</var> be the
-      result of calculating the <a>in-view center point</a>
-      of <var>element</var>.
-
-     <li><p>Let <var>x</var> equal <var>x element</var> +
-      <var>x offset</var>, and <var>y</var> equal
-      <var>y element</var> + <var>y offset</var>.
-    </ol>
-   </dd>
-  </dl>
+ <li><p>Let (<var>x</var>, <var>y</var>) be the result
+  of <a>trying</a> to <a>get coordinates relative to an origin</a>
+  with <var>source</var>, <var>x offset</var>, <var>y offset</var>,
+  and <var>origin</var>.
 
  <li><p>If <var>x</var> is less than 0 or greater than the width of
   the viewport in <a>CSS pixels</a>, then
