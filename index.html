@@ -2227,8 +2227,10 @@ and <a href=#elements>element retrieval</a>.
 A <a>session</a> has an associated <a>user prompt handler</a>.
 Unless stated otherwise it is in the <a>dismiss and notify state</a>.
 
-<p>A <a>session</a> has an associated <a>input state</a>, which is
-initially set to the result of <a>create an input state</a>.
+<p>A <a>session</a> has an associated <dfn>browsing context input
+state map</dfn>, which is a Weak Map with <a>top-level browsing
+contexts</a> as keys, and <a>input state</a> objects as values. This
+initially set to an empty map.
 
 <p>A <a>session</a> has an associated <dfn>request queue</dfn> which is a
  [=queue=] of [=requests=] that are currently awaiting
@@ -5749,8 +5751,9 @@ an <a>element not interactable</a> <a>error</a> is returned.
    <dt>Otherwise
    <dd>
     <ol>
-     <li><p>Let <var>input state</var> be <a>current session</a>'s
-     <a>input state</a>.
+     <li><p>Let <var>input state</var> be the result of <a>get the
+     input state</a> given <a>current session</a> and <a>current
+     top-level browsing context</a>.
 
      <li><p>Let <var>input id</var> be a the result of <a>generating a
      UUID</a>.
@@ -6315,8 +6318,9 @@ state</var>, <var>input id</var>, <var>source</var>,
     </dd>
   </dl>
 
- <li><p>Let <var>input state</var> be the <a>current session</a>'s
- <a>input state</a>.
+ <li><p>Let <var>input state</var> be the result of <a>get the
+ input state</a> with <a>current session</a> and <a>current
+ top-level browsing context</a>.
 
  <li><p>Let <var>input id</var> be a the result of <a>generating a
  UUID</a>.
@@ -7499,7 +7503,7 @@ input source</a> with the items initalized to their default values.
 <p>To <dfn>create a wheel input source</dfn> return a new <a>wheel
  input source</a>.
 
-</section> <!-- /Wheel input souece-->
+</section> <!-- /Wheel input source-->
 </section> <!-- /Input sources -->
 
 <section>
@@ -7524,6 +7528,40 @@ An <a>input state</a> has the following items:
 
 </ul>
 
+<p>To <dfn>get the input state</dfn> given <var>session</var>
+and <var>browsing context</var>:
+
+<ol class="algorithm">
+ <li><p>Assert: <var>browsing context</var> is a <a>top-level browsing
+ context</a>.
+
+ <li><p>Let <var>input state map</var>
+ be <var>session</var>'s <a>browsing context input state map</a>.
+
+ <li><p><var>Input state map</var> does not
+ [=map/exist|contain=] <var>browsing context</var>, set <var>input
+ state map</var>[<var>browsing context</var>] to <a>create an input
+ state</a>.
+
+ <li><p><var>Return <var>input state map</var>[<var>browsing
+ context</var>].
+</ol>
+
+<p>To <dfn>reset the input state</dfn> given <var>session</var>
+and <var>browsing context</var>:
+
+<ol class="algorithm">
+ <li><p>Assert: <var>browsing context</var> is a <a>top-level browsing
+ context</a>.
+
+ <li><p>Let <var>input state map</var>
+ be <var>session</var>'s <a>browsing context input state map</a>.
+
+ <li><p>If <var>input state map</var>[<var>browsing context</var>]
+ [=map/exists=], then [=remove=] <var>input state map</var>[<var>browsing
+ context</var>].
+</ol>
+
 <p>To <dfn>create an input state</dfn>:
 
 <ol class="algorithm">
@@ -7534,7 +7572,7 @@ An <a>input state</a> has the following items:
  <li><p>Return <var>input state</var>.
 </ol>
 
-<p>To <dfn>add an input source</dfn> given <var>input state</var>
+<p>To <dfn>add an input source</dfn> given <var>input state</var>,
 <var>input id</var>, and <var>source</var>:
 
 <ol class="algorithm">
@@ -9627,8 +9665,9 @@ and <var>browsing context</var>:
 <p>The <a>remote end steps</a> are:
 
 <ol class="algorithm">
- <li><p>Let <var>input state</var> be <a>current
- session</a>'s <a>input state</a>
+  <li><p>Let <var>input state</var> be the result of <a>get the
+  input state</a> with <a>current session</a> and <a>current
+  top-level browsing context</a>.
 
  <li><p>Let <var>actions by tick</var> be the result of <a>trying</a>
   to <a>extract an action sequence</a> given <var>input state</var>,
@@ -9678,8 +9717,9 @@ It also clears all the internal state of the virtual devices.
  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
- <li><p>Let <var>input state</var> be <a>current
- session</a>’s <a>input state</a>.
+ <li><p>Let <var>input state</var> be the result of <a>get the
+ input state</a> with <a>current session</a> and <a>current
+ top-level browsing context</a>.
 
  <li><p>Let <var>undo actions</var> be <var>input
  state</var>’s <a>input cancel list</a> in reverse order.
@@ -9688,8 +9728,8 @@ It also clears all the internal state of the virtual devices.
   <var>undo actions</var>, <code>0</code>, and <a>current browsing
   context</a>.
 
- <li><p>Set the <a>current session</a>’s <a>input state</a> to
- the result of <a>create an input state</a>.
+ <li><p><a>Reset the input state</a> wtih <a>current session</a>
+ and <a>current top-level browsing context</a>.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
