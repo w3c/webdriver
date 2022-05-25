@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en-us" data-issue-url="https://github.com/w3c/webdriver/" data-issue-param-milestone="Level 1"><head>
 <meta charset="utf-8">
-<meta name="generator" content="ReSpec 32.1.2">
+<meta name="generator" content="ReSpec 32.1.7">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <style>
 span.example-title{text-transform:none}
@@ -53,7 +53,7 @@ a.idlEnumItem{color:#000;border-bottom:1px dotted #ccc;text-decoration:none}
 </style>
 <style>
 dfn{cursor:pointer}
-.dfn-panel{position:absolute;z-index:35;min-width:300px;max-width:500px;padding:.5em .75em;margin-top:.6em;font:small Helvetica Neue,sans-serif,Droid Sans Fallback;background:#fff;color:#000;box-shadow:0 1em 3em -.4em rgba(0,0,0,.3),0 0 1px 1px rgba(0,0,0,.05);border-radius:2px}
+.dfn-panel{position:absolute;z-index:35;min-width:300px;max-width:500px;padding:.5em .75em;margin-top:.6em;font-family:"Helvetica Neue",sans-serif;font-size:small;background:#fff;color:#000;box-shadow:0 1em 3em -.4em rgba(0,0,0,.3),0 0 1px 1px rgba(0,0,0,.05);border-radius:2px}
 .dfn-panel:not(.docked)>.caret{position:absolute;top:-9px}
 .dfn-panel:not(.docked)>.caret::after,.dfn-panel:not(.docked)>.caret::before{content:"";position:absolute;border:10px solid transparent;border-top:0;border-bottom:10px solid #fff;top:0}
 .dfn-panel:not(.docked)>.caret::before{border-bottom:9px solid #a2a9b1}
@@ -275,14 +275,14 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   "noIDLSorting": true,
   "mdn": "webdriver",
   "xref": "web-platform",
-  "publishISODate": "2022-04-01T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 01 April 2022"
+  "publishISODate": "2022-05-25T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 25 May 2022"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head><body data-cite="WEBIDL CSSOM-VIEW GEOMETRY-1 HTML INFRA URL WEBIDL DOM FETCH" class="h-entry"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">WebDriver</h1> 
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2022-04-01">01 April 2022</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2022-05-25">25 May 2022</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -6577,7 +6577,7 @@ an <a href="#dfn-element-not-interactable" class="internalDFN" data-link-type="d
      UUID</a>.
 
      </p></li><li><p>Let <var>source</var> be the result of <a href="#dfn-create-an-input-source" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-create-an-input-source-1">create an input
-     source</a> with "<code>pointer</code>".
+     source</a> with <var>input state</var>, and "<code>pointer</code>".
 
      </p></li><li><p><a href="#dfn-add-an-input-source" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-add-an-input-source-1">Add an input source</a> with <var>input
      state</var>, <var>input id</var> and <var>source</var>.
@@ -7142,8 +7142,8 @@ state</var>, <var>input id</var>, <var>source</var>,
  </p></li><li><p>Let <var>input id</var> be a the result of <a href="#dfn-generating-a-uuid" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-generating-a-uuid-5">generating a
  UUID</a>.
 
- </p></li><li><p>Let <var>source</var> be the result of <a href="#dfn-create-an-input-source" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-create-an-input-source-2">create an
- input source</a> with "<code>key</code>".
+ </p></li><li><p>Let <var>source</var> be the result of <a href="#dfn-create-an-input-source" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-create-an-input-source-2">create an input
+ source</a> with <var>input state</var>, and "<code>key</code>".
 
  </p></li><li><p><a href="#dfn-add-an-input-source" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-add-an-input-source-2">Add an input source</a> with <var>input
  state</var>, <var>input id</var> and <var>source</var>.
@@ -8099,8 +8099,8 @@ The first argument provided to the function will be serialized to JSON and retur
  the type of the input source. Each input source has an <dfn data-plurals="input ids" id="dfn-input-id" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">input
  id</dfn> which is stored as a key in the <a href="#dfn-input-state-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-map-1">input state map</a>.
 
-</p><p>To <dfn id="dfn-create-an-input-source" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">create an input source</dfn> given <var>type</var> and
-optional <var>subtype</var>:
+</p><p>To <dfn id="dfn-create-an-input-source" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">create an input source</dfn> given <var>input
+state</var>, <var>type</var> and optional <var>subtype</var>:
 
 </p><ol>
  <li><p>Run the substeps matching the first matching value
@@ -8117,7 +8117,7 @@ optional <var>subtype</var>:
 
     </dd><dt>"<code>pointer</code>"
     </dt><dd>Let <var>source</var> be the result of <a href="#dfn-create-a-pointer-input-source" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-create-a-pointer-input-source-1">create a pointer
-    input source</a> with <var>subtype</var>.
+    input source</a> with <var>input state</var> and <var>subtype</var>.
 
     </dd><dt>"<code>wheel</code>"
     </dt><dd>Let <var>source</var> be the result of <a href="#dfn-create-a-wheel-input-source" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-create-a-wheel-input-source-1">create a wheel input
@@ -8241,6 +8241,12 @@ input source</a> with the items initalized to their default values.
   </td><td>
  </td></tr>
  <tr>
+  <td>pointerId
+  </td><td>The numeric id of the pointing device. This is a positive
+  integer, with the values 0 and 1 reserved for mouse-type pointers.
+  </td><td>
+ </td></tr>
+ <tr>
   <td>pressed
   </td><td>A set of unsigned integers representing the pointer buttons that
   are currently depressed.
@@ -8291,12 +8297,14 @@ input source</a> with the items initalized to their default values.
  </tr>
 </tbody></table>
 
-<p>To <dfn id="dfn-create-a-pointer-input-source" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">create a pointer input source</dfn> object
- given <var>subtype</var>, return a new <a href="#dfn-pointer-input-source" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-pointer-input-source-3">pointer input source</a>
- with subtype set to <var>subtype</var>, and the other items set to
- their default values.
+<p>To <dfn id="dfn-create-a-pointer-input-source" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">create a pointer input source</dfn> object given <var>input
+ state</var>, and <var>subtype</var>, return a new <a href="#dfn-pointer-input-source" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-pointer-input-source-3">pointer input
+ source</a> with subtype set to <var>subtype</var>, pointerId set
+ to <a href="#dfn-get-a-pointer-id" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-a-pointer-id-1">get a pointer id</a> with <var>input state
+ and <var>subtype</var>, and the other items set to their default
+ values.
 
-</p></section> 
+</var></p></section> 
 
 <section id="wheel-input-source"><div class="header-wrapper"><h4 id="x15-1-4-wheel-input-source"><bdi class="secno">15.1.4 </bdi>Wheel input source</h4><a class="self-link" href="#wheel-input-source" aria-label="Permalink for Section 15.1.4"></a></div>
 
@@ -8410,7 +8418,7 @@ optional <var>subtype</var>:
 
   </p></li><li><p>If <var>source</var> is undefined, set <var>source</var> to
   the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-57">trying</a> to <a href="#dfn-create-an-input-source" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-create-an-input-source-3">create an input source</a>
-  with <var>type</var>.
+  with <var>input state</var> and <var>type</var>.
 
  </p></li><li><p>Return success with data <var>source</var>.</p></li>
 </ol>
@@ -8454,6 +8462,28 @@ altKey, ctrlKey, metaKey, and shiftKey.
  </p></li></ol>
 
  </li><li><p>Return <var>key state</var>.
+</p></li></ol>
+
+<p>To <dfn id="dfn-get-a-pointer-id" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">get a pointer id</dfn> given <var>input state</var>
+and <var>subtype</var>:
+
+</p><ol class="algorithm">
+ <li>Let <var>minimum id</var> be 0 if <var>subtype</var> is
+ "<code>mouse</code>', or 2 otherwise.
+
+ </li><li>Let <var>pointer ids</var> be an empty set.
+
+ </li><li><p>Let <var>sources</var> be the result of <a data-link-type="dfn" data-type="dfn" href="https://infra.spec.whatwg.org/#map-getting-the-values" id="ref-for-index-term-getting-the-values-for-map-2">getting the values</a> with <var>input state</var>'s <a href="#dfn-input-state-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-map-7">input state map</a>.
+
+ </p></li><li><p>For each <var>source</var> in <var>sources</var>.:
+  </p><ol>
+   <li><p>If <var>source</var> is a <a href="#dfn-pointer-input-source" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-pointer-input-source-5">pointer input source</a>,
+    append <var>source</var>'s pointerId to <var>pointer ids</var>.
+  </p></li></ol>
+
+ </li><li><p>Return the smallest integer that is greater than or equal
+ to <var>minimum id</var> and that is not contained in <var>pointer
+ ids</var>.
 </p></li></ol>
 
 </section> 
@@ -9403,9 +9433,9 @@ context</var>:
 </td></tr></tbody></table>
 
    </li><li><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-68">Try</a> to run <var>algorithm</var> with arguments
-    <var>input id</var>, <var>action object</var>,
-    <var>source</var>, <var>global key state</var>, <var>tick
-    duration</var>, and <var>browsing context</var>.
+    <var>action object</var>, <var>source</var>, <var>global key
+    state</var>, <var>tick duration</var>, and <var>browsing
+    context</var>.
 
    </li><li><p>If <var>subtype</var> is "<code>keyDown</code>", append
     a copy of <var>action object</var> with the <var>subtype</var>
@@ -9445,8 +9475,8 @@ state</var>, <var>actions</var> and <var>browsing context<var>:
 <section id="general-actions"><div class="header-wrapper"><h4 id="x15-5-1-general-actions"><bdi class="secno">15.5.1 </bdi>General actions</h4><a class="self-link" href="#general-actions" aria-label="Permalink for Section 15.5.1"></a></div>
 
 
-<p>To <dfn id="dfn-dispatch-a-pause-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a pause action</dfn> given <var>input
-id</var>, <var>action object</var>, <var>source</var>, <var>global key
+<p>To <dfn id="dfn-dispatch-a-pause-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a pause action</dfn> given <var>action
+object</var>, <var>source</var>, <var>global key
 state</var>, <var>tick duration</var>, and <var>browsing
 context</var>:
 
@@ -9714,8 +9744,7 @@ context</var>:
  <tr><td><code>\uE05D</code></td><td>Numpad Delete</td><td><code>3</code></td></tr>
 </tbody></table>
 
-<p>To <dfn id="dfn-dispatch-a-keydown-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a keyDown action</dfn> given
-<var>input id</var>, <var>action object</var>,
+<p>To <dfn id="dfn-dispatch-a-keydown-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a keyDown action</dfn> given <var>action object</var>,
 <var>source</var>, <var>global key state</var>, <var>tick
 duration</var>, and <var>browsing context</var>:
 
@@ -9816,8 +9845,8 @@ duration</var>, and <var>browsing context</var>:
   key repetition.
 </p></aside></div>
 
-<p>To <dfn id="dfn-dispatch-a-keyup-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a keyUp action</dfn> given <var>input
-id</var>, <var>action object</var>, <var>source</var>,
+<p>To <dfn id="dfn-dispatch-a-keyup-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a keyUp action</dfn> given, <var>action
+object</var>, <var>source</var>,
 <var>global key state</var>, <var>tick duration</var>,
 and <var>browsing context</var>:</p>
 
@@ -9894,7 +9923,7 @@ and <var>browsing context</var>:</p>
 <section id="pointer-actions"><div class="header-wrapper"><h4 id="x15-5-3-pointer-actions"><bdi class="secno">15.5.3 </bdi>Pointer actions</h4><a class="self-link" href="#pointer-actions" aria-label="Permalink for Section 15.5.3"></a></div>
 
 
-<p>To <dfn id="dfn-dispatch-a-pointerdown-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a pointerDown action</dfn> given <var>input id</var>,
+<p>To <dfn id="dfn-dispatch-a-pointerdown-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a pointerDown action</dfn> given
  <var>action object</var>, <var>input state</var>, <var>global key state</var>,
  <var>tick duration</var>, and <var>browsing context</var>:
 
@@ -9947,10 +9976,10 @@ and <var>browsing context</var>:</p>
 
  </p></li><li><p><a href="#dfn-perform-implementation-specific-action-dispatch-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-perform-implementation-specific-action-dispatch-steps-4">Perform implementation-specific action dispatch steps</a>
   on <var>browsing context</var> equivalent to pressing the button
-  numbered <var>button</var> on the pointer with ID
-  <var>input id</var>, having type <var>pointerType</var> at
-  viewport x coordinate <var>x</var>, viewport y
-  coordinate <var>y</var>, <var>width</var>, <var>height</var>,
+  numbered <var>button</var> on the pointer with pointerId equal
+  to <var>input source</var>'s pointerId, having
+  type <var>pointerType</var> at viewport x coordinate <var>x</var>,
+  viewport y coordinate <var>y</var>, <var>width</var>, <var>height</var>,
   <var>pressure</var>, <var>tangentialPressure</var>, <var>tiltX</var>,
   <var>tiltY</var>, <var>twist</var>, <var>altitudeAngle</var>,
   <var>azimuthAngle</var>, with buttons <var>buttons</var> depressed
@@ -9967,8 +9996,8 @@ and <var>browsing context</var>:</p>
  </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-109">success</a> with data <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-80"><code>null</code></a>.
 </p></li></ol>
 
-<p>To <dfn id="dfn-dispatch-a-pointerup-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a pointerUp action</dfn> given <var>input
-id</var>, <var>action object</var>, <var>source</var>,
+<p>To <dfn id="dfn-dispatch-a-pointerup-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a pointerUp action</dfn> given, <var>action
+object</var>, <var>source</var>,
 <var>global key state</var>, <var>tick duration</var>,
 and <var>browsing context</var>:
 
@@ -9996,12 +10025,13 @@ and <var>browsing context</var>:
 
  </p></li><li><p><a href="#dfn-perform-implementation-specific-action-dispatch-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-perform-implementation-specific-action-dispatch-steps-5">Perform implementation-specific action dispatch steps</a>
   on <var>browsing context</var> equivalent to releasing the button
-  numbered <var>button</var> on the pointer of ID
-  <var>input id</var> having type <var>pointerType</var> at viewport x
-  coordinate <var>x</var>, viewport y coordinate <var>y</var>, with
-  buttons <var>buttons</var> depressed, in accordance with the
-  requirements of [<cite><a class="bibref" data-link-type="biblio" href="#bib-ui-events" title="UI Events">UI-EVENTS</a></cite>] and [<cite><a class="bibref" data-link-type="biblio" href="#bib-pointer-events" title="Pointer Events">POINTER-EVENTS</a></cite>]. The generated
-  events must set <code>ctrlKey</code>, <code>shiftKey</code>,
+  numbered <var>button</var> on the pointer with pointerId equal
+  to <var>input source</var>'s pointerId, having
+  type <var>pointerType</var> at viewport x coordinate <var>x</var>,
+  viewport y coordinate <var>y</var>, with buttons <var>buttons</var>
+  depressed, in accordance with the requirements of [<cite><a class="bibref" data-link-type="biblio" href="#bib-ui-events" title="UI Events">UI-EVENTS</a></cite>] and
+  [<cite><a class="bibref" data-link-type="biblio" href="#bib-pointer-events" title="Pointer Events">POINTER-EVENTS</a></cite>]. The generated events must
+  set <code>ctrlKey</code>, <code>shiftKey</code>,
   <code>altKey</code>, and <code>metaKey</code> equal to the
   corresponding items in <var>global key state</var>. Type specific
   properties for the pointer that are not exposed through the
@@ -10013,7 +10043,7 @@ and <var>browsing context</var>:
  </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-111">success</a> with data <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-82"><code>null</code></a>.
 </p></li></ol>
 
-<p>To <dfn id="dfn-dispatch-a-pointermove-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a pointerMove action</dfn> given <var>input id</var>,
+<p>To <dfn id="dfn-dispatch-a-pointermove-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a pointerMove action</dfn> given
 <var>action object</var>, <var>source</var>, <var>global key state</var>,
 <var>tick duration</var>, and <var>browsing context</var>:
 
@@ -10117,22 +10147,21 @@ and <var>browsing context</var>:
   <code>azimuthAngle</code> property.
 
  </p></li><li><p><a href="#dfn-perform-a-pointer-move" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-perform-a-pointer-move-1">Perform a pointer move</a> with arguments
-  <var>input id</var>, <var>source</var>, <var>global key
-  state</var>, <var>duration</var>, <var>start x</var>, <var>start
-  y</var>, <var>x</var>, <var>y</var>, <var>width</var>, <var>height</var>,
-  <var>pressure</var>, <var>tangentialPressure</var>, <var>tiltX</var>,
-  <var>tiltY</var>, <var>twist</var>, <var>altitudeAngle</var>,
-  <var>azimuthAngle</var>.
+  <var>source</var>, <var>global key state</var>, <var>duration</var>,
+  <var>start x</var>, <var>start y</var>, <var>x</var>, <var>y</var>,
+  <var>width</var>, <var>height</var>, <var>pressure</var>,
+  <var>tangentialPressure</var>, <var>tiltX</var>, <var>tiltY</var>,
+  <var>twist</var>, <var>altitudeAngle</var>, <var>azimuthAngle</var>.
 
  </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-112">success</a> with data <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-83"><code>null</code></a>.
 </p></li></ol>
 
-<p>To <dfn id="dfn-perform-a-pointer-move" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">perform a pointer move</dfn> given <var>input id</var>,
- <var>source</var>, <var>global key state</var>, <var>duration</var>,
- <var>start x</var>, <var>start y</var>, <var>target x</var>,
- <var>target y</var>, <var>width</var>, <var>height</var>, <var>pressure</var>,
- <var>tangentialPressure</var>, <var>tiltX</var>, <var>tiltY</var>,
- <var>twist</var>, <var>altitudeAngle</var>, and <var>azimuthAngle</var>:
+<p>To <dfn id="dfn-perform-a-pointer-move" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">perform a pointer move</dfn> given <var>source</var>,
+<var>global key state</var>, <var>duration</var>, <var>start x</var>,
+<var>start y</var>, <var>target x</var>, <var>target y</var>, <var>width</var>,
+<var>height</var>, <var>pressure</var>, <var>tangentialPressure</var>,
+<var>tiltX</var>, <var>tiltY</var>, <var>twist</var>, <var>altitudeAngle</var>,
+and <var>azimuthAngle</var>:
 
 </p><ol class="algorithm">
  <li><p>Let <var>time delta</var> be the time since the beginning of
@@ -10173,8 +10202,9 @@ and <var>browsing context</var>:
 
    </p></li><li><p><a href="#dfn-perform-implementation-specific-action-dispatch-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-perform-implementation-specific-action-dispatch-steps-6">Perform implementation-specific action dispatch steps</a>
     on <var>browsing context</var> equivalent to moving the pointer
-    with ID <var>input id</var> having type <var>pointerType</var>
-    from viewport x coordinate <var>current x</var>, viewport y
+    with pointerId equal to <var>input source</var>'s pointerId,
+    having type <var>pointerType</var> from viewport x
+    coordinate <var>current x</var>, viewport y
     coordinate <var>current y</var> to viewport x
     coordinate <var>x</var> and viewport y
     coordinate <var>y</var>, <var>width</var>, <var>height</var>,
@@ -10228,23 +10258,23 @@ and <var>browsing context</var>:
     vsync).</p></aside>
 
    </li><li><p><a href="#dfn-perform-a-pointer-move" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-perform-a-pointer-move-2">Perform a pointer move</a> with arguments
-    <var>input id</var>, <var>input state</var>, <var>duration</var>,
+    <var>input state</var>, <var>duration</var>,
     <var>start x</var>, <var>start y</var>, <var>target x</var>,
     <var>target y</var>.
  </p></li></ol>
 
 </li></ol>
 
-<p>To <dfn id="dfn-dispatch-a-pointercancel-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a pointerCancel action</dfn> given  <var>input id</var>,
+<p>To <dfn id="dfn-dispatch-a-pointercancel-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a pointerCancel action</dfn> given
 <var>action object</var>, <var>source</var>, <var>global key state</var>,
 <var>tick duration</var>, and <var>browsing context</var>:
 
 </p><ol class="algorithm">
  <li><p><a href="#dfn-perform-implementation-specific-action-dispatch-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-perform-implementation-specific-action-dispatch-steps-7">Perform implementation-specific action dispatch steps</a>
   on <var>browsing context</var> equivalent to cancelling the any
-  action of the pointer with ID <var>input id</var> having
-  type <var>pointerType</var>, in accordance with the requirements of
-  [<cite><a class="bibref" data-link-type="biblio" href="#bib-ui-events" title="UI Events">UI-EVENTS</a></cite>] and [<cite><a class="bibref" data-link-type="biblio" href="#bib-pointer-events" title="Pointer Events">POINTER-EVENTS</a></cite>].
+  action of the pointer with pointerId equal to <var>source</var>'s
+  pointerId item. having type <var>pointerType</var>, in accordance
+  with the requirements of [<cite><a class="bibref" data-link-type="biblio" href="#bib-ui-events" title="UI Events">UI-EVENTS</a></cite>] and [<cite><a class="bibref" data-link-type="biblio" href="#bib-pointer-events" title="Pointer Events">POINTER-EVENTS</a></cite>].
 
  </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-113">success</a> with data <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-84"><code>null</code></a>.
 </p></li></ol>
@@ -10254,7 +10284,7 @@ and <var>browsing context</var>:
 <section id="wheel-actions"><div class="header-wrapper"><h4 id="x15-5-4-wheel-actions"><bdi class="secno">15.5.4 </bdi>Wheel actions</h4><a class="self-link" href="#wheel-actions" aria-label="Permalink for Section 15.5.4"></a></div>
 
 
-<p>To <dfn id="dfn-dispatch-a-scroll-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a scroll action</dfn> given <var>input id</var>,
+<p>To <dfn id="dfn-dispatch-a-scroll-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a scroll action</dfn> given
 <var>action object</var>, <var>source</var>, <var>global key state</var>,
 <var>tick duration</var>, and <var>browsing context</var>:
 
@@ -10326,14 +10356,14 @@ and <var>browsing context</var>:
  </li>
 
  <li><p><a href="#dfn-perform-a-scroll" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-perform-a-scroll-1">Perform a scroll</a> with arguments
-  <var>input id</var>, <var>global key state</var>, <var>duration</var>,
+  <var>global key state</var>, <var>duration</var>,
   <var>x</var>, <var>y</var>, <var>delta x</var>, <var>delta y</var>,
   <var>0</var>, <var>0</var>.
 
  </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-114">success</a> with data <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-85"><code>null</code></a>.
 </p></li></ol>
 
-<p>To <dfn id="dfn-perform-a-scroll" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">perform a scroll</dfn> given <var>input id</var>,
+<p>To <dfn id="dfn-perform-a-scroll" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">perform a scroll</dfn> given
  <var>duration</var>, <var>x</var>, <var>y</var>,
  <var>target delta x</var>, <var>target delta y</var>,
  <var>current delta x</var> and <var>current delta y</var>:
@@ -10370,12 +10400,12 @@ and <var>browsing context</var>:
 
   </p><ol>
    <li><p><a href="#dfn-perform-implementation-specific-action-dispatch-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-perform-implementation-specific-action-dispatch-steps-8">Perform implementation-specific action dispatch steps</a>
-    on <var>browsing context</var> equivalent to wheel scroll with
-    ID <var>input id</var> at viewport x coordinate <var>x</var>,
-    viewport y coordinate <var>y</var>, deltaX value <var>delta
-    x</var>, deltaY value <var>delta y</var>, in accordance with the
-    requirements of [<cite><a class="bibref" data-link-type="biblio" href="#bib-ui-events" title="UI Events">UI-EVENTS</a></cite>]. The generated
-    events must set <code>ctrlKey</code>, <code>shiftKey</code>,
+    on <var>browsing context</var> equivalent to wheel scroll at
+    viewport x coordinate <var>x</var>, viewport y
+    coordinate <var>y</var>, deltaX value <var>delta x</var>, deltaY
+    value <var>delta y</var>, in accordance with the requirements of
+    [<cite><a class="bibref" data-link-type="biblio" href="#bib-ui-events" title="UI Events">UI-EVENTS</a></cite>]. The generated events must
+    set <code>ctrlKey</code>, <code>shiftKey</code>,
     <code>altKey</code>, and <code>metaKey</code> equal to the
     corresponding items in <var>global key state</var>.
 
@@ -10413,8 +10443,7 @@ and <var>browsing context</var>:
     vsync).</p></aside>
 
    </li><li><p><a href="#dfn-perform-a-scroll" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-perform-a-scroll-2">Perform a scroll</a> with arguments
-    <var>input id</var>, <var>duration</var>,
-    <var>x</var>, <var>y</var>,
+    <var>duration</var>, <var>x</var>, <var>y</var>,
     <var>target delta x</var>, <var>target delta y</var>,
     <var>current delta x</var>, <var>current delta y</var>.
  </p></li></ol>
@@ -12570,6 +12599,8 @@ This specification relies on several other underlying specifications.
     <span class="print-only">§12.</span></li><li>
       <a class="index-term" href="#dfn-get-a-known-shadow-root">get a known shadow root</a> 
     <span class="print-only">§12.2</span></li><li>
+      <a class="index-term" href="#dfn-get-a-pointer-id">get a pointer id</a> 
+    <span class="print-only">§15.2</span></li><li>
       <a class="index-term" href="#dfn-get-active-element">Get Active Element</a> 
     <span class="print-only">§12.3.8</span></li><li>
       <a class="index-term" href="#dfn-get-alert-text">Get Alert Text</a> 
@@ -19196,7 +19227,7 @@ This specification relies on several other underlying specifications.
     <li>
     <a href="#ref-for-dfn-pointer-input-source-1" title="§ 15.1.3 Pointer input source">§ 15.1.3 Pointer input source</a> <a href="#ref-for-dfn-pointer-input-source-2" title="Reference 2">(2)</a> <a href="#ref-for-dfn-pointer-input-source-3" title="Reference 3">(3)</a> 
   </li><li>
-    <a href="#ref-for-dfn-pointer-input-source-4" title="§ 15.2 Input state">§ 15.2 Input state</a> 
+    <a href="#ref-for-dfn-pointer-input-source-4" title="§ 15.2 Input state">§ 15.2 Input state</a> <a href="#ref-for-dfn-pointer-input-source-5" title="Reference 2">(2)</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-pointerdown" aria-label="Links in this document to definition: pointerDown">
@@ -19328,7 +19359,7 @@ This specification relies on several other underlying specifications.
     <li>
     <a href="#ref-for-dfn-input-state-map-1" title="§ 15.1 Input sources">§ 15.1 Input sources</a> 
   </li><li>
-    <a href="#ref-for-dfn-input-state-map-2" title="§ 15.2 Input state">§ 15.2 Input state</a> <a href="#ref-for-dfn-input-state-map-3" title="Reference 2">(2)</a> <a href="#ref-for-dfn-input-state-map-4" title="Reference 3">(3)</a> <a href="#ref-for-dfn-input-state-map-5" title="Reference 4">(4)</a> <a href="#ref-for-dfn-input-state-map-6" title="Reference 5">(5)</a> 
+    <a href="#ref-for-dfn-input-state-map-2" title="§ 15.2 Input state">§ 15.2 Input state</a> <a href="#ref-for-dfn-input-state-map-3" title="Reference 2">(2)</a> <a href="#ref-for-dfn-input-state-map-4" title="Reference 3">(3)</a> <a href="#ref-for-dfn-input-state-map-5" title="Reference 4">(4)</a> <a href="#ref-for-dfn-input-state-map-6" title="Reference 5">(5)</a> <a href="#ref-for-dfn-input-state-map-7" title="Reference 6">(6)</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-input-cancel-list" aria-label="Links in this document to definition: input cancel list">
@@ -19451,6 +19482,18 @@ This specification relies on several other underlying specifications.
     <a href="#ref-for-dfn-get-the-global-key-state-1" title="§ 12.5.3 Element Send Keys">§ 12.5.3 Element Send Keys</a> 
   </li><li>
     <a href="#ref-for-dfn-get-the-global-key-state-2" title="§ 15.5 Dispatching actions">§ 15.5 Dispatching actions</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-get-a-pointer-id" aria-label="Links in this document to definition: get a pointer id">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-get-a-pointer-id" aria-label="Permalink for definition: get a pointer id. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-get-a-pointer-id-1" title="§ 15.1.3 Pointer input source">§ 15.1.3 Pointer input source</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-ticks" aria-label="Links in this document to definition: tick">
@@ -24972,7 +25015,7 @@ This specification relies on several other underlying specifications.
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-    <a href="#ref-for-index-term-getting-the-values-for-map-1" title="§ 15.2 Input state">§ 15.2 Input state</a> 
+    <a href="#ref-for-index-term-getting-the-values-for-map-1" title="§ 15.2 Input state">§ 15.2 Input state</a> <a href="#ref-for-index-term-getting-the-values-for-map-2" title="Reference 2">(2)</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-index-term-length-for-string" aria-label="Links in this document to definition: length (for string)">
