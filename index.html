@@ -3558,7 +3558,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
          and return its value if it is an <a>error</a>.
 
      <li><p>Let <var>element</var> be the result
-      of <a>trying</a> to <a>get a known element</a>
+      of <a>trying</a> to <a>get a known connected element</a>
       by <a>web element reference</a> <var>id</var>.
 
      <li><p>If <var>element</var> <a>is stale</a>,
@@ -4068,26 +4068,14 @@ corresponding to the <a>current top-level browsing context</a>.
  When the <a>browsing context</a> is <a>discarded</a>,
  the <a>list of known elements</a> is discarded along with it.
 
-<p>To <dfn>get a known element</dfn> with
- argument <var>reference</var>, run the following steps:
-
-<ol>
- <li>Let <var>element</var> be the item in the <a>current browsing
- context</a>’s <a>list of known elements</a> for which the <a>web
- element reference</a> is equal to <var>reference</var>, if such an
- element exists. Otherwise return <a>error</a> with <a>error
- code</a> <a>no such element</a>.
- <li>If <var>element</var> <a>is stale</a>, return
- <a>error</a> with <a>error code</a>
- <a>stale element reference</a>.
- <li>Return <a>success</a> with <var>element</var>.
-</ol>
-
 <p>To <dfn>get a known connected element</dfn> with
 argument <var>reference</var>, run the following steps:
 <ol>
-  <li>Let <var>element</var> be the result of <a>trying</a> to <a>get
-  a known element</a> with argument <var>reference</var>.
+  <li>Let <var>element</var> be the item in the <a>current browsing
+  context</a>’s <a>list of known elements</a> for which the <a>web
+  element reference</a> is equal to <var>reference</var>, if such an
+  element exists. Otherwise return <a>error</a> with <a>error
+  code</a> <a>no such element</a>.
   <li>If <var>element</var> is not <a>connected</a>
   return <a>error</a> with error code <a>stale element reference</a>.
   <li>Return <a>success</a> with <var>element</var>.
@@ -4138,7 +4126,7 @@ is given by:
   from <var>object</var>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known element</a>
+  of <a>trying</a> to <a>get a known connected element</a>
   with argument <var>reference</var>.
 
  <li><p>Return <a>success</a> with data <var>element</var>.
@@ -5221,7 +5209,7 @@ The <a>remote end steps</a> are:
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known element</a>
+  of <a>trying</a> to <a>get a known connected element</a>
   with <a>url variable</a> <var>element id</var>.
 
  <li>Let <var>result</var> be the result of the first matching condition:
@@ -5273,7 +5261,7 @@ The <a>remote end steps</a> are:
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known element</a>
+  of <a>trying</a> to <a>get a known connected element</a>
   with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>property</var> be the result of calling
@@ -5413,7 +5401,7 @@ with the <a>Unicode character property</a> "<code>WSpace=Y</code>" or "<code>WS<
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known element</a>
+  of <a>trying</a> to <a>get a known connected element</a>
   with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>qualified name</var> be the result of getting
