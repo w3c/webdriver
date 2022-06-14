@@ -4063,20 +4063,18 @@ corresponding to the <a>current top-level browsing context</a>.
 <p>An ECMAScript <a>Object</a> <dfn>represents a web element</dfn>
  if it has a <a>web element identifier</a> <a>own property</a>.
 
-<p>Each <a>browsing context</a> has an associated <dfn>list of
- known elements</dfn>.
- When the <a>browsing context</a> is <a>discarded</a>,
- the <a>list of known elements</a> is discarded along with it.
+<p>Each <a>Window</a> has an associated <dfn>list of known
+ elements</dfn>.
 
 <p>To <dfn>get a known element</dfn> with
  argument <var>reference</var>, run the following steps:
 
 <ol>
  <li>Let <var>element</var> be the item in the <a>current browsing
- context</a>’s <a>list of known elements</a> for which the <a>web
- element reference</a> is equal to <var>reference</var>, if such an
- element exists. Otherwise return <a>error</a> with <a>error
- code</a> <a>no such element</a>.
+ context</a>’s <a>active window</a>'s <a>list of known
+ elements</a> for which the <a>web element reference</a> is equal
+ to <var>reference</var>, if such an element exists. Otherwise
+ return <a>error</a> with <a>error code</a> <a>no such element</a>.
  <li>If <var>element</var> <a>is stale</a>, return
  <a>error</a> with <a>error code</a>
  <a>stale element reference</a>.
@@ -4097,16 +4095,17 @@ argument <var>reference</var>, run the following steps:
  with <a><var>element</var></a>:
 
 <ol>
- <li><p>For each <var>known element</var>
-  of the <a>current browsing context</a>’s <a>list of known elements</a>:
+ <li><p>For each <var>known element</var> of the <a>current browsing
+  context</a>’s <a>active window</a>'s <a>list of known
+  elements</a>:
 
   <ol>
    <li><p>If <var>known element</var> <a>equals</a> <var>element</var>,
     return <a>success</a> with <var>known element</var>’s <a>web element reference</a>.
   </ol>
 
- <li><p>Add <var>element</var> to
-  the <a>list of known elements</a> of the <a>current browsing context</a>.
+ <li><p>Add <var>element</var> to the <a>list of known elements</a> of
+  the <a>current browsing context</a>'s <a>active window</a>.
 
  <li><p>Return <a>success</a> with the
   <var>element</var>’s <a>web element reference</a>.
@@ -4373,20 +4372,18 @@ is given by:
  <p>An ECMAScript <a>Object</a> <dfn>represents a shadow root</dfn>
   if it has a <a>shadow root identifier</a> <a>own property</a>.
  
- <p>Each <a>browsing context</a> has an associated <dfn>list of
+ <p>Each <a>Window</a> has an associated <dfn>list of
   known shadow roots</dfn>.
-  When the <a>browsing context</a> is <a>discarded</a>,
-  the <a>list of known shadow roots</a> is discarded along with it.
 
   <p>To <dfn>get a known shadow root</dfn> with
     argument <var>reference</var>, run the following steps:
    
    <ol>
     <li>Let <var>shadow</var> be the item in the <a>current browsing
-    context</a>’s <a>list of known shadow roots</a> for which the <a>shadow
-    root reference</a> is equal to <var>reference</var>, if such a
-    shadow root exists. Otherwise return <a>error</a> with <a>error
-    code</a> <a>no such element</a>.
+    context</a>’s <a>active window</a>'s <a>list of known shadow
+    roots</a> for which the <a>shadow root reference</a> is equal
+    to <var>reference</var>, if such a shadow root exists. Otherwise
+    return <a>error</a> with <a>error code</a> <a>no such element</a>.
     <li>If <var>shadow</var> <a>is detached</a>, return
     <a>error</a> with <a>error code</a>
     <a>detached shadow root</a>.
@@ -4397,16 +4394,18 @@ is given by:
     with <a><var>shadow root</var></a>:
    
    <ol>
-    <li><p>For each <var>known shadow root</var>
-     of the <a>current browsing context</a>’s <a>list of known shadow roots</a>:
+    <li><p>For each <var>known shadow root</var> of the <a>current
+     browsing context</a>’s <a>active window</a>'s <a>list of
+     known shadow roots</a>:
    
      <ol>
       <li><p>If <var>known shadow root</var> <a>equals</a> <var>shadow root</var>,
        return <a>success</a> with <var>known shadow root</var>’s <a>shadow root reference</a>.
      </ol>
    
-    <li><p>Add <var>shadow</var> to
-     the <a>list of known shadow roots</a> of the <a>current browsing context</a>.
+    <li><p>Add <var>shadow</var> to the <a>list of known shadow
+     roots</a> of the <a>current browsing context</a>'s <a>associated
+     window</a>.
    
     <li><p>Return <a>success</a> with the
      <var>shadow</var>’s <a>shadow root reference</a>.
@@ -5083,7 +5082,7 @@ session.execute("arguments[0].remove()", [body]);
  <li><p>Let <var>rect</var> be the value
   returned by calling {{Element/getBoundingClientRect()}}.
 
- <li><p>Let <var>window</var> be the <a>associated window</a>
+ <li><p>Let <var>window</var> be the <a>active window</a>
   of <a>current top-level browsing context</a>.
 
  <li><p>Let <var>x</var> be
@@ -10938,6 +10937,7 @@ to automatically sort each list alphabetically.
    <!-- API length --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-fe-api-value">API value</a></dfn>
    <!-- Active document --> <li><dfn><a href=https://html.spec.whatwg.org/#active-document>Active document</a></dfn>
    <!-- Active element --> <li><dfn>Active element</dfn> being the <a href=https://html.spec.whatwg.org/#dom-document-activeelement><code>activeElement</code></a> attribute on <a href=https://html.spec.whatwg.org/#document><code>Document</code></a>
+   <!-- Active window --> <li><dfn><a href=https://html.spec.whatwg.org/#active-window>Active window</a></dfn>
    <!-- Associated window --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-document-window>Associated window</a></dfn>
    <!-- Body element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-body-element><code>body</code> element</a></dfn>
    <!-- Boolean attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#boolean-attribute>Boolean attribute</a></dfn>
