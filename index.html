@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en-us" data-issue-url="https://github.com/w3c/webdriver/" data-issue-param-milestone="Level 1"><head>
 <meta charset="utf-8">
-<meta name="generator" content="ReSpec 32.1.8">
+<meta name="generator" content="ReSpec 32.1.10">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <style>
 span.example-title{text-transform:none}
@@ -17,6 +17,7 @@ aside.example div.example{border-left-width:.1em;border-color:#999;background:#f
 .warning{padding:.5em;border-left-width:.5em;border-left-style:solid}
 span.warning{padding:.1em .5em .15em}
 .issue.closed span.issue-number{text-decoration:line-through}
+.issue.closed span.issue-number::after{content:" (Closed)";font-size:smaller}
 .warning{border-color:#f11;border-width:.2em;border-style:solid;background:#fbe9e9}
 .warning-title:before{content:"⚠";font-size:1.3em;float:left;padding-right:.3em;margin-top:-.3em}
 li.task-list-item{list-style:none}
@@ -274,14 +275,14 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   "noIDLSorting": true,
   "mdn": "webdriver",
   "xref": "web-platform",
-  "publishISODate": "2022-06-15T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 15 June 2022"
+  "publishISODate": "2022-06-24T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 24 June 2022"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head><body data-cite="WEBIDL CSSOM-VIEW GEOMETRY-1 HTML INFRA URL WEBIDL DOM FETCH" class="h-entry"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">WebDriver</h1> 
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2022-06-15">15 June 2022</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2022-06-24">24 June 2022</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -525,9 +526,9 @@ and decorations (such as operating system widget borders).
     <tr class="chrome yes">
       <td>Chrome</td>
       <td>63+</td>
-    </tr><tr class="chrome_android yes">
+    </tr><tr class="chrome_android unknown">
       <td>Chrome Android</td>
-      <td>63+</td>
+      <td>?</td>
     </tr><tr class="edge yes">
       <td>Edge</td>
       <td>12+</td>
@@ -537,27 +538,27 @@ and decorations (such as operating system widget borders).
     </tr><tr class="firefox yes">
       <td>Firefox</td>
       <td>60+</td>
-    </tr><tr class="firefox_android yes">
+    </tr><tr class="firefox_android unknown">
       <td>Firefox Android</td>
-      <td>60+</td>
-    </tr><tr class="opera yes">
+      <td>?</td>
+    </tr><tr class="opera unknown">
       <td>Opera</td>
-      <td>50+</td>
-    </tr><tr class="opera_android yes">
+      <td>?</td>
+    </tr><tr class="opera_android unknown">
       <td>Opera Android</td>
-      <td>46+</td>
+      <td>?</td>
     </tr><tr class="safari yes">
       <td>Safari</td>
       <td>10+</td>
-    </tr><tr class="safari_ios yes">
+    </tr><tr class="safari_ios unknown">
       <td>Safari iOS</td>
-      <td>10+</td>
-    </tr><tr class="samsunginternet_android yes">
+      <td>?</td>
+    </tr><tr class="samsunginternet_android unknown">
       <td>Samsung Internet</td>
-      <td>8.0+</td>
-    </tr><tr class="webview_android yes">
+      <td>?</td>
+    </tr><tr class="webview_android unknown">
       <td>WebView Android</td>
-      <td>63+</td>
+      <td>?</td>
     </tr>
   </table>
   </details></aside><section id="interface"><div class="header-wrapper"><h2 id="x4-interface"><bdi class="secno">4. </bdi>Interface</h2><a class="self-link" href="#interface" aria-label="Permalink for Section 4."></a></div>
@@ -2579,8 +2580,10 @@ and <a href="#elements">element retrieval</a>.
 A <a href="#dfn-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-session-25">session</a> has an associated <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-3">user prompt handler</a>.
 Unless stated otherwise it is in the <a href="#dfn-dismiss-and-notify-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismiss-and-notify-state-2">dismiss and notify state</a>.
 
-</p><p>A <a href="#dfn-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-session-26">session</a> has an associated <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-1">input state</a>, which is
-initially set to the result of <a href="#dfn-create-an-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-create-an-input-state-1">create an input state</a>.
+</p><p>A <a href="#dfn-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-session-26">session</a> has an associated <dfn id="dfn-browsing-context-input-state-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">browsing context input
+state map</dfn>, which is a Weak Map with <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-2">top-level browsing
+contexts</a> as keys, and <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-1">input state</a> objects as values. This
+is initially set to an empty map.
 
 </p><p>A <a href="#dfn-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-session-27">session</a> has an associated <dfn id="dfn-request-queue" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">request queue</dfn> which is a
  <a data-link-type="dfn" data-type="dfn" href="https://infra.spec.whatwg.org/#queue" id="ref-for-index-term-queue-1">queue</a> of <a data-link-type="dfn" href="#dfn-http-request" class="internalDFN" id="ref-for-dfn-http-request-6">requests</a> that are currently awaiting
@@ -2598,7 +2601,7 @@ initially set to the result of <a href="#dfn-create-an-input-state" class="inter
     <ol>
      <li><p>Set the <a href="#dfn-webdriver-active-flag" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-active-flag-2">webdriver-active flag</a> to false.
 
-     </p></li><li><p>An <a href="#dfn-endpoint-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-endpoint-node-15">endpoint node</a> must <a href="#dfn-close" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-close-1">close</a> any <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-2">top-level
+     </p></li><li><p>An <a href="#dfn-endpoint-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-endpoint-node-15">endpoint node</a> must <a href="#dfn-close" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-close-1">close</a> any <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-3">top-level
       browsing contexts</a> associated with the <a href="#dfn-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-session-28">session</a>,
       without <a href="#dfn-prompting-to-unload" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-prompting-to-unload-1">prompting to unload</a>.
     </p></li></ol>
@@ -2815,7 +2818,7 @@ If the creation fails, a <a href="#dfn-session-not-created" class="internalDFN" 
  </li><li><p>Set the <a href="#dfn-webdriver-active-flag" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-active-flag-3">webdriver-active flag</a> to true.</p>
 
  </li><li><p><a href="#dfn-set-the-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-set-the-current-top-level-browsing-context-1">Set the current top-level browsing context</a>
-   for <var>session</var> with the <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-3">top-level browsing context</a>
+   for <var>session</var> with the <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-4">top-level browsing context</a>
    of the UA’s <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-4">current browsing context</a>.
 
   </p><div class="note" role="note" id="issue-container-generatedID-11"><div role="heading" class="note-title marker" id="h-note-11" aria-level="4"><span>Note</span></div><p class="">WebDriver implementations typically start a
@@ -3067,9 +3070,9 @@ Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-f
     </tr><tr class="chrome_android no">
       <td>Chrome Android</td>
       <td>No</td>
-    </tr><tr class="edge no">
+    </tr><tr class="edge unknown">
       <td>Edge</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="edge_mobile unknown">
       <td>Edge Mobile</td>
       <td>?</td>
@@ -3082,21 +3085,21 @@ Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-f
     </tr><tr class="opera no">
       <td>Opera</td>
       <td>No</td>
-    </tr><tr class="opera_android no">
+    </tr><tr class="opera_android unknown">
       <td>Opera Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="safari no">
       <td>Safari</td>
       <td>No</td>
-    </tr><tr class="safari_ios no">
+    </tr><tr class="safari_ios unknown">
       <td>Safari iOS</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="samsunginternet_android no">
       <td>Samsung Internet</td>
       <td>No</td>
-    </tr><tr class="webview_android no">
+    </tr><tr class="webview_android unknown">
       <td>WebView Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr>
   </table>
   </details></aside><section id="get-timeouts"><div class="header-wrapper"><h3 id="x9-1-get-timeouts"><bdi class="secno">9.1 </bdi><dfn id="dfn-get-timeouts" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Get Timeouts</dfn></h3><a class="self-link" href="#get-timeouts" aria-label="Permalink for Section 9.1"></a></div>
@@ -3136,9 +3139,9 @@ The <a href="#dfn-remote-end-steps" class="internalDFN" data-link-type="dfn" id=
     </tr><tr class="chrome_android no">
       <td>Chrome Android</td>
       <td>No</td>
-    </tr><tr class="edge no">
+    </tr><tr class="edge unknown">
       <td>Edge</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="edge_mobile unknown">
       <td>Edge Mobile</td>
       <td>?</td>
@@ -3151,21 +3154,21 @@ The <a href="#dfn-remote-end-steps" class="internalDFN" data-link-type="dfn" id=
     </tr><tr class="opera no">
       <td>Opera</td>
       <td>No</td>
-    </tr><tr class="opera_android no">
+    </tr><tr class="opera_android unknown">
       <td>Opera Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="safari no">
       <td>Safari</td>
       <td>No</td>
-    </tr><tr class="safari_ios no">
+    </tr><tr class="safari_ios unknown">
       <td>Safari iOS</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="samsunginternet_android no">
       <td>Samsung Internet</td>
       <td>No</td>
-    </tr><tr class="webview_android no">
+    </tr><tr class="webview_android unknown">
       <td>WebView Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr>
   </table>
   </details></aside><section id="set-timeouts"><div class="header-wrapper"><h3 id="x9-2-set-timeouts"><bdi class="secno">9.2 </bdi><dfn id="dfn-set-timeouts" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Set Timeouts</dfn></h3><a class="self-link" href="#set-timeouts" aria-label="Permalink for Section 9.2"></a></div>
@@ -3627,13 +3630,13 @@ Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-f
  the <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-10">current browsing context</a> or <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-22">current top-level browsing context</a>.
  The <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-23">current top-level browsing context</a> is represented in the protocol
  by its associated <a href="#dfn-window-handles" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-window-handles-1">window handle</a>.
- When a <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-4">top-level browsing context</a> is selected
+ When a <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-5">top-level browsing context</a> is selected
  using the <a href="#dfn-switch-to-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-switch-to-window-2">Switch To Window</a> command,
  a specific <a href="#dfn-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-browsing-contexts-3">browsing context</a> can be selected
  using the <a href="#dfn-switch-to-frame" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-switch-to-frame-2">Switch to Frame</a> command.
 
 </p><div class="note" role="note" id="issue-container-generatedID-19"><div role="heading" class="note-title marker" id="h-note-19" aria-level="3"><span>Note</span></div><p class="">The use of the term “window” to
- refer to a <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-5">top-level browsing context</a>
+ refer to a <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-6">top-level browsing context</a>
  is legacy and doesn’t correspond with either
  the operating system notion of a “window”
  or the DOM <a href="#dfn-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-window-1"><code>Window</code></a> object.
@@ -3659,7 +3662,7 @@ Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-f
 </p><ol>
  <li><p>Let <var>identifier</var> be the <a href="#dfn-web-window-identifier" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-web-window-identifier-1">web window identifier</a>
   if the associated <a href="#dfn-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-browsing-contexts-6">browsing context</a> of <var>window</var>
-  is a <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-6">top-level browsing context</a>.
+  is a <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-7">top-level browsing context</a>.
 
   </p><p>Otherwise let it be the <a href="#dfn-web-frame-identifier" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-web-frame-identifier-1">web frame identifier</a>.
 
@@ -3687,7 +3690,7 @@ Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-f
    context</dfn> given a <var>context</var>, an implementation must
    follow the following steps:
 </p><ol>
-  <li>Assert: <var>context</var> is a <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-7">top-level browsing context</a>.
+  <li>Assert: <var>context</var> is a <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-8">top-level browsing context</a>.
   </li><li>Set the <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-26">current session</a>’s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-24">current top-level browsing
       context</a> to <var>context</var>.
   </li><li><a href="#dfn-set-the-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-set-the-current-browsing-context-3">Set the current browsing context</a> to <var>context</var>.
@@ -3735,9 +3738,9 @@ commands are unaffected by whether the operating system window has focus or not.
     </tr><tr class="chrome_android no">
       <td>Chrome Android</td>
       <td>No</td>
-    </tr><tr class="edge no">
+    </tr><tr class="edge unknown">
       <td>Edge</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="edge_mobile unknown">
       <td>Edge Mobile</td>
       <td>?</td>
@@ -3750,21 +3753,21 @@ commands are unaffected by whether the operating system window has focus or not.
     </tr><tr class="opera no">
       <td>Opera</td>
       <td>No</td>
-    </tr><tr class="opera_android no">
+    </tr><tr class="opera_android unknown">
       <td>Opera Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="safari no">
       <td>Safari</td>
       <td>No</td>
-    </tr><tr class="safari_ios no">
+    </tr><tr class="safari_ios unknown">
       <td>Safari iOS</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="samsunginternet_android no">
       <td>Samsung Internet</td>
       <td>No</td>
-    </tr><tr class="webview_android no">
+    </tr><tr class="webview_android unknown">
       <td>WebView Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr>
   </table>
   </details></aside><section id="close-window"><div class="header-wrapper"><h3 id="x11-2-close-window"><bdi class="secno">11.2 </bdi><dfn id="dfn-close-window" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Close Window</dfn></h3><a class="self-link" href="#close-window" aria-label="Permalink for Section 11.2"></a></div>
@@ -3791,7 +3794,7 @@ commands are unaffected by whether the operating system window has focus or not.
 
  </p></li><li><p><a href="#dfn-close" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-close-3">Close</a> the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-28">current top-level browsing context</a>.
 
- </p></li><li><p>If there are no more open <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-8">top-level browsing contexts</a>,
+ </p></li><li><p>If there are no more open <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-9">top-level browsing contexts</a>,
   then <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-20">try</a> to <a href="#dfn-close-the-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-close-the-session-3">close the session</a>.
 
  </p></li><li>Return the result of running the <a href="#dfn-remote-end-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-end-steps-19">remote end steps</a>
@@ -3830,11 +3833,11 @@ make the tab containing the <a href="#dfn-browsing-contexts" class="internalDFN"
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-71">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-55">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-24">invalid argument</a>.
 
  </p></li><li><p>If there is an active <a href="#dfn-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompts-2">user prompt</a>, that prevents the
-  focusing of another <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-9">top-level browsing context</a>,
+  focusing of another <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-10">top-level browsing context</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-72">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-56">error code</a> <a href="#dfn-unexpected-alert-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unexpected-alert-open-1">unexpected alert open</a>.
 
  </p></li><li><p>If <var>handle</var> is equal to the associated <a href="#dfn-window-handles" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-window-handles-4">window
-  handle</a> for some <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-10">top-level browsing context</a> in
+  handle</a> for some <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-11">top-level browsing context</a> in
   the <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-27">current session</a>, let <var>context</var> be the that
   browsing context, and
   <a href="#dfn-set-the-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-set-the-current-top-level-browsing-context-2">set the current top-level browsing context</a> with <var>context</var>.
@@ -3860,9 +3863,9 @@ make the tab containing the <a href="#dfn-browsing-contexts" class="internalDFN"
     </tr><tr class="chrome_android no">
       <td>Chrome Android</td>
       <td>No</td>
-    </tr><tr class="edge no">
+    </tr><tr class="edge unknown">
       <td>Edge</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="edge_mobile unknown">
       <td>Edge Mobile</td>
       <td>?</td>
@@ -3875,21 +3878,21 @@ make the tab containing the <a href="#dfn-browsing-contexts" class="internalDFN"
     </tr><tr class="opera no">
       <td>Opera</td>
       <td>No</td>
-    </tr><tr class="opera_android no">
+    </tr><tr class="opera_android unknown">
       <td>Opera Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="safari no">
       <td>Safari</td>
       <td>No</td>
-    </tr><tr class="safari_ios no">
+    </tr><tr class="safari_ios unknown">
       <td>Safari iOS</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="samsunginternet_android no">
       <td>Samsung Internet</td>
       <td>No</td>
-    </tr><tr class="webview_android no">
+    </tr><tr class="webview_android unknown">
       <td>WebView Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr>
   </table>
   </details></aside><section id="get-window-handles"><div class="header-wrapper"><h3 id="x11-4-get-window-handles"><bdi class="secno">11.4 </bdi><dfn id="dfn-get-window-handles" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Get Window Handles</dfn></h3><a class="self-link" href="#get-window-handles" aria-label="Permalink for Section 11.4"></a></div>
@@ -3913,7 +3916,7 @@ make the tab containing the <a href="#dfn-browsing-contexts" class="internalDFN"
 </p><ol>
  <li><p>Let <var>handles</var> be a JSON <a href="#dfn-list" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-list-6">List</a>.
 
- </p></li><li><p>For each <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-11">top-level browsing context</a> in the <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-ends-54">remote end</a>,
+ </p></li><li><p>For each <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-12">top-level browsing context</a> in the <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-ends-54">remote end</a>,
   push the associated <a href="#dfn-window-handles" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-window-handles-5">window handle</a> onto <var>handles</var>.
 
  </p></li><li>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-37">success</a> with data <var>handles</var>.
@@ -3937,39 +3940,39 @@ make the tab containing the <a href="#dfn-browsing-contexts" class="internalDFN"
     <tr class="chrome no">
       <td>Chrome</td>
       <td>No</td>
-    </tr><tr class="chrome_android no">
+    </tr><tr class="chrome_android unknown">
       <td>Chrome Android</td>
-      <td>No</td>
-    </tr><tr class="edge no">
+      <td>?</td>
+    </tr><tr class="edge unknown">
       <td>Edge</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="edge_mobile unknown">
       <td>Edge Mobile</td>
       <td>?</td>
     </tr><tr class="firefox yes">
       <td>Firefox</td>
       <td>66+</td>
-    </tr><tr class="firefox_android yes">
+    </tr><tr class="firefox_android unknown">
       <td>Firefox Android</td>
-      <td>66+</td>
-    </tr><tr class="opera no">
+      <td>?</td>
+    </tr><tr class="opera unknown">
       <td>Opera</td>
-      <td>No</td>
-    </tr><tr class="opera_android no">
+      <td>?</td>
+    </tr><tr class="opera_android unknown">
       <td>Opera Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="safari no">
       <td>Safari</td>
       <td>No</td>
-    </tr><tr class="safari_ios no">
+    </tr><tr class="safari_ios unknown">
       <td>Safari iOS</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="samsunginternet_android no">
       <td>Samsung Internet</td>
       <td>No</td>
-    </tr><tr class="webview_android no">
+    </tr><tr class="webview_android unknown">
       <td>WebView Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr>
   </table>
   </details></aside><section id="new-window"><div class="header-wrapper"><h3 id="x11-5-new-window"><bdi class="secno">11.5 </bdi><dfn id="dfn-new-window" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">New Window</dfn></h3><a class="self-link" href="#new-window" aria-label="Permalink for Section 11.5"></a></div>
@@ -3986,7 +3989,7 @@ make the tab containing the <a href="#dfn-browsing-contexts" class="internalDFN"
  </tr>
 </tbody></table>
 
-<p>Create a new <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-12">top-level browsing context</a>.
+<p>Create a new <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-13">top-level browsing context</a>.
 
 </p><p>The <a href="#dfn-remote-end-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-end-steps-22">remote end steps</a> are:
 
@@ -4003,7 +4006,7 @@ make the tab containing the <a href="#dfn-browsing-contexts" class="internalDFN"
  </p></li><li><p>Let <var>type hint</var> be the result of <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-properties-12">getting the property</a>
   "<code>type</code>" from the <var>parameters</var> argument.
 
- </p></li><li><p>Create a new <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-13">top-level browsing context</a> by running
+ </p></li><li><p>Create a new <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-14">top-level browsing context</a> by running
   the <a href="#dfn-window-open-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-window-open-steps-1">window open steps</a> with <var>url</var> set to
   "<code>about:blank</code>", <var>target</var> set to the empty
   string, and <var>features</var> set to "<code>noopener</code>" and
@@ -4177,7 +4180,7 @@ make the tab containing the <a href="#dfn-browsing-contexts" class="internalDFN"
 
 </p><ol>
  <li><p>Run the substeps if the <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-23">current browsing context</a> is already the
-  <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-14">top-level browsing context</a>:
+  <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-15">top-level browsing context</a>:
 
   </p><ol>
     <li><p>If the <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-24">current browsing context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-14">no longer
@@ -4217,7 +4220,7 @@ make the tab containing the <a href="#dfn-browsing-contexts" class="internalDFN"
  Where a <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-44">command</a> is not supported,
  an <a href="#dfn-unsupported-operation" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unsupported-operation-2">unsupported operation</a> <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-90">error</a> is returned.
 
-</p><p>The <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-15">top-level browsing context</a>
+</p><p>The <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-16">top-level browsing context</a>
  has an associated <dfn data-lt="window states|window state" id="dfn-window-states" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">window state</dfn>
  which describes what visibility state its OS widget window is in.
  It can be in one of the following states:
@@ -4260,12 +4263,12 @@ make the tab containing the <a href="#dfn-browsing-contexts" class="internalDFN"
 </tbody></table>
 
 <p>If for whatever reason
- the <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-16">top-level browsing context</a>’s OS window
+ the <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-17">top-level browsing context</a>’s OS window
  cannot enter either of the <a href="#dfn-window-states" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-window-states-1">window states</a>,
  or if this concept is not applicable on the current system,
  the default state must be <a data-lt="normal window state" href="#dfn-normal-window-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-normal-window-state-1">normal</a>.
 
-</p><p>A <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-17">top-level browsing context</a>’s <dfn id="dfn-window-rect" tabindex="0" aria-haspopup="dialog" class="respec-offending-element" title="Found definition for &quot;window rect&quot;, but nothing links to it. This is usually a spec bug!" data-dfn-type="dfn">window rect</dfn>
+</p><p>A <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-18">top-level browsing context</a>’s <dfn id="dfn-window-rect" tabindex="0" aria-haspopup="dialog" class="respec-offending-element" title="Found definition for &quot;window rect&quot;, but nothing links to it. This is usually a spec bug!" data-dfn-type="dfn">window rect</dfn>
  is defined as a dictionary of the <a href="#dfn-screenx" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-screenx-1">screenX</a>, <a href="#dfn-screeny" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-screeny-1">screenY</a>,
  <a href="#dfn-outerwidth" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-outerwidth-1">outerWidth</a> and <a href="#dfn-outerheight" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-outerheight-1">outerHeight</a> attributes
  of the <a href="#dfn-windowproxy" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-windowproxy-3"><code>WindowProxy</code></a>.
@@ -4290,7 +4293,7 @@ with the following properties:
 
 <p>To <dfn id="dfn-maximize-the-window" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">maximize the window</dfn>,
  given an operating system level window
- with an associated <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-18">top-level browsing context</a>,
+ with an associated <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-19">top-level browsing context</a>,
  run the implementation-specific steps
  to transition the operating system level window
  into the <a href="#dfn-maximized-window-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-maximized-window-state-1">maximized window state</a>.
@@ -4305,25 +4308,25 @@ with the following properties:
 
 </p><p>To <dfn id="dfn-iconify-the-window" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">iconify the window</dfn>,
  given an operating system level window
- with an associated <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-19">top-level browsing context</a>,
+ with an associated <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-20">top-level browsing context</a>,
  run implementation-specific steps
  to iconify, minimize, or hide the window
  from the visible screen.
  Do not return from this operation
  until the <a href="#dfn-visibility-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-visibility-state-1">visibility state</a>
- of the <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-20">top-level browsing context</a>’s <a href="#dfn-active-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-active-document-7">active document</a>
+ of the <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-21">top-level browsing context</a>’s <a href="#dfn-active-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-active-document-7">active document</a>
  has reached the <a data-lt="visibility hidden" href="#dfn-visibility-hidden" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-visibility-hidden-1">hidden</a> state,
  or until the operation times out.
 
 </p><p>To <dfn id="dfn-restore-the-window" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">restore the window</dfn>,
  given an operating system level window
- with an associated <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-21">top-level browsing context</a>,
+ with an associated <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-22">top-level browsing context</a>,
  run implementation-specific steps
  to restore or unhide the window
  to the visible screen.
  Do not return from this operation
  until the <a href="#dfn-visibility-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-visibility-state-2">visibility state</a>
- of the <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-22">top-level browsing context</a>’s <a href="#dfn-active-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-active-document-8">active document</a>
+ of the <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-23">top-level browsing context</a>’s <a href="#dfn-active-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-active-document-8">active document</a>
  has reached the <a data-lt="visibility visible" href="#dfn-visibility-visible" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-visibility-visible-1">visible</a> state,
  or until the operation times out.
 
@@ -4338,9 +4341,9 @@ with the following properties:
     </tr><tr class="chrome_android no">
       <td>Chrome Android</td>
       <td>No</td>
-    </tr><tr class="edge no">
+    </tr><tr class="edge unknown">
       <td>Edge</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="edge_mobile unknown">
       <td>Edge Mobile</td>
       <td>?</td>
@@ -4353,21 +4356,21 @@ with the following properties:
     </tr><tr class="opera no">
       <td>Opera</td>
       <td>No</td>
-    </tr><tr class="opera_android no">
+    </tr><tr class="opera_android unknown">
       <td>Opera Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="safari no">
       <td>Safari</td>
       <td>No</td>
-    </tr><tr class="safari_ios no">
+    </tr><tr class="safari_ios unknown">
       <td>Safari iOS</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="samsunginternet_android no">
       <td>Samsung Internet</td>
       <td>No</td>
-    </tr><tr class="webview_android no">
+    </tr><tr class="webview_android unknown">
       <td>WebView Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr>
   </table>
   </details></aside><section id="get-window-rect"><div class="header-wrapper"><h4 id="x11-8-1-get-window-rect"><bdi class="secno">11.8.1 </bdi><dfn id="dfn-get-window-rect" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Get Window Rect</dfn></h4><a class="self-link" href="#get-window-rect" aria-label="Permalink for Section 11.8.1"></a></div>
@@ -4413,9 +4416,9 @@ with the following properties:
     </tr><tr class="chrome_android no">
       <td>Chrome Android</td>
       <td>No</td>
-    </tr><tr class="edge no">
+    </tr><tr class="edge unknown">
       <td>Edge</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="edge_mobile unknown">
       <td>Edge Mobile</td>
       <td>?</td>
@@ -4428,21 +4431,21 @@ with the following properties:
     </tr><tr class="opera no">
       <td>Opera</td>
       <td>No</td>
-    </tr><tr class="opera_android no">
+    </tr><tr class="opera_android unknown">
       <td>Opera Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="safari no">
       <td>Safari</td>
       <td>No</td>
-    </tr><tr class="safari_ios no">
+    </tr><tr class="safari_ios unknown">
       <td>Safari iOS</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="samsunginternet_android no">
       <td>Samsung Internet</td>
       <td>No</td>
-    </tr><tr class="webview_android no">
+    </tr><tr class="webview_android unknown">
       <td>WebView Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr>
   </table>
   </details></aside><section id="set-window-rect"><div class="header-wrapper"><h4 id="x11-8-2-set-window-rect"><bdi class="secno">11.8.2 </bdi><dfn id="dfn-set-window-rect" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Set Window Rect</dfn></h4><a class="self-link" href="#set-window-rect" aria-label="Permalink for Section 11.8.2"></a></div>
@@ -5851,9 +5854,9 @@ or on <a href="#dfn-option-elements" class="internalDFN" data-link-type="dfn" id
     </tr><tr class="chrome_android no">
       <td>Chrome Android</td>
       <td>No</td>
-    </tr><tr class="edge no">
+    </tr><tr class="edge unknown">
       <td>Edge</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="edge_mobile unknown">
       <td>Edge Mobile</td>
       <td>?</td>
@@ -5866,21 +5869,21 @@ or on <a href="#dfn-option-elements" class="internalDFN" data-link-type="dfn" id
     </tr><tr class="opera no">
       <td>Opera</td>
       <td>No</td>
-    </tr><tr class="opera_android no">
+    </tr><tr class="opera_android unknown">
       <td>Opera Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="safari no">
       <td>Safari</td>
       <td>No</td>
-    </tr><tr class="safari_ios no">
+    </tr><tr class="safari_ios unknown">
       <td>Safari iOS</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="samsunginternet_android no">
       <td>Samsung Internet</td>
       <td>No</td>
-    </tr><tr class="webview_android no">
+    </tr><tr class="webview_android unknown">
       <td>WebView Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr>
   </table>
   </details></aside><section id="get-element-attribute"><div class="header-wrapper"><h4 id="x12-4-2-get-element-attribute"><bdi class="secno">12.4.2 </bdi><dfn id="dfn-get-element-attribute" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Get Element Attribute</dfn></h4><a class="self-link" href="#get-element-attribute" aria-label="Permalink for Section 12.4.2"></a></div>
@@ -5946,9 +5949,9 @@ The <a href="#dfn-remote-end-steps" class="internalDFN" data-link-type="dfn" id=
     </tr><tr class="chrome_android no">
       <td>Chrome Android</td>
       <td>No</td>
-    </tr><tr class="edge no">
+    </tr><tr class="edge unknown">
       <td>Edge</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="edge_mobile unknown">
       <td>Edge Mobile</td>
       <td>?</td>
@@ -5961,21 +5964,21 @@ The <a href="#dfn-remote-end-steps" class="internalDFN" data-link-type="dfn" id=
     </tr><tr class="opera no">
       <td>Opera</td>
       <td>No</td>
-    </tr><tr class="opera_android no">
+    </tr><tr class="opera_android unknown">
       <td>Opera Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="safari no">
       <td>Safari</td>
       <td>No</td>
-    </tr><tr class="safari_ios no">
+    </tr><tr class="safari_ios unknown">
       <td>Safari iOS</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="samsunginternet_android no">
       <td>Samsung Internet</td>
       <td>No</td>
-    </tr><tr class="webview_android no">
+    </tr><tr class="webview_android unknown">
       <td>WebView Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr>
   </table>
   </details></aside><section id="get-element-property"><div class="header-wrapper"><h4 id="x12-4-3-get-element-property"><bdi class="secno">12.4.3 </bdi><dfn id="dfn-get-element-property" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Get Element Property</dfn></h4><a class="self-link" href="#get-element-property" aria-label="Permalink for Section 12.4.3"></a></div>
@@ -6130,9 +6133,9 @@ with the <a href="#dfn-unicode-character-property" class="internalDFN" data-link
     </tr><tr class="chrome_android no">
       <td>Chrome Android</td>
       <td>No</td>
-    </tr><tr class="edge no">
+    </tr><tr class="edge unknown">
       <td>Edge</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="edge_mobile unknown">
       <td>Edge Mobile</td>
       <td>?</td>
@@ -6145,21 +6148,21 @@ with the <a href="#dfn-unicode-character-property" class="internalDFN" data-link
     </tr><tr class="opera no">
       <td>Opera</td>
       <td>No</td>
-    </tr><tr class="opera_android no">
+    </tr><tr class="opera_android unknown">
       <td>Opera Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="safari no">
       <td>Safari</td>
       <td>No</td>
-    </tr><tr class="safari_ios no">
+    </tr><tr class="safari_ios unknown">
       <td>Safari iOS</td>
-      <td>No</td>
+      <td>?</td>
     </tr><tr class="samsunginternet_android no">
       <td>Samsung Internet</td>
       <td>No</td>
-    </tr><tr class="webview_android no">
+    </tr><tr class="webview_android unknown">
       <td>WebView Android</td>
-      <td>No</td>
+      <td>?</td>
     </tr>
   </table>
   </details></aside><section id="get-element-tag-name"><div class="header-wrapper"><h4 id="x12-4-6-get-element-tag-name"><bdi class="secno">12.4.6 </bdi><dfn id="dfn-get-element-tag-name" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Get Element Tag Name</dfn></h4><a class="self-link" href="#get-element-tag-name" aria-label="Permalink for Section 12.4.6"></a></div>
@@ -6521,8 +6524,9 @@ an <a href="#dfn-element-not-interactable" class="internalDFN" data-link-type="d
    </dd><dt>Otherwise
    </dt><dd>
     <ol>
-     <li><p>Let <var>input state</var> be <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-29">current session</a>'s
-     <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-2">input state</a>.
+     <li><p>Let <var>input state</var> be the result of <a href="#dfn-get-the-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-the-input-state-1">get the
+     input state</a> given <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-29">current session</a> and <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-60">current
+     top-level browsing context</a>.
 
      </p></li><li><p>Let <var>input id</var> be a the result of <a href="#dfn-generating-a-uuid" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-generating-a-uuid-4">generating a
      UUID</a>.
@@ -7087,8 +7091,9 @@ state</var>, <var>input id</var>, <var>source</var>,
     </dd>
   </dl>
 
- </li><li><p>Let <var>input state</var> be the <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-31">current session</a>'s
- <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-3">input state</a>.
+ </li><li><p>Let <var>input state</var> be the result of <a href="#dfn-get-the-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-the-input-state-2">get the
+ input state</a> with <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-31">current session</a> and <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-61">current
+ top-level browsing context</a>.
 
  </p></li><li><p>Let <var>input id</var> be a the result of <a href="#dfn-generating-a-uuid" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-generating-a-uuid-5">generating a
  UUID</a>.
@@ -8290,7 +8295,7 @@ input source</a> with the items initalized to their default values.
 <p>An <dfn id="dfn-input-state" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">input state</dfn> represents the overall state of a
 collection of <a href="#dfn-input-source" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-source-12">input sources</a>.
 
-An <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-4">input state</a> has the following items:
+An <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-2">input state</a> has the following items:
 
 </p><ul>
 
@@ -8302,21 +8307,55 @@ An <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-f
   resetting the state of the <a href="#dfn-input-source" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-source-14">input source</a>
 
  </p></li><li><p>An <dfn id="dfn-actions-queue" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">actions queue</dfn> which is a <a data-link-type="dfn" data-type="dfn" href="https://infra.spec.whatwg.org/#queue" id="ref-for-index-term-queue-3">queue</a> that ensures
- that access to the <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-5">input state</a> is serialized.
+ that access to the <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-3">input state</a> is serialized.
 
 </p></li></ul>
+
+<p>To <dfn id="dfn-get-the-input-state" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">get the input state</dfn> given <var>session</var>
+and <var>browsing context</var>:
+
+</p><ol class="algorithm">
+ <li class="assert"><p>Assert: <var>browsing context</var> is a <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-24">top-level browsing
+ context</a>.
+
+ </p></li><li><p>Let <var>input state map</var>
+ be <var>session</var>'s <a href="#dfn-browsing-context-input-state-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-browsing-context-input-state-map-1">browsing context input state map</a>.
+
+ </p></li><li><p>If <var>input state map</var> does not
+ <a data-link-type="dfn" data-lt="exist" data-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-index-term-exist-for-map-1">contain</a> <var>browsing context</var>, set <var>input
+ state map</var>[<var>browsing context</var>] to <a href="#dfn-create-an-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-create-an-input-state-1">create an input
+ state</a>.
+
+ </p></li><li><p><var>Return <var>input state map</var>[<var>browsing
+ context</var>].
+</var></p></li></ol>
+
+<p>To <dfn id="dfn-reset-the-input-state" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">reset the input state</dfn> given <var>session</var>
+and <var>browsing context</var>:
+
+</p><ol class="algorithm">
+ <li class="assert"><p>Assert: <var>browsing context</var> is a <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-25">top-level browsing
+ context</a>.
+
+ </p></li><li><p>Let <var>input state map</var>
+ be <var>session</var>'s <a href="#dfn-browsing-context-input-state-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-browsing-context-input-state-map-2">browsing context input state map</a>.
+
+ </p></li><li><p>If <var>input state map</var>[<var>browsing context</var>]
+ <a data-link-type="dfn" data-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-index-term-exist-for-map-2">exists</a>, then <a data-link-type="dfn" data-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-remove" id="ref-for-index-term-remove-1">remove</a> <var>input state map</var>[<var>browsing
+ context</var>].
+</p></li></ol>
 
 <p>To <dfn id="dfn-create-an-input-state" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">create an input state</dfn>:
 
 </p><ol class="algorithm">
- <li><p>Let <var>input state</var> be an <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-6">input state</a> with
+ <li><p>Let <var>input state</var> be an <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-4">input state</a> with
  the <a href="#dfn-input-state-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-map-2">input state map</a> set to an empty map, and the <a href="#dfn-input-cancel-list" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-cancel-list-1">input
  cancel list</a> set to an empty list.
 
  </p></li><li><p>Return <var>input state</var>.
 </p></li></ol>
 
-<p>To <dfn id="dfn-add-an-input-source" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">add an input source</dfn> given <var>input state</var>
+<p>To <dfn id="dfn-add-an-input-source" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">add an input source</dfn> given <var>input state</var>,
 <var>input id</var>, and <var>source</var>:
 
 </p><ol class="algorithm">
@@ -10422,8 +10461,9 @@ and <var>azimuthAngle</var>:
 <p>The <a href="#dfn-remote-end-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-end-steps-59">remote end steps</a> are:
 
 </p><ol class="algorithm">
- <li><p>Let <var>input state</var> be <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-32">current
- session</a>'s <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-7">input state</a>
+  <li><p>Let <var>input state</var> be the result of <a href="#dfn-get-the-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-the-input-state-3">get the
+  input state</a> with <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-32">current session</a> and <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-62">current
+  top-level browsing context</a>.
 
  </p></li><li><p>Let <var>actions by tick</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-70">trying</a>
   to <a href="#dfn-extract-an-action-sequence" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-extract-an-action-sequence-2">extract an action sequence</a> given <var>input state</var>,
@@ -10473,8 +10513,9 @@ It also clears all the internal state of the virtual devices.
  <li><p>If the <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-91">current browsing context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-51">no longer open</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-293">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-218">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-51">no such window</a>.
 
- </p></li><li><p>Let <var>input state</var> be <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-33">current
- session</a>’s <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-8">input state</a>.
+ </p></li><li><p>Let <var>input state</var> be the result of <a href="#dfn-get-the-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-the-input-state-4">get the
+ input state</a> with <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-33">current session</a> and <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-63">current
+ top-level browsing context</a>.
 
  </p></li><li><p>Let <var>undo actions</var> be <var>input
  state</var>’s <a href="#dfn-input-cancel-list" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-cancel-list-5">input cancel list</a> in reverse order.
@@ -10483,8 +10524,8 @@ It also clears all the internal state of the virtual devices.
   <var>undo actions</var>, <code>0</code>, and <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-92">current browsing
   context</a>.
 
- </p></li><li><p>Set the <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-34">current session</a>’s <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-9">input state</a> to
- the result of <a href="#dfn-create-an-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-create-an-input-state-2">create an input state</a>.
+ </p></li><li><p><a href="#dfn-reset-the-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-reset-the-input-state-1">Reset the input state</a> with <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-34">current session</a>
+ and <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-64">current top-level browsing context</a>.
 
  </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-115">success</a> with data <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-87"><code>null</code></a>.
 </p></li></ol>
@@ -10499,7 +10540,7 @@ It also clears all the internal state of the virtual devices.
  The common denominator for user prompts is that they are
  modal windows requiring users to interact with them
  before the <a href="#dfn-event-loop" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-event-loop-1">event loop</a> is <a href="#dfn-unpaused" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unpaused-1">unpaused</a>
- and control is returned to the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-60">current top-level browsing context</a>.
+ and control is returned to the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-65">current top-level browsing context</a>.
 
 </p><p>By default <a href="#dfn-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompts-5">user prompts</a> are not handled automatically
  unless a <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-4">user prompt handler</a> has been defined.
@@ -10728,7 +10769,7 @@ has the same effect as <a href="#dfn-accepting" class="internalDFN" data-link-ty
 </p></div><p>The <a href="#dfn-remote-end-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-end-steps-61">remote end steps</a> are:
 
 </p><ol>
- <li><p>If the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-61">current top-level browsing context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-52">no longer open</a>,
+ <li><p>If the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-66">current top-level browsing context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-52">no longer open</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-299">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-222">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-52">no such window</a>.
 
  </p></li><li><p>If there is no <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-10">current user prompt</a>,
@@ -10757,7 +10798,7 @@ has the same effect as <a href="#dfn-accepting" class="internalDFN" data-link-ty
 <p>The <a href="#dfn-remote-end-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-end-steps-62">remote end steps</a> are:
 
 </p><ol>
- <li><p>If the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-62">current top-level browsing context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-53">no longer open</a>,
+ <li><p>If the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-67">current top-level browsing context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-53">no longer open</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-301">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-224">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-53">no such window</a>.
 
  </p></li><li><p>If there is no <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-12">current user prompt</a>,
@@ -10786,7 +10827,7 @@ has the same effect as <a href="#dfn-accepting" class="internalDFN" data-link-ty
 <p>The <a href="#dfn-remote-end-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-end-steps-63">remote end steps</a> are:
 
 </p><ol>
- <li><p>If the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-63">current top-level browsing context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-54">no longer open</a>,
+ <li><p>If the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-68">current top-level browsing context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-54">no longer open</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-303">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-226">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-54">no such window</a>.
 
  </p></li><li><p>If there is no <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-14">current user prompt</a>,
@@ -10829,7 +10870,7 @@ sets the text field of a <a href="#dfn-window-prompt" class="internalDFN" data-l
  </p></li><li><p>If <var>text</var> is not a <a href="#dfn-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-string-15">String</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-305">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-228">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-102">invalid argument</a>.
 
- </p></li><li><p>If the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-64">current top-level browsing context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-55">no longer open</a>,
+ </p></li><li><p>If the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-69">current top-level browsing context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-55">no longer open</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-306">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-229">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-55">no such window</a>.
 
  </p></li><li><p>If there is no <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-16">current user prompt</a>,
@@ -10872,7 +10913,7 @@ sets the text field of a <a href="#dfn-window-prompt" class="internalDFN" data-l
  It is returned to the <a href="#dfn-local-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-local-ends-17">local end</a> as a Base64 encoded string.
 
 </p><p>WebDriver provides the <a href="#dfn-take-screenshot" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-take-screenshot-2">Take Screenshot</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-65">command</a>
- to capture the <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-23">top-level browsing context</a>’s <a href="#dfn-viewport" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-viewport-5">initial viewport</a>,
+ to capture the <a href="#dfn-top-level-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-top-level-browsing-contexts-26">top-level browsing context</a>’s <a href="#dfn-viewport" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-viewport-5">initial viewport</a>,
  and a <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-66">command</a> <a href="#dfn-take-element-screenshot" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-take-element-screenshot-2">Take Element Screenshot</a>
  for doing the same with the visible region of an <a href="#dfn-elements" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-elements-49">element</a>’s
  <a href="#dfn-bounding-rectangle" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-bounding-rectangle-4">bounding rectangle</a> after it has been <a href="#dfn-scrolls-into-view" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-scrolls-into-view-7">scrolled into view</a>.
@@ -10968,12 +11009,12 @@ sets the text field of a <a href="#dfn-window-prompt" class="internalDFN" data-l
 <p>The <a href="#dfn-remote-end-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-end-steps-65">remote end steps</a> are:
 
 </p><ol>
- <li><p>If the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-65">current top-level browsing context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-56">no longer open</a>,
+ <li><p>If the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-70">current top-level browsing context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-56">no longer open</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-313">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-236">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-56">no such window</a>.
 
  </p></li><li><p>When the user agent is next to <a href="#dfn-run-the-animation-frame-callbacks" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-run-the-animation-frame-callbacks-1">run the animation frame callbacks</a>:
   </p><ol>
-   <li><p>Let <var>root rect</var> be the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-66">current top-level browsing context</a>’s
+   <li><p>Let <var>root rect</var> be the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-71">current top-level browsing context</a>’s
     <a href="#dfn-document-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-document-element-10">document element</a>’s <a href="#dfn-bounding-rectangle" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-bounding-rectangle-6">rectangle</a>.
 
    </p></li><li><p>Let <var>screenshot result</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-72">trying</a> to call
@@ -11165,7 +11206,7 @@ argument <var>input</var> an implementation must:
 <p>The <a href="#dfn-remote-end-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-end-steps-67">remote end steps</a> are:
 
 </p><ol>
- <li><p>If the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-67">current top-level browsing context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-58">no longer open</a>,
+ <li><p>If the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-72">current top-level browsing context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-58">no longer open</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-322">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-242">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-58">no such window</a>.
 
  </p></li><li><p><a href="#dfn-handle-any-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handle-any-user-prompts-51">Handle any user prompts</a> and return its value if it is an <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-323">error</a>.
@@ -12158,6 +12199,8 @@ This specification relies on several other underlying specifications.
     <span class="print-only">§7.</span></li><li>
       <a class="index-term" href="#dfn-browsing-contexts">Browsing context</a> 
     <span class="print-only">§E.</span></li><li>
+      <a class="index-term" href="#dfn-browsing-context-input-state-map">browsing context input state map</a> 
+    <span class="print-only">§8.</span></li><li>
       <a class="index-term" href="#dfn-button">Button</a> 
     <span class="print-only">§E.</span></li><li>
       <a class="index-term" href="#dfn-buttons">Buttons</a> 
@@ -12591,6 +12634,8 @@ This specification relies on several other underlying specifications.
       <a class="index-term" href="#dfn-get-page-source">Get Page Source</a> 
     <span class="print-only">§13.1</span></li><li>
       <a class="index-term" href="#dfn-get-the-global-key-state">get the global key state</a> 
+    <span class="print-only">§15.2</span></li><li>
+      <a class="index-term" href="#dfn-get-the-input-state">get the input state</a> 
     <span class="print-only">§15.2</span></li><li>
       <a class="index-term" href="#dfn-get-timeouts">Get Timeouts</a> 
     <span class="print-only">§9.1</span></li><li>
@@ -13118,6 +13163,8 @@ This specification relies on several other underlying specifications.
     <span class="print-only">§6.4</span></li><li>
       <a class="index-term" href="#dfn-reset-algorithms">Reset algorithm</a> 
     <span class="print-only">§E.</span></li><li>
+      <a class="index-term" href="#dfn-reset-the-input-state">reset the input state</a> 
+    <span class="print-only">§15.2</span></li><li>
       <a class="index-term" href="#dfn-resettable-elements">Resettable element</a> 
     <span class="print-only">§E.</span></li><li>
       <a class="index-term" href="#dfn-resolved-value">Resolved value</a> 
@@ -13491,6 +13538,8 @@ This specification relies on several other underlying specifications.
     <span class="index-term" data-href="https://dom.spec.whatwg.org/#nodelist" id="index-term-nodelist-interface" tabindex="0" aria-haspopup="dialog"><code>NodeList</code> interface</span>
   </li><li>
     <span class="index-term" data-href="https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall" id="index-term-queryselectorall-for-parentnode" tabindex="0" aria-haspopup="dialog"><code>querySelectorAll()</code> (for <code>ParentNode</code>)</span>
+  </li><li>
+    <span class="index-term" data-href="https://dom.spec.whatwg.org/#concept-node-remove" id="index-term-remove" tabindex="0" aria-haspopup="dialog">remove</span>
   </li>
         </ul>
       </li><li>
@@ -13520,6 +13569,8 @@ This specification relies on several other underlying specifications.
         <ul>
           <li>
     <span class="index-term" data-href="https://infra.spec.whatwg.org/#ascii-lowercase" id="index-term-ascii-lowercase" tabindex="0" aria-haspopup="dialog">ASCII Lowercase</span>
+  </li><li>
+    <span class="index-term" data-href="https://infra.spec.whatwg.org/#map-exists" id="index-term-exist-for-map" tabindex="0" aria-haspopup="dialog">exist (for <code>map</code>)</span>
   </li><li>
     <span class="index-term" data-href="https://infra.spec.whatwg.org/#map-getting-the-values" id="index-term-getting-the-values-for-map" tabindex="0" aria-haspopup="dialog">getting the values (for <code>map</code>)</span>
   </li><li>
@@ -16492,19 +16543,27 @@ This specification relies on several other underlying specifications.
   </li><li>
     <a href="#ref-for-dfn-current-top-level-browsing-context-59" title="§ 12.4 State">§ 12.4 State</a> 
   </li><li>
-    <a href="#ref-for-dfn-current-top-level-browsing-context-60" title="§ 16. User prompts">§ 16. User prompts</a> 
+    <a href="#ref-for-dfn-current-top-level-browsing-context-60" title="§ 12.5.1 Element Click">§ 12.5.1 Element Click</a> 
   </li><li>
-    <a href="#ref-for-dfn-current-top-level-browsing-context-61" title="§ 16.1 Dismiss Alert">§ 16.1 Dismiss Alert</a> 
+    <a href="#ref-for-dfn-current-top-level-browsing-context-61" title="§ 12.5.3 Element Send Keys">§ 12.5.3 Element Send Keys</a> 
   </li><li>
-    <a href="#ref-for-dfn-current-top-level-browsing-context-62" title="§ 16.2 Accept Alert">§ 16.2 Accept Alert</a> 
+    <a href="#ref-for-dfn-current-top-level-browsing-context-62" title="§ 15.6 Perform Actions">§ 15.6 Perform Actions</a> 
   </li><li>
-    <a href="#ref-for-dfn-current-top-level-browsing-context-63" title="§ 16.3 Get Alert Text">§ 16.3 Get Alert Text</a> 
+    <a href="#ref-for-dfn-current-top-level-browsing-context-63" title="§ 15.7 Release Actions">§ 15.7 Release Actions</a> <a href="#ref-for-dfn-current-top-level-browsing-context-64" title="Reference 2">(2)</a> 
   </li><li>
-    <a href="#ref-for-dfn-current-top-level-browsing-context-64" title="§ 16.4 Send Alert Text">§ 16.4 Send Alert Text</a> 
+    <a href="#ref-for-dfn-current-top-level-browsing-context-65" title="§ 16. User prompts">§ 16. User prompts</a> 
   </li><li>
-    <a href="#ref-for-dfn-current-top-level-browsing-context-65" title="§ 17.1 Take Screenshot">§ 17.1 Take Screenshot</a> <a href="#ref-for-dfn-current-top-level-browsing-context-66" title="Reference 2">(2)</a> 
+    <a href="#ref-for-dfn-current-top-level-browsing-context-66" title="§ 16.1 Dismiss Alert">§ 16.1 Dismiss Alert</a> 
   </li><li>
-    <a href="#ref-for-dfn-current-top-level-browsing-context-67" title="§ 18.1 Print Page">§ 18.1 Print Page</a> 
+    <a href="#ref-for-dfn-current-top-level-browsing-context-67" title="§ 16.2 Accept Alert">§ 16.2 Accept Alert</a> 
+  </li><li>
+    <a href="#ref-for-dfn-current-top-level-browsing-context-68" title="§ 16.3 Get Alert Text">§ 16.3 Get Alert Text</a> 
+  </li><li>
+    <a href="#ref-for-dfn-current-top-level-browsing-context-69" title="§ 16.4 Send Alert Text">§ 16.4 Send Alert Text</a> 
+  </li><li>
+    <a href="#ref-for-dfn-current-top-level-browsing-context-70" title="§ 17.1 Take Screenshot">§ 17.1 Take Screenshot</a> <a href="#ref-for-dfn-current-top-level-browsing-context-71" title="Reference 2">(2)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-current-top-level-browsing-context-72" title="§ 18.1 Print Page">§ 18.1 Print Page</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-session-script-timeout" aria-label="Links in this document to definition: session timeouts">
@@ -16567,6 +16626,18 @@ This specification relies on several other underlying specifications.
     <a href="#ref-for-dfn-secure-tls-1" title="§ 10. Navigation">§ 10. Navigation</a> 
   </li><li>
     <a href="#ref-for-dfn-secure-tls-2" title="§ 10.1 Navigate To">§ 10.1 Navigate To</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-browsing-context-input-state-map" aria-label="Links in this document to definition: browsing context input state map">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-browsing-context-input-state-map" aria-label="Permalink for definition: browsing context input state map. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-browsing-context-input-state-map-1" title="§ 15.2 Input state">§ 15.2 Input state</a> <a href="#ref-for-dfn-browsing-context-input-state-map-2" title="Reference 2">(2)</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-request-queue" aria-label="Links in this document to definition: request queue">
@@ -19272,15 +19343,7 @@ This specification relies on several other underlying specifications.
     <li>
     <a href="#ref-for-dfn-input-state-1" title="§ 8. Sessions">§ 8. Sessions</a> 
   </li><li>
-    <a href="#ref-for-dfn-input-state-2" title="§ 12.5.1 Element Click">§ 12.5.1 Element Click</a> 
-  </li><li>
-    <a href="#ref-for-dfn-input-state-3" title="§ 12.5.3 Element Send Keys">§ 12.5.3 Element Send Keys</a> 
-  </li><li>
-    <a href="#ref-for-dfn-input-state-4" title="§ 15.2 Input state">§ 15.2 Input state</a> <a href="#ref-for-dfn-input-state-5" title="Reference 2">(2)</a> <a href="#ref-for-dfn-input-state-6" title="Reference 3">(3)</a> 
-  </li><li>
-    <a href="#ref-for-dfn-input-state-7" title="§ 15.6 Perform Actions">§ 15.6 Perform Actions</a> 
-  </li><li>
-    <a href="#ref-for-dfn-input-state-8" title="§ 15.7 Release Actions">§ 15.7 Release Actions</a> <a href="#ref-for-dfn-input-state-9" title="Reference 2">(2)</a> 
+    <a href="#ref-for-dfn-input-state-2" title="§ 15.2 Input state">§ 15.2 Input state</a> <a href="#ref-for-dfn-input-state-3" title="Reference 2">(2)</a> <a href="#ref-for-dfn-input-state-4" title="Reference 3">(3)</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-input-state-map" aria-label="Links in this document to definition: input state map">
@@ -19325,6 +19388,36 @@ This specification relies on several other underlying specifications.
     <a href="#ref-for-dfn-actions-queue-1" title="§ 15.5 Dispatching actions">§ 15.5 Dispatching actions</a> <a href="#ref-for-dfn-actions-queue-2" title="Reference 2">(2)</a> <a href="#ref-for-dfn-actions-queue-3" title="Reference 3">(3)</a> 
   </li>
   </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-get-the-input-state" aria-label="Links in this document to definition: get the input state">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-get-the-input-state" aria-label="Permalink for definition: get the input state. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-get-the-input-state-1" title="§ 12.5.1 Element Click">§ 12.5.1 Element Click</a> 
+  </li><li>
+    <a href="#ref-for-dfn-get-the-input-state-2" title="§ 12.5.3 Element Send Keys">§ 12.5.3 Element Send Keys</a> 
+  </li><li>
+    <a href="#ref-for-dfn-get-the-input-state-3" title="§ 15.6 Perform Actions">§ 15.6 Perform Actions</a> 
+  </li><li>
+    <a href="#ref-for-dfn-get-the-input-state-4" title="§ 15.7 Release Actions">§ 15.7 Release Actions</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-reset-the-input-state" aria-label="Links in this document to definition: reset the input state">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-reset-the-input-state" aria-label="Permalink for definition: reset the input state. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-dfn-reset-the-input-state-1" title="§ 15.7 Release Actions">§ 15.7 Release Actions</a> 
+  </li>
+  </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-create-an-input-state" aria-label="Links in this document to definition: create an input state">
       <span class="caret"></span>
       <div>
@@ -19334,9 +19427,7 @@ This specification relies on several other underlying specifications.
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-    <a href="#ref-for-dfn-create-an-input-state-1" title="§ 8. Sessions">§ 8. Sessions</a> 
-  </li><li>
-    <a href="#ref-for-dfn-create-an-input-state-2" title="§ 15.7 Release Actions">§ 15.7 Release Actions</a> 
+    <a href="#ref-for-dfn-create-an-input-state-1" title="§ 15.2 Input state">§ 15.2 Input state</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-add-an-input-source" aria-label="Links in this document to definition: add an input source">
@@ -23042,25 +23133,27 @@ This specification relies on several other underlying specifications.
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-    <a href="#ref-for-dfn-top-level-browsing-contexts-1" title="§ 8. Sessions">§ 8. Sessions</a> <a href="#ref-for-dfn-top-level-browsing-contexts-2" title="Reference 2">(2)</a> 
+    <a href="#ref-for-dfn-top-level-browsing-contexts-1" title="§ 8. Sessions">§ 8. Sessions</a> <a href="#ref-for-dfn-top-level-browsing-contexts-2" title="Reference 2">(2)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-3" title="Reference 3">(3)</a> 
   </li><li>
-    <a href="#ref-for-dfn-top-level-browsing-contexts-3" title="§ 8.1 New Session">§ 8.1 New Session</a> 
+    <a href="#ref-for-dfn-top-level-browsing-contexts-4" title="§ 8.1 New Session">§ 8.1 New Session</a> 
   </li><li>
-    <a href="#ref-for-dfn-top-level-browsing-contexts-4" title="§ 11. Contexts">§ 11. Contexts</a> <a href="#ref-for-dfn-top-level-browsing-contexts-5" title="Reference 2">(2)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-6" title="Reference 3">(3)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-7" title="Reference 4">(4)</a> 
+    <a href="#ref-for-dfn-top-level-browsing-contexts-5" title="§ 11. Contexts">§ 11. Contexts</a> <a href="#ref-for-dfn-top-level-browsing-contexts-6" title="Reference 2">(2)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-7" title="Reference 3">(3)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-8" title="Reference 4">(4)</a> 
   </li><li>
-    <a href="#ref-for-dfn-top-level-browsing-contexts-8" title="§ 11.2 Close Window">§ 11.2 Close Window</a> 
+    <a href="#ref-for-dfn-top-level-browsing-contexts-9" title="§ 11.2 Close Window">§ 11.2 Close Window</a> 
   </li><li>
-    <a href="#ref-for-dfn-top-level-browsing-contexts-9" title="§ 11.3 Switch To Window">§ 11.3 Switch To Window</a> <a href="#ref-for-dfn-top-level-browsing-contexts-10" title="Reference 2">(2)</a> 
+    <a href="#ref-for-dfn-top-level-browsing-contexts-10" title="§ 11.3 Switch To Window">§ 11.3 Switch To Window</a> <a href="#ref-for-dfn-top-level-browsing-contexts-11" title="Reference 2">(2)</a> 
   </li><li>
-    <a href="#ref-for-dfn-top-level-browsing-contexts-11" title="§ 11.4 Get Window Handles">§ 11.4 Get Window Handles</a> 
+    <a href="#ref-for-dfn-top-level-browsing-contexts-12" title="§ 11.4 Get Window Handles">§ 11.4 Get Window Handles</a> 
   </li><li>
-    <a href="#ref-for-dfn-top-level-browsing-contexts-12" title="§ 11.5 New Window">§ 11.5 New Window</a> <a href="#ref-for-dfn-top-level-browsing-contexts-13" title="Reference 2">(2)</a> 
+    <a href="#ref-for-dfn-top-level-browsing-contexts-13" title="§ 11.5 New Window">§ 11.5 New Window</a> <a href="#ref-for-dfn-top-level-browsing-contexts-14" title="Reference 2">(2)</a> 
   </li><li>
-    <a href="#ref-for-dfn-top-level-browsing-contexts-14" title="§ 11.7 Switch To Parent Frame">§ 11.7 Switch To Parent Frame</a> 
+    <a href="#ref-for-dfn-top-level-browsing-contexts-15" title="§ 11.7 Switch To Parent Frame">§ 11.7 Switch To Parent Frame</a> 
   </li><li>
-    <a href="#ref-for-dfn-top-level-browsing-contexts-15" title="§ 11.8 Resizing and positioning windows">§ 11.8 Resizing and positioning windows</a> <a href="#ref-for-dfn-top-level-browsing-contexts-16" title="Reference 2">(2)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-17" title="Reference 3">(3)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-18" title="Reference 4">(4)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-19" title="Reference 5">(5)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-20" title="Reference 6">(6)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-21" title="Reference 7">(7)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-22" title="Reference 8">(8)</a> 
+    <a href="#ref-for-dfn-top-level-browsing-contexts-16" title="§ 11.8 Resizing and positioning windows">§ 11.8 Resizing and positioning windows</a> <a href="#ref-for-dfn-top-level-browsing-contexts-17" title="Reference 2">(2)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-18" title="Reference 3">(3)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-19" title="Reference 4">(4)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-20" title="Reference 5">(5)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-21" title="Reference 6">(6)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-22" title="Reference 7">(7)</a> <a href="#ref-for-dfn-top-level-browsing-contexts-23" title="Reference 8">(8)</a> 
   </li><li>
-    <a href="#ref-for-dfn-top-level-browsing-contexts-23" title="§ 17. Screen capture">§ 17. Screen capture</a> 
+    <a href="#ref-for-dfn-top-level-browsing-contexts-24" title="§ 15.2 Input state">§ 15.2 Input state</a> <a href="#ref-for-dfn-top-level-browsing-contexts-25" title="Reference 2">(2)</a> 
+  </li><li>
+    <a href="#ref-for-dfn-top-level-browsing-contexts-26" title="§ 17. Screen capture">§ 17. Screen capture</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-traversing-the-history" aria-label="Links in this document to definition: Traverse the history">
@@ -24849,6 +24942,18 @@ This specification relies on several other underlying specifications.
     <a href="#ref-for-index-term-queryselectorall-for-parentnode-3" title="§ 12.3.1.3 Partial link text">§ 12.3.1.3 Partial link text</a> 
   </li>
   </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-index-term-remove" aria-label="Links in this document to definition: remove">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="https://dom.spec.whatwg.org/#concept-node-remove" aria-label="Permalink for definition: remove. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-index-term-remove-1" title="§ 15.2 Input state">§ 15.2 Input state</a> 
+  </li>
+  </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-index-term-domrect-interface" aria-label="Links in this document to definition: DOMRect interface">
       <span class="caret"></span>
       <div>
@@ -24939,6 +25044,18 @@ This specification relies on several other underlying specifications.
       <ul>
     <li>
     <a href="#ref-for-index-term-ascii-lowercase-1" title="§ 7.2 Processing capabilities">§ 7.2 Processing capabilities</a> <a href="#ref-for-index-term-ascii-lowercase-2" title="Reference 2">(2)</a> 
+  </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-index-term-exist-for-map" aria-label="Links in this document to definition: exist (for map)">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="https://infra.spec.whatwg.org/#map-exists" aria-label="Permalink for definition: exist (for map). Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+    <a href="#ref-for-index-term-exist-for-map-1" title="§ 15.2 Input state">§ 15.2 Input state</a> <a href="#ref-for-index-term-exist-for-map-2" title="Reference 2">(2)</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-index-term-getting-the-values-for-map" aria-label="Links in this document to definition: getting the values (for map)">
