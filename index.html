@@ -4346,20 +4346,20 @@ is given by:
   is an abstraction used to identify a <a>shadow root</a>
   when it is transported via the <a href="#protocol">protocol</a>,
   between <a>remote</a> and <a>local</a> ends.
- 
+
  <p>The <dfn>shadow root identifier</dfn> is the string constant
   "<code>shadow-6066-11e4-a52e-4f735466cecf</code>".
- 
+
  <p>Each <a>shadow root</a> has an associated <dfn>shadow root
   reference</dfn> that uniquely identifies the <a>shadow root</a> across
   all <a>browsing contexts</a>.  The <a>shadow root reference</a> for
   every <a>shadow root</a> representing the same <a>shadow root</a> must be the
   same. It must be a string, and should be the result of <a>generating
   a UUID</a>.
- 
+
  <p>An ECMAScript <a>Object</a> <dfn>represents a shadow root</dfn>
   if it has a <a>shadow root identifier</a> <a>own property</a>.
- 
+
  <p>Each <a>browsing context</a> has an associated <dfn>list of
   known shadow roots</dfn>.
   When the <a>browsing context</a> is <a>discarded</a>,
@@ -4367,7 +4367,7 @@ is given by:
 
   <p>To <dfn>get a known shadow root</dfn> with
     argument <var>reference</var>, run the following steps:
-   
+
    <ol>
     <li>Let <var>shadow</var> be the item in the <a>current browsing
     context</a>’s <a>list of known shadow roots</a> for which the <a>shadow
@@ -4379,26 +4379,26 @@ is given by:
     <a>detached shadow root</a>.
     <li>Return <a>success</a> with <var>shadow</var>.
    </ol>
-   
+
    <p>To <dfn>get or create a shadow root reference</dfn>
     with <a><var>shadow root</var></a>:
-   
+
    <ol>
     <li><p>For each <var>known shadow root</var>
      of the <a>current browsing context</a>’s <a>list of known shadow roots</a>:
-   
+
      <ol>
       <li><p>If <var>known shadow root</var> <a>equals</a> <var>shadow root</var>,
        return <a>success</a> with <var>known shadow root</var>’s <a>shadow root reference</a>.
      </ol>
-   
+
     <li><p>Add <var>shadow</var> to
      the <a>list of known shadow roots</a> of the <a>current browsing context</a>.
-   
+
     <li><p>Return <a>success</a> with the
      <var>shadow</var>’s <a>shadow root reference</a>.
    </ol>
-   
+
    <p>The <dfn>shadow root reference object</dfn> for <var>shadow
    root</var> is given by:
 
@@ -4411,26 +4411,26 @@ is given by:
    <li><p>Return a JSON <a>Object</a> initialized with a property with
        name <var>identifier</var> and value <var>reference</var>.
    </ol>
-   
+
    <p>When required to <dfn>deserialize a shadow root</dfn>
     by a JSON <a>Object</a> <var>object</var> that <a>represents a shadow root</a>:
-   
+
    <ol>
     <li><p>If <var>object</var> has no <a>own property</a> <a>shadow root identifier</a>,
      return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-   
+
     <li><p>Let <var>reference</var> be the result of
      <a data-lt="getting a property">getting</a>
      the <a>shadow root identifier</a> property
      from <var>object</var>.
-   
+
     <li><p>Let <var>shadow</var> be the result
      of <a>trying</a> to <a>get a known shadow root</a>
      with argument <var>reference</var>.
-   
+
     <li><p>Return <a>success</a> with data <var>shadow</var>.
    </ol>
-   
+
    <p>A <a>shadow root</a> <dfn>is detached</dfn>
     if its [=Node/node document=] is not the <a>active document</a>
     or if the element node referred to as its <a>document fragment host</a>
@@ -4985,7 +4985,7 @@ session.execute("arguments[0].remove()", [body]);
   <var>start node</var>, <var>location strategy</var>, and <var>selector</var>.
 </ol>
 </section> <!-- /Find Elements From Shadow Root -->
-  
+
 <section>
 <h4><dfn>Get Active Element</dfn></h4>
 
@@ -11161,8 +11161,8 @@ to automatically sort each list alphabetically.
   the <a href=https://selenium.dev>Selenium</a> project, at
   revision <code>1721e627e3b5ab90a06e82df1b088a33a8d11c20</code>.
   <ul>
-   <!-- bot.dom.getVisibleText --> <li><dfn><a href=https://github.com/SeleniumHQ/selenium/blob/e09e28f016c9f53196cf68d6f71991c5af4a35d4/javascript/atoms/dom.js#L981><code>bot.dom.getVisibleText</code></a></dfn>
-   <!-- bot.dom.isShown --> <li><dfn><a href=https://github.com/SeleniumHQ/selenium/blob/e09e28f016c9f53196cf68d6f71991c5af4a35d4/javascript/atoms/dom.js#L550><code>bot.dom.isShown</code></a></dfn>
+   <!-- bot.dom.getVisibleText --> <li><dfn><a href=https://github.com/SeleniumHQ/selenium/blob/a6b161a159c3d581b130f03a2e6e35f577f38dec/javascript/atoms/dom.js#L1007><code>bot.dom.getVisibleText</code></a></dfn>
+   <!-- bot.dom.isShown --> <li><dfn><a href=https://github.com/SeleniumHQ/selenium/blob/a6b161a159c3d581b130f03a2e6e35f577f38dec/javascript/atoms/dom.js#L573><code>bot.dom.isShown</code></a></dfn>
   </ul>
 
  <dt>Styling
