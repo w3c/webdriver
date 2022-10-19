@@ -49,7 +49,10 @@ var respecConfig = {
   group: "browser-tools-testing",
   noIDLSorting: true,
   mdn: "webdriver",
-  xref: "web-platform",
+  xref: {
+    specs: ["fileapi"],
+    profile: "web-platform",
+  },
 };
 </script>
 <script src=issue.js></script>
@@ -2775,9 +2778,9 @@ Return <a>success</a> with data <a><code>null</code></a>.
  the point at which the command returns
  is determined by the session’s <a>page loading strategy</a>.
  The <a>normal</a> state causes it
- to return after the <a><code>load</code></a> <a>event fires</a> on the new page,
+ to return after the <a><code>load</code></a> [=fire an event|event fires=] on the new page,
  <a>eager</a> causes it to return
- after the <a><code>DOMContentLoaded</code></a> <a>event fires</a>,
+ after the <a><code>DOMContentLoaded</code></a> [=fire an event|event fires=],
  and <a>none</a> causes it to return immediately.
 
 <p>Navigation actions are also affected by the value of
@@ -2946,7 +2949,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>current URL</var> be the <a>current top-level browsing context</a>’s
- <a>active document</a>’s <a>document URL</a>.
+ <a>active document</a>’s [=Document/URL=].
 
  <li><p>If <var>current URL</var> and <var>url</var> do not have the same
    <a>absolute URL</a>:
@@ -3006,7 +3009,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
 
  <li><p>Let <var>url</var> be the <a data-lt="URL serializer">serialization</a>
   of the <a>current top-level browsing context</a>’s
-  <a>active document</a>’s <a>document URL</a>.
+  <a>active document</a>’s [=Document/URL=].
 
  <li><p>Return <a>success</a> with data <var>url</var>.
 </ol>
@@ -3044,7 +3047,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
   for the <a>current browsing context</a>.
 
  <li><p>If the previous step completed results in a <a><code>pageHide</code></a>
-  <a>event firing</a>, wait until <a><code>pageShow</code></a> <a>event fires</a>
+  [=fire an event|event firing=], wait until <a><code>pageShow</code></a> [=fire an event|event fires=]
   or for the <a>session page load timeout</a> milliseconds to pass,
   whichever occurs sooner.
 
@@ -3089,7 +3092,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
   for the <a>current browsing context</a>.
 
  <li><p>If the previous step completed results in a <a><code>pageHide</code></a>
-   <a>event</a> firing, wait until <a><code>pageShow</code></a> <a>event fires</a>
+   <a>event</a> firing, wait until <a><code>pageShow</code></a> [=fire an event|event fires=]
    or for the <a>session page load timeout</a> milliseconds to pass,
    whichever occurs sooner.
 
@@ -3159,7 +3162,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
  </tr>
 </table>
 
-<p class=note>This command returns the <a>document title</a>
+<p class=note>This command returns the document title
  of the <a>current top-level browsing context</a>,
  equivalent to calling <code>document.title</code>.
 
@@ -3171,9 +3174,8 @@ Return <a>success</a> with data <a><code>null</code></a>.
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>title</var> be the result of calling the algorithm
-  for getting the <a><code>title</code></a> attribute of the <a>current
-  top-level browsing context</a>’s <a>active document</a>.
+ <li><p>Let <var>title</var> be the <a>current top-level browsing context</a>’s
+  <a>active document</a>’s {{Document/title}}.
 
  <li><p>Return <a>success</a> with data <var>title</var>.
 </ol>
@@ -3563,8 +3565,8 @@ make the tab containing the <a>browsing context</a> the selected tab.
       of <a>trying</a> to <a>get a known connected element</a>
       by <a>web element reference</a> <var>id</var>.
 
-     <li><p>If <var>element</var> is not a <a><code>frame</code></a>
-      or <a><code>iframe</code></a> element,
+     <li><p>If <var>element</var> is not a [^frame^]
+      or [^iframe^] element,
       return <a>error</a> with <a>error code</a> <a>no such frame</a>.
 
      <li><p><a>Set the current browsing context</a>
@@ -4088,7 +4090,7 @@ argument <var>reference</var>, run the following steps:
   of the <a>current browsing context</a>’s <a>list of known elements</a>:
 
   <ol>
-   <li><p>If <var>known element</var> <a>equals</a> <var>element</var>,
+   <li><p>If <var>known element</var> [=Node/equals=] <var>element</var>,
     return <a>success</a> with <var>known element</var>’s <a>web element reference</a>.
   </ol>
 
@@ -4163,9 +4165,9 @@ is given by:
 
 <dl class=subcategories>
  <dt><dfn data-lt="mutable form control element">Mutable form control elements</dfn>
- <dd><p>Denotes <a><code>input</code> elements</a>
+ <dd><p>Denotes [^input^] elements
   that are <a>mutable</a> (e.g. that are not <a>read only</a> or <a>disabled</a>)
-  and whose <a><code>type</code> attribute</a>
+  and whose [^input/type^] attribute</a>
   is in one of the following states:
 
   <ul class=brief>
@@ -4197,8 +4199,8 @@ is given by:
  is "<code>none</code>".
 
 <p>An <a>element</a> is to be considered <dfn>read only</dfn>
- if it is an <a><code>input</code> element</a>
- whose <a><code>readOnly</code> attribute</a> is set.
+ if it is an [^input^] element
+ whose [^input/readonly^] attribute is set.
 
 
 <section>
@@ -4221,7 +4223,7 @@ is given by:
 
 <p>A <dfn data-lt="keyboard-interactable">keyboard-interactable element</dfn>
  is any <a>element</a> that has a <a>focusable area</a>,
- is a <a><code>body</code> element</a>,
+ is a [^body^] element,
  or is the <a>document element</a>.
 
 <p>An <a>element</a>’s <dfn data-lt="center point">in-view center point</dfn>
@@ -4270,7 +4272,7 @@ is given by:
  if the <a>pointer-interactable paint tree</a>
  at its <a>center point</a> is empty,
  or the first element in this tree
- is not an <a>inclusive descendant</a> of itself.
+ is not an [=tree/inclusive descendant=] of itself.
 
 <aside class=example>
  <p>This ascertains if the <a>element</a>’s <a>in-view center point</a>
@@ -4278,8 +4280,8 @@ is given by:
 
  <p>For example, the <a>paint tree</a> at this button’s
   <a>center point</a>, the red square, is not itself the button or
-  a <a>descendant</a> of the button.  In other words, it is not
-  an <em><a>inclusive descendant</a></em>.  This makes the
+  a [=tree/descendant=] of the button.  In other words, it is not
+  an <em>[=tree/inclusive descendant=]</em>.  This makes the
   button <em><a>obscured</a></em>:
 
  <p>
@@ -4295,12 +4297,12 @@ is given by:
    margin-top: -120px;"></div>
 
  <p>On the other hand, the <a>center point</a> of the following select
-  list is the third <a><code>option</code> element</a>, because unlike
+  list is the third [^option^] element, because unlike
   a drop-down list,
   <code>&lt;select multiple&gt;</code>’s options
   are individually visible and painted.
-  Because the option is a <em><a>descendant</a></em>
-  of the <a><code>select</code> element</a>,
+  Because the option is a <em>[=tree/descendant=]</em>
+  of the [^select^] element,
   it is <em>not</em> <a>obscured</a>:
 
  <p>
@@ -4388,7 +4390,7 @@ is given by:
      of the <a>current browsing context</a>’s <a>list of known shadow roots</a>:
 
      <ol>
-      <li><p>If <var>known shadow root</var> <a>equals</a> <var>shadow root</var>,
+      <li><p>If <var>known shadow root</var> [=Node/equals=] <var>shadow root</var>,
        return <a>success</a> with <var>known shadow root</var>’s <a>shadow root reference</a>.
      </ol>
 
@@ -4433,7 +4435,7 @@ is given by:
 
    <p>A <a>shadow root</a> <dfn>is detached</dfn>
     if its [=Node/node document=] is not the <a>active document</a>
-    or if the element node referred to as its <a>document fragment host</a>
+    or if the element node referred to as its [=DocumentFragment/host=]
     <a>is stale</a>.
    </section> <!-- Shadow Roots -->
 
@@ -4622,7 +4624,7 @@ is given by:
 
 <p>To find a <a>web element</a> with the <dfn>Tag Name</dfn>
  <a>strategy</a> return <a>success</a> with data set to the result of
- calling <a><code>getElementsByTagName</code></a> with
+ calling {{Element/getElementsByTagName()}} with
  <var>start node</var> as <a>this</a> and <var>selector</var> as the
  argument.
 
@@ -5094,27 +5096,27 @@ session.execute("arguments[0].remove()", [body]);
   return true.
 
  <li><p>Return true if the result of calling the <a>node</a>’s
-  <a>compareDocumentPosition</a> with <var>other</var> as argument
-  is <a>DOCUMENT_POSITION_DISCONNECTED</a> (1),
+  {{Node/compareDocumentPosition()}} with <var>other</var> as argument
+  is {{Node/DOCUMENT_POSITION_DISCONNECTED}} (1),
   otherwise return false.
 </ol>
 
 <p>An <a><var>element</var></a>’s <dfn>container</dfn> is:
 
 <dl class=switch>
- <dt><code>option</code> element in a valid <a>element context</a>
+ <dt>[^option^] element in a valid <a>element context</a>
  <dt>[^optgroup^] element in a valid <a>element context</a>
  <dd><p>The <a><var>element</var></a>’s <a>element context</a>,
   which is determined by:
 
   <ol>
    <li><p>Let <var>datalist parent</var> be
-    the first <a><code>datalist</code> element</a> reached
+    the first [^datalist^] element reached
     by traversing the tree in reverse order from <var>element</var>,
     or <a>undefined</a> if the root of the tree is reached.
 
    <li><p>Let <var>select parent</var> be the
-    first <a><code>select</code> element</a> reached
+    first [^select^] element reached
     by traversing the tree in reverse order from <var>element</var>,
     or <a>undefined</a> if the root of the tree is reached.
 
@@ -5123,7 +5125,7 @@ session.execute("arguments[0].remove()", [body]);
     Otherwise, the <a>element context</a> is <var>datalist parent</var>.
   </ol>
 
- <dt><a><code>option</code> element</a> in an invalid <a>element context</a>
+ <dt>[^option^] element in an invalid <a>element context</a>
  <dd><p>The element does not have a container.
 
  <dt>Otherwise
@@ -5147,9 +5149,9 @@ session.execute("arguments[0].remove()", [body]);
 <p class=note>
 The <a>Is Element Selected</a> <a>command</a>
 determines if the referenced <a>element</a> is selected or not.
-This operation only makes sense on <a data-lt="input element"><code>input</code> elements</a>
+This operation only makes sense on [^input^] elements
 of the <a>Checkbox</a>- and <a>Radio Button</a> states,
-or on <a><code>option</code> elements</a>.
+or on [^option^] elements.
 
 <p>The <a>remote end steps</a> are:
 
@@ -5167,13 +5169,13 @@ or on <a><code>option</code> elements</a>.
   corresponding to the first matching statement:
 
   <dl class=switch>
-   <dt><var>element</var> is an <a><code>input</code> element</a>
-    with a <a><code>type</code> attribute</a>
+   <dt><var>element</var> is an [^input^] element
+    with a [^input/type^] attribute
     in the <a>Checkbox</a>- or <a>Radio Button</a> state
    <dd><p>The result of <var>element</var>’s <a>checkedness</a>.
 
    <dt><var>element</var> is
-    an <a><code>option</code> element</a>
+    an [^option^] element
    <dd><p>The result of <var>element</var>’s <a>selectedness</a>.
 
    <dt>Otherwise
@@ -5216,11 +5218,11 @@ The <a>remote end steps</a> are:
    <dl class=switch>
     <dt>If <var>name</var> is a <a>boolean attribute</a>
     <dd><p>"<code>true</code>" (string)
-     if the <var>element</var> <a>has the attribute</a>,
+     if the <var>element</var> {{Element/hasAttribute()}} with <var>name</var>,
      otherwise <a><code>null</code></a>.
 
     <dt>Otherwise
-    <dd><p>The result of <a>getting an attribute by name</a>
+    <dd><p>The result of [=get an attribute by name|getting an attribute by name=]
      <var>name</var>.
    </dl>
 
@@ -5228,7 +5230,7 @@ The <a>remote end steps</a> are:
 </ol>
 
 <p class="note">Please note that the behavior of this command
- deviates from the behavior of <a>getAttribute</a> in [[DOM]],
+ deviates from the behavior of {{Element/getAttribute()}} in [[DOM]],
  which in the case of a set <a>boolean attribute</a>
  would return an empty string.
  The reason this command returns true as a string
@@ -5302,8 +5304,8 @@ The <a>remote end steps</a> are:
 
  <li><p>Let <var>computed value</var> be the result of the first matching condition:
   <dl class="switch">
-   <dt><a>current browsing context</a>’s <a>document</a>
-   <a data-lt="document type">type</a> is not "<code>xml</code>"
+   <dt><a>current browsing context</a>’s [=active document=]’s
+   [=Document/type=] is not "<code>xml</code>"
    <dd><a>computed value</a> of parameter <var>property name</var>
     from <var>element</var>’s style declarations. <var>property name</var>
     is obtained from <a>url variables</a>.
@@ -5404,7 +5406,7 @@ with the <a>Unicode character property</a> "<code>WSpace=Y</code>" or "<code>WS<
   with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>qualified name</var> be the result of getting
-  <var>element</var>’s <a>tagName</a> content <a>attribute</a>.
+  <var>element</var>’s {{Element/tagName}} IDL attribute.
 
  <li><p>Return <a>success</a> with data <var>qualified name</var>.
 </ol>
@@ -5521,8 +5523,8 @@ Width of the <a>web element</a>’s
   with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>enabled</var> be a boolean initially set to true
-  if the <a>current browsing context</a>’s
-  <a>document</a> <a data-lt="document type">type</a>
+  if the <a>current browsing context</a>’s [=active document=]’s
+  [=Document/type=]
   is not "<code>xml</code>".
 
   <p>Otherwise, let <var>enabled</var> to false
@@ -5620,22 +5622,22 @@ Width of the <a>web element</a>’s
  for an element that does not define its own <a>clear algorithm</a>,
  its <a>reset algorithm</a> must be invoked instead.
 
-<p>The <a>clear algorithm</a> for <a><code>input</code></a> elements
+<p>The <a>clear algorithm</a> for [^input^] elements
  is to set the <a>dirty value flag</a> and <a>dirty checkedness flag</a> back to false,
  set the <a>value</a> of the element to an empty string,
  set the <a>checkedness</a> of the element to true
- if the element has a <a><code>checked</code></a> content attribute and false if it does not,
+ if the element has a [^input/checked^] content attribute and false if it does not,
  empty the list of <a>selected files</a>,
  and then invoke the <a>value sanitization algorithm</a>
- iff the <a><code>type</code></a> attribute’s current state defines one.
+ iff the [^input/type^] attribute’s current state defines one.
 
 <p>The <a>clear algorithm</a> for [^textarea^] elements
  is to set the <a>dirty value flag</a> back to false,
  and set the <a>raw value</a> of element to an empty string.
 
-<p>The <a>clear algorithm</a> for <a><code>output</code></a> elements
+<p>The <a>clear algorithm</a> for [^output^] elements
  is set the element’s <a>value mode flag</a> to default
- and then to set the element’s <code><a>textContent</a></code> IDL attribute
+ and then to set the element’s {{Node/textContent}} IDL attribute
  to an empty string (thus clearing the element’s child nodes).
 
 <section>
@@ -5679,7 +5681,7 @@ an <a>element not interactable</a> <a>error</a> is returned.
   to <a>get a known connected element</a> with argument <var>element id</var>.
 
  <li><p>If the <var>element</var> is
-  an <a><code>input</code> element</a> in the <a>file upload state</a>
+  an [^input^] element in the <a>file upload state</a>
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p><a>Scroll into view</a> the <var>element</var>’s <a>container</a>.
@@ -5694,23 +5696,23 @@ an <a>element not interactable</a> <a>error</a> is returned.
  <li><p>Matching on <var>element</var>:
 
   <dl class=switch>
-   <dt><a><code>option</code> element</a>
+   <dt>[^option^] element
    <dd>
      <ol>
        <li><p>Let <var>parent node</var> be the <var>element</var>’s <a>container</a>.
 
-       <li><p><a>Fire</a> a <a>mouseOver event</a> at <var>parent node</var>.
+       <li><p>[=fire an event|Fire=] a <a>mouseOver event</a> at <var>parent node</var>.
 
-       <li><p><a>Fire</a> a <a>mouseMove event</a> at <var>parent node</var>.
+       <li><p>[=fire an event|Fire=] a <a>mouseMove event</a> at <var>parent node</var>.
 
-       <li><p><a>Fire</a> a <a>mouseDown event</a> at <var>parent node</var>.
+       <li><p>[=fire an event|Fire=] a <a>mouseDown event</a> at <var>parent node</var>.
 
        <li><p>Run the <a>focusing steps</a> on <var>parent node</var>.
 
        <li><p>If <var>element</var> is not <a>disabled</a>:
 
         <ol>
-         <li><p><a>Fire</a> an <a><code>input</code></a> event at <var>parent node</var>.
+         <li><p>[=fire an event|Fire=] an <a><code>input</code></a> event at <var>parent node</var>.
 
          <li><p>Let <var>previous selectedness</var> be equal
           to <var>element</var> <a>selectedness</a>.
@@ -5724,13 +5726,13 @@ an <a>element not interactable</a> <a>error</a> is returned.
            set the <var>element</var>’s <a>selectedness</a> state to true.
 
          <li><p>If <var>previous selectedness</var> is false,
-          <a>fire</a> a <a><code>change</code></a> event
+          [=fire an event|fire=] a <a><code>change</code></a> event
           at <var>parent node</var>.
         </ol>
 
-       <li><p><a>Fire</a> a <a>mouseUp event</a> at <var>parent node</var>.
+       <li><p>[=fire an event|Fire=] a <a>mouseUp event</a> at <var>parent node</var>.
 
-       <li><p><a>Fire</a> a <a>click event</a> at <var>parent node</var>.
+       <li><p>[=fire an event|Fire=] a <a>click event</a> at <var>parent node</var>.
      </ol>
 
    <dt>Otherwise
@@ -5850,8 +5852,8 @@ an <a>element not interactable</a> <a>error</a> is returned.
  <li><p>Let <var>empty</var> be the result of the first matching condition:
 
   <dl class=switch>
-   <dt><var>element</var> is an <a><code>input</code> element</a>
-    whose <a><code>type</code> attribute</a> is in the <a>File Upload state</a>
+   <dt><var>element</var> is an [^input^] element
+    whose [^input/type^] attribute is in the <a>File Upload state</a>
    <dd>True if the list of <a>selected files</a> has a length of 0,
     and false otherwise.
 
@@ -5936,8 +5938,8 @@ an <a>element not interactable</a> <a>error</a> is returned.
 
 <p>
 A <dfn>non-typeable form control</dfn>
-is an <a><code>input</code> element</a>
-whose <a><code>type</code> attribute</a> state
+is an [^input^] element
+whose [^input/type^] attribute state
 causes the primary input mechanism
 not to be through means of a keyboard, whether virtual or physical.
 
@@ -5946,7 +5948,7 @@ not to be through means of a keyboard, whether virtual or physical.
 <a>Non-typeable form controls</a> means to refer to
 form control elements rendered by the user agent
 as something other than as a text input control.
-When targetting an <a><code>input</code> element</a>
+When targetting an [^input^] element
 in the <a><code>color</code> state</a>
 being presented as a color wheel,
 <a data-lt="Element Send Keys">interaction</a> with it will be simulated,
@@ -5955,8 +5957,8 @@ rather than typed using key emulation with <a href=#actions>actions</a>.
 <p>
 Other examples of <a>non-typeable form controls</a> include
 form controls interacted with via system-native widgets,
-such as a scrolled option list for <a><code>select</code> elements</a>
-and a number keypad for <a><code>input</code> elements</a>
+such as a scrolled option list for [^select^] elements
+and a number keypad for [^input^] elements
 in the <a><code>number</code> state</a> on non-desktop devices.
 </div>
 
@@ -6206,7 +6208,7 @@ state</var>, <var>input id</var>, <var>source</var>,
   with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>file</var> be true if <var>element</var> is
-   <a><code>input</code> element</a> in the <a>file upload state</a>, or false
+   [^input^] element in the <a>file upload state</a>, or false
    otherwise.
 
  <li><p>If <var>file</var> is false or the <a>current session</a>’s
@@ -6237,7 +6239,7 @@ state</var>, <var>input id</var>, <var>source</var>,
       return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
      <li><p>Let <var>multiple</var> equal the result
-      of calling <code><a>hasAttribute</a>("multiple")</code>
+      of calling {{Element/hasAttribute()}} with "multiple"
       on <var>element</var>.
 
      <li><p>if <var>multiple</var> is <code>false</code> and the
@@ -6250,11 +6252,11 @@ state</var>, <var>input id</var>, <var>source</var>,
 
      <li><p>Complete implementation specific steps
       equivalent to setting the <a>selected files</a>
-      on the <a><code>input</code></a>.
+      on the [^input^] element.
       If <var>multiple</var> is <code>true</code>
       <var>files</var> are be appended to <var>element</var>’s <a>selected files</a>.
 
-     <li><p><a>Fire</a> these events in order on <var>element</var>:
+     <li><p>[=fire an event|Fire=] these events in order on <var>element</var>:
       <ol>
        <li><a><code>input</code></a>
        <li><a><code>change</code></a>
@@ -6384,12 +6386,12 @@ and whose:
 
 <ul>
 <li><a>initial value</a> of the <code>toString</code> <a>own property</a> is "<code>Arguments</code>"
-<li>instance of <a>Array</a>
-<li>instance of <a><code>FileList</code></a>
-<li>instance of <a><code>HTMLAllCollection</code></a>
-<li>instance of <a><code>HTMLCollection</code></a>
-<li>instance of <a><code>HTMLFormControlsCollection</code></a>
-<li>instance of <a><code>HTMLOptionsCollection</code></a>
+<li>instance of {{Array}}
+<li>instance of {{FileList}}
+<li>instance of {{HTMLAllCollection}}
+<li>instance of {{HTMLCollection}}
+<li>instance of {{HTMLFormControlsCollection}}
+<li>instance of {{HTMLOptionsCollection}}
 <li>instance of {{NodeList}}
 </ul>
 
@@ -6586,14 +6588,14 @@ a <a>remote end</a> must run the following steps:
 
 <p>If at any point during the algorithm a <a>user prompt</a> appears,
  immediately return <a>Completion</a> { [[\Type]]: <code>normal</code>, [[\Value]]: <a><code>null</code></a>,
- [[\Target]]: <code>empty</code> }, but continue to run the other steps of this algorithm in parallel.
+ [[\Target]]: <code>empty</code> }, but continue to run the other steps of this algorithm [=in parallel=].
 
 <ol>
  <li><p>Let <var>window</var> be the <a>associated window</a>
   of the <a>current browsing context</a>’s <a>active document</a>.
 
  <li><p>Let <var>environment settings</var> be
-  the <a>environment settings object</a> for <var>window</var>.
+  <var>window</var>’s [=relevant settings object=].
 
  <li>Let <var>global scope</var> be
   <var>environment settings</var> <a>realm</a>’s
@@ -6609,7 +6611,7 @@ a <a>remote end</a> must run the following steps:
   then let <var>strict</var> be true,
   otherwise let <var>strict</var> be false.
 
- <li><p><a>Prepare to run a script</a> with <var>environment settings</var>.
+ <li><p><a>Prepare to run script</a> with <var>environment settings</var>.
 
  <li><p><a>Prepare to run a callback</a> with <var>environment settings</var>.
 
@@ -6640,7 +6642,7 @@ a <a>remote end</a> must run the following steps:
  <li><p><a>Clean up after running a callback</a>
   with <var>environment settings</var>.
 
- <li><p><a>Clean up after running a script</a>
+ <li><p><a>Clean up after running script</a>
   with <var>environment settings</var>.
 
  <li><p>Return <var>completion</var>.
@@ -7697,7 +7699,7 @@ and <var>subtype</var>:
  which actions can be performed. During a <a>tick</a>, each <a>input source</a> has
  an assigned action — possibly a noop <a>pause</a> action — which may
  result in changes to the user agent internal state and eventually
- cause DOM events to be <a>fired</a> at the page. The next <a>tick</a> begins
+ cause DOM events to be [=fire an event|fired=] at the page. The next <a>tick</a> begins
  after the user agent has had a chance to process all DOM events
  generated in the current <a>tick</a>.
 
@@ -9717,7 +9719,7 @@ and <var>azimuthAngle</var>:
 The <a>Release Actions</a> <a>command</a>
 is used to release all the keys and pointer buttons
 that are currently depressed.
-This causes events to be <a>fired</a>
+This causes events to be [=fire an event|fired=]
 as if the state was released by an explicit series of actions.
 It also clears all the internal state of the virtual devices.
 
@@ -10147,8 +10149,8 @@ sets the text field of a <a>window.<code>prompt</code></a>
   <a>rectangle y coordinate</a> + <a>rectangle height dimension</a>).
 
  <li><p>Let <var>canvas</var> be a new [^canvas^] element,
-  and set its <a data-lt="canvas width attribute">width</a>
-  and <a data-lt="canvas height attribute">height</a>
+  and set its [^canvas/width^]
+  and [^canvas/height^]
   to <var>paint width</var> and <var>paint height</var>, respectively.
 
  <li><p>Let <var>context</var>, a <a>canvas context mode</a>,
@@ -10189,7 +10191,7 @@ sets the text field of a <a>window.<code>prompt</code></a>
   then return <a>error</a> with <a>error code</a> <a>unable to capture screen</a>.
 
  <li><p>Let <var>file</var> be
-  <a>a serialization of the <code>canvas</code> element’s bitmap as a file</a>,
+  [=a serialization of the bitmap as a file|a serialization of the `canvas` element’s bitmap as a file=],
   using "<code>image/png</code>" as an argument.
 
  <li><p>Let <var>data url</var> be a <a><code>data:</code> URL</a>
@@ -10780,43 +10782,6 @@ to automatically sort each list alphabetically.
 
 
  <dt>DOM
- <dd><p>The following terms are defined
-  in the Document Object Model specification: [[DOM]]
-  <ul>
-   <!-- Attribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-attribute>Attribute</a></dfn>
-   <!-- compareDocumentPosition --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-comparedocumentposition>compareDocumentPosition</a></dfn>
-   <!-- connected --> <li><dfn><a href=https://dom.spec.whatwg.org/#connected>connected</a></dfn>
-   <!-- Descendant --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-tree-descendant>Descendant</a></dfn>
-   <!-- Document element --> <li><dfn><a href=https://dom.spec.whatwg.org/#document-element>Document element</a></dfn>
-   <!-- Document --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document>Document</a></dfn>
-   <!-- DOCUMENT_POSITION_DISCONNECTED --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-node-document_position_disconnected>DOCUMENT_POSITION_DISCONNECTED</a></dfn> (1)
-   <!-- document fragment host --> <li><dfn data-lt="document fragment host"><a href=https://dom.spec.whatwg.org/#concept-documentfragment-host><code>document fragment host</code></a></dfn>
-   <!-- DOCUMENT_FRAGMENT_NODE --> <li><dfn data-lt="DOCUMENT_FRAGMENT_NODE"><a href="https://dom.spec.whatwg.org/#dom-node-document_fragment_node">DOCUMENT_FRAGMENT_NODE</a></dfn></li>
-   <!-- Document type --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-type>Document type</a></dfn>
-   <!-- Document URL --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-document-url>Document URL</a></dfn>
-   <!-- Element --> <li><dfn data-lt=elements><a href=https://dom.spec.whatwg.org/#concept-element>Element</a></dfn>
-   <!-- Equals --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node-equals>Equals</a></dfn>
-   <!-- Event --> <li><dfn><a href=https://dom.spec.whatwg.org/#event>Event</a></dfn>
-   <!-- Fire an event --> <li><dfn data-lt="fire|fires|fired|event fires|event fired|event firing"><a href=https://dom.spec.whatwg.org/#concept-event-fire>Fire an event</a></dfn>
-   <!-- Get an attribute by name --> <li><dfn data-lt="getting an attribute by name"><a href=https://dom.spec.whatwg.org/#concept-element-attributes-get-by-name>Get an attribute by name</a></dfn>
-   <!-- getAttribute --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-getattribute>getAttribute</a></dfn>
-   <!-- getElementsByTagName --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-element-getelementsbytagname"><code>getElementsByTagName</code></a></dfn>
-   <!-- hasAttribute --> <li><dfn data-lt="has the attribute"><a href=https://dom.spec.whatwg.org/#dom-element-hasattribute>hasAttribute</a></dfn>
-   <!-- HTMLCollection --> <li><dfn><a href=https://dom.spec.whatwg.org/#htmlcollection><code>HTMLCollection</code></a></dfn>
-   <!-- Inclusive descendant --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-tree-inclusive-descendant>Inclusive descendant</a></dfn>
-   <!-- Node length --> <li><dfn><a href="https://dom.spec.whatwg.org/#concept-node-length">Node Length</a></dfn>
-   <!-- Node --> <li><dfn><a href=https://dom.spec.whatwg.org/#concept-node>Node</a></dfn>
-   <!-- querySelector --> <li><dfn><a href="https://dom.spec.whatwg.org/#dom-parentnode-queryselector"><code>querySelector</code></a></dfn>
-   <!-- tagName --> <li><dfn><a href=https://dom.spec.whatwg.org/#dom-element-tagname>tagName</a></dfn>
-   <!-- Text node --> <li><dfn><a href=https://dom.spec.whatwg.org/#text><code>Text</code> node</a></dfn>
-  </ul>
-
- <dd><p>The following attributes are defined
-  in the Document Object Model specification: [[DOM]]
-  <ul>
-   <!-- textContent attribute --> <li><dfn data-lt=textContent><a href=https://dom.spec.whatwg.org/#dom-node-textcontent><code>textContent</code> attribute</a></dfn>
-  </ul>
-
  <dd><p>The following terms are defined in
   the DOM Parsing and Serialization specification: [[DOM-PARSING]]
   <ul>
@@ -10933,12 +10898,6 @@ to automatically sort each list alphabetically.
    <!-- Status message --> <li><dfn><a href=https://fetch.spec.whatwg.org/#concept-response-status-message>Status message</a></dfn>
   </ul>
 
- <dt>File
- <dd><p>The following interfaces are defined in the W3C File API specification: [[FILEAPI]]
-  <ul>
-   <!-- FileList --> <li><dfn><a href=https://w3c.github.io/FileAPI/#dfn-filelist><code>FileList</code></a></dfn>
-  </ul>
-
  <dt>Fullscreen
  <dd><p>The following terms are defined in the WHATWG Fullscreen specification: [[FULLSCREEN]]
    <ul>
@@ -10953,64 +10912,39 @@ to automatically sort each list alphabetically.
  <dd><p>The following terms are defined in the HTML specification: [[HTML]]
   <ul>
    <!-- 2D context creation algorithm --> <li><dfn><a href=https://html.spec.whatwg.org/#2d-context-creation-algorithm>2D context creation algorithm</a></dfn>
-   <!-- A browsing context is discarded --> <li><dfn data-lt=discarded><a href=https://html.spec.whatwg.org/#a-browsing-context-is-discarded>A browsing context is discarded</a></dfn>
-   <!-- A serialization of the bitmap as a file --> <li><dfn data-lt="a serialization of the canvas element’s bitmap as a file"><a href=https://html.spec.whatwg.org/#a-serialisation-of-the-bitmap-as-a-file>A serialization of the bitmap as a file</a></dfn>
+   <!-- A serialization of the bitmap as a file --> <li><dfn data-lt="a serialization of the bitmap as a file"><a href=https://html.spec.whatwg.org/#a-serialisation-of-the-bitmap-as-a-file>A serialization of the bitmap as a file</a></dfn>
    <!-- API length --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-fe-api-value">API value</a></dfn>
-   <!-- Active document --> <li><dfn><a href=https://html.spec.whatwg.org/#active-document>Active document</a></dfn>
    <!-- Active element --> <li><dfn>Active element</dfn> being the <a href=https://html.spec.whatwg.org/#dom-document-activeelement><code>activeElement</code></a> attribute on <a href=https://html.spec.whatwg.org/#document><code>Document</code></a>
    <!-- Associated window --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-document-window>Associated window</a></dfn>
-   <!-- Body element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-body-element><code>body</code> element</a></dfn>
    <!-- Boolean attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#boolean-attribute>Boolean attribute</a></dfn>
    <!-- Browsing context --> <li><dfn data-lt="browsing contexts"><a href=https://html.spec.whatwg.org/#browsing-context>Browsing context</a></dfn>
-   <!-- Button --> <li><dfn><a href="https://html.spec.whatwg.org/#button-state-%28type=button%29">Button</a></dfn> state
-   <!-- Buttons --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-button>Buttons</a></dfn>
    <!-- Candidate for constraint validation --> <li><dfn><a href=https://html.spec.whatwg.org/#candidate-for-constraint-validation>Candidate for constraint validation</a></dfn>
    <!-- Canvas context mode --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-context-mode>Canvas context mode</a></dfn>
    <!-- Checkbox --> <li><dfn><a href="https://html.spec.whatwg.org/#checkbox-state-%28type=checkbox%29">Checkbox</a></dfn> state
    <!-- Checkedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-checked>Checkedness</a></dfn>
    <!-- Child browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#child-browsing-context>Child browsing context</a></dfn>
-   <!-- Clean up after running a callback --> <li><dfn><a href="https://html.spec.whatwg.org/#clean-up-after-running-a-callback">Clean up after running a callback</a></dfn>
-   <!-- Clean up after running a script --> <li><dfn><a href="https://html.spec.whatwg.org/#clean-up-after-running-script">Clean up after running a script</a></dfn>
    <!-- Close a browsing context --> <li><dfn data-lt="close|closes"><a href=https://html.spec.whatwg.org/#close-a-browsing-context>Close a browsing context</a></dfn>
-   <!-- Code entry-point --> <li><dfn><a href=https://html.spec.whatwg.org/#code-entry-point>Code entry-point</a></dfn>
    <!-- Cookie-averse Document object --> <li><dfn><a href=https://html.spec.whatwg.org/#cookie-averse-document-object>Cookie-averse <code>Document</code> object</a></dfn>
-   <!-- Current entry --> <li><dfn><a href=https://html.spec.whatwg.org/#current-entry>Current entry</a></dfn>
    <!-- Dirty checkedness flag --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-input-checked-dirty-flag>Dirty checkedness flag</a></dfn>
    <!-- Dirty value flag --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-dirty>Dirty value flag</a></dfn>
    <!-- Disabled --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-disabled>Disabled</a></dfn>
-   <!-- Document address --> <li><dfn data-lt=address><a href=https://dom.spec.whatwg.org/#concept-document-url>Document address</a></dfn>
    <!-- Document readiness --> <li><dfn><a href=https://html.spec.whatwg.org/#current-document-readiness>Document readiness</a></dfn>
-   <!-- Document title --> <li><dfn data-lt=title><a href=https://html.spec.whatwg.org/#document.title>Document title</a></dfn>
    <!-- Element contexts --> <li><dfn data-lt="element context"><a href=https://html.spec.whatwg.org/#concept-element-contexts>Element contexts</a></dfn>
    <!-- Enumerated attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#enumerated-attribute>Enumerated attribute</a></dfn>
-   <!-- Environment settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#environment-settings-object>Environment settings object</a></dfn>
    <!-- Event loop --> <li><dfn><a href=https://html.spec.whatwg.org/#event-loop>Event loop</a></dfn>
-   <!-- File --> <li><dfn><a href="https://html.spec.whatwg.org/#file-upload-state-%28type=file%29">File</a></dfn> state
    <!-- File upload state --> <li><dfn><a href="https://html.spec.whatwg.org/#file-upload-state-(type=file)">File upload state</a></dfn>
    <!-- Focusing steps --> <li><dfn><a href="https://html.spec.whatwg.org/#focusing-steps">Focusing steps</a></dfn>
    <!-- Fousable area --><li><dfn><a href=https://html.spec.whatwg.org/#focusable-area>Focusable area</a></dfn>
    <!-- GetOwnProperty of a Window object --> <li><dfn data-lt="window.[[\getOwnProperty]]"><a href=https://html.spec.whatwg.org/#windowproxy-getownproperty><code>[[\GetOwnProperty]]</code> of a <code>Window</code> object</a></dfn>
-   <!-- HTMLAllCollection --> <li><dfn><a href=https://html.spec.whatwg.org/#htmlallcollection><code>HTMLAllCollection</code></a></dfn>
-   <!-- HTMLFormControlCollection --> <li><dfn><a href=https://html.spec.whatwg.org/#htmlformcontrolscollection><code>HTMLFormControlsCollection</code></a></dfn>
-   <!-- HTMLOptionsCollection --> <li><dfn><a href=https://html.spec.whatwg.org/#htmloptionscollection><code>HTMLOptionsCollection</code></a></dfn>
-   <!-- Hidden --> <li><dfn><a href="https://html.spec.whatwg.org/#hidden-state-%28type=hidden%29">Hidden</a></dfn> state
-   <!-- Image Button --> <li><dfn><a href="https://html.spec.whatwg.org/#image-button-state-%28type=image%29">Image Button</a></dfn> state
-   <!-- In parallel --> <li><dfn><a href="https://html.spec.whatwg.org/#in-parallel">In parallel</a></dfn>
-   <!-- Input event applies --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-input-apply><code>input</code> event applies</a></dfn>
    <!-- Input type file selected --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-input-type-file-selected">Selected Files</a></dfn>
    <!-- Joint session history --> <li><dfn><a href=https://html.spec.whatwg.org/#joint-session-history>Joint session history</a></dfn>
    <!-- Mature (navigation) --> <li><dfn data-lt="matured"><a href=https://html.spec.whatwg.org/#concept-navigate-mature>Mature</a></dfn> navigation.
-   <!-- Missing value default state --> <li><dfn><a href=https://html.spec.whatwg.org/#missing-value-default>Missing value default state</a></dfn>
    <!-- Mutable --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-mutable>Mutable</a></dfn>
    <!-- Navigate --> <li><dfn data-lt="navigating|navigation"><a href=https://html.spec.whatwg.org/#navigate>Navigate</a></dfn>
-   <!-- Navigator --> <li><dfn data-lt="navigator"><a href=https://html.spec.whatwg.org/#navigator>Navigator object</a></dfn>
-   <!-- Nested browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#nested-browsing-context>Nested browsing context</a></dfn>
    <!-- Origin-clean --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-origin-clean>Origin-clean</a></dfn>
    <!-- Overridden reload --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/dom.html#an-overridden-reload">An overridden reload</a></dfn>
    <!-- Parent browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#parent-browsing-context>Parent browsing context</a></dfn>
    <!-- Pause --> <li><dfn data-lt=unpaused><a href=https://html.spec.whatwg.org/#pause>HTML Pause</a></dfn>
-   <!-- Prepare to run a callback --> <li><dfn><a href="https://html.spec.whatwg.org/#prepare-to-run-a-callback">Prepare to run a callback</a></dfn>
-   <!-- Prepare to run a script --> <li><dfn><a href="https://html.spec.whatwg.org/#prepare-to-run-script">Prepare to run a script</a></dfn>
    <!-- Prompt to unload a document --> <li><dfn data-lt="prompting to unload"><a href=https://html.spec.whatwg.org/#prompt-to-unload-a-document>Prompt to unload a document</a></dfn>
    <!-- Radio button --> <li><dfn><a href="https://html.spec.whatwg.org/#radio-button-state-%28type=radio%29">Radio Button</a></dfn> state
    <!-- Raw value --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-textarea-raw-value>Raw value</a></dfn>
@@ -11019,19 +10953,10 @@ to automatically sort each list alphabetically.
    <!-- Resettable element --> <li><dfn data-lt="resettable elements|resettable"><a href=https://html.spec.whatwg.org/#category-reset>Resettable element</a></dfn>
    <!-- Run the animation frame callbacks --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#run-the-animation-frame-callbacks">Run the animation frame callbacks</a></dfn>
    <!-- Satisfies its constraints --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fv-valid>Satisfies its constraints</a></dfn>
-   <!-- Script --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-script>Script</a></dfn>
-   <!-- Script execution environment --> <li><dfn><a href=https://html.spec.whatwg.org/#environment>Script execution environment</a></dfn>
    <!-- Selectedness --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-option-selectedness>Selectedness</a></dfn>
-   <!-- Session history --> <li><dfn><a href=https://html.spec.whatwg.org/#session-history>Session history</a></dfn>
-   <!-- Settings object --> <li><dfn><a href=https://html.spec.whatwg.org/#settings-object>Settings object</a></dfn>
    <!-- Simple dialogs --> <li><dfn data-lt="simple dialog"><a href=https://html.spec.whatwg.org/#simple-dialogs>Simple dialogs</a></dfn>
-   <!-- Submit Button --> <li><dfn><a href="https://html.spec.whatwg.org/#submit-button-state-%28type=submit%29">Submit Button</a></dfn> state
-   <!-- Submittable elements --> <li><dfn data-lt="submittable element"><a href=https://html.spec.whatwg.org/#category-submit>Submittable elements</a></dfn>
    <!-- Suffering from bad input --> <li><dfn><a href=https://html.spec.whatwg.org/#suffering-from-bad-input>Suffering from bad input</a></dfn>
-   <!-- Top-level browsing context --> <li><dfn data-lt="top-level browsing contexts"><a href=https://html.spec.whatwg.org/#top-level-browsing-context>Top-level browsing context</a></dfn>
-   <!-- Traverse the history --> <li><dfn data-lt="traversing the history"><a href=https://html.spec.whatwg.org/#traverse-the-history>Traverse the history</a></dfn>
    <!-- Traverse the history by a delta --> <li><dfn><a href=https://html.spec.whatwg.org/#traverse-the-history-by-a-delta>Traverse the history by a delta</a></dfn>
-   <!-- Tree order --> <li><dfn><a href=https://html.spec.whatwg.org/#tree-order>Tree order</a></dfn>
    <!-- Unfocusing steps --><li><dfn><a href=https://html.spec.whatwg.org/#unfocusing-steps>unfocusing steps</a></dfn>
    <!-- User prompt --> <li><dfn data-lt="user prompts"><a href=https://html.spec.whatwg.org/#user-prompts>User prompt</a></dfn>
    <!-- Value --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-value>Value</a></dfn>
@@ -11040,30 +10965,14 @@ to automatically sort each list alphabetically.
    <!-- Window object --> <li><dfn><a href=https://html.spec.whatwg.org/#the-window-object><code>Window</code></a></dfn> object
    <!-- Window open steps --> <li><dfn><a href=https://html.spec.whatwg.org/#window-open-steps>Window open steps</a></dfn>
    <!-- WindowProxy exotic object --> <li><dfn><a href=https://html.spec.whatwg.org/#windowproxy><code>WindowProxy</code></a></dfn> exotic object
-   <!-- WorkerNavigator --> <li><dfn data-lt="workernavigator"><a href=https://html.spec.whatwg.org/#workernavigator>WorkerNavigator object</a></dfn>
    <!-- setSelectionRange --> <li><dfn data-lt="set selection range"><a href=https://html.spec.whatwg.org/#dom-textarea/input-setselectionrange><code>setSelectionRange</code></a></dfn>
    <!-- window confirm --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-confirm><code>confirm</code></a></dfn>
    <!-- window.alert --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-alert><code>alert</code></a></dfn>
    <!-- window.prompt --> <li><dfn>window.<a href=https://html.spec.whatwg.org/#dom-prompt><code>prompt</code></a></dfn>
   </ul>
 
- <dd><p>The HTML specification also defines a number of elements
-  which this specification has special-cased behavior for:
-  <ul>
-   <!-- area element --> <li><dfn data-lt=area><a href=https://html.spec.whatwg.org/#the-area-element><code>area</code> element</a></dfn>
-   <!-- datalist element --> <li><dfn data-lt=datalist><a href=https://html.spec.whatwg.org/#the-datalist-element><code>datalist</code> element</a></dfn>
-   <!-- frame element --> <li><dfn data-lt=frame><a href=https://html.spec.whatwg.org/#frame><code>frame</code> element</a></dfn>
-   <!-- HTML Element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-html-element><code>html</code> element</a></dfn>
-   <!-- iframe element --> <li><dfn data-lt=iframe><a href=https://html.spec.whatwg.org/#the-iframe-element><code>iframe</code> element</a></dfn>
-   <!-- input element --> <li><dfn data-lt="input elements"><a href=https://html.spec.whatwg.org/#the-input-element><code>input</code> element</a></dfn>
-   <!-- map element --> <li><dfn><a href=https://html.spec.whatwg.org/#the-map-element><code>map</code> element</a></dfn>
-   <!-- option element --> <li><dfn data-lt="option elements|option"><a href=https://html.spec.whatwg.org/#the-option-element><code>option</code> element</a></dfn>
-   <!-- output element --> <li><dfn data-lt=output><a href=https://html.spec.whatwg.org/#the-output-element><code>output</code> element</a></dfn>
-   <!-- select element --> <li><dfn data-lt="code elements"><a href=https://html.spec.whatwg.org/#the-select-element><code>select</code> element</a></dfn>
-  </ul>
-
  <dd><p>The HTML specification also defines <em>states</em>
-  of the <a><code>input</code> element</a>:
+  of the [^input^] element:
   <ul>
    <!-- Color state --> <li><dfn><a href="https://html.spec.whatwg.org/#color-state-(type=color)">Color state</a></dfn>
    <!-- Date state --> <li><dfn><a href="https://html.spec.whatwg.org/#date-state-(type=date)">Date state</a></dfn>
@@ -11082,13 +10991,8 @@ to automatically sort each list alphabetically.
 
  <dd><p>The HTML specification also defines a range of different attributes:
   <ul>
-   <!-- Canvas height attribute --> <li><dfn data-lt="canvas height attribute"><a href=https://html.spec.whatwg.org/#attr-canvas-height><code>canvas</code>’s height attribute</a></dfn>
-   <!-- Canvas width attribute --> <li><dfn data-lt="canvas width attribute"><a href=https://html.spec.whatwg.org/#attr-canvas-width><code>canvas</code>’ width attribute</a></dfn>
    <!-- Checked content attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-input-checked>Checked</a></dfn>
    <!-- Multiple attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#attr-input-multiple><code>multiple</code> attribute</a></dfn>
-   <!-- readOnly attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#the-readonly-attribute><code>readOnly</code> attribute</a></dfn>
-   <!-- Type attribute --> <li><dfn data-lt=type><a href=https://html.spec.whatwg.org/#attr-input-type><code>type</code> attribute</a></dfn>
-   <!-- Value attribute --><li><dfn><a href=https://html.spec.whatwg.org/#dom-input-value><code>value</code> attribute</a></dfn>
   </ul>
 
  <dd><p>The HTML Editing APIs specification defines the following terms: [[EDITING]]
