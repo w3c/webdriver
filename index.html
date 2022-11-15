@@ -4039,8 +4039,34 @@ corresponding to the <a>current top-level browsing context</a>.
   context</a>.
 </ol>
 </section> <!-- /Fullscreen Window -->
-
 </section> <!-- /Switch To Window -->
+<section>
+  <h3>Consume user activation of Window</h3>
+
+  <table class="simple jsoncommand">
+    <tr>
+    <th>HTTP Method</th>
+    <th>URI Template</th>
+    </tr>
+    <tr>
+    <td>POST</td>
+    <td>/session/{<var>session id</var>}/window/consume-user-activation</td>
+    </tr>
+  </table>
+
+  <p>The <a>remote end steps</a> are:
+
+  <ol>
+    <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+    return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+    <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
+
+    <li><p><a>Consume user activation</a> of the <a>current browsing context</a>'s [=active window=].
+
+    <li><p>Return <a>success</a>.
+  </ol>
+  </section> <!-- /Consume User Activation of Window -->
 </section> <!-- /Contexts -->
 
 <section>
