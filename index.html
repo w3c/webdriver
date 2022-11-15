@@ -69,7 +69,7 @@ ul.brief li:last-child::after { content: "" }
 /* dl.subcategories when the definition list subdivides a definition */
 dl.subcategories { margin-left: 2em }
 </style>
-<body data-cite="CSSOM-VIEW GEOMETRY-1">
+<body data-cite="CSSOM-VIEW GEOMETRY-1 PAGE-LIFECYCLE">
 <section id=abstract>
 <p>
 WebDriver is a remote control interface
@@ -1206,7 +1206,7 @@ when it receives a particular <a>command</a>.
   <td><code>no such cookie</code>
   <td>No cookie matching the given path name
    was found amongst the <a>associated cookies</a>
-   of the <a>current browsing context</a>’s <a>active document</a>.
+   of the <a>current browsing context</a>’s [=navigable/active document=].
  </tr>
 
  <tr>
@@ -2949,7 +2949,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>current URL</var> be the <a>current top-level browsing context</a>’s
- <a>active document</a>’s [=Document/URL=].
+ [=navigable/active document=]’s [=Document/URL=].
 
  <li><p>If <var>current URL</var> and <var>url</var> do not have the same
    <a>absolute URL</a>:
@@ -3009,7 +3009,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
 
  <li><p>Let <var>url</var> be the <a data-lt="URL serializer">serialization</a>
   of the <a>current top-level browsing context</a>’s
-  <a>active document</a>’s [=Document/URL=].
+  [=navigable/active document=]’s [=Document/URL=].
 
  <li><p>Return <a>success</a> with data <var>url</var>.
 </ol>
@@ -3131,7 +3131,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Initiate <a>an overridden reload</a> of the <a>current top-level browsing
-   context</a>’s <a>active document</a>.
+   context</a>’s [=navigable/active document=].
  </li>
 
  <li><p>If <var>url</var> <a>is special</a> except for <code>file</code>:
@@ -3175,7 +3175,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>title</var> be the <a>current top-level browsing context</a>’s
-  <a>active document</a>’s {{Document/title}}.
+  [=navigable/active document=]’s {{Document/title}}.
 
  <li><p>Return <a>success</a> with data <var>title</var>.
 </ol>
@@ -3535,7 +3535,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
          and return its value if it is an <a>error</a>.
 
      <li><p>Let <var>window</var> be the <a>associated window</a>
-      of the <a>current browsing context</a>’s <a>active document</a>.
+      of the <a>current browsing context</a>’s [=navigable/active document=].
 
      <li><p>If <var>id</var> is not
       a <a>supported property index</a> of <var>window</var>,
@@ -3570,7 +3570,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
       return <a>error</a> with <a>error code</a> <a>no such frame</a>.
 
      <li><p><a>Set the current browsing context</a>
-     with <var>element</var>’s <a>nested browsing context</a>.
+     to the [=node navigable=] of <var>element</var>.
     </ol>
  </dl>
 
@@ -3742,7 +3742,7 @@ with the following properties:
  from the visible screen.
  Do not return from this operation
  until the <a>visibility state</a>
- of the <a>top-level browsing context</a>’s <a>active document</a>
+ of the <a>top-level browsing context</a>’s [=navigable/active document=]
  has reached the <a data-lt="visibility hidden">hidden</a> state,
  or until the operation times out.
 
@@ -3754,7 +3754,7 @@ with the following properties:
  to the visible screen.
  Do not return from this operation
  until the <a>visibility state</a>
- of the <a>top-level browsing context</a>’s <a>active document</a>
+ of the <a>top-level browsing context</a>’s [=navigable/active document=]
  has reached the <a data-lt="visibility visible">visible</a> state,
  or until the operation times out.
 
@@ -4032,7 +4032,7 @@ corresponding to the <a>current top-level browsing context</a>.
 
  <li><p>Call <a>fullscreen an element</a>
   with the <a>current top-level browsing context</a>’s
-  <a>active document</a>’s <a>document element</a>.
+  [=navigable/active document=]’s <a>document element</a>.
 
   <li><p>Return <a>success</a> with data set to the <a>WindowRect
   object</a> for the <a>current top-level browsing
@@ -4134,7 +4134,7 @@ is given by:
 </ol>
 
 <p>An <a>element</a> <dfn>is stale</dfn>
- if its [=Node/node document=] is not the <a>active document</a>
+ if its [=Node/node document=] is not the [=navigable/active document=]
  or if it is not <a>connected</a>.
 
 <p>To <dfn data-lt="scrolls into view|scrolled into view">scroll into view</dfn>
@@ -4320,7 +4320,7 @@ is given by:
 
 <ol>
  <li><p>If <var>element</var> is <a>not in the same tree</a>
-  as the <a>current browsing context</a>’s <a>active document</a>,
+  as the <a>current browsing context</a>’s [=navigable/active document=],
   return an empty sequence.
 
  <li><p>Let <var>rectangles</var> be
@@ -4434,7 +4434,7 @@ is given by:
    </ol>
 
    <p>A <a>shadow root</a> <dfn>is detached</dfn>
-    if its [=Node/node document=] is not the <a>active document</a>
+    if its [=Node/node document=] is not the [=navigable/active document=]
     or if the element node referred to as its [=DocumentFragment/host=]
     <a>is stale</a>.
    </section> <!-- Shadow Roots -->
@@ -5304,7 +5304,7 @@ The <a>remote end steps</a> are:
 
  <li><p>Let <var>computed value</var> be the result of the first matching condition:
   <dl class="switch">
-   <dt><a>current browsing context</a>’s [=active document=]’s
+   <dt><a>current browsing context</a>’s [=navigable/active document=]’s
    [=Document/type=] is not "<code>xml</code>"
    <dd><a>computed value</a> of parameter <var>property name</var>
     from <var>element</var>’s style declarations. <var>property name</var>
@@ -5523,7 +5523,7 @@ Width of the <a>web element</a>’s
   with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>enabled</var> be a boolean initially set to true
-  if the <a>current browsing context</a>’s [=active document=]’s
+  if the <a>current browsing context</a>’s [=navigable/active document=]’s
   [=Document/type=]
   is not "<code>xml</code>".
 
@@ -6351,7 +6351,7 @@ state</var>, <var>input id</var>, <var>source</var>,
 <p class=note>
 The <a>Get Page Source</a> <a>command</a>
 returns a string serialization of the DOM
-of the <a>current browsing context</a> <a>active document</a>.
+of the <a>current browsing context</a> [=navigable/active document=].
 
 <p>The <a>remote end steps</a> are:
 
@@ -6368,7 +6368,7 @@ of the <a>current browsing context</a> <a>active document</a>.
   to be thrown, let <var>source</var> be <a><code>null</code></a>.
 
  <li><p>Let <var>source</var> be the result of <a>serializing to string</a>
-  the <a>current browsing context</a> <a>active document</a>,
+  the <a>current browsing context</a> [=navigable/active document=],
   if <var>source</var> is <a><code>null</code></a>.
 
  <li><p>Return <a>success</a> with data <var>source</var>.
@@ -6592,7 +6592,7 @@ a <a>remote end</a> must run the following steps:
 
 <ol>
  <li><p>Let <var>window</var> be the <a>associated window</a>
-  of the <a>current browsing context</a>’s <a>active document</a>.
+  of the <a>current browsing context</a>’s [=navigable/active document=].
 
  <li><p>Let <var>environment settings</var> be
   <var>window</var>’s [=relevant settings object=].
@@ -6871,7 +6871,7 @@ The first argument provided to the function will be serialized to JSON and retur
   <td>✓
   <td>The domain the cookie is visible to.
    Defaults to the <a>current browsing context</a>’s
-   <a>active document</a>’s <a>URL</a> <a>domain</a>
+   [=navigable/active document=]’s <a>URL</a> <a>domain</a>
    if omitted when <a>adding a cookie</a>.
  </tr>
 
@@ -6947,7 +6947,7 @@ The first argument provided to the function will be serialized to JSON and retur
 
 <ol>
  <li><p>For each <a>cookie</a> among <a>all associated cookies</a> of
-  the <a>current browsing context</a>’s <a>active document</a>,
+  the <a>current browsing context</a>’s [=navigable/active document=],
   run the substeps of the first matching condition:
 
   <dl class=switch>
@@ -6986,7 +6986,7 @@ The first argument provided to the function will be serialized to JSON and retur
  <li><p>Let <var>cookies</var> be a new JSON <a>List</a>.
 
  <li><p>For each <var>cookie</var> in <a>all associated cookies</a> of
-  the <a>current browsing context</a>’s <a>active document</a>:
+  the <a>current browsing context</a>’s [=navigable/active document=]:
 
   <ol>
    <li><p>Let <var>serialized cookie</var> be the result
@@ -7024,7 +7024,7 @@ The first argument provided to the function will be serialized to JSON and retur
  <li><p>If the <a>url variable</a> <var>name</var>
   is equal to a <a>cookie</a>’s <a>cookie name</a>
   amongst <a>all associated cookies</a>
-  of the <a>current browsing context</a>’s <a>active document</a>,
+  of the <a>current browsing context</a>’s [=navigable/active document=],
   return <a>success</a> with the <a>serialized cookie</a> as data.
 
   <p>Otherwise, return <a>error</a>
@@ -7068,7 +7068,7 @@ The first argument provided to the function will be serialized to JSON and retur
 
  <li><p>If <a>cookie name</a> or <a>cookie value</a> is <a><code>null</code></a>,
   <a>cookie domain</a> is not equal to
-  the <a>current browsing context</a>’s <a>active document</a>’s <a>domain</a>,
+  the <a>current browsing context</a>’s [=navigable/active document=]’s <a>domain</a>,
   <a>cookie secure only</a> or <a>cookie HTTP only</a> are not boolean types,
   or <a>cookie expiry time</a> is not an integer type,
   or it less than 0 or greater than the <a>maximum safe integer</a>,
@@ -7076,7 +7076,7 @@ The first argument provided to the function will be serialized to JSON and retur
 
  <li><p><a>Create a cookie</a> in
   the <a>cookie store</a> associated with
-  the <a>active document</a>’s <a>address</a>
+  the [=navigable/active document=]’s <a>address</a>
   using <a>cookie name</a> <var>name</var>,
   <a>cookie value</a> <var>value</var>,
   and an attribute-value list of the following cookie concepts
@@ -7090,7 +7090,7 @@ The first argument provided to the function will be serialized to JSON and retur
    <dt><a>Cookie domain</a>
    <dd><p>The value if the entry exists,
     otherwise the <a>current browsing context</a>’s
-    <a>active document</a>’s <a>URL</a> <a>domain</a>.
+    [=navigable/active document=]’s <a>URL</a> <a>domain</a>.
 
    <dt><a>Cookie secure only</a>
    <dd><p>The value if the entry exists, otherwise false.
