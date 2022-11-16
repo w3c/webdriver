@@ -4068,9 +4068,13 @@ corresponding to the <a>current top-level browsing context</a>.
 
     <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
-    <li><p><a>Consume user activation</a> of the <a>current browsing context</a>'s [=active window=].
+    <li><p>Let |context| be <a>current browsing context</a>.
 
-    <li><p>Return <a>success</a>.
+    <li><p>Let |consume| be true if |context| has [=transient activation=] or false otherwise.
+
+    <li><p>If |consume| is true, [=consume user activation=] of the |context|'s [=active window=].
+
+    <li><p>Return <a>success</a> with data |consume|.
   </ol>
  </section> <!-- /Consume User Activation of Window -->
 </section> <!-- /Contexts -->
