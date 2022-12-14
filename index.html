@@ -3565,8 +3565,8 @@ make the tab containing the <a>browsing context</a> the selected tab.
          and return its value if it is an <a>error</a>.
 
      <li><p>Let <var>element</var> be the result
-      of <a>trying</a> to <a>get a known connected element</a>
-      by <a>web element reference</a> <var>id</var>.
+      of <a>trying</a> to <a>get a known element</a>
+      with <var>id</var>.
 
      <li><p>If <var>element</var> is not a [^frame^]
       or [^iframe^] element,
@@ -4058,51 +4058,89 @@ corresponding to the <a>current top-level browsing context</a>.
 <p>The <dfn>web element identifier</dfn> is the string constant
  "<code>element-6066-11e4-a52e-4f735466cecf</code>".
 
-<p>Each <a>element</a> has an associated <dfn>web element
- reference</dfn> that uniquely identifies the <a>element</a> across
- all <a>browsing contexts</a>.  The <a>web element reference</a> for
- every <a>element</a> representing the same <a>element</a> must be the
- same. It must be a string, and should be the result of <a>generating
- a UUID</a>.
-
 <p>An ECMAScript <a>Object</a> <dfn>represents a web element</dfn>
  if it has a <a>web element identifier</a> <a>own property</a>.
 
-<p>Each <a>browsing context</a> has an associated <dfn>list of known
- elements</dfn>.  When the <a>browsing
- context</a>'s <a>navigable</a>'s <a>active window</a> is destroyed,
- the <a>list of known elements</a> is destroyed along with it.
+<p>The <dfn>WebDriver node id</dfn> is a globally unique string
+representing a handle to a DOM node in a specific
+WebDriver <a>session</a>.
 
-<p>To <dfn>get a known connected element</dfn> with
-argument <var>reference</var>, run the following steps:
+<p>A WebDriver <a>session</a> has a <dfn>browsing context group node
+map</dfn>, which is a weak map between a <a>browsing context group</a>
+and a <a>node id map</a>.
+
+<p>A <dfn>node id map</dfn> is weak map between nodes and their
+corresponding <a>WebDriver node id</a>.
+
+<p>To <dfn>get a node</dfn> given <var>session</var>
+and <var>reference</var>:
 <ol>
-  <li>Let <var>element</var> be the item in the <a>current browsing
-  context</a>’s <a>list of known elements</a> for which the <a>web
-  element reference</a> is equal to <var>reference</var>, if such an
-  element exists. Otherwise return <a>error</a> with <a>error
-  code</a> <a>no such element</a>.
-  <li>If <var>element</var> <a>is stale</a>, return <a>error</a>
+  <li>Let <var>browsing context group node map</var>
+  be <var>session</var>'s <a>browsing context group node map</a>.
+
+  <li>Let <var>browsing context group</var> be <a>current browsing
+  context</a>'s <a>browsing context group</a>.
+
+  <li>If <var>browsing context group node map</var> does not
+  contain <var>browsing context group</var>, return null.
+
+  <li>Let <var>node id map</var> be <var>browsing context group node
+  map</var>[<var>browsing context group</var>].
+
+  <li>Let <a>node</a> be the entry in <var>node id map</var> whose
+  value is <var>reference</var>, if such an entry exists, or null
+  otherwise.
+
+  <li>Return <var>node</var>.
+</ol>
+
+<p>To <dfn>get or create a node reference</dfn>
+given <var>session</var> and <var>node</var>:
+<ol>
+  <li>Let <var>browsing context group node map</var>
+  be <var>session</var>'s <a>browsing context group node map</a>.
+
+  <li>Let <var>browsing context group</var> be <a>current browsing
+  context</a>'s <a>browsing context group</a>.
+
+  <li>If <var>browsing context group node map</var> does not
+  contain <var>browsing context group</var>, set <var>browsing context
+  group node map</var>[<var>browsing context group</var>] to a new weak map.
+
+  <li>Let <var>node id map</var> be<var>browsing context group node
+  map</var>[<var>browsing context group</var>].
+
+  <li>If <var>node id map</var> does not contain <var>node</var>,
+  set <var>node id map</var>[<var>node</var>] to a new globally
+  unique string.
+
+ <li><p>Return <var>node id map</var>[<var>node</var>].
+</ol>
+
+<p>To <dfn>get a known element</dfn> given <var>reference</var>:
+<ol>
+  <li>Let <var>node</var> be <a>get a node</a> with <a>current session</a>
+  and <var>reference</var>.
+
+  <li>If <a>node</a> is null, or <a>node</a> is not an <a>Element</a>,
+  or if <a>node</a>'s [=Node/node document=] is not <a>current browsing
+  context</a>'s <a>active document</a>, return <a>error</a>
+  with <a>error code</a> <a>no such element</a>.
+
+  <li>If <var>node</var> <a>is stale</a>, return <a>error</a>
   with <a>error code</a> <a>stale element reference</a>.
-  <li>Return <a>success</a> with <var>element</var>.
+
+  <li>Return <a>success</a> with <var>node</var>.
 </ol>
 
 <p>To <dfn>get or create a web element reference</dfn>
- with <a><var>element</var></a>:
+ given <a><var>element</var></a>:
 
 <ol>
- <li><p>For each <var>known element</var>
-  of the <a>current browsing context</a>’s <a>list of known elements</a>:
+  <li>Assert: <var>element</var> implements {{Element}}.
 
-  <ol>
-   <li><p>If <var>known element</var> [=Node/equals=] <var>element</var>,
-    return <a>success</a> with <var>known element</var>’s <a>web element reference</a>.
-  </ol>
-
- <li><p>Add <var>element</var> to
-  the <a>list of known elements</a> of the <a>current browsing context</a>.
-
- <li><p>Return <a>success</a> with the
-  <var>element</var>’s <a>web element reference</a>.
+  <li>Return the result of <a>trying</a> to <a>get or create a node
+  reference</a> given <a>current session</a> and <var>element</var>.
 </ol>
 
 <p>The <dfn>web element reference object</dfn> for <var>element</var>
@@ -4112,14 +4150,15 @@ is given by:
  <li><p>Let <var>identifier</var> be the <a>web element identifier</a>.
 
  <li><p>Let <var>reference</var> be the result of <a>get or create a
- web element reference</a> given <var>element</var>.
+ web element reference</a> with <var>element</var>.
 
  <li><p>Return a JSON <a>Object</a> initialized with a property with
  name <var>identifier</var> and value <var>reference</var>.
 </ol>
 
-<p>When required to <dfn>deserialize a web element</dfn>
- by a JSON <a>Object</a> <var>object</var> that <a>represents a web element</a>:
+<p>To <dfn>deserialize a web element</dfn> by a
+ JSON <a>Object</a> <var>object</var> that <a>represents a web
+ element</a>:
 
 <ol>
  <li><p>If <var>object</var> has no <a>own property</a> <a>web element identifier</a>,
@@ -4131,8 +4170,8 @@ is given by:
   from <var>object</var>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>reference</var>.
+  of <a>trying</a> to <a>get a known element</a>
+  with <var>reference</var>.
 
  <li><p>Return <a>success</a> with data <var>element</var>.
 </ol>
@@ -4356,92 +4395,74 @@ is given by:
  <p>The <dfn>shadow root identifier</dfn> is the string constant
   "<code>shadow-6066-11e4-a52e-4f735466cecf</code>".
 
- <p>Each <a>shadow root</a> has an associated <dfn>shadow root
-  reference</dfn> that uniquely identifies the <a>shadow root</a> across
-  all <a>browsing contexts</a>.  The <a>shadow root reference</a> for
-  every <a>shadow root</a> representing the same <a>shadow root</a> must be the
-  same. It must be a string, and should be the result of <a>generating
-  a UUID</a>.
-
  <p>An ECMAScript <a>Object</a> <dfn>represents a shadow root</dfn>
   if it has a <a>shadow root identifier</a> <a>own property</a>.
 
- <p>Each <a>browsing context</a> has an associated <dfn>list of known
-  shadow roots</dfn>.  When the <a>browsing context</a>
-  context</a>'s <a>navigable</a>'s <a>active window</a> is destroyed,
-  the <a>list of known shadow roots</a> is destroyed along with it.
+ <p>To <dfn>get a known shadow root</dfn> given <var>session</var>
+ and <var>reference</var>:
+ <ol>
+   <li>Let <var>node</var> be <a>get a node</a> with <a>current session</a>
+   and <var>reference</var>.
 
-  <p>To <dfn>get a known shadow root</dfn> with
-    argument <var>reference</var>, run the following steps:
+   <li>If <a>node</a> is null, or <a>node</a> does not implement {{ShadowRoot}},
+   or if <a>node</a>'s [=Node/node document=] is not <a>current browsing
+   context</a>'s <a>active document</a>, return <a>error</a>
+   with <a>error code</a> <a>no such shadow root</a>.
 
-   <ol>
-    <li>Let <var>shadow</var> be the item in the <a>current browsing
-    context</a>’s <a>list of known shadow roots</a> for which the <a>shadow
-    root reference</a> is equal to <var>reference</var>, if such a
-    shadow root exists. Otherwise return <a>error</a> with <a>error
-    code</a> <a>no such element</a>.
-    <li>If <var>shadow</var> <a>is detached</a>, return
-    <a>error</a> with <a>error code</a>
-    <a>detached shadow root</a>.
-    <li>Return <a>success</a> with <var>shadow</var>.
-   </ol>
+   <li>If <var>shadow</var> <a>is detached</a>, return
+   <a>error</a> with <a>error code</a>
+   <a>detached shadow root</a>.
 
-   <p>To <dfn>get or create a shadow root reference</dfn>
-    with <a><var>shadow root</var></a>:
+   <li>Return <a>success</a> with <var>shadow</var>.
+ </ol>
 
-   <ol>
-    <li><p>For each <var>known shadow root</var>
-     of the <a>current browsing context</a>’s <a>list of known shadow roots</a>:
+ <p>To <dfn>get or create a shadow root reference</dfn>
+ with <a><var>shadow root</var></a>:
 
-     <ol>
-      <li><p>If <var>known shadow root</var> [=Node/equals=] <var>shadow root</var>,
-       return <a>success</a> with <var>known shadow root</var>’s <a>shadow root reference</a>.
-     </ol>
+ <ol>
+   <li>Assert: <var>element</var> implements {{ShadowRoot}}.
 
-    <li><p>Add <var>shadow</var> to
-     the <a>list of known shadow roots</a> of the <a>current browsing context</a>.
+   <li>Return the result of <a>trying</a> to <a>get or create a node
+   reference</a> given <a>current session</a> and <var>element</var>.
+ </ol>
 
-    <li><p>Return <a>success</a> with the
-     <var>shadow</var>’s <a>shadow root reference</a>.
-   </ol>
+ <p>The <dfn>shadow root reference object</dfn> for <var>shadow
+ root</var> is given by:
 
-   <p>The <dfn>shadow root reference object</dfn> for <var>shadow
-   root</var> is given by:
+ <ol>
+   <li><p>Let <var>identifier</var> be the <a>shadow root identifier</a>.
 
-   <ol>
-     <li><p>Let <var>identifier</var> be the <a>shadow root identifier</a>.
+   <li><p>Let <var>reference</var> be the result of <a>get or create a
+    shadow root reference</a> given <var>shadow root</var>.
 
-     <li><p>Let <var>reference</var> be the result of <a>get or create a
-      shadow root reference</a> given <var>shadow root</var>.
+ <li><p>Return a JSON <a>Object</a> initialized with a property with
+     name <var>identifier</var> and value <var>reference</var>.
+ </ol>
 
-   <li><p>Return a JSON <a>Object</a> initialized with a property with
-       name <var>identifier</var> and value <var>reference</var>.
-   </ol>
+ <p>When required to <dfn>deserialize a shadow root</dfn>
+  by a JSON <a>Object</a> <var>object</var> that <a>represents a shadow root</a>:
 
-   <p>When required to <dfn>deserialize a shadow root</dfn>
-    by a JSON <a>Object</a> <var>object</var> that <a>represents a shadow root</a>:
+ <ol>
+  <li><p>If <var>object</var> has no <a>own property</a> <a>shadow root identifier</a>,
+   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-   <ol>
-    <li><p>If <var>object</var> has no <a>own property</a> <a>shadow root identifier</a>,
-     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  <li><p>Let <var>reference</var> be the result of
+   <a data-lt="getting a property">getting</a>
+   the <a>shadow root identifier</a> property
+   from <var>object</var>.
 
-    <li><p>Let <var>reference</var> be the result of
-     <a data-lt="getting a property">getting</a>
-     the <a>shadow root identifier</a> property
-     from <var>object</var>.
+  <li><p>Let <var>shadow</var> be the result
+   of <a>trying</a> to <a>get a known shadow root</a>
+   with argument <var>reference</var>.
 
-    <li><p>Let <var>shadow</var> be the result
-     of <a>trying</a> to <a>get a known shadow root</a>
-     with argument <var>reference</var>.
+  <li><p>Return <a>success</a> with data <var>shadow</var>.
+ </ol>
 
-    <li><p>Return <a>success</a> with data <var>shadow</var>.
-   </ol>
-
-   <p>A <a>shadow root</a> <dfn>is detached</dfn>
-    if its [=Node/node document=] is not the <a>active document</a>
-    or if the element node referred to as its [=DocumentFragment/host=]
-    <a>is stale</a>.
-   </section> <!-- Shadow Roots -->
+ <p>A <a>shadow root</a> <dfn>is detached</dfn>
+  if its [=Node/node document=] is not the <a>active document</a>
+  or if the element node referred to as its [=DocumentFragment/host=]
+  <a>is stale</a>.
+</section> <!-- Shadow Roots -->
 
 <section>
 <h3 id=element-retrieval>Retrieval</h3>
@@ -4839,7 +4860,7 @@ session.execute("arguments[0].remove()", [body]);
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>start node</var> be the result
-  of <a>trying</a> to <a>get a known connected element</a>
+  of <a>trying</a> to <a>get a known element</a>
   with <a>url variable</a> <var>element id</var>.
 
  <li>Let <var>result</var> be the value of <a>trying</a> to <a>Find</a> with
@@ -4889,7 +4910,7 @@ session.execute("arguments[0].remove()", [body]);
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>start node</var> be the result
-  of <a>trying</a> to <a>get a known connected element</a>
+  of <a>trying</a> to <a>get a known element</a>
   with <a>url variable</a> <var>element id</var>.
 
  <li>Return the result of <a>trying</a> to <a>Find</a> with
@@ -5050,7 +5071,7 @@ session.execute("arguments[0].remove()", [body]);
   <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
   <li><p>Let <var>element</var> be the result
-    of <a>trying</a> to <a>get a known connected element</a>
+    of <a>trying</a> to <a>get a known element</a>
     with <a>url variable</a> <var>element id</var>.
 
   <li><p>Let <var>shadow root</var> be <var>element</var>'s <a>shadow root</a>.
@@ -5166,7 +5187,7 @@ or on [^option^] elements.
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known connected element</a>
+  of <a>trying</a> to <a>get a known element</a>
   with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>selected</var> be the value
@@ -5214,7 +5235,7 @@ The <a>remote end steps</a> are:
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known connected element</a>
+  of <a>trying</a> to <a>get a known element</a>
   with <a>url variable</a> <var>element id</var>.
 
  <li>Let <var>result</var> be the result of the first matching condition:
@@ -5266,7 +5287,7 @@ The <a>remote end steps</a> are:
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known connected element</a>
+  of <a>trying</a> to <a>get a known element</a>
   with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>property</var> be the result of calling
@@ -5303,7 +5324,7 @@ The <a>remote end steps</a> are:
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known connected element</a>
+  of <a>trying</a> to <a>get a known element</a>
   with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>computed value</var> be the result of the first matching condition:
@@ -5370,7 +5391,7 @@ with the <a>Unicode character property</a> "<code>WSpace=Y</code>" or "<code>WS<
   an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known connected element</a>
+  of <a>trying</a> to <a>get a known element</a>
   with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>rendered text</var> be the result of performing
@@ -5406,7 +5427,7 @@ with the <a>Unicode character property</a> "<code>WSpace=Y</code>" or "<code>WS<
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known connected element</a>
+  of <a>trying</a> to <a>get a known element</a>
   with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>qualified name</var> be the result of getting
@@ -5470,7 +5491,7 @@ Width of the <a>web element</a>’s
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known connected element</a>
+  of <a>trying</a> to <a>get a known element</a>
   with <a>url variable</a> <var>element id</var>.
 
  <li><p><a>Calculate the absolute position</a> of <var>element</var>
@@ -5523,7 +5544,7 @@ Width of the <a>web element</a>’s
   and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known connected element</a>
+  of <a>trying</a> to <a>get a known element</a>
   with <a>url variable</a> <var>element id</var>.
 
  <li><p>Let <var>enabled</var> be a boolean initially set to true
@@ -5564,7 +5585,7 @@ Width of the <a>web element</a>’s
         and return its value if it is an <a>error</a>.
 
     <li><p>Let <var>element</var> be the result
-        of <a>trying</a> to <a>get a known connected element</a>
+        of <a>trying</a> to <a>get a known element</a>
         with <a>url variable</a> <var>element id</var>.
 
     <li><p>Let <var>role</var> be the result of computing the <a>WAI-ARIA role</a> of <var>element</var>.
@@ -5598,7 +5619,7 @@ Width of the <a>web element</a>’s
           and return its value if it is an <a>error</a>.
 
       <li><p>Let <var>element</var> be the result
-          of <a>trying</a> to <a>get a known connected element</a>
+          of <a>trying</a> to <a>get a known element</a>
           with <a>url variable</a> <var>element id</var>.
 
       <li><p>Let <var>label</var> be the result of a <a>Accessible Name and Description Computation</a> for the <a>Accessible Name</a> of the <var>element</var>.
@@ -5682,7 +5703,7 @@ an <a>element not interactable</a> <a>error</a> is returned.
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result of <a>trying</a>
-  to <a>get a known connected element</a> with argument <var>element id</var>.
+  to <a>get a known element</a> with <var>element id</var>.
 
  <li><p>If the <var>element</var> is
   an [^input^] element in the <a>file upload state</a>
@@ -5887,8 +5908,8 @@ an <a>element not interactable</a> <a>error</a> is returned.
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known connected element</a>
-  with argument <var>element id</var>.
+  of <a>trying</a> to <a>get a known element</a>
+  with <var>element id</var>.
 
  <li><p>If <var>element</var> is not <a>editable</a>,
   return an <a>error</a> with <a>error code</a> <a>invalid element state</a>.
@@ -6207,9 +6228,9 @@ state</var>, <var>input id</var>, <var>source</var>,
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
- <li><p>Let <var>element</var> be the result
-  of <a>trying</a> to <a>get a known connected element</a>
-  with <a>url variable</a> <var>element id</var>.
+ <li><p>Let <var>element</var> be the result of <a>trying</a>
+  to <a>get a known element</a> with <a>url variable</a> <var>element
+  id</var>.
 
  <li><p>Let <var>file</var> be true if <var>element</var> is
    [^input^] element in the <a>file upload state</a>, or false
@@ -6470,21 +6491,21 @@ a <a>remote end</a> must run the following steps:
    <li><p>Return <a>success</a> with <var>result list</var>.
   </ol>
 
- <dt>instance of <a>element</a>
+ <dt>instance of {{Element}}</a>
  <dd><p>If the <var>element</var> <a>is stale</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
-  <p>Otherwise return <a>success</a> with data set to the <var>web
-  element reference object</var> for <var>value</var>.
+  <p>Otherwise return <a>success</a> with data set to the <a>web
+  element reference object</a> for <var>value</var>.
 
- <dt>instance of <a>shadow root</a>
+ <dt>instance of {{ShadowRoot}}</a>
  <dd><p>If the <var>shadow root</var> <a>is detached</a>,
   return <a>error</a> with <a>error code</a> <a>detached shadow root</a>.
 
-  <p>Otherwise return <a>success</a> with data set to the <var>shadow
-  root reference object</var> for <var>value</var>.
+  <p>Otherwise return <a>success</a> with data set to the <a>shadow
+  root reference object</a> for <var>value</var>.
 
- <dt>a <a><code>WindowProxy</code></a> object
+ <dt>a {{WindowProxy}} object
  <dd><p>If the associated <a>browsing context</a>
   of the <a><code>WindowProxy</code></a> object
   in <var>value</var> has been destroyed,
@@ -9290,8 +9311,8 @@ and <var>browsing context</var>:
    <dd>
     <ol>
      <li><p>Let <var>element</var> be equal to the result
-      of <a>trying</a> to <a>get a known connected element</a> with
-      argument <var>origin</var>.
+      of <a>trying</a> to <a>get a known element</a> with
+      <var>origin</var>.
 
      <li><p>Let <var>x element</var> and <var>y element</var> be the
       result of calculating the <a>in-view center point</a>
@@ -9520,8 +9541,8 @@ and <var>azimuthAngle</var>:
    <dd>
     <ol>
      <li><p>Let <var>element</var> be equal to the result
-      of <a>trying</a> to <a>get a known connected element</a> with
-      argument <var>origin</var>.
+      of <a>trying</a> to <a>get a known element</a> with
+      <var>origin</var>.
 
      <li><p>Let <var>x element</var> and <var>y element</var> be the
       result of calculating the <a>in-view center point</a>
@@ -10280,7 +10301,7 @@ by the <a>bounding rectangle</a> of an <a>element</a>.
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
  <li><p>Let <var>element</var> be the result of
-  <a>trying</a> to <a>get a known connected element</a>
+  <a>trying</a> to <a>get a known element</a>
   with <a>url variable</a> <var>element id</var>.
 
 <li>
@@ -10921,10 +10942,10 @@ to automatically sort each list alphabetically.
    <!-- Active browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#nav-bc>active browsing context</a></dfn>
    <!-- Active document --> <li><dfn><a href=https://html.spec.whatwg.org/#active-document>active document</a></dfn>
    <!-- Active element --> <li><dfn>Active element</dfn> being the <a href=https://html.spec.whatwg.org/#dom-document-activeelement><code>activeElement</code></a> attribute on <a href=https://html.spec.whatwg.org/#document><code>Document</code></a>
-   <!-- Active window --> <li><dfn><a href=https://html.spec.whatwg.org/#nav-window>Active window</a></dfn>
    <!-- Associated window --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-document-window>Associated window</a></dfn>
    <!-- Boolean attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#boolean-attribute>Boolean attribute</a></dfn>
    <!-- Browsing context --> <li><dfn data-lt="browsing contexts"><a href=https://html.spec.whatwg.org/#browsing-context>Browsing context</a></dfn>
+   <!-- Browsing context group --> <li><dfn><a href=https://html.spec.whatwg.org/#browsing-context-group>Browsing context group</a></dfn>
    <!-- Candidate for constraint validation --> <li><dfn><a href=https://html.spec.whatwg.org/#candidate-for-constraint-validation>Candidate for constraint validation</a></dfn>
    <!-- Canvas context mode --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-context-mode>Canvas context mode</a></dfn>
    <!-- Checkbox --> <li><dfn><a href="https://html.spec.whatwg.org/#checkbox-state-%28type=checkbox%29">Checkbox</a></dfn> state
