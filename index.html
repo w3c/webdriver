@@ -3200,8 +3200,11 @@ Return <a>success</a> with data <a><code>null</code></a>.
  the operating system notion of a “window”
  or the DOM <a><code>Window</code></a> object.
 
+<!-- this could use a link for destroyed, but there isn't one that works
+for both top-level and nested traversables. Generally all the infrastructure
+here needs to be rewritten. -->
 <p>A <a>browsing context</a> is said to be <dfn>no longer open</dfn>
- if it has been <a>discarded</a>.
+ if its <a>navigable</a> has been destroyed..
 
 <p>Each <a>browsing context</a> has an associated
  <dfn data-lt="window handles">window handle</dfn> which uniquely
@@ -3570,7 +3573,8 @@ make the tab containing the <a>browsing context</a> the selected tab.
       return <a>error</a> with <a>error code</a> <a>no such frame</a>.
 
      <li><p><a>Set the current browsing context</a>
-     with <var>element</var>’s <a>nested browsing context</a>.
+     with <var>element</var>’s <a>nested navigable</a>'s <a>active
+     browsing context</a>.
     </ol>
  </dl>
 
@@ -4064,10 +4068,10 @@ corresponding to the <a>current top-level browsing context</a>.
 <p>An ECMAScript <a>Object</a> <dfn>represents a web element</dfn>
  if it has a <a>web element identifier</a> <a>own property</a>.
 
-<p>Each <a>browsing context</a> has an associated <dfn>list of
- known elements</dfn>.
- When the <a>browsing context</a> is <a>discarded</a>,
- the <a>list of known elements</a> is discarded along with it.
+<p>Each <a>browsing context</a> has an associated <dfn>list of known
+ elements</dfn>.  When the <a>browsing
+ context</a>'s <a>navigable</a>'s <a>active window</a> is destroyed,
+ the <a>list of known elements</a> is destroyed along with it.
 
 <p>To <dfn>get a known connected element</dfn> with
 argument <var>reference</var>, run the following steps:
@@ -4362,10 +4366,10 @@ is given by:
  <p>An ECMAScript <a>Object</a> <dfn>represents a shadow root</dfn>
   if it has a <a>shadow root identifier</a> <a>own property</a>.
 
- <p>Each <a>browsing context</a> has an associated <dfn>list of
-  known shadow roots</dfn>.
-  When the <a>browsing context</a> is <a>discarded</a>,
-  the <a>list of known shadow roots</a> is discarded along with it.
+ <p>Each <a>browsing context</a> has an associated <dfn>list of known
+  shadow roots</dfn>.  When the <a>browsing context</a>
+  context</a>'s <a>navigable</a>'s <a>active window</a> is destroyed,
+  the <a>list of known shadow roots</a> is destroyed along with it.
 
   <p>To <dfn>get a known shadow root</dfn> with
     argument <var>reference</var>, run the following steps:
@@ -6483,7 +6487,7 @@ a <a>remote end</a> must run the following steps:
  <dt>a <a><code>WindowProxy</code></a> object
  <dd><p>If the associated <a>browsing context</a>
   of the <a><code>WindowProxy</code></a> object
-  in <var>value</var> has been <a>discarded</a>,
+  in <var>value</var> has been destroyed,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
   <p>Otherwise return <a>success</a> with data set
@@ -10914,7 +10918,10 @@ to automatically sort each list alphabetically.
    <!-- 2D context creation algorithm --> <li><dfn><a href=https://html.spec.whatwg.org/#2d-context-creation-algorithm>2D context creation algorithm</a></dfn>
    <!-- A serialization of the bitmap as a file --> <li><dfn data-lt="a serialization of the bitmap as a file"><a href=https://html.spec.whatwg.org/#a-serialisation-of-the-bitmap-as-a-file>A serialization of the bitmap as a file</a></dfn>
    <!-- API length --> <li><dfn><a href="https://html.spec.whatwg.org/#concept-fe-api-value">API value</a></dfn>
+   <!-- Active browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#nav-bc>active browsing context</a></dfn>
+   <!-- Active document --> <li><dfn><a href=https://html.spec.whatwg.org/#active-document>active document</a></dfn>
    <!-- Active element --> <li><dfn>Active element</dfn> being the <a href=https://html.spec.whatwg.org/#dom-document-activeelement><code>activeElement</code></a> attribute on <a href=https://html.spec.whatwg.org/#document><code>Document</code></a>
+   <!-- Active window --> <li><dfn><a href=https://html.spec.whatwg.org/#nav-window>Active window</a></dfn>
    <!-- Associated window --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-document-window>Associated window</a></dfn>
    <!-- Boolean attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#boolean-attribute>Boolean attribute</a></dfn>
    <!-- Browsing context --> <li><dfn data-lt="browsing contexts"><a href=https://html.spec.whatwg.org/#browsing-context>Browsing context</a></dfn>
@@ -10941,6 +10948,7 @@ to automatically sort each list alphabetically.
    <!-- Mature (navigation) --> <li><dfn data-lt="matured"><a href=https://html.spec.whatwg.org/#concept-navigate-mature>Mature</a></dfn> navigation.
    <!-- Mutable --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-mutable>Mutable</a></dfn>
    <!-- Navigate --> <li><dfn data-lt="navigating|navigation"><a href=https://html.spec.whatwg.org/#navigate>Navigate</a></dfn>
+   <!-- Nested navigable --> <li><dfn><a href=https://html.spec.whatwg.org/#nested-navigable>nested navigable</a></dfn>
    <!-- Origin-clean --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-origin-clean>Origin-clean</a></dfn>
    <!-- Overridden reload --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/dom.html#an-overridden-reload">An overridden reload</a></dfn>
    <!-- Parent browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#parent-browsing-context>Parent browsing context</a></dfn>
