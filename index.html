@@ -363,7 +363,7 @@ In all other cases it must be true.
   otherwise let <var>result</var> be <var>temp</var>’s <var>data</var> field.
 </ol>
 
-<p>The result of <dfn data-lt="getting properties|getting the
+<p>The result of <dfn class=export data-lt="getting properties|getting the
  property">getting a property</dfn> with <var>name</var>
  from <var>object</var> is defined as being the same as the result of
  calling  <a>Object.[[\GetOwnProperty]]</a>(<var>name</var>) on <var>object</var>.
@@ -432,7 +432,7 @@ when it receives a particular <a>command</a>.
   is not possible to construct a complete <a>HTTP request</a>,
   the <a>remote end</a> must either close the <a>connection</a>,
   return an HTTP response with status code 500, or return
-  an <a>error</a> with <a>error code</a> <a>unknown error</a>.
+  an <a>error</a> with <a>error code</a> [= error code/unknown error =].
 
  <li><p>Let <var>request match</var> be the result of the algorithm
   to <a>match a request</a> with <var>request</var>’s
@@ -462,7 +462,7 @@ when it receives a particular <a>command</a>.
     or <a><code>null</code></a> if there is no such matching <a>session</a>.
 
    <li><p>If the <a>current session</a> is <a><code>null</code></a>
-   <a>send an error</a> with <a>error code</a> <a>invalid session id</a>,
+   <a>send an error</a> with <a>error code</a> [= error code/invalid session id=],
    then jump to step 1 in this overall algorithm.
 
    <li><p>If the <a>current session</a> is not <a><code>null</code></a>:
@@ -597,7 +597,7 @@ when it receives a particular <a>command</a>.
  <li><p><a data-lt="write bytes">Write</a> <var>response bytes</var>
   to the <a>connection</a>.
 </ol>
-<p>A <dfn data-lt="url variables">url variable</dfn> dictionary is defined
+<p>A <dfn data-lt="url variables" class="export">url variable</dfn> dictionary is defined
   as the mapping of a <a>command</a>’s <a>URI template</a> variable names
   to their corresponding values.
 </section> <!-- /Processing model -->
@@ -637,14 +637,14 @@ when it receives a particular <a>command</a>.
   does not match <var>URL</var>’s <a>path</a>.
 
  <li><p>If there are no entries in <var>endpoints</var>,
-  return <a>error</a> with <a>error code</a> <a>unknown command</a>.
+  return <a>error</a> with <a>error code</a> [= error code/unknown command =].
 
  <li><p>Remove each entry in <var>endpoints</var>
   for which the <i>method</i> column
   is not equal to <var>method</var>.
 
  <li><p>If there are no entries in <var>endpoints</var>,
-  return <a>error</a> with <a>error code</a> <a>unknown method</a>.
+  return <a>error</a> with <a>error code</a> [= error code/unknown method =].
 
  <li><p>There is now exactly one entry in <var>endpoints</var>;
   let <var>entry</var> be this entry.
@@ -1093,7 +1093,7 @@ when it receives a particular <a>command</a>.
 }</code></pre>
 </aside>
 
-<p>The following table lists each <dfn>error code</dfn>,
+<p>The following table lists each <dfn class=export>error code</dfn>,
  its associated <a>HTTP status</a>,
  JSON <code>error</code> code,
  and a non-normative description of the error.
@@ -1110,7 +1110,7 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>element click intercepted</dfn>
+  <td><dfn class=export data-dfn-for="error code">element click intercepted</dfn>
   <td>400
   <td><code>element click intercepted</code>
   <td>The <a>Element Click</a> <a>command</a> could not be completed
@@ -1119,7 +1119,7 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>element not interactable</dfn>
+  <td><dfn class=export data-dfn-for="error code">element not interactable</dfn>
   <td>400
   <td><code>element not interactable</code>
   <td>A <a>command</a> could not be completed
@@ -1129,7 +1129,7 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>insecure certificate</dfn>
+  <td><dfn class=export data-dfn-for="error code">insecure certificate</dfn>
   <td>400
   <td><code>insecure certificate</code>
   <td><a>Navigation</a> caused
@@ -1145,7 +1145,7 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>invalid cookie domain</dfn>
+  <td><dfn class=export data-dfn-for="error code">invalid cookie domain</dfn>
   <td>400
   <td><code>invalid cookie domain</code>
   <td>An illegal attempt was made to set a cookie
@@ -1153,7 +1153,7 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>invalid element state</dfn>
+  <td><dfn class=export data-dfn-for="error code">invalid element state</dfn>
   <td>400
   <td><code>invalid element state</code>
   <td>A <a>command</a> could not be completed because the element is
@@ -1163,14 +1163,14 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>invalid selector</dfn>
+  <td><dfn class=export data-dfn-for="error code">invalid selector</dfn>
   <td>400
   <td><code>invalid selector</code>
   <td>Argument was an invalid selector.
  </tr>
 
  <tr>
-  <td><dfn>invalid session id</dfn>
+  <td><dfn class=export data-dfn-for="error code">invalid session id</dfn>
   <td>404
   <td><code>invalid session id</code>
   <td>Occurs if the given <a>session id</a> is not in the list of <a>active sessions</a>,
@@ -1178,14 +1178,14 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>javascript error</dfn>
+  <td><dfn class=export data-dfn-for="error code">javascript error</dfn>
   <td>500
   <td><code>javascript error</code>
   <td>An error occurred while executing JavaScript supplied by the user.
  </tr>
 
  <tr>
-  <td><dfn>move target out of bounds</dfn>
+  <td><dfn class=export data-dfn-for="error code">move target out of bounds</dfn>
   <td>500
   <td><code>move target out of bounds</code>
   <td>The target for mouse interaction is not in the browser’s viewport
@@ -1193,7 +1193,7 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>no such alert</dfn>
+  <td><dfn class=export data-dfn-for="error code">no such alert</dfn>
   <td>404
   <td><code>no such alert</code>
   <td>An attempt was made to operate on a modal dialog
@@ -1201,7 +1201,7 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>no such cookie</dfn>
+  <td><dfn class=export data-dfn-for="error code">no such cookie</dfn>
   <td>404
   <td><code>no such cookie</code>
   <td>No cookie matching the given path name
@@ -1210,7 +1210,7 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>no such element</dfn>
+  <td><dfn class=export data-dfn-for="error code">no such element</dfn>
   <td>404
   <td><code>no such element</code>
   <td>An element could not be located on the page
@@ -1218,7 +1218,7 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>no such frame</dfn>
+  <td><dfn class=export data-dfn-for="error code">no such frame</dfn>
   <td>404
   <td><code>no such frame</code>
   <td>A <a>command</a> to switch to a frame
@@ -1226,7 +1226,7 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>no such window</dfn>
+  <td><dfn class=export data-dfn-for="error code">no such window</dfn>
   <td>404
   <td><code>no such window</code>
   <td>A <a>command</a> to switch to a window
@@ -1234,28 +1234,28 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>no such shadow root</dfn>
+  <td><dfn class=export data-dfn-for="error code">no such shadow root</dfn>
   <td>404
   <td><code>no such shadow root</code>
   <td>The element does not have a shadow root.
  </tr>
 
  <tr>
-  <td><dfn>script timeout error</dfn>
+  <td><dfn class=export data-dfn-for="error code">script timeout error</dfn>
   <td>500
   <td><code>script timeout</code>
   <td>A script did not complete before its timeout expired.
  </tr>
 
  <tr>
-  <td><dfn>session not created</dfn>
+  <td><dfn class=export data-dfn-for="error code">session not created</dfn>
   <td>500
   <td><code>session not created</code>
   <td>A new <a>session</a> could not be created.
  </tr>
 
  <tr>
-  <td><dfn>stale element reference</dfn>
+  <td><dfn class=export data-dfn-for="error code">stale element reference</dfn>
   <td>404
   <td><code>stale element reference</code>
   <td>A <a>command</a> failed because
@@ -1263,7 +1263,7 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>detached shadow root</dfn>
+  <td><dfn class=export data-dfn-for="error code">detached shadow root</dfn>
   <td>404
   <td><code>detached shadow root</code>
   <td>A <a>command</a> failed because
@@ -1271,35 +1271,35 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>timeout</dfn>
+  <td><dfn class=export data-dfn-for="error code">timeout</dfn>
   <td>500
   <td><code>timeout</code>
   <td>An operation did not complete before its timeout expired.
  </tr>
 
  <tr>
-  <td><dfn>unable to set cookie</dfn>
+  <td><dfn class=export data-dfn-for="error code">unable to set cookie</dfn>
   <td>500
   <td><code>unable to set cookie</code>
   <td>A <a>command</a> to set a cookie’s value could not be satisfied.
  </tr>
 
  <tr>
-  <td><dfn>unable to capture screen</dfn>
+  <td><dfn class=export data-dfn-for="error code">unable to capture screen</dfn>
   <td>500
   <td><code>unable to capture screen</code>
   <td>A screen capture was made impossible.
  </tr>
 
  <tr>
-  <td><dfn>unexpected alert open</dfn>
+  <td><dfn class=export data-dfn-for="error code">unexpected alert open</dfn>
   <td>500
   <td><code>unexpected alert open</code>
   <td>A modal dialog was open, blocking this operation.
  </tr>
 
  <tr>
-  <td><dfn>unknown command</dfn>
+  <td><dfn class=export data-dfn-for="error code">unknown command</dfn>
   <td>404
   <td><code>unknown command</code>
   <td>A <a>command</a> could not be executed
@@ -1307,7 +1307,7 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>unknown error</dfn>
+  <td><dfn class=export data-dfn-for="error code">unknown error</dfn>
   <td>500
   <td><code>unknown error</code>
   <td>An unknown error occurred in the <a>remote end</a>
@@ -1315,7 +1315,7 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>unknown method</dfn>
+  <td><dfn class=export data-dfn-for="error code">unknown method</dfn>
   <td>405
   <td><code>unknown method</code>
   <td>The requested <a>command</a> matched a known URL
@@ -1323,7 +1323,7 @@ when it receives a particular <a>command</a>.
  </tr>
 
  <tr>
-  <td><dfn>unsupported operation</dfn>
+  <td><dfn class=export data-dfn-for="error code">unsupported operation</dfn>
   <td>500
   <td><code>unsupported operation</code>
   <td>Indicates that a <a>command</a> that should have
@@ -1347,7 +1347,7 @@ when it receives a particular <a>command</a>.
  features.
 
 <p>Commands defined in this way
- are called <dfn class="export">extension commands</dfn>
+ are called <dfn class="export">extension command</dfn>s
  and behave no differently than other <a>commands</a>;
  each has a dedicated HTTP endpoint and a set of <a>remote end steps</a>.
 
@@ -2295,7 +2295,7 @@ is initially set to an empty map.
 <p>
 The <a>New Session</a> <a>command</a>
 creates a new WebDriver <a>session</a> with the <a>endpoint node</a>.
-If the creation fails, a <a>session not created</a> <a>error</a> is returned.
+If the creation fails, a [= error code/session not created =] <a>error</a> is returned.
 
 <p>If the <a>remote end</a> is an <a>intermediary node</a>,
  it may use the result of the <a>capabilities processing</a> algorithm
@@ -2356,11 +2356,11 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
 <ol>
   <li><p>If the <a>maximum active sessions</a> is equal to
   the length of the list of <a>active sessions</a>,
-  return <a>error</a> with <a>error code</a> <a>session not created</a>.
+  return <a>error</a> with <a>error code</a> [= error code/session not created =].
 
  <li><p>If the <a>remote end</a> is an <a>intermediary node</a>, take
   implementation-defined steps that either result in returning
-  an <a>error</a> with <a>error code</a> <a>session not created</a>,
+  an <a>error</a> with <a>error code</a> [= error code/session not created =],
   or in returning a <a>success</a> with data that is isomorphic to
   that returned by <a>remote ends</a> according to the rest of this
   algorithm. If an <a>error</a> is not returned, the <a>intermediary
@@ -2376,14 +2376,14 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
 
  <li><p>If the <a>maximum active sessions</a> is equal to
   the length of the list of <a>active sessions</a>,
-  return <a>error</a> with <a>error code</a> <a>session not created</a>.
+  return <a>error</a> with <a>error code</a> [= error code/session not created =].
 
  <li><p>Let <var>capabilities</var> be the result
   of <a>trying</a> to <a>process capabilities</a>
   with <var>parameters</var> as an argument.
 
  <li><p>If <var>capabilities</var>’s is <a><code>null</code></a>,
-  return <a>error</a> with <a>error code</a> <a>session not created</a>.
+  return <a>error</a> with <a>error code</a> [= error code/session not created =].
 
  <li><p>Let <var>session id</var> be the result of <a>generating a UUID</a>.
 
@@ -2437,7 +2437,7 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
          <dd><p>Take implementation-defined steps to set the user agent proxy
              using the extracted <var>proxy</var> configuration.  If the
              defined proxy cannot be configured return <a>error</a> with
-             <a>error code</a> <a>session not created</a>.</dd>
+             <a>error code</a> [= error code/session not created =].</dd>
 
          <dt>Otherwise</dt>
          <dd><a>Set a property</a> of <var>capabilities</var> with name
@@ -2786,7 +2786,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
 <p>Navigation actions are also affected by the value of
  the <a>session page load timeout</a>,
  which determines the maximum time that commands will block
- before returning with a <a>timeout</a> <a>error</a>.
+ before returning with a [= error code/timeout =] <a>error</a>.
 
 <p>The following is the <dfn>table of page load strategies</dfn>
  that links the <code>pageLoadStrategy</code> <a>capability</a> keyword
@@ -2842,14 +2842,14 @@ Return <a>success</a> with data <a><code>null</code></a>.
   has a <a>page loading strategy</a> of <a>none</a>,
   return <a>success</a> with data <a><code>null</code></a>.
 
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
   return <a>success</a> with data <a><code>null</code></a>.
 
  <li><p>Start a <var>timer</var>. If this algorithm has not
   completed before <var>timer</var> reaches
   the <a>session</a>’s <a>session page load timeout</a> in
   milliseconds, return an <a>error</a> with <a>error
-  code</a> <a>timeout</a>.
+  code</a> [= error code/timeout =].
 
  <li><p>If there is an ongoing attempt to <a>navigate</a>
   the <a>current browsing context</a> that has not
@@ -2869,7 +2869,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
  <li><p>If the previous step completed by the
   <a>session page load timeout</a> being reached
   and the browser does not have an active <a>user prompt</a>,
-  return <a>error</a> with <a>error code</a> <a>timeout</a>.
+  return <a>error</a> with <a>error code</a> [= error code/timeout =].
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
@@ -2879,7 +2879,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
 
 <dl class=switch>
  <dt><a>response</a> is a network error
- <dd><p>Return <a>error</a> with <a>error code</a> <a>unknown error</a>.
+ <dd><p>Return <a>error</a> with <a>error code</a> [= error code/unknown error =].
   <p class="note">A &quot;network error&quot; in this case is not an
    HTTP response with a status code indicating an unsuccessful result,
    but could be a problem occurring lower in the OSI model, or a
@@ -2893,7 +2893,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
   that would normally occur under these circumstances,
   are suppressed.
 
-  <p>Otherwise return <a>error</a> with <a>error code</a> <a>insecure certificate</a>.
+  <p>Otherwise return <a>error</a> with <a>error code</a> [= error code/insecure certificate =].
 
  <dt><a>response</a>’s <a>HTTP status</a> is 401
  <dt>Otherwise
@@ -2934,8 +2934,8 @@ Return <a>success</a> with data <a><code>null</code></a>.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p>Let <var>url</var> be the result of
   <a>getting the property</a> <code>url</code>
@@ -2959,7 +2959,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
        a <var>timer</var>. If this algorithm has not completed
        before <var>timer</var> reaches the <a>session</a>’s <a>session page
        load timeout</a> in milliseconds, return an <a>error</a>
-       with <a>error code</a> <a>timeout</a>.
+       with <a>error code</a> [= error code/timeout =].
    </ol>
 
  <li><p><a>Navigate</a> the <a>current top-level browsing context</a> to <var>url</var>.
@@ -3002,8 +3002,8 @@ Return <a>success</a> with data <a><code>null</code></a>.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -3038,8 +3038,8 @@ Return <a>success</a> with data <a><code>null</code></a>.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -3054,7 +3054,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
  <li><p>If the previous step completed by the <a>session page load
    timeout</a> being reached, and <a data-lt="handle any user
    prompts">user prompts have been handled</a>, return <a>error</a>
-   with <a>error code</a> <a>timeout</a>.
+   with <a>error code</a> [= error code/timeout =].
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
@@ -3083,8 +3083,8 @@ Return <a>success</a> with data <a><code>null</code></a>.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -3099,7 +3099,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
  <li><p>If the previous step completed by the <a>session page load
    timeout</a> being reached, and <a data-lt="handle any user
    prompts">user prompts have been handled</a>, return <a>error</a>
-   with <a>error code</a> <a>timeout</a>.
+   with <a>error code</a> [= error code/timeout =].
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
@@ -3125,8 +3125,8 @@ Return <a>success</a> with data <a><code>null</code></a>.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -3169,8 +3169,8 @@ Return <a>success</a> with data <a><code>null</code></a>.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -3203,7 +3203,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
 <!-- this could use a link for destroyed, but there isn't one that works
 for both top-level and nested traversables. Generally all the infrastructure
 here needs to be rewritten. -->
-<p>A <a>browsing context</a> is said to be <dfn>no longer open</dfn>
+<p>A <a>browsing context</a> is said to be <dfn class=export data-dfn-for="browsing context">no longer open</dfn>
  if its <a>navigable</a> has been destroyed.
 
 <p>Each <a>browsing context</a> has an associated
@@ -3281,8 +3281,8 @@ commands are unaffected by whether the operating system window has focus or not.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p>Return <a>success</a> with data being the <a>window handle</a>
   associated with the <a>current top-level browsing context</a>.
@@ -3306,8 +3306,8 @@ commands are unaffected by whether the operating system window has focus or not.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -3353,7 +3353,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
 
  <li><p>If there is an active <a>user prompt</a>, that prevents the
   focusing of another <a>top-level browsing context</a>,
-  return <a>error</a> with <a>error code</a> <a>unexpected alert open</a>.
+  return <a>error</a> with <a>error code</a> [=error code/unexpected alert open=].
 
  <li><p>If <var>handle</var> is equal to the associated <a>window
   handle</a> for some <a>top-level browsing context</a> in
@@ -3361,7 +3361,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
   browsing context, and
   <a>set the current top-level browsing context</a> with <var>context</var>.
 
-  <p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such window</a>.
+  <p>Otherwise, return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p>Update any implementation-specific state that would result
   from the user selecting the <a>current browsing context</a> for
@@ -3427,10 +3427,10 @@ make the tab containing the <a>browsing context</a> the selected tab.
 <ol>
  <li><p>If the implementation does not support creating new top-level
   browsing contexts, return <a>error</a> with <a>error code</a>
-  <a>unsupported operation</a>.
+  [= error code/unsupported operation =].
 
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -3513,9 +3513,9 @@ make the tab containing the <a>browsing context</a> the selected tab.
    <dt><var>id</var> is <a><code>null</code></a>
    <dd>
     <ol>
-      <li><p>If the <a>current top-level browsing context</a> is <a>no
-            longer open</a>, return <a>error</a> with <a>error code</a> <a>no
-            such window</a>.
+      <li><p>If the <a>current top-level browsing context</a> is
+	  [= browsing context/no longer open =], return <a>error</a>
+	  with <a>error code</a> [= error code/no such window=].
 
       <li><p><a>Handle any user prompts</a>
           and return its value if it is an <a>error</a>.
@@ -3530,9 +3530,9 @@ make the tab containing the <a>browsing context</a> the selected tab.
      <li><p>If <var>id</var> is less than 0 or greater than 2<sup>16</sup> – 1,
       return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-     <li><p>If the <a>current browsing context</a> is <a>no
-           longer open</a>, return <a>error</a> with <a>error code</a> <a>no
-           such window</a>.
+     <li><p>If the <a>current browsing context</a> is
+          [= browsing context/no longer open =], return <a>error</a>
+          with <a>error code</a> [= error code/no such window =].
 
      <li><p><a>Handle any user prompts</a>
          and return its value if it is an <a>error</a>.
@@ -3542,7 +3542,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
 
      <li><p>If <var>id</var> is not
       a <a>supported property index</a> of <var>window</var>,
-      return <a>error</a> with <a>error code</a> <a>no such frame</a>.
+      return <a>error</a> with <a>error code</a> [= error code/no such frame =].
 
      <li><p>Let <var>child window</var> be
       the <a><code>WindowProxy</code></a> object obtained by
@@ -3557,9 +3557,9 @@ make the tab containing the <a>browsing context</a> the selected tab.
    <dt><var>id</var> <a>represents a web element</a>
    <dd>
     <ol>
-     <li><p>If the <a>current browsing context</a> is <a>no
-           longer open</a>, return <a>error</a> with <a>error code</a> <a>no
-           such window</a>.
+     <li><p>If the <a>current browsing context</a> is
+         [= browsing context/no longer open =], return <a>error</a>
+          with <a>error code</a> [= error code/no such window =].
 
      <li><p><a>Handle any user prompts</a>
          and return its value if it is an <a>error</a>.
@@ -3570,7 +3570,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
 
      <li><p>If <var>element</var> is not a [^frame^]
       or [^iframe^] element,
-      return <a>error</a> with <a>error code</a> <a>no such frame</a>.
+      return <a>error</a> with <a>error code</a> [= error code/no such frame =].
 
      <li><p><a>Set the current browsing context</a>
      with <var>element</var>’s <a>nested navigable</a>'s <a>active
@@ -3615,15 +3615,15 @@ make the tab containing the <a>browsing context</a> the selected tab.
   <a>top-level browsing context</a>:
 
   <ol>
-    <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
+    <li><p>If the <a>current browsing context</a> is [= browsing context/no
+    longer open=], return <a>error</a> with <a>error code</a> [= error code/no
+    such window =].
     <li><p>Return <a>success</a> with data <a><code>null</code></a>.
   </ol>
 
- <li><p>If the <a>current parent browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
+ <li><p>If the <a>current parent browsing context</a> is [= browsing context/no
+    longer open=], return <a>error</a> with <a>error code</a> [= error code/no
+    such window =].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -3650,7 +3650,7 @@ make the tab containing the <a>browsing context</a> the selected tab.
  Support for these <a>commands</a> is determined by the <a>window
  dimensioning/positioning</a> <a>capability</a>.
  Where a <a>command</a> is not supported,
- an <a>unsupported operation</a> <a>error</a> is returned.
+ an [= error code/unsupported operation =] <a>error</a> is returned.
 
 <p>The <a>top-level browsing context</a>
  has an associated <dfn data-lt="window states">window state</dfn>
@@ -3784,8 +3784,8 @@ with the following properties:
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+   return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -3843,10 +3843,10 @@ corresponding to the <a>current top-level browsing context</a>.
  <li><p>If the <a>remote end</a> does not support
   the <a>Set Window Rect</a> <a>command</a> for
   the <a>current top-level browsing context</a> for any reason,
-  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+  return <a>error</a> with <a>error code</a> [= error code/unsupported operation =].
 
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -3945,10 +3945,10 @@ corresponding to the <a>current top-level browsing context</a>.
  <li><p>If the <a>remote end</a> does not support
   the <a>Maximize Window</a> command
   for the <a>current top-level browsing context</a> for any reason,
-  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+  return <a>error</a> with <a>error code</a> [= error code/unsupported operation =].
 
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -3990,10 +3990,10 @@ corresponding to the <a>current top-level browsing context</a>.
  <li><p>If the <a>remote end</a> does not support
   the <a>Minimize Window</a> command
   for the <a>current top-level browsing context</a> for any reason,
-  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+  return <a>error</a> with <a>error code</a> [= error code/unsupported operation =].
 
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -4025,10 +4025,10 @@ corresponding to the <a>current top-level browsing context</a>.
 
 <ol>
  <li><p>If the <a>remote end</a> does not <a>support fullscreen</a>
-  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+  return <a>error</a> with <a>error code</a> [= error code/unsupported operation =].
 
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -4125,10 +4125,10 @@ given <var>session</var> and <var>node</var>:
   <li>If <a>node</a> is null, or <a>node</a> does not implement {{Element}},
   or if <a>node</a>'s [=Node/node document=] is not <a>current browsing
   context</a>'s <a>active document</a>, return <a>error</a>
-  with <a>error code</a> <a>no such element</a>.
+  with <a>error code</a> [= error code/no such element =].
 
   <li>If <var>node</var> <a>is stale</a>, return <a>error</a>
-  with <a>error code</a> <a>stale element reference</a>.
+  with <a>error code</a> [= error code/stale element reference =].
 
   <li>Return <a>success</a> with <var>node</var>.
 </ol>
@@ -4407,11 +4407,11 @@ is given by:
    <li>If <a>node</a> is null, or <a>node</a> does not implement {{ShadowRoot}},
    or if <a>node</a>'s [=Node/node document=] is not <a>current browsing
    context</a>'s <a>active document</a>, return <a>error</a>
-   with <a>error code</a> <a>no such shadow root</a>.
+   with <a>error code</a> [= error code/no such shadow root =].
 
    <li>If <var>shadow</var> <a>is detached</a>, return
    <a>error</a> with <a>error code</a>
-   <a>detached shadow root</a>.
+   [= error code/detached shadow root =].
 
    <li>Return <a>success</a> with <var>shadow</var>.
  </ol>
@@ -4498,7 +4498,7 @@ is given by:
  a <a><code>DOMException</code></a>, <a><code>SyntaxError</code></a>,
  <a><code>XPathException</code></a>, or other error occurs during the
  execution of the <a>element location strategy</a>, return <a>error</a>
- <a>invalid selector</a>.
+ [= error code/invalid selector =].
 
  <li><p>If <var>elements returned</var> is empty and the current time
   is less than <var>end time</var> return to step 4. Otherwise,
@@ -4567,7 +4567,7 @@ is given by:
   {{ParentNode/querySelectorAll()}} with <var>start node</var> as <a>this</a>
   and <var>selector</var> as the argument. If this causes an exception
   to be thrown, return <a>error</a> with <a>error code</a>
-  <a>invalid selector</a>.
+  [= error code/invalid selector =].
 
  <li><p>Return <a>success</a> with data <var>elements</var>.
 </ol>
@@ -4584,7 +4584,7 @@ is given by:
  <li><p>Let <var>elements</var> be the result of calling
   {{ParentNode/querySelectorAll()}} with <var>start node</var> as <a>this</a>
   and "<code>a</code>" as the argument. If this throws an exception,
-  return <a>error</a> with <a>error code</a> <a>unknown error</a>.
+  return <a>error</a> with <a>error code</a> [= error code/unknown error =].
 
  <li><p>Let <var>result</var> be an empty {{NodeList}}.
 
@@ -4625,7 +4625,7 @@ is given by:
  <li><p>Let <var>elements</var> be the result of calling
   {{ParentNode/querySelectorAll()}} with <var>start node</var> as <a>this</a>
   and "<code>a</code>" as the argument. If this throws an exception,
-  return <a>error</a> with <a>error code</a> <a>unknown error</a>.
+  return <a>error</a> with <a>error code</a> [= error code/unknown error =].
 
  <li><p>Let <var>result</var> be an empty {{NodeList}}.
 
@@ -4679,9 +4679,9 @@ is given by:
   property</a> "<code>snapshotLength</code>"
   from <var>evaluateResult</var>. If this throws
   an <a>XPathException</a> return <a>error</a> with <a>error
-  code</a> <a>invalid selector</a>, otherwise if this throws any other
-  exception return <a>error</a> with <a>error code</a> <a>unknown
-  error</a>.
+  code</a> [= error code/invalid selector =], otherwise if this throws any other
+  exception return <a>error</a> with <a>error code</a> [= error code/unknown
+  error=].
 
  <li><p>Let <var>result</var> be an empty {{NodeList}}.
 
@@ -4693,7 +4693,7 @@ is given by:
     argument.
 
    <li><p>If <var>node</var> is not an <a>element</a> return an <a>error</a>
-    with <a>error code</a> <a>invalid selector</a>.
+    with <a>error code</a> [= error code/invalid selector =].
 
    <li>Append <var>node</var> to <var>result</var>.
 
@@ -4754,9 +4754,9 @@ session.execute("arguments[0].remove()", [body]);
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer
+  open=], return <a>error</a> with <a>error code</a> [= error code/no such
+  window =].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -4764,14 +4764,14 @@ session.execute("arguments[0].remove()", [body]);
   the <a>current browsing context</a>’s <a>document element</a>.
 
  <li><p>If <var>start node</var> is <a><code>null</code></a>,
-  return <a>error</a> with <a>error code</a> <a>no such element</a>.
+  return <a>error</a> with <a>error code</a> [= error code/no such element =].
 
  <li><p>Let <var>result</var> be the result of <a>trying</a> to <a>Find</a>
   with <var>start node</var>, <var>location strategy</var>,
   and <var>selector</var>.
 
  <li><p>If <var>result</var> is empty, return <a>error</a>
- with <a>error code</a> <a>no such element</a>. Otherwise, return the
+ with <a>error code</a> [= error code/no such element =]. Otherwise, return the
  first element of <var>result</var>.
 </ol>
 </section> <!-- /Find Element -->
@@ -4806,9 +4806,9 @@ session.execute("arguments[0].remove()", [body]);
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer
+  open=], return <a>error</a> with <a>error code</a> [= error code/no such
+  window =].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -4816,7 +4816,7 @@ session.execute("arguments[0].remove()", [body]);
   the <a>current browsing context</a>’s <a>document element</a>.
 
  <li><p>If <var>start node</var> is <a><code>null</code></a>,
-  return <a>error</a> with <a>error code</a> <a>no such element</a>.
+  return <a>error</a> with <a>error code</a> [= error code/no such element =].
 
  <li>Return the result of <a>trying</a> to <a>Find</a> with
   <var>start node</var>, <var>location strategy</var>, and <var>selector</var>.
@@ -4853,9 +4853,9 @@ session.execute("arguments[0].remove()", [body]);
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer
+  open=], return <a>error</a> with <a>error code</a> [= error code/no such
+  window =].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -4868,7 +4868,7 @@ session.execute("arguments[0].remove()", [body]);
   and <var>selector</var>.
 
  <li><p>If <var>result</var> is empty, return <a>error</a>
-  with <a>error code</a> <a>no such element</a>. Otherwise, return the
+  with <a>error code</a> [= error code/no such element =]. Otherwise, return the
   first element of <var>result</var>.
 </ol>
 </section> <!-- /Find Element From Element -->
@@ -4903,9 +4903,9 @@ session.execute("arguments[0].remove()", [body]);
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer
+  open=], return <a>error</a> with <a>error code</a> [= error code/no such
+  window =].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -4948,9 +4948,9 @@ session.execute("arguments[0].remove()", [body]);
   <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-  <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
+  <li><p>If the <a>current browsing context</a> is [= browsing context/no longer
+  open=], return <a>error</a> with <a>error code</a> [= error code/no such
+  window =].
 
   <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -4963,7 +4963,7 @@ session.execute("arguments[0].remove()", [body]);
   and <var>selector</var>.
 
   <li><p>If <var>result</var> is empty, return <a>error</a>
-  with <a>error code</a> <a>no such element</a>. Otherwise, return the
+  with <a>error code</a> [= error code/no such element =]. Otherwise, return the
   first element of <var>result</var>.
 </ol>
 </section> <!-- /Find Element From Shadow Root -->
@@ -4998,9 +4998,9 @@ session.execute("arguments[0].remove()", [body]);
   <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-  <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
+  <li><p>If the <a>current browsing context</a> is [= browsing context/no longer
+  open=], return <a>error</a> with <a>error code</a> [= error code/no such
+  window =].
 
   <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -5030,9 +5030,9 @@ session.execute("arguments[0].remove()", [body]);
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer
+  open=], return <a>error</a> with <a>error code</a> [= error code/no such
+  window =].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -5043,7 +5043,7 @@ session.execute("arguments[0].remove()", [body]);
   return <a>success</a> with data set to <a>web element reference
   object</a> for <var>active element</var>.
 
-  <p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such element</a>.
+  <p>Otherwise, return <a>error</a> with <a>error code</a> [= error code/no such element =].
 </ol>
 </section> <!-- /Get Active Element -->
 
@@ -5064,9 +5064,9 @@ session.execute("arguments[0].remove()", [body]);
 <p>The <a>remote end steps</a> are:
 
 <ol>
-  <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
+  <li><p>If the <a>current browsing context</a> is [= browsing context/no longer
+  open=], return <a>error</a> with <a>error code</a> [= error code/no such
+  window =].
 
   <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -5077,7 +5077,7 @@ session.execute("arguments[0].remove()", [body]);
   <li><p>Let <var>shadow root</var> be <var>element</var>'s <a>shadow root</a>.
 
   <li><p>If <var>shadow root</var> is null, return <a>error</a>
-    with <a>error code</a> <a>no such shadow root</a>.
+    with <a>error code</a> [= error code/no such shadow root =].
 
   <li><p>Let <var>serialized</var> be the <a>shadow root reference object</a>
   for <var>shadow root</var>.
@@ -5181,8 +5181,8 @@ or on [^option^] elements.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -5229,8 +5229,8 @@ or on [^option^] elements.
 The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -5281,8 +5281,8 @@ The <a>remote end steps</a> are:
 The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -5318,8 +5318,8 @@ The <a>remote end steps</a> are:
 The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -5384,8 +5384,8 @@ with the <a>Unicode character property</a> "<code>WSpace=Y</code>" or "<code>WS<
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is
   an <a>error</a>.
@@ -5421,8 +5421,8 @@ with the <a>Unicode character property</a> "<code>WSpace=Y</code>" or "<code>WS<
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -5485,8 +5485,8 @@ Width of the <a>web element</a>’s
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -5537,8 +5537,8 @@ Width of the <a>web element</a>’s
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a>
   and return its value if it is an <a>error</a>.
@@ -5578,8 +5578,8 @@ Width of the <a>web element</a>’s
   <p>The <a>remote end steps</a> are:
 
   <ol>
-    <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-        return <a>error</a> with <a>error code</a> <a>no such window</a>.
+    <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+        return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
     <li><p><a>Handle any user prompts</a>
         and return its value if it is an <a>error</a>.
@@ -5612,8 +5612,8 @@ Width of the <a>web element</a>’s
 
     <ol>
       <li>
-        <p>If the <a>current browsing context</a> is <a>no longer open</a>,
-          return <a>error</a> with <a>error code</a> <a>no such window</a>.
+        <p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+          return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
       <li><p><a>Handle any user prompts</a>
           and return its value if it is an <a>error</a>.
@@ -5689,16 +5689,16 @@ and clicks its <a>in-view center point</a>.
 <p>
 If the element’s <a>center point</a>
 is <a>obscured</a> by another element,
-an <a>element click intercepted</a> <a>error</a> is returned.
+an [= error code/element click intercepted =] <a>error</a> is returned.
 If the element is outside the <a>viewport</a>,
-an <a>element not interactable</a> <a>error</a> is returned.
+an [= error code/element not interactable =] <a>error</a> is returned.
 </aside>
 
 <p>The <a>remote end steps</a> are:
 
 <ol class="algorithm">
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -5712,11 +5712,11 @@ an <a>element not interactable</a> <a>error</a> is returned.
  <li><p><a>Scroll into view</a> the <var>element</var>’s <a>container</a>.
 
  <li><p>If <var>element</var>’s <a>container</a> is still not <a>in view</a>,
-  return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
+  return <a>error</a> with <a>error code</a> [= error code/element not interactable =].
 
  <li><p>If <var>element</var>’s <a>container</a>
   is <a>obscured</a> by another <a>element</a>,
-  return <a>error</a> with <a>error code</a> <a>element click intercepted</a>.
+  return <a>error</a> with <a>error code</a> [= error code/element click intercepted =].
 
  <li><p>Matching on <var>element</var>:
 
@@ -5857,7 +5857,7 @@ an <a>element not interactable</a> <a>error</a> is returned.
  </tr>
 </table>
 
-<p>To <dfn>clear a content editable element</dfn>:
+<p>To <dfn class="abstract-op">clear a content editable element</dfn>:
 
 <ol class="algorithm">
  <li><p>If <var>element</var>’s <a><code>innerHTML</code> IDL attribute</a>
@@ -5902,8 +5902,8 @@ an <a>element not interactable</a> <a>error</a> is returned.
 <p>The <a>remote end steps</a> for <a>Element Clear</a> are:
 
 <ol class="algorithm">
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -5912,7 +5912,7 @@ an <a>element not interactable</a> <a>error</a> is returned.
   with <var>element id</var>.
 
  <li><p>If <var>element</var> is not <a>editable</a>,
-  return an <a>error</a> with <a>error code</a> <a>invalid element state</a>.
+  return an <a>error</a> with <a>error code</a> [= error code/invalid element state =].
 
  <li><p><a>Scroll into view</a> the <var>element</var>.
 
@@ -5921,7 +5921,7 @@ an <a>element not interactable</a> <a>error</a> is returned.
   for <var>element</var> to become <a>interactable</a>.
 
  <li><p>If <var>element</var> is not <a>interactable</a>,
-  return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
+  return <a>error</a> with <a>error code</a> [= error code/element not interactable =].
 
  <li><p>Run the substeps of the first matching statement:
 
@@ -5933,7 +5933,7 @@ an <a>element not interactable</a> <a>error</a> is returned.
    <dd><p>Invoke the steps to <a>clear a content editable element</a>.
 
    <dt>Otherwise
-   <dd><p>Return <a>error</a> with <a>error code</a> <a>invalid element state</a>.
+   <dd><p>Return <a>error</a> with <a>error code</a> [= error code/invalid element state =].
   </dl>
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
@@ -5959,7 +5959,7 @@ The <a>Element Send Keys</a> <a>command</a>
 <a>scrolls into view</a> the form control <a>element</a>
 and then sends the provided keys to the <a>element</a>.
 In case the <a>element</a> is not <a>keyboard-interactable</a>,
-an <a>element not interactable</a> <a>error</a> is returned.
+an [= error code/element not interactable =] <a>error</a> is returned.
 
 <p>
 A <dfn>non-typeable form control</dfn>
@@ -5991,7 +5991,7 @@ in the <a><code>number</code> state</a> on non-desktop devices.
  through “typing” by sending the <dfn>null key</dfn>, which is U+E000
  (NULL).
 
-<p>To <dfn>clear the modifier key state</dfn> given <var>input
+<p>To <dfn class="abstract-op">clear the modifier key state</dfn> given <var>input
  state</var>, <var>input id</var>, <var>source</var>, <var>undo
  actions</var>, and <var>browsing context</var>:
 
@@ -6026,7 +6026,7 @@ in the <a><code>number</code> state</a> on non-desktop devices.
 <p>The <dfn>shifted state</dfn> for <var>keyboard</var> is the value
  of <var>keyboard</var>’s <code>shift</code> property.
 
-<p>To <dfn>dispatch the events for a typeable string</dfn>
+<p>To <dfn class="abstract-op">dispatch the events for a typeable string</dfn>
 given <var>input state</var>, <var>input id</var>, <var>source</var>,
 <var>text</var>, and <var>browsing context</var>:
 
@@ -6088,7 +6088,7 @@ given <var>input state</var>, <var>input id</var>, <var>source</var>,
   </ol>
 </ol>
 
-<p>When required to <dfn>dispatch a composition event</dfn>
+<p>When required to <dfn class="abstract-op">dispatch a composition event</dfn>
 given <var>type</var> and <var>cluster</var>, and <var>browsing
 context</var>, the <a>remote end</a> must <a>perform
 implementation-specific action dispatch steps</a> on <var>browsing
@@ -6114,7 +6114,7 @@ event with the specified properties.
  </table>
 </ul>
 
-<p>To <dfn>dispatch actions for a string</dfn> given <var>input
+<p>To <dfn class="abstract-op">dispatch actions for a string</dfn> given <var>input
 state</var>, <var>input id</var>, <var>source</var>,
 <var>text</var>, and <var>browsing context</var>:
 
@@ -6223,8 +6223,8 @@ state</var>, <var>input id</var>, <var>source</var>,
  <li><p>If <var>text</var> is not a <a>String</a>,
   return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
@@ -6246,7 +6246,7 @@ state</var>, <var>input id</var>, <var>source</var>,
     become <a>keyboard-interactable</a>.
 
    <li><p>If <var>element</var> is not <a>keyboard-interactable</a>,
-    return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
+    return <a>error</a> with <a>error code</a> [= error code/element not interactable =].
 
    <li><p>If <var>element</var> is not the <a>active element</a> run
     the <a>focusing steps</a> for the <var>element</var>.
@@ -6296,11 +6296,11 @@ state</var>, <var>input id</var>, <var>source</var>,
     <ol>
      <li><p>If <var>element</var> does not have an <a>own property</a>
       named <code>value</code> return an <a>error</a> with <a>error
-      code</a> <a>element not interactable</a>
+      code</a> [= error code/element not interactable =]
 
      <li><p>If <var>element</var> is not <a>mutable</a> return
-      an <a>error</a> with <a>error code</a> <a>element not
-      interactable</a>.
+      an <a>error</a> with <a>error code</a> [= error code/element not
+      interactable =].
 
      <li><p><a>Set a property</a> <code>value</code> to <var>text</var>
       on <var>element</var>.
@@ -6381,8 +6381,8 @@ of the <a>current browsing context</a> <a>active document</a>.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -6493,14 +6493,14 @@ a <a>remote end</a> must run the following steps:
 
  <dt>instance of {{Element}}</a>
  <dd><p>If the <var>element</var> <a>is stale</a>,
-  return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
+  return <a>error</a> with <a>error code</a> [= error code/stale element reference =].
 
   <p>Otherwise return <a>success</a> with data set to the <a>web
   element reference object</a> for <var>value</var>.
 
  <dt>instance of {{ShadowRoot}}</a>
  <dd><p>If the <var>shadow root</var> <a>is detached</a>,
-  return <a>error</a> with <a>error code</a> <a>detached shadow root</a>.
+  return <a>error</a> with <a>error code</a> [= error code/detached shadow root =].
 
   <p>Otherwise return <a>success</a> with data set to the <a>shadow
   root reference object</a> for <var>value</var>.
@@ -6509,7 +6509,7 @@ a <a>remote end</a> must run the following steps:
  <dd><p>If the associated <a>browsing context</a>
   of the <a><code>WindowProxy</code></a> object
   in <var>value</var> has been destroyed,
-  return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
+  return <a>error</a> with <a>error code</a> [= error code/stale element reference =].
 
   <p>Otherwise return <a>success</a> with data set
    to <a><code>WindowProxy</code> reference object</a>
@@ -6525,7 +6525,7 @@ a <a>remote end</a> must run the following steps:
  <dd>
   <ol>
    <li><p>If <var>value</var> is in <var>seen</var>,
-    return <a>error</a> with <a>error code</a> <a>javascript error</a>.
+    return <a>error</a> with <a>error code</a> [= error code/javascript error =].
 
    <li><p>Append <var>value</var> to <var>seen</var>.
 
@@ -6569,7 +6569,7 @@ a <a>remote end</a> must run the following steps:
    <li><p>Let <var>source property value</var> be the result of
     <a>getting a property</a> named <var>name</var> from <var>value</var>.
     If doing so causes script to be run and that script throws an error,
-    return <a>error</a> with <a>error code</a> <a>javascript error</a>.
+    return <a>error</a> with <a>error code</a> [= error code/javascript error =].
 
    <li><p>Let <var>cloned property result</var> be the result of
     calling the <var>clone algorithm</var> with arguments
@@ -6698,8 +6698,8 @@ a <a>remote end</a> must run the following steps:
   <a>trying</a> to <a>extract the script arguments from a request</a>
   with argument <var>parameters</var>.
 
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
@@ -6728,7 +6728,7 @@ a <a>remote end</a> must run the following steps:
 
   <li><p>Upon rejection of <var>promise</var> with reason <var>r</var>,
       let <var>result</var> be a <a>JSON clone</a> of <var>r</var>, and
-      return <a>error</a> with <a>error code</a> <a>javascript error</a>
+      return <a>error</a> with <a>error code</a> [= error code/javascript error =]
       and data <var>result</var>.
 </ol>
 </section> <!-- /Execute Script -->
@@ -6761,8 +6761,8 @@ The first argument provided to the function will be serialized to JSON and retur
      <a>extract the script arguments from a request</a> with
      argument <var>parameters</var>.
 
-  <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+  <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+   return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
    <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
@@ -6818,7 +6818,7 @@ The first argument provided to the function will be serialized to JSON and retur
 
   <li><p>Upon rejection of <var>promise</var> with reason <var>r</var>,
       let <var>result</var> be a <a>JSON clone</a> of <var>r</var>, and
-      return <a>error</a> with <a>error code</a> <a>javascript error</a>
+      return <a>error</a> with <a>error code</a> [= error code/javascript error =]
       and data <var>result</var>.
 </ol>
 </section> <!-- /Execute Async Script -->
@@ -7003,8 +7003,8 @@ The first argument provided to the function will be serialized to JSON and retur
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
@@ -7041,8 +7041,8 @@ The first argument provided to the function will be serialized to JSON and retur
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
@@ -7053,7 +7053,7 @@ The first argument provided to the function will be serialized to JSON and retur
   return <a>success</a> with the <a>serialized cookie</a> as data.
 
   <p>Otherwise, return <a>error</a>
-   with <a>error code</a> <a>no such cookie</a>.
+   with <a>error code</a> [= error code/no such cookie =].
 </ol>
 </section> <!-- /Get Named Cookie -->
 
@@ -7082,14 +7082,14 @@ The first argument provided to the function will be serialized to JSON and retur
   listed in the <a>table for cookie conversion</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
  <li><p>If the <a>current browsing context</a>’s <a>document element</a>
   is a <a>cookie-averse <code>Document</code> object</a>,
-  return <a>error</a> with <a>error code</a> <a>invalid cookie domain</a>.
+  return <a>error</a> with <a>error code</a> [= error code/invalid cookie domain =].
 
  <li><p>If <a>cookie name</a> or <a>cookie value</a> is <a><code>null</code></a>,
   <a>cookie domain</a> is not equal to
@@ -7133,7 +7133,7 @@ The first argument provided to the function will be serialized to JSON and retur
   </dl>
 
   <p>If there is an <a>error</a> during this step,
-   return <a>error</a> with <a>error code</a> <a>unable to set cookie</a>.
+   return <a>error</a> with <a>error code</a> [= error code/unable to set cookie =].
 
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
@@ -7157,8 +7157,8 @@ The first argument provided to the function will be serialized to JSON and retur
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
@@ -7187,8 +7187,8 @@ The first argument provided to the function will be serialized to JSON and retur
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a>, and return its value if it is an <a>error</a>.
 
@@ -7548,7 +7548,7 @@ An <a>input state</a> has the following items:
 
 </ul>
 
-<p>To <dfn>get the input state</dfn> given <var>session</var>
+<p>To <dfn class="abstract-op">get the input state</dfn> given <var>session</var>
 and <var>browsing context</var>:
 
 <ol class="algorithm">
@@ -7567,7 +7567,7 @@ and <var>browsing context</var>:
  context</var>].
 </ol>
 
-<p>To <dfn>reset the input state</dfn> given <var>session</var>
+<p>To <dfn class="abstract-op">reset the input state</dfn> given <var>session</var>
 and <var>browsing context</var>:
 
 <ol class="algorithm">
@@ -7582,7 +7582,7 @@ and <var>browsing context</var>:
  context</var>].
 </ol>
 
-<p>To <dfn>create an input state</dfn>:
+<p>To <dfn class="abstract-op">create an input state</dfn>:
 
 <ol class="algorithm">
  <li><p>Let <var>input state</var> be an <a>input state</a> with
@@ -7592,7 +7592,7 @@ and <var>browsing context</var>:
  <li><p>Return <var>input state</var>.
 </ol>
 
-<p>To <dfn>add an input source</dfn> given <var>input state</var>,
+<p>To <dfn class="abstract-op">add an input source</dfn> given <var>input state</var>,
 <var>input id</var>, and <var>source</var>:
 
 <ol class="algorithm">
@@ -7604,7 +7604,7 @@ and <var>browsing context</var>:
 </ol>
 </div>
 
-<p>To <dfn>remove an input source</dfn> given <var>input state</var>,
+<p>To <dfn class="abstract-op">remove an input source</dfn> given <var>input state</var>,
 and <var>input id</var>:
 <ol class="algorithm">
   <li><p>Assert: None of the items in <var>input
@@ -7617,7 +7617,7 @@ and <var>input id</var>:
   <li>Remove <var>input state map</var>[<var>input id</var>].
 </ol>
 
-<p>To <dfn>get an input source</dfn> given <var>input state</var>
+<p>To <dfn class="abstract-op">get an input source</dfn> given <var>input state</var>
 and <var>input id</var>:
 
 <ol class="algorithm">
@@ -7630,7 +7630,7 @@ and <var>input id</var>:
  <li><p>Return undefined.</p></li>
 </ol>
 
-<p>To <dfn>get or create an input source</dfn> given <var>input
+<p>To <dfn class="abstract-op">get or create an input source</dfn> given <var>input
 state</var>, <var>type</var>, <var>input id</var>, and
 optional <var>subtype</var>:
 
@@ -7653,7 +7653,7 @@ optional <var>subtype</var>:
 <p>A <dfn>global key state</dfn> is a [=struct=] with items pressed,
 altKey, ctrlKey, metaKey, and shiftKey.
 
-<p>To <dfn>get the global key state</dfn> given <var>input state</var>:
+<p>To <dfn class="abstract-op">get the global key state</dfn> given <var>input state</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>input state map</var> be <var>input
@@ -7795,7 +7795,7 @@ from a machine utilisation perspective.
  input JSON, such that the actions to be performed in a single <a>tick</a>
  are grouped together.
 
-<p>To <dfn>extract an action sequence</dfn> with
+<p>To <dfn class="abstract-op">extract an action sequence</dfn> with
  <var>input state</var>, and <var>parameters</var>:
 
 <ol class="algorithm">
@@ -7924,7 +7924,7 @@ from a machine utilisation perspective.
 <p>The <dfn>default pointer parameters</dfn> consist of an object with
  property <code>pointerType</code> set to <code>mouse</code>.
 
-<p>To <dfn>process pointer parameters</dfn> given
+<p>To <dfn class="abstract-op">process pointer parameters</dfn> given
  <var>parameters data</var>:
 
 <ol class="algorithm">
@@ -7971,7 +7971,7 @@ If <var>pointer type</var> is not <a>undefined</a>:
  properties added by other algorithms in this specification.
 
 <p>
-To <dfn>process a null action</dfn> given
+To <dfn class="abstract-op">process a null action</dfn> given
 <var>id</var> and <var>action item</var>:
 
 <ol class="algorithm">
@@ -7999,7 +7999,7 @@ Return <var>result</var>.
 </ol>
 
 <p>
-To <dfn>process a key action</dfn> given
+To <dfn class="abstract-op">process a key action</dfn> given
 <var>id</var> and <var>action item</var>:</p>
 
 <ol class="algorithm">
@@ -8044,7 +8044,7 @@ Set the <code>value</code> property on <var>action</var> to <var>key</var>.
 Return success with data <var>action</var>.
 </ol>
 
-<p>To <dfn>process a pointer action</dfn> given <var>id</var>,
+<p>To <dfn class="abstract-op">process a pointer action</dfn> given <var>id</var>,
 <var>parameters</var>, and <var>action item</var>:
 
 <ol class="algorithm">
@@ -8100,7 +8100,7 @@ If doing so results in an <a>error</a>, return that <a>error</a>.
 Return <a>success</a> with data <var>action</var>.
 </ol>
 
-<p>To <dfn>process a wheel action</dfn> given
+<p>To <dfn class="abstract-op">process a wheel action</dfn> given
 <var>id</var>, and <var>action item</var>:</p>
 
 <ol class="algorithm">
@@ -8203,7 +8203,7 @@ Set the <code>deltaY</code> property of <var>action</var> to <var>deltaY</var>.
 Return <a>success</a> with data <var>action</var>.
 </ol>
 
-<p>To <dfn>process a pause action</dfn> given <var>action item</var>,
+<p>To <dfn class="abstract-op">process a pause action</dfn> given <var>action item</var>,
 and <var>action</var>:</p>
 
 <ol class="algorithm">
@@ -8221,7 +8221,7 @@ and <var>action</var>:</p>
  <li><p>Return success with data <var>action</var>.
 </ol>
 
-<p>To <dfn>process a pointer up or pointer down action</dfn>
+<p>To <dfn class="abstract-op">process a pointer up or pointer down action</dfn>
  given <var>action item</var>, and <var>action</var>:</p>
 
 <ol class="algorithm">
@@ -8347,7 +8347,7 @@ and <var>action</var>:</p>
  <li><p>Return success with data <a><code>null</code></a>.
 </ol>
 
-<p>To <dfn>process a pointer move action</dfn> given <var>action
+<p>To <dfn class="abstract-op">process a pointer move action</dfn> given <var>action
 item</var>, and <var>action</var>:</p>
 
 <ol class="algorithm">
@@ -8517,7 +8517,7 @@ item</var>, and <var>action</var>:</p>
  grouped by <a>tick</a>, and then causes each action to be run at the
  appropriate point in the sequence.
 
-<p>To <dfn>dispatch actions</dfn> given <var>input
+<p>To <dfn class="abstract-op">dispatch actions</dfn> given <var>input
 state</var>, <var>actions by tick</var>, and <var>browsing
 context</var>:
 
@@ -8549,7 +8549,7 @@ context</var>:
  <li><p>Return <var>actions result</var>.
 </ol>
 
-<p>To <dfn>dispatch actions inner</dfn> given <var>input
+<p>To <dfn class="abstract-op">dispatch actions inner</dfn> given <var>input
 state</var>, <var>actions by tick</var>, and <var>browsing
 context</var>:
 
@@ -8586,7 +8586,7 @@ context</var>:
 </ol>
 
 <p>To
- <dfn data-lt="computing the tick duration">compute the tick duration</dfn>
+ <dfn class="abstract-op" data-lt="computing the tick duration">compute the tick duration</dfn>
  given <var>tick actions</var>:</p>
 
 <ol class="algorithm">
@@ -8613,7 +8613,7 @@ context</var>:
  <li><p>Return <var>max duration</var>.
 </ol>
 
-<p>To <dfn>dispatch tick actions</dfn> given <var>input
+<p>To <dfn class="abstract-op">dispatch tick actions</dfn> given <var>input
  state</var>, <var>tick actions</var>, <var>tick duration</var>,
  and <var>browsing context</var>:
 
@@ -8678,7 +8678,7 @@ context</var>:
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 
-<p>To <dfn>dispatch a list of actions</dfn> given <var>input
+<p>To <dfn class="abstract-op">dispatch a list of actions</dfn> given <var>input
 state</var>, <var>actions</var> and <var>browsing context<var>:
 
 <aside class=note>
@@ -8701,7 +8701,7 @@ state</var>, <var>actions</var> and <var>browsing context<var>:
 <section>
 <h4>General actions</h4>
 
-<p>To <dfn>dispatch a pause action</dfn> given <var>action
+<p>To <dfn class="abstract-op">dispatch a pause action</dfn> given <var>action
 object</var>, <var>source</var>, <var>global key
 state</var>, <var>tick duration</var>, and <var>browsing
 context</var>:
@@ -8971,7 +8971,7 @@ context</var>:
  <tr><td><code>\uE05D</code></td><td>Numpad Delete<td><code>3</code></td></tr>
 </table>
 
-<p>To <dfn>dispatch a keyDown action</dfn> given <var>action object</var>,
+<p>To <dfn class="abstract-op">dispatch a keyDown action</dfn> given <var>action object</var>,
 <var>source</var>, <var>global key state</var>, <var>tick
 duration</var>, and <var>browsing context</var>:
 
@@ -9072,7 +9072,7 @@ duration</var>, and <var>browsing context</var>:
   key repetition.
 </aside>
 
-<p>To <dfn>dispatch a keyUp action</dfn> given, <var>action
+<p>To <dfn class="abstract-op">dispatch a keyUp action</dfn> given, <var>action
 object</var>, <var>source</var>,
 <var>global key state</var>, <var>tick duration</var>,
 and <var>browsing context</var>:</p>
@@ -9150,7 +9150,7 @@ and <var>browsing context</var>:</p>
 <section>
 <h4>Pointer actions</h4>
 
-<p>To <dfn>dispatch a pointerDown action</dfn> given
+<p>To <dfn class="abstract-op">dispatch a pointerDown action</dfn> given
  <var>action object</var>, <var>input state</var>, <var>global key state</var>,
  <var>tick duration</var>, and <var>browsing context</var>:
 
@@ -9225,7 +9225,7 @@ and <var>browsing context</var>:</p>
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 
-<p>To <dfn>dispatch a pointerUp action</dfn> given, <var>action
+<p>To <dfn class="abstract-op">dispatch a pointerUp action</dfn> given, <var>action
 object</var>, <var>source</var>,
 <var>global key state</var>, <var>tick duration</var>,
 and <var>browsing context</var>:
@@ -9274,7 +9274,7 @@ and <var>browsing context</var>:
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 
-<p>To <dfn>dispatch a pointerMove action</dfn> given
+<p>To <dfn class="abstract-op">dispatch a pointerMove action</dfn> given
 <var>action object</var>, <var>source</var>, <var>global key state</var>,
 <var>tick duration</var>, and <var>browsing context</var>:
 
@@ -9327,13 +9327,13 @@ and <var>browsing context</var>:
 
  <li><p>If <var>x</var> is less than 0 or greater than the width of
   the viewport in <a>CSS pixels</a>, then
-  return <a>error</a> with error code <a>move target out of
-  bounds</a>.
+  return <a>error</a> with error code [= error code/move target out of
+  bounds =].
 
  <li><p>If <var>y</var> is less than 0 or greater than the height of
   the viewport in <a>CSS pixels</a>, then
-  return <a>error</a> with error code <a>move target out of
-  bounds</a>.
+  return <a>error</a> with error code [= error code/move target out of
+  bounds =].
 
  <li><p>Let <var>duration</var> be equal to
   <var>action object</var>’s <code>duration</code> property if it
@@ -9387,7 +9387,7 @@ and <var>browsing context</var>:
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 
-<p>To <dfn>perform a pointer move</dfn> given <var>source</var>,
+<p>To <dfn class="abstract-op">perform a pointer move</dfn> given <var>source</var>,
 <var>global key state</var>, <var>duration</var>, <var>start x</var>,
 <var>start y</var>, <var>target x</var>, <var>target y</var>, <var>width</var>,
 <var>height</var>, <var>pressure</var>, <var>tangentialPressure</var>,
@@ -9496,7 +9496,7 @@ and <var>azimuthAngle</var>:
 
 </ol>
 
-<p>To <dfn>dispatch a pointerCancel action</dfn> given
+<p>To <dfn class="abstract-op">dispatch a pointerCancel action</dfn> given
 <var>action object</var>, <var>source</var>, <var>global key state</var>,
 <var>tick duration</var>, and <var>browsing context</var>:
 
@@ -9515,7 +9515,7 @@ and <var>azimuthAngle</var>:
 <section>
 <h4>Wheel actions</h4>
 
-<p>To <dfn>dispatch a scroll action</dfn> given
+<p>To <dfn class="abstract-op">dispatch a scroll action</dfn> given
 <var>action object</var>, <var>source</var>, <var>global key state</var>,
 <var>tick duration</var>, and <var>browsing context</var>:
 
@@ -9557,13 +9557,13 @@ and <var>azimuthAngle</var>:
 
  <li><p>If <var>x</var> is less than 0 or greater than the width of
   the viewport in <a>CSS pixels</a>, then
-  return <a>error</a> with error code <a>move target out of
-  bounds</a>.
+  return <a>error</a> with error code [= error code/move target out of
+  bounds =].
 
  <li><p>If <var>y</var> is less than 0 or greater than the height of
   the viewport in <a>CSS pixels</a>, then
-  return <a>error</a> with error code <a>move target out of
-  bounds</a>.
+  return <a>error</a> with error code [= error code/move target out of
+  bounds =].
 
  <li><p>Let <var>delta x</var> be equal to the <code>deltaX</code>
   property of <var>action object</var>.
@@ -9594,7 +9594,7 @@ and <var>azimuthAngle</var>:
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 
-<p>To <dfn>perform a scroll</dfn> given
+<p>To <dfn class="abstract-op">perform a scroll</dfn> given
  <var>duration</var>, <var>x</var>, <var>y</var>,
  <var>target delta x</var>, <var>target delta y</var>,
  <var>current delta x</var> and <var>current delta y</var>:
@@ -9710,9 +9710,9 @@ and <var>azimuthAngle</var>:
   to <a>extract an action sequence</a> given <var>input state</var>,
   and <var>parameters</var>.
 
- <li><p>If the <a>current browsing context</a> is <a>no longer
-  open</a>, return <a>error</a> with <a>error code</a> <a>no such
-  window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer
+  open=], return <a>error</a> with <a>error code</a> [= error code/no such
+  window =].
 
  <li><p><a>Handle any user prompts</a>. If this results in
   an <a>error</a>, return that <a>error</a>.
@@ -9751,8 +9751,8 @@ It also clears all the internal state of the virtual devices.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p>Let <var>input state</var> be the result of <a>get the
  input state</a> with <a>current session</a> and <a>current
@@ -9788,7 +9788,7 @@ It also clears all the internal state of the virtual devices.
  When a <a>user prompt</a> appears,
  it is the task of the subsequent <a>command</a> to handle it.
  If the subsequent requested <a>command</a> is not one listed in this chapter,
- an <a>unexpected alert open</a> <a>error</a> will be returned.
+ an [=error code/unexpected alert open=] <a>error</a> will be returned.
 
 <p><a>User prompts</a> that are spawned
  from <a><code>beforeunload</code></a> event handlers,
@@ -9914,7 +9914,7 @@ argument <var>value</var>:
 </ol>
 
 <p>An <dfn>annotated unexpected alert open error</dfn>
- is an <a>error</a> with <a>error code</a> <a>unexpected alert open</a>
+ is an <a>error</a> with <a>error code</a> [=error code/unexpected alert open=]
  and an optional <a>error data</a> dictionary
  with the following entries:
 
@@ -9924,7 +9924,7 @@ argument <var>value</var>:
    <a data-lt="user prompt message">message</a>.
  </dl>
 
-<p>In order to <dfn>handle any user prompts</dfn>
+<p>In order to <dfn class="abstract-op">handle any user prompts</dfn>
  a <a>remote end</a> must take the following steps:
 
 <ol>
@@ -9966,7 +9966,7 @@ based on the <a>current session</a>’s <a>user prompt handler</a>:
 
 <aside class=example>
 <p>
-When returning an <a>error</a> with <a>unexpected alert open</a>,
+When returning an <a>error</a> with [=error code/unexpected alert open=],
 a <a>remote end</a> may choose to return the <a>user prompt message</a>
 as part of an additional "<code>data</code>" <a>Object</a>
 on the <a data-lt="send an error">error representation</a>:
@@ -10008,11 +10008,11 @@ has the same effect as <a>accepting</a> it.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p>If there is no <a>current user prompt</a>,
-  return <a>error</a> with <a>error code</a> <a>no such alert</a>.
+  return <a>error</a> with <a>error code</a> [= error code/no such alert =].
 
  <li><p><a>Dismiss</a> the <a>current user prompt</a>.
 
@@ -10037,11 +10037,11 @@ has the same effect as <a>accepting</a> it.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p>If there is no <a>current user prompt</a>,
-  return <a>error</a> with <a>error code</a> <a>no such alert</a>.
+  return <a>error</a> with <a>error code</a> [= error code/no such alert =].
 
  <li><p><a>Accept</a> the <a>current user prompt</a>.
 
@@ -10066,11 +10066,11 @@ has the same effect as <a>accepting</a> it.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p>If there is no <a>current user prompt</a>,
-  return <a>error</a> with <a>error code</a> <a>no such alert</a>.
+  return <a>error</a> with <a>error code</a> [= error code/no such alert =].
 
  <li><p>Let <var>message</var> be the text message
   associated with the <a>current user prompt</a>,
@@ -10109,11 +10109,11 @@ sets the text field of a <a>window.<code>prompt</code></a>
  <li><p>If <var>text</var> is not a <a>String</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p>If there is no <a>current user prompt</a>,
-  return <a>error</a> with <a>error code</a> <a>no such alert</a>.
+  return <a>error</a> with <a>error code</a> [= error code/no such alert =].
 
  <li><p>Run the substeps of the first matching
   <a>current user prompt</a>:
@@ -10122,14 +10122,14 @@ sets the text field of a <a>window.<code>prompt</code></a>
    <dt><a>alert</a>
    <dt><a>confirm</a>
    <dd><p>Return <a>error</a> with
-    <a>error code</a> <a>element not interactable</a>.
+    <a>error code</a> [= error code/element not interactable =].
 
    <dt><a>prompt</a>
    <dd><p>Do nothing.
 
    <dt>Otherwise
    <dd><p>Return <a>error</a> with
-    <a>error code</a> <a>unsupported operation</a>.
+    <a>error code</a> [= error code/unsupported operation =].
   </dl>
 
  <li><p>Perform user agent dependent steps
@@ -10163,7 +10163,7 @@ sets the text field of a <a>window.<code>prompt</code></a>
 <ol>
  <li><p>If either the <a>initial viewport</a>’s width or height
   is 0 <a>CSS pixels</a>,
-  return <a>error</a> with <a>error code</a> <a>unable to capture screen</a>.
+  return <a>error</a> with <a>error code</a> [= error code/unable to capture screen =].
 
  <li><p>Let <var>paint width</var> be the <a>initial viewport</a>’s width –
   <a>min</a>(<a>rectangle x coordinate</a>,
@@ -10209,11 +10209,11 @@ sets the text field of a <a>window.<code>prompt</code></a>
 <ol>
  <li><p>If the [^canvas^] element’s bitmap’s
   <a>origin-clean</a> flag is set to false,
-  return <a>error</a> with <a>error code</a> <a>unable to capture screen</a>.
+  return <a>error</a> with <a>error code</a> [= error code/unable to capture screen =].
 
  <li><p>If the [^canvas^] element’s bitmap
   has no pixels (i.e. either its horizontal dimension or vertical dimension is zero)
-  then return <a>error</a> with <a>error code</a> <a>unable to capture screen</a>.
+  then return <a>error</a> with <a>error code</a> [= error code/unable to capture screen =].
 
  <li><p>Let <var>file</var> be
   [=a serialization of the bitmap as a file|a serialization of the `canvas` element’s bitmap as a file=],
@@ -10248,8 +10248,8 @@ sets the text field of a <a>window.<code>prompt</code></a>
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p>When the user agent is next to <a>run the animation frame callbacks</a>:
   <ol>
@@ -10295,8 +10295,8 @@ by the <a>bounding rectangle</a> of an <a>element</a>.
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -10445,8 +10445,8 @@ argument <var>input</var> an implementation must:
 <p>The <a>remote end steps</a> are:
 
 <ol>
- <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
-  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+ <li><p>If the <a>current top-level browsing context</a> is [= browsing context/no longer open =],
+  return <a>error</a> with <a>error code</a> [=error code/no such window=].
 
  <li><p><a>Handle any user prompts</a> and return its value if it is an <a>error</a>.
 
@@ -10679,7 +10679,7 @@ ensuring both privacy and preventing state from bleeding through to the next ses
  with <a><code>bot.dom.isShown</code></a> as the this value.
  If doing so does not produce an error,
  return the return value from this function call.
- Otherwise return an <a>error</a> with <a>error code</a> <a>unknown error</a>.
+ Otherwise return an <a>error</a> with <a>error code</a> [= error code/unknown error =].
 
 <p>This function is typically exposed to <code>GET</code> requests
  with a <a>URI Template</a> of
