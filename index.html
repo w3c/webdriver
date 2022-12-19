@@ -4072,14 +4072,17 @@ and a <a>node id map</a>.
 <p>A <dfn>node id map</dfn> is weak map between nodes and their
 corresponding <a>WebDriver node id</a>.
 
-<p>To <dfn>get a node</dfn> given <var>session</var>
-and <var>reference</var>:
+<p>To <dfn>get a node</dfn> given <var>session</var>, <var>reference</var> and
+optional argument <var>browsing context</var>:
 <ol>
+  <li><p>If <var>browsing context</var> is not provided, let
+  <var>browsing context</var> be the <a>current browsing context</a>.
+
   <li>Let <var>browsing context group node map</var>
   be <var>session</var>'s <a>browsing context group node map</a>.
 
-  <li>Let <var>browsing context group</var> be <a>current browsing
-  context</a>'s <a>browsing context group</a>.
+  <li>Let <var>browsing context group</var> be <var>browsing context</var>'s
+  <a>browsing context group</a>.
 
   <li>If <var>browsing context group node map</var> does not
   contain <var>browsing context group</var>, return null.
@@ -4094,14 +4097,17 @@ and <var>reference</var>:
   <li>Return <var>node</var>.
 </ol>
 
-<p>To <dfn>get or create a node reference</dfn>
-given <var>session</var> and <var>node</var>:
+<p>To <dfn>get or create a node reference</dfn> given <var>session</var>,
+<var>node</var> and optional argument <var>browsing context</var>:
 <ol>
+  <li><p>If <var>browsing context</var> is not provided, let
+  <var>browsing context</var> be the <a>current browsing context</a>.
+
   <li>Let <var>browsing context group node map</var>
   be <var>session</var>'s <a>browsing context group node map</a>.
 
-  <li>Let <var>browsing context group</var> be <a>current browsing
-  context</a>'s <a>browsing context group</a>.
+  <li>Let <var>browsing context group</var> be <var>browsing context</var>'s
+  <a>browsing context group</a>.
 
   <li>If <var>browsing context group node map</var> does not
   contain <var>browsing context group</var>, set <var>browsing context
