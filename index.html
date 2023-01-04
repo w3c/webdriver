@@ -4159,11 +4159,14 @@ context</var>, and <var>reference</var> if the following steps return true:
    <li>If <var>node</var> is null, or <var>node</var> does not implement
    {{Element}}, or <var>node</var> <a>is stale</a>:
      <ol>
-       <li>If <a>node reference is known</a> with <a>current
-       session</a>, <a>current browsing context</a>,
-       and <var>reference</var>, return <a>error</a> with <a>error
-       code</a> <a>stale element reference</a>. Otherwise
-       return <a>error</a> with <a>error code</a> <a>no such element</a>.
+       <li><p>If <var>node</var> implements {{Element}} and <a>node
+       reference is known</a> with <a>current session</a>, <a>current
+       browsing context</a>, and <var>reference</var>,
+       return <a>error</a> with <a>error code</a> <a>stale element
+       reference</a>.
+
+       <p>Otherwise return <a>error</a> with <a>error
+       code</a> <a>no such element</a>.
      </ol>
 
   <li>Return <a>success</a> with <var>node</var>.
@@ -4445,12 +4448,14 @@ is given by:
    <li>If <a>node</a> is null, or <a>node</a> does not implement
    {{ShadowRoot}}, or <var>node</var> <a>is detached</a>:
      <ol>
-       <li>If <a>node reference is known</a> with <a>current
-       session</a>, <a>current browsing context</a>,
-       and <var>reference</var>, return <a>error</a> with <a>error
-       code</a> <a>detached shadow root</a>. Otherwise
-       return <a>error</a> with <a>error code</a> <a>no such shadow
+       <li><p>If <var>node</var> implements {{ShadowRoot}}, and <a>node
+       reference is known</a> with <a>current session</a>, <a>current
+       browsing context</a>, and <var>reference</var>,
+       return <a>error</a> with <a>error code</a> <a>detached shadow
        root</a>.
+
+       <p>Otherwise return <a>error</a> with <a>error
+       code</a> <a>no such shadow root</a>.
      </ol>
 
    <li>Return <a>success</a> with <var>node</var>.
