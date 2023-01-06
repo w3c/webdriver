@@ -4072,14 +4072,17 @@ and a <a>node id map</a>.
 <p>A <dfn>node id map</dfn> is weak map between nodes and their
 corresponding <a>WebDriver node id</a>.
 
-<p>To <dfn>get a node</dfn> given <var>session</var>
-and <var>reference</var>:
-<ol>
+<p>A WebDriver <a>session</a> has a <dfn>navigable seen nodes map</dfn>
+which is a weak map between a [=navigable=] and a set.
+
+<p>To <dfn>get a node</dfn> given <var>session</var>,
+<var>browsing context</var>, and <var>reference</var>:
+<ol class="algorithm">
   <li>Let <var>browsing context group node map</var>
   be <var>session</var>'s <a>browsing context group node map</a>.
 
-  <li>Let <var>browsing context group</var> be <a>current browsing
-  context</a>'s <a>browsing context group</a>.
+  <li>Let <var>browsing context group</var> be <var>browsing
+  context</var>'s <a>browsing context group</a>.
 
   <li>If <var>browsing context group node map</var> does not
   contain <var>browsing context group</var>, return null.
@@ -4087,7 +4090,7 @@ and <var>reference</var>:
   <li>Let <var>node id map</var> be <var>browsing context group node
   map</var>[<var>browsing context group</var>].
 
-  <li>Let <a>node</a> be the entry in <var>node id map</var> whose
+  <li>Let <var>node</var> be the entry in <var>node id map</var> whose
   value is <var>reference</var>, if such an entry exists, or null
   otherwise.
 
@@ -4095,42 +4098,80 @@ and <var>reference</var>:
 </ol>
 
 <p>To <dfn>get or create a node reference</dfn>
-given <var>session</var> and <var>node</var>:
-<ol>
+given <var>session</var>, <var>browsing context</var>, and <var>node</var>:
+<ol class="algorithm">
   <li>Let <var>browsing context group node map</var>
   be <var>session</var>'s <a>browsing context group node map</a>.
 
-  <li>Let <var>browsing context group</var> be <a>current browsing
-  context</a>'s <a>browsing context group</a>.
+  <li>Let <var>browsing context group</var> be <var>browsing
+  context</var>'s <a>browsing context group</a>.
 
   <li>If <var>browsing context group node map</var> does not
   contain <var>browsing context group</var>, set <var>browsing context
   group node map</var>[<var>browsing context group</var>] to a new weak map.
 
-  <li>Let <var>node id map</var> be<var>browsing context group node
+  <li>Let <var>node id map</var> be <var>browsing context group node
   map</var>[<var>browsing context group</var>].
 
-  <li>If <var>node id map</var> does not contain <var>node</var>,
-  set <var>node id map</var>[<var>node</var>] to a new globally
-  unique string.
+  <li>If <var>node id map</var> does not contain <var>node</var>:
 
+    <ol>
+      <li>Let <var>node id</var> be a new globally unique string.
+
+      <li>Set <var>node id map</var>[<var>node</var>] to <var>node id</var>.
+
+      <li>Let <var>navigable</var> be <var>browsing
+      context</var>'s <a>active document</a>'s <a>node navigable</a>.
+
+      <li>Let <var>navigable seen nodes map</var>
+      be <var>session</var>'s <a>navigable seen nodes map</a>.
+
+      <li>If <var>navigable seen nodes map</var> does not
+      contain <var>navigable</var>, set <var>navigable seen nodes
+      map</var>[<var>navigable</var>] to an empty set.
+
+      <li>Append <var>node id</var> to <var>navigable seen nodes
+      map</var>[<var>navigable</var>].
+    </ol>
  <li><p>Return <var>node id map</var>[<var>node</var>].
 </ol>
 
+<p>A <dfn>node reference is known</dfn> given <var>session</var>, <var>browsing
+context</var>, and <var>reference</var> if the following steps return true:
+<ol class="algorithm">
+  <li>Let <var>navigable</var> be <var>browsing
+  context</var>'s <a>active document</a>'s <a>node navigable</a>.
+
+  <li>Let <var>navigable seen nodes map</var>
+  be <var>session</var>'s <a>navigable seen nodes map</a>.
+
+  <li>If <var>navigable seen nodes map</var>
+  [=map/contains=] <var>navigable</var> and <var>navigable seen nodes
+  map</var>[<var>navigable</var>] [=set/contains=] <var>reference</var>,
+  return true, otherwise return false.
+</ol>
+
 <p>To <dfn>get a known element</dfn> given <var>reference</var>:
-<ol>
-  <li>Let <var>node</var> be <a>get a node</a> with <a>current session</a>
-  and <var>reference</var>.
+<ol class="algorithm">
+  <li>Let <var>node</var> be <a>get a node</a> with <a>current session</a>,
+  <a>current browsing context</a>, and <var>reference</var>.
 
-  <li>If <a>node</a> is null, or <a>node</a> does not implement {{Element}},
-  or if <a>node</a>'s [=Node/node document=] is not <a>current browsing
-  context</a>'s <a>active document</a>, return <a>error</a>
-  with <a>error code</a> <a>no such element</a>.
+  <li>If <var>node</var> is null, or <var>node</var> does not
+  implement {{Element}} return <a>error</a> with <a>error
+  code</a> <a>no such element</a>.
 
-  <li>If <var>node</var> <a>is stale</a>, return <a>error</a>
-  with <a>error code</a> <a>stale element reference</a>.
+  <li>If <var>node</var> <a>is stale</a>:
+   <ol>
+     <li><p>If <a>node reference is known</a> with <a>current
+     session</a>, <a>current browsing context</a>,
+     and <var>reference</var>, return <a>error</a> with <a>error
+     code</a> <a>stale element reference</a>.
 
-  <li>Return <a>success</a> with <var>node</var>.
+     <p>Otherwise return <a>error</a> with <a>error
+     code</a> <a>no such element</a>.
+   </ol>
+
+  <li>Return <a>success</a> with data <var>node</var>.
 </ol>
 
 <p>To <dfn>get or create a web element reference</dfn>
@@ -4140,7 +4181,8 @@ given <var>session</var> and <var>node</var>:
   <li>Assert: <var>element</var> implements {{Element}}.
 
   <li>Return the result of <a>trying</a> to <a>get or create a node
-  reference</a> given <a>current session</a> and <var>element</var>.
+  reference</a> given <a>current session</a>, <a>current browsing
+  context</a>, and <var>element</var>.
 </ol>
 
 <p>The <dfn>web element reference object</dfn> for <var>element</var>
@@ -4400,20 +4442,27 @@ is given by:
 
  <p>To <dfn>get a known shadow root</dfn> given <var>session</var>
  and <var>reference</var>:
- <ol>
-   <li>Let <var>node</var> be <a>get a node</a> with <a>current session</a>
-   and <var>reference</var>.
 
-   <li>If <a>node</a> is null, or <a>node</a> does not implement {{ShadowRoot}},
-   or if <a>node</a>'s [=Node/node document=] is not <a>current browsing
-   context</a>'s <a>active document</a>, return <a>error</a>
-   with <a>error code</a> <a>no such shadow root</a>.
+ <ol class="algorithm">
+   <li>Let <var>node</var> be <a>get a node</a> with <a>current session</a>,
+   <a>current browsing context</a>, and <var>reference</var>.
 
-   <li>If <var>shadow</var> <a>is detached</a>, return
-   <a>error</a> with <a>error code</a>
-   <a>detached shadow root</a>.
+   <li>If <var>node</var> is null, or <var>node</var> does not
+   implement {{ShadowRoot}}, return <a>error</a> with <a>error
+   code</a> <a>no such shadow root</a>.
 
-   <li>Return <a>success</a> with <var>shadow</var>.
+   <li>If <var>node</var> <a>is detached</a>:
+     <ol>
+       <li><p>If <a>node reference is known</a> with <a>current
+       session</a>, <a>current browsing context</a>,
+       and <var>reference</var>, return <a>error</a> with <a>error
+       code</a> <a>detached shadow root</a>.
+
+       <p>Otherwise return <a>error</a> with <a>error
+       code</a> <a>no such shadow root</a>.
+     </ol>
+
+   <li>Return <a>success</a> with data <var>node</var>.
  </ol>
 
  <p>To <dfn>get or create a shadow root reference</dfn>
@@ -4423,7 +4472,8 @@ is given by:
    <li>Assert: <var>element</var> implements {{ShadowRoot}}.
 
    <li>Return the result of <a>trying</a> to <a>get or create a node
-   reference</a> given <a>current session</a> and <var>element</var>.
+   reference</a> given <a>current session</a>, <a>current browsing
+   context</a>, and <var>element</var>.
  </ol>
 
  <p>The <dfn>shadow root reference object</dfn> for <var>shadow
@@ -10942,7 +10992,6 @@ to automatically sort each list alphabetically.
    <!-- Active browsing context --> <li><dfn><a href=https://html.spec.whatwg.org/#nav-bc>active browsing context</a></dfn>
    <!-- Active document --> <li><dfn><a href=https://html.spec.whatwg.org/#active-document>active document</a></dfn>
    <!-- Active element --> <li><dfn>Active element</dfn> being the <a href=https://html.spec.whatwg.org/#dom-document-activeelement><code>activeElement</code></a> attribute on <a href=https://html.spec.whatwg.org/#document><code>Document</code></a>
-   <!-- Active window --> <li><dfn><a href=https://html.spec.whatwg.org/#nav-window>Active window</a></dfn>
    <!-- Associated window --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-document-window>Associated window</a></dfn>
    <!-- Boolean attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#boolean-attribute>Boolean attribute</a></dfn>
    <!-- Browsing context --> <li><dfn data-lt="browsing contexts"><a href=https://html.spec.whatwg.org/#browsing-context>Browsing context</a></dfn>
