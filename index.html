@@ -6520,40 +6520,36 @@ a <a>remote end</a> must run the following steps:
 <dl class=switch>
  <dt><a>undefined</a>
  <dt><a><code>null</code></a>
- <dd><p><a>Success</a> with data <a><code>null</code></a>.
+ <dd><p>Return <a>success</a> with data <a><code>null</code></a>.
 
  <dt>type <a>Boolean</a>
  <dt>type <a>Number</a>
  <dt>type <a>String</a>
- <dd><p><a>Success</a> with data <var>value</var>.
-
- <dt>a <a>collection</a>
- <dd>
-  <ol>
-   <li><p>Let <var>result list</var> be an empty list.
-
-   <li><p>For each <var>item</var> of <var>value</var>,
-    add the result of <a>trying</a> to <a>clone an object</a>
-    with arguments <var>item</var> and <var>seen</var>
-    and the <a>internal JSON clone algorithm</a> as the <var>clone algorithm</var>
-    to <var>result list</var>.
-
-   <li><p>Return <a>success</a> with <var>result list</var>.
-  </ol>
+ <dd><p>Return <a>success</a> with data <var>value</var>.
 
  <dt>instance of {{Element}}</a>
  <dd><p>If the <var>element</var> <a>is stale</a>,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
-  <p>Otherwise return <a>success</a> with data set to the <a>web
-  element reference object</a> for <var>value</var>.
+  <p>Otherwise:
+  <ol>
+   <li><p>Let <var>reference</var> be the <a>web element reference object</a>
+    for <var>value</var>.
+
+   <li><p>Return <a>success</a> with data <var>reference</var>.
+  </ol>
 
  <dt>instance of {{ShadowRoot}}</a>
  <dd><p>If the <var>shadow root</var> <a>is detached</a>,
   return <a>error</a> with <a>error code</a> <a>detached shadow root</a>.
 
-  <p>Otherwise return <a>success</a> with data set to the <a>shadow
-  root reference object</a> for <var>value</var>.
+  <p>Otherwise:
+  <ol>
+   <li><p>Let <var>reference</var> be the <a>shadow root reference object</a>
+    for <var>value</var>.
+
+    <li><p>Return <a>success</a> with data <var>reference</var>.
+  </ol>
 
  <dt>a {{WindowProxy}} object
  <dd><p>If the associated <a>browsing context</a>
@@ -6561,9 +6557,13 @@ a <a>remote end</a> must run the following steps:
   in <var>value</var> has been destroyed,
   return <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
-  <p>Otherwise return <a>success</a> with data set
-   to <a><code>WindowProxy</code> reference object</a>
-   for <var>value</var>.
+  <p>Otherwise:
+  <ol>
+   <li><p>Let <var>reference</var> be the
+    <a><code>WindowProxy</code> reference object</a> for <var>value</var>.
+
+    <li><p>Return <a>success</a> with data <var>reference</var>.
+  </ol>
 
  <dt>has an <a>own property</a> named "<code>toJSON</code>" that is
   a <a>Function</a>
@@ -6571,22 +6571,15 @@ a <a>remote end</a> must run the following steps:
   <a>Function.[[\Call]]</a>(<code>toJSON</code>) with <var>value</var>
   as the this value.
 
- <dt>Otherwise</dt>
+ <dt>Otherwise
  <dd>
   <ol>
-   <li><p>If <var>value</var> is in <var>seen</var>,
-    return <a>error</a> with <a>error code</a> <a>javascript error</a>.
-
-   <li><p>Append <var>value</var> to <var>seen</var>.
-
-   <li><p>Let <var>result</var> be the value of running the
+   <li><p>Let <var>result</var> be the return value of running the
     <a>clone an object</a> algorithm with arguments <var>value</var> and
     <var>seen</var>, and the <a>internal JSON clone algorithm</a> as the
     <var>clone algorithm</var>.
 
-   <li><p>Remove the last element of <var>seen</var>.
-
-   <li><p>Return <var>result</var>.
+   <li>Return <a>success</a> with data <var>result</var>.
   </ol>
 </dl>
 
@@ -6596,6 +6589,11 @@ a <a>remote end</a> must run the following steps:
  and <var>clone algorithm</var>:
 
 <ol>
+ <li><p>If <var>value</var> is in <var>seen</var>,
+  return <a>error</a> with <a>error code</a> <a>javascript error</a>.
+
+ <li><p>Append <var>value</var> to <var>seen</var>.
+
  <li><p>Let <var>result</var> be the value of the first matching statement,
   matching on <var>value</var>:
 
@@ -6610,27 +6608,31 @@ a <a>remote end</a> must run the following steps:
    <dd><p>A new <a>Object</a>.
   </dl>
 
- <li><p>For each enumerable <a>own property</a>
+ <li><p>For each enumerable property
   in <var>value</var>, run the following substeps:
 
-  <ol>
-   <li><p>Let <var>name</var> be the name of the property.
+ <ol>
+  <li><p>Let <var>name</var> be the name of the property.
 
-   <li><p>Let <var>source property value</var> be the result of
-    <a>getting a property</a> named <var>name</var> from <var>value</var>.
-    If doing so causes script to be run and that script throws an error,
-    return <a>error</a> with <a>error code</a> <a>javascript error</a>.
+  <li><p>Let <var>source property value</var> be the result of
+   <a>getting a property</a> named <var>name</var> from <var>value</var>.
+   If doing so causes script to be run and that script throws an error,
+   return <a>error</a> with <a>error code</a> <a>javascript error</a>.
 
-   <li><p>Let <var>cloned property result</var> be the result of
-    calling the <var>clone algorithm</var> with arguments
-    <var>source property value</var> and <var>seen</var>.
+  <li><p>Let <var>cloned property result</var> be the result of
+   calling the <var>clone algorithm</var> with arguments
+   <var>source property value</var> and <var>seen</var>.
 
-   <li><p>If <var>cloned property result</var> is a <a>success</a>,
-    <a>set a property</a> of <var>result</var> with
-    name <var>name</var> and value equal to <var>cloned property result</var>’s data.
+  <li><p>If <var>cloned property result</var> is a <a>success</a>,
+   <a>set a property</a> of <var>result</var> with
+   name <var>name</var> and value equal to <var>cloned property result</var>’s data.
 
-   <li><p>Otherwise, return <var>cloned property result</var>.
-  </ol>
+  <li><p>Otherwise, return <var>cloned property result</var>.
+ </ol>
+
+ <li><p>Remove the last element of <var>seen</var>.
+
+ <li>Return <a>success</a> with data <var>result</var>.
 </ol>
 
 <p>When required to <dfn>extract the script arguments from a
