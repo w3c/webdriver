@@ -4152,24 +4152,24 @@ context</var>, and <var>reference</var> if the following steps return true:
 </ol>
 
 <p>To <dfn>get a known element</dfn> given <var>reference</var>:
+
 <ol class="algorithm">
-  <li>Let <var>node</var> be <a>get a node</a> with <a>current session</a>,
-  <a>current browsing context</a>, and <var>reference</var>.
+  <li>If not <a>node reference is known</a> with <a>current session</a>,
+  <a>current browsing context</a>, and <var>reference</var> return
+  <a>error</a> with <a>error code</a> <a>no such element</a>.
 
-  <li>If <var>node</var> is null, or <var>node</var> does not
-  implement {{Element}} return <a>error</a> with <a>error
-  code</a> <a>no such element</a>.
+  <li>Let <var>node</var> be the result of <a>get a node</a> with
+  <a>current session</a>, <a>current browsing context</a>, and
+  <var>reference</var>.
 
-  <li>If <var>node</var> <a>is stale</a>:
-   <ol>
-     <li><p>If <a>node reference is known</a> with <a>current
-     session</a>, <a>current browsing context</a>,
-     and <var>reference</var>, return <a>error</a> with <a>error
-     code</a> <a>stale element reference</a>.
+  <li>If <var>node</var> is not null and <var>node</var> does not implement
+  {{Element}} return <a>error</a> with <a>error code</a> <a>no such element</a>.
 
-     <p>Otherwise return <a>error</a> with <a>error
-     code</a> <a>no such element</a>.
-   </ol>
+  <!-- Since we already checked for known references, null here means that
+  the object was GC'd -->
+
+  <li>If <var>node</var> is null or <var>node</var> <a>is stale</a> return
+  <a>error</a> with <a>error code</a> <a>stale element reference</a>.
 
   <li>Return <a>success</a> with data <var>node</var>.
 </ol>
@@ -4444,26 +4444,26 @@ is given by:
  and <var>reference</var>:
 
  <ol class="algorithm">
-   <li>Let <var>node</var> be <a>get a node</a> with <a>current session</a>,
-   <a>current browsing context</a>, and <var>reference</var>.
+  <li>If not <a>node reference is known</a> with <a>current session</a>,
+  <a>current browsing context</a>, and <var>reference</var> return
+  <a>error</a> with <a>error code</a> <a>no such element</a>.
 
-   <li>If <var>node</var> is null, or <var>node</var> does not
-   implement {{ShadowRoot}}, return <a>error</a> with <a>error
-   code</a> <a>no such shadow root</a>.
+  <li>Let <var>node</var> be the result of <a>get a node</a> with
+  <a>current session</a>, <a>current browsing context</a>, and
+  <var>reference</var>.
 
-   <li>If <var>node</var> <a>is detached</a>:
-     <ol>
-       <li><p>If <a>node reference is known</a> with <a>current
-       session</a>, <a>current browsing context</a>,
-       and <var>reference</var>, return <a>error</a> with <a>error
-       code</a> <a>detached shadow root</a>.
+  <li>If <var>node</var> is not null and <var>node</var> does not implement
+  {{ShadowRoot}} return <a>error</a> with <a>error code</a>
+  <a>no such shadow root</a>.
 
-       <p>Otherwise return <a>error</a> with <a>error
-       code</a> <a>no such shadow root</a>.
-     </ol>
+  <!-- Since we already checked for known references, null here means that
+  the object was GC'd -->
 
-   <li>Return <a>success</a> with data <var>node</var>.
- </ol>
+  <li>If <var>node</var> is null or <var>node</var> <a>is stale</a> return
+  <a>error</a> with <a>error code</a> <a>detached shadow root</a>.
+
+  <li>Return <a>success</a> with data <var>node</var>.
+</ol>
 
  <p>To <dfn>get or create a shadow root reference</dfn>
  with <a><var>shadow root</var></a>:
