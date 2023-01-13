@@ -4809,24 +4809,23 @@ context</var>, and <var>reference</var> if the following steps return true:
 </li></ol>
 
 <p>To <dfn id="dfn-get-a-known-element" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">get a known element</dfn> given <var>reference</var>:
+
 </p><ol class="algorithm">
-  <li>Let <var>node</var> be <a href="#dfn-get-a-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-a-node-1">get a node</a> with <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-29">current session</a>,
-  <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-26">current browsing context</a>, and <var>reference</var>.
+  <li>If not <a href="#dfn-node-reference-is-known" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-node-reference-is-known-1">node reference is known</a> with <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-29">current session</a>,
+  <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-26">current browsing context</a>, and <var>reference</var> return
+  <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-107">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-80">error code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-1">no such element</a>.
 
-  </li><li>If <var>node</var> is null, or <var>node</var> does not
-  implement <a data-link-type="idl" data-lt="Element" data-type="interface" href="https://dom.spec.whatwg.org/#element" id="ref-for-index-term-element-interface-1"><code>Element</code></a> return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-107">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-80">error
-  code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-1">no such element</a>.
+  </li><li>Let <var>node</var> be the result of <a href="#dfn-get-a-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-a-node-1">get a node</a> with
+  <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-30">current session</a>, <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-27">current browsing context</a>, and
+  <var>reference</var>.
 
-  </li><li>If <var>node</var> <a href="#dfn-is-stale" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-is-stale-1">is stale</a>:
-   <ol>
-     <li><p>If <a href="#dfn-node-reference-is-known" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-node-reference-is-known-1">node reference is known</a> with <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-30">current
-     session</a>, <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-27">current browsing context</a>,
-     and <var>reference</var>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-108">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-81">error
-     code</a> <a href="#dfn-stale-element-reference" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-stale-element-reference-1">stale element reference</a>.
+  </li><li>If <var>node</var> is not null and <var>node</var> does not implement
+  <a data-link-type="idl" data-lt="Element" data-type="interface" href="https://dom.spec.whatwg.org/#element" id="ref-for-index-term-element-interface-1"><code>Element</code></a> return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-108">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-81">error code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-2">no such element</a>.
 
-     </p><p>Otherwise return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-109">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-82">error
-     code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-2">no such element</a>.
-   </p></li></ol>
+  
+
+  </li><li>If <var>node</var> is null or <var>node</var> <a href="#dfn-is-stale" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-is-stale-1">is stale</a> return
+  <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-109">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-82">error code</a> <a href="#dfn-stale-element-reference" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-stale-element-reference-1">stale element reference</a>.
 
   </li><li>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-47">success</a> with data <var>node</var>.
 </li></ol>
@@ -5100,26 +5099,25 @@ is given by:
  and <var>reference</var>:
 
  </p><ol class="algorithm">
-   <li>Let <var>node</var> be <a href="#dfn-get-a-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-a-node-2">get a node</a> with <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-32">current session</a>,
-   <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-30">current browsing context</a>, and <var>reference</var>.
+  <li>If not <a href="#dfn-node-reference-is-known" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-node-reference-is-known-2">node reference is known</a> with <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-32">current session</a>,
+  <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-30">current browsing context</a>, and <var>reference</var> return
+  <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-111">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-84">error code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-3">no such element</a>.
 
-   </li><li>If <var>node</var> is null, or <var>node</var> does not
-   implement <a data-link-type="idl" data-lt="ShadowRoot" data-type="interface" href="https://dom.spec.whatwg.org/#shadowroot" id="ref-for-index-term-shadowroot-interface-1"><code>ShadowRoot</code></a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-111">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-84">error
-   code</a> <a href="#dfn-no-such-shadow-root" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-shadow-root-1">no such shadow root</a>.
+  </li><li>Let <var>node</var> be the result of <a href="#dfn-get-a-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-a-node-2">get a node</a> with
+  <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-33">current session</a>, <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-31">current browsing context</a>, and
+  <var>reference</var>.
 
-   </li><li>If <var>node</var> <a href="#dfn-is-detached" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-is-detached-1">is detached</a>:
-     <ol>
-       <li><p>If <a href="#dfn-node-reference-is-known" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-node-reference-is-known-2">node reference is known</a> with <a href="#dfn-current-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-session-33">current
-       session</a>, <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-31">current browsing context</a>,
-       and <var>reference</var>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-112">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-85">error
-       code</a> <a href="#dfn-detached-shadow-root" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-detached-shadow-root-1">detached shadow root</a>.
+  </li><li>If <var>node</var> is not null and <var>node</var> does not implement
+  <a data-link-type="idl" data-lt="ShadowRoot" data-type="interface" href="https://dom.spec.whatwg.org/#shadowroot" id="ref-for-index-term-shadowroot-interface-1"><code>ShadowRoot</code></a> return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-112">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-85">error code</a>
+  <a href="#dfn-no-such-shadow-root" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-shadow-root-1">no such shadow root</a>.
 
-       </p><p>Otherwise return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-113">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-86">error
-       code</a> <a href="#dfn-no-such-shadow-root" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-shadow-root-2">no such shadow root</a>.
-     </p></li></ol>
+  
 
-   </li><li>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-49">success</a> with data <var>node</var>.
- </li></ol>
+  </li><li>If <var>node</var> is null or <var>node</var> <a href="#dfn-is-stale" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-is-stale-2">is stale</a> return
+  <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-113">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-86">error code</a> <a href="#dfn-detached-shadow-root" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-detached-shadow-root-1">detached shadow root</a>.
+
+  </li><li>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-49">success</a> with data <var>node</var>.
+</li></ol>
 
  <p>To <dfn id="dfn-get-or-create-a-shadow-root-reference" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">get or create a shadow root reference</dfn>
  with <a href="#dfn-shadow-roots" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-shadow-roots-3"><var>shadow root</var></a>:
@@ -5167,7 +5165,7 @@ is given by:
  <p>A <a href="#dfn-shadow-roots" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-shadow-roots-4">shadow root</a> <dfn id="dfn-is-detached" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">is detached</dfn>
   if its <a data-link-type="dfn" data-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-document" id="ref-for-index-term-node-document-for-node-2">node document</a> is not the <a href="#dfn-active-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-active-document-14">active document</a>
   or if the element node referred to as its <a data-link-type="dfn" href="#dfn-host" class="internalDFN" id="ref-for-dfn-host-7">host</a>
-  <a href="#dfn-is-stale" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-is-stale-2">is stale</a>.
+  <a href="#dfn-is-stale" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-is-stale-3">is stale</a>.
 </p></section> 
 
 <section id="retrieval"><div class="header-wrapper"><h3 id="element-retrieval"><bdi class="secno">12.3 </bdi>Retrieval</h3><a class="self-link" href="#element-retrieval" aria-label="Permalink for Section 12.3"></a></div>
@@ -5470,14 +5468,14 @@ session.execute(<span class="hljs-string">"arguments[0].remove()"</span>, [body]
   the <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-36">current browsing context</a>’s <a data-type="dfn" href="https://dom.spec.whatwg.org/#document-element" id="ref-for-index-term-document-element-3">document element</a>.
 
  </p></li><li><p>If <var>start node</var> is <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-51"><code>null</code></a>,
-  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-126">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-97">error code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-3">no such element</a>.
+  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-126">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-97">error code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-4">no such element</a>.
 
  </p></li><li><p>Let <var>result</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-27">trying</a> to <a href="#dfn-find" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-find-1">Find</a>
   with <var>start node</var>, <var>location strategy</var>,
   and <var>selector</var>.
 
  </p></li><li><p>If <var>result</var> is empty, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-127">error</a>
- with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-98">error code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-4">no such element</a>. Otherwise, return the
+ with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-98">error code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-5">no such element</a>. Otherwise, return the
  first element of <var>result</var>.
 </p></li></ol>
 </section> 
@@ -5522,7 +5520,7 @@ session.execute(<span class="hljs-string">"arguments[0].remove()"</span>, [body]
   the <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-38">current browsing context</a>’s <a data-type="dfn" href="https://dom.spec.whatwg.org/#document-element" id="ref-for-index-term-document-element-4">document element</a>.
 
  </p></li><li><p>If <var>start node</var> is <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-52"><code>null</code></a>,
-  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-132">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-102">error code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-5">no such element</a>.
+  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-132">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-102">error code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-6">no such element</a>.
 
  </p></li><li>Return the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-28">trying</a> to <a href="#dfn-find" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-find-2">Find</a> with
   <var>start node</var>, <var>location strategy</var>, and <var>selector</var>.
@@ -5574,7 +5572,7 @@ session.execute(<span class="hljs-string">"arguments[0].remove()"</span>, [body]
   and <var>selector</var>.
 
  </li><li><p>If <var>result</var> is empty, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-137">error</a>
-  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-106">error code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-6">no such element</a>. Otherwise, return the
+  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-106">error code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-7">no such element</a>. Otherwise, return the
   first element of <var>result</var>.
 </p></li></ol>
 </section> 
@@ -5669,7 +5667,7 @@ session.execute(<span class="hljs-string">"arguments[0].remove()"</span>, [body]
   and <var>selector</var>.
 
   </li><li><p>If <var>result</var> is empty, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-146">error</a>
-  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-113">error code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-7">no such element</a>. Otherwise, return the
+  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-113">error code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-8">no such element</a>. Otherwise, return the
   first element of <var>result</var>.
 </p></li></ol>
 </section> 
@@ -5749,7 +5747,7 @@ session.execute(<span class="hljs-string">"arguments[0].remove()"</span>, [body]
   return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-57">success</a> with data set to <a href="#dfn-web-element-reference-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-web-element-reference-object-2">web element reference
   object</a> for <var>active element</var>.
 
-  </p><p>Otherwise, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-153">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-118">error code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-8">no such element</a>.
+  </p><p>Otherwise, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-153">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-118">error code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-9">no such element</a>.
 </p></li></ol>
 </section> 
 
@@ -5783,7 +5781,7 @@ session.execute(<span class="hljs-string">"arguments[0].remove()"</span>, [body]
   </p></li><li><p>Let <var>shadow root</var> be <var>element</var>'s <a href="#dfn-shadow-roots" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-shadow-roots-5">shadow root</a>.
 
   </p></li><li><p>If <var>shadow root</var> is null, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-156">error</a>
-    with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-120">error code</a> <a href="#dfn-no-such-shadow-root" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-shadow-root-3">no such shadow root</a>.
+    with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-120">error code</a> <a href="#dfn-no-such-shadow-root" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-shadow-root-2">no such shadow root</a>.
 
   </p></li><li><p>Let <var>serialized</var> be the <a href="#dfn-shadow-root-reference-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-shadow-root-reference-object-1">shadow root reference object</a>
   for <var>shadow root</var>.
@@ -7328,7 +7326,7 @@ a <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-fo
  </dt><dd><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-77">success</a> with data <var>value</var>.
 
  </p></dd><dt>instance of <a data-link-type="idl" data-lt="Element" data-type="interface" href="https://dom.spec.whatwg.org/#element" id="ref-for-index-term-element-interface-3"><code>Element</code></a>
- </dt><dd><p>If the <var>element</var> <a href="#dfn-is-stale" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-is-stale-3">is stale</a>,
+ </dt><dd><p>If the <var>element</var> <a href="#dfn-is-stale" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-is-stale-4">is stale</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-204">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-151">error code</a> <a href="#dfn-stale-element-reference" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-stale-element-reference-2">stale element reference</a>.
 
   </p><p>Otherwise:
@@ -7340,7 +7338,7 @@ a <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-fo
   </p></li></ol>
 
  </dd><dt>instance of <a data-link-type="idl" data-lt="ShadowRoot" data-type="interface" href="https://dom.spec.whatwg.org/#shadowroot" id="ref-for-index-term-shadowroot-interface-3"><code>ShadowRoot</code></a>
- </dt><dd><p>If the <var>shadow root</var> <a href="#dfn-is-detached" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-is-detached-2">is detached</a>,
+ </dt><dd><p>If the <var>shadow root</var> <a href="#dfn-is-detached" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-is-detached-1">is detached</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-205">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-152">error code</a> <a href="#dfn-detached-shadow-root" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-detached-shadow-root-2">detached shadow root</a>.
 
   </p><p>Otherwise:
@@ -8715,7 +8713,7 @@ options</var>:
      steps with <var>origin</var> and <var>browsing context</var>.
 
      </p></li><li><p>If <var>element</var> is null, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-237">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-176">error
-     code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-9">no such element</a>.
+     code</a> <a href="#dfn-no-such-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-element-10">no such element</a>.
 
      </p></li><li><p>Let <var>x element</var> and <var>y element</var> be the
      result of calculating the <a href="#dfn-center-point" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-center-point-10">in-view center point</a>
@@ -15460,17 +15458,19 @@ This specification relies on several other underlying specifications.
     <li>
     <a href="#ref-for-dfn-no-such-element-1" title="§ 12. Elements">§ 12. Elements</a> <a href="#ref-for-dfn-no-such-element-2" title="Reference 2">(2)</a> 
   </li><li>
-    <a href="#ref-for-dfn-no-such-element-3" title="§ 12.3.2 Find Element">§ 12.3.2 Find Element</a> <a href="#ref-for-dfn-no-such-element-4" title="Reference 2">(2)</a> 
+    <a href="#ref-for-dfn-no-such-element-3" title="§ 12.2 Shadow Roots">§ 12.2 Shadow Roots</a> 
   </li><li>
-    <a href="#ref-for-dfn-no-such-element-5" title="§ 12.3.3 Find Elements">§ 12.3.3 Find Elements</a> 
+    <a href="#ref-for-dfn-no-such-element-4" title="§ 12.3.2 Find Element">§ 12.3.2 Find Element</a> <a href="#ref-for-dfn-no-such-element-5" title="Reference 2">(2)</a> 
   </li><li>
-    <a href="#ref-for-dfn-no-such-element-6" title="§ 12.3.4 Find Element From Element">§ 12.3.4 Find Element From Element</a> 
+    <a href="#ref-for-dfn-no-such-element-6" title="§ 12.3.3 Find Elements">§ 12.3.3 Find Elements</a> 
   </li><li>
-    <a href="#ref-for-dfn-no-such-element-7" title="§ 12.3.6 Find Element From Shadow Root">§ 12.3.6 Find Element From Shadow Root</a> 
+    <a href="#ref-for-dfn-no-such-element-7" title="§ 12.3.4 Find Element From Element">§ 12.3.4 Find Element From Element</a> 
   </li><li>
-    <a href="#ref-for-dfn-no-such-element-8" title="§ 12.3.8 Get Active Element">§ 12.3.8 Get Active Element</a> 
+    <a href="#ref-for-dfn-no-such-element-8" title="§ 12.3.6 Find Element From Shadow Root">§ 12.3.6 Find Element From Shadow Root</a> 
   </li><li>
-    <a href="#ref-for-dfn-no-such-element-9" title="§ 15.5 Processing actions">§ 15.5 Processing actions</a> 
+    <a href="#ref-for-dfn-no-such-element-9" title="§ 12.3.8 Get Active Element">§ 12.3.8 Get Active Element</a> 
+  </li><li>
+    <a href="#ref-for-dfn-no-such-element-10" title="§ 15.5 Processing actions">§ 15.5 Processing actions</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-no-such-frame" aria-label="Links in this document to definition: no such frame">
@@ -15614,9 +15614,9 @@ This specification relies on several other underlying specifications.
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-    <a href="#ref-for-dfn-no-such-shadow-root-1" title="§ 12.2 Shadow Roots">§ 12.2 Shadow Roots</a> <a href="#ref-for-dfn-no-such-shadow-root-2" title="Reference 2">(2)</a> 
+    <a href="#ref-for-dfn-no-such-shadow-root-1" title="§ 12.2 Shadow Roots">§ 12.2 Shadow Roots</a> 
   </li><li>
-    <a href="#ref-for-dfn-no-such-shadow-root-3" title="§ 12.3.9 Get Element Shadow Root">§ 12.3.9 Get Element Shadow Root</a> 
+    <a href="#ref-for-dfn-no-such-shadow-root-2" title="§ 12.3.9 Get Element Shadow Root">§ 12.3.9 Get Element Shadow Root</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-script-timeout-error" aria-label="Links in this document to definition: script timeout error">
@@ -17770,9 +17770,9 @@ This specification relies on several other underlying specifications.
     <li>
     <a href="#ref-for-dfn-is-stale-1" title="§ 12. Elements">§ 12. Elements</a> 
   </li><li>
-    <a href="#ref-for-dfn-is-stale-2" title="§ 12.2 Shadow Roots">§ 12.2 Shadow Roots</a> 
+    <a href="#ref-for-dfn-is-stale-2" title="§ 12.2 Shadow Roots">§ 12.2 Shadow Roots</a> <a href="#ref-for-dfn-is-stale-3" title="Reference 2">(2)</a> 
   </li><li>
-    <a href="#ref-for-dfn-is-stale-3" title="§ 13.2 Executing Script">§ 13.2 Executing Script</a> 
+    <a href="#ref-for-dfn-is-stale-4" title="§ 13.2 Executing Script">§ 13.2 Executing Script</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-scrolls-into-view" aria-label="Links in this document to definition: scroll into view">
@@ -18074,9 +18074,7 @@ This specification relies on several other underlying specifications.
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-    <a href="#ref-for-dfn-is-detached-1" title="§ 12.2 Shadow Roots">§ 12.2 Shadow Roots</a> 
-  </li><li>
-    <a href="#ref-for-dfn-is-detached-2" title="§ 13.2 Executing Script">§ 13.2 Executing Script</a> 
+    <a href="#ref-for-dfn-is-detached-1" title="§ 13.2 Executing Script">§ 13.2 Executing Script</a> 
   </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-find" aria-label="Links in this document to definition: find">
