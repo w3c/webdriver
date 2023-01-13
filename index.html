@@ -5817,6 +5817,11 @@ an <a>element not interactable</a> <a>error</a> is returned.
      input state</a> given <a>current session</a> and <a>current
      top-level browsing context</a>.
 
+     <li><p>Let <var>actions options</var> be a new <a>actions options</a>
+     with the <a>is element origin</a> steps set to <a>represents a web
+     element</a>, and the <a>get element origin</a> steps set
+     to <a>get a WebElement origin</a>.
+
      <li><p>Let <var>input id</var> be a the result of <a>generating a
      UUID</a>.
 
@@ -5861,8 +5866,8 @@ an <a>element not interactable</a> <a>error</a> is returned.
      action</var>».
 
      <li><p><a>Dispatch a list of actions</a> with <var>input
-     state</var>, <var>actions</var>, and <a>current browsing
-     context</a>.
+     state</var>, <var>actions</var>, <a>current browsing
+     context</a>, and <var>actions options</var>.
 
      <li><p><a>Remove an input source</a> with <var>input state</var>
      and <var>input id</var>.
@@ -6049,6 +6054,11 @@ in the <a><code>number</code> state</a> on non-desktop devices.
  <li><p>If <var>source</var> is not a <a>key input source</a>
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
+ <li><p>Let <var>actions options</var> be a new <a>actions options</a>
+  with the <a>is element origin</a> steps set to <a>represents a web
+  element</a>, and the <a>get element origin</a> steps set
+  to <a>get a WebElement origin</a>.
+
  <li><p>For each <var>entry key</var>
   in the lexically sorted keys of <var>undo actions</var>:
 
@@ -6064,8 +6074,8 @@ in the <a><code>number</code> state</a> on non-desktop devices.
    <li><p>Let <var>actions</var> be the list «<var>action</var>»
 
    <li><p><a>Dispatch a list of actions</a> with <var>input
-   state</var>, <var>actions</var>, and <a>current browsing
-   context</a>.
+   state</var>, <var>actions</var>, <a>current browsing
+   context</a>, and <a>actions options</a>.
   </ol>
 </ol>
 
@@ -6081,6 +6091,11 @@ given <var>input state</var>, <var>input id</var>, <var>source</var>,
 <var>text</var>, and <var>browsing context</var>:
 
 <ol class="algorithm">
+ <li><p>Let <var>actions options</var> be a new <a>actions options</a>
+  with the <a>is element origin</a> steps set to <a>represents a web
+  element</a>, and the <a>get element origin</a> steps set
+  to <a>get a WebElement origin</a>.
+
  <li>For each <var>char</var> of <var>text</var>:
 
   <ol>
@@ -6115,8 +6130,8 @@ given <var>input state</var>, <var>input id</var>, <var>source</var>,
      <li><p>Let <var>tick actions</var> be the list «<var>action</var>».
 
      <li><p><a>Dispatch a list of actions</a> with <var>input
-     state</var>, <var>actions</var>, and <a>current browsing
-     context</a>.
+     state</var>, <var>actions</var>, <a>current browsing
+     context</a>, and <var>actions options</var>.
     </ol>
 
    <li><p>Let <var>keydown action</var> be an <a>action object</a>
@@ -6133,8 +6148,8 @@ given <var>input state</var>, <var>input id</var>, <var>source</var>,
    action</var>, </var>keyup action</var>»
 
    <li><p><a>Dispatch a list of actions</a> with <var>input
-   state</var>, <var>actions</var>, and <a>current browsing
-   context</a>.
+   state</var>, <var>actions</var>, <a>current browsing
+   context</a>, and <var>actions options</var>.
   </ol>
 </ol>
 
@@ -6166,7 +6181,7 @@ event with the specified properties.
 
 <p>To <dfn>dispatch actions for a string</dfn> given <var>input
 state</var>, <var>input id</var>, <var>source</var>,
-<var>text</var>, and <var>browsing context</var>:
+<var>text</var>, <var>browsing context</var>, and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>clusters</var> be an array created by
@@ -6217,8 +6232,8 @@ state</var>, <var>input id</var>, <var>source</var>,
    action</var>»
 
    <li><p><a>Dispatch a list of actions</a> with <var>input
-   state</var>, <var>actions</var>, and <a>current browsing
-   context</a>.
+   state</var>, <var>actions</var>, <a>current browsing
+   context</a>, and <var>actions options</var>.
 
    <li><p>Add an entry to <var>undo actions</var> with
    key <var>cluster</var> and value being a copy of <var>keydown
@@ -7337,6 +7352,31 @@ The first argument provided to the function will be serialized to JSON and retur
 </aside> <!-- /example -->
 
 <section>
+<h3>Actions Options</h3>
+
+<p>Configuration of actions dispatch is controlled by a
+<dfn>actions options</dfn> object. This is a [=struct=] that has a
+fields named <dfn>is element origin</dfn>, which is a set of steps
+that validate if a protocol object represents an element origin,
+and <dfn>get element origin</dfn>, which is a set of steps
+used to deserialize an element.
+
+<p>To <dfn>get a WebElement origin</dfn> with <a>origin</a>
+and <var>browsing context</var>:,
+<ol class="algorithm">
+  <li><p>Assert: <var>browsing context</var> is the <a>current
+  browsing context</a>.
+
+  <li><p>Let <var>element</var> be equal to the result
+  of <a>trying</a> to <a>get a known element</a> with
+  argument <var>origin</var>.
+
+  <li><p>Return <a>success</a> with data <var>element</var>.
+</ol>
+
+</section> <!-- /actions options -->
+
+<section>
 <h3>Input sources</h3>
 
 <p>An <dfn>input source</dfn> is a virtual device providing input
@@ -7847,8 +7887,69 @@ from a machine utilisation perspective.
  input JSON, such that the actions to be performed in a single <a>tick</a>
  are grouped together.
 
-<p>To <dfn>extract an action sequence</dfn> with
- <var>input state</var>, and <var>parameters</var>:
+
+<p>To <dfn>get coordinates relative to an origin</dfn>
+given <var>source</var>, <var>x offset</var>, <var>y offset</var>,
+<var>origin</var>, <var>browsing context</var>, and <var>actions
+options</var>:
+
+<ol class="algorithm">
+ <li><p>Run the substeps of the first matching value
+  of <var>origin</var>
+  <dl>
+   <dt>"<code>viewport</code>"
+   <dd>
+    <ol>
+     <li><p>Let <var>x</var> equal <var>x offset</var> and
+     <var>y</var> equal <var>y offset</var>.
+    </ol>
+   </dd>
+
+   <dt>"<code>pointer</code>"
+   <dd>
+    <p class="note">This is only possible if <var>source</var> is
+    a <a>pointer input source</a></p>
+
+    <ol>
+     <li><p>Let <var>start x</var> be equal to the <code>x</code>
+     property of <var>source</var>.
+
+     <li><p>Let <var>start y</var> be equal to the <code>y</code>
+     property of <var>source</var>.
+
+     <li><p>Let <var>x</var> equal <var>start x</var> +
+     <var>x offset</var> and <var>y</var> equal
+     <var>start y</var> + <var>y  offset</var>.
+    </ol>
+   </dd>
+
+   <dt>Otherwise</dt>
+   <dd>
+    <ol>
+     <li><p>Let <var>element</var> be the result of <a>trying</a> to
+     run <var>actions options</var>' <a>get element origin</a>
+     steps with <var>origin</var> and <var>browsing context</var>.
+
+     <li><p>If <var>element</var> is null, return <a>error</a> with <a>error
+     code</a> <a>no such element</a>.
+
+     <li><p>Let <var>x element</var> and <var>y element</var> be the
+     result of calculating the <a>in-view center point</a>
+     of <var>element</var>.
+
+     <li><p>Let <var>x</var> equal <var>x element</var> +
+     <var>x offset</var>, and <var>y</var> equal
+     <var>y element</var> + <var>y offset</var>.
+    </ol>
+   </dd>
+  </dl>
+
+ <li><p>Return (<var>x</var>, <var>y</var>)
+</ol>
+
+<p>To <dfn>extract an action sequence</dfn> given
+ <var>input state</var>, <var>parameters</var>, and <var>actions
+ options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>actions</var> be the result
@@ -7866,9 +7967,10 @@ from a machine utilisation perspective.
   corresponding to an indexed property in <var>actions</var>:
 
   <ol>
-   <li><p>Let <var>source actions</var> be the result
-    of <a>trying</a> to <a>process an input source action sequence</a>
-    given <var>input state</var> and <var>action sequence</var>.
+   <li><p>Let <var>source actions</var> be the result of <a>trying</a>
+    to <a>process an input source action sequence</a> given <var>input
+    state</var>, <var>action sequence</var>, and <var>actions
+    options</var>.
 
    <li><p>For each <var>action</var> in <var>source actions</var>:
 
@@ -7891,9 +7993,9 @@ from a machine utilisation perspective.
 </ol>
 
 <p>When required to <dfn>process an input source action
- sequence</dfn>, with argument <var>input state</var>
- and <var>action sequence</var>, a <a>remote end</a> must run the
- following steps:
+ sequence</dfn>, given <var>input state</var>, <var>action
+ sequence</var>, and <var>actions options</var>, a <a>remote end</a>
+ must:
 
 <ol class="algorithm">
  <li><p>Let <var>type</var> be the result of <a>getting a property</a>
@@ -7960,12 +8062,13 @@ from a machine utilisation perspective.
    <li><p>Otherwise, if <var>type</var> is "<code>pointer</code>"
     let <var>action</var> be the result of <a>trying</a> to <a>process
     a pointer action</a> with parameters <var>id</var>,
-    <var>parameters</var>, and <var>action item</var>.
+    <var>parameters</var>, <var>action item</var>, and <var>actions
+    options</var>.
 
    <li><p>Otherwise, if <var>type</var> is "<code>wheel</code>"
     let <var>action</var> be the result of <a>trying</a> to <a>process
     a wheel action</a> with parameters <var>id</var>, and
-    <var>action item</var>.
+    <var>action item</var>, and <var>actions options</var>.
 
    <li><p>Append <var>action</var> to <var>actions</var>.
   </ol>
@@ -8097,7 +8200,8 @@ Return success with data <var>action</var>.
 </ol>
 
 <p>To <dfn>process a pointer action</dfn> given <var>id</var>,
-<var>parameters</var>, and <var>action item</var>:
+<var>parameters</var>, <var>action item</var>, and <var>action
+options</var>:
 
 <ol class="algorithm">
 <li><p>
@@ -8124,8 +8228,8 @@ and <var>subtype</var>.
 If <var>subtype</var> is "<code>pause</code>",
 let <var>result</var> be the result of <a>trying</a> to
 <a>process a pause action</a> with arguments
-<var>action item</var> and <var>action</var>,
-and return <var>result</var>.
+<var>action item</var>, <var>action</var>, and <var>actions
+options</var>, and return <var>result</var>.
 
 <li><p>
 Set the <code>pointerType</code> property of <var>action</var>
@@ -8140,8 +8244,9 @@ If doing so results in an <a>error</a>, return that <a>error</a>.
 <li><p>
 If <var>subtype</var> is "<code>pointerMove</code>"
 <a>process a pointer move action</a> with arguments
-<var>action item</var> and <var>action</var>.
-If doing so results in an <a>error</a>, return that <a>error</a>.
+<var>action item</var>, <var>action</var>, and <var>actions
+options</var>.  If doing so results in an <a>error</a>, return
+that <a>error</a>.
 
 <li><p>
 If <var>subtype</var> is "<code>pointerCancel</code>"
@@ -8153,7 +8258,8 @@ Return <a>success</a> with data <var>action</var>.
 </ol>
 
 <p>To <dfn>process a wheel action</dfn> given
-<var>id</var>, and <var>action item</var>:</p>
+<var>id</var>, <var>action item</var>, and <var>actions
+options</var>:</p>
 
 <ol class="algorithm">
 <li><p>
@@ -8201,11 +8307,10 @@ Let <var>origin</var> be the result of <a>getting the property</a>
 If <var>origin</var> is <a>undefined</a> let
 <var>origin</var> equal "<code>viewport</code>".
 
-<li><p>
-If <var>origin</var> is not equal to "<code>viewport</code>"
-or "<code>pointer</code>" and <var>origin</var> is not an <a>Object</a>
-that <a>represents a web element</a>, return <a>error</a> with
-<a>error code</a> <a>invalid argument</a>.
+<li><p> If <var>origin</var> is not equal to "<code>viewport</code>"
+or "<code>pointer</code>", or <var>actions options</var>' <a>is element
+origin</a> steps given <var>origin</var> return false,
+return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
 <li><p>
 Set the <code>origin</code> property of <var>action</var>
@@ -8400,7 +8505,7 @@ and <var>action</var>:</p>
 </ol>
 
 <p>To <dfn>process a pointer move action</dfn> given <var>action
-item</var>, and <var>action</var>:</p>
+item</var>, <var>action</var>, and <var>actions options</var>:</p>
 
 <ol class="algorithm">
  <li><p>Let <var>duration</var> be the result
@@ -8422,9 +8527,9 @@ item</var>, and <var>action</var>:</p>
   <var>origin</var> equal "<code>viewport</code>".
 
  <li><p>If <var>origin</var> is not equal to "<code>viewport</code>"
-  or "<code>pointer</code>" and <var>origin</var> is not an <a>Object</a>
-  that <a>represents a web element</a>, return <a>error</a> with
-  <a>error code</a> <a>invalid argument</a>.
+  or "<code>pointer</code>", and <var>actions options</var> <a>is
+  element origin</a> steps given <var>origin</var> return false,
+  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Set the <code>origin</code> property of <var>action</var>
   to <var>origin</var>.
@@ -8570,8 +8675,8 @@ item</var>, and <var>action</var>:</p>
  appropriate point in the sequence.
 
 <p>To <dfn>dispatch actions</dfn> given <var>input
-state</var>, <var>actions by tick</var>, and <var>browsing
-context</var>:
+state</var>, <var>actions by tick</var>, <var>browsing
+context</var>, and <var>actions options</var>:
 
 <ol class=algorithm>
  <li><p>Let <var>token</var> be a new unique identifier.
@@ -8593,7 +8698,7 @@ context</var>:
 
  <li><p>Let <var>actions result</var> be the result of <a>dispatch
  actions inner</a> with <var>input state</var>, <var>actions by
- tick</var>, and <var>browsing context</var>
+ tick</var>, <var>browsing context</var>, and <var>actions options</var>.
 
  <li><p>Dequeue <var>input state</var>'s <a>actions queue</a>.
      <p>Assert: this returns <var>token</var>
@@ -8602,8 +8707,8 @@ context</var>:
 </ol>
 
 <p>To <dfn>dispatch actions inner</dfn> given <var>input
-state</var>, <var>actions by tick</var>, and <var>browsing
-context</var>:
+state</var>, <var>actions by tick</var>, <var>browsing
+context</var>, and <var>actions options</var>:
 
 <ol class=algorithm>
  <li><p>For each item <var>tick actions</var> in
@@ -8613,10 +8718,9 @@ context</var>:
    <li><p>Let <var>tick duration</var> be the result of <a>computing
     the tick duration</a> with argument <var>tick actions</var>.
 
-   <li><p><a>Dispatch tick actions</a> with
+   <li><p><a>Try</a> to <a>dispatch tick actions</a> with
    <var>tick actions</var>, <var>tick duration</var>,
-   and <var>browsing context</var>.  If this results in
-   an <a>error</a> return that error.
+   <var>browsing context</var>, and <var>actions options</var>.
 
    <li><p>Wait until the following conditions are all met:
 
@@ -8667,7 +8771,7 @@ context</var>:
 
 <p>To <dfn>dispatch tick actions</dfn> given <var>input
  state</var>, <var>tick actions</var>, <var>tick duration</var>,
- and <var>browsing context</var>:
+ <var>browsing context</var>, and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>For each <var>action object</var> in <var>tick actions</var>:
@@ -8712,8 +8816,8 @@ context</var>:
 
    <li><a>Try</a> to run <var>algorithm</var> with arguments
     <var>action object</var>, <var>source</var>, <var>global key
-    state</var>, <var>tick duration</var>, and <var>browsing
-    context</var>.
+    state</var>, <var>tick duration</var>, <var>browsing
+    context</var>, and <var>actions options</var>.
 
    <li><p>If <var>subtype</var> is "<code>keyDown</code>", append
     a copy of <var>action object</var> with the <var>subtype</var>
@@ -8731,7 +8835,8 @@ context</var>:
 </ol>
 
 <p>To <dfn>dispatch a list of actions</dfn> given <var>input
-state</var>, <var>actions</var> and <var>browsing context<var>:
+state</var>, <var>actions</var>, <var>browsing context<var>,
+and <var>actions options</var>:
 
 <aside class=note>
  <p>This is an entry point for other commands that are written in terms
@@ -8746,17 +8851,16 @@ state</var>, <var>actions</var> and <var>browsing context<var>:
  actions</var>».
 
  <li><p>Return the result of <a>dispatch actions</a> with <var>input
- state</var>, <var>actions by tick</var>, and <a>current browsing
- context</a>.
+ state</var>, <var>actions by tick</var>, <a>current browsing
+ context</a>, and <var>actions options</var>.
 </ol>
 
 <section>
 <h4>General actions</h4>
 
-<p>To <dfn>dispatch a pause action</dfn> given <var>action
-object</var>, <var>source</var>, <var>global key
-state</var>, <var>tick duration</var>, and <var>browsing
-context</var>:
+<p>To <dfn>dispatch a pause action</dfn> given <var>action object</var>,
+<var>source</var>, <var>global key state</var>, <var>tick duration</var>,
+<var>browsing context</var>, and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
@@ -9025,7 +9129,7 @@ context</var>:
 
 <p>To <dfn>dispatch a keyDown action</dfn> given <var>action object</var>,
 <var>source</var>, <var>global key state</var>, <var>tick
-duration</var>, and <var>browsing context</var>:
+duration</var>, <var>browsing context</var>, and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>raw key</var> be equal to the
@@ -9124,10 +9228,10 @@ duration</var>, and <var>browsing context</var>:
   key repetition.
 </aside>
 
-<p>To <dfn>dispatch a keyUp action</dfn> given, <var>action
-object</var>, <var>source</var>,
-<var>global key state</var>, <var>tick duration</var>,
-and <var>browsing context</var>:</p>
+<p>To <dfn>dispatch a keyUp action</dfn> given,<var>action
+object</var>, <var>source</var>, <var>global key state</var>,
+<var>tick duration</var>, <var>browsing context</var>,
+and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>raw key</var> be equal to
@@ -9204,7 +9308,8 @@ and <var>browsing context</var>:</p>
 
 <p>To <dfn>dispatch a pointerDown action</dfn> given
  <var>action object</var>, <var>input state</var>, <var>global key state</var>,
- <var>tick duration</var>, and <var>browsing context</var>:
+ <var>tick duration</var>, <var>browsing context</var>,
+ and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>pointerType</var> be equal to
@@ -9278,9 +9383,9 @@ and <var>browsing context</var>:</p>
 </ol>
 
 <p>To <dfn>dispatch a pointerUp action</dfn> given, <var>action
-object</var>, <var>source</var>,
-<var>global key state</var>, <var>tick duration</var>,
-and <var>browsing context</var>:
+object</var>, <var>source</var>, <var>global key
+state</var>, <var>tick duration</var>, <var>browsing context</var>,
+and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>pointerType</var> be equal to
@@ -9328,7 +9433,8 @@ and <var>browsing context</var>:
 
 <p>To <dfn>dispatch a pointerMove action</dfn> given
 <var>action object</var>, <var>source</var>, <var>global key state</var>,
-<var>tick duration</var>, and <var>browsing context</var>:
+<var>tick duration</var>, <var>browsing context</var>,
+and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>x offset</var> be equal to the <code>x</code>
@@ -9337,50 +9443,18 @@ and <var>browsing context</var>:
  <li><p>Let <var>y offset</var> be equal to the <code>y</code>
   property of <var>action object</var>.
 
- <li><p>Let <var>start x</var> be equal to the <code>x</code>
-  property of <var>source</var>.
-
- <li><p>Let <var>start y</var> be equal to the <code>y</code>
-  property of <var>source</var>.
-
  <li><p>Let <var>origin</var> be equal to the <code>origin</code>
   property of <var>action object</var>.
 
- <li><p>Run the substeps of the first matching value
-  of <var>origin</var>:
-
-  <dl>
-   <dt>"<code>viewport</code>"
-   <dd><p>Let <var>x</var> equal <var>x offset</var> and
-    <var>y</var> equal <var>y offset</var>.</dd>
-
-   <dt>"<code>pointer</code>"
-   <dd><p>Let <var>x</var> equal <var>start x</var> +
-    <var>x offset</var> and <var>y</var> equal
-    <var>start y</var> + <var>y  offset</var>.</dd>
-
-   <dt>An object that <a>represents a web element</a></dt>
-   <dd>
-    <ol>
-     <li><p>Let <var>element</var> be equal to the result
-      of <a>trying</a> to <a>get a known element</a> with
-      <var>origin</var>.
-
-     <li><p>Let <var>x element</var> and <var>y element</var> be the
-      result of calculating the <a>in-view center point</a>
-      of <var>element</var>.
-
-     <li><p>Let <var>x</var> equal <var>x element</var> +
-      <var>x offset</var>, and <var>y</var> equal
-      <var>y element</var> + <var>y offset</var>.
-    </ol>
-   </dd>
-  </dl>
+ <li><p>Let (<var>x</var>, <var>y</var>) be the result
+  of <a>trying</a> to <a>get coordinates relative to an origin</a>
+  with <var>source</var>, <var>x offset</var>, <var>y offset</var>,
+  <var>origin</var>, <var>browsing context</var>, and <var>actions
+  options</var>.
 
  <li><p>If <var>x</var> is less than 0 or greater than the width of
-  the viewport in <a>CSS pixels</a>, then
-  return <a>error</a> with error code <a>move target out of
-  bounds</a>.
+  the viewport in <a>CSS pixels</a>, then return <a>error</a> with
+  error code <a>move target out of bounds</a>.
 
  <li><p>If <var>y</var> is less than 0 or greater than the height of
   the viewport in <a>CSS pixels</a>, then
@@ -9550,7 +9624,8 @@ and <var>azimuthAngle</var>:
 
 <p>To <dfn>dispatch a pointerCancel action</dfn> given
 <var>action object</var>, <var>source</var>, <var>global key state</var>,
-<var>tick duration</var>, and <var>browsing context</var>:
+<var>tick duration</var>, <var>browsing context</var>,
+and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p><a>Perform implementation-specific action dispatch steps</a>
@@ -9569,7 +9644,8 @@ and <var>azimuthAngle</var>:
 
 <p>To <dfn>dispatch a scroll action</dfn> given
 <var>action object</var>, <var>source</var>, <var>global key state</var>,
-<var>tick duration</var>, and <var>browsing context</var>:
+<var>tick duration</var>, <var>browsing context</var>,
+and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>x offset</var> be equal to the <code>x</code>
@@ -9581,31 +9657,11 @@ and <var>azimuthAngle</var>:
  <li><p>Let <var>origin</var> be equal to the <code>origin</code>
   property of <var>action object</var>.
 
- <li><p>Run the substeps of the first matching value
-  of <var>origin</var>:
-
-  <dl>
-   <dt>"<code>viewport</code>"
-   <dd><p>Let <var>x</var> equal <var>x offset</var> and
-    <var>y</var> equal <var>y offset</var>.</dd>
-
-   <dt>An object that <a>represents a web element</a></dt>
-   <dd>
-    <ol>
-     <li><p>Let <var>element</var> be equal to the result
-      of <a>trying</a> to <a>get a known element</a> with
-      <var>origin</var>.
-
-     <li><p>Let <var>x element</var> and <var>y element</var> be the
-      result of calculating the <a>in-view center point</a>
-      of <var>element</var>.
-
-     <li><p>Let <var>x</var> equal <var>x element</var> +
-      <var>x offset</var>, and <var>y</var> equal
-      <var>y element</var> + <var>y offset</var>.
-    </ol>
-   </dd>
-  </dl>
+ <li><p>Let (<var>x</var>, <var>y</var>) be the result
+  of <a>trying</a> to <a>get coordinates relative to an origin</a>
+  with <var>source</var>, <var>x offset</var>, <var>y offset</var>,
+  <var>origin</var>, <var>browsing context</var>, and <var>actions
+  options</var>.
 
  <li><p>If <var>x</var> is less than 0 or greater than the width of
   the viewport in <a>CSS pixels</a>, then
@@ -9758,9 +9814,14 @@ and <var>azimuthAngle</var>:
   input state</a> with <a>current session</a> and <a>current
   top-level browsing context</a>.
 
+ <li><p>Let <var>actions options</var> be a new <a>actions options</a>
+  with the <a>is element origin</a> steps set to <a>represents a web
+  element</a>, and the <a>get element origin</a> steps set
+  to <a>get a WebElement origin</a>.
+
  <li><p>Let <var>actions by tick</var> be the result of <a>trying</a>
   to <a>extract an action sequence</a> given <var>input state</var>,
-  and <var>parameters</var>.
+  <var>parameters</var>, and <var>actions options</var>.
 
  <li><p>If the <a>current browsing context</a> is <a>no longer
   open</a>, return <a>error</a> with <a>error code</a> <a>no such
@@ -9770,8 +9831,9 @@ and <var>azimuthAngle</var>:
   an <a>error</a>, return that <a>error</a>.
 
  <li><p><a>Dispatch actions</a> given <var>input state</var>,
-  <var>actions by tick</var>, and <a>current browsing context</a>. If
-  this results in an <a>error</a> return that error.
+  <var>actions by tick</var>, <a>current browsing context</a>,
+  and <var>actions options</var>. If this results in an <a>error</a>
+  return that error.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
@@ -9810,12 +9872,17 @@ It also clears all the internal state of the virtual devices.
  input state</a> with <a>current session</a> and <a>current
  top-level browsing context</a>.
 
+ <li><p>Let <var>actions options</var> be a new <a>actions options</a>
+  with the <a>is element origin</a> steps set to <a>represents a web
+  element</a>, and the <a>get element origin</a> steps set
+  to <a>get a WebElement origin</a>.
+
  <li><p>Let <var>undo actions</var> be <var>input
  state</var>’s <a>input cancel list</a> in reverse order.
 
  <li><p><a>Try</a> to <a>dispatch tick actions</a> with arguments
-  <var>undo actions</var>, <code>0</code>, and <a>current browsing
-  context</a>.
+  <var>undo actions</var>, <code>0</code>, <a>current browsing
+  context</a>, and <a>actions options</a>.
 
  <li><p><a>Reset the input state</a> with <a>current session</a>
  and <a>current top-level browsing context</a>.
