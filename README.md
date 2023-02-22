@@ -13,7 +13,7 @@ that automate a user agent from a separate controlling process, but
 may also be used in such a way as to allow in-browser scripts to
 control a — possibly separate — browser.
 
-The standard is authored by the W3C [Browser Testing- and Tools
+The standard is authored by the W3C [Browser Testing and Tools
 Working Group], and has produced the following documents:
 
 * **Living Document**: https://w3c.github.io/webdriver/
