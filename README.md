@@ -46,7 +46,7 @@ Vendor status documents
 
 * [Mozilla Firefox](https://bugzilla.mozilla.org/showdependencytree.cgi?id=721859&hide_resolved=1)
 * [Microsoft Edge](https://docs.microsoft.com/en-us/microsoft-edge/webdriver#w3c-webdriver)
-* [Apple Safari](https://developer.apple.com/library/content/documentation/NetworkingInternetWeb/Conceptual/WebDriverEndpointDoc/Commands/Commands.html)
+* [Apple Safari](https://developer.apple.com/documentation/webkit/macos_webdriver_commands_for_safari_12_and_later)
 * [WebKit GTK port](http://trac.webkit.org/wiki/WebDriverStatus)
 * [Selenium IEDriverServer](https://github.com/SeleniumHQ/selenium/wiki/W3C-WebDriver-Status)
 * [Chrome](https://chromium.googlesource.com/chromium/src/+/master/docs/chromedriver_status.md)
