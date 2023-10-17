@@ -3211,11 +3211,27 @@ here needs to be rewritten. -->
  identifies it. This must be a <a>String</a> and must not be
  "<code>current</code>".
 
-<p>The <dfn>web window identifier</dfn>
- is the string constant "<code>window-fcc6-11e5-b4f8-330a88ab9d7f</code>".
+<p>A <dfn data-lt="web frames">web frame</dfn>
+  is an abstraction used to identify a <a>frame</a> or <a>iframe</a>
+  when it is transported via the <a href="#protocol">protocol</a>,
+  between <a>remote</a> and <a>local</a> ends.
 
 <p>The <dfn>web frame identifier</dfn>
  is the string constant "<code>frame-075b-4da1-b6ba-e579c2d3230a</code>".
+
+<p>An ECMAScript <a>Object</a> <dfn>represents a web frame</dfn>
+  if it has a <a>web frame identifier</a> <a>own property</a>.
+
+<p>A <dfn data-lt="web windows">web window</dfn>
+  is an abstraction used to identify a <a>window</a>
+  when it is transported via the <a href="#protocol">protocol</a>,
+  between <a>remote</a> and <a>local</a> ends.
+
+<p>The <dfn>web window identifier</dfn>
+  is the string constant "<code>window-fcc6-11e5-b4f8-330a88ab9d7f</code>".
+
+<p>An ECMAScript <a>Object</a> <dfn>represents a web window</dfn>
+  if it has a <a>web window identifier</a> <a>own property</a>.
 
 <p>The <dfn><code>WindowProxy</code> reference object</dfn>
  with <a><code>WindowProxy</code></a> object <var>window</var> is
@@ -3234,6 +3250,53 @@ here needs to be rewritten. -->
    <dt><var>identifier</var>
    <dd><p>Associated <a>window handle</a> of the <var>window</var>’s <a>browsing context</a>.
   </dl>
+</ol>
+
+<p>To <dfn>deserialize a web frame</dfn> by a
+  JSON <a>Object</a> <var>object</var> that
+  <a>represents a web frame</a>:
+
+<ol>
+  <li><p>If <var>object</var> has no <a>own property</a> <a>web frame identifier</a>,
+    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+  <li><p>Let <var>reference</var> be the result of
+    <a data-lt="getting a property">getting</a>
+    the <a>web frame identifier</a> property
+    from <var>object</var>.
+
+  <li><p>Let <var>browsing context</var> be the <a>browsing context</a> whose
+    <a>window handle</a> is <var>reference</var>, or null if no such
+    <a>browsing context</a> exists.
+
+  <li><p>If <var>browsing context</var> is null or a <a>top-level browsing context</a>,
+    return <a>error</a> with <a>error code</a> <a>no such frame</a>.
+
+  <li><p>Return <a>success</a> with data <var>browsing context</var>'s associated window.
+</ol>
+
+<p>To <dfn>deserialize a web window</dfn> by a
+  JSON <a>Object</a> <var>object</var> that <a>represents a web
+    window</a>:
+
+<ol>
+  <li><p>If <var>object</var> has no <a>own property</a> <a>web window identifier</a>,
+    return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+  <li><p>Let <var>reference</var> be the result of
+    <a data-lt="getting a property">getting</a>
+    the <a>web window identifier</a> property
+    from <var>object</var>.
+
+  <li>
+    <p>Let <var>browsing context</var> be the <a>browsing context</a> whose
+      <a>window handle</a> is <var>reference</var>, or null if no such
+      <a>browsing context</a> exists.
+
+  <li><p>If <var>browsing context</var> is null or not a <a>top-level browsing context</a>,
+    return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+  <li><p>Return <a>success</a> with data <var>browsing context</var>'s associated window.
 </ol>
 
 <p>When required to <dfn>set the current browsing context</dfn> given
@@ -4053,7 +4116,7 @@ corresponding to the <a>current top-level browsing context</a>.
 <p>A <dfn data-lt="web elements">web element</dfn>
  is an abstraction used to identify an <a>element</a>
  when it is transported via the <a href="#protocol">protocol</a>,
- between <a>remote</a>- and <a>local</a> ends.
+ between <a>remote</a> and <a>local</a> ends.
 
 <p>The <dfn>web element identifier</dfn> is the string constant
  "<code>element-6066-11e4-a52e-4f735466cecf</code>".
@@ -6515,6 +6578,14 @@ a <a>remote end</a> must run the following steps:
    <dt><a>Object</a> that <a>represents a shadow root</a>
    <dd><p>Return the <a data-lt="deserialize a shadow root">deserialized</a>
     <a>shadow root</a> of <var>value</var>.
+
+   <dt><a>Object</a> that <a>represents a web frame</a>
+   <dd><p>Return the <a data-lt="deserialize a web frame">deserialized</a>
+    <a>web frame</a> of <var>value</var>.
+
+   <dt><a>Object</a> that <a>represents a web window</a>
+   <dd><p>Return the <a data-lt="deserialize a web window">deserialized</a>
+    <a>web window</a> of <var>value</var>.
 
    <dt>instance of <a>Array</a>
    <dt>instance of <a>Object</a>
