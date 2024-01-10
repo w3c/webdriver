@@ -431,8 +431,72 @@ when it receives a particular <a>command</a>.
   received data, according to the requirements of [[RFC7230]]. If it
   is not possible to construct a complete <a>HTTP request</a>,
   the <a>remote end</a> must either close the <a>connection</a>,
-  return an HTTP response with status code 500, or return
-  an <a>error</a> with <a>error code</a> <a>unknown error</a>.
+  return an HTTP response with status code 500, or <a>send an
+  error</a> with <a>error code</a> <a>unknown error</a>, and then
+  jump to step 1.
+
+  <li><p>If <var>request</var> has a <a>Host header</a>,
+  let <var>host</var> be the value of that header. Otherwise
+  let <var>host</var> be undefined.</p></li>
+
+  <li><p>If <var>request</var> has an <a>Origin header</a>,
+  let <var>origin</var> be the value of that header. Otherwise
+  let <var>origin</var> be undefined.</p></li>
+
+  <li><p>If <var>request</var> has an <a>Content-Type header</a>,
+  let <var>content-type</var> be the value of that header. Otherwise
+  let <var>content-type</var> be undefined.</p></li>
+
+  <li><p>If any of the following conditions hold:
+   <ul>
+    <li><p><var>host</var> is undefined.</p></li>
+    <li><p><var>host</var> doesn't match the <code>Host</code>
+      grammar [[RFC7230]]</p></li>
+    <li><p>The result of <a>host parsing</a> the <code>uri-host</code>
+        part of <var>host</var> is not an <a>IP address</a>,
+        a <a>domain</a> identical to the
+        <a>host</a> of the HTTP server or to another <a>host</a> the
+        implementation has been configured to allow.</p></li>
+    <li><p>The <code>port</code> part of <var>host</var> is present
+        but doesn't match the port of the HTTP server.</p></li>
+    <li><p>The <code>port</code> part of <var>host</var> is not
+        present, and the port of the HTTP server doesn't match the
+        default port for the request's scheme.</p></li>
+    <li><p>The implementation wants to reject connections
+        with <var>host</var> as the <a>Host header</a>.</p></li>
+   </ul>
+   <p>Then <a>send an error</a> with <a>error code</a> <a>unknown
+  error</a>, and jump to step 1.</p>
+
+  <p class="note">Rejecting connections with unexpected values in the
+   <a>Host header</a> prevents DNS rebinding attacks. Implementations
+   can opt to provide more stringent controls where appropriate, for
+   example only accepting connections when the <var>host</var> value
+   corresponds to a loopback interface [[RFC5735]]. Further guidance
+   for implementors is given in the <a href="#security">security</a>
+   section.</p>
+  </li>
+
+  <li><p>If <var>origin</var> is not undefined and is not identical to
+  an <a>Origin header</a> value that the implementation has been
+  configured to allow, then stop running these steps and act as if the
+  requested service is not available.</p>
+
+  <p class=note>Rejecting connections with unexpected values in
+  the <a>Origin header</a> is necessary to prevent untrusted websites
+  from establishing a WebDriver session.</p></li>
+
+  <li><p>If <var>content-type</var> is not undefined, and
+  ("<code>content-type</code>", <var>content-type</var>) is a
+  [=CORS-safelisted request-header=], or otherwise if the value
+  of <var>content-type</var> is not a <a>Content-Type header</a> the
+  implementation allows, then stop running these steps and act as if
+  the requested service is not available.</p>
+
+  <p class=note>This provides an additional layer of defence against
+  requests originating from untrusted websites. Implementations can
+  choose to implement this by only accepting requests with the
+  "<code>application/json</code>" Content-Type header.</p></li>
 
  <li><p>Let <var>request match</var> be the result of the algorithm
   to <a>match a request</a> with <var>request</var>’s
@@ -10812,18 +10876,18 @@ ensuring both privacy and preventing state from bleeding through to the next ses
  and that WebDriver remains disabled
  in publicly consumed versions of the user agent.
 
-<p>To prevent arbitrary machines on the network
- from connecting and creating <a>sessions</a>,
- it is suggested that only connections from
- loopback devices are allowed by default.
-
-<p>The <a>remote end</a> can include
- a configuration option to limit
- the accepted IP range allowed to connect and make requests.
- The default setting for this might be
- to limit connections to the IPv4 localhost
- CIDR range <code>127.0.0.0/8</code>
- and the IPv6 localhost address <code>::1</code>. [[RFC4632]]
+<p>To prevent arbitrary machines on the network from connecting and
+  creating <a>sessions</a>, it is suggested that only connections from
+  loopback devices are allowed by default. However, testing setups
+  commonly put the <a>remote end</a> and <a>local end</a> on different
+  network hosts. Users deploying such a setup are encouraged to
+  restrict access to the remote end to the greatest extent possible,
+  either by restricting network connections to trusted hosts (e.g. in
+  the case of a lab setting, or the remote end running in a containers
+  on the same bridged network), or by routing all connections through
+  an <a>intermediary node</a> that provides authorization and
+  authentication. <a>Remote end</a> implementors are encouraged to
+  provide minimal, opt-in, configuration to support these scenarios.
 
 <p>It is also suggested that user agents
  make an effort to visually distinguish
@@ -11240,6 +11304,21 @@ to automatically sort each list alphabetically.
  <dd><p>To be <dfn>HTTP compliant</dfn>,
   it is supposed that the implementation supports the relevant subsets of
   [[RFC7230]], [[RFC7231]], [[RFC7232]], [[RFC7234]], and [[RFC7235]].
+
+ <dd><p>The following terms are defined in the Web Origin Concept specification: [[RFC6454]]
+  <ul>
+   <!-- Origin header --> <li><dfn><a href="https://datatracker.ietf.org/doc/html/rfc6454#section-7">Origin header</a></dfn>
+  </ul>
+
+ <dd><p>The following terms are defined in the Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing specification: [[RFC7230]]
+  <ul>
+   <!-- Host header --> <li><dfn><a href="https://datatracker.ietf.org/doc/html/rfc7230#section-5.4">Host header</a></dfn>
+  </ul>
+
+ <dd><p>The following terms are defined in the Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content specification: [[RFC7231]]
+  <ul>
+   <!-- Content-Type header --> <li><dfn><a href="https://datatracker.ietf.org/doc/html/rfc7231#section-3.1.1.5">Content-Type header</a></dfn>
+  </ul>
 
  <dd><p>The following terms are defined in the Cookie specification: [[RFC6265]]
   <ul>
