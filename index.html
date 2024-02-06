@@ -59,7 +59,7 @@ var respecConfig = {
 <style>
 /* ul.brief to create inline comma separated lists */
 ul.brief::before {
-  content: '\21D2\A0';
+  content: "\21D2\A0";
   font: 1.2em/1.45 Helvetica Neue, sans-serif;
 }
 ul.brief li { display: inline }
@@ -330,7 +330,7 @@ fail. In all other cases it must be true.
 <p>As this standard only defines the <a>remote end</a> protocol,
  it puts no demands to how <a>local ends</a> should be implemented.
  <a>Local ends</a> are only expected to be compatible to the extent
- that they can speak the <a>remote end</a>’s protocol;
+ that they can speak the <a>remote end</a>&apos;s protocol;
  no requirements are made upon their exposed user-facing API.
 
 <section>
@@ -359,7 +359,7 @@ fail. In all other cases it must be true.
  <li><p>Let <var>temp</var> be the result of calling <var>algorithm</var>.
 
  <li><p>If <var>temp</var> is an <a>error</a> return <var>temp</var>,
-  otherwise let <var>result</var> be <var>temp</var>’s <var>data</var> field.
+  otherwise let <var>result</var> be <var>temp</var>&apos;s <var>data</var> field.
 </ol>
 
 <p>The result of <dfn data-lt="getting properties|getting the
@@ -376,7 +376,7 @@ fail. In all other cases it must be true.
  on <var>object</var> if that results in a value other
  than <code>undefined</code> and <var>default</var> otherwise.
 
-<p><dfn data-lt='set a property'>Setting a property</dfn> with
+<p><dfn data-lt="set a property">Setting a property</dfn> with
  arguments <var>name</var> and <var>value</var> on <var>object</var>
  is defined as being the same as calling
  <a>Object.[[\Put]]</a>(<var>name</var>, <var>value</var>) on <var>object</var>.
@@ -385,7 +385,7 @@ fail. In all other cases it must be true.
   of type JSON <a>Object</a> is defined as the result of
   calling <a>stringify</a>(<var>object</var>).
 
-<p>The result of <dfn data-lt='parsing as json'>JSON deserialization</dfn> with <var>text</var> is defined as
+<p>The result of <dfn data-lt="parsing as json">JSON deserialization</dfn> with <var>text</var> is defined as
   the result of calling <a>parse</a>(<var>text</var>).
 </section> <!-- /Algorithms -->
 
@@ -437,15 +437,15 @@ the following steps:
     an <a>error</a> with <a>error code</a> <a>unknown error</a>.
 
    <li><p>Let <var>request match</var> be the result of the algorithm
-    to <a>match a request</a> with <var>request</var>’s
+    to <a>match a request</a> with <var>request</var>&apos;s
     <a>method</a> and <a>URL</a> as arguments.
 
    <li><p>If <var>request match</var> is of type <a>error</a>,
-    <a>send an error</a> with <var>request match</var>’s <a>error code</a>
+    <a>send an error</a> with <var>request match</var>&apos;s <a>error code</a>
     and [=iteration/continue=].
 
     <p>Otherwise, let <var>command</var> and <var>URL variables</var>
-     be <var>request match</var>’s data.
+     be <var>request match</var>&apos;s data.
 
     <li><p>Let <var>session</var> be null.
 
@@ -459,7 +459,7 @@ the following steps:
 
        <li><p>For each <var>active session</var> in the list of <a>active sessions</a>:
        <ol>
-         <li><p>If <var>active session</var>'s <a>session ID</a> is equal
+         <li><p>If <var>active session</var>&apos;s <a>session ID</a> is equal
              to <var>session id</var>, then let <var>session</var>
              be <var>active session</var>, and break.
        </ol>
@@ -470,7 +470,7 @@ the following steps:
 
     </ol>
 
-    <li><p>Enqueue a task on <a>remote end</a>'s <a>request queue</a> to run the following
+    <li><p>Enqueue a task on <a>remote end</a>&apos;s <a>request queue</a> to run the following
     steps:
 
     <ol>
@@ -480,11 +480,11 @@ the following steps:
 
       <li><p>Let <var>parameters</var> be <a><code>null</code></a>.
 
-      <li><p>If <var>request</var>’s <a>method</a> is POST:
+      <li><p>If <var>request</var>&apos;s <a>method</a> is POST:
 
        <ol>
         <li><p>Let <var>parse result</var> be the result of
-         <a>parsing as JSON</a> with <var>request</var>’s
+         <a>parsing as JSON</a> with <var>request</var>&apos;s
          <a>body</a> as the argument. If this process throws an exception,
          return an <a>error</a> with <a>error code</a> <a>invalid
          argument</a> and jump back to step 1 in this overall algorithm.
@@ -501,7 +501,7 @@ the following steps:
 
       <li><p>If <var>navigate result</var> is an <a>error</a>,
        <a>send an error</a> with <a>error code</a>
-       equal to <var>navigate result</var>’s <a>error code</a>
+       equal to <var>navigate result</var>&apos;s <a>error code</a>
        and return.
 
       <li><p>Let <var>response result</var> be the return value
@@ -511,12 +511,12 @@ the following steps:
 
       <li><p>If <var>response result</var> is an <a>error</a>,
        <a>send an error</a> with <a>error code</a>
-       equal to <var>response result</var>’s <a>error code</a>
+       equal to <var>response result</var>&apos;s <a>error code</a>
        and return.
 
        <li><p>Assert: <var>response result</var> is a <a>success</a>.
 
-       <li><p>Let <var>response data</var> be <var>response result</var>’s data.
+       <li><p>Let <var>response data</var> be <var>response result</var>&apos;s data.
 
        <li><p><a>Send a response</a> with status 200 and <var>response data</var>.
      </ol>
@@ -569,11 +569,11 @@ the following steps:
 <ol>
  <li><p>Let <var>response</var> be a new <a>response</a>.
 
- <li><p>Set <var>response</var>’s <a>HTTP status</a> to <var>status</var>,
+ <li><p>Set <var>response</var>&apos;s <a>HTTP status</a> to <var>status</var>,
   and <a>status message</a> to the string corresponding
   to the description of <var>status</var> in the <a>status code registry</a>.
 
- <li><p><a data-lt="set header">Set</a> the <var>response</var>’s <a>header</a>
+ <li><p><a data-lt="set header">Set</a> the <var>response</var>&apos;s <a>header</a>
   with <a data-lt="header name">name</a>
   and <a data-lt="header value">value</a>
   with the following values:
@@ -586,7 +586,7 @@ the following steps:
    <dd>"<code>no-cache</code>"
   </dl>
 
- <li><p>Let <var>response</var>’s <a>body</a> be
+ <li><p>Let <var>response</var>&apos;s <a>body</a> be
   the <a data-lt="utf-8 encode">UTF-8 encoded</a> <a>JSON
   serialization</a> of a JSON <a>Object</a> with a key
   "<code>value</code>" set to <var>data</var>.
@@ -630,9 +630,9 @@ the following steps:
   containing each row in the <a>table of endpoints</a>.
 
  <li><p>Remove each entry from <var>endpoints</var> for which the
-  concatenation of the <a>URL prefix</a> and the entry’s <a>URI
+  concatenation of the <a>URL prefix</a> and the entry&apos;s <a>URI
   template</a> does not have a valid expansion equal to
-  <var>URL</var>’s <a>path</a>.
+  <var>URL</var>&apos;s <a>path</a>.
 
  <li><p>If there are no entries in <var>endpoints</var>,
   return <a>error</a> with <a>error code</a> <a>unknown command</a>.
@@ -648,15 +648,15 @@ the following steps:
   let <var>entry</var> be this entry.
 
  <li><p>Let <var>URI template</var> be the concatenation of <a>URL
- prefix</a> with <var>entry</var>'s <var>URI template</var>.
+ prefix</a> with <var>entry</var>&apos;s <var>URI template</var>.
 
- <li><p>Let <var>command</var> be <var>entry</var>’s <a>command</a>.
+ <li><p>Let <var>command</var> be <var>entry</var>&apos;s <a>command</a>.
 
  <li><p>Let <var>URL variables</var> be a <a data-cite=infra>map</a> with one
  [=map/entry=] for each variable defined in <var>URI template</var>,
  with the entry name equal to the template variable name, and the
  entry value being the variable value required to expand the <var>URI
- template</var> to match <var>URL</var>'s <a>path</a>.
+ template</var> to match <var>URL</var>&apos;s <a>path</a>.
 
  <li><p>Return <a>success</a> with data
   <var>command</var> and <var>URL variables</var>.
@@ -1162,7 +1162,7 @@ the following steps:
   <td><code>invalid element state</code>
   <td>A <a>command</a> could not be completed because the element is
    in an invalid state, e.g. attempting to
-   <a data-lt="Element Clear">clear</a> an element that isn’t
+   <a data-lt="Element Clear">clear</a> an element that isn&apos;t
    both <a>editable</a> and <a>resettable</a>.
  </tr>
 
@@ -1178,7 +1178,7 @@ the following steps:
   <td>404
   <td><code>invalid session id</code>
   <td>Occurs if the given <a>session id</a> is not in the list of <a>active sessions</a>,
-   meaning the <a>session</a> either does not exist or that it’s not active.
+   meaning the <a>session</a> either does not exist or that it&apos;s not active.
  </tr>
 
  <tr>
@@ -1192,7 +1192,7 @@ the following steps:
   <td><dfn>move target out of bounds</dfn>
   <td>500
   <td><code>move target out of bounds</code>
-  <td>The target for mouse interaction is not in the browser’s viewport
+  <td>The target for mouse interaction is not in the browser&apos;s viewport
    and cannot be brought into that viewport.
  </tr>
 
@@ -1210,7 +1210,7 @@ the following steps:
   <td><code>no such cookie</code>
   <td>No cookie matching the given path name
    was found amongst the <a>associated cookies</a>
-   of <var>session</var>'s <a>current browsing context</a>’s <a>active document</a>.
+   of <var>session</var>&apos;s <a>current browsing context</a>&apos;s <a>active document</a>.
  </tr>
 
  <tr>
@@ -1285,7 +1285,7 @@ the following steps:
   <td><dfn>unable to set cookie</dfn>
   <td>500
   <td><code>unable to set cookie</code>
-  <td>A <a>command</a> to set a cookie’s value could not be satisfied.
+  <td>A <a>command</a> to set a cookie&apos;s value could not be satisfied.
  </tr>
 
  <tr>
@@ -1389,7 +1389,7 @@ the following steps:
   and <code>context</code> describes the functionality
   that, in the context of Edge, allows a <a>local end</a>
   to switch between browser-specific contexts.
-  Requesting this URL will call the <a>extension command</a>’s
+  Requesting this URL will call the <a>extension command</a>&apos;s
   <a>remote end steps</a>.
 </aside>
 
@@ -1421,7 +1421,7 @@ algorithms are called with <var>session</var> representing the
 WebDriver session that will be established, and
 <var>capabilities</var>, the capabilities object that will be returned
 to the <a>remote end</a>. It is permitted for such an algorithm to
-modify any entry in the capabilities object with a name that's an
+modify any entry in the capabilities object with a name that&apos;s an
 <a>additional WebDriver capability</a> defined by the same
 specification.
 
@@ -1429,7 +1429,7 @@ specification.
  <dfn data-lt="extension capability">extension capabilities</dfn>
  that are extra <a>capabilities</a>
  used to provide configuration or fulfill other vendor-specific needs.
- Extension capabilities’ key
+ Extension capabilities&apos; key
  must contain a "<code>:</code>" (colon) character,
  denoting an implementation specific namespace.
  The value can be arbitrary JSON types.
@@ -1535,14 +1535,14 @@ with a "<code>moz:</code>" prefix:
   <td><dfn>Page load strategy</dfn>
   <td>"<code>pageLoadStrategy</code>"
   <td>string
-  <td>Defines the <a>session</a>’s <a>page load strategy</a>.
+  <td>Defines the <a>session</a>&apos;s <a>page load strategy</a>.
  </tr>
 
  <tr>
   <td>Proxy configuration
   <td>"<code>proxy</code>"
   <td>JSON <a>Object</a>
-  <td>Defines the <a>session</a>’s <a>proxy configuration</a>.
+  <td>Defines the <a>session</a>&apos;s <a>proxy configuration</a>.
  </tr>
 
  <tr>
@@ -1563,14 +1563,14 @@ with a "<code>moz:</code>" prefix:
   <td><dfn>Strict file interactability</dfn>
   <td>"<code>strictFileInteractability</code>"
   <td>boolean
-  <td>Defines the <a>session</a>’s <a>strict file interactability</a>.
+  <td>Defines the <a>session</a>&apos;s <a>strict file interactability</a>.
  </tr>
 
  <tr>
   <td><dfn>Unhandled prompt behavior</dfn>
   <td>"<code>unhandledPromptBehavior</code>"
   <td>string
-  <td>Describes the <a>session</a>’s <a>user prompt handler</a>.
+  <td>Describes the <a>session</a>&apos;s <a>user prompt handler</a>.
    Defaults to the <a>dismiss and notify state</a>.
  </tr>
 </table>
@@ -2032,7 +2032,7 @@ with a "<code>moz:</code>" prefix:
   </aside>
 
  <li><p>For each <var>name</var> and <var>value</var> corresponding
-  to <var>capabilities</var>’s <a>own properties</a>:
+  to <var>capabilities</var>&apos;s <a>own properties</a>:
   <ol>
   <li><p>Let <var>match value</var> equal <var>value</var>.
    <li><p>Run the substeps of the first matching <var>name</var>:
@@ -2089,7 +2089,7 @@ with a "<code>moz:</code>" prefix:
           <th>System
          </tr>
          <tr><td>"<code>linux</code>"</td> <td>Any server or desktop system based upon the Linux kernel.</td></tr>
-         <tr><td>"<code>mac</code>"</td> <td>Any version of Apple’s macOS.</td></tr>
+         <tr><td>"<code>mac</code>"</td> <td>Any version of Apple&apos;s macOS.</td></tr>
          <tr><td>"<code>windows</code>"</td> <td>Any version of Microsoft Windows, including desktop and mobile versions.</td></tr>
         </table>
 
@@ -2115,7 +2115,7 @@ with a "<code>moz:</code>" prefix:
      <dt>"<code>proxy</code>"
      <dd><p>If the <a>has proxy configuration</a> flag is set, or if
       the proxy configuration defined in <var>value</var> is not one
-      that passes the <a>endpoint node</a>’s implementation-specific
+      that passes the <a>endpoint node</a>&apos;s implementation-specific
       validity checks, return <a>success</a> with
       data <a><code>null</code></a>.
 
@@ -2246,13 +2246,13 @@ across all sessions.</p>
 <p>An <a>endpoint node</a> has an associated <dfn>accept insecure
  TLS</dfn> flag that indicates whether untrusted or self-signed TLS
  certificates are treated as trusted. The default value of the flag is
- false if the endpoint doesn't support accepting insecure TLS
+ false if the endpoint doesn&apos;t support accepting insecure TLS
  connections, or unset otherwise.</p>
 
 <p>An <a>endpoint node</a> has an associated <dfn>has proxy
  configuration</dfn> flag that indicates whether the proxy is already
  configured. The default value of the flag is true if the endpoint
- doesn't support proxy configuration, or false otherwise.</p>
+ doesn&apos;t support proxy configuration, or false otherwise.</p>
 
 <p>To <dfn>create a session</dfn>, given a JSON
 Object <var>capabilites</var>, and <a>session configuration
@@ -2284,7 +2284,7 @@ flags</a> <var>flags</var>:
 
   <li><p>If <var>capabilites</var> has a property named
   "<code>acceptInsecureCerts</code>", set the <a>endpoint
-  node</a>'s <a>accept insecure TLS</a> flag to the result
+  node</a>&apos;s <a>accept insecure TLS</a> flag to the result
   of <a>getting a property</a> named
   "<code>acceptInsecureCerts</code>" from <var>capabilities</var>.
 
@@ -2293,7 +2293,7 @@ flags</a> <var>flags</var>:
         <li><p>Let <var>strategy</var> be the result of getting
             property "<code>pageLoadStrategy</code>"
             from <var>capabilities</var>. <p>If <var>strategy</var> is
-            a string, set the <a>session</a>’s
+            a string, set the <a>session</a>&apos;s
             <a>page loading strategy</a> to <var>strategy</var>.  Otherwise,
             set the <a>page loading strategy</a> to <i>normal</i> and <a>set a
               property</a> of <var>capabilities</var> with name
@@ -2302,9 +2302,9 @@ flags</a> <var>flags</var>:
         <li><p>Let <var>strictFileInteractability</var> be the result of
             getting property "<code>strictFileInteractability</code>"
             from <var>capabilities</var>. If <var>strictFileInteractability</var>
-            is a boolean, set <a>session</a>’s <a>strict file interactability</a> to
+            is a boolean, set <a>session</a>&apos;s <a>strict file interactability</a> to
             <var>strictFileInteractability</var>. Otherwise set
-            <a>session</a>’s <a>strict file interactability</a> to false.</p></li>
+            <a>session</a>&apos;s <a>strict file interactability</a> to false.</p></li>
 
         <li><p>If <var>capabilities</var> has a property with the key "<code>timeouts</code>":
 
@@ -2344,12 +2344,12 @@ flags</a> <var>flags</var>:
 
 <ol>
 
- <li><p>If <var>session</var>'s <a>HTTP flag</a> is set,
+ <li><p>If <var>session</var>&apos;s <a>HTTP flag</a> is set,
  remove <var>session</var> from <a>active HTTP sessions</a>.
 
  <li><p>Remove <var>session</var> from <a>active sessions</a>.
 
- <li><p>Perform the following substeps based on the <a>remote end</a>’s
+ <li><p>Perform the following substeps based on the <a>remote end</a>&apos;s
   type:
   <dl class=switch>
    <dt><a>Remote end</a> is an <a>endpoint node</a>
@@ -2422,7 +2422,7 @@ If the creation fails, a <a>session not created</a> <a>error</a> is returned.
  <p>An <a>intermediary node</a> might require authentication
   on <a>creating a new session</a>.
   This authentication is an argument to the <a>New Session</a> command
-  itself and not the user agent’s <a>capabilities</a>.
+  itself and not the user agent&apos;s <a>capabilities</a>.
   Therefore, the authentication should be passed
   as a top-level parameter and not embedded in <code>capabilities</code>:
 
@@ -2491,7 +2491,7 @@ variables</var> and <var>parameters</var> are:
   to <a>process capabilities</a> with <var>parameters</var>
   and <var>flags</var>.
 
- <li><p>If <var>capabilities</var>’s is <a><code>null</code></a>,
+ <li><p>If <var>capabilities</var>&apos;s is <a><code>null</code></a>,
   return <a>error</a> with <a>error code</a> <a>session not created</a>.
 
  <li><p>Let <var>session</var> be the result of <a>create a
@@ -2501,14 +2501,14 @@ variables</var> and <var>parameters</var> are:
 
   <dl>
    <dt>"<code>sessionId</code>"
-   <dd><var>session</var>'s <a>session ID</a>.
+   <dd><var>session</var>&apos;s <a>session ID</a>.
 
    <dt>"<code>capabilities</code>"
    <dd><var>capabilities</var>
   </dl>
 
  <li><p>Set <var>session</var>&apos; <a>current top-level browsing
-   context</a> to one of the <a>endpoint node</a>'s <a>top-level
+   context</a> to one of the <a>endpoint node</a>&apos;s <a>top-level
    browsing context</a>s, preferring the <a>top-level browsing
    context</a> that
    has <a href="https://html.spec.whatwg.org/#tlbc-system-focus">system
@@ -2577,7 +2577,7 @@ variables</var> and <var>parameters</var> are:
   but may additionally include arbitrary meta information
   that is specific to the implementation.
 
- <p>The <a>remote end</a>’s <a>readiness state</a> is represented
+ <p>The <a>remote end</a>&apos;s <a>readiness state</a> is represented
   by the <code>ready</code> property of the body,
   which is false if an attempt to <a data-lt="new session">create a session</a>
   at the current time would fail.
@@ -2600,11 +2600,11 @@ variables</var> and <var>parameters</var> are:
 
   <dl>
    <dt>"<code>ready</code>"
-   <dd><p>The <a>remote end</a>’s <a>readiness state</a>.
+   <dd><p>The <a>remote end</a>&apos;s <a>readiness state</a>.
 
    <dt>"<code>message</code>"
    <dd><p>An implementation-defined string
-    explaining the <a>remote end</a>’s <a>readiness state</a>.
+    explaining the <a>remote end</a>&apos;s <a>readiness state</a>.
   </dl>
 
  <li><p>Return <a>success</a> with data <var>body</var>.
@@ -2685,13 +2685,13 @@ with the following properties:
 
 <dl>
 <dt>"<code>script</code>"
-<dd><var>timeouts</var>' <a>script timeout</a> value, if set, or its default value.
+<dd><var>timeouts</var>&apos; <a>script timeout</a> value, if set, or its default value.
 
 <dt>"<code>pageLoad</code>"
-<dd><var>timeouts</var>' <a>page load timeout</a>’s value, if set, or its default value.
+<dd><var>timeouts</var>&apos; <a>page load timeout</a>&apos;s value, if set, or its default value.
 
 <dt>"<code>implicit</code>"
-<dd><var>timeouts</var>' <a>implicit wait timeout</a>’s value, if set, or its default value.
+<dd><var>timeouts</var>&apos; <a>implicit wait timeout</a>&apos;s value, if set, or its default value.
 </dl>
 
 <p>
@@ -2719,7 +2719,7 @@ If <var>value</var> has a property with the key "<code>script</code>":
  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>
- Set <var>timeouts</var>’s <a>script timeout</a> to <var>script duration</var>.
+ Set <var>timeouts</var>&apos;s <a>script timeout</a> to <var>script duration</var>.
  </ol>
 
 <li><p>
@@ -2735,7 +2735,7 @@ If <var>value</var> has a property with the key "<code>pageLoad</code>":
  <a>error code</a> <a>invalid argument</a>.
 
  <li><p>
- Set <var>timeouts</var>’s <a>page load timeout</a> to <var>page load duration</var>.
+ Set <var>timeouts</var>&apos;s <a>page load timeout</a> to <var>page load duration</var>.
  </ol>
 
 <li><p>
@@ -2751,7 +2751,7 @@ If <var>value</var> has a property with the key "<code>implicit</code>":
  <a>error code</a> <a>invalid argument</a>.
 
  <li><p>
- Set <var>timeouts</var>’s <a>implicit wait timeout</a> to <var>implicit duration</var>.
+ Set <var>timeouts</var>&apos;s <a>implicit wait timeout</a> to <var>implicit duration</var>.
  </ol>
 
 <li><p>
@@ -2778,7 +2778,7 @@ variables</var> and <var>parameters</var> are:
 
 <ol>
  <li><p>Let <var>timeouts</var> be the <a>timeouts object</a> for
- <a>session</a>’s <a>timeouts configuration</a>
+ <a>session</a>&apos;s <a>timeouts configuration</a>
 
  <li><p>Return <a>success</a> with data <var>timeouts</var>.
 </ol>
@@ -2823,13 +2823,13 @@ Return <a>success</a> with data <a><code>null</code></a>.
 <h2>Navigation</h2>
 
 <p>The <a>commands</a> in this section allow navigation of
- the <a>session</a>'s <a>current top-level browsing context</a> to new
+ the <a>session</a>&apos;s <a>current top-level browsing context</a> to new
  URLs and introspection of the document currently loaded in
  this <a>browsing context</a>.
 
 <p>For <a>commands</a> that cause a new document to load,
  the point at which the command returns
- is determined by the session’s <a>page loading strategy</a>.
+ is determined by the session&apos;s <a>page loading strategy</a>.
  The <a>normal</a> state causes it
  to return after the <a><code>load</code></a> [=fire an event|event fires=] on the new page,
  <a>eager</a> causes it to return
@@ -2892,30 +2892,30 @@ Return <a>success</a> with data <a><code>null</code></a>.
  run the following steps:
 
 <ol>
- <li><p>If <var>session</var>'s <a>page loading strategy</a>
+ <li><p>If <var>session</var>&apos;s <a>page loading strategy</a>
   is <a>none</a>, return <a>success</a> with
   data <a><code>null</code></a>.
 
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>success</a> with
   data <a><code>null</code></a>.
 
  <li><p>Start a <var>timer</var>. If this algorithm has not
   completed before <var>timer</var> reaches
-  the <a>session</a>’s <a>session page load timeout</a> in
+  the <a>session</a>&apos;s <a>session page load timeout</a> in
   milliseconds, return an <a>error</a> with <a>error
   code</a> <a>timeout</a>.
 
  <li><p>If there is an ongoing attempt to <a>navigate</a>
-  <var>session</var>'s <a>current browsing context</a> that has not
+  <var>session</var>&apos;s <a>current browsing context</a> that has not
   yet <a>matured</a>, wait for navigation to <a>mature</a>.
 
  <li><p>Let <var>readiness target</var> be the <a>document
-  readiness</a> state associated with the <var>session</var>’s <a>page
+  readiness</a> state associated with the <var>session</var>&apos;s <a>page
   loading strategy</a>, which can be found in the <a>table of page
   load strategies</a>.
 
- <li><p>Wait for <var>session</var>'s <a>current browsing context</a>’s
+ <li><p>Wait for <var>session</var>&apos;s <a>current browsing context</a>&apos;s
   <a>document readiness</a> state to reach
   <var>readiness target</var>, or for the
   <a>session page load timeout</a> to pass, whichever
@@ -2942,7 +2942,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
 
  <dt><a>response</a> is <a>blocked by content security policy</a>
 
- <dd><p>If the <a>remote end</a>’s <a>accept insecure TLS</a> state is
+ <dd><p>If the <a>remote end</a>&apos;s <a>accept insecure TLS</a> state is
   true, take implementation specific steps to ensure the navigation
   is not aborted and that the untrusted or invalid TLS certificate
   error that would normally occur under these circumstances, are
@@ -2950,7 +2950,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
 
   <p>Otherwise return <a>error</a> with <a>error code</a> <a>insecure certificate</a>.
 
- <dt><a>response</a>’s <a>HTTP status</a> is 401
+ <dt><a>response</a>&apos;s <a>HTTP status</a> is 401
  <dt>Otherwise
  <dd><p>Irrespective of how a possible authentication challenge is handled,
   return <a>success</a> with data <a><code>null</code></a>.
@@ -2971,10 +2971,10 @@ Return <a>success</a> with data <a><code>null</code></a>.
 </table>
 
 <p class=note>The command causes the user agent to <a>navigate</a>
- the <a>session</a>'s <a>current top-level browsing context</a> to a
+ the <a>session</a>&apos;s <a>current top-level browsing context</a> to a
  new location.
 
-<p>If the <a>remote end</a>'s <a>accept insecure TLS</a> flag is true, no
+<p>If the <a>remote end</a>&apos;s <a>accept insecure TLS</a> flag is true, no
  certificate errors that would normally cause the user agent to abort
  and show a security warning are to hinder navigation to the requested
  address.
@@ -2992,7 +2992,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -3007,8 +3007,8 @@ variables</var> and <var>parameters</var> are:
  <li><p><a>Try</a> to <a>handle any user prompts</a>
  with <var>session</var>.
 
- <li><p>Let <var>current URL</var> be <var>session</var>'s <a>current
- top-level browsing context</a>’s <a>active document</a>’s [=Document/URL=].
+ <li><p>Let <var>current URL</var> be <var>session</var>&apos;s <a>current
+ top-level browsing context</a>&apos;s <a>active document</a>&apos;s [=Document/URL=].
 
  <li><p>If <var>current URL</var> and <var>URL</var> do not have the same
    <a>absolute URL</a>:
@@ -3016,12 +3016,12 @@ variables</var> and <var>parameters</var> are:
    <ol>
      <li>If <var>timer</var> has not been started, start
        a <var>timer</var>. If this algorithm has not completed
-       before <var>timer</var> reaches the <a>session</a>’s <a>session page
+       before <var>timer</var> reaches the <a>session</a>&apos;s <a>session page
        load timeout</a> in milliseconds, return an <a>error</a>
        with <a>error code</a> <a>timeout</a>.
    </ol>
 
- <li><p><a>Navigate</a> <var>session</var>'s <a>current top-level
+ <li><p><a>Navigate</a> <var>session</var>&apos;s <a>current top-level
  browsing context</a> to <var>URL</var>.
 
  <li><p>If <var>URL</var> <a>is special</a> except for <code>file</code> and
@@ -3036,7 +3036,7 @@ variables</var> and <var>parameters</var> are:
   with <var>session</var> and <a>current top-level browsing
   context</a>.
 
- <li><p>If <var>session</var>'s <a>current top-level browsing context</a> contains
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing context</a> contains
   a <a>refresh state pragma directive</a> of <var>time</var> 1 second
   or less, wait until the refresh timeout has elapsed, a
   new <a>navigate</a> has begun, and return to the first step of this
@@ -3064,7 +3064,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -3072,8 +3072,8 @@ variables</var> and <var>parameters</var> are:
  with <var>session</var>.
 
  <li><p>Let <var>URL</var> be the <a data-lt="URL serializer">serialization</a>
-  of <var>session</var>'s <a>current top-level browsing context</a>’s
-  <a>active document</a>’s [=Document/URL=].
+  of <var>session</var>&apos;s <a>current top-level browsing context</a>&apos;s
+  <a>active document</a>&apos;s [=Document/URL=].
 
  <li><p>Return <a>success</a> with data <var>URL</var>.
 </ol>
@@ -3095,7 +3095,7 @@ variables</var> and <var>parameters</var> are:
 
 <p class=note>This command causes the browser to traverse
  one step backward in the <a>joint session history</a>
- of <var>session</var>'s <a>current top-level browsing context</a>.
+ of <var>session</var>&apos;s <a>current top-level browsing context</a>.
  This is equivalent to pressing the back button in the <a>browser chrome</a>
  or invoking <code>window.history.back</code>.
 
@@ -3103,7 +3103,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -3111,7 +3111,7 @@ variables</var> and <var>parameters</var> are:
  with <var>session</var>.
 
  <li><p><a>Traverse the history by a delta</a> –1
-  for <var>session</var>'s <a>current browsing context</a>.
+  for <var>session</var>&apos;s <a>current browsing context</a>.
 
  <li><p>If the previous step completed results in a <a><code>pageHide</code></a>
   [=fire an event|event firing=], wait until <a><code>pageShow</code></a> [=fire an event|event fires=]
@@ -3143,7 +3143,7 @@ variables</var> and <var>parameters</var> are:
 
 <p class=note>This command causes the browser
  to traverse one step forwards in the <a>joint session history</a>
- of <var>session</var>'s <a>current top-level browsing context</a>.
+ of <var>session</var>&apos;s <a>current top-level browsing context</a>.
  This is equivalent to pressing the forward button in the <a>browser chrome</a>
  or invoking <code>window.history.forward</code>.
 
@@ -3151,7 +3151,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -3159,7 +3159,7 @@ variables</var> and <var>parameters</var> are:
  with <var>session</var>.
 
  <li><p><a>Traverse the history by a delta</a> 1
-  for <var>session</var>'s <a>current browsing context</a>.
+  for <var>session</var>&apos;s <a>current browsing context</a>.
 
  <li><p>If the previous step completed results in a <a><code>pageHide</code></a>
    <a>event</a> firing, wait until <a><code>pageShow</code></a> [=fire an event|event fires=]
@@ -3190,13 +3190,13 @@ variables</var> and <var>parameters</var> are:
 </table>
 
 <p class=note>This command causes the browser to reload the page
- in <var>session</var>'s <a>current top-level browsing context</a>.
+ in <var>session</var>&apos;s <a>current top-level browsing context</a>.
 
 <p>The <a>remote end steps</a>, given <var>session</var>, <var>URL
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -3205,7 +3205,7 @@ variables</var> and <var>parameters</var> are:
 
  <li><p>Initiate <a>an overridden reload</a>
    of <var>session</var>&apos;s <a>current top-level browsing
-   context</a>’s <a>active document</a>.
+   context</a>&apos;s <a>active document</a>.
  </li>
 
  <li><p>If <var>URL</var> <a>is special</a> except for <code>file</code>:
@@ -3238,14 +3238,14 @@ variables</var> and <var>parameters</var> are:
 </table>
 
 <p class=note>This command returns the document title
- of <var>session</var>'s <a>current top-level browsing context</a>,
+ of <var>session</var>&apos;s <a>current top-level browsing context</a>,
  equivalent to calling <code>document.title</code>.
 
 <p>The <a>remote end steps</a>, given <var>session</var>, <var>URL
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -3254,7 +3254,7 @@ variables</var> and <var>parameters</var> are:
 
  <li><p>Let <var>title</var> be
  the <var>session</var>&apos;s <a>current top-level browsing
- context</a>’s <a>active document</a>’s {{Document/title}}.
+ context</a>&apos;s <a>active document</a>&apos;s {{Document/title}}.
 
  <li><p>Return <a>success</a> with data <var>title</var>.
 </ol>
@@ -3265,9 +3265,9 @@ variables</var> and <var>parameters</var> are:
 <h2>Contexts</h2>
 
 <p>Many WebDriver <a>commands</a> happen in the context of either
- <var>session</var>'s <a>current browsing context</a> or <a>current
+ <var>session</var>&apos;s <a>current browsing context</a> or <a>current
  top-level browsing context</a>.
- <var>session</var>'s <a>current top-level browsing context</a> is
+ <var>session</var>&apos;s <a>current top-level browsing context</a> is
  represented in the protocol by its associated <a>window handle</a>.
  When a <a>top-level browsing context</a> is selected using
  the <a>Switch To Window</a> command, a specific <a>browsing
@@ -3275,11 +3275,11 @@ variables</var> and <var>parameters</var> are:
 
 <p class=note>The use of the term “window” to
  refer to a <a>top-level browsing context</a>
- is legacy and doesn’t correspond with either
+ is legacy and doesn&apos;t correspond with either
  the operating system notion of a “window”
  or the DOM <a><code>Window</code></a> object.
 
-<!-- this could use a link for destroyed, but there isn't one that works
+<!-- this could use a link for destroyed, but there isn&apos;t one that works
 for both top-level and nested traversables. Generally all the infrastructure
 here needs to be rewritten. -->
 <p>A <a>browsing context</a> is said to be <dfn>no longer open</dfn>
@@ -3327,7 +3327,7 @@ here needs to be rewritten. -->
 
   <dl>
    <dt><var>identifier</var>
-   <dd><p>Associated <a>window handle</a> of the <var>window</var>’s <a>browsing context</a>.
+   <dd><p>Associated <a>window handle</a> of the <var>window</var>&apos;s <a>browsing context</a>.
   </dl>
 </ol>
 
@@ -3351,7 +3351,7 @@ here needs to be rewritten. -->
   <li><p>If <var>browsing context</var> is null or a <a>top-level browsing context</a>,
     return <a>error</a> with <a>error code</a> <a>no such frame</a>.
 
-  <li><p>Return <a>success</a> with data <var>browsing context</var>'s associated window.
+  <li><p>Return <a>success</a> with data <var>browsing context</var>&apos;s associated window.
 </ol>
 
 <p>To <dfn>deserialize a web window</dfn> by a
@@ -3375,7 +3375,7 @@ here needs to be rewritten. -->
   <li><p>If <var>browsing context</var> is null or not a <a>top-level browsing context</a>,
     return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
-  <li><p>Return <a>success</a> with data <var>browsing context</var>'s associated window.
+  <li><p>Return <a>success</a> with data <var>browsing context</var>&apos;s associated window.
 </ol>
 
 <p>When required to <dfn>set the current browsing context</dfn> given
@@ -3383,10 +3383,10 @@ here needs to be rewritten. -->
    follow the following steps:
 
 <ol>
-  <li><p>Set <var>session</var>’s <a>current browsing
+  <li><p>Set <var>session</var>&apos;s <a>current browsing
    context</a> to <var>context</var>.
 
-  <li><p>Set the <var>session</var>’s <a>current parent browsing
+  <li><p>Set the <var>session</var>&apos;s <a>current parent browsing
     context</a> to the <a>parent browsing context</a>
     of <var>context</var>, if that context exists, or <a>null</a>
     otherwise.
@@ -3399,7 +3399,7 @@ here needs to be rewritten. -->
 <ol>
   <li><p>Assert: <var>context</var> is a <a>top-level browsing context</a>.
 
-  <li><p>Set <var>session</var>’s <a>current top-level browsing
+  <li><p>Set <var>session</var>&apos;s <a>current top-level browsing
       context</a> to <var>context</var>.
 
   <li><p><a>Set the current browsing context</a> with <var>session</var>
@@ -3430,12 +3430,12 @@ commands are unaffected by whether the operating system window has focus or not.
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
  <li><p>Return <a>success</a> with data being the <a>window handle</a>
-  associated with <var>session</var>'s <a>current top-level browsing context</a>.
+  associated with <var>session</var>&apos;s <a>current top-level browsing context</a>.
 </ol>
 </section> <!-- /Get Window Handle -->
 
@@ -3457,14 +3457,14 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
  <li><p><a>Try</a> to <a>handle any user prompts</a>
  with <var>session</var>.
 
- <li><p><a>Close</a> <var>session</var>'s <a>current top-level
+ <li><p><a>Close</a> <var>session</var>&apos;s <a>current top-level
  browsing context</a>.
 
  <li><p>If there are no more open <a>top-level browsing contexts</a>,
@@ -3492,7 +3492,7 @@ variables</var> and <var>parameters</var> are:
 </table>
 
 <p class=note>
-Switching window will select <var>session</var>'s <a>current top-level
+Switching window will select <var>session</var>&apos;s <a>current top-level
 browsing context</a> used as the target for all
 subsequent <a>commands</a>.  In a tabbed browser, this will typically
 make the tab containing the <a>browsing context</a> the selected tab.
@@ -3521,7 +3521,7 @@ variables</var> and <var>parameters</var> are:
   <p>Otherwise, return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p>Update any implementation-specific state that would result
-  from the user selecting <var>session</var>'s <a>current browsing context</a> for
+  from the user selecting <var>session</var>&apos;s <a>current browsing context</a> for
   interaction, without altering OS-level focus.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
@@ -3588,7 +3588,7 @@ variables</var> and <var>parameters</var> are:
   browsing contexts, return <a>error</a> with <a>error code</a>
   <a>unsupported operation</a>.
 
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -3607,7 +3607,7 @@ variables</var> and <var>parameters</var> are:
   context. If <var>type hint</var> has the value "<code>tab</code>",
   and the implementation supports multiple browsing context in the
   same OS window, the new browsing context should share an OS window
-  with <var>session</var>'s <a>current browsing context</a>. If <var>type hint</var> is
+  with <var>session</var>&apos;s <a>current browsing context</a>. If <var>type hint</var> is
   "<code>window</code>", and the implementation supports multiple
   browsing contexts in separate OS windows, the created browsing
   context should be in a new OS window. In all other cases the details
@@ -3652,9 +3652,9 @@ variables</var> and <var>parameters</var> are:
 </table>
 
 <p class=note>The <a>Switch To Frame</a> command is used to select
- <var>session</var>'s <a>current top-level browsing context</a> or
- a <a>child browsing context</a> of <var>session</var>'s <a>current
- browsing context</a> to use as <var>session</var>'s <a>current
+ <var>session</var>&apos;s <a>current top-level browsing context</a> or
+ a <a>child browsing context</a> of <var>session</var>&apos;s <a>current
+ browsing context</a> to use as <var>session</var>&apos;s <a>current
  browsing context</a> for subsequent <a>commands</a>.
 
 The <a>remote end steps</a>, given <var>session</var>, <var>URL
@@ -3676,7 +3676,7 @@ variables</var> and <var>parameters</var> are:
    <dt><var>id</var> is <a><code>null</code></a>
    <dd>
     <ol>
-      <li><p>If <var>session</var>'s <a>current top-level browsing
+      <li><p>If <var>session</var>&apos;s <a>current top-level browsing
             context</a> is <a>no longer open</a>, return <a>error</a>
             with <a>error code</a> <a>no such window</a>.
 
@@ -3694,7 +3694,7 @@ variables</var> and <var>parameters</var> are:
      <li><p>If <var>id</var> is less than 0 or greater than 2<sup>16</sup> – 1,
       return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
-     <li><p>If <var>session</var>'s <a>current browsing context</a> is <a>no
+     <li><p>If <var>session</var>&apos;s <a>current browsing context</a> is <a>no
            longer open</a>, return <a>error</a> with <a>error code</a> <a>no
            such window</a>.
 
@@ -3702,7 +3702,7 @@ variables</var> and <var>parameters</var> are:
          with <var>session</var>.
 
      <li><p>Let <var>window</var> be the <a>associated window</a>
-      of <var>session</var>'s <a>current browsing context</a>’s <a>active document</a>.
+      of <var>session</var>&apos;s <a>current browsing context</a>&apos;s <a>active document</a>.
 
      <li><p>If <var>id</var> is not
       a <a>supported property index</a> of <var>window</var>,
@@ -3711,17 +3711,17 @@ variables</var> and <var>parameters</var> are:
      <li><p>Let <var>child window</var> be
       the <a><code>WindowProxy</code></a> object obtained by
       calling
-      <var>window</var>.<a data-lt='window.[[\getOwnProperty]]'><code>[[\GetOwnProperty]]</code></a>
+      <var>window</var>.<a data-lt="window.[[\getOwnProperty]]"><code>[[\GetOwnProperty]]</code></a>
       (<var>id</var>).
 
      <li><p><a>Set the current browsing context</a> with
-      <var>session</var> and <var>child window</var>’s <a>browsing context</a>.
+      <var>session</var> and <var>child window</var>&apos;s <a>browsing context</a>.
     </ol>
 
    <dt><var>id</var> <a>represents a web element</a>
    <dd>
     <ol>
-     <li><p>If <var>session</var>'s <a>current browsing context</a> is <a>no
+     <li><p>If <var>session</var>&apos;s <a>current browsing context</a> is <a>no
            longer open</a>, return <a>error</a> with <a>error code</a> <a>no
            such window</a>.
 
@@ -3737,14 +3737,14 @@ variables</var> and <var>parameters</var> are:
       return <a>error</a> with <a>error code</a> <a>no such frame</a>.
 
      <li><p><a>Set the current browsing context</a>
-     with <var>session</var> and <var>element</var>’s [=navigable
-     container/content navigable=]'s [=navigable/active browsing
+     with <var>session</var> and <var>element</var>&apos;s [=navigable
+     container/content navigable=]&apos;s [=navigable/active browsing
      context=].
     </ol>
  </dl>
 
  <li><p>Update any implementation-specific state that would result
-  from the user selecting <var>session</var>'s <a>current browsing context</a> for
+  from the user selecting <var>session</var>&apos;s <a>current browsing context</a> for
   interaction, without altering OS-level focus.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
@@ -3770,8 +3770,8 @@ variables</var> and <var>parameters</var> are:
 </table>
 
 <p class=note>The <a>Switch to Parent Frame</a> <a>command</a>
- sets <var>session</var>'s <a>current browsing context</a> for future <a>commands</a>
- to the parent of <var>session</var>'s <a>current browsing context</a>.
+ sets <var>session</var>&apos;s <a>current browsing context</a> for future <a>commands</a>
+ to the parent of <var>session</var>&apos;s <a>current browsing context</a>.
 
 <p>The <a>remote end steps</a>, given <var>session</var>, <var>URL
 variables</var> and <var>parameters</var> are:
@@ -3782,7 +3782,7 @@ variables</var> and <var>parameters</var> are:
 
  <ol>
 
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
    is <a>no longer open</a>, return <a>error</a> with <a>error
    code</a> <a>no such window</a>.
 
@@ -3790,19 +3790,19 @@ variables</var> and <var>parameters</var> are:
 
  </ol>
 
- <li><p>If <var>session</var>'s <a>current parent browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current parent browsing context</a>
    is <a>no longer open</a>, return <a>error</a> with <a>error
    code</a> <a>no such window</a>.
 
   <li><p><a>Try</a> to <a>handle any user prompts</a>
   with <var>session</var>.
 
-  <li><p>If <a>session</a>'s <a>current parent browsing context</a> is
+  <li><p>If <a>session</a>&apos;s <a>current parent browsing context</a> is
   not <a>null</a>, <a>set the current browsing context</a>
   with <var>session</var> and <a>current parent browsing context</a>.
 
   <li><p>Update any implementation-specific state that would result
-  from the user selecting <var>session</var>'s <a>current browsing context</a> for
+  from the user selecting <var>session</var>&apos;s <a>current browsing context</a> for
   interaction, without altering OS-level focus.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
@@ -3815,8 +3815,8 @@ variables</var> and <var>parameters</var> are:
 
 <p>WebDriver provides <a>commands</a>
  for interacting with the operating system window
- containing <var>session</var>'s <a>current top-level browsing context</a>.
- Because different operating systems’ window managers provide different abilities,
+ containing <var>session</var>&apos;s <a>current top-level browsing context</a>.
+ Because different operating systems&apos; window managers provide different abilities,
  not all of the commands in this section can be supported by all <a>remote ends</a>.
  Support for these <a>commands</a> is determined by the <a>window
  dimensioning/positioning</a> <a>capability</a>.
@@ -3866,12 +3866,12 @@ variables</var> and <var>parameters</var> are:
 </table>
 
 <p>If for whatever reason
- the <a>top-level browsing context</a>’s OS window
+ the <a>top-level browsing context</a>&apos;s OS window
  cannot enter either of the <a>window states</a>,
  or if this concept is not applicable on the current system,
  the default state must be <a data-lt="normal window state">normal</a>.
 
-<p>A <a>top-level browsing context</a>’s <dfn>window rect</dfn>
+<p>A <a>top-level browsing context</a>&apos;s <dfn>window rect</dfn>
  is defined as a dictionary of the <a>screenX</a>, <a>screenY</a>,
  <a>outerWidth</a> and <a>outerHeight</a> attributes
  of the <a><code>WindowProxy</code></a>.
@@ -3882,16 +3882,16 @@ with the following properties:
 
 <dl>
  <dt>"<code>x</code>"
- <dd><p><var>window</var>’s <a>screenX</a> attribute.
+ <dd><p><var>window</var>&apos;s <a>screenX</a> attribute.
 
  <dt>"<code>y</code>"
- <dd><p><var>window</var>’s <a>screenY</a> attribute.
+ <dd><p><var>window</var>&apos;s <a>screenY</a> attribute.
 
  <dt>"<code>width</code>"
- <dd><p><var>windows</var>’s <a>outerWidth</a> attribute.
+ <dd><p><var>windows</var>&apos;s <a>outerWidth</a> attribute.
 
  <dt>"<code>height</code>"
- <dd><p><var>window</var>’s <a>outerHeight</a> attribute.
+ <dd><p><var>window</var>&apos;s <a>outerHeight</a> attribute.
 </dl>
 
 <p>To <dfn>maximize the window</dfn>,
@@ -3917,7 +3917,7 @@ with the following properties:
  from the visible screen.
  Do not return from this operation
  until the <a>visibility state</a>
- of the <a>top-level browsing context</a>’s <a>active document</a>
+ of the <a>top-level browsing context</a>&apos;s <a>active document</a>
  has reached the <a data-lt="visibility hidden">hidden</a> state,
  or until the operation times out.
 
@@ -3929,7 +3929,7 @@ with the following properties:
  to the visible screen.
  Do not return from this operation
  until the <a>visibility state</a>
- of the <a>top-level browsing context</a>’s <a>active document</a>
+ of the <a>top-level browsing context</a>&apos;s <a>active document</a>
  has reached the <a data-lt="visibility visible">visible</a> state,
  or until the operation times out.
 
@@ -3950,20 +3950,20 @@ with the following properties:
 <p class=note>The <a>Get Window Rect</a> <a>command</a>
  returns the size and position on the screen
  of the operating system window corresponding
- to <var>session</var>'s <a>current top-level browsing context</a>.
+ to <var>session</var>&apos;s <a>current top-level browsing context</a>.
 
 <p>The <a>remote end steps</a>, given <var>session</var>, <var>URL
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current top-level browsing context</a> is <a>no longer open</a>,
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing context</a> is <a>no longer open</a>,
    return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
  <li><p><a>Try</a> to <a>handle any user prompts</a>
   with <var>session</var>.
 
  <li><p>Return <a>success</a> with data set to the <a>WindowRect
-  object</a> for the <var>session</var>'s <a>current top-level browsing
+  object</a> for the <var>session</var>&apos;s <a>current top-level browsing
   context</a>.
 
 </ol>
@@ -3986,7 +3986,7 @@ variables</var> and <var>parameters</var> are:
 <p class=note>
 The <a>Set Window Rect</a> <a>command</a>
 alters the size and the position of the operating system window
-corresponding to <var>session</var>'s <a>current top-level browsing context</a>.
+corresponding to <var>session</var>&apos;s <a>current top-level browsing context</a>.
 
 <p>The <a>remote end steps</a>, given <var>session</var>, <var>URL
 variables</var> and <var>parameters</var> are:
@@ -4018,10 +4018,10 @@ variables</var> and <var>parameters</var> are:
 
  <li><p>If the <a>remote end</a> does not support
   the <a>Set Window Rect</a> <a>command</a> for
-  <var>session</var>'s <a>current top-level browsing context</a> for any reason,
+  <var>session</var>&apos;s <a>current top-level browsing context</a> for any reason,
   return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
 
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -4037,13 +4037,13 @@ variables</var> and <var>parameters</var> are:
   <ol>
    <li><p>Set the width, in <a>CSS pixels</a>,
     of the operating system window containing
-    <var>session</var>'s <a>current top-level browsing context</a>,
+    <var>session</var>&apos;s <a>current top-level browsing context</a>,
     including any <a>browser chrome</a> and externally drawn window decorations
     to a value that is as close as possible to <var>width</var>.
 
   <li><p>Set the height, in <a>CSS pixels</a>,
    of the operating system window containing
-   <var>session</var>'s <a>current top-level browsing context</a>,
+   <var>session</var>&apos;s <a>current top-level browsing context</a>,
    including any <a>browser chrome</a> and externally drawn window decorations
    to a value that is as close as possible to <var>height</var>.
 
@@ -4058,8 +4058,8 @@ variables</var> and <var>parameters</var> are:
      such as not being able to resize in single-pixel increments.
 
     <p>This is intended to mutate the value
-     of <var>session</var>'s <a>current top-level browsing
-     context</a>’s <a><code>WindowProxy</code></a>’s
+     of <var>session</var>&apos;s <a>current top-level browsing
+     context</a>&apos;s <a><code>WindowProxy</code></a>&apos;s
      <a>outerWidth</a> and <a>outerHeight</a>
      properties. Specifically, the value of <a>outerWidth</a> should
      be as close as possible to <var>width</var> and the value
@@ -4073,14 +4073,14 @@ variables</var> and <var>parameters</var> are:
   <ol>
    <li><p>Run the implementation-specific steps to set the position of
     the operating system level window
-    containing <var>session</var>'s <a>current top-level browsing
+    containing <var>session</var>&apos;s <a>current top-level browsing
     context</a> to the position given by the <var>x</var>
     and <var>y</var> coordinates.
 
     <aside class=note>
      <p>Note that this step is similar to calling the <a>moveTo(x,
       y)</a> method on the <a><code>WindowProxy</code></a> object
-      associated with <var>session</var>'s <a>current top-level browsing
+      associated with <var>session</var>&apos;s <a>current top-level browsing
       context</a>, but without the
       <a href=https://developer.mozilla.org/en-US/docs/Web/API/Window/moveTo>security
       restrictions</a> that you
@@ -4096,7 +4096,7 @@ variables</var> and <var>parameters</var> are:
   </ol>
 
  <li><p>Return <a>success</a> with data set to the <a>WindowRect
-  object</a> for the <var>session</var>'s <a>current top-level browsing
+  object</a> for the <var>session</var>&apos;s <a>current top-level browsing
   context</a>.
 </ol>
 </section> <!-- /Set Window Rect -->
@@ -4117,7 +4117,7 @@ variables</var> and <var>parameters</var> are:
 
 <p class=note>The <a>Maximize Window</a> command invokes the window
  manager-specific “maximize” operation, if any, on the window
- containing <var>session</var>'s <a>current top-level browsing
+ containing <var>session</var>&apos;s <a>current top-level browsing
  context</a>.  This typically increases the window to the maximum
  available size without going full-screen.
 
@@ -4126,11 +4126,11 @@ variables</var> and <var>parameters</var> are:
 
 <ol>
  <li><p>If the <a>remote end</a> does not support the <a>Maximize
-  Window</a> command for <var>session</var>'s <a>current top-level
+  Window</a> command for <var>session</var>&apos;s <a>current top-level
   browsing context</a> for any reason, return <a>error</a>
   with <a>error code</a> <a>unsupported operation</a>.
 
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -4142,10 +4142,10 @@ variables</var> and <var>parameters</var> are:
  <li><p><a>Restore the window</a>.
 
  <li><p><a>Maximize the window</a>
-  of <var>session</var>'s <a>current top-level browsing context</a>.
+  of <var>session</var>&apos;s <a>current top-level browsing context</a>.
 
  <li><p>Return <a>success</a> with data set to the <a>WindowRect
-  object</a> for the <var>session</var>'s <a>current top-level browsing
+  object</a> for the <var>session</var>&apos;s <a>current top-level browsing
   context</a>.
 </ol>
 </section> <!-- /Maximize Window -->
@@ -4166,7 +4166,7 @@ variables</var> and <var>parameters</var> are:
 
 <p class=note>The <a>Minimize Window</a> command invokes the window
  manager-specific “minimize” operation, if any, on the window
- containing <var>session</var>'s <a>current top-level browsing
+ containing <var>session</var>&apos;s <a>current top-level browsing
  context</a>.  This typically hides the window in the system tray.
 
 <p>The <a>remote end steps</a>, given <var>session</var>, <var>URL
@@ -4174,11 +4174,11 @@ variables</var> and <var>parameters</var> are:
 
 <ol>
  <li><p>If the <a>remote end</a> does not support the <a>Minimize
-  Window</a> command for <var>session</var>'s <a>current top-level
+  Window</a> command for <var>session</var>&apos;s <a>current top-level
   browsing context</a> for any reason, return <a>error</a>
   with <a>error code</a> <a>unsupported operation</a>.
 
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -4190,7 +4190,7 @@ variables</var> and <var>parameters</var> are:
  <li><p><a>Iconify the window</a>.
 
  <li><p>Return <a>success</a> with data set to the <a>WindowRect
-  object</a> for the <var>session</var>'s <a>current top-level browsing
+  object</a> for the <var>session</var>&apos;s <a>current top-level browsing
   context</a>.
 </ol>
 </section> <!-- /Minimize Window -->
@@ -4216,7 +4216,7 @@ variables</var> and <var>parameters</var> are:
  <li><p>If the <a>remote end</a> does not <a>support fullscreen</a>
   return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
 
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -4226,11 +4226,11 @@ variables</var> and <var>parameters</var> are:
  <li><p><a>Restore the window</a>.
 
  <li><p>Call <a>fullscreen an element</a>
-  with <var>session</var>'s <a>current top-level browsing context</a>’s
-  <a>active document</a>’s <a>document element</a>.
+  with <var>session</var>&apos;s <a>current top-level browsing context</a>&apos;s
+  <a>active document</a>&apos;s <a>document element</a>.
 
  <li><p>Return <a>success</a> with data set to the <a>WindowRect
-  object</a> for the <var>session</var>'s <a>current top-level browsing
+  object</a> for the <var>session</var>&apos;s <a>current top-level browsing
   context</a>.
 </ol>
 </section> <!-- /Fullscreen Window -->
@@ -4270,10 +4270,10 @@ which is a weak map between a [=navigable=] and a set.
 <var>browsing context</var>, and <var>reference</var>:
 <ol class="algorithm">
   <li>Let <var>browsing context group node map</var>
-  be <var>session</var>'s <a>browsing context group node map</a>.
+  be <var>session</var>&apos;s <a>browsing context group node map</a>.
 
   <li>Let <var>browsing context group</var> be <var>browsing
-  context</var>'s <a>browsing context group</a>.
+  context</var>&apos;s <a>browsing context group</a>.
 
   <li>If <var>browsing context group node map</var> does not
   contain <var>browsing context group</var>, return null.
@@ -4292,10 +4292,10 @@ which is a weak map between a [=navigable=] and a set.
 given <var>session</var>, <var>browsing context</var>, and <var>node</var>:
 <ol class="algorithm">
   <li>Let <var>browsing context group node map</var>
-  be <var>session</var>'s <a>browsing context group node map</a>.
+  be <var>session</var>&apos;s <a>browsing context group node map</a>.
 
   <li>Let <var>browsing context group</var> be <var>browsing
-  context</var>'s <a>browsing context group</a>.
+  context</var>&apos;s <a>browsing context group</a>.
 
   <li>If <var>browsing context group node map</var> does not
   contain <var>browsing context group</var>, set <var>browsing context
@@ -4312,10 +4312,10 @@ given <var>session</var>, <var>browsing context</var>, and <var>node</var>:
       <li>Set <var>node id map</var>[<var>node</var>] to <var>node id</var>.
 
       <li>Let <var>navigable</var> be <var>browsing
-      context</var>'s <a>active document</a>'s <a>node navigable</a>.
+      context</var>&apos;s <a>active document</a>&apos;s <a>node navigable</a>.
 
       <li>Let <var>navigable seen nodes map</var>
-      be <var>session</var>'s <a>navigable seen nodes map</a>.
+      be <var>session</var>&apos;s <a>navigable seen nodes map</a>.
 
       <li>If <var>navigable seen nodes map</var> does not
       contain <var>navigable</var>, set <var>navigable seen nodes
@@ -4331,10 +4331,10 @@ given <var>session</var>, <var>browsing context</var>, and <var>node</var>:
 context</var>, and <var>reference</var> if the following steps return true:
 <ol class="algorithm">
   <li>Let <var>navigable</var> be <var>browsing
-  context</var>'s <a>active document</a>'s <a>node navigable</a>.
+  context</var>&apos;s <a>active document</a>&apos;s <a>node navigable</a>.
 
   <li>Let <var>navigable seen nodes map</var>
-  be <var>session</var>'s <a>navigable seen nodes map</a>.
+  be <var>session</var>&apos;s <a>navigable seen nodes map</a>.
 
   <li>If <var>navigable seen nodes map</var>
   [=map/contains=] <var>navigable</var> and <var>navigable seen nodes
@@ -4503,10 +4503,10 @@ and <var>element</var> is:
  is a [^body^] element,
  or is the <a>document element</a>.
 
-<p>An <a>element</a>’s <dfn data-lt="center point">in-view center point</dfn>
+<p>An <a>element</a>&apos;s <dfn data-lt="center point">in-view center point</dfn>
  is the origin position of the rectangle
  that is the intersection between
- the element’s first {{DOMRect}} of {{Element/getClientRects()}}
+ the element&apos;s first {{DOMRect}} of {{Element/getClientRects()}}
  and the <a>initial viewport</a>.
  Given an <a>element</a> that is known to be <a>in view</a>,
  it can be calculated this way:
@@ -4552,10 +4552,10 @@ and <var>element</var> is:
  is not an [=tree/inclusive descendant=] of itself.
 
 <aside class=example>
- <p>This ascertains if the <a>element</a>’s <a>in-view center point</a>
+ <p>This ascertains if the <a>element</a>&apos;s <a>in-view center point</a>
   would be possible to <a data-lt="element click">interact</a> with.
 
- <p>For example, the <a>paint tree</a> at this button’s
+ <p>For example, the <a>paint tree</a> at this button&apos;s
   <a>center point</a>, the red square, is not itself the button or
   a [=tree/descendant=] of the button.  In other words, it is not
   an <em>[=tree/inclusive descendant=]</em>.  This makes the
@@ -4576,7 +4576,7 @@ and <var>element</var> is:
  <p>On the other hand, the <a>center point</a> of the following select
   list is the third [^option^] element, because unlike
   a drop-down list,
-  <code>&lt;select multiple&gt;</code>’s options
+  <code>&lt;select multiple&gt;</code>&apos;s options
   are individually visible and painted.
   Because the option is a <em>[=tree/descendant=]</em>
   of the [^select^] element,
@@ -4591,13 +4591,13 @@ and <var>element</var> is:
   </select>
 </aside>
 
-<p>An <var><a>element</a></var>’s
+<p>An <var><a>element</a></var>&apos;s
  <dfn>pointer-interactable paint tree</dfn>
  is produced this way:
 
 <ol>
  <li><p>If <var>element</var> is <a>not in the same tree</a>
-  as <var>session</var>'s <a>current browsing context</a>’s
+  as <var>session</var>&apos;s <a>current browsing context</a>&apos;s
   <a>active document</a>, return an empty sequence.
 
  <li><p>Let <var>rectangles</var> be
@@ -4719,8 +4719,8 @@ and <var>element</var> is:
  and <a>Find Elements From Shadow Root</a> <a>commands</a>
  allow lookup of individual elements and collections of elements.
  Element retrieval searches are performed
- using pre-order traversal of the document’s nodes
- that match the provided selector’s expression.
+ using pre-order traversal of the document&apos;s nodes
+ that match the provided selector&apos;s expression.
 
 <p>When required to <dfn>find</dfn> given <var>session</var>, <var>start
  node</var>, <var>using</var> and <var>value</var>, a <a>remote
@@ -4762,7 +4762,7 @@ and <var>element</var> is:
 
 <p>An <dfn data-lt=strategy>element location strategy</dfn> is
  an <a>enumerated attribute</a> deciding what technique should be used
- to search for <a>elements</a> in <var>session</var>'s <a>current
+ to search for <a>elements</a> in <var>session</var>&apos;s <a>current
  browsing context</a>.  The following <dfn>table of location
  strategies</dfn> lists the keywords and states defined for this
  attribute:
@@ -4967,7 +4967,7 @@ and <var>element</var> is:
 <aside class=note>
 <p>
 The <a>Find Element</a> <a>command</a> is used to find
-an <a>element</a> in <var>session</var>'s <a>current browsing
+an <a>element</a> in <var>session</var>&apos;s <a>current browsing
 context</a> that can be used as the <a>web element</a> context for
 future element-centric <a>commands</a>.
 
@@ -4999,7 +4999,7 @@ variables</var> and <var>parameters</var> are:
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -5007,7 +5007,7 @@ variables</var> and <var>parameters</var> are:
   with <var>session</var>.
 
  <li><p>Let <var>start node</var> be
-  <var>session</var>'s <a>current browsing context</a>’s <a>document element</a>.
+  <var>session</var>&apos;s <a>current browsing context</a>&apos;s <a>document element</a>.
 
  <li><p>If <var>start node</var> is <a><code>null</code></a>,
   return <a>error</a> with <a>error code</a> <a>no such element</a>.
@@ -5053,7 +5053,7 @@ variables</var> and <var>parameters</var> are:
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -5061,7 +5061,7 @@ variables</var> and <var>parameters</var> are:
   with <var>session</var>.
 
  <li><p>Let <var>start node</var> be
-  <var>session</var>'s <a>current browsing context</a>’s <a>document
+  <var>session</var>&apos;s <a>current browsing context</a>&apos;s <a>document
   element</a>.
 
  <li><p>If <var>start node</var> is <a><code>null</code></a>,
@@ -5103,7 +5103,7 @@ variables</var> and <var>parameters</var> are:
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -5155,7 +5155,7 @@ variables</var> and <var>parameters</var> are:
  <li><p>If <var>selector</var> is <a>undefined</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -5295,7 +5295,7 @@ variables</var> and <var>parameters</var> are:
 
  <li><p>Let <var>active element</var> be the <a>active element</a>
   of <var>session</var>&apos;s <a>current browsing
-  context</a>’s <a>document element</a>.
+  context</a>&apos;s <a>document element</a>.
 
  <li><p>If <var>active element</var> is a non-null <a>element</a>,
   return <a>success</a> with data set to <a>web element reference
@@ -5333,7 +5333,7 @@ variables</var> and <var>parameters</var> are:
     to <a>get a known element</a> with <var>session</var> and <var>URL
     variables</var>[<var>element id</var>].
 
-  <li><p>Let <var>shadow root</var> be <var>element</var>'s <a>shadow root</a>.
+  <li><p>Let <var>shadow root</var> be <var>element</var>&apos;s <a>shadow root</a>.
 
   <li><p>If <var>shadow root</var> is null, return <a>error</a>
     with <a>error code</a> <a>no such shadow root</a>.
@@ -5362,11 +5362,11 @@ given <var>session</var> and <var>element</var>:
 
  <li><p>Let <var>x</var> be
   (<a>scrollX</a> of <var>window</var> +
-  <var>rect</var>’s <a>x coordinate</a>).
+  <var>rect</var>&apos;s <a>x coordinate</a>).
 
  <li><p>Let <var>y</var> be
   (<a>scrollY</a> of <var>window</var> +
-  <var>rect</var>’s <a>y coordinate</a>).
+  <var>rect</var>&apos;s <a>y coordinate</a>).
 
  <li><p>Return a pair of (<var>x</var>, <var>y</var>).
 </ol>
@@ -5376,22 +5376,22 @@ given <var>session</var> and <var>element</var>:
  run the following substeps:
 
 <ol>
- <li><p>If the <a>node</a>’s [=Node/node document=]
-  is not <var>other</var>’s [=Node/node document=],
+ <li><p>If the <a>node</a>&apos;s [=Node/node document=]
+  is not <var>other</var>&apos;s [=Node/node document=],
   return true.
 
- <li><p>Return true if the result of calling the <a>node</a>’s
+ <li><p>Return true if the result of calling the <a>node</a>&apos;s
   {{Node/compareDocumentPosition()}} with <var>other</var> as argument
   is {{Node/DOCUMENT_POSITION_DISCONNECTED}} (1),
   otherwise return false.
 </ol>
 
-<p>An <a><var>element</var></a>’s <dfn>container</dfn> is:
+<p>An <a><var>element</var></a>&apos;s <dfn>container</dfn> is:
 
 <dl class=switch>
  <dt>[^option^] element in a valid <a>element context</a>
  <dt>[^optgroup^] element in a valid <a>element context</a>
- <dd><p>The <a><var>element</var></a>’s <a>element context</a>,
+ <dd><p>The <a><var>element</var></a>&apos;s <a>element context</a>,
   which is determined by:
 
   <ol>
@@ -5442,7 +5442,7 @@ or on [^option^] elements.
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -5460,11 +5460,11 @@ variables</var> and <var>parameters</var> are:
    <dt><var>element</var> is an [^input^] element
     with a [^input/type^] attribute
     in the <a>Checkbox</a>- or <a>Radio Button</a> state
-   <dd><p>The result of <var>element</var>’s <a>checkedness</a>.
+   <dd><p>The result of <var>element</var>&apos;s <a>checkedness</a>.
 
    <dt><var>element</var> is
     an [^option^] element
-   <dd><p>The result of <var>element</var>’s <a>selectedness</a>.
+   <dd><p>The result of <var>element</var>&apos;s <a>selectedness</a>.
 
    <dt>Otherwise
    <dd>False.
@@ -5492,7 +5492,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -5501,7 +5501,7 @@ variables</var> and <var>parameters</var> are:
 
  <li><p>Let <var>element</var> be the result of <a>trying</a>
   to <a>get a known element</a> with <var>session</var> and <var>URL
-  variables</var>' element id.
+  variables</var>&apos; element id.
 
  <li><p>Let <var>name</var> be <var>URL variables</var>["<code>name</code>"].
 
@@ -5548,7 +5548,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -5557,7 +5557,7 @@ variables</var> and <var>parameters</var> are:
 
  <li><p>Let <var>element</var> be the result of <a>trying</a>
   to <a>get a known element</a> with <var>session</var> and <var>URL
-  variables</var>' element id.
+  variables</var>&apos; element id.
 
  <li><p>Let <var>name</var> <var>URL variables</var>["<code>name</code>"].
 
@@ -5589,7 +5589,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -5602,11 +5602,11 @@ variables</var> and <var>parameters</var> are:
 
  <li><p>Let <var>computed value</var> be the result of the first matching condition:
   <dl class="switch">
-   <dt><var>session</var>&apos;s <a>current browsing context</a>’s
-   [=active document=]’s [=Document/type=] is not "<code>xml</code>"
+   <dt><var>session</var>&apos;s <a>current browsing context</a>&apos;s
+   [=active document=]&apos;s [=Document/type=] is not "<code>xml</code>"
    <dd><a>computed value</a> of parameter <var>URL
     variables</var>["<code>property name</code>"]
-    from <var>element</var>’s style declarations.
+    from <var>element</var>&apos;s style declarations.
 
    <dt>Otherwise
    <dd> "" (empty string)
@@ -5633,8 +5633,8 @@ variables</var> and <var>parameters</var> are:
 <aside class=note>
 <p>
 The <a>Get Element Text</a> <a>command</a>
-intends to return an <a>element</a>’s text “as rendered”.
-An <a>element</a>’s rendered text is also used
+intends to return an <a>element</a>&apos;s text “as rendered”.
+An <a>element</a>&apos;s rendered text is also used
 for locating [^a^] elements
 by their <a>link text</a> and <a>partial link text</a>.
 
@@ -5658,7 +5658,7 @@ with the <a>Unicode character property</a> "<code>WSpace=Y</code>" or "<code>WS<
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -5697,7 +5697,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -5709,7 +5709,7 @@ variables</var> and <var>parameters</var> are:
   with <var>URL variables</var>["<code>element id</code>"].
 
  <li><p>Let <var>qualified name</var> be the result of getting
-  <var>element</var>’s {{Element/tagName}} IDL attribute.
+  <var>element</var>&apos;s {{Element/tagName}} IDL attribute.
 
  <li><p>Return <a>success</a> with data <var>qualified name</var>.
 </ol>
@@ -5739,23 +5739,23 @@ The returned value is a dictionary with the following members:
 <dt><dfn data-lt="elementrect-x">x</dfn>
 <dd>
 X axis position of the top-left corner of the <a>web element</a>
-relative to <var>session</var>'s <a>current browsing context</a>’s
+relative to <var>session</var>&apos;s <a>current browsing context</a>&apos;s
 <a>document element</a> in <a>CSS pixels</a>.
 
 <dt><dfn data-lt="elementrect-y">y</dfn>
 <dd>
 Y axis position of the top-left corner of the <a>web element</a>
-relative to <var>session</var>'s <a>current browsing context</a>’s
+relative to <var>session</var>&apos;s <a>current browsing context</a>&apos;s
 <a>document element</a> in <a>CSS pixels</a>.
 
 <dt><dfn data-lt="elementrect-height">height</dfn>
 <dd>
-Height of the <a>web element</a>’s
+Height of the <a>web element</a>&apos;s
 <a>bounding rectangle</a> in <a>CSS pixels</a>.
 
 <dt><dfn data-lt="elementrect-width">width</dfn>
 <dd>
-Width of the <a>web element</a>’s
+Width of the <a>web element</a>&apos;s
 <a>bounding rectangle</a> in <a>CSS pixels</a>.
 </dl>
 </aside>
@@ -5764,7 +5764,7 @@ Width of the <a>web element</a>’s
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -5778,7 +5778,7 @@ variables</var> and <var>parameters</var> are:
  <li><p>Let <var>coordinates</var> be <a>calculate the absolute
   position</a> with <var>session</var> and <var>element</var>.
 
- <li><p>Let <var>rect</var> be <var>element</var>’s
+ <li><p>Let <var>rect</var> be <var>element</var>&apos;s
   <a>bounding rectangle</a>.
 
  <li><p>Let <var>body</var> be a new JSON <a>Object</a> initialized with:
@@ -5791,10 +5791,10 @@ variables</var> and <var>parameters</var> are:
    <dd>The second value of <var>coordinates</var>.
 
    <dt>"<code>width</code>"
-   <dd>Value of <var>rect</var>’s <a>width dimension</a>.
+   <dd>Value of <var>rect</var>&apos;s <a>width dimension</a>.
 
    <dt>"<code>height</code>"
-   <dd>Value of <var>rect</var>’s <a>height dimension</a>.
+   <dd>Value of <var>rect</var>&apos;s <a>height dimension</a>.
   </dl>
 
  <li><p>Return <a>success</a> with data <var>body</var>.
@@ -5819,7 +5819,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -5831,7 +5831,7 @@ variables</var> and <var>parameters</var> are:
   variables</var>[<var>element id</var>].
 
  <li><p>Let <var>enabled</var> be a boolean initially set to true
-  if <var>session</var>&apos;s <a>current browsing context</a>’s
+  if <var>session</var>&apos;s <a>current browsing context</a>&apos;s
   [=active document=]&apos;s [=Document/type=] is not
   "<code>xml</code>".
 
@@ -5862,7 +5862,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
  <ol>
-    <li><p>If <var>session</var>'s <a>current browsing context</a> is <a>no longer open</a>,
+    <li><p>If <var>session</var>&apos;s <a>current browsing context</a> is <a>no longer open</a>,
         return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
     <li><p><a>Try</a> to <a>handle any user prompts</a>
@@ -5897,7 +5897,7 @@ variables</var> and <var>parameters</var> are:
 
     <ol>
       <li>
-        <p>If <var>session</var>'s <a>current browsing context</a> is <a>no longer open</a>,
+        <p>If <var>session</var>&apos;s <a>current browsing context</a> is <a>no longer open</a>,
           return <a>error</a> with <a>error code</a> <a>no such window</a>.
 
       <li><p><a>Try</a> to <a>handle any user prompts</a>
@@ -5941,16 +5941,16 @@ variables</var> and <var>parameters</var> are:
  if the element has a [^input/checked^] content attribute and false if it does not,
  empty the list of <a>selected files</a>,
  and then invoke the <a>value sanitization algorithm</a>
- iff the [^input/type^] attribute’s current state defines one.
+ iff the [^input/type^] attribute&apos;s current state defines one.
 
 <p>The <a>clear algorithm</a> for [^textarea^] elements
  is to set the <a>dirty value flag</a> back to false,
  and set the <a>raw value</a> of element to an empty string.
 
 <p>The <a>clear algorithm</a> for [^output^] elements
- is set the element’s <a>value mode flag</a> to default
- and then to set the element’s {{Node/textContent}} IDL attribute
- to an empty string (thus clearing the element’s child nodes).
+ is set the element&apos;s <a>value mode flag</a> to default
+ and then to set the element&apos;s {{Node/textContent}} IDL attribute
+ to an empty string (thus clearing the element&apos;s child nodes).
 
 <section>
 <h4><dfn>Element Click</dfn></h4>
@@ -5974,7 +5974,7 @@ if it is not already <a>pointer-interactable</a>,
 and clicks its <a>in-view center point</a>.
 
 <p>
-If the element’s <a>center point</a>
+If the element&apos;s <a>center point</a>
 is <a>obscured</a> by another element,
 an <a>element click intercepted</a> <a>error</a> is returned.
 If the element is outside the <a>viewport</a>,
@@ -5985,7 +5985,7 @@ an <a>element not interactable</a> <a>error</a> is returned.
 variables</var> and <var>parameters</var> are:
 
 <ol class=algorithm>
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -6000,12 +6000,12 @@ variables</var> and <var>parameters</var> are:
   an [^input^] element in the <a>file upload state</a>
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p><a>Scroll into view</a> the <var>element</var>’s <a>container</a>.
+ <li><p><a>Scroll into view</a> the <var>element</var>&apos;s <a>container</a>.
 
- <li><p>If <var>element</var>’s <a>container</a> is still not <a>in view</a>,
+ <li><p>If <var>element</var>&apos;s <a>container</a> is still not <a>in view</a>,
   return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
 
- <li><p>If <var>element</var>’s <a>container</a>
+ <li><p>If <var>element</var>&apos;s <a>container</a>
   is <a>obscured</a> by another <a>element</a>,
   return <a>error</a> with <a>error code</a> <a>element click intercepted</a>.
 
@@ -6015,7 +6015,7 @@ variables</var> and <var>parameters</var> are:
    <dt>[^option^] element
    <dd>
      <ol>
-       <li><p>Let <var>parent node</var> be the <var>element</var>’s <a>container</a>.
+       <li><p>Let <var>parent node</var> be the <var>element</var>&apos;s <a>container</a>.
 
        <li><p>[=fire an event|Fire=] a <a>mouseOver event</a> at <var>parent node</var>.
 
@@ -6033,13 +6033,13 @@ variables</var> and <var>parameters</var> are:
          <li><p>Let <var>previous selectedness</var> be equal
           to <var>element</var> <a>selectedness</a>.
 
-         <li><p>If <var>element</var>’s <a>container</a>
+         <li><p>If <var>element</var>&apos;s <a>container</a>
           has the <a><code>multiple</code> attribute</a>,
-          toggle the <var>element</var>’s <a>selectedness</a> state
+          toggle the <var>element</var>&apos;s <a>selectedness</a> state
           by setting it to the opposite value of its current <a>selectedness</a>.
 
           <p>Otherwise,
-           set the <var>element</var>’s <a>selectedness</a> state to true.
+           set the <var>element</var>&apos;s <a>selectedness</a> state to true.
 
          <li><p>If <var>previous selectedness</var> is false,
           [=fire an event|fire=] a <a><code>change</code></a> event
@@ -6074,7 +6074,7 @@ variables</var> and <var>parameters</var> are:
      state</var>, <var>input id</var> and <var>source</var>.
 
      <li><p>Let <var>click point</var> be
-      the <var>element</var>’s <a>in-view center point</a>.
+      the <var>element</var>&apos;s <a>in-view center point</a>.
 
      <li><p>Let <var>pointer move action</var> be an <a>action
       object</a> constructed with arguments <var>input id</var>,
@@ -6157,12 +6157,12 @@ variables</var> and <var>parameters</var> are:
 <p>To <dfn>clear a content editable element</dfn>:
 
 <ol class="algorithm">
- <li><p>If <var>element</var>’s <a><code>innerHTML</code> IDL attribute</a>
+ <li><p>If <var>element</var>&apos;s <a><code>innerHTML</code> IDL attribute</a>
   is an empty string do nothing and return.
 
  <li><p>Run the <a>focusing steps</a> for <var>element</var>.
 
- <li><p>Set <var>element</var>’s <a><code>innerHTML</code> IDL attribute</a>
+ <li><p>Set <var>element</var>&apos;s <a><code>innerHTML</code> IDL attribute</a>
   to an empty string.
 
  <li><p>Run the <a>unfocusing steps</a> for the <var>element</var>.
@@ -6200,7 +6200,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol class=algorithm>
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -6329,7 +6329,7 @@ in the <a><code>number</code> state</a> on non-desktop devices.
  and the <a>code</a> is not <a>undefined</a>.
 
 <p>The <dfn>shifted state</dfn> for <var>keyboard</var> is the value
- of <var>keyboard</var>’s <code>shift</code> property.
+ of <var>keyboard</var>&apos;s <code>shift</code> property.
 
 <p>To <dfn>dispatch the events for a typeable string</dfn>
 given <var>input state</var>, <var>input id</var>, <var>source</var>,
@@ -6533,7 +6533,7 @@ variables</var> and <var>parameters</var> are:
  <li><p>If <var>text</var> is not a <a>String</a>,
   return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -6548,7 +6548,7 @@ variables</var> and <var>parameters</var> are:
    [^input^] element in the <a>file upload state</a>, or false
    otherwise.
 
- <li><p>If <var>file</var> is false or the <a>session</a>’s
+ <li><p>If <var>file</var> is false or the <a>session</a>&apos;s
   <a>strict file interactability</a>, is true run the following substeps:
   <ol>
    <li><p><a>Scroll into view</a> the <var>element</var>.
@@ -6591,7 +6591,7 @@ variables</var> and <var>parameters</var> are:
       equivalent to setting the <a>selected files</a>
       on the [^input^] element.
       If <var>multiple</var> is <code>true</code>
-      <var>files</var> are be appended to <var>element</var>’s <a>selected files</a>.
+      <var>files</var> are be appended to <var>element</var>&apos;s <a>selected files</a>.
 
      <li><p>[=fire an event|Fire=] these events in order on <var>element</var>:
       <ol>
@@ -6633,7 +6633,7 @@ variables</var> and <var>parameters</var> are:
      <ol>
        <li><p>If <var>element</var> does not currently have focus,
         let <var>current text length</var> be the
-        [=string/length=] of <var><a>element</a></var>’s <a>API value</a>.
+        [=string/length=] of <var><a>element</a></var>&apos;s <a>API value</a>.
 
       <li><p>Set the text insertion caret using <a>set selection range</a>
        using <var>current text length</var> for both the <code>start</code>
@@ -6689,14 +6689,14 @@ context</a>.
 
 <p class=note>
 The <a>Get Page Source</a> <a>command</a> returns a string
-serialization of the DOM of <var>session</var>'s <a>current browsing
+serialization of the DOM of <var>session</var>&apos;s <a>current browsing
 context</a> <a>active document</a>.
 
 <p>The <a>remote end steps</a>, given <var>session</var>, <var>URL
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -6710,7 +6710,7 @@ variables</var> and <var>parameters</var> are:
   to be thrown, let <var>source</var> be <a><code>null</code></a>.
 
  <li><p>Let <var>source</var> be the result of <a>serializing to string</a>
-  <var>session</var>'s <a>current browsing context</a>&apos;s <a>active document</a>,
+  <var>session</var>&apos;s <a>current browsing context</a>&apos;s <a>active document</a>,
   if <var>source</var> is <a><code>null</code></a>.
 
  <li><p>Return <a>success</a> with data <var>source</var>.
@@ -6898,7 +6898,7 @@ steps:
 
   <li><p>If <var>cloned property result</var> is a <a>success</a>,
    <a>set a property</a> of <var>result</var> with
-   name <var>name</var> and value equal to <var>cloned property result</var>’s data.
+   name <var>name</var> and value equal to <var>cloned property result</var>&apos;s data.
 
   <li><p>Otherwise, return <var>cloned property result</var>.
  </ol>
@@ -6940,14 +6940,14 @@ steps:
 
 <ol>
  <li><p>Let <var>window</var> be the <a>associated window</a>
-  of <var>session</var>'s <a>current browsing context</a>’s <a>active
+  of <var>session</var>&apos;s <a>current browsing context</a>&apos;s <a>active
   document</a>.
 
  <li><p>Let <var>environment settings</var> be
-  <var>window</var>’s [=relevant settings object=].
+  <var>window</var>&apos;s [=relevant settings object=].
 
  <li>Let <var>global scope</var> be
-  <var>environment settings</var> <a>realm</a>’s
+  <var>environment settings</var> <a>realm</a>&apos;s
   <a>global environment</a>.
 
  <li><p>If <var>body</var> is not parsable as a <a>FunctionBody</a>
@@ -7023,7 +7023,7 @@ variables</var> and <var>parameters</var> are:
   <a>trying</a> to <a>extract the script arguments from a request</a>
   with argument <var>parameters</var>.
 
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -7091,7 +7091,7 @@ variables</var> and <var>parameters</var> are:
      <a>extract the script arguments from a request</a> with
      argument <var>parameters</var>.
 
-  <li><p>If <var>session</var>'s <a>current browsing context</a>
+  <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
    is <a>no longer open</a>, return <a>error</a> with <a>error
    code</a> <a>no such window</a>.
 
@@ -7167,7 +7167,7 @@ variables</var> and <var>parameters</var> are:
  as described in [[RFC6265]].
 
 <p>A <a>cookie</a> is described in [[RFC6265]]
- by a name-value pair holding the cookie’s data,
+ by a name-value pair holding the cookie&apos;s data,
  followed by zero or more attribute-value pairs describing its characteristics.
 
 <p>The following <dfn>table for cookie conversion</dfn>
@@ -7229,8 +7229,8 @@ variables</var> and <var>parameters</var> are:
   <td>"<code>Domain</code>"
   <td>✓
   <td>The domain the cookie is visible to.
-   Defaults to <var>session</var>'s <a>current browsing context</a>’s
-   <a>active document</a>’s <a>URL</a> <a>domain</a>
+   Defaults to <var>session</var>&apos;s <a>current browsing context</a>&apos;s
+   <a>active document</a>&apos;s <a>URL</a> <a>domain</a>
    if omitted when <a>adding a cookie</a>.
  </tr>
 
@@ -7279,18 +7279,18 @@ variables</var> and <var>parameters</var> are:
 </table>
 
 <p>A <dfn>serialized cookie</dfn> is a JSON <a>Object</a>
- where a <a>cookie</a>’s [[RFC6265]] fields
+ where a <a>cookie</a>&apos;s [[RFC6265]] fields
  listed in the <a>table for cookie conversion</a>
  are mapped using the <i>JSON Key</i>
- and the associated field’s value from the <a>cookie store</a>.
+ and the associated field&apos;s value from the <a>cookie store</a>.
  The optional fields may be omitted.
 
 <p>To get <dfn data-lt="associated cookies">all associated cookies</dfn> to a <a>document</a>,
  the user agent must return the enumerated set of <a>cookies</a>
  that meet the requirements set out in the first step of the algorithm in [[RFC6265]] to
- <a>compute <code>cookie-string</code></a> for an ‘HTTP API’, from
+ <a>compute <code>cookie-string</code></a> for an ‘HTTP API&apos;, from
  the <a>cookie store</a> of the
- given <a>document</a>’s <a>address</a>. The returned cookies must
+ given <a>document</a>&apos;s <a>address</a>. The returned cookies must
  include <a data-lt="cookie HTTP only">HttpOnly cookies</a>.
 
 <p>When the <a>remote end</a> is instructed
@@ -7306,7 +7306,7 @@ variables</var> and <var>parameters</var> are:
 
 <ol>
  <li><p>For each <a>cookie</a> among <a>all associated cookies</a> of
-  <var>session</var>'s <a>current browsing context</a>’s <a>active
+  <var>session</var>&apos;s <a>current browsing context</a>&apos;s <a>active
   document</a>, run the substeps of the first matching condition:
 
   <dl class=switch>
@@ -7338,7 +7338,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -7348,7 +7348,7 @@ variables</var> and <var>parameters</var> are:
  <li><p>Let <var>cookies</var> be a new <a>List</a>.
 
  <li><p>For each <var>cookie</var> in <a>all associated cookies</a> of
-  <var>session</var>'s <a>current browsing context</a>’s <a>active
+  <var>session</var>&apos;s <a>current browsing context</a>&apos;s <a>active
   document</a>:
 
   <ol>
@@ -7380,7 +7380,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -7388,9 +7388,9 @@ variables</var> and <var>parameters</var> are:
   with <var>session</var>.
 
  <li><p>If the <var>URL variables</var>["<code>name</code>" is equal to
-  a <a>cookie</a>’s <a>cookie name</a> amongst <a>all associated
-  cookies</a> of <var>session</var>'s <a>current browsing
-  context</a>’s <a>active document</a>, return <a>success</a> with
+  a <a>cookie</a>&apos;s <a>cookie name</a> amongst <a>all associated
+  cookies</a> of <var>session</var>&apos;s <a>current browsing
+  context</a>&apos;s <a>active document</a>, return <a>success</a> with
   the <a>serialized cookie</a> as data.
 
   <p>Otherwise, return <a>error</a>
@@ -7424,22 +7424,22 @@ variables</var> and <var>parameters</var> are:
   listed in the <a>table for cookie conversion</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
  <li><p><a>Try</a> to <a>handle any user prompts</a>
   with <var>session</var>.
 
- <li><p>If <var>session</var>'s <a>current browsing
-  context</a>’s <a>document element</a> is
+ <li><p>If <var>session</var>&apos;s <a>current browsing
+  context</a>&apos;s <a>document element</a> is
   a <a>cookie-averse <code>Document</code> object</a>,
   return <a>error</a> with <a>error code</a> <a>invalid cookie
   domain</a>.
 
  <li><p>If <a>cookie name</a> or <a>cookie value</a> is <a><code>null</code></a>,
-  <a>cookie domain</a> is not equal to <var>session</var>'s <a>current
-  browsing context</a>’s <a>active document</a>’s <a>domain</a>,
+  <a>cookie domain</a> is not equal to <var>session</var>&apos;s <a>current
+  browsing context</a>&apos;s <a>active document</a>&apos;s <a>domain</a>,
   <a>cookie secure only</a> or <a>cookie HTTP only</a> are not boolean types,
   or <a>cookie expiry time</a> is not an integer type, or it less than 0 or greater than
   the <a>maximum safe integer</a>, return <a>error</a> with <a>error
@@ -7447,7 +7447,7 @@ variables</var> and <var>parameters</var> are:
 
  <li><p><a>Create a cookie</a> in
   the <a>cookie store</a> associated with
-  the <a>active document</a>’s <a>address</a>
+  the <a>active document</a>&apos;s <a>address</a>
   using <a>cookie name</a> <var>name</var>,
   <a>cookie value</a> <var>value</var>,
   and an attribute-value list of the following cookie concepts
@@ -7460,8 +7460,8 @@ variables</var> and <var>parameters</var> are:
 
    <dt><a>Cookie domain</a>
    <dd><p>The value if the entry exists,
-    otherwise <var>session</var>'s <a>current browsing context</a>’s
-    <a>active document</a>’s <a>URL</a> <a>domain</a>.
+    otherwise <var>session</var>&apos;s <a>current browsing context</a>&apos;s
+    <a>active document</a>&apos;s <a>URL</a> <a>domain</a>.
 
    <dt><a>Cookie secure only</a>
    <dd><p>The value if the entry exists, otherwise false.
@@ -7504,7 +7504,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -7536,7 +7536,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current browsing context</a>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
@@ -7579,7 +7579,7 @@ variables</var> and <var>parameters</var> are:
   Then both fingers release from the touchscreen.
 
  <p>When the <a>remote end</a> receives this,
-  it will look at each <a>input source</a>’s action lists.
+  it will look at each <a>input source</a>&apos;s action lists.
   It will dispatch the first action of each source together,
   then the second actions together, and lastly, the final actions together.
 
@@ -7589,9 +7589,9 @@ variables</var> and <var>parameters</var> are:
  <p><img src=graphics/note1actions.svg alt="">
 
  <p>There is no limit to the number of <a>input sources</a>,
-  and there is no restriction regarding the length of each input’s action list.
+  and there is no restriction regarding the length of each input&apos;s action list.
   This means, there is no requirement that all action lists have to be the same length.
-  It is possible for one <a>input source</a>’s action list
+  It is possible for one <a>input source</a>&apos;s action list
   may have more actions than another.
 
  <p>In this case, the action list for the first finger contains 2 actions
@@ -7933,7 +7933,7 @@ and <var>browsing context</var>:
  context</a>.
 
  <li><p>Let <var>input state map</var>
- be <var>session</var>'s <a>browsing context input state map</a>.
+ be <var>session</var>&apos;s <a>browsing context input state map</a>.
 
  <li><p>If <var>input state map</var> does not
  [=map/exist|contain=] <var>browsing context</var>, set <var>input
@@ -8014,7 +8014,7 @@ optional <var>subtype</var>:
   <li><p>Let <var>source</var> be <a>get an input source</a>
   with <var>input state</var> and <var>input id</var>.
 
-  <li><p>If <var>source</var> is not undefined and <var>source</var>'s
+  <li><p>If <var>source</var> is not undefined and <var>source</var>&apos;s
   type is not equal to <var>type</var>, or <var>source</var> is
   a <a>pointer input source</a>, return <a>error</a> with <a>error
   code</a> <a>invalid argument</a>.
@@ -8033,7 +8033,7 @@ altKey, ctrlKey, metaKey, and shiftKey.
 
 <ol class="algorithm">
  <li><p>Let <var>input state map</var> be <var>input
-  state</var>'s <a>input state map</a>.
+  state</var>&apos;s <a>input state map</a>.
 
  <li><p>Let <var>sources</var> be the result of [=map/getting the
  values=] with <var>input state map</var>.
@@ -8049,20 +8049,20 @@ altKey, ctrlKey, metaKey, and shiftKey.
   <li><p>If <var>source</var> is not a <a>key input source</a>,
    continue to the first step of this loop.
 
-  <li><p>Set <var>key state</var>'s <code>pressed</code> item to the
-  union of its current value and <var>source</var>'s pressed item.
+  <li><p>Set <var>key state</var>&apos;s <code>pressed</code> item to the
+  union of its current value and <var>source</var>&apos;s pressed item.
 
-  <li><p>If <var>source</var>'s <code>alt</code> item is true,
-  set <var>key state</var>'s <code>altKey</code> item to true.
+  <li><p>If <var>source</var>&apos;s <code>alt</code> item is true,
+  set <var>key state</var>&apos;s <code>altKey</code> item to true.
 
-  <li><p>If <var>source</var>'s <code>ctrl</code> item is true,
-  set <var>key state</var>'s <code>ctrlKey</code> item to true.
+  <li><p>If <var>source</var>&apos;s <code>ctrl</code> item is true,
+  set <var>key state</var>&apos;s <code>ctrlKey</code> item to true.
 
-  <li><p>If <var>source</var>'s <code>meta</code> item is true,
-  set <var>key state</var>'s <code>metaKey</code> item to true.
+  <li><p>If <var>source</var>&apos;s <code>meta</code> item is true,
+  set <var>key state</var>&apos;s <code>metaKey</code> item to true.
 
-  <li><p>If <var>source</var>'s <code>shift</code> item is true,
-  set <var>key state</var>'s <code>shiftKey</code> item to true.
+  <li><p>If <var>source</var>&apos;s <code>shift</code> item is true,
+  set <var>key state</var>&apos;s <code>shiftKey</code> item to true.
  </ol>
 
  <li><p>Return <var>key state</var>.
@@ -8111,7 +8111,7 @@ and <var>subtype</var>:
  loop</a>.
 
 <p>At the lowest level, the behavior of actions is intended to mimic
- the <a>remote end</a>’s behavior with an actual input device as
+ the <a>remote end</a>&apos;s behavior with an actual input device as
  closely as possible, and the implementation strategy may involve
  e.g. injecting synthesized events into a browser event
  loop. Therefore the steps to dispatch an action will inevitably end
@@ -8144,10 +8144,10 @@ will have the {{Event/isTrusted}} attribute set to true.
 <p>
 The most robust way to dispatch these events is by creating them in
 the browser implementation itself.  Sending operating system specific
-input messages to the browser’s window has the disadvantage that the
+input messages to the browser&apos;s window has the disadvantage that the
 browser being automated may not be properly isolated from a user
 accidentally modifying an <a>input source</a>.  Use of an operating
-system level accessibility API has the disadvantage that the browser’s
+system level accessibility API has the disadvantage that the browser&apos;s
 window must be focused, and as a result, multiple WebDriver instances
 cannot run in parallel.
 
@@ -8310,7 +8310,7 @@ options</var>:
 
  <li><p>If <var>parameters</var> is not <a>undefined</a>,
   then if its <code>pointerType</code> property is not equal to
-  <var>source</var>’s subtype property, return an <a>error</a>
+  <var>source</var>&apos;s subtype property, return an <a>error</a>
   with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Let <var>action items</var> be the result of <a>getting a
@@ -8964,7 +8964,7 @@ context</var>, and <var>actions options</var>:
  queue</a>.
 
  <li><p>Wait for <var>token</var> to be the first item
- in <var>input state</var>&aposs <a>actions queue</a>.
+ in <var>input state</var>&apos;s <a>actions queue</a>.
 
  <aside class=note>
    <p>This ensures that only one set of actions can be run at a time,
@@ -9057,10 +9057,10 @@ context</var>, and <var>actions options</var>:
 
   <ol>
    <li><p>Let <var>input id</var> be equal to the value
-    of <var>action object</var>’s id property.
+    of <var>action object</var>&apos;s id property.
 
    <li><p>Let <var>source type</var> be equal to the value
-    of <var>action object</var>’s type property.
+    of <var>action object</var>&apos;s type property.
 
    <li><p>Let <var>source</var> be the result of <a>get an input
     source</a> given <var>input state</var> and <var>input id</var>.
@@ -9071,7 +9071,7 @@ context</var>, and <var>actions options</var>:
    global key state</a> with <var>input state</var>.
 
    <li><p>Let <var>subtype</var> be <var>action
-   object</var>’s subtype.
+   object</var>&apos;s subtype.
 
    <li><p>Let <var>algorithm</var> be the value of the column
     <i>dispatch action algorithm</i> from the following table where the
@@ -9101,12 +9101,12 @@ context</var>, and <var>actions options</var>:
    <li><p>If <var>subtype</var> is "<code>keyDown</code>", append
     a copy of <var>action object</var> with the <var>subtype</var>
     property changed to "<code>keyUp</code>" to <var>input
-    state</var>’s <a>input cancel list</a>.
+    state</var>&apos;s <a>input cancel list</a>.
 
    <li><p>If <var>subtype</var> is "<code>pointerDown</code>", append
     a copy of <var>action object</var> with the <var>subtype</var>
     property changed to "<code>pointerUp</code>" to <var>input
-    state</var>’s <a>input cancel list</a>.
+    state</var>&apos;s <a>input cancel list</a>.
 
   </ol>
 
@@ -9153,12 +9153,12 @@ state</var>, <var>tick duration</var>,
 
 <p>The <dfn>normalized key value</dfn> for a raw key <var>key</var>
  is, if <var>key</var> appears in the table below, the string value in
- the second column on the row containing <var>key</var>’s <a>unicode
+ the second column on the row containing <var>key</var>&apos;s <a>unicode
  code point</a> in the first column, otherwise it is <var>key</var>.
 
 <table class=simple>
  <tr>
-  <th><var>key</var>’s codepoint
+  <th><var>key</var>&apos;s codepoint
   <th>Normalized key value
  </tr>
  <tr><td><code>\uE000</code></td><td><code>"Unidentified"</code></td></tr>
@@ -9366,7 +9366,7 @@ state</var>, <var>tick duration</var>,
 
 <table class=simple>
  <tr>
-  <th><var>key</var>’s codepoint
+  <th><var>key</var>&apos;s codepoint
   <th>Description
   <th>Location
  </tr>
@@ -9416,12 +9416,12 @@ duration</var>, <var>browsing context</var>, and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>raw key</var> be equal to the
-  <var>action object</var>’s <code>value</code> property.
+  <var>action object</var>&apos;s <code>value</code> property.
 
  <li><p>Let <var>key</var> be equal to the <a>normalized key value</a>
   for <var>raw key</var>.
 
- <li><p>If the <var>source</var>’s <code>pressed</code> property
+ <li><p>If the <var>source</var>&apos;s <code>pressed</code> property
   contains <var>key</var>, let <var>repeat</var> be true, otherwise
   let <var>repeat</var> be false.
 
@@ -9438,18 +9438,18 @@ duration</var>, <var>browsing context</var>, and <var>actions options</var>:
   keyboard, following the guidelines in [[UI-EVENTS]].
 
  <li><p>If <var>key</var> is <code>"Alt"</code>, let
-  <var>source</var>'s <code>alt</code> property be true.
+  <var>source</var>&apos;s <code>alt</code> property be true.
 
  <li><p>If <var>key</var> is <code>"Shift"</code>, let
-  <var>source</var>'s <code>shift</code> property be true.
+  <var>source</var>&apos;s <code>shift</code> property be true.
 
  <li><p>If <var>key</var> is <code>"Control"</code>, let
-  <var>source</var>'s <code>ctrl</code> property be true.
+  <var>source</var>&apos;s <code>ctrl</code> property be true.
 
  <li><p>If <var>key</var> is <code>"Meta"</code>, let
-  <var>source</var>'s <code>meta</code> property be true.
+  <var>source</var>&apos;s <code>meta</code> property be true.
 
- <li><p>Add <var>key</var> to <var>source</var>’s <code>pressed</code>
+ <li><p>Add <var>key</var> to <var>source</var>&apos;s <code>pressed</code>
  property.
 
  <li><p><a>Perform implementation-specific action dispatch steps</a>
@@ -9469,10 +9469,10 @@ duration</var>, <var>browsing context</var>, and <var>actions options</var>:
      <tr><td><code>key</code><td><var>key</var>
      <tr><td><code>code</code><td><var>code</var>
      <tr><td><code>location</code><td><var>location</var>
-     <tr><td><code>altKey</code><td><var>source</var>’s <code>alt</code> property
-     <tr><td><code>shiftKey</code><td><var>source</var>’s <code>shift</code> property
-     <tr><td><code>ctrlKey</code><td><var>source</var>’s <code>ctrl</code> property
-     <tr><td><code>metaKey</code><td><var>source</var>’s <code>meta</code> property
+     <tr><td><code>altKey</code><td><var>source</var>&apos;s <code>alt</code> property
+     <tr><td><code>shiftKey</code><td><var>source</var>&apos;s <code>shift</code> property
+     <tr><td><code>ctrlKey</code><td><var>source</var>&apos;s <code>ctrl</code> property
+     <tr><td><code>metaKey</code><td><var>source</var>&apos;s <code>meta</code> property
      <tr><td><code>repeat</code><td><var>repeat</var>
      <tr><td><code>isComposing</code><td><var>false</var>
      <tr><td><code>charCode</code><td><var>charCode</var>
@@ -9490,10 +9490,10 @@ duration</var>, <var>browsing context</var>, and <var>actions options</var>:
      <tr><td><code>key</code><td><var>key</var>
      <tr><td><code>code</code><td><var>code</var>
      <tr><td><code>location</code><td><var>location</var>
-     <tr><td><code>altKey</code><td><var>source</var>’s <code>alt</code> property
-     <tr><td><code>shiftKey</code><td><var>source</var>’s <code>shift</code> property
-     <tr><td><code>ctrlKey</code><td><var>source</var>’s <code>ctrl</code> property
-     <tr><td><code>metaKey</code><td><var>source</var>’s <code>meta</code> property
+     <tr><td><code>altKey</code><td><var>source</var>&apos;s <code>alt</code> property
+     <tr><td><code>shiftKey</code><td><var>source</var>&apos;s <code>shift</code> property
+     <tr><td><code>ctrlKey</code><td><var>source</var>&apos;s <code>ctrl</code> property
+     <tr><td><code>metaKey</code><td><var>source</var>&apos;s <code>meta</code> property
      <tr><td><code>repeat</code><td><var>repeat</var>
      <tr><td><code>isComposing</code><td><var>false</var>
      <tr><td><code>charCode</code><td><var>charCode</var>
@@ -9518,12 +9518,12 @@ and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>raw key</var> be equal to
-  <var>action object</var>’s <code>value</code> property.
+  <var>action object</var>&apos;s <code>value</code> property.
 
  <li><p>Let <var>key</var> be equal to the
   <a>normalized key value</a> for <var>raw key</var>.
 
- <li><p>If the <var>source</var>’s <code>pressed</code> item
+ <li><p>If the <var>source</var>&apos;s <code>pressed</code> item
   does not contain <var>key</var>, return.
 
  <li><p>Let <var>code</var> be the <a>code</a> for
@@ -9540,19 +9540,19 @@ and <var>actions options</var>:
   keyboard, following the guidelines in [[UI-EVENTS]].
 
  <li><p>If <var>key</var> is "<code>Alt</code>", let
-  <var>source</var>'s <code>alt</code> property be false.
+  <var>source</var>&apos;s <code>alt</code> property be false.
 
  <li><p>If <var>key</var> is "<code>Shift</code>", let
-  <var>source</var>'s <code>shift</code> property be false.
+  <var>source</var>&apos;s <code>shift</code> property be false.
 
  <li><p>If <var>key</var> is <code>"Control"</code>, let
-  <var>source</var>'s <code>ctrl</code> property be false.
+  <var>source</var>&apos;s <code>ctrl</code> property be false.
 
  <li><p>If <var>key</var> is <code>"Meta"</code>, let
-  <var>source</var>'s <code>meta</code> property be false.
+  <var>source</var>&apos;s <code>meta</code> property be false.
 
  <li><p>Remove <var>key</var>
- from <var>sources</var>’s <code>pressed</code> property.
+ from <var>sources</var>&apos;s <code>pressed</code> property.
 
  <li><p><a>Perform implementation-specific action dispatch steps</a>
   on <var>browsing context</var> equivalent to releasing a key on the
@@ -9570,10 +9570,10 @@ and <var>actions options</var>:
      <tr><td><code>key</code><td><var>key</var></tr>
      <tr><td><code>code</code><td><var>code</var></tr>
      <tr><td><code>location</code><td><var>location</var></tr>
-     <tr><td><code>altKey</code><td><var>source</var>’s <code>altKey</code> property</tr>
-     <tr><td><code>shiftKey</code><td><var>source</var>’s <code>shift</code> property</tr>
-     <tr><td><code>ctrlKey</code><td><var>source</var>’s <code>ctrl</code> property</tr>
-     <tr><td><code>metaKey</code><td><var>source</var>’s <code>meta</code> property</tr>
+     <tr><td><code>altKey</code><td><var>source</var>&apos;s <code>altKey</code> property</tr>
+     <tr><td><code>shiftKey</code><td><var>source</var>&apos;s <code>shift</code> property</tr>
+     <tr><td><code>ctrlKey</code><td><var>source</var>&apos;s <code>ctrl</code> property</tr>
+     <tr><td><code>metaKey</code><td><var>source</var>&apos;s <code>meta</code> property</tr>
      <tr><td><code>repeat</code><td><var>false</var></tr>
      <tr><td><code>isComposing</code><td><var>false</var></tr>
      <tr><td><code>charCode</code><td><var>charCode</var></tr>
@@ -9596,49 +9596,49 @@ and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>pointerType</var> be equal to
-  <var>action object</var>’s <code>pointerType</code> property.
+  <var>action object</var>&apos;s <code>pointerType</code> property.
 
  <li><p>Let <var>button</var> be equal to
-  <var>action object</var>’s <code>button</code> property.
+  <var>action object</var>&apos;s <code>button</code> property.
 
- <li><p>If the <var>input state</var>’s <code>pressed</code> property
+ <li><p>If the <var>input state</var>&apos;s <code>pressed</code> property
   contains <var>button</var> return <a>success</a> with data <a><code>null</code></a>.
 
- <li><p>Let <var>x</var> be equal to <var>input state</var>’s
+ <li><p>Let <var>x</var> be equal to <var>input state</var>&apos;s
   <code>x</code> property.
 
- <li><p>Let <var>y</var> be equal to <var>input state</var>’s
+ <li><p>Let <var>y</var> be equal to <var>input state</var>&apos;s
   <code>y</code> property.
 
  <li><p>Add <var>button</var> to the set corresponding to
-  <var>input state</var>’s <code>pressed</code> property, and
+  <var>input state</var>&apos;s <code>pressed</code> property, and
   let <var>buttons</var> be the resulting value of that property.
 
- <li><p>Let <var>width</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>width</var> be equal to <var>action object</var>&apos;s
   <code>width</code> property.
 
- <li><p>Let <var>height</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>height</var> be equal to <var>action object</var>&apos;s
   <code>height</code> property.
 
- <li><p>Let <var>pressure</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>pressure</var> be equal to <var>action object</var>&apos;s
   <code>pressure</code> property.
 
  <li><p>Let <var>tangentialPressure</var> be equal to
-  <var>action object</var>’s <code>tangentialPressure</code> property.
+  <var>action object</var>&apos;s <code>tangentialPressure</code> property.
 
- <li><p>Let <var>tiltX</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>tiltX</var> be equal to <var>action object</var>&apos;s
   <code>tiltX</code> property.
 
- <li><p>Let <var>tiltY</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>tiltY</var> be equal to <var>action object</var>&apos;s
   <code>tiltY</code> property.
 
- <li><p>Let <var>twist</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>twist</var> be equal to <var>action object</var>&apos;s
   <code>twist</code> property.
 
- <li><p>Let <var>altitudeAngle</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>altitudeAngle</var> be equal to <var>action object</var>&apos;s
   <code>altitudeAngle</code> property.
 
- <li><p>Let <var>azimuthAngle</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>azimuthAngle</var> be equal to <var>action object</var>&apos;s
   <code>azimuthAngle</code> property.
 
  <li><p><a>Perform implementation-specific action dispatch steps</a>
@@ -9656,7 +9656,7 @@ and <var>actions options</var>:
   corresponding items in <var>global key state</var>. Type specific
   properties for the pointer that are not exposed through the
   webdriver API must be set to the default value specified for
-  hardware that doesn’t support that property.
+  hardware that doesn&apos;t support that property.
 
  <!-- TODO: add some events that should be emitted? This is a bit
   complicated in this case because e.g. pointerDown is only emitted
@@ -9672,23 +9672,23 @@ and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>pointerType</var> be equal to
-  <var>action object</var>’s <code>pointerType</code> property.
+  <var>action object</var>&apos;s <code>pointerType</code> property.
 
  <li><p>Let <var>button</var> be equal to
-  <var>action object</var>’s <code>button</code> property.
+  <var>action object</var>&apos;s <code>button</code> property.
 
- <li><p>If the <var>source</var>’s <code>pressed</code> property
+ <li><p>If the <var>source</var>&apos;s <code>pressed</code> property
   does not contain <var>button</var>,
   return <a>success</a> with data <a><code>null</code></a>.
 
- <li><p>Let <var>x</var> be equal to <var>source</var>’s
+ <li><p>Let <var>x</var> be equal to <var>source</var>&apos;s
   <code>x</code> property.
 
- <li><p>Let <var>y</var> be equal to <var>source</var>’s
+ <li><p>Let <var>y</var> be equal to <var>source</var>&apos;s
   <code>y</code> property.
 
  <li><p>Remove <var>button</var> from the set corresponding
-  to <var>source</var>’s <code>pressed</code> property, and
+  to <var>source</var>&apos;s <code>pressed</code> property, and
   let <var>buttons</var> be the resulting value of that
   property.
 
@@ -9705,7 +9705,7 @@ and <var>actions options</var>:
   corresponding items in <var>global key state</var>. Type specific
   properties for the pointer that are not exposed through the
   webdriver API must be set to the default value specified for
-  hardware that doesn’t support that property.
+  hardware that doesn&apos;t support that property.
 
   <!-- TODO: add some events that should be emitted? This is a bit
    complicated in this case because e.g. pointerDown is only emitted
@@ -9745,7 +9745,7 @@ and <var>actions options</var>:
   bounds</a>.
 
  <li><p>Let <var>duration</var> be equal to
-  <var>action object</var>’s <code>duration</code> property if it
+  <var>action object</var>&apos;s <code>duration</code> property if it
   is not <a>undefined</a>, or <var>tick duration</var>
   otherwise.
 
@@ -9759,31 +9759,31 @@ and <var>actions options</var>:
    vsync).</p></aside>
  </li>
 
- <li><p>Let <var>width</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>width</var> be equal to <var>action object</var>&apos;s
   <code>width</code> property.
 
- <li><p>Let <var>height</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>height</var> be equal to <var>action object</var>&apos;s
   <code>height</code> property.
 
- <li><p>Let <var>pressure</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>pressure</var> be equal to <var>action object</var>&apos;s
   <code>pressure</code> property.
 
  <li><p>Let <var>tangentialPressure</var> be equal to
-  <var>action object</var>’s <code>tangentialPressure</code> property.
+  <var>action object</var>&apos;s <code>tangentialPressure</code> property.
 
- <li><p>Let <var>tiltX</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>tiltX</var> be equal to <var>action object</var>&apos;s
   <code>tiltX</code> property.
 
- <li><p>Let <var>tiltY</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>tiltY</var> be equal to <var>action object</var>&apos;s
   <code>tiltY</code> property.
 
- <li><p>Let <var>twist</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>twist</var> be equal to <var>action object</var>&apos;s
   <code>twist</code> property.
 
- <li><p>Let <var>altitudeAngle</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>altitudeAngle</var> be equal to <var>action object</var>&apos;s
   <code>altitudeAngle</code> property.
 
- <li><p>Let <var>azimuthAngle</var> be equal to <var>action object</var>’s
+ <li><p>Let <var>azimuthAngle</var> be equal to <var>action object</var>&apos;s
   <code>azimuthAngle</code> property.
 
  <li><p><a>Perform a pointer move</a> with arguments
@@ -9838,7 +9838,7 @@ and <var>azimuthAngle</var>:
 
   <ol>
    <li><p>Let <var>buttons</var> be equal to input
-    state’s <code>buttons</code> property.
+    state&apos;s <code>buttons</code> property.
 
    <li><p><a>Perform implementation-specific action dispatch steps</a>
     on <var>browsing context</var> equivalent to moving the pointer
@@ -9858,14 +9858,14 @@ and <var>azimuthAngle</var>:
     corresponding items in <var>global key state</var>.  Type specific
     properties for the pointer that are not exposed through the
     WebDriver API must be set to the default value specified for
-    hardware that doesn’t support that property. In the case where
+    hardware that doesn&apos;t support that property. In the case where
     the <var>pointerType</var> is "<code>pen</code>" or
     "<code>touch</code>", and <var>buttons</var> is empty, this may be
     a no-op. For a pointer of type "<code>mouse</code>" this will
     always produce events including at least
     a <code>pointerMove</code> event.
 
-   <li><p>Let <var>input state</var>’s <code>x</code> property
+   <li><p>Let <var>input state</var>&apos;s <code>x</code> property
     equal <var>x</var> and <code>y</code> property
     equal <var>y</var>.
   </ol>
@@ -9963,7 +9963,7 @@ and <var>actions options</var>:
   property of <var>action object</var>.
 
  <li><p>Let <var>duration</var> be equal to
-  <var>action object</var>’s <code>duration</code> property if it
+  <var>action object</var>&apos;s <code>duration</code> property if it
   is not <a>undefined</a>, or <var>tick duration</var>
   otherwise.
 
@@ -10165,7 +10165,7 @@ variables</var> and <var>parameters</var> are:
   to <a>get a WebElement origin</a>.
 
  <li><p>Let <var>undo actions</var> be <var>input
- state</var>’s <a>input cancel list</a> in reverse order.
+ state</var>&apos;s <a>input cancel list</a> in reverse order.
 
  <li><p><a>Try</a> to <a>dispatch tick actions</a> with arguments
   <var>undo
@@ -10448,7 +10448,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -10479,7 +10479,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -10524,7 +10524,7 @@ variables</var> and <var>parameters</var> are:
  <li><p>If <var>text</var> is not a <a>String</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -10549,7 +10549,7 @@ variables</var> and <var>parameters</var> are:
   </dl>
 
  <li><p>Perform user agent dependent steps
-  to set the value of <a>current user prompt</a>’s text field
+  to set the value of <a>current user prompt</a>&apos;s text field
   to <var>text</var>.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
@@ -10563,29 +10563,29 @@ variables</var> and <var>parameters</var> are:
 
 <p>Screenshots are a mechanism for providing
  additional visual diagnostic information.
- They work by dumping a snapshot of the <a>initial viewport</a>’s
+ They work by dumping a snapshot of the <a>initial viewport</a>&apos;s
  framebuffer as a lossless PNG image.
  It is returned to the <a>local end</a> as a Base64 encoded string.
 
 <p>WebDriver provides the <a>Take Screenshot</a> <a>command</a>
- to capture the <a>top-level browsing context</a>’s <a>initial viewport</a>,
+ to capture the <a>top-level browsing context</a>&apos;s <a>initial viewport</a>,
  and a <a>command</a> <a>Take Element Screenshot</a>
- for doing the same with the visible region of an <a>element</a>’s
+ for doing the same with the visible region of an <a>element</a>&apos;s
  <a>bounding rectangle</a> after it has been <a>scrolled into view</a>.
 
 <p>In order to <dfn>draw a bounding box from the framebuffer</dfn>,
  given a <a>rectangle</a>:
 
 <ol>
- <li><p>If either the <a>initial viewport</a>’s width or height
+ <li><p>If either the <a>initial viewport</a>&apos;s width or height
   is 0 <a>CSS pixels</a>,
   return <a>error</a> with <a>error code</a> <a>unable to capture screen</a>.
 
- <li><p>Let <var>paint width</var> be the <a>initial viewport</a>’s width –
+ <li><p>Let <var>paint width</var> be the <a>initial viewport</a>&apos;s width –
   <a>min</a>(<a>rectangle x coordinate</a>,
   <a>rectangle x coordinate</a> + <a>rectangle width dimension</a>).
 
- <li><p>Let <var>paint height</var> be the <a>initial viewport</a>’s height –
+ <li><p>Let <var>paint height</var> be the <a>initial viewport</a>&apos;s height –
   <a>min</a>(<a>rectangle y coordinate</a>,
   <a>rectangle y coordinate</a> + <a>rectangle height dimension</a>).
 
@@ -10623,16 +10623,16 @@ variables</var> and <var>parameters</var> are:
  Base64 a <code>canvas</code> <a>element</a></dfn>:
 
 <ol>
- <li><p>If the [^canvas^] element’s bitmap’s
+ <li><p>If the [^canvas^] element&apos;s bitmap&apos;s
   <a>origin-clean</a> flag is set to false,
   return <a>error</a> with <a>error code</a> <a>unable to capture screen</a>.
 
- <li><p>If the [^canvas^] element’s bitmap
+ <li><p>If the [^canvas^] element&apos;s bitmap
   has no pixels (i.e. either its horizontal dimension or vertical dimension is zero)
   then return <a>error</a> with <a>error code</a> <a>unable to capture screen</a>.
 
  <li><p>Let <var>file</var> be
-  [=a serialization of the bitmap as a file|a serialization of the `canvas` element’s bitmap as a file=],
+  [=a serialization of the bitmap as a file|a serialization of the `canvas` element&apos;s bitmap as a file=],
   using "<code>image/png</code>" as an argument.
 
  <li><p>Let <var>data URL</var> be a <a><code>data:</code> URL</a>
@@ -10665,7 +10665,7 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -10673,19 +10673,19 @@ variables</var> and <var>parameters</var> are:
   <ol>
    <li><p>Let <var>root rect</var> be <var>session</var>&apos;s <a>current
    top-level browsing context</a>&apos;s
-    <a>document element</a>’s <a>rectangle</a>.
+    <a>document element</a>&apos;s <a>rectangle</a>.
 
    <li><p>Let <var>screenshot result</var> be the result of <a>trying</a> to call
     <a>draw a bounding box from the framebuffer</a>,
     given <var>root rect</var> as an argument.
 
    <li><p>Let <var>canvas</var> be a [^canvas^] element
-    of <var>screenshot result</var>’s data.
+    of <var>screenshot result</var>&apos;s data.
 
    <li><p>Let <var>encoding result</var> be the result of <a>trying</a>
     <a>encoding a canvas as Base64</a> <var>canvas</var>.
 
-   <li><p>Let <var>encoded string</var> be <var>encoding result</var>’s data.
+   <li><p>Let <var>encoded string</var> be <var>encoding result</var>&apos;s data.
   </ol>
 
  <li><p>Return <a>success</a> with data <var>encoded string</var>.
@@ -10731,7 +10731,7 @@ variables</var> and <var>parameters</var> are:
 
  <li><p>When the user agent is next to <a>run the animation frame callbacks</a>:
   <ol>
-   <li><p>Let <var>element rect</var> be <var>element</var>’s
+   <li><p>Let <var>element rect</var> be <var>element</var>&apos;s
     <a href=https://drafts.fxtf.org/geometry/#rectangle>rectangle</a>.
 
    <li><p>Let <var>screenshot result</var> be the result
@@ -10740,12 +10740,12 @@ variables</var> and <var>parameters</var> are:
     given <var>element rect</var> as an argument.
 
    <li><p>Let <var>canvas</var> be a [^canvas^] element
-    of <var>screenshot result</var>’s data.
+    of <var>screenshot result</var>&apos;s data.
 
    <li><p>Let <var>encoding result</var> be the result of <a>trying</a>
     <a>encoding a canvas as Base64</a> <var>canvas</var>.
 
-   <li><p>Let <var>encoded string</var> be <var>encoding result</var>’s data.
+   <li><p>Let <var>encoded string</var> be <var>encoding result</var>&apos;s data.
   </ol>
 
  <li><p>Return <a>success</a> with data <var>encoded string</var>.
@@ -10868,7 +10868,7 @@ argument <var>input</var> an implementation must:
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>If <var>session</var>'s <a>current top-level browsing
+ <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
@@ -10958,7 +10958,7 @@ variables</var> and <var>parameters</var> are:
  <li><p>When the user agent is next to <a>run the animation frame
  callbacks</a>, let <var>pdfData</var> be the result of <a>trying</a>
  to take UA-specific steps to generate a paginated representation of
- <var>session</var>'s <a>current browsing context</a>, with the
+ <var>session</var>&apos;s <a>current browsing context</a>, with the
  CSS <a>media type</a> set to <code>print</code>, encoded as a PDF,
  with the following paper settings:
    <table>
@@ -11008,7 +11008,7 @@ variables</var> and <var>parameters</var> are:
   <li><p>Let <var>encoding result</var> be the result of
   calling <a>Base64 Encode</a> on <var>pdfData</var>.
 
-  <li><p>Let <var>encoded string</var> be <var>encoding result</var>’s data.
+  <li><p>Let <var>encoded string</var> be <var>encoding result</var>&apos;s data.
 
   <li><p>Return <a>success</a> with data <var>encoded string</var>
 </ol>
@@ -11077,20 +11077,20 @@ ensuring both privacy and preventing state from bleeding through to the next ses
  to ascertain the visibility of an <a>element</a> in the <a>viewport</a>,
  we acknowledge that it is an important feature for many users.
  Here we include a recommended approach
- which will give a simplified approximation of an <a>element</a>’s visibility,
+ which will give a simplified approximation of an <a>element</a>&apos;s visibility,
  but please note that it relies only on tree-traversal,
  and only covers a subset of visibility checks.
 
 <p>The visibility of an <a>element</a> is guided
  by what is perceptually visible to the human eye.
- In this context, an <a>element</a>’s displayedness
+ In this context, an <a>element</a>&apos;s displayedness
  does not relate to the <a><code>visibility</code></a>
  or <a><code>display</code></a> style properties.
 
 <p>The approach recommended to implementors to ascertain
- an <a>element</a>’s visibility was originally developed by
+ an <a>element</a>&apos;s visibility was originally developed by
  the <a href=https://selenium.dev>Selenium</a> project, and is
- based on crude approximations about an <a>element</a>'s nature and
+ based on crude approximations about an <a>element</a>&apos;s nature and
  relationship in the tree.  An <a>element</a> is in general to be
  considered visible if any part of it is drawn on the canvas within
  the boundaries of the viewport.
@@ -11353,7 +11353,7 @@ to automatically sort each list alphabetically.
    <ul>
      <!-- Fullscreen element --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fullscreen-element">Fullscreen element</a></dfn>
      <!-- Fullscreen an element --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fullscreen-an-element">Fullscreen an element</a></dfn>
-     <!-- Fullscreen is supported --> <li><dfn  data-lt='support fullscreen'><a href="https://fullscreen.spec.whatwg.org/#fullscreen-is-supported">Fullscreen is supported</a></dfn>
+     <!-- Fullscreen is supported --> <li><dfn  data-lt="support fullscreen"><a href="https://fullscreen.spec.whatwg.org/#fullscreen-is-supported">Fullscreen is supported</a></dfn>
      <!-- Fully exit fullscreen --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fully-exit-fullscreen">fully exit fullscreen</a></dfn>
      <!-- Unfullscreen a document --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#unfullscreen-a-document">unfullscreen a document</a></dfn>
    </ul>
@@ -11656,7 +11656,7 @@ to automatically sort each list alphabetically.
   <dt>Promises Guide <!-- Eventually this will be merged into WebIDL -->
   <dd><p>The following terms are defined in the Promises Guide. [[PROMISES-GUIDE]]
     <ul>
-      <!-- Promise calling --> <li><dfn data-lt='promise-call'><a href="https://www.w3.org/2001/tag/doc/promises-guide#promise-calling">Promise-calling</a></dfn>
+      <!-- Promise calling --> <li><dfn data-lt="promise-call"><a href="https://www.w3.org/2001/tag/doc/promises-guide#promise-calling">Promise-calling</a></dfn>
     </ul>
 
   <dt>XML Namespaces
