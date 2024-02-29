@@ -1034,6 +1034,12 @@ the following steps:
 
  <tr>
   <td>GET</td>
+  <td>/session/{<var>session id</var>}/screenshot/full</td>
+  <td><a>Take Full Screenshot</a></td>
+ </tr>
+
+ <tr>
+  <td>GET</td>
   <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/screenshot</td>
   <td><a>Take Element Screenshot</a></td>
  </tr>
@@ -10569,6 +10575,8 @@ variables</var> and <var>parameters</var> are:
 
 <p>WebDriver provides the <a>Take Screenshot</a> <a>command</a>
  to capture the <a>top-level browsing context</a>’s <a>initial viewport</a>,
+ and the <a>Take Full Screenshot</a> <a>command</a>
+ to capture the scrollable region of the <a>top-level browsing context</a>’s <a>scrolling element</a>,
  and a <a>command</a> <a>Take Element Screenshot</a>
  for doing the same with the visible region of an <a>element</a>’s
  <a>bounding rectangle</a> after it has been <a>scrolled into view</a>.
@@ -10618,6 +10626,45 @@ variables</var> and <var>parameters</var> are:
 
  <li><p>Return <a>success</a> with <var>canvas</var>.
 </ol>
+
+<p>In order to <dfn>draw a scrollable region from the framebuffer</dfn>,
+ given a <a>scrolling element</a>:
+
+<ol>
+ <li><p>If either the <a>initial viewport</a>’s width or height
+  is 0 <a>CSS pixels</a>,
+  return <a>error</a> with <a>error code</a> <a>unable to capture screen</a>.
+
+ <li><p>Let <var>canvas</var> be a new <a><code>canvas</code> element</a>,
+  and set its <a data-lt="canvas width attribute">width</a>
+  and <a data-lt="canvas height attribute">height</a>
+  to <a>scrolling element</a> <a>scrollWidth</a> and <a>scrollHeight</a>, respectively.
+
+ <li><p>Let <var>context</var>, a <a>canvas context mode</a>,
+  be the result of invoking the <a>2D context creation algorithm</a>
+  given <var>canvas</var> as the target.
+
+ <li><p>Complete implementation specific steps equivalent to
+  drawing the region of the framebuffer
+  specified by the following coordinates onto <var>context</var>:
+
+  <dl>
+   <dt>X coordinate
+   <dd>0
+
+   <dt>Y coordinate
+   <dd>0
+
+   <dt>Width
+   <dd><a>scrolling element</a> <a>scrollWidth</a>
+
+   <dt>Height
+   <dd><a>scrolling element</a> <a>scrollHeight</a>
+  </dl>
+
+ <li><p>Return <a>success</a> with <var>canvas</var>.
+</ol>
+
 
 <p>To <dfn data-lt="encoding a canvas as base64">encode a canvas as
  Base64 a <code>canvas</code> <a>element</a></dfn>:
@@ -10691,6 +10738,47 @@ variables</var> and <var>parameters</var> are:
  <li><p>Return <a>success</a> with data <var>encoded string</var>.
 </ol>
 </section> <!-- /Take Screenshot -->
+
+<section>
+<h3><dfn>Take Full Screenshot</dfn></h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>URI Template</th>
+ </tr>
+ <tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/screenshot/full</td>
+ </tr>
+</table>
+
+<p>The <a>remote end steps</a> are:
+
+<ol>
+ <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
+  return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+    <li><p>When the user agent is next to <a>run the animation frame callbacks</a>:
+  <ol>
+
+   <li><p>Let <var>screenshot result</var> be the result of <a>trying</a> to call
+    <a>draw a scrollable region from the framebuffer</a>,
+    given <a>scrolling element</a> as an argument.
+
+   <li><p>Let <var>canvas</var> be a <a><code>canvas</code> element</a>
+    of <var>screenshot result</var>’s data.
+
+   <li><p>Let <var>encoding result</var> be the result of <a>trying</a>
+    <a>encoding a canvas as Base64</a> <var>canvas</var>.
+
+   <li><p>Let <var>encoded string</var> be <var>encoding result</var>’s data.
+  </ol>
+
+ <li><p>Return <a>success</a> with data <var>encoded string</var>.
+</ol>
+
+</section> <!-- /Take Full Screenshot -->
 
 <section>
 <h3><dfn>Take Element Screenshot</dfn></h3>
@@ -11540,6 +11628,15 @@ to automatically sort each list alphabetically.
     <!-- Initial viewport --><li><dfn data-lt=viewport><a href=https://drafts.csswg.org/css-device-adapt/#initial-viewport>Initial viewport</a></dfn>,
      sometimes here referred to as the <i>viewport</i>.
    </ul>
+
+ <dd>The following terms are defined in
+  the CSSOM View Module: [[CSSOM-VIEW]]
+    <ul>
+      <!-- scrolling element --><li><dfn><a href=https://www.w3.org/TR/cssom-view-1/#dom-document-scrollingelement>Scrolling element</a></dfn>
+
+      <!-- scrollWidth --> <li><dfn><a href=https://www.w3.org/TR/cssom-view-1/#dom-element-scrollwidth>scrollWidth</a></dfn>
+      <!-- scrollHeight --> <li><dfn><a href=https://www.w3.org/TR/cssom-view-1/#dom-element-scrollheight>scrollHeight</a></dfn>
+    </ul>
 
  <dd>The following properties are defined in
   the CSS Display Module Level 3 specification: [[CSS3-DISPLAY]]
