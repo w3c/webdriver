@@ -6559,9 +6559,6 @@ variables</var> and <var>parameters</var> are:
 
    <li><p>If <var>element</var> is not <a>keyboard-interactable</a>,
     return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
-
-   <li><p>If <var>element</var> is not the <a>active element</a> run
-    the <a>focusing steps</a> for the <var>element</var>.
   </ol>
 
  <li><p>Run the substeps of the first matching condition:
@@ -6569,6 +6566,10 @@ variables</var> and <var>parameters</var> are:
    <dt><var>file</var> is true
    <dd>
     <ol>
+     <li><p>If the <a>current session</a>’s <a>strict file interactability</a> is true,
+     and <var>element</var> is not the <a>active element</a> run the <a>focusing
+     steps</a> for <var>element</var>.
+
      <li><p>Let <var>files</var> be the result of splitting <var>text</var>
       on the newline (<code>\n</code>) character.
 
@@ -6614,6 +6615,9 @@ variables</var> and <var>parameters</var> are:
       an <a>error</a> with <a>error code</a> <a>element not
       interactable</a>.
 
+     <li><p>If <var>element</var> is not the <a>active element</a> run the
+     <a>focusing steps</a> for <var>element</var>.
+
      <li><p><a>Set a property</a> <code>value</code> to <var>text</var>
       on <var>element</var>.
 
@@ -6626,18 +6630,37 @@ variables</var> and <var>parameters</var> are:
    </dd>
 
    <dt><var><a>element</a></var> is <a>content editable</a>
-    <dd>If <var><a>element</a></var> does not currently have focus,
-      set the text insertion caret after any child content.
+    <dd>
+      <ol>
+        <li><p>If <var>element</var> is not the <a>active element</a>:
+          <ol>
+           <li><p>Run the <a>focusing steps</a> for <var>element</var>.
+
+            <li><p>Let <var>child count</var> be the [=map/size=]
+            of <var>element</var>'s [=tree/children=].
+
+            <li><p>Let <var>range</var> be a <a>live range</a> with [=range/start=]
+            and [=range/end=] (<var>element</var>, <var>child count</var>).
+
+            <li><p>Set the <a>active document</a>'s <a>selection</a>
+            to <var>range</var>.
+          </ol>
+      </ol>
+    </dd>
     <dt>Otherwise
     <dd>
      <ol>
-       <li><p>If <var>element</var> does not currently have focus,
-        let <var>current text length</var> be the
-        [=string/length=] of <var><a>element</a></var>’s <a>API value</a>.
+       <li><p>If <var>element</var> is not the <a>active element</a>:
+         <ol>
+           <li><p>Let <var>current text length</var> be the
+           [=string/length=] of <var><a>element</a></var>’s <a>API value</a>.
 
-      <li><p>Set the text insertion caret using <a>set selection range</a>
-       using <var>current text length</var> for both the <code>start</code>
-       and <code>end</code> parameters.
+           <li><p>Run the <a>focusing steps</a> for <var>element</var>.
+
+           <li><p>Set the text insertion caret using <a>set selection range</a>
+           using <var>current text length</var> for both the <code>start</code>
+           and <code>end</code> parameters.
+         </ol>
      </ol>
     </dd>
   </dl>
@@ -11511,6 +11534,13 @@ to automatically sort each list alphabetically.
     <!-- visibility state --> <li><dfn>Visibility state</dfn> being the <a href="https://www.w3.org/TR/page-visibility/#visibility-states-and-the-visibilitystate-enum"><code>visibilityState</code></a> attribute on <a>Document</a>
     <!-- visibility visible --> <li><dfn data-lt="visibility visible"><a href="https://www.w3.org/TR/page-visibility/#dom-visibilitystate-visible">Visibility state <code>visible</code></a></dfn>
    </ul>
+
+ <dd><p>The following attributes are defined
+  in the Selection API specification: [[SELECTION-API]]
+  <ul>
+   <!-- selection --> <li><dfn data-lt=selection><a href=https://w3c.github.io/selection-api/#dfn-selection>selection</a></dfn>
+  </ul>
+
 
  <dt>Selenium
  <dd>The following functions are defined within
