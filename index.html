@@ -1558,7 +1558,7 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
-  <td><dfn>Strict file interactability</dfn>
+  <td><a>Strict file interactability</a>
   <td>"<code>strictFileInteractability</code>"
   <td>boolean
   <td>Defines the <a>session</a>&apos;s <a>strict file interactability</a>.
@@ -1881,7 +1881,8 @@ with a "<code>moz:</code>" prefix:
 
      <dt><var>name</var> equals "<code>timeouts</code>"
      <dd><p>Let <var>deserialized</var> be the result of <a>trying</a>
-      to <a>JSON deserialize</a> as a <a>timeouts configuration</a> the <var>value</var>.
+      to <a>deserialize as timeouts configuration</a>
+      with <var>value</var>.
 
      <dt><var>name</var> equals "<code>unhandledPromptBehavior</code>"
      <dd><p>Let <var>deserialized</var> be the result of <a>trying</a>
@@ -2209,21 +2210,17 @@ sessions</a> will be the only entry.
  set to the top-browsing context ancestor of the <a>current browsing
  context</a>, when changing browsing contexts.</p>
 
-<p>An <a>HTTP session</a> has an associated <dfn data-lt="session
-script timeout|session page load timeout|session implicit wait
-timeout">session timeouts</dfn> that records the timeout duration
-values used to control the behavior
-of <a href=#executing-script>script evaluation</a>,
-<a href=#navigation>navigation</a>,
-and <a href=#elements>element retrieval</a>.
+<p>An <a>HTTP session</a> has an associated <dfn>session
+timeouts</dfn> which is a <a>timeouts configuration</a>. This is
+initially set to a new <a>timeouts configuration</a>.
 
 <p>An <a>HTTP session</a> has an associated <dfn>page loading
- strategy</dfn>, which is one of the keywords from the <a>table of
- page load strategies</a>.  Unless stated otherwise, it
- is <a>normal</a>.
+strategy</dfn>, which is one of the keywords from the <a>table of page
+load strategies</a>.  This is initially set to <a>normal</a>.
 
-<p>An <a>HTTP session</a> has an associated <a>strict file
- interactability</a> state which is a boolean.
+<p>An <a>HTTP session</a> has an associated <dfn>strict file
+interactability</dfn> state which is a boolean. This is initially set
+to false.
 
 <p>A <a>HTTP session</a> has an associated <a>user prompt handler</a>.
 Unless stated otherwise it is in the <a>dismiss and notify state</a>.
@@ -2298,36 +2295,31 @@ flags</a> <var>flags</var>:
   <li><p>If <var>flags</var> <var>contains</var> "<code>http</code>":
       <ol>
         <li><p>Let <var>strategy</var> be the result of getting
-            property "<code>pageLoadStrategy</code>"
-            from <var>capabilities</var>. <p>If <var>strategy</var> is
-            a string, set the <a>session</a>&apos;s
-            <a>page loading strategy</a> to <var>strategy</var>.  Otherwise,
-            set the <a>page loading strategy</a> to <i>normal</i> and <a>set a
-              property</a> of <var>capabilities</var> with name
-            "<code>pageLoadStrategy</code>" and value "<code>normal</code>".</p>
+        property "<code>pageLoadStrategy</code>"
+        from <var>capabilities</var>. <p>If <var>strategy</var> is a
+        string, set the <a>session</a>&apos;s <a>page loading
+        strategy</a> to <var>strategy</var>.  Otherwise, set
+        the <a>page loading strategy</a> to <i>normal</i> and <a>set a
+        property</a> of <var>capabilities</var> with name
+        "<code>pageLoadStrategy</code>" and value
+        "<code>normal</code>".</p>
 
-        <li><p>Let <var>strictFileInteractability</var> be the result of
-            getting property "<code>strictFileInteractability</code>"
-            from <var>capabilities</var>. If <var>strictFileInteractability</var>
-            is a boolean, set <a>session</a>&apos;s <a>strict file interactability</a> to
-            <var>strictFileInteractability</var>. Otherwise set
-            <a>session</a>&apos;s <a>strict file interactability</a> to false.</p></li>
+        <li><p>Let <var>strictFileInteractability</var> be the result
+        of getting property "<code>strictFileInteractability</code>"
+        from <var>capabilities</var>. If <var>strictFileInteractability</var>
+        is a boolean, set <a>session</a>&apos;s <a>strict file
+        interactability</a> to <var>strictFileInteractability</var>.
 
-        <li><p>If <var>capabilities</var> has a property with the key "<code>timeouts</code>":
+        <li><p>Let <var>timeouts</var> be the result of getting a
+        property "<code>timeouts</code>" from <var>capabilities</var>.
+        If <var>timeouts</var> is not undefined, set
+        <var>session</var>&apos;s <a>session timeouts</a>
+        to <var>timeouts</var>.
 
-            <ol>
-              <li><p>Let <var>timeouts</var> be the result of <a>trying</a>
-                  to <a>JSON deserialize</a> as a <a>timeouts configuration</a>
-                  the value of the "<code>timeouts</code>" property.
-
-                  <li><p>Make the <a>session timeouts</a> the new <var>timeouts</var>.
-            </ol>
-
-            <li><p>Set a property on <var>capabilities</var> with name
-                "<code>timeouts</code>" and value that of the
-                <a>JSON deserialization</a> of the <a>session timeouts</a>.
-
-            </li>
+       <li><p>Set a property on <var>capabilities</var> with name
+       "<code>timeouts</code>" and value <a>serialize the timeouts
+       configuration</a> with <var>session</var>&apos;s
+       <a>session timeouts</a>.
       </ol>
   </li>
 
@@ -2623,146 +2615,100 @@ variables</var> and <var>parameters</var> are:
 <section>
 <h2>Timeouts</h2>
 
-<p>
-A <dfn>timeouts configuration</dfn> is a record
-of the different timeouts that control the behavior of
-<a href=#executing-script>script evaluation</a>,
-<a href=#navigation>navigation</a>,
-and <a href=#elements>element retrieval</a>:
+<p>A <dfn>timer</dfn> is a <a>struct</a>. It has
+a <dfn data-dfn-for=timer>timeout fired flag</dfn>, which is a
+boolean, initially false.
 
-<table class=simple>
-<tr>
-<th>Field
-<th>Default
-<th>JSON key
-<th>Optional<sup>†</sup>
-<th>Nullable
-<th>Description<sup>†</sup>
-</tr>
+<p>To <dfn>start the timer</var> given <var>timer</var> and <var>timeout</var>
 
-<tr>
-<td><dfn>Script timeout</dfn>
-<td>30,000
-<td>"<code>script</code>"
-<td>✓
-<td>✓
-<td>
-<p>
-Specifies when to interrupt a script that is being
-<a href=#executing-script>evaluated</a>.
+<ol class=algorithm>
 
-<p>
-A <a><code>null</code></a> value implies that scripts should never be interrupted,
-but instead run indefinitely.
-</tr>
+ <li><p>Assert: <var>timeout</var> is not null.
 
-<tr>
-<td><dfn>Page load timeout</dfn>
-<td>300,000
-<td>"<code>pageLoad</code>"
-<td>✓
-<td>
-<td>
-<p>
-Provides the timeout limit used to interrupt
-an explicit <a data-lt=navigate>navigation</a> attempt.
-</tr>
-
-<tr>
-<td><dfn>Implicit wait timeout</dfn>
-<td>0
-<td>"<code>implicit</code>"
-<td>✓
-<td>
-<td>
-<p>
-Specifies a time to wait for the <a>element location strategy</a> to complete
-when <a href=#element-retrieval>locating an element</a>
-</tr>
-</table>
-
-<!-- This should be a <figcaption>, but we can fix that later: -->
-<p style="text-align: right; font-size: 90%">
-<sup>†</sup> Informative.
-
-<p>
-The <dfn>timeouts object</dfn> for a <a>timeouts
-configuration</a> <var>timeouts</var> is an <a>object</a> initialized
-with the following properties:
-
-<dl>
-<dt>"<code>script</code>"
-<dd><var>timeouts</var>&apos; <a>script timeout</a> value, if set, or its default value.
-
-<dt>"<code>pageLoad</code>"
-<dd><var>timeouts</var>&apos; <a>page load timeout</a>&apos;s value, if set, or its default value.
-
-<dt>"<code>implicit</code>"
-<dd><var>timeouts</var>&apos; <a>implicit wait timeout</a>&apos;s value, if set, or its default value.
-</dl>
-
-<p>
-To <a>JSON deserialize</a> an input <var>value</var>
-into a <a>timeouts configuration</a> record:
-
-<ol>
-<li><p>
-Let <var>timeouts</var> be a new <a>timeouts configuration</a>.
-
-<li><p>
-If <var>value</var> is not a JSON <a>Object</a>,
-return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
-
-<li><p>
-If <var>value</var> has a property with the key "<code>script</code>":
+ <li><p>Run the following steps <a>in parallel</a>:
 
  <ol>
- <li><p>
- Let <var>script duration</var> be the value of property "<code>script</code>".
 
- <li><p>
- If <var>script duration</var> is a number and less than 0 or greater than
- <a>maximum safe integer</a>, or it is not <a><code>null</code></a>,
- return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  <li><p>Wait for at least <var>timeout</var> milliseconds to pass.
 
- <li><p>
- Set <var>timeouts</var>&apos;s <a>script timeout</a> to <var>script duration</var>.
+  <li><p>Set <var>timer</var>&apos;s [=timer/timeout
+  fired flag=] to true.
+
  </ol>
 
-<li><p>
-If <var>value</var> has a property with the key "<code>pageLoad</code>":
+</ol>
 
- <ol>
- <li><p>
- Let <var>page load duration</var> be the value of property "<code>pageLoad</code>".
+<p>A <dfn>timeouts configuration</dfn> is a <a>struct</a> representing
+the timeouts for <a href=#executing-script>script evaluation</a>,
+<a href=#navigation>navigation</a>, and <a href=#elements>element
+retrieval</a>. It has a <dfn data-dfn-for=timeouts>script
+timeout</dfn> [=struct/item=] which is an integer or null and is
+initially set to 30,000, a <dfn data-dfn-for=timeouts>page load
+timeout</dfn> [=struct/item=] which is an integer or null and is
+initially set to 3000,000, and an <dfn data-dfn-for=timeouts>implicit
+wait timeout</dfn> [=struct/item=] which is an integer or null and is
+initially set to 0.
 
- <li><p>
- If <var>page load duration</var> is less than 0 or greater than
- <a>maximum safe integer</a>, return <a>error</a> with
- <a>error code</a> <a>invalid argument</a>.
 
- <li><p>
- Set <var>timeouts</var>&apos;s <a>page load timeout</a> to <var>page load duration</var>.
- </ol>
+To <dfn>deserialize as timeouts configuration</dfn> given <var>timeouts</var>:
+<ol class=algorithm>
+ <li><p>Set <var>timeouts</var> to the result of <a>converting a
+ JSON-derived JavaScript value to an Infra value</a>
+ with <var>timeouts</var>.
 
-<li><p>
-If <var>value</var> has a property with the key "<code>implicit</code>":
+ <li><p>Let <var>configuration</var> be a new <a>timeouts
+ configuration</a>.
 
- <ol>
- <li><p>
- Let <var>implicit duration</var> be the value of property "<code>implicit</code>".
+ <li><p>For each <var>key</var> → <var>value</var> in <var>timeouts</var>:
 
- <li><p>
- If <var>implicit duration</var> is less than 0 or greater than
- <a>maximum safe integer</a>, return <a>error</a> with
- <a>error code</a> <a>invalid argument</a>.
+  <ol>
+   <li><p>If «"<code>script</code>", "<code>pageLoad</code>",
+   "<code>implicit</code>"» does not [=list/contain=] <var>key</var>,
+   then continue.
 
- <li><p>
- Set <var>timeouts</var>&apos;s <a>implicit wait timeout</a> to <var>implicit duration</var>.
- </ol>
+   <li><p>If <var>value</var> is neither null nor a number greater than
+   or equal to 0 and less than or equal to the <a>maximum safe
+   integer</a> return <a>error</a> with <a>error code</a> <a>invalid
+   argument</a>.
 
-<li><p>
-Return <a>success</a> with data <var>timeouts</var>.
+   <li><p>Run the substeps matching <var>value</var>:
+
+    <dl class=switch>
+
+     <dt>"<code>script</code>"
+     <dd><p>Set <var>configuration</var>&apos;s [=timeouts/script
+     timeout=] to <var>value</var>.
+
+     <dt>"<code>pageLoad</code>"
+     <dd><p>Set <var>configuration</var>&apos;s [=timeouts/page load
+     timeout=] to <var>value</var>.
+
+     <dt>"<code>implicit</code>"
+     <dd><p>Set <var>configuration</var>&apos;s [=timeouts/implicit wait
+     timeout=] to <var>value</var>.
+    </dl>
+  </ol>
+
+ <li><p>Return <a>success</a> with data <var>configuration</var>.
+</ol>
+
+To <dfn>serialize the timeouts configuration</dfn>
+given <var>timeouts</var>:
+
+<ol class=algorithm>
+ <li><p>Let <var>serialized</var> be an empty <a data-cite=infra>map</a>.
+
+ <li><p>Set <var>serialized</var>["<code>script</code>"]
+ to <var>timeouts</var>&apos; [=timeouts/script timeout=].
+
+ <li><p>Set <var>serialized</var>["<code>pageLoad</code>"]
+ to <var>timeouts</var>&apos; [=timeouts/page load timeout=].
+
+ <li><p>Set <var>serialized</var>["<code>implicit</code>"]
+ to <var>timeouts</var>&apos; [=timeouts/implicit wait timeout=].
+
+ <li><p>Return <a>convert an Infra value to a JSON-compatible
+ JavaScript value</a> with <var>serialized</var>.
 </ol>
 
 
@@ -2784,8 +2730,9 @@ Return <a>success</a> with data <var>timeouts</var>.
 variables</var> and <var>parameters</var> are:
 
 <ol>
- <li><p>Let <var>timeouts</var> be the <a>timeouts object</a> for
- <a>session</a>&apos;s <a>timeouts configuration</a>
+ <li><p>Let <var>timeouts</var> be <a>serialize the timeouts
+ configuration</a> with <a>session</a>&apos;s <a>timeouts
+ configuration</a>
 
  <li><p>Return <a>success</a> with data <var>timeouts</var>.
 </ol>
@@ -2810,16 +2757,15 @@ variables</var> and <var>parameters</var> are:
 variables</var> and <var>parameters</var> are:
 
 <ol>
-<li><p>
-Let <var>timeouts</var> be the result of <a>trying</a> to
-<a>JSON deserialize</a> as a <a>timeouts configuration</a>
-with <var>parameters</var>.
+ <li><p>Let <var>timeouts</var> be the result of <a>trying</a> to
+ <a>deserialize as timeouts configuration</a>
+ with <var>parameters</var>.
 
-<li><p>
-Make the <a>session timeouts</a> the new <var>timeouts</var>.
+ <li><p>Set <var>session</var>&apos; <a>timeouts configuration</a>
+ to <var>timeouts</var>.
 
-<li><p>
-Return <a>success</a> with data <a><code>null</code></a>.
+ <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+
 </ol>
 
 </section> <!-- /Set Timeout -->
@@ -2844,7 +2790,7 @@ Return <a>success</a> with data <a><code>null</code></a>.
  and <a>none</a> causes it to return immediately.
 
 <p>Navigation actions are also affected by the value of
- the <a>session page load timeout</a>,
+ the [=timeouts/page load timeout=],
  which determines the maximum time that commands will block
  before returning with a <a>timeout</a> <a>error</a>.
 
@@ -2894,9 +2840,8 @@ Return <a>success</a> with data <a><code>null</code></a>.
  <li><p>Return <a>success</a> with data <var>value</var>.
 </ol>
 
-<p>When asked to <dfn data-lt="waiting for the navigation to
- complete">wait for navigation to complete</dfn>, given <var>session</var>,
- run the following steps:
+<p>To <dfn data-lt="waiting for the navigation to complete">wait for
+ navigation to complete</dfn>, given <var>session</var>:
 
 <ol>
  <li><p>If <var>session</var>&apos;s <a>page loading strategy</a>
@@ -2907,11 +2852,23 @@ Return <a>success</a> with data <a><code>null</code></a>.
   is <a>no longer open</a>, return <a>success</a> with
   data <a><code>null</code></a>.
 
- <li><p>Start a <var>timer</var>. If this algorithm has not
-  completed before <var>timer</var> reaches
-  the <a>session</a>&apos;s <a>session page load timeout</a> in
-  milliseconds, return an <a>error</a> with <a>error
-  code</a> <a>timeout</a>.
+ <li><p>Let <var>timeout</var> be <a>session
+ timeouts</a>&apos; [=timeouts/page load timeout=].
+
+ <li><p>If <var>timeout</var> is not null:
+
+ <ol>
+
+  <li><p>Let <var>timer</var> be a <a>timer</a>.
+
+  <li><p><dfn>Start a timer</dfn> with <var>timer</var>
+   and <var>timeout</var>. Continue running this overall algorithm,
+   but if it has not completed
+   when <var>timer</var>&apos;s [=timer/timeout fired
+   flag=] is set abort the remaining steps and instead return an <a>error</a> with <a>error
+   code</a> <a>timeout</a>.
+
+ </ol>
 
  <li><p>If there is an ongoing attempt to <a>navigate</a>
   <var>session</var>&apos;s <a>current browsing context</a> that has not
@@ -2922,16 +2879,9 @@ Return <a>success</a> with data <a><code>null</code></a>.
   loading strategy</a>, which can be found in the <a>table of page
   load strategies</a>.
 
- <li><p>Wait for <var>session</var>&apos;s <a>current browsing context</a>&apos;s
-  <a>document readiness</a> state to reach
-  <var>readiness target</var>, or for the
-  <a>session page load timeout</a> to pass, whichever
-  occurs sooner.
-
- <li><p>If the previous step completed by the
-  <a>session page load timeout</a> being reached
-  and the browser does not have an active <a>user prompt</a>,
-  return <a>error</a> with <a>error code</a> <a>timeout</a>.
+ <li><p>Wait for <var>session</var>&apos;s <a>current browsing
+ context</a>&apos;s <a>document readiness</a> state to reach
+ <var>readiness target</var>.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
@@ -2999,12 +2949,13 @@ Return <a>success</a> with data <a><code>null</code></a>.
 variables</var> and <var>parameters</var> are:
 
 <ol>
+ <li><p>Let <var>URL</var> be the result of <a>getting a property</a>
+  named "<code>url</code>" from <var>parameters</var>.
+
  <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
   with <a>error code</a> <a>no such window</a>.
 
- <li><p>Let <var>URL</var> be the result of <a>getting a property</a>
-  named "<code>url</code>" from <var>parameters</var>.
 
  <li><p>If <var>URL</var> is not an <a>absolute URL</a>
   or is not an <a>absolute URL with fragment</a> or not a
@@ -3014,19 +2965,27 @@ variables</var> and <var>parameters</var> are:
  <li><p><a>Try</a> to <a>handle any user prompts</a>
  with <var>session</var>.
 
+ <li><p>Let <var>timeout</var> be <a>session</a>&apos;s <a>session
+ timeouts</a> [=timeouts/page load timeout=].
+
  <li><p>Let <var>current URL</var> be <var>session</var>&apos;s <a>current
  top-level browsing context</a>&apos;s <a>active document</a>&apos;s [=Document/URL=].
 
- <li><p>If <var>current URL</var> and <var>URL</var> do not have the same
-   <a>absolute URL</a>:
+ <li><p>If <var>current URL</var> and <var>URL</var> do not have the
+ same <a>absolute URL</a> and <var>timeout</var> is not null:
 
-   <ol>
-     <li>If <var>timer</var> has not been started, start
-       a <var>timer</var>. If this algorithm has not completed
-       before <var>timer</var> reaches the <a>session</a>&apos;s <a>session page
-       load timeout</a> in milliseconds, return an <a>error</a>
-       with <a>error code</a> <a>timeout</a>.
-   </ol>
+  <ol>
+
+   <li><p>Set <var>timer</var> to a new <a>timer</a>.
+
+   <li><p><a>Start a timer</a> with <var>timer</var>
+   and <var>timeout</var>. Continue running this overall algorithm,
+   but if it has not completed when <var>timer</var>&apos;s
+   [=timer/timeout fired flag=] is set, abort the remaining steps and
+   instead return an <a>error</a> with <a>error
+   code</a> <a>timeout</a>.
+
+ </ol>
 
  <li><p><a>Navigate</a> <var>session</var>&apos;s <a>current top-level
  browsing context</a> to <var>URL</var>.
@@ -3043,11 +3002,34 @@ variables</var> and <var>parameters</var> are:
   with <var>session</var> and <a>current top-level browsing
   context</a>.
 
- <li><p>If <var>session</var>&apos;s <a>current top-level browsing context</a> contains
+ <!-- This redirect handling is extremely badly specified -->
+
+ <li><p>While <var>session</var>&apos;s <a>current top-level browsing context</a> contains
   a <a>refresh state pragma directive</a> of <var>time</var> 1 second
-  or less, wait until the refresh timeout has elapsed, a
-  new <a>navigate</a> has begun, and return to the first step of this
-  algorithm.
+  or less, run the following steps:
+
+  <ol>
+    <li><p>Set <var>current URL</var> to <var>session</var>&apos;s
+    <a>current top-level browsing context</a>&apos;s <a>active
+    document</a>&apos;s [=Document/URL=].
+
+   <li><p>Wait until the refresh timeout has elapsed and
+   new <a>navigate</a> of <var>session</var>&apos;s <a>current top-level
+   browsing context</a> has begun.
+
+   <li><p>Set <var>URL</var> to the destination URL of <var>session</var>&apos;s
+   <a>current top-level browsing context</a>&apos;s <a>active
+   document</a>&apos;s ongoing navigation.
+
+   <li><p>If <var>URL</var> <a>is special</a> except for <code>file</code> and
+   <var>current URL</var> and <var>URL</var> do not have the same <a>absolute URL</a> :
+
+    <ol>
+     <li><p><a>Try</a> to <a>wait for navigation to complete</a>.
+
+     <li><p><a>Try</a> to run the <a>post-navigation checks</a>.
+    </ol>
+  </ol>
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
@@ -3117,18 +3099,33 @@ variables</var> and <var>parameters</var> are:
  <li><p><a>Try</a> to <a>handle any user prompts</a>
  with <var>session</var>.
 
+ <li><p>Let <var>timeout</var> be <var>session</var>&apos; <a>session
+ timeouts</a> [=timeouts/page load timeout=].
+
+ <li><p>Let <var>timer</var> be a new <a>timer</a>.
+
+ <li><p>If <var>timeout</var> is not null:
+
+  <ol>
+   <li><p><a>Start a timer</a> with <var>timer</var> and <var>timeout</var>.
+  </ol>
+
  <li><p><a>Traverse the history by a delta</a> –1
   for <var>session</var>&apos;s <a>current browsing context</a>.
 
- <li><p>If the previous step completed results in a <a><code>pageHide</code></a>
-  [=fire an event|event firing=], wait until <a><code>pageShow</code></a> [=fire an event|event fires=]
-  or for the <a>session page load timeout</a> milliseconds to pass,
-  whichever occurs sooner.
+ <li><p>If the previous step completed results in
+  a <a><code>pageHide</code></a> [=fire an event|event firing=], wait
+  until <a><code>pageShow</code></a> [=fire an event|event fires=]
+  or <var>timer</var>&apos; [=timer/timeout fired flag=] to be set,
+  whichever occurs first.
 
- <li><p>If the previous step completed by the <a>session page load
-   timeout</a> being reached, and <a data-lt="handle any user
-   prompts">user prompts have been handled</a>, return <a>error</a>
-   with <a>error code</a> <a>timeout</a>.
+ <li><p>If <var>timer</var>&apos; [=timer/timeout fired flag=] is set:
+
+  <ol>
+   <li><p><a>Handle any user prompts</a>.
+
+   <li><p>Return <a>error</a> with <a>error code</a> <a>timeout</a>.
+  </ol>
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
@@ -3165,18 +3162,32 @@ variables</var> and <var>parameters</var> are:
  <li><p><a>Try</a> to <a>handle any user prompts</a>
  with <var>session</var>.
 
+ <li><p>Let <var>timeout</var> be <var>session</var>&apos; <a>session
+ timeouts</a> [=timeouts/page load timeout=].
+
+ <li><p>Let <var>timer</var> be a new <a>timer</a>.
+
+ <li><p>If <var>timeout</var> is not null:
+
+  <ol>
+   <li><p><a>Start a timer</a> with <var>timer</var> and <var>timeout</var>.
+  </ol>
+
  <li><p><a>Traverse the history by a delta</a> 1
   for <var>session</var>&apos;s <a>current browsing context</a>.
 
  <li><p>If the previous step completed results in a <a><code>pageHide</code></a>
-   <a>event</a> firing, wait until <a><code>pageShow</code></a> [=fire an event|event fires=]
-   or for the <a>session page load timeout</a> milliseconds to pass,
-   whichever occurs sooner.
+ <a>event</a> firing, wait until <a><code>pageShow</code></a> [=fire
+ an event|event fires=] or <var>timer</var>&apos; [=timer/timeout
+ fired flag=] to be set, whichever occurs first.
 
- <li><p>If the previous step completed by the <a>session page load
-   timeout</a> being reached, and <a data-lt="handle any user
-   prompts">user prompts have been handled</a>, return <a>error</a>
-   with <a>error code</a> <a>timeout</a>.
+ <li><p>If <var>timer</var>&apos; [=timer/timeout fired flag=] is set:
+
+  <ol>
+   <li><p><a>Handle any user prompts</a>.
+
+   <li><p>Return <a>error</a> with <a>error code</a> <a>timeout</a>.
+  </ol>
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
@@ -4739,32 +4750,44 @@ and <var>element</var> is:
  end</a> must run the following steps:
 
 <ol>
- <li><p>Let <var>end time</var> be the current time plus
-  the <a>session implicit wait timeout</a>.
-
  <li><p>Let <var>location strategy</var> be equal to <var>using</var>.
 
  <li><p>Let <var>selector</var> be equal to <var>value</var>.
 
- <li><p>Let <var>elements returned</var> be the result of <a>trying</a> to call
-  the relevant <a>element location strategy</a> with arguments
-  <var>start node</var>, and <var>selector</var>.
+ <li><p>Let <var>timeout</var> be <var>session</var>&apos;s
+ <a>session timeouts</a>&apos; [=timeouts/implicit wait timeout=].
 
- <li>If
- a <a><code>DOMException</code></a>, <a><code>SyntaxError</code></a>,
- <a><code>XPathException</code></a>, or other error occurs during the
- execution of the <a>element location strategy</a>, return <a>error</a>
- <a>invalid selector</a>.
+ <li><p>Let <var>timer</var> be a new <a>timer</a>.
 
- <li><p>If <var>elements returned</var> is empty and the current time
-  is less than <var>end time</var> return to step 4. Otherwise,
-  continue to the next step.
+ <li><p>If <var>timeout</var> is not null:
+
+  <ol>
+   <li><p><a>Start a timer</a> with <var>timer</var>
+   and <var>timeout</var>.
+ </ol>
+
+ <li><p>Let <var>elements returned</var> be an empty <a>List</a>.
+
+
+ <li><p>While <var>elements returned</var> is empty
+ and <var>timer<var>&apos;s [=timer/timeout fired flag=] is not set:
+
+  <ol>
+   <li><p>Set <var>elements returned</var> to the result of <a>trying</a> to call
+   the relevant <a>element location strategy</a> with arguments
+   <var>start node</var>, and <var>selector</var>.
+
+   <li>If a <a><code>DOMException</code></a>, <a><code>SyntaxError</code></a>,
+   <a><code>XPathException</code></a>, or other error occurs during the
+   execution of the <a>element location strategy</a>, return <a>error</a>
+   <a>invalid selector</a>.
+  </ol>
 
  <li><p>Let <var>result</var> be an empty <a>List</a>.
 
  <li><p>For each <var>element</var> in <var>elements returned</var>,
-  append the <a>web element reference object</a>
-  for <var>session</var> and <var>element</var>, to <var>result</var>.
+ append the <a>web element reference object</a>
+ for <var>session</var> and <var>element</var>, to <var>result</var>.
 
  <li><p>Return <a>success</a> with data <var>result</var>.
 </ol>
@@ -6228,9 +6251,21 @@ variables</var> and <var>parameters</var> are:
 
  <li><p><a>Scroll into view</a> the <var>element</var>.
 
- <li><p>Wait in an implementation-specific way
-  up to the <a>session implicit wait timeout</a>
-  for <var>element</var> to become <a>interactable</a>.
+ <li><p>Let <var>timeout</var> be <var>session</var>&apos;s
+ <a>session timeouts</a>&apos; [=timeouts/implicit wait timeout=].
+
+ <li><p>Let <var>timer</var> be a new <a>timer</a>.
+
+ <li><p>If <var>timeout</var> is not null:
+
+  <ol>
+   <li><p><a>Start a timer</a> with <var>timer</var>
+   and <var>timeout</var>.
+ </ol>
+
+ <li><p>Wait for <var>element</var> to become <a>interactable</a>,
+ or <var>timer</var>&apos;s [=timer/timeout fired flag=] to be set,
+ whichever occurs first.
 
  <li><p>If <var>element</var> is not <a>interactable</a>,
   return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
@@ -6565,9 +6600,22 @@ variables</var> and <var>parameters</var> are:
   <ol>
    <li><p><a>Scroll into view</a> the <var>element</var>.
 
-   <li><p>Wait in an implementation-specific way up to the <a>session
-    implicit wait timeout</a> for <var>element</var> to
-    become <a>keyboard-interactable</a>.
+   <li><p>Let <var>timeout</var> be <var>session</var>&apos;s
+   <a>session timeouts</a>&apos; [=timeouts/implicit wait
+   timeout=].
+
+   <li><p>Let <var>timer</var> be a new <a>timer</a>.
+
+   <li><p>If <var>timeout</var> is not null:
+
+    <ol>
+     <li><p><a>Start a timer</a> with <var>timer</var>
+     and <var>timeout</var>.
+    </ol>
+
+   <li><p>Wait for <var>element</var> to
+   become <a>keyboard-interactable</a>, or <var>timer</var>&apos;s
+   [=timer/timeout fired flag=] to be set, whichever occurs first.
 
    <li><p>If <var>element</var> is not <a>keyboard-interactable</a>,
     return <a>error</a> with <a>error code</a> <a>element not interactable</a>.
@@ -7042,6 +7090,18 @@ variables</var> and <var>parameters</var> are:
  <li><p><a>Try</a> to <a>handle any user prompts</a>
   with <var>session</var>.
 
+ <li><p>Let <var>timeout</var> be <var>session</var>&apos;s
+ <a>session timeouts</a>&apos; [=timeouts/script timeout=].
+
+ <li><p>Let <var>timer</var> be a new <a>timer</a>.
+
+ <li><p>If <var>timeout</var> is not null:
+
+  <ol>
+   <li><p><a>Start a timer</a> with <var>timer</var>
+   and <var>timeout</var>.
+ </ol>
+
  <li><p>Let <var>promise</var> be <a>a new Promise</a>.
 
  <li><p>Run the following substeps <a>in parallel</a>:
@@ -7057,20 +7117,24 @@ variables</var> and <var>parameters</var> are:
       <a>reject</a> <var>promise</var> with value <var>r</var>.
    </ol>
 
+  <li><p>Wait until <var>promise</var> is resolved,
+  or <var>timer</var>&apos;s [=timer/timeout fired flag=] is set,
+  whichever occurs first.
+
   <li><p>If <var>promise</var> is still pending and
-    the <a>session script timeout</a> is reached,
-    return <a>error</a> with <a>error code</a> <a data-lt="script timeout error">script timeout</a>.
+  <var>timer</var>&apos;s [=timer/timeout fired flag=] is set,
+  return <a>error</a> with <a>error code</a> <a data-lt="script
+  timeout error">script timeout</a>.
 
-  <li><p>Upon fulfillment of <var>promise</var> with
-      value <var>v</var>, let <var>result</var> be <a>JSON clone</a>
-      with <var>session</var> and <var>v</var>, and
-      return <a>success</a> with data <var>result</var>.
+  <li><p>If <var>promise</var> is fulfilled with value <var>v</var>,
+  let <var>result</var> be <a>JSON clone</a> with <var>session</var>
+  and <var>v</var>, and return <a>success</a> with
+  data <var>result</var>.
 
-  <li><p>Upon rejection of <var>promise</var> with
-      reason <var>r</var>, let <var>result</var> be <a>JSON clone</a>
-      with <var>session</var> and <var>r</var>, and
-      return <a>error</a> with <a>error code</a> <a>javascript
-      error</a> and data <var>result</var>.
+  <li><p>If <var>promise</var> is rejected with reason <var>r</var>,
+  let <var>result</var> be <a>JSON clone</a> with <var>session</var>
+  and <var>r</var>, and return <a>error</a> with <a>error
+  code</a> <a>javascript error</a> and data <var>result</var>.
 </ol>
 </section> <!-- /Execute Script -->
 
@@ -7109,6 +7173,18 @@ variables</var> and <var>parameters</var> are:
 
   <li><p><a>Try</a> to <a>handle any user prompts</a>
    with <var>session</var>.
+
+  <li><p>Let <var>timeout</var> be <var>session</var>&apos;s
+  <a>session timeouts</a>&apos; [=timeouts/script timeout=].
+
+  <li><p>Let <var>timer</var> be a new <a>timer</a>.
+
+  <li><p>If <var>timeout</var> is not null:
+
+   <ol>
+    <li><p><a>Start a timer</a> with <var>timer</var>
+    and <var>timeout</var>.
+  </ol>
 
   <li><p>Let <var>promise</var> be <a>a new Promise</a>.
 
@@ -7152,20 +7228,24 @@ variables</var> and <var>parameters</var> are:
       <a>reject</a> <var>promise</var> with value <var>r</var>.
   </ol>
 
-  <li><p>If <var>promise</var> is still pending and
-   <a>session script timeout</a> milliseconds is reached,
-   return <a>error</a> with <a>error code</a> <a data-lt="script timeout error">script timeout</a>.
+   <li><p>Wait until <var>promise</var> is resolved,
+   or <var>timer</var>&apos;s [=timer/timeout fired flag=] is set,
+   whichever occurs first.
 
-  <li><p>Upon fulfillment of <var>promise</var> with
-      value <var>v</var>, let <var>result</var> be <a>JSON clone</a>
-      with <var>session</var> and <var>v</var>, and
-      return <a>success</a> with data <var>result</var>.
+   <li><p>If <var>promise</var> is still pending and
+   <var>timer</var>&apos;s [=timer/timeout fired flag=] is set,
+   return <a>error</a> with <a>error code</a> <a data-lt="script
+   timeout error">script timeout</a>.
 
-  <li><p>Upon rejection of <var>promise</var> with
-      reason <var>r</var>, let <var>result</var> be <a>JSON clone</a>
-      with <var>session</var> and <var>r</var>, and
-      return <a>error</a> with <a>error code</a> <a>javascript
-      error</a> and data <var>result</var>.
+  <li><p>If <var>promise</var> is fulfilled with value <var>v</var>,
+  let <var>result</var> be <a>JSON clone</a> with <var>session</var>
+  and <var>v</var>, and return <a>success</a> with
+  data <var>result</var>.
+
+  <li><p>If <var>promise</var> is rejected with reason <var>r</var>,
+  let <var>result</var> be <a>JSON clone</a> with <var>session</var>
+  and <var>r</var>, and return <a>error</a> with <a>error
+  code</a> <a>javascript error</a> and data <var>result</var>.
 </ol>
 </section> <!-- /Execute Async Script -->
 </section> <!-- /Executing Script -->
@@ -11494,6 +11574,13 @@ to automatically sort each list alphabetically.
   <ul>
    <!-- Status code registry --> <li><dfn><a href=https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml>Status code registry</a></dfn>
   </ul>
+
+ <dt>Infra
+ <dd><p>The following terms are defined in the Infra specification: [[INFRA]]
+   <ul>
+    <!-- convert an Infra value to a JSON-compatible JavaScript value --> <li><dfn><a href="https://infra.spec.whatwg.org/#convert-an-infra-value-to-a-json-compatible-javascript-value">convert an Infra value to a JSON-compatible JavaScript value</a></dfn>
+    <!-- converting a JSON-derived JavaScript value to an Infra value --> <li><dfn><a href="https://infra.spec.whatwg.org/#convert-a-json-derived-javascript-value-to-an-infra-value">converting a JSON-derived JavaScript value to an Infra value</a></dfn>
+   </ul>
 
  <dd>The following terms are defined in
   the Netscape Navigator Proxy Auto-Config File Format:
