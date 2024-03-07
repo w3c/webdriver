@@ -191,7 +191,7 @@ ul.index code{color:inherit}
 .mdn .samsunginternet_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/samsung-internet/samsung-internet.svg)}
 .mdn .webview_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/android-webview/android-webview.png)}
 </style>
-<meta name="revision" content="52c3e3ab1fb6b61659715c143694555c241c3b1c">
+<meta name="revision" content="29d400adcfb6011eff926dd718d6dfd92b8ec11f">
 <meta name="description" content="WebDriver is a remote control interface
 that enables introspection and control of user agents.
 It provides a platform- and language-neutral wire protocol
@@ -279,7 +279,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     ],
     "profile": "web-platform"
   },
-  "gitRevision": "52c3e3ab1fb6b61659715c143694555c241c3b1c",
+  "gitRevision": "29d400adcfb6011eff926dd718d6dfd92b8ec11f",
   "publishISODate": "2024-03-07T00:00:00.000Z",
   "generatedSubtitle": "W3C Editor's Draft 07 March 2024"
 }</script>
@@ -2584,7 +2584,7 @@ and <a href="#elements">element retrieval</a>.
 Unless stated otherwise it is in the <a href="#dfn-dismiss-and-notify-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismiss-and-notify-state-2">dismiss and notify state</a>.
 
 </p><p>A <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-21">session</a> has an associated <dfn id="dfn-browsing-context-input-state-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">browsing context input
-state map</dfn>, which is a Weak Map with <a data-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-browsing-context" id="ref-for-index-term-top-level-browsing-contexts-1">top-level browsing
+state map</dfn>, which is a <a href="#dfn-weak-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-weak-map-1">weak map</a> with <a data-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-browsing-context" id="ref-for-index-term-top-level-browsing-contexts-1">top-level browsing
 contexts</a> as keys, and <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-1">input state</a> objects as values. This
 is initially set to an empty map.
 
@@ -4920,15 +4920,24 @@ variables</var> and <var>parameters</var> are:
 representing a handle to a DOM node in a specific
 WebDriver <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-36">session</a>.
 
-</p><p>A WebDriver <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-37">session</a> has a <dfn id="dfn-browsing-context-group-node-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">browsing context group node
-map</dfn>, which is a weak map between a <a href="#dfn-browsing-context-group" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-browsing-context-group-1">browsing context group</a>
+</p><p>A <dfn id="dfn-weak-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">weak map</dfn> is a <a data-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-index-term-map-2">map</a> in which keys are held
+weakly i.e. items are removed if the key object is garbaged collected, and
+presence in the map does not prevent garbage collection. This acts as an
+alternative to defining properties directly on the key objects.
+
+</p><div class="note" role="note" id="issue-container-generatedID-32"><div role="heading" class="note-title marker" id="h-note-32" aria-level="3"><span>Note</span></div><p class="">Unlike the ECMAScript <a data-lt="ecmascript type" href="#dfn-ecmascript-type" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-ecmascript-type-1">WeakMap</a>,
+a <a href="#dfn-weak-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-weak-map-2">weak map</a> can participate in the full set of operations available for
+a Map.
+
+</p></div><p>A WebDriver <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-37">session</a> has a <dfn id="dfn-browsing-context-group-node-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">browsing context group node
+map</dfn>, which is a <a href="#dfn-weak-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-weak-map-3">weak map</a> between a <a href="#dfn-browsing-context-group" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-browsing-context-group-1">browsing context group</a>
 and a <a href="#dfn-node-id-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-node-id-map-1">node id map</a>.
 
-</p><p>A <dfn id="dfn-node-id-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">node id map</dfn> is weak map between nodes and their
+</p><p>A <dfn id="dfn-node-id-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">node id map</dfn> is <a href="#dfn-weak-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-weak-map-4">weak map</a> between nodes and their
 corresponding <a href="#dfn-webdriver-node-id" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-node-id-1">WebDriver node id</a>.
 
 </p><p>A WebDriver <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-38">session</a> has a <dfn id="dfn-navigable-seen-nodes-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">navigable seen nodes map</dfn>
-which is a weak map between a <a data-link-type="dfn|abstract-op" data-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#navigable" id="ref-for-index-term-navigable-2">navigable</a> and a set.
+which is a <a href="#dfn-weak-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-weak-map-5">weak map</a> between a <a data-link-type="dfn|abstract-op" data-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#navigable" id="ref-for-index-term-navigable-2">navigable</a> and a set.
 
 </p><p>To <dfn id="dfn-get-a-node" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">get a node</dfn> given <var>session</var>,
 <var>browsing context</var>, and <var>reference</var>:
@@ -4963,7 +4972,7 @@ given <var>session</var>, <var>browsing context</var>, and <var>node</var>:
 
   </li><li>If <var>browsing context group node map</var> does not
   contain <var>browsing context group</var>, set <var>browsing context
-  group node map</var>[<var>browsing context group</var>] to a new weak map.
+  group node map</var>[<var>browsing context group</var>] to a new <a href="#dfn-weak-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-weak-map-6">weak map</a>.
 
   </li><li>Let <var>node id map</var> be <var>browsing context group node
   map</var>[<var>browsing context group</var>].
@@ -5576,7 +5585,7 @@ and <var>element</var> is:
   <a href="#dfn-ordered_node_snapshot_type" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-ordered_node_snapshot_type-1">ORDERED_NODE_SNAPSHOT_TYPE</a>,
   and <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-46"><code>null</code></a>.
 
-  </p><div class="note" role="note" id="issue-container-generatedID-32"><div role="heading" class="note-title marker" id="h-note-32" aria-level="6"><span>Note</span></div><p class="">A snapshot is used to promote operation atomicity.
+  </p><div class="note" role="note" id="issue-container-generatedID-33"><div role="heading" class="note-title marker" id="h-note-33" aria-level="6"><span>Note</span></div><p class="">A snapshot is used to promote operation atomicity.
 
  </p></div></li><li><p>Let <var>index</var> be 0.
 
@@ -5625,7 +5634,7 @@ and <var>element</var> is:
  </tr>
 </tbody></table>
 
-<div class="note" role="note" id="issue-container-generatedID-33"><div role="heading" class="note-title marker" id="h-note-33" aria-level="5"><span>Note</span></div><aside class="">
+<div class="note" role="note" id="issue-container-generatedID-34"><div role="heading" class="note-title marker" id="h-note-34" aria-level="5"><span>Note</span></div><aside class="">
 <p>
 The <a href="#dfn-find-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-find-element-3">Find Element</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-45">command</a> is used to find
 an <a data-type="dfn" href="https://dom.spec.whatwg.org/#concept-element" id="ref-for-index-term-element-24">element</a> in <var>session</var>'s <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-33">current browsing
@@ -6092,7 +6101,7 @@ given <var>session</var> and <var>element</var>:
  </tr>
 </tbody></table>
 
-<div class="note" role="note" id="issue-container-generatedID-34"><div role="heading" class="note-title marker" id="h-note-34" aria-level="5"><span>Note</span></div><p class="">
+<div class="note" role="note" id="issue-container-generatedID-35"><div role="heading" class="note-title marker" id="h-note-35" aria-level="5"><span>Note</span></div><p class="">
 The <a href="#dfn-is-element-selected" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-is-element-selected-2">Is Element Selected</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-47">command</a>
 determines if the referenced <a data-type="dfn" href="https://dom.spec.whatwg.org/#concept-element" id="ref-for-index-term-element-29">element</a> is selected or not.
 This operation only makes sense on <code><a data-link-type="element" href="#dfn-input" class="internalDFN" id="ref-for-dfn-input-3">input</a></code> elements
@@ -6225,7 +6234,7 @@ variables</var> and <var>parameters</var> are:
   </li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-62">success</a> with data <var>result</var>.
 </p></li></ol>
 
-<div class="note" role="note" id="issue-container-generatedID-35"><div role="heading" class="note-title marker" id="h-note-35" aria-level="5"><span>Note</span></div><p class="">Please note that the behavior of this command
+<div class="note" role="note" id="issue-container-generatedID-36"><div role="heading" class="note-title marker" id="h-note-36" aria-level="5"><span>Note</span></div><p class="">Please note that the behavior of this command
  deviates from the behavior of <a data-link-type="idl" data-lt="getAttribute()" data-type="method" href="https://dom.spec.whatwg.org/#dom-element-getattribute" id="ref-for-index-term-getattribute-for-element-1"><code>getAttribute</code></a><code>()</code> in [<cite><a class="bibref" data-link-type="biblio" href="#bib-dom" title="DOM Standard">DOM</a></cite>],
  which in the case of a set <a href="#dfn-boolean-attribute" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-boolean-attribute-2">boolean attribute</a>
  would return an empty string.
@@ -6377,7 +6386,7 @@ variables</var> and <var>parameters</var> are:
  </tr>
 </tbody></table>
 
-<div class="note" role="note" id="issue-container-generatedID-36"><div role="heading" class="note-title marker" id="h-note-36" aria-level="5"><span>Note</span></div><aside class="">
+<div class="note" role="note" id="issue-container-generatedID-37"><div role="heading" class="note-title marker" id="h-note-37" aria-level="5"><span>Note</span></div><aside class="">
 <p>
 The <a href="#dfn-get-element-text" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-element-text-4">Get Element Text</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-48">command</a>
 intends to return an <a data-type="dfn" href="https://dom.spec.whatwg.org/#concept-element" id="ref-for-index-term-element-30">element</a>'s text “as rendered”.
@@ -6519,7 +6528,7 @@ variables</var> and <var>parameters</var> are:
  </tr>
 </tbody></table>
 
-<div class="note" role="note" id="issue-container-generatedID-37"><div role="heading" class="note-title marker" id="h-note-37" aria-level="5"><span>Note</span></div><aside class="">
+<div class="note" role="note" id="issue-container-generatedID-38"><div role="heading" class="note-title marker" id="h-note-38" aria-level="5"><span>Note</span></div><aside class="">
 <p>
 The <a href="#dfn-get-element-rect" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-element-rect-2">Get Element Rect</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-49">command</a>
 returns the dimensions and coordinates of the given <a href="#dfn-web-elements" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-web-elements-7">web element</a>.
@@ -6756,7 +6765,7 @@ variables</var> and <var>parameters</var> are:
  </tr>
 </tbody></table>
 
-<div class="note" role="note" id="issue-container-generatedID-38"><div role="heading" class="note-title marker" id="h-note-38" aria-level="5"><span>Note</span></div><aside class="">
+<div class="note" role="note" id="issue-container-generatedID-39"><div role="heading" class="note-title marker" id="h-note-39" aria-level="5"><span>Note</span></div><aside class="">
 <p>
 The <a href="#dfn-element-click" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-click-5">Element Click</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-51">command</a>
 <a href="#dfn-scrolls-into-view" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-scrolls-into-view-2">scrolls into view</a> the <a data-type="dfn" href="https://dom.spec.whatwg.org/#concept-element" id="ref-for-index-term-element-33">element</a>
@@ -6913,7 +6922,7 @@ variables</var> and <var>parameters</var> are:
   any <a data-lt="navigation" href="#dfn-navigating" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-navigating-9">navigations</a> triggered by the click
   to start.
 
-  </p><div class="note" role="note" id="issue-container-generatedID-39"><div role="heading" class="note-title marker" id="h-note-39" aria-level="5"><span>Note</span></div><p class="">It is not always clear how long this will cause the
+  </p><div class="note" role="note" id="issue-container-generatedID-40"><div role="heading" class="note-title marker" id="h-note-40" aria-level="5"><span>Note</span></div><p class="">It is not always clear how long this will cause the
   algorithm to wait, and it is acknowledged that some implementations
   may have unavoidable race conditions. The intention is to allow a
   new attempt to <a href="#dfn-navigating" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-navigating-10">navigate</a> to begin so that the next step in the
@@ -7044,7 +7053,7 @@ variables</var> and <var>parameters</var> are:
  </tr>
 </tbody></table>
 
-<div class="note" role="note" id="issue-container-generatedID-40"><div role="heading" class="note-title marker" id="h-note-40" aria-level="5"><span>Note</span></div><p class="">
+<div class="note" role="note" id="issue-container-generatedID-41"><div role="heading" class="note-title marker" id="h-note-41" aria-level="5"><span>Note</span></div><p class="">
 The <a href="#dfn-element-send-keys" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-send-keys-4">Element Send Keys</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-52">command</a>
 <a href="#dfn-scrolls-into-view" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-scrolls-into-view-5">scrolls into view</a> the form control <a data-type="dfn" href="https://dom.spec.whatwg.org/#concept-element" id="ref-for-index-term-element-35">element</a>
 and then sends the provided keys to the <a data-type="dfn" href="https://dom.spec.whatwg.org/#concept-element" id="ref-for-index-term-element-36">element</a>.
@@ -7477,7 +7486,7 @@ context</a>.
  </tr>
 </tbody></table>
 
-<div class="note" role="note" id="issue-container-generatedID-41"><div role="heading" class="note-title marker" id="h-note-41" aria-level="4"><span>Note</span></div><p class="">
+<div class="note" role="note" id="issue-container-generatedID-42"><div role="heading" class="note-title marker" id="h-note-42" aria-level="4"><span>Note</span></div><p class="">
 The <a href="#dfn-get-page-source" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-page-source-2">Get Page Source</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-53">command</a> returns a string
 serialization of the DOM of <var>session</var>'s <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-64">current browsing
 context</a> <a href="#dfn-active-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-active-document-17">active document</a>.
@@ -7787,7 +7796,7 @@ steps:
  </p></li><li><p>Return <var>completion</var>.
 </p></li></ol>
 
-<div class="note" role="note" id="issue-container-generatedID-42"><div role="heading" class="note-title marker" id="h-note-42" aria-level="4"><span>Note</span></div><p class="">The above algorithm is not associated
+<div class="note" role="note" id="issue-container-generatedID-43"><div role="heading" class="note-title marker" id="h-note-43" aria-level="4"><span>Note</span></div><p class="">The above algorithm is not associated
  with any particular element,
  and is therefore not subject to the document CSP <a href="#dfn-directives" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-directives-1">directives</a>.
 
@@ -7866,7 +7875,7 @@ variables</var> and <var>parameters</var> are:
  </tr>
 </tbody></table>
 
-<div class="note" role="note" id="issue-container-generatedID-43"><div role="heading" class="note-title marker" id="h-note-43" aria-level="5"><span>Note</span></div><p class="">
+<div class="note" role="note" id="issue-container-generatedID-44"><div role="heading" class="note-title marker" id="h-note-44" aria-level="5"><span>Note</span></div><p class="">
 The <a href="#dfn-execute-async-script" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-execute-async-script-2">Execute Async Script</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-54">command</a>
 causes JavaScript to execute as an anonymous function.
 An additional value is provided as the final argument to the function.
@@ -7904,12 +7913,12 @@ variables</var> and <var>parameters</var> are:
     </p></li><li><p>If <var>scriptResult</var>.[[Type]] is not <code>normal</code>, then <a data-type="dfn" href="https://webidl.spec.whatwg.org/#reject" id="ref-for-index-term-reject-2">reject</a>
       <var>promise</var> with value <var>scriptResult</var>.[[Value]], and abort these steps.
 
-      </p><div class="note" role="note" id="issue-container-generatedID-44"><div role="heading" class="note-title marker" id="h-note-44" aria-level="5"><span>Note</span></div><p class="">Prior revisions of this specification did not recognize the
+      </p><div class="note" role="note" id="issue-container-generatedID-45"><div role="heading" class="note-title marker" id="h-note-45" aria-level="5"><span>Note</span></div><p class="">Prior revisions of this specification did not recognize the
         return value of the provided script. In order to preserve legacy behavior,
         the return value only influences the command if it is a "thenable" object or
         if determining this produces an exception.
 
-    </p></div></li><li><p>If <a data-lt="ecmascript type" href="#dfn-ecmascript-type" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-ecmascript-type-1">Type</a>(<var>scriptResult</var>.[[Value]])
+    </p></div></li><li><p>If <a data-lt="ecmascript type" href="#dfn-ecmascript-type" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-ecmascript-type-2">Type</a>(<var>scriptResult</var>.[[Value]])
       is not <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-49">Object</a>, then abort these steps.
 
     </p></li><li><p>Let <var>then</var> be <a href="#dfn-get" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-1">Get</a>(<var>scriptResult</var>.[[Value]], "then").
@@ -8915,7 +8924,7 @@ and <var>subtype</var>:
  on <var>context</var>, such that trusted events corresponding to the
  entries in <var>list of events</var>are dispatched.
 
-</p><div class="note" role="note" id="issue-container-generatedID-45"><div role="heading" class="note-title marker" id="h-note-45" aria-level="4"><span>Note</span></div><aside class="">
+</p><div class="note" role="note" id="issue-container-generatedID-46"><div role="heading" class="note-title marker" id="h-note-46" aria-level="4"><span>Note</span></div><aside class="">
  <p>The list of events is not comprehensive; in particular the default
  action of the <a href="#dfn-input-source" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-source-16">input source</a> may cause additional events to be
  generated depending on the implementation and the state of the
@@ -8924,7 +8933,7 @@ and <var>subtype</var>:
 </p></aside></div>
  
 
-<div class="note" role="note" id="issue-container-generatedID-46"><div role="heading" class="note-title marker" id="h-note-46" aria-level="4"><span>Note</span></div><aside class="">
+<div class="note" role="note" id="issue-container-generatedID-47"><div role="heading" class="note-title marker" id="h-note-47" aria-level="4"><span>Note</span></div><aside class="">
 <p>
 An <a href="#dfn-activation-trigger" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-activation-trigger-1">activation trigger</a> generated by WebDriver
 needs to be indistinguishable from those generated by a real user interacting with the browser.
@@ -9754,7 +9763,7 @@ context</var>, and <var>actions options</var>:
  </p></li><li><p>Wait for <var>token</var> to be the first item
  in <var>input state</var>'s <a href="#dfn-actions-queue" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-actions-queue-2">actions queue</a>.
 
- </p><div class="note" role="note" id="issue-container-generatedID-47"><div role="heading" class="note-title marker" id="h-note-47" aria-level="4"><span>Note</span></div><aside class="">
+ </p><div class="note" role="note" id="issue-container-generatedID-48"><div role="heading" class="note-title marker" id="h-note-48" aria-level="4"><span>Note</span></div><aside class="">
    <p>This ensures that only one set of actions can be run at a time,
    and therefore different actions commands using the same underlying
    state don't race. In a session that is only a HTTP session only one
@@ -9905,7 +9914,7 @@ context</var>, and <var>actions options</var>:
 state</var>, <var>actions</var>, <var>browsing context</var>,
 and <var>actions options</var>:
 
-</p><div class="note" role="note" id="issue-container-generatedID-48"><div role="heading" class="note-title marker" id="h-note-48" aria-level="4"><span>Note</span></div><aside class="">
+</p><div class="note" role="note" id="issue-container-generatedID-49"><div role="heading" class="note-title marker" id="h-note-49" aria-level="4"><span>Note</span></div><aside class="">
  <p>This is an entry point for other commands that are written in terms
  of a sequence of actions of a single input source in a single
  tick.</p>
@@ -10292,7 +10301,7 @@ duration</var>, <var>browsing context</var>, and <var>actions options</var>:
  </li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-105">success</a> with data <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-73"><code>null</code></a>.
 </p></li></ol>
 
-<div class="note" role="note" id="issue-container-generatedID-49"><div role="heading" class="note-title marker" id="h-note-49" aria-level="5"><span>Note</span></div><aside class="">
+<div class="note" role="note" id="issue-container-generatedID-50"><div role="heading" class="note-title marker" id="h-note-50" aria-level="5"><span>Note</span></div><aside class="">
  <p>A single <a href="#dfn-keydown" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-keydown-2">keyDown</a> action produces a single key input,
   irrespective of how long the key is held down; there is no implicit
   key repetition.
@@ -10657,7 +10666,7 @@ and <var>azimuthAngle</var>:
 
  </p></li><li><p>Run the following substeps <a data-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-index-term-in-parallel-4">in parallel</a>:
 
-  </p><div class="note" role="note" id="issue-container-generatedID-50"><div role="heading" class="note-title marker" id="h-note-50" aria-level="5"><span>Note</span></div><aside class="">
+  </p><div class="note" role="note" id="issue-container-generatedID-51"><div role="heading" class="note-title marker" id="h-note-51" aria-level="5"><span>Note</span></div><aside class="">
    <p>This algorithm may trigger multiple events spread across some
     duration. Parallelism is applied intentionally in order to manage the
     scheduling of these events relative to the events triggered by other
@@ -10824,7 +10833,7 @@ and <var>actions options</var>:
 
  </p></li><li><p>Run the following substeps <a data-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-index-term-in-parallel-5">in parallel</a>:
 
-  </p><div class="note" role="note" id="issue-container-generatedID-51"><div role="heading" class="note-title marker" id="h-note-51" aria-level="5"><span>Note</span></div><aside class="">
+  </p><div class="note" role="note" id="issue-container-generatedID-52"><div role="heading" class="note-title marker" id="h-note-52" aria-level="5"><span>Note</span></div><aside class="">
    <p>This algorithm may trigger multiple events spread across some
     duration. Parallelism is applied intentionally in order to manage the
     scheduling of these events relative to the events triggered by other
@@ -10922,7 +10931,7 @@ variables</var> and <var>parameters</var> are:
  </td></tr>
 </tbody></table>
 
-<div class="note" role="note" id="issue-container-generatedID-52"><div role="heading" class="note-title marker" id="h-note-52" aria-level="4"><span>Note</span></div><p class="">
+<div class="note" role="note" id="issue-container-generatedID-53"><div role="heading" class="note-title marker" id="h-note-53" aria-level="4"><span>Note</span></div><p class="">
 The <a href="#dfn-release-actions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-release-actions-2">Release Actions</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-55">command</a>
 is used to release all the keys and pointer buttons
 that are currently depressed.
@@ -11190,7 +11199,7 @@ on the <a data-lt="send an error" href="#dfn-send-an-error" class="internalDFN" 
  </tr>
 </tbody></table>
 
-<div class="note" role="note" id="issue-container-generatedID-53"><div role="heading" class="note-title marker" id="h-note-53" aria-level="4"><span>Note</span></div><p class="">
+<div class="note" role="note" id="issue-container-generatedID-54"><div role="heading" class="note-title marker" id="h-note-54" aria-level="4"><span>Note</span></div><p class="">
 The <a href="#dfn-dismiss-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismiss-alert-5">Dismiss Alert</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-59">command</a>
 <a href="#dfn-dismissed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismissed-5">dismisses</a> a <a href="#dfn-simple-dialog" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-simple-dialog-7">simple dialog</a>
 if <a data-lt="current user prompt" href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-9">present</a>.
@@ -11293,7 +11302,7 @@ variables</var> and <var>parameters</var> are:
  </tr>
 </tbody></table>
 
-<div class="note" role="note" id="issue-container-generatedID-54"><div role="heading" class="note-title marker" id="h-note-54" aria-level="4"><span>Note</span></div><p class="">
+<div class="note" role="note" id="issue-container-generatedID-55"><div role="heading" class="note-title marker" id="h-note-55" aria-level="4"><span>Note</span></div><p class="">
 The <a href="#dfn-send-alert-text" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-send-alert-text-3">Send Alert Text</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-60">command</a>
 sets the text field of a <a href="#dfn-window-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-window-prompt-2">window.<code>prompt</code></a>
 <a href="#dfn-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompts-12">user prompt</a> to the given value.
@@ -11491,7 +11500,7 @@ variables</var> and <var>parameters</var> are:
  </td></tr>
 </tbody></table>
 
-<div class="note" role="note" id="issue-container-generatedID-55"><div role="heading" class="note-title marker" id="h-note-55" aria-level="4"><span>Note</span></div><p class="">
+<div class="note" role="note" id="issue-container-generatedID-56"><div role="heading" class="note-title marker" id="h-note-56" aria-level="4"><span>Note</span></div><p class="">
 The <a href="#dfn-take-element-screenshot" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-take-element-screenshot-3">Take Element Screenshot</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-63">command</a>
 takes a screenshot of the visible region encompassed
 by the <a href="#dfn-bounding-rectangle" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-bounding-rectangle-7">bounding rectangle</a> of an <a data-type="dfn" href="https://dom.spec.whatwg.org/#concept-element" id="ref-for-index-term-element-45">element</a>.
@@ -13683,6 +13692,8 @@ This specification relies on several other underlying specifications.
     <span class="print-only">§10.</span></li><li>
       <a class="index-term" href="#dfn-asynchronously-wait">Waiting asynchronously</a> 
     <span class="print-only">§15.4</span></li><li>
+      <a class="index-term" href="#dfn-weak-map">weak map</a> 
+    <span class="print-only">§12.</span></li><li>
       <a class="index-term" href="#dfn-web-elements">web element</a> 
     <span class="print-only">§12.</span></li><li>
       <a class="index-term" href="#dfn-web-element-identifier">web element identifier</a> 
@@ -18069,6 +18080,20 @@ This specification relies on several other underlying specifications.
       <a href="#ref-for-dfn-webdriver-node-id-1" title="§ 12. Elements">§ 12. Elements</a> 
     </li>
   </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-weak-map" aria-label="Links in this document to definition: weak map">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-weak-map" aria-label="Permalink for definition: weak map. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+      <a href="#ref-for-dfn-weak-map-1" title="§ 8. Sessions">§ 8. Sessions</a> 
+    </li><li>
+      <a href="#ref-for-dfn-weak-map-2" title="§ 12. Elements">§ 12. Elements</a> <a href="#ref-for-dfn-weak-map-3" title="Reference 2">(2)</a> <a href="#ref-for-dfn-weak-map-4" title="Reference 3">(3)</a> <a href="#ref-for-dfn-weak-map-5" title="Reference 4">(4)</a> <a href="#ref-for-dfn-weak-map-6" title="Reference 5">(5)</a> 
+    </li>
+  </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-browsing-context-group-node-map" aria-label="Links in this document to definition: browsing context group node map">
       <span class="caret"></span>
       <div>
@@ -21608,7 +21633,9 @@ This specification relies on several other underlying specifications.
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-      <a href="#ref-for-dfn-ecmascript-type-1" title="§ 13.2.2 Execute Async Script">§ 13.2.2 Execute Async Script</a> 
+      <a href="#ref-for-dfn-ecmascript-type-1" title="§ 12. Elements">§ 12. Elements</a> 
+    </li><li>
+      <a href="#ref-for-dfn-ecmascript-type-2" title="§ 13.2.2 Execute Async Script">§ 13.2.2 Execute Async Script</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-use-strict-directive" aria-label="Links in this document to definition: Use strict directive">
@@ -25507,6 +25534,8 @@ This specification relies on several other underlying specifications.
       <ul>
     <li>
       <a href="#ref-for-index-term-map-1" title="§ 6.4 Routing requests">§ 6.4 Routing requests</a> 
+    </li><li>
+      <a href="#ref-for-index-term-map-2" title="§ 12. Elements">§ 12. Elements</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-index-term-queue" aria-label="Links in this document to definition: queue">
