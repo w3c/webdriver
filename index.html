@@ -4256,15 +4256,23 @@ variables</var> and <var>parameters</var> are:
 representing a handle to a DOM node in a specific
 WebDriver <a>session</a>.
 
+<p>A <dfn>weak map</dfn> is a [=infra/map=] in which keys are held weakly
+i.e. items are removed if the key object is garbaged collected, and presence
+in the map does not prevent garbage collection. This acts as an alternative
+to defining properties directly on the key objects.
+
+<p class=note>Unlike the ECMAScript [=WeakMap=] type, a <a>weak map</a> can
+participate in the full set of operations available for a <a>Map</a>.
+
 <p>A WebDriver <a>session</a> has a <dfn>browsing context group node
-map</dfn>, which is a weak map between a <a>browsing context group</a>
+map</dfn>, which is a <a>weak map</a> between a <a>browsing context group</a>
 and a <a>node id map</a>.
 
-<p>A <dfn>node id map</dfn> is weak map between nodes and their
+<p>A <dfn>node id map</dfn> is <a>weak map</a> between nodes and their
 corresponding <a>WebDriver node id</a>.
 
 <p>A WebDriver <a>session</a> has a <dfn>navigable seen nodes map</dfn>
-which is a weak map between a [=navigable=] and a set.
+which is a <a>weak map</a> between a [=navigable=] and a set.
 
 <p>To <dfn>get a node</dfn> given <var>session</var>,
 <var>browsing context</var>, and <var>reference</var>:
