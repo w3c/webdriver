@@ -288,12 +288,9 @@ It is acknowledged that this is complementary to the Evil Bit [[RFC3514]].
  <dd>Intermediary nodes are those that act as proxies, implementing
   both the <a>local end</a> and <a>remote end</a> of
   the <a href=#protocol>protocol</a>.  However they are not expected
-  to implement <a>remote end steps</a> directly. All nodes between a
-  specific <a>intermediary node</a> and a <a>local end</a> are said to
-  be <dfn data-lt="downstream node">downstream</dfn> of that
-  node. Conversely, any nodes between a specific <a>intermediary
-  node</a> and an <a>endpoint node</a> are said to
-  be <dfn data-lt="upstream node">upstream</dfn>.
+  to implement <a>remote end steps</a> directly. Nodes between
+  a specific <a>intermediary node</a> and an <a>endpoint node</a> are
+  said to be <dfn>upstream</dfn> of the <a>endpoint node</a>.
 
  <dt><dfn>Endpoint node</dfn>
  <dd>An endpoint node is the final <a>remote end</a>
@@ -1395,30 +1392,31 @@ the following steps:
 
 <p>Other specifications may define <dfn data-lt="additional WebDriver
 capability">additional WebDriver capabilities</dfn>. Each defined
-capability must have a <dfn>capability name</dfn> which is a string
-not containing a "<code>:</code>" (colon) character,
-an <dfn>additional capability deserialization algorithm</dfn> which is
-a set of steps taking a single argument <var>value</var> which has a
-JSON type, returning either <a>success</a> wrapping the deserialized
-capability value or <a>error</a>.
+capability must have a <dfn class=export>capability name</dfn> which
+is a string not containing a "<code>:</code>" (colon) character,
+an <dfn class=export>additional capability deserialization
+algorithm</dfn> which is a set of steps taking a single
+argument <var>value</var> which has a JSON type, returning
+either <a>success</a> wrapping the deserialized capability value
+or <a>error</a>.
 
 <p>An <a>additional WebDriver capability</a> may also define
-a <dfn>matched capability serialization algorithm</dfn>, which is a
-set of steps used to determine if a capability is matched by the
-current implementation and provide any computed value to return to the
-user. This set of steps takes a single argument <var>value</var>,
-which is the output of the corresponding <a>additional capability
-deserialization algorithm</a>, and returns
-either <a><code>null</code></a> to indicate the capability is not
-matched, or a non-null JSON-serializable value if the capability is
-matched.
+a <dfn class=export>matched capability serialization algorithm</dfn>,
+which is a set of steps used to determine if a capability is matched
+by the current implementation and provide any computed value to return
+to the user. This set of steps takes a single
+argument <var>value</var>, which is the output of the
+corresponding <a>additional capability deserialization algorithm</a>,
+and returns either <a><code>null</code></a> to indicate the capability
+is not matched, or a non-null JSON-serializable value if the
+capability is matched.
 
-<p>Other specifications may also define <dfn class="export">WebDriver
-new session algorithms</dfn>, which are
-called just after a new session is created, and before the <a>new
-session</a> response is sent to the <a>remote end</a>. These
-algorithms are called with <var>session</var> representing the
-WebDriver session that will be established, and
+<p>Other specifications may also define <dfn class=export>WebDriver
+new session algorithms</dfn>, which are called just after a new
+session is created, and before the <a>new session</a> response is sent
+to the <a>remote end</a>. These algorithms are called
+with <var>session</var> representing the WebDriver session that will
+be established, and
 <var>capabilities</var>, the capabilities object that will be returned
 to the <a>remote end</a>. It is permitted for such an algorithm to
 modify any entry in the capabilities object with a name that&apos;s an
@@ -1502,21 +1500,21 @@ with a "<code>moz:</code>" prefix:
  </thead>
 
  <tr>
-  <td><dfn>Browser name</dfn>
+  <td>Browser name
   <td>"<code>browserName</code>"
   <td>string
   <td>Identifies the user agent.
  </tr>
 
  <tr>
-  <td><dfn>Browser version</dfn>
+  <td>Browser version
   <td>"<code>browserVersion</code>"
   <td>string
   <td>Identifies the version of the user agent.
  </tr>
 
  <tr>
-  <td><dfn>Platform name</dfn>
+  <td>Platform name
   <td>"<code>platformName</code>"
   <td>string
   <td>Identifies the operating system of the <a>endpoint node</a>.
@@ -1575,7 +1573,7 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
-  <td><dfn>User Agent</dfn>
+  <td>User Agent
   <td>"<code>userAgent</code>"
   <td>string
   <td>Identifies the <a>default User-Agent value</a> of the <a>endpoint node</a>.
@@ -1613,16 +1611,15 @@ with a "<code>moz:</code>" prefix:
 </tr>
 
  <tr>
-  <td><dfn><code>proxyAutoconfigUrl</code></dfn>
+  <td><code>proxyAutoconfigUrl</code>
   <td>string
-  <td>Defines the URL for a proxy auto-config file
-   if <a><code>proxyType</code></a>
-   is equal to "<code>pac</code>".
+  <td>Defines the URL for a <a>proxy autoconfiguration</a> file
+   if <a><code>proxyType</code></a> is equal to "<code>pac</code>".
   <td>Any <a>URL</a>.
  </tr>
 
  <tr>
-  <td><dfn><code>ftpProxy</code></dfn>
+  <td><code>ftpProxy</code>
   <td>string
   <td>Defines the proxy <a>host</a> for FTP traffic when
    the <a><code>proxyType</code></a> is "<code>manual</code>".
@@ -1631,7 +1628,7 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
-  <td><dfn><code>httpProxy</code></dfn>
+  <td><code>httpProxy</code>
   <td>string
   <td>Defines the proxy <a>host</a> for HTTP traffic when
    the <a><code>proxyType</code></a> is "<code>manual</code>".
@@ -1640,7 +1637,7 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
-  <td><dfn><code>noProxy</code></dfn>
+  <td><code>noProxy</code>
   <td>array
   <td>Lists the address for which the proxy should be bypassed when
    the <a><code>proxyType</code></a> is "<code>manual</code>".
@@ -1648,7 +1645,7 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
-  <td><dfn><code>sslProxy</code></dfn>
+  <td><code>sslProxy</code>
   <td>string
   <td>Defines the proxy <a>host</a> for encrypted TLS traffic
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
@@ -1657,7 +1654,7 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
-  <td><dfn><code>socksProxy</code></dfn>
+  <td><code>socksProxy</code>
   <td>string
   <td>Defines the proxy <a>host</a> for a <a>SOCKS proxy</a>
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
@@ -1665,7 +1662,7 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
-  <td><dfn><code>socksVersion</code></dfn>
+  <td><code>socksVersion</code>
   <td>number
   <td>Defines the <a>SOCKS proxy</a> version
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
@@ -3875,16 +3872,10 @@ variables</var> and <var>parameters</var> are:
  </tr>
 </table>
 
-<p>If for whatever reason
- the <a>top-level browsing context</a>&apos;s OS window
- cannot enter either of the <a>window states</a>,
- or if this concept is not applicable on the current system,
- the default state must be <a data-lt="normal window state">normal</a>.
-
-<p>A <a>top-level browsing context</a>&apos;s <dfn>window rect</dfn>
- is defined as a dictionary of the <a>screenX</a>, <a>screenY</a>,
- <a>outerWidth</a> and <a>outerHeight</a> attributes
- of the <a><code>WindowProxy</code></a>.
+<p>If for whatever reason the <a>top-level browsing context</a>&apos;s
+OS window cannot enter either of the <a>window states</a>, or if this
+concept is not applicable on the current system, the default state
+must be <a data-lt="normal window state">normal</a>.
 
 <p>The <dfn>WindowRect object</dfn> for
 a <a>WindowProxy</a>, <var>window</var> is an <a>Object</a> initialized
@@ -3923,8 +3914,8 @@ with the following properties:
  given an operating system level window
  with an associated <a>top-level browsing context</a>,
  run implementation-specific steps
- to iconify, minimize, or hide the window
- from the visible screen.
+ to transition the operating system level window
+ into the <a>minimized window state</a>.
  Do not return from this operation
  until the <a>visibility state</a>
  of the <a>top-level browsing context</a>&apos;s <a>active document</a>
@@ -4238,6 +4229,8 @@ variables</var> and <var>parameters</var> are:
  <li><p>Call <a>fullscreen an element</a>
   with <var>session</var>&apos;s <a>current top-level browsing context</a>&apos;s
   <a>active document</a>&apos;s <a>document element</a>.
+
+  <p class="note">The window is now in the <a>Fullscreen window state</a>.
 
  <li><p>Return <a>success</a> with data set to the <a>WindowRect
   object</a> for the <var>session</var>&apos;s <a>current top-level browsing
@@ -5743,27 +5736,27 @@ variables</var> and <var>parameters</var> are:
 <p>
 The <a>Get Element Rect</a> <a>command</a>
 returns the dimensions and coordinates of the given <a>web element</a>.
-The returned value is a dictionary with the following members:
+The returned value is an object with the following properties:
 
 <dl>
-<dt><dfn data-lt="elementrect-x">x</dfn>
+<dt>"<code>x</code>"
 <dd>
 X axis position of the top-left corner of the <a>web element</a>
 relative to <var>session</var>&apos;s <a>current browsing context</a>&apos;s
 <a>document element</a> in <a>CSS pixels</a>.
 
-<dt><dfn data-lt="elementrect-y">y</dfn>
+<dt>"<code>y</code>"
 <dd>
 Y axis position of the top-left corner of the <a>web element</a>
 relative to <var>session</var>&apos;s <a>current browsing context</a>&apos;s
 <a>document element</a> in <a>CSS pixels</a>.
 
-<dt><dfn data-lt="elementrect-height">height</dfn>
+<dt>"<code>height</code>"
 <dd>
 Height of the <a>web element</a>&apos;s
 <a>bounding rectangle</a> in <a>CSS pixels</a>.
 
-<dt><dfn data-lt="elementrect-width">width</dfn>
+<dt>"<code>width</code>"
 <dd>
 Width of the <a>web element</a>&apos;s
 <a>bounding rectangle</a> in <a>CSS pixels</a>.
@@ -7872,7 +7865,7 @@ input source</a> with the items initalized to their default values.
    move to, either in its active (pressed) or inactive state.</td>
  </tr>
  <tr>
-  <td><dfn>pointerCancel</dfn></td>
+  <td><dfn class="lint-ignore">pointerCancel</dfn></td>
   <td>Used to cancel a pointer action.</td>
  </tr>
 </table>
@@ -11105,19 +11098,25 @@ ensuring both privacy and preventing state from bleeding through to the next ses
  considered visible if any part of it is drawn on the canvas within
  the boundaries of the viewport.
 
-<p>The <dfn data-lt="element displayedness|not displayed">element displayed</dfn> algorithm
- is a boolean state where <code>true</code> signifies that the element is displayed
- and <code>false</code> signifies that the element is not displayed.
- To compute the state on <var>element</var>,
- invoke the <a>Function.[[\Call]]</a>(<a><code>null</code></a>, <var>element</var>,
- <code>false</code>),
- with <a><code>bot.dom.isShown</code></a> as the this value.
- If doing so does not produce an error,
- return the return value from this function call.
- Otherwise return an <a>error</a> with <a>error code</a> <a>unknown error</a>.
+<p>The <dfn>element displayed state</dfn> is a boolean representing
+whether an element is currently visible.
 
-<p>This function is typically exposed to <code>GET</code> requests
- with a <a>URI Template</a> of
+<p>To get the <a>element displayed state</a> using
+the <a><code>bot.dom.isShown</code></a> Selenium atoms,
+given <var>element</var>:
+ <ol>
+  <li><p>Let <var>function</var> be
+  the <a><code>bot.dom.isShown</code></a> function.
+  <li><p>Let <var>result</var> be the result of calling <var>function</var>&apos;s
+  <a data-link-for="Function">[[\Call]]</a> internal method with arguments
+  null and <var>element</var>. If this raises an exception, return
+  an <a>error</a> with <a>error code</a> <a>unknown error</a>.
+
+  <li><p>Return <a>success</a> with data <var>result</var>.
+</p>
+
+<p>The <a>element displayed state</a> is typically exposed as an
+ endpoint for <code>GET</code> requests with a <a>URI Template</a> of
  <code>/session/{session id}/element/{element id}/displayed</code>.
 </section> <!-- /Element displayedness -->
 
@@ -11247,7 +11246,6 @@ to automatically sort each list alphabetically.
   <ul>
    <!-- fragment serializing algorithm --> <li><dfn><a href="https://w3c.github.io/DOM-Parsing/#dfn-fragment-serializing-algorithm">fragment serializing algorithm</a></dfn>
    <!-- innerHTML IDL Attribute--> <li><dfn><a href=https://w3c.github.io/DOM-Parsing/#dom-innerhtml-innerhtml><code>innerHTML</code> IDL attribute</a></dfn>
-   <!-- outerHTML IDL Attribute--> <li><dfn><a href=https://w3c.github.io/DOM-Parsing/#dom-element-outerhtml><code>outerHTML</code> IDL attribute</a></dfn>
    <!-- serializeToString --> <li><dfn data-lt="serializing to string"><a href=https://w3c.github.io/DOM-Parsing/#dom-xmlserializer-serializetostring><code>serializeToString</code> method</a></dfn>
   </ul>
 
@@ -11256,23 +11254,10 @@ to automatically sort each list alphabetically.
   <ul>
    <!-- Activation trigger --> <li><dfn><a href=https://w3c.github.io/uievents/#activation-trigger>Activation trigger</a></dfn>
    <!-- click event --> <li><dfn><a href="https://w3c.github.io/uievents/#event-type-click">click event</a></dfn>
-   <!-- Keyboard Event --> <li><dfn><a href=https://w3c.github.io/uievents/#keyboardevent>Keyboard event</a></dfn>
-   <!-- Keyboard event order --> <li><dfn><a href=https://w3c.github.io/uievents/#events-keyboard-event-order>Keyboard event order</a></dfn>
-   <!-- keyDown event --> <li><dfn data-lt="keyDown-Event"><a href=https://w3c.github.io/uievents/#event-type-keydown>keyDown event</a></dfn>
-   <!-- keyPress event --> <li><dfn data-lt="keyPress-Event"><a href=https://w3c.github.io/uievents/#event-type-keypress>keyPress event</a></dfn>
-   <!-- keyUp event --> <li><dfn data-lt="keyUp-Event"><a href=https://w3c.github.io/uievents/#event-type-keyup>keyUp event</a></dfn>
    <!-- mouseDown event --> <li><dfn><a href=https://w3c.github.io/uievents/#event-type-mousedown>mouseDown event</a></dfn>
-   <!-- Mouse event --> <li><dfn><a href=https://w3c.github.io/uievents/#mouseevent>Mouse event</a></dfn>
-   <!-- Mouse event order --> <li><dfn><a href=https://w3c.github.io/uievents/#events-mouseevent-event-order>Mouse event order</a></dfn>
    <!-- mouseMove event --> <li><dfn><a href="https://w3c.github.io/uievents/#event-type-mousemove">mouseMove event</a></dfn>
    <!-- mouseOver event --> <li><dfn><a href="https://w3c.github.io/uievents/#event-type-mouseover">mouseOver event</a></dfn>
    <!-- mouseUp event --> <li><dfn><a href=https://w3c.github.io/uievents/#event-type-mouseup>mouseUp event</a></dfn>
-  </ul>
-
- <dd><p>The following attributes are defined
-  in the UI Events Code specification: [[UIEVENTS-CODE]]
-  <ul>
-   <li><dfn data-lt="keyboard event code"><a href=https://www.w3.org/TR/uievents-code/#code-value-tables>Keyboard event code tables</a></dfn>
   </ul>
 
  <dd><p>The following attributes are defined
@@ -11301,16 +11286,14 @@ to automatically sort each list alphabetically.
    <!-- Type --> <li><dfn data-lt="ecmascript type" data-lt-noDefault><a href=https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values>Type</a></dfn>
    <!-- Use strict directive --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Use strict directive</a></dfn>
    <!-- parseInt --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.2>parseInt</a></dfn>
-   <!-- parseFloat --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.3>parseFloat</a></dfn>
    <!-- realm --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-code-realms">realm</a></dfn>
   </ul>
 
  <dd>This specification also presumes that you are able to call
-  some of the <dfn data-lt="internal method"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>internal methods</a></dfn>
+  some of the <a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>internal methods</a>
   from the ECMAScript Language Specification [[ECMAScript]]:
   <ul>
    <!-- Call --> <li><dfn data-dfn-for="Function"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-13.2.1>[[\Call]]</a></dfn>
-   <!-- Class --> <li><dfn data-dfn-for="Object"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.6.2>[[\Class]]</a></dfn>
    <!-- GetOwnProperty --> <li><dfn data-dfn-for="Object"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.12.1>[[\GetOwnProperty]]</a></dfn>
    <!-- GetProperty --> <li><dfn data-dfn-for="Object"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-8.12.2>[[\GetProperty]]</a></dfn>
    <!-- Index of --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.5.4.7>Index of</a></dfn>
@@ -11362,11 +11345,9 @@ to automatically sort each list alphabetically.
  <dt>Fullscreen
  <dd><p>The following terms are defined in the WHATWG Fullscreen specification: [[FULLSCREEN]]
    <ul>
-     <!-- Fullscreen element --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fullscreen-element">Fullscreen element</a></dfn>
      <!-- Fullscreen an element --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fullscreen-an-element">Fullscreen an element</a></dfn>
      <!-- Fullscreen is supported --> <li><dfn  data-lt="support fullscreen"><a href="https://fullscreen.spec.whatwg.org/#fullscreen-is-supported">Fullscreen is supported</a></dfn>
      <!-- Fully exit fullscreen --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#fully-exit-fullscreen">fully exit fullscreen</a></dfn>
-     <!-- Unfullscreen a document --> <li><dfn><a href="https://fullscreen.spec.whatwg.org/#unfullscreen-a-document">unfullscreen a document</a></dfn>
    </ul>
 
  <dt>HTML
@@ -11582,14 +11563,10 @@ to automatically sort each list alphabetically.
  <dd>The following functions are defined in
   the CSSOM View Module: [[CSSOM-VIEW]]:
   <ul>
-   <!-- elementFromPoint --> <li><dfn>Element from point</dfn> as <a href="https://drafts.csswg.org/cssom-view/#dom-document-elementfrompoint">elementFromPoint()</a>
    <!-- elementsFromPoint --> <li><dfn data-lt="paint order|paint tree">Elements from point</dfn> as <a href=https://drafts.csswg.org/cssom-view/#dom-document-elementsfrompoint>elementsFromPoint()</a>
    <!-- innerHeight --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerheight>innerHeight</a></dfn>
    <!-- innerWidth --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-innerwidth>innerWidth</a></dfn>
    <!-- moveTo --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-moveto>moveTo(x, y)</a></dfn>
-   <!-- offsetLeft --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetleft>offsetLeft</a></dfn>
-   <!-- offsetParent --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetparent>offsetParent</a></dfn>
-   <!-- offsetTop --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsettop>offsetTop</a></dfn>
    <!-- outerHeight --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-outerheight>outerHeight</a></dfn>
    <!-- outerWidth --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-outerwidth>outerWidth</a></dfn>
    <!-- screenX --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-screenx>screenX</a></dfn>
@@ -11607,14 +11584,14 @@ to automatically sort each list alphabetically.
    <!-- media type --> <li><dfn><a href=https://www.w3.org/TR/mediaqueries-4/#media-types>media type</a></dfn>
   </ul>
 
- <dt>SOCKS Proxy and related specification:
- <dd><p>To be <dfn>SOCKS Proxy</dfn>
-  and <dfn data-lt=authenticating>SOCKS authentication</dfn> compliant,
-  it is supposed that the implementation supports the relevant subsets of
-  [[RFC1928]] and [[RFC1929]].
+ <dt>SOCKS Proxy:
+ <dd><p>The following terms are defined in the standard: [[RFC1928]]
+  <ul>
+   <li><dfn><a href=https://datatracker.ietf.org/doc/html/rfc1928>SOCKS Proxy</a></dfn>
+  </ul>
 
  <dt>Unicode
- <dd>The following terms are defined in the  standard: [[Unicode]]
+ <dd>The following terms are defined in the standard: [[Unicode]]
   <ul>
    <!-- Code point --> <li><dfn data-lt="unicode code point"><a href=https://www.unicode.org/versions/Unicode9.0.0/ch03.pdf#G2212>Code Point</a></dfn>
    <!-- Extended grapheme cluster --> <li><dfn data-lt="grapheme cluster"><a href=https://www.unicode.org/versions/Unicode9.0.0/ch03.pdf#G2213>Extended grapheme cluster</a></dfn>
@@ -11641,8 +11618,6 @@ to automatically sort each list alphabetically.
    <!-- Domain --><li><dfn data-lt="domains"><a href="https://url.spec.whatwg.org/#concept-domain">Domain</a></dfn>
    <!-- Host --> <li><dfn><a href="https://url.spec.whatwg.org/#concept-host">Host</a></dfn>
    <!-- includes credentials --> <li><dfn><a href="https://url.spec.whatwg.org/#include-credentials">Includes credentials</a></dfn>
-   <!-- IPv4 address --> <li><dfn data-lt="ipv4 addresses"><a href="https://url.spec.whatwg.org/#concept-ipv4">IPv4 address</a></dfn>
-   <!-- IPv6 address --> <li><dfn data-lt="ipv6 addresses"><a href="https://url.spec.whatwg.org/#concept-ipv6">IPv6 address</a></dfn>
    <!-- Is Special --> <li><dfn><a href="https://url.spec.whatwg.org/#is-special">Is special</a></dfn>
    <!-- Path-absolute URL --> <li><dfn><a href=https://url.spec.whatwg.org/#syntax-url-path-absolute>Path-absolute URL</a></dfn>
    <!-- Path --> <li><dfn><a href=https://url.spec.whatwg.org/#concept-url-path>Path</a></dfn>
@@ -11657,7 +11632,6 @@ to automatically sort each list alphabetically.
   as described in the Web IDL specification. [[WEBIDL]]
   <ul>
    <!-- DOMException --> <li><dfn><a href="https://heycam.github.io/webidl/#dfn-DOMException"><code>DOMException</code></a></dfn>
-   <!-- Sequence --> <li><dfn><a href="https://heycam.github.io/webidl/#idl-sequence">Sequence</a></dfn>
    <!-- Supported property indices --> <li><dfn data-lt="supported property index"><a href=https://heycam.github.io/webidl/#dfn-supported-property-indices>Supported property indices</a></dfn>
    <!-- SyntaxError --> <li><dfn><a href="https://heycam.github.io/webidl/#syntaxerror"><code>SyntaxError</code></a></dfn></li>
    <!-- this --> <li><dfn><a href="https://heycam.github.io/webidl/#this">this</a></dfn></li>
@@ -11668,12 +11642,6 @@ to automatically sort each list alphabetically.
   <dd><p>The following terms are defined in the Promises Guide. [[PROMISES-GUIDE]]
     <ul>
       <!-- Promise calling --> <li><dfn data-lt="promise-call"><a href="https://www.w3.org/2001/tag/doc/promises-guide#promise-calling">Promise-calling</a></dfn>
-    </ul>
-
-  <dt>XML Namespaces
-  <dd><p>The following terms are defined in the Namespaces in XML [[XML-NAMES]]
-    <ul>
-      <!-- qualified element name --><li><dfn><a href="https://www.w3.org/TR/REC-xml-names/#ns-using">qualified element name</a></dfn>
     </ul>
 
   <dt>XPATH
