@@ -2232,7 +2232,7 @@ and <a href=#elements>element retrieval</a>.
 Unless stated otherwise it is in the <a>dismiss and notify state</a>.
 
 <p>A <a>session</a> has an associated <dfn>browsing context input
-state map</dfn>, which is a Weak Map with <a>top-level browsing
+state map</dfn>, which is a <a>weak map</a> with <a>top-level browsing
 contexts</a> as keys, and <a>input state</a> objects as values. This
 is initially set to an empty map.
 
@@ -4266,15 +4266,24 @@ variables</var> and <var>parameters</var> are:
 representing a handle to a DOM node in a specific
 WebDriver <a>session</a>.
 
+<p>A <dfn>weak map</dfn> is a <a data-cite=infra>map</a> in which keys are held
+weakly i.e. items are removed if the key object is garbaged collected, and
+presence in the map does not prevent garbage collection. This acts as an
+alternative to defining properties directly on the key objects.
+
+<p class=note>Unlike the ECMAScript <a data-lt="ecmascript type">WeakMap</a>,
+a <a>weak map</a> can participate in the full set of operations available for
+a Map.
+
 <p>A WebDriver <a>session</a> has a <dfn>browsing context group node
-map</dfn>, which is a weak map between a <a>browsing context group</a>
+map</dfn>, which is a <a>weak map</a> between a <a>browsing context group</a>
 and a <a>node id map</a>.
 
-<p>A <dfn>node id map</dfn> is weak map between nodes and their
+<p>A <dfn>node id map</dfn> is <a>weak map</a> between nodes and their
 corresponding <a>WebDriver node id</a>.
 
 <p>A WebDriver <a>session</a> has a <dfn>navigable seen nodes map</dfn>
-which is a weak map between a [=navigable=] and a set.
+which is a <a>weak map</a> between a [=navigable=] and a set.
 
 <p>To <dfn>get a node</dfn> given <var>session</var>,
 <var>browsing context</var>, and <var>reference</var>:
@@ -4309,7 +4318,7 @@ given <var>session</var>, <var>browsing context</var>, and <var>node</var>:
 
   <li>If <var>browsing context group node map</var> does not
   contain <var>browsing context group</var>, set <var>browsing context
-  group node map</var>[<var>browsing context group</var>] to a new weak map.
+  group node map</var>[<var>browsing context group</var>] to a new <a>weak map</a>.
 
   <li>Let <var>node id map</var> be <var>browsing context group node
   map</var>[<var>browsing context group</var>].
