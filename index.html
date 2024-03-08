@@ -494,7 +494,7 @@ the following steps:
        </ol>
 
       <li><p>Let <var>navigate result</var> be the result
-       of <a>wait for navigation to complete</a>.
+       of <a>wait for navigation to complete</a> with <var>session</var>.
 
       <li><p>If <var>navigate result</var> is an <a>error</a>,
        <a>send an error</a> with <a>error code</a>
@@ -2840,8 +2840,9 @@ variables</var> and <var>parameters</var> are:
  <li><p>Return <a>success</a> with data <var>value</var>.
 </ol>
 
-<p>To <dfn data-lt="waiting for the navigation to complete">wait for
- navigation to complete</dfn>, given <var>session</var>:
+<p>To <dfn>wait for navigation to complete</dfn>,
+ given <var>session</var> and optional <var>timer</var> (default
+ null):
 
 <ol>
  <li><p>If <var>session</var>&apos;s <a>page loading strategy</a>
@@ -2855,33 +2856,44 @@ variables</var> and <var>parameters</var> are:
  <li><p>Let <var>timeout</var> be <a>session
  timeouts</a>&apos; [=timeouts/page load timeout=].
 
- <li><p>If <var>timeout</var> is not null:
+ <li><p>If <var>timer</var> is null:
+
+  <ol>
+   <li><p>Set <var>timer</var> to a new <a>timer</a>.
+
+   <li><p>If <var>timeout</var> is not null:
+
+   <ol>
+
+    <li><p><a>Start the timer</a> with <var>timer</var>
+    and <var>timeout</var>.
+
+   </ol>
+
+  </ol>
+
+ <li><p>Run these steps, but [=abort when=] <var>timer</var>&apos;s
+   [=timer/timeout fired flag=] is set:
 
  <ol>
 
-  <li><p>Let <var>timer</var> be a <a>timer</a>.
-
-  <li><p><dfn>Start a timer</dfn> with <var>timer</var>
-   and <var>timeout</var>. Continue running this overall algorithm,
-   but if it has not completed
-   when <var>timer</var>&apos;s [=timer/timeout fired
-   flag=] is set abort the remaining steps and instead return an <a>error</a> with <a>error
-   code</a> <a>timeout</a>.
-
- </ol>
-
- <li><p>If there is an ongoing attempt to <a>navigate</a>
+  <li><p>If there is an ongoing attempt to <a>navigate</a>
   <var>session</var>&apos;s <a>current browsing context</a> that has not
   yet <a>matured</a>, wait for navigation to <a>mature</a>.
 
- <li><p>Let <var>readiness target</var> be the <a>document
+  <li><p>Let <var>readiness target</var> be the <a>document
   readiness</a> state associated with the <var>session</var>&apos;s <a>page
   loading strategy</a>, which can be found in the <a>table of page
   load strategies</a>.
 
- <li><p>Wait for <var>session</var>&apos;s <a>current browsing
- context</a>&apos;s <a>document readiness</a> state to reach
- <var>readiness target</var>.
+  <li><p>Wait for <var>session</var>&apos;s <a>current browsing
+  context</a>&apos;s <a>document readiness</a> state to reach
+  <var>readiness target</var>.
+
+ </ol>
+
+ <li><p>[=If aborted=] return an <a>error</a> with <a>error
+ code</a> <a>timeout</a>.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
@@ -2978,37 +2990,40 @@ variables</var> and <var>parameters</var> are:
 
    <li><p>Set <var>timer</var> to a new <a>timer</a>.
 
-   <li><p><a>Start a timer</a> with <var>timer</var>
-   and <var>timeout</var>. Continue running this overall algorithm,
-   but if it has not completed when <var>timer</var>&apos;s
-   [=timer/timeout fired flag=] is set, abort the remaining steps and
-   instead return an <a>error</a> with <a>error
-   code</a> <a>timeout</a>.
+   <li><p><a>Start the timer</a> with <var>timer</var>
+   and <var>timeout</var>.
 
  </ol>
 
- <li><p><a>Navigate</a> <var>session</var>&apos;s <a>current top-level
- browsing context</a> to <var>URL</var>.
-
- <li><p>If <var>URL</var> <a>is special</a> except for <code>file</code> and
-   <var>current URL</var> and <var>URL</var> do not have the same <a>absolute URL</a> :
- <ol>
-  <li><p><a>Try</a> to <a>wait for navigation to complete</a>.
-
-  <li><p><a>Try</a> to run the <a>post-navigation checks</a>.
- </ol>
-
- <li><p><a>Set the current browsing context</a>
-  with <var>session</var> and <a>current top-level browsing
-  context</a>.
-
- <!-- This redirect handling is extremely badly specified -->
-
- <li><p>While <var>session</var>&apos;s <a>current top-level browsing context</a> contains
-  a <a>refresh state pragma directive</a> of <var>time</var> 1 second
-  or less, run the following steps:
+ <li><p>Run these steps, but [=abort when=] <var>timer</var>&apos;s
+   [=timer/timeout fired flag=] is set:
 
   <ol>
+
+   <li><p><a>Navigate</a> <var>session</var>&apos;s <a>current top-level
+   browsing context</a> to <var>URL</var>.
+
+   <li><p>If <var>URL</var> <a>is special</a> except for <code>file</code> and
+   <var>current URL</var> and <var>URL</var> do not have the same <a>absolute URL</a> :
+
+    <ol>
+     <li><p><a>Try</a> to <a>wait for navigation to complete</a>
+     with <var>session</var> and <var>timer</var>.
+
+     <li><p><a>Try</a> to run the <a>post-navigation checks</a>.
+    </ol>
+
+   <li><p><a>Set the current browsing context</a>
+   with <var>session</var> and <a>current top-level browsing
+   context</a>.
+
+   <!-- This redirect handling is extremely badly specified -->
+
+   <li><p>While <var>session</var>&apos;s <a>current top-level browsing context</a> contains
+   a <a>refresh state pragma directive</a> of <var>time</var> 1 second
+   or less, run the following steps:
+
+   <ol>
     <li><p>Set <var>current URL</var> to <var>session</var>&apos;s
     <a>current top-level browsing context</a>&apos;s <a>active
     document</a>&apos;s [=Document/URL=].
@@ -3025,11 +3040,16 @@ variables</var> and <var>parameters</var> are:
    <var>current URL</var> and <var>URL</var> do not have the same <a>absolute URL</a> :
 
     <ol>
-     <li><p><a>Try</a> to <a>wait for navigation to complete</a>.
+     <li><p><a>Try</a> to <a>wait for navigation to complete</a>
+     with <var>session</var> and <var>timer</var>.
 
      <li><p><a>Try</a> to run the <a>post-navigation checks</a>.
     </ol>
+   </ol>
   </ol>
+
+ <li><p>[=If aborted=] return an <a>error</a> with <a>error
+ code</a> <a>timeout</a>.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
@@ -3107,7 +3127,7 @@ variables</var> and <var>parameters</var> are:
  <li><p>If <var>timeout</var> is not null:
 
   <ol>
-   <li><p><a>Start a timer</a> with <var>timer</var> and <var>timeout</var>.
+   <li><p><a>Start the timer</a> with <var>timer</var> and <var>timeout</var>.
   </ol>
 
  <li><p><a>Traverse the history by a delta</a> –1
@@ -3170,7 +3190,7 @@ variables</var> and <var>parameters</var> are:
  <li><p>If <var>timeout</var> is not null:
 
   <ol>
-   <li><p><a>Start a timer</a> with <var>timer</var> and <var>timeout</var>.
+   <li><p><a>Start the timer</a> with <var>timer</var> and <var>timeout</var>.
   </ol>
 
  <li><p><a>Traverse the history by a delta</a> 1
@@ -3228,7 +3248,8 @@ variables</var> and <var>parameters</var> are:
 
  <li><p>If <var>URL</var> <a>is special</a> except for <code>file</code>:
   <ol>
-   <li><p><a>Try</a> to <a>wait for navigation to complete</a>.
+   <li><p><a>Try</a> to <a>wait for navigation to complete</a>
+   with <var>session</var>.
 
    <li><p><a>Try</a> to run the <a>post-navigation checks</a>.
   </ol>
@@ -4762,7 +4783,7 @@ and <var>element</var> is:
  <li><p>If <var>timeout</var> is not null:
 
   <ol>
-   <li><p><a>Start a timer</a> with <var>timer</var>
+   <li><p><a>Start the timer</a> with <var>timer</var>
    and <var>timeout</var>.
  </ol>
 
@@ -6167,7 +6188,8 @@ variables</var> and <var>parameters</var> are:
   steps can return immediately, and the next step will also return
   immediately.
 
- <li><p><a>Try</a> to <a>wait for navigation to complete</a>.
+ <li><p><a>Try</a> to <a>wait for navigation to complete</a>
+ with <var>session</var>.
 
  <li><p><a>Try</a> to run the <a>post-navigation checks</a>.
 
@@ -6259,7 +6281,7 @@ variables</var> and <var>parameters</var> are:
  <li><p>If <var>timeout</var> is not null:
 
   <ol>
-   <li><p><a>Start a timer</a> with <var>timer</var>
+   <li><p><a>Start the timer</a> with <var>timer</var>
    and <var>timeout</var>.
  </ol>
 
@@ -6609,7 +6631,7 @@ variables</var> and <var>parameters</var> are:
    <li><p>If <var>timeout</var> is not null:
 
     <ol>
-     <li><p><a>Start a timer</a> with <var>timer</var>
+     <li><p><a>Start the timer</a> with <var>timer</var>
      and <var>timeout</var>.
     </ol>
 
@@ -7098,7 +7120,7 @@ variables</var> and <var>parameters</var> are:
  <li><p>If <var>timeout</var> is not null:
 
   <ol>
-   <li><p><a>Start a timer</a> with <var>timer</var>
+   <li><p><a>Start the timer</a> with <var>timer</var>
    and <var>timeout</var>.
  </ol>
 
@@ -7182,7 +7204,7 @@ variables</var> and <var>parameters</var> are:
   <li><p>If <var>timeout</var> is not null:
 
    <ol>
-    <li><p><a>Start a timer</a> with <var>timer</var>
+    <li><p><a>Start the timer</a> with <var>timer</var>
     and <var>timeout</var>.
   </ol>
 
