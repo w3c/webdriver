@@ -10389,7 +10389,7 @@ given <var>configuration</var>:
 The <dfn>known prompt handlers</dfn> are:
 <table class=simple>
  <tr>
-  <th>Handler key
+  <th><dfn>Handler key</dfn>
   <th>Description (non-normative).
  </tr>
 
@@ -10425,6 +10425,15 @@ The <dfn>known prompt handlers</dfn> are:
 "<code>beforeUnload</code>", "<code>confirm</code>",
 "<code>default</code>", "<code>prompt</code>"».
 
+<p class="note">The "<code>default</code>" type represents a fallback
+when no specific handler is defined for a given prompt type. The
+"<code>beforeUnload</code>" prompt type does not use this default
+handler, but instead falls back to the "<code>accept</code>" handler
+if no more specific handler is defined. This is because HTTP-only
+sessions do not allow the "<code>beforeUnload</code>" handler to be
+customized, and enabling other protcols isn&apos;t expected to change
+the user prompt handling as a side effect.
+
 <p>To <dfn>deserialize as an unhandled prompt behavior</dfn> given
 argument <var>value</var>:
 
@@ -10456,7 +10465,7 @@ argument <var>value</var>:
    with <a>error code</a> <a>invalid argument</a>.
 
    <li><p>If <a>known prompt handlers</a> does not contain an entry
-   with handler key <var>handler</var> return <a>error</a>
+   with <a>handler key</a> <var>handler</var> return <a>error</a>
    with <a>error code</a> <a>invalid argument</a>.
 
    <li><p>Let <var>notify</var> be false.
@@ -10493,8 +10502,8 @@ given <var>requested prompt handler</var>:
  in <var>requested prompt handler</var>:
 
   <ol>
-   <li><p>If the <a>user prompt
-   handler</a> [=map/contains=] <var>key</var>:
+   <li><p>If the <a>user prompt handler</a>
+   [=map/contains=] <var>key</var>:
 
     <ol>
 
