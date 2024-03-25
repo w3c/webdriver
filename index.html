@@ -10343,16 +10343,29 @@ when there&apos;s an active HTTP-only session.
  that is the string message shown to the user,
  or <a><code>null</code></a> if the message length is <code>0</code>.
 
-<p>The <dfn>current user prompt</dfn> is the <a>user prompt</a> which
-has invoked the <a data-cite=html>pause</a> algorithm, if any, or null otherwise.
+<p>To <dfn>get the active user prompt</dfn> given <var>browsing context</a>:
 
-<p>To <dfn data-lt="dismissed|dismisses">dismiss</dfn> the <a>current
- user prompt</a>, act as if the user clicked the <b>Cancel</b> button
- on that prompt, if present, or otherwise <a>accept</a> the
- prompt.
+<ol class=algorithm>
+ <li><p>Let <var>agent</var> be <a>browsing context</a>&apos;s <a>active
+ document</a>&apos;s <a>relevant agent</a>.
+
+ <li><p>If <var>agent</var>&apos;s <a>event loop</a> is not
+ currently <a data-cite=html>paused</a>, return null.
+
+ <li><p>Return the <a>user prompt</a> which handles the input required
+ to meet the condition passed when <var>event loop</var>
+ was <a data-cite=html>paused</a>.
+</ol>
+
+<p>The <dfn>current user prompt</dfn> is the result of <a>get the
+active user prompt</a> with <a>current browsing context</a>.
+
+<p>To <dfn data-lt="dismissed|dismisses">dismiss</dfn> a <a>user
+ prompt</a>, act as if the user clicked the <b>Cancel</b> button on
+ that prompt, if present, or otherwise <a>accept</a> the prompt.
 
 <p>To <dfn data-lt="accepting|accepted|accepts">accept</dfn>
- the <a>current user prompt</a>, act as if the user clicked
+ a <a>user prompt</a>, act as if the user clicked
  the <b>OK</b> button on that prompt.
 
 <h3>User Prompt Handler</h3>
