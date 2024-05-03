@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en-us" data-issue-url="https://github.com/w3c/webdriver/" data-issue-param-milestone="Level 1"><head>
 <meta charset="utf-8">
-<meta name="generator" content="ReSpec 34.5.0">
+<meta name="generator" content="ReSpec 35.0.2">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <style>
 span.example-title{text-transform:none}
@@ -100,8 +100,6 @@ dl.subcategories { margin-left: 2em }
 25%{transform:scale(1.25,1.25);opacity:.75}
 100%{transform:scale(1,1)}
 }
-:is(h1,h2,h3,h4,h5,h6,a) abbr{border:none}
-dfn{font-weight:700}
 a.internalDFN{color:inherit;border-bottom:1px solid #99c;text-decoration:none}
 a.externalDFN{color:inherit;border-bottom:1px dotted #ccc;text-decoration:none}
 a.bibref{text-decoration:none}
@@ -115,19 +113,8 @@ a.bibref{text-decoration:none}
 cite .bibref{font-style:normal}
 a[href].orcid{padding-left:4px;padding-right:4px}
 a[href].orcid>svg{margin-bottom:-2px}
-.toc a,.tof a{text-decoration:none}
 ol.tof,ul.tof{list-style:none outside none}
 .caption{margin-top:.5em;font-style:italic}
-table.simple{border-spacing:0;border-collapse:collapse;border-bottom:3px solid #005a9c}
-.simple th{background:#005a9c;color:#fff;padding:3px 5px;text-align:left}
-.simple th a{color:#fff;padding:3px 5px;text-align:left}
-.simple th[scope=row]{background:inherit;color:inherit;border-top:1px solid #ddd}
-.simple td{padding:3px 10px;border-top:1px solid #ddd}
-.simple tr:nth-child(even){background:#f0f6ff}
-.section dd>p:first-child{margin-top:0}
-.section dd>p:last-child{margin-bottom:0}
-.section dd{margin-bottom:1em}
-.section dl.attrs dd,.section dl.eldef dd{margin-bottom:0}
 #issue-summary>ul{column-count:2}
 #issue-summary li{list-style:none;display:inline-block}
 details.respec-tests-details{margin-left:1em;display:inline-block;vertical-align:top}
@@ -151,6 +138,7 @@ dd{margin-left:0}
 .removeOnSave{display:none}
 }
 </style>
+<meta name="color-scheme" content="light">
 <style>
 ul.index{columns:30ch;column-gap:1.5em}
 ul.index li{list-style:inherit}
@@ -188,7 +176,7 @@ ul.index code{color:inherit}
 .mdn .samsunginternet_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/samsung-internet/samsung-internet.svg)}
 .mdn .webview_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/android-webview/android-webview.png)}
 </style>
-<meta name="revision" content="98140eacf446d22030c9eaf65d67fb9dcb212a12">
+<meta name="revision" content="d43acbbf3e65150803d9b14696ff7e9e321968f6">
 <meta name="description" content="WebDriver is a remote control interface
 that enables introspection and control of user agents.
 It provides a platform- and language-neutral wire protocol
@@ -284,15 +272,15 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     ],
     "profile": "web-platform"
   },
-  "gitRevision": "98140eacf446d22030c9eaf65d67fb9dcb212a12",
-  "publishISODate": "2024-04-16T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 16 April 2024"
+  "gitRevision": "d43acbbf3e65150803d9b14696ff7e9e321968f6",
+  "publishISODate": "2024-05-03T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 03 May 2024"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head><body data-cite="WEBIDL CSSOM-VIEW GEOMETRY-1 fileapi HTML INFRA URL WEBIDL DOM FETCH" class="h-entry"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">WebDriver</h1> 
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-04-16">16 April 2024</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-05-03">03 May 2024</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -2491,7 +2479,7 @@ with a "<code>moz:</code>" prefix:
        used. The intent is that if this is not possible a new session
        will not be established.
 
-     </p></div></dd><dt>"<code>userPromptHandler</code>"
+     </p></div></dd><dt>"<code>unhandledPromptBehavior</code>"
      </dt><dd><p>If <a href="#dfn-check-user-prompt-handler-matches" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-check-user-prompt-handler-matches-1">check user prompt handler matches</a>
      with <var>value</var> is false, return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-14">success</a> with
      data <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-14"><code>null</code></a>.
@@ -2654,18 +2642,18 @@ flags</a> <var>flags</var>:
   "<code>acceptInsecureCerts</code>" from <var>capabilities</var>.
 
   </p></li><li><p>Let <var>user prompt handler capability</var> be the result of getting property
-  "<code>userPromptHandler</code>" from <var>capabilities</var>.
+  "<code>unhandledPromptBehavior</code>" from <var>capabilities</var>.
 
-   </p></li><li><p>If <var>user prompt handler capability</var> is not
+  </p></li><li><p>If <var>user prompt handler capability</var> is not
    undefined, <a href="#dfn-update-the-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-update-the-user-prompt-handler-1">update the user prompt handler</a> with <var>user
    prompt handler capability</var>.
 
-   </p></li><li><p>Let <var>serialized user prompt handler</var>
+  </p></li><li><p>Let <var>serialized user prompt handler</var>
    be <a href="#dfn-serialize-the-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-serialize-the-user-prompt-handler-1">serialize the user prompt handler</a>.
 
-   </p></li><li><p>If <var>seralized user prompt handler</var> is not null, set
+  </p></li><li><p>If <var>serialized user prompt handler</var> is not null, set
    a property on <var>capabilities</var> with the name
-   "<code>userPromptHandler</code>", and the value <var>serialized
+   "<code>unhandledPromptBehavior</code>", and the value <var>serialized
    user prompt handler</var>.
 
   </p></li><li><p>If <var>flags</var> <var>contains</var> "<code>http</code>":
@@ -14180,7 +14168,7 @@ This specification relies on several other underlying specifications.
     <dl class="bibliography"><dt id="bib-accname-1.1">[accname-1.1]</dt><dd>
       <a href="https://www.w3.org/TR/accname-1.1/"><cite>Accessible Name and Description Computation 1.1</cite></a>. Joanmarie Diggs; Bryan Garaventa; Michael Cooper.  W3C. 18 December 2018. W3C Recommendation. URL: <a href="https://www.w3.org/TR/accname-1.1/">https://www.w3.org/TR/accname-1.1/</a>
     </dd><dt id="bib-csp3">[CSP3]</dt><dd>
-      <a href="https://www.w3.org/TR/CSP3/"><cite>Content Security Policy Level 3</cite></a>. Mike West; Antonio Sartori.  W3C. 12 April 2024. W3C Working Draft. URL: <a href="https://www.w3.org/TR/CSP3/">https://www.w3.org/TR/CSP3/</a>
+      <a href="https://www.w3.org/TR/CSP3/"><cite>Content Security Policy Level 3</cite></a>. Mike West; Antonio Sartori.  W3C. 24 April 2024. W3C Working Draft. URL: <a href="https://www.w3.org/TR/CSP3/">https://www.w3.org/TR/CSP3/</a>
     </dd><dt id="bib-css-cascade-4">[CSS-CASCADE-4]</dt><dd>
       <a href="https://www.w3.org/TR/css-cascade-4/"><cite>CSS Cascading and Inheritance Level 4</cite></a>. Elika Etemad; Tab Atkins Jr..  W3C. 13 January 2022. W3C Candidate Recommendation. URL: <a href="https://www.w3.org/TR/css-cascade-4/">https://www.w3.org/TR/css-cascade-4/</a>
     </dd><dt id="bib-css-device-adapt">[CSS-DEVICE-ADAPT]</dt><dd>
