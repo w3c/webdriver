@@ -10865,7 +10865,7 @@ A <a>browsing context</a> has a <dfn>autofill store for testing</dfn>, an
  </tr>
  <tr>
   <td>POST
-  <td>/session/{<var>session id</var>}/autofill/trigger
+    <td>/session/{<var>session id</var>}/autofill/{<var>element id</var>}/trigger
  </tr>
 </table>
 
@@ -10874,8 +10874,15 @@ A <a>browsing context</a> has a <dfn>autofill store for testing</dfn>, an
 <ol>
  <li><p>If the <a>current top-level browsing context</a> is <a>no longer open</a>,
   return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
  <li><p>Let <var>element</var> be the result of <a>trying</a> to
-  <a>deserialize a web element</a> given request body.
+ <a>get a known element</a> given <var>session id</var> and <var>element id</var>.
+
+ <li><p>If <var>element</var> is not a <a data-cite="HTML#form-associated-element">form
+    associated</a> or the <var>element</var>'s <a data-cite="HTML#form-owner">form
+    owner</a> is null, return an <a>error</a> with <a>error code</a> <a>invalid
+    element state</a>.
+                                                     
  <li><p>The <a>user agent</a> should <a data-cite="HTML#concept-fe-autofill">autofill</a>
   <var>element<var> and <var>element</var>'s <a data-cite="HTML#form-owner">form owner</a>,
   while taking into account the contents of the <a>current top-level browsing context</a>'s
