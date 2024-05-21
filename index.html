@@ -176,7 +176,7 @@ ul.index code{color:inherit}
 .mdn .samsunginternet_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/samsung-internet/samsung-internet.svg)}
 .mdn .webview_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/android-webview/android-webview.png)}
 </style>
-<meta name="revision" content="3b12477a58f226429fe95f1181a8c5f1f87a49fa">
+<meta name="revision" content="48a221b1d76c95ced1c213ba15aae8e4908f2c80">
 <meta name="description" content="WebDriver is a remote control interface
 that enables introspection and control of user agents.
 It provides a platform- and language-neutral wire protocol
@@ -272,15 +272,15 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     ],
     "profile": "web-platform"
   },
-  "gitRevision": "3b12477a58f226429fe95f1181a8c5f1f87a49fa",
-  "publishISODate": "2024-05-08T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 08 May 2024"
+  "gitRevision": "48a221b1d76c95ced1c213ba15aae8e4908f2c80",
+  "publishISODate": "2024-05-21T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 21 May 2024"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head><body data-cite="WEBIDL CSSOM-VIEW GEOMETRY-1 fileapi HTML INFRA URL WEBIDL DOM FETCH" class="h-entry"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">WebDriver</h1> 
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-05-08">08 May 2024</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-05-21">21 May 2024</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -11243,18 +11243,21 @@ argument <var>value</var>:
  </p></div></li><li><p>If <var>value</var> is a <a href="#dfn-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-string-14">string</a> set <var>value</var> to
  the <a data-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-index-term-map-5">map</a> «["<code>default</code>" → <var>value</var>]».
 
- </p></li><li>Let <var>user prompt handler</var> be an empty <a data-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-index-term-map-6">map</a>.
+ </p></li><li><p>If <var>value</var> is not a <a data-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-index-term-map-6">map</a> return
+ <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-251">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-225">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-100">invalid argument</a>.
+
+ </p></li><li>Let <var>user prompt handler</var> be an empty <a data-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-index-term-map-7">map</a>.
 
  </li><li><p>For each <var>prompt type</var> → <var>handler</var> in <var>value</var>:
 
   </p><ol>
    <li><p>If <a href="#dfn-valid-prompt-types" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-valid-prompt-types-1">valid prompt types</a> does
-   not <a data-link-type="dfn|abstract-op" data-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-index-term-contains-for-map-5">contain</a> <var>prompt type</var> return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-251">error</a>
-   with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-225">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-100">invalid argument</a>.
+   not <a data-link-type="dfn|abstract-op" data-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-index-term-contains-for-map-5">contain</a> <var>prompt type</var> return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-252">error</a>
+   with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-226">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-101">invalid argument</a>.
 
    </p></li><li><p>If <a href="#dfn-known-prompt-handlers" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-known-prompt-handlers-1">known prompt handlers</a> does not contain an entry
-   with <a href="#dfn-handler-key" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handler-key-1">handler key</a> <var>handler</var> return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-252">error</a>
-   with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-226">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-101">invalid argument</a>.
+   with <a href="#dfn-handler-key" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handler-key-1">handler key</a> <var>handler</var> return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-253">error</a>
+   with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-227">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-102">invalid argument</a>.
 
    </p></li><li><p>Let <var>notify</var> be false.
 
@@ -11266,11 +11269,14 @@ argument <var>value</var>:
    set <var>handler<var> to "<code>dismiss</code>"
    and <var>notify</var> to true.
 
-   </var></var></p></li><li><p>Let <var>configuration</var> be a <a href="#dfn-prompt-handler-configuration" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-prompt-handler-configuration-2">prompt handler
+   </var></var></p></li><li><p>If <var>handler</var> is "<code>ignore</code>",
+   set <var>notify</var> to true.
+
+   </p></li><li><p>Let <var>configuration</var> be a <a href="#dfn-prompt-handler-configuration" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-prompt-handler-configuration-2">prompt handler
    configuration</a> with <a data-link-type="dfn|abstract-op" href="#dfn-handler" class="internalDFN" id="ref-for-dfn-handler-2">handler</a> <var>handler</var> and <a data-link-type="dfn|abstract-op" href="#dfn-notify" class="internalDFN" id="ref-for-dfn-notify-2">notify</a> <var>notify</var>.
 
    </p></li><li><p><a data-link-type="dfn|abstract-op" data-type="dfn" href="https://infra.spec.whatwg.org/#map-set" id="ref-for-index-term-set-for-map-1">Set</a> <var>user prompt
-   handler</var>[<var>handler</var>] to <var>configuration</var>.
+   handler</var>[<var>prompt type</var>] to <var>configuration</var>.
 
   </p></li></ol>
  </li>
@@ -11284,12 +11290,12 @@ given <var>requested prompt handler</var>:
 </p><ol class="algorithm">
  <li><p>If the <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-5">user prompt handler</a> is null, return true.
 
- </p></li><li><p>For each <var>request key</var> → <var>request handler</var>
+ </p></li><li><p>For each <var>request prompt type</var> → <var>request handler</var>
  in <var>requested prompt handler</var>:
 
   </p><ol>
    <li><p>If the <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-6">user prompt handler</a>
-   <a data-link-type="dfn|abstract-op" data-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-index-term-contains-for-map-6">contains</a> <var>key</var>:
+   <a data-link-type="dfn|abstract-op" data-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-index-term-contains-for-map-6">contains</a> <var>request prompt type</var>:
 
     </p><ol>
 
@@ -11314,12 +11320,12 @@ given <var>requested prompt handler</var>:
  <li><p>If the <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-9">user prompt handler</a> is null, set the <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-10">user prompt
  handler</a> to an empty map.
 
- </p></li><li><p>For each <var>request key</var> → <var>request handler</var>
+ </p></li><li><p>For each <var>request prompt type</var> → <var>request handler</var>
  in <var>requested prompt handler</var>:
 
   </p><ol>
-   <li><p>Set <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-11">user prompt handler</a>[<var>key</var>] to <var>value</var>.
-
+   <li><p>Set <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-11">user prompt handler</a>[<var>request prompt type</var>]
+   to <var>request handler</var>.
   </p></li></ol>
 
 </li></ol>
@@ -11335,7 +11341,7 @@ given <var>requested prompt handler</var>:
  handler configuration</a> with <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-15">user prompt
  handler</a>["<code>default</code>"].
 
- </p></li><li><p>Let <var>serialized</var> be an empty <a data-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-index-term-map-7">map</a>.
+ </p></li><li><p>Let <var>serialized</var> be an empty <a data-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-index-term-map-8">map</a>.
 
  </p></li><li><p>For each <var>key</var> → <code>value</code> of <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-16">user prompt
  handler</a>:
@@ -11350,7 +11356,7 @@ given <var>requested prompt handler</var>:
 </p></li></ol>
 
 <p>An <dfn id="dfn-annotated-unexpected-alert-open-error" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">annotated unexpected alert open error</dfn>
- is an <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-253">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-227">error code</a> <a href="#dfn-unexpected-alert-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unexpected-alert-open-3">unexpected alert open</a>
+ is an <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-254">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-228">error code</a> <a href="#dfn-unexpected-alert-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unexpected-alert-open-3">unexpected alert open</a>
  and an optional <a href="#dfn-error-data" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-data-4">error data</a> dictionary
  with the following entries:
 
@@ -11405,18 +11411,18 @@ given <var>requested prompt handler</var>:
  on <var>handler</var>'s <a data-link-type="dfn|abstract-op" href="#dfn-handler" class="internalDFN" id="ref-for-dfn-handler-8">handler</a>:
 
 </p><dl class="switch">
-<dt>"<code>accept</code>"
-</dt><dd><p><a href="#dfn-accepting" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-accepting-4">Accept</a> the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-5">current user prompt</a>.
+ <dt>"<code>accept</code>"
+ </dt><dd><p><a href="#dfn-accepting" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-accepting-4">Accept</a> the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-5">current user prompt</a>.
 
-</p></dd><dt>"<code>dismiss</code>"
-</dt><dd><p><a href="#dfn-dismissed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismissed-3">Dismiss</a> the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-6">current user prompt</a>.
+ </p></dd><dt>"<code>dismiss</code>"
+ </dt><dd><p><a href="#dfn-dismissed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismissed-3">Dismiss</a> the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-6">current user prompt</a>.
 
-</p></dd><dt>"<code>ignore</code>"
-</dt><dd><p>Do nothing.
+ </p></dd><dt>"<code>ignore</code>"
+ </dt><dd><p>Do nothing.
 </p></dd></dl>
 
-</li><li><p>If <var>handler</var>'s <a data-link-type="dfn|abstract-op" href="#dfn-notify" class="internalDFN" id="ref-for-dfn-notify-6">notify</a> is true, return <a href="#dfn-annotated-unexpected-alert-open-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-annotated-unexpected-alert-open-error-1">annotated unexpected
-   alert open error</a>.
+</li><li><p>If <var>handler</var>'s <a data-link-type="dfn|abstract-op" href="#dfn-notify" class="internalDFN" id="ref-for-dfn-notify-6">notify</a>
+is true, return <a href="#dfn-annotated-unexpected-alert-open-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-annotated-unexpected-alert-open-error-1">annotated unexpected alert open error</a>.
 
 </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-119">success</a>.
 </p></li></ol>
@@ -11425,7 +11431,7 @@ given <var>requested prompt handler</var>:
     <a class="self-link" href="#example-12">Example<bdi> 12</bdi></a>
   </div>
 <p>
-When returning an <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-254">error</a> with <a href="#dfn-unexpected-alert-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unexpected-alert-open-4">unexpected alert open</a>,
+When returning an <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-255">error</a> with <a href="#dfn-unexpected-alert-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unexpected-alert-open-4">unexpected alert open</a>,
 a <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-ends-79">remote end</a> may choose to return the <a href="#dfn-user-prompt-message" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-message-3">user prompt message</a>
 as part of an additional "<code>data</code>" <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-53">Object</a>
 on the <a data-lt="send an error" href="#dfn-send-an-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-send-an-error-7">error representation</a>:
@@ -11469,11 +11475,11 @@ variables</var> and <var>parameters</var> are:
 
 </p><ol>
  <li><p>If <var>session</var>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-70">current top-level browsing
-  context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-52">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-255">error</a>
-  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-228">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-53">no such window</a>.
+  context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-52">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-256">error</a>
+  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-229">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-53">no such window</a>.
 
  </p></li><li><p>If the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-8">current user prompt</a> is null,
-  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-256">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-229">error code</a> <a href="#dfn-no-such-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-alert-1">no such alert</a>.
+  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-257">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-230">error code</a> <a href="#dfn-no-such-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-alert-1">no such alert</a>.
 
  </p></li><li><p><a href="#dfn-dismissed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismissed-6">Dismiss</a> the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-9">current user prompt</a>.
 
@@ -11500,11 +11506,11 @@ variables</var> and <var>parameters</var> are:
 
 </p><ol>
  <li><p>If <var>session</var>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-71">current top-level browsing
-  context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-53">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-257">error</a>
-  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-230">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-54">no such window</a>.
+  context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-53">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-258">error</a>
+  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-231">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-54">no such window</a>.
 
  </p></li><li><p>If the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-10">current user prompt</a> is null,
-  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-258">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-231">error code</a> <a href="#dfn-no-such-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-alert-2">no such alert</a>.
+  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-259">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-232">error code</a> <a href="#dfn-no-such-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-alert-2">no such alert</a>.
 
  </p></li><li><p><a href="#dfn-accepting" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-accepting-6">Accept</a> the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-11">current user prompt</a>.
 
@@ -11531,11 +11537,11 @@ variables</var> and <var>parameters</var> are:
 
 </p><ol>
  <li><p>If <var>session</var>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-72">current top-level browsing
-  context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-54">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-259">error</a>
-  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-232">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-55">no such window</a>.
+  context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-54">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-260">error</a>
+  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-233">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-55">no such window</a>.
 
  </p></li><li><p>If the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-12">current user prompt</a> is null,
-  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-260">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-233">error code</a> <a href="#dfn-no-such-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-alert-3">no such alert</a>.
+  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-261">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-234">error code</a> <a href="#dfn-no-such-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-alert-3">no such alert</a>.
 
  </p></li><li><p>Let <var>message</var> be the text message
   associated with the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-13">current user prompt</a>,
@@ -11573,14 +11579,14 @@ variables</var> and <var>parameters</var> are:
   from <var>parameters</var>.
 
  </p></li><li><p>If <var>text</var> is not a <a href="#dfn-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-string-15">String</a>,
-  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-261">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-234">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-102">invalid argument</a>.
+  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-262">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-235">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-103">invalid argument</a>.
 
  </p></li><li><p>If <var>session</var>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-73">current top-level browsing
-  context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-55">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-262">error</a>
-  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-235">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-56">no such window</a>.
+  context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-55">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-263">error</a>
+  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-236">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-56">no such window</a>.
 
  </p></li><li><p>If the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-14">current user prompt</a> is null,
-  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-263">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-236">error code</a> <a href="#dfn-no-such-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-alert-4">no such alert</a>.
+  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-264">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-237">error code</a> <a href="#dfn-no-such-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-alert-4">no such alert</a>.
 
  </p></li><li><p>Run the substeps for the API that created the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-15">current user
  prompt</a>:
@@ -11588,15 +11594,15 @@ variables</var> and <var>parameters</var> are:
   </p><dl class="switch">
    <dt><a href="#dfn-window-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-window-alert-1"><code>window.alert</code></a>
    </dt><dt><a href="#dfn-window-confirm" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-window-confirm-1"><code>window.confirm</code></a>
-   </dt><dd><p>Return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-264">error</a> with
-    <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-237">error code</a> <a href="#dfn-element-not-interactable" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-not-interactable-8">element not interactable</a>.
+   </dt><dd><p>Return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-265">error</a> with
+    <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-238">error code</a> <a href="#dfn-element-not-interactable" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-not-interactable-8">element not interactable</a>.
 
    </p></dd><dt><a href="#dfn-window-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-window-prompt-2"><code>window.prompt</code></a>
    </dt><dd><p>Do nothing.
 
    </p></dd><dt>Otherwise
-   </dt><dd><p>Return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-265">error</a> with
-    <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-238">error code</a> <a href="#dfn-unsupported-operation" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unsupported-operation-7">unsupported operation</a>.
+   </dt><dd><p>Return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-266">error</a> with
+    <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-239">error code</a> <a href="#dfn-unsupported-operation" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unsupported-operation-7">unsupported operation</a>.
   </p></dd></dl>
 
  </li><li><p>Perform user agent dependent steps
@@ -11630,7 +11636,7 @@ variables</var> and <var>parameters</var> are:
 </p><ol>
  <li><p>If either the <a href="#dfn-viewport" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-viewport-6">initial viewport</a>'s width or height
   is 0 <a href="#dfn-css-pixels" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-css-pixels-11">CSS pixels</a>,
-  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-266">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-239">error code</a> <a href="#dfn-unable-to-capture-screen" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unable-to-capture-screen-1">unable to capture screen</a>.
+  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-267">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-240">error code</a> <a href="#dfn-unable-to-capture-screen" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unable-to-capture-screen-1">unable to capture screen</a>.
 
  </p></li><li><p>Let <var>paint width</var> be the <a href="#dfn-viewport" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-viewport-7">initial viewport</a>'s width –
   <a href="#dfn-min" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-min-5">min</a>(<a href="#dfn-x-coordinate" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-x-coordinate-6">rectangle x coordinate</a>,
@@ -11676,11 +11682,11 @@ variables</var> and <var>parameters</var> are:
 </p><ol>
  <li><p>If the <code><a data-link-type="element" data-type="element" href="https://html.spec.whatwg.org/multipage/canvas.html#canvas" id="ref-for-index-term-canvas-element-2">canvas</a></code> element's bitmap's
   <a href="#dfn-origin-clean" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-origin-clean-1">origin-clean</a> flag is set to false,
-  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-267">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-240">error code</a> <a href="#dfn-unable-to-capture-screen" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unable-to-capture-screen-2">unable to capture screen</a>.
+  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-268">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-241">error code</a> <a href="#dfn-unable-to-capture-screen" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unable-to-capture-screen-2">unable to capture screen</a>.
 
  </p></li><li><p>If the <code><a data-link-type="element" data-type="element" href="https://html.spec.whatwg.org/multipage/canvas.html#canvas" id="ref-for-index-term-canvas-element-3">canvas</a></code> element's bitmap
   has no pixels (i.e. either its horizontal dimension or vertical dimension is zero)
-  then return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-268">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-241">error code</a> <a href="#dfn-unable-to-capture-screen" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unable-to-capture-screen-3">unable to capture screen</a>.
+  then return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-269">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-242">error code</a> <a href="#dfn-unable-to-capture-screen" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unable-to-capture-screen-3">unable to capture screen</a>.
 
  </p></li><li><p>Let <var>file</var> be
   <a data-link-type="dfn|abstract-op" data-lt="a serialization of the bitmap as a file" href="#dfn-a-serialization-of-the-bitmap-as-a-file" class="internalDFN" id="ref-for-dfn-a-serialization-of-the-bitmap-as-a-file-1">a serialization of the <code>canvas</code> element's bitmap as a file</a>,
@@ -11717,8 +11723,8 @@ variables</var> and <var>parameters</var> are:
 
 </p><ol>
  <li><p>If <var>session</var>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-74">current top-level browsing
-  context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-56">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-269">error</a>
-  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-242">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-57">no such window</a>.
+  context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-56">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-270">error</a>
+  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-243">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-57">no such window</a>.
 
  </p></li><li><p>When the user agent is next to <a href="#dfn-run-the-animation-frame-callbacks" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-run-the-animation-frame-callbacks-1">run the animation frame callbacks</a>:
   </p><ol>
@@ -11767,7 +11773,7 @@ variables</var> and <var>parameters</var> are:
 
 </p><ol>
  <li><p>If <var>session</var>'s <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-89">current browsing context</a>
-  is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-57">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-270">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-243">error
+  is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-57">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-271">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-244">error
   code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-58">no such window</a>.
 
  </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-123">Try</a> to <a href="#dfn-handle-any-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handle-any-user-prompts-50">handle any user prompts</a>
@@ -11823,13 +11829,13 @@ implementation must:
   following steps:
     <ol>
       <li>If <var>range</var> is not either a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-18">Number</a> or
-      a <a href="#dfn-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-string-16">String</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-271">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-244">error
-      code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-103">invalid argument</a>.
+      a <a href="#dfn-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-string-16">String</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-272">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-245">error
+      code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-104">invalid argument</a>.
 
       </li><li><p>If <var>range</var> is a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-19">Number</a>:
         </p><ol>
           <li>If <var>range</var> is not an integer or is less than 0,
-      return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-272">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-245">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-104">invalid
+      return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-273">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-246">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-105">invalid
       argument</a>
 
           </li><li>Append <var>range</var> to <var>pages</var>
@@ -11840,7 +11846,7 @@ implementation must:
           splitting <var>range</var> on a "<code>-</code>" character.
 
           </li><li>If <var>rangeParts</var> has fewer than 1 or more than 2
-          elements, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-273">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-246">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-105">invalid
+          elements, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-274">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-247">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-106">invalid
           argument</a>.
 
           </li><li>If rangeParts has one element, append the result
@@ -11866,8 +11872,8 @@ implementation must:
                   second element of <var>rangeParts</var>.
 
                 </li><li>If <var>lowerBound</var> is greater
-                than <var>upperBound</var>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-274">error</a>
-                with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-247">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-106">invalid argument</a>.
+                than <var>upperBound</var>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-275">error</a>
+                with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-248">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-107">invalid argument</a>.
 
                 </li><li>Append all integers in the inclusive
                 range <var>lowerBound</var> to <var>upperBound</var>
@@ -11888,12 +11894,12 @@ argument <var>input</var> an implementation must:
   <li>Let <var>stripped</var> be the result of stripping all leading
   and trailing <a href="#dfn-whitespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-whitespace-3">whitespace</a> characters from <var>input</var>.
 
-  </li><li>If <var>stripped</var> has zero length, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-275">error</a> with
-  status <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-107">invalid argument</a>.
+  </li><li>If <var>stripped</var> has zero length, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-276">error</a> with
+  status <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-108">invalid argument</a>.
 
   </li><li>If <var>stripped</var> contains any characters outside the
   range <code>U+0030</code> - <code>U+0039</code> (i.e. 0 - 9)
-  inclusive, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-276">error</a> with status <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-108">invalid argument</a>.
+  inclusive, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-277">error</a> with status <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-109">invalid argument</a>.
 
   </li><li>Let <var>output</var> be the result of calling <a href="#dfn-parseint" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-parseint-1">parseInt</a>
   with string <var>stripped</var> and radix <code>10</code>.
@@ -11920,8 +11926,8 @@ variables</var> and <var>parameters</var> are:
 
 </p><ol>
  <li><p>If <var>session</var>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-76">current top-level browsing
-  context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-58">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-277">error</a>
-  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-248">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-59">no such window</a>.
+  context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-58">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-278">error</a>
+  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-249">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-59">no such window</a>.
 
  </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-130">Try</a> to <a href="#dfn-handle-any-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handle-any-user-prompts-51">handle any user prompts</a>
  with <var>session</var>.
@@ -11932,8 +11938,8 @@ variables</var> and <var>parameters</var> are:
 
  </p></li><li><p>If <var>orientation</var> is not a <a href="#dfn-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-string-18">String</a> or does not
  have one of the values "<code>landscape</code>" or
- "<code>portrait</code>", return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-278">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-249">error
- code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-109">invalid argument</a>.
+ "<code>portrait</code>", return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-279">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-250">error
+ code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-110">invalid argument</a>.
 
  </p></li><li><p>Let <var>scale</var> be the result of <a href="#dfn-getting-the-property-with-default" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-the-property-with-default-2">getting a
   property with default</a> named "<code>scale</code>" and with
@@ -11941,14 +11947,14 @@ variables</var> and <var>parameters</var> are:
 
  </p></li><li><p>If <var>scale</var> is not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-20">Number</a>, or is less
  than <code>0.1</code> or greater than <code>2</code>
- return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-279">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-250">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-110">invalid argument</a>.
+ return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-280">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-251">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-111">invalid argument</a>.
 
  </p></li><li><p>Let <var>background</var> be the result of <a href="#dfn-getting-the-property-with-default" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-the-property-with-default-3">getting a
   property with default</a> named "<code>background</code>" and with
   default <code>false</code> from <var>parameters</var>.
 
  </p></li><li><p>If <var>background</var> is not a <a href="#dfn-boolean" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-boolean-9">Boolean</a>
- return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-280">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-251">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-111">invalid argument</a>.
+ return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-281">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-252">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-112">invalid argument</a>.
 
  </p></li><li><p>Let <var>page</var> be the result of <a href="#dfn-getting-the-property-with-default" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-the-property-with-default-4">getting a property
   with default</a> named "<code>page</code>" and with a default of an
@@ -11963,8 +11969,8 @@ variables</var> and <var>parameters</var> are:
   default of <code>27.94</code> from <var>page</var>.
 
  </p></li><li><p>If either of <var>pageWidth</var> or <var>pageHeight</var> is
- not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-21">Number</a>, or is less then 0, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-281">error</a>
- with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-252">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-112">invalid argument</a>.
+ not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-21">Number</a>, or is less then 0, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-282">error</a>
+ with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-253">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-113">invalid argument</a>.
 
  </p></li><li><p>Let <var>margin</var> be the result of <a href="#dfn-getting-the-property-with-default" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-the-property-with-default-7">getting a property
   with default</a> named "<code>margin</code>" and with a default of an
@@ -11989,14 +11995,14 @@ variables</var> and <var>parameters</var> are:
  </p></li><li><p>If any
  of <var>marginTop</var>, <var>marginBottom</var>, <var>marginLeft</var>,
  or <var>marginRight</var> is not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-22">Number</a>, or is less then 0,
- return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-282">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-253">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-113">invalid argument</a>.
+ return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-283">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-254">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-114">invalid argument</a>.
 
  </p></li><li><p>Let <var>shrinkToFit</var> be the result of <a href="#dfn-getting-the-property-with-default" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-the-property-with-default-12">getting a
   property with default</a> named "<code>shrinkToFit</code>" and with
   default <code>true</code> from <var>parameters</var>.
 
  </p></li><li><p>If <var>shrinkToFit</var> is not a <a href="#dfn-boolean" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-boolean-10">Boolean</a>
- return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-283">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-254">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-114">invalid argument</a>.
+ return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-284">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-255">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-115">invalid argument</a>.
 
  </p></li><li><p>Let <var>pageRanges</var> be the result of <a href="#dfn-getting-the-property-with-default" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-the-property-with-default-13">getting a
   property with default</a> named "<code>pageRanges</code>" from
@@ -12004,7 +12010,7 @@ variables</var> and <var>parameters</var> are:
   empty <a href="#dfn-array" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-array-7">Array</a>.
 
  </p></li><li><p>If <var>pageRanges</var> is not an <a href="#dfn-array" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-array-8">Array</a>
- return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-284">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-255">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-115">invalid argument</a>.
+ return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-285">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-256">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-116">invalid argument</a>.
 
  </p></li><li><p>When the user agent is next to <a href="#dfn-run-the-animation-frame-callbacks" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-run-the-animation-frame-callbacks-3">run the animation frame
  callbacks</a>, let <var>pdfData</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-131">trying</a>
@@ -12158,7 +12164,7 @@ given <var>element</var>:
   </p></li><li><p>Let <var>result</var> be the result of calling <var>function</var>'s
   <a href="#dfn-call" class="internalDFN" data-link-type="idl" id="ref-for-dfn-call-5">[[Call]]</a> internal method with arguments
   null and <var>element</var>. If this raises an exception, return
-  an <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-285">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-256">error code</a> <a href="#dfn-unknown-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unknown-error-6">unknown error</a>.
+  an <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-286">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-257">error code</a> <a href="#dfn-unknown-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unknown-error-6">unknown error</a>.
 
   </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-131">success</a> with data <var>result</var>.
 </p>
@@ -14985,27 +14991,27 @@ This specification relies on several other underlying specifications.
     </li><li>
       <a href="#ref-for-dfn-error-249" title="§ 16. User prompts">§ 16. User prompts</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-250" title="§ 16.1 User Prompt Handler">§ 16.1 User Prompt Handler</a> <a href="#ref-for-dfn-error-251" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-252" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-253" title="Reference 4">(4)</a> <a href="#ref-for-dfn-error-254" title="Reference 5">(5)</a> 
+      <a href="#ref-for-dfn-error-250" title="§ 16.1 User Prompt Handler">§ 16.1 User Prompt Handler</a> <a href="#ref-for-dfn-error-251" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-252" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-253" title="Reference 4">(4)</a> <a href="#ref-for-dfn-error-254" title="Reference 5">(5)</a> <a href="#ref-for-dfn-error-255" title="Reference 6">(6)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-255" title="§ 16.2 Dismiss Alert">§ 16.2 Dismiss Alert</a> <a href="#ref-for-dfn-error-256" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-error-256" title="§ 16.2 Dismiss Alert">§ 16.2 Dismiss Alert</a> <a href="#ref-for-dfn-error-257" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-257" title="§ 16.3 Accept Alert">§ 16.3 Accept Alert</a> <a href="#ref-for-dfn-error-258" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-error-258" title="§ 16.3 Accept Alert">§ 16.3 Accept Alert</a> <a href="#ref-for-dfn-error-259" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-259" title="§ 16.4 Get Alert Text">§ 16.4 Get Alert Text</a> <a href="#ref-for-dfn-error-260" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-error-260" title="§ 16.4 Get Alert Text">§ 16.4 Get Alert Text</a> <a href="#ref-for-dfn-error-261" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-261" title="§ 16.5 Send Alert Text">§ 16.5 Send Alert Text</a> <a href="#ref-for-dfn-error-262" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-263" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-264" title="Reference 4">(4)</a> <a href="#ref-for-dfn-error-265" title="Reference 5">(5)</a> 
+      <a href="#ref-for-dfn-error-262" title="§ 16.5 Send Alert Text">§ 16.5 Send Alert Text</a> <a href="#ref-for-dfn-error-263" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-264" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-265" title="Reference 4">(4)</a> <a href="#ref-for-dfn-error-266" title="Reference 5">(5)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-266" title="§ 17. Screen capture">§ 17. Screen capture</a> <a href="#ref-for-dfn-error-267" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-268" title="Reference 3">(3)</a> 
+      <a href="#ref-for-dfn-error-267" title="§ 17. Screen capture">§ 17. Screen capture</a> <a href="#ref-for-dfn-error-268" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-269" title="Reference 3">(3)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-269" title="§ 17.1 Take Screenshot">§ 17.1 Take Screenshot</a> 
+      <a href="#ref-for-dfn-error-270" title="§ 17.1 Take Screenshot">§ 17.1 Take Screenshot</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-270" title="§ 17.2 Take Element Screenshot">§ 17.2 Take Element Screenshot</a> 
+      <a href="#ref-for-dfn-error-271" title="§ 17.2 Take Element Screenshot">§ 17.2 Take Element Screenshot</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-271" title="§ 18. Print">§ 18. Print</a> <a href="#ref-for-dfn-error-272" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-273" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-274" title="Reference 4">(4)</a> <a href="#ref-for-dfn-error-275" title="Reference 5">(5)</a> <a href="#ref-for-dfn-error-276" title="Reference 6">(6)</a> 
+      <a href="#ref-for-dfn-error-272" title="§ 18. Print">§ 18. Print</a> <a href="#ref-for-dfn-error-273" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-274" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-275" title="Reference 4">(4)</a> <a href="#ref-for-dfn-error-276" title="Reference 5">(5)</a> <a href="#ref-for-dfn-error-277" title="Reference 6">(6)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-277" title="§ 18.1 Print Page">§ 18.1 Print Page</a> <a href="#ref-for-dfn-error-278" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-279" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-280" title="Reference 4">(4)</a> <a href="#ref-for-dfn-error-281" title="Reference 5">(5)</a> <a href="#ref-for-dfn-error-282" title="Reference 6">(6)</a> <a href="#ref-for-dfn-error-283" title="Reference 7">(7)</a> <a href="#ref-for-dfn-error-284" title="Reference 8">(8)</a> 
+      <a href="#ref-for-dfn-error-278" title="§ 18.1 Print Page">§ 18.1 Print Page</a> <a href="#ref-for-dfn-error-279" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-280" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-281" title="Reference 4">(4)</a> <a href="#ref-for-dfn-error-282" title="Reference 5">(5)</a> <a href="#ref-for-dfn-error-283" title="Reference 6">(6)</a> <a href="#ref-for-dfn-error-284" title="Reference 7">(7)</a> <a href="#ref-for-dfn-error-285" title="Reference 8">(8)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-285" title="§ C. Element displayedness">§ C. Element displayedness</a> 
+      <a href="#ref-for-dfn-error-286" title="§ C. Element displayedness">§ C. Element displayedness</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-try" aria-label="Links in this document to definition: trying">
@@ -15745,27 +15751,27 @@ This specification relies on several other underlying specifications.
     </li><li>
       <a href="#ref-for-dfn-error-code-223" title="§ 15.8 Release Actions">§ 15.8 Release Actions</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-code-224" title="§ 16.1 User Prompt Handler">§ 16.1 User Prompt Handler</a> <a href="#ref-for-dfn-error-code-225" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-code-226" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-code-227" title="Reference 4">(4)</a> 
+      <a href="#ref-for-dfn-error-code-224" title="§ 16.1 User Prompt Handler">§ 16.1 User Prompt Handler</a> <a href="#ref-for-dfn-error-code-225" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-code-226" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-code-227" title="Reference 4">(4)</a> <a href="#ref-for-dfn-error-code-228" title="Reference 5">(5)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-code-228" title="§ 16.2 Dismiss Alert">§ 16.2 Dismiss Alert</a> <a href="#ref-for-dfn-error-code-229" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-error-code-229" title="§ 16.2 Dismiss Alert">§ 16.2 Dismiss Alert</a> <a href="#ref-for-dfn-error-code-230" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-code-230" title="§ 16.3 Accept Alert">§ 16.3 Accept Alert</a> <a href="#ref-for-dfn-error-code-231" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-error-code-231" title="§ 16.3 Accept Alert">§ 16.3 Accept Alert</a> <a href="#ref-for-dfn-error-code-232" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-code-232" title="§ 16.4 Get Alert Text">§ 16.4 Get Alert Text</a> <a href="#ref-for-dfn-error-code-233" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-error-code-233" title="§ 16.4 Get Alert Text">§ 16.4 Get Alert Text</a> <a href="#ref-for-dfn-error-code-234" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-code-234" title="§ 16.5 Send Alert Text">§ 16.5 Send Alert Text</a> <a href="#ref-for-dfn-error-code-235" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-code-236" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-code-237" title="Reference 4">(4)</a> <a href="#ref-for-dfn-error-code-238" title="Reference 5">(5)</a> 
+      <a href="#ref-for-dfn-error-code-235" title="§ 16.5 Send Alert Text">§ 16.5 Send Alert Text</a> <a href="#ref-for-dfn-error-code-236" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-code-237" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-code-238" title="Reference 4">(4)</a> <a href="#ref-for-dfn-error-code-239" title="Reference 5">(5)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-code-239" title="§ 17. Screen capture">§ 17. Screen capture</a> <a href="#ref-for-dfn-error-code-240" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-code-241" title="Reference 3">(3)</a> 
+      <a href="#ref-for-dfn-error-code-240" title="§ 17. Screen capture">§ 17. Screen capture</a> <a href="#ref-for-dfn-error-code-241" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-code-242" title="Reference 3">(3)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-code-242" title="§ 17.1 Take Screenshot">§ 17.1 Take Screenshot</a> 
+      <a href="#ref-for-dfn-error-code-243" title="§ 17.1 Take Screenshot">§ 17.1 Take Screenshot</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-code-243" title="§ 17.2 Take Element Screenshot">§ 17.2 Take Element Screenshot</a> 
+      <a href="#ref-for-dfn-error-code-244" title="§ 17.2 Take Element Screenshot">§ 17.2 Take Element Screenshot</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-code-244" title="§ 18. Print">§ 18. Print</a> <a href="#ref-for-dfn-error-code-245" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-code-246" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-code-247" title="Reference 4">(4)</a> 
+      <a href="#ref-for-dfn-error-code-245" title="§ 18. Print">§ 18. Print</a> <a href="#ref-for-dfn-error-code-246" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-code-247" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-code-248" title="Reference 4">(4)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-code-248" title="§ 18.1 Print Page">§ 18.1 Print Page</a> <a href="#ref-for-dfn-error-code-249" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-code-250" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-code-251" title="Reference 4">(4)</a> <a href="#ref-for-dfn-error-code-252" title="Reference 5">(5)</a> <a href="#ref-for-dfn-error-code-253" title="Reference 6">(6)</a> <a href="#ref-for-dfn-error-code-254" title="Reference 7">(7)</a> <a href="#ref-for-dfn-error-code-255" title="Reference 8">(8)</a> 
+      <a href="#ref-for-dfn-error-code-249" title="§ 18.1 Print Page">§ 18.1 Print Page</a> <a href="#ref-for-dfn-error-code-250" title="Reference 2">(2)</a> <a href="#ref-for-dfn-error-code-251" title="Reference 3">(3)</a> <a href="#ref-for-dfn-error-code-252" title="Reference 4">(4)</a> <a href="#ref-for-dfn-error-code-253" title="Reference 5">(5)</a> <a href="#ref-for-dfn-error-code-254" title="Reference 6">(6)</a> <a href="#ref-for-dfn-error-code-255" title="Reference 7">(7)</a> <a href="#ref-for-dfn-error-code-256" title="Reference 8">(8)</a> 
     </li><li>
-      <a href="#ref-for-dfn-error-code-256" title="§ C. Element displayedness">§ C. Element displayedness</a> 
+      <a href="#ref-for-dfn-error-code-257" title="§ C. Element displayedness">§ C. Element displayedness</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-error-response-data" aria-label="Links in this document to definition: error response data">
@@ -15881,13 +15887,13 @@ This specification relies on several other underlying specifications.
     </li><li>
       <a href="#ref-for-dfn-invalid-argument-56" title="§ 15.5 Processing actions">§ 15.5 Processing actions</a> <a href="#ref-for-dfn-invalid-argument-57" title="Reference 2">(2)</a> <a href="#ref-for-dfn-invalid-argument-58" title="Reference 3">(3)</a> <a href="#ref-for-dfn-invalid-argument-59" title="Reference 4">(4)</a> <a href="#ref-for-dfn-invalid-argument-60" title="Reference 5">(5)</a> <a href="#ref-for-dfn-invalid-argument-61" title="Reference 6">(6)</a> <a href="#ref-for-dfn-invalid-argument-62" title="Reference 7">(7)</a> <a href="#ref-for-dfn-invalid-argument-63" title="Reference 8">(8)</a> <a href="#ref-for-dfn-invalid-argument-64" title="Reference 9">(9)</a> <a href="#ref-for-dfn-invalid-argument-65" title="Reference 10">(10)</a> <a href="#ref-for-dfn-invalid-argument-66" title="Reference 11">(11)</a> <a href="#ref-for-dfn-invalid-argument-67" title="Reference 12">(12)</a> <a href="#ref-for-dfn-invalid-argument-68" title="Reference 13">(13)</a> <a href="#ref-for-dfn-invalid-argument-69" title="Reference 14">(14)</a> <a href="#ref-for-dfn-invalid-argument-70" title="Reference 15">(15)</a> <a href="#ref-for-dfn-invalid-argument-71" title="Reference 16">(16)</a> <a href="#ref-for-dfn-invalid-argument-72" title="Reference 17">(17)</a> <a href="#ref-for-dfn-invalid-argument-73" title="Reference 18">(18)</a> <a href="#ref-for-dfn-invalid-argument-74" title="Reference 19">(19)</a> <a href="#ref-for-dfn-invalid-argument-75" title="Reference 20">(20)</a> <a href="#ref-for-dfn-invalid-argument-76" title="Reference 21">(21)</a> <a href="#ref-for-dfn-invalid-argument-77" title="Reference 22">(22)</a> <a href="#ref-for-dfn-invalid-argument-78" title="Reference 23">(23)</a> <a href="#ref-for-dfn-invalid-argument-79" title="Reference 24">(24)</a> <a href="#ref-for-dfn-invalid-argument-80" title="Reference 25">(25)</a> <a href="#ref-for-dfn-invalid-argument-81" title="Reference 26">(26)</a> <a href="#ref-for-dfn-invalid-argument-82" title="Reference 27">(27)</a> <a href="#ref-for-dfn-invalid-argument-83" title="Reference 28">(28)</a> <a href="#ref-for-dfn-invalid-argument-84" title="Reference 29">(29)</a> <a href="#ref-for-dfn-invalid-argument-85" title="Reference 30">(30)</a> <a href="#ref-for-dfn-invalid-argument-86" title="Reference 31">(31)</a> <a href="#ref-for-dfn-invalid-argument-87" title="Reference 32">(32)</a> <a href="#ref-for-dfn-invalid-argument-88" title="Reference 33">(33)</a> <a href="#ref-for-dfn-invalid-argument-89" title="Reference 34">(34)</a> <a href="#ref-for-dfn-invalid-argument-90" title="Reference 35">(35)</a> <a href="#ref-for-dfn-invalid-argument-91" title="Reference 36">(36)</a> <a href="#ref-for-dfn-invalid-argument-92" title="Reference 37">(37)</a> <a href="#ref-for-dfn-invalid-argument-93" title="Reference 38">(38)</a> <a href="#ref-for-dfn-invalid-argument-94" title="Reference 39">(39)</a> <a href="#ref-for-dfn-invalid-argument-95" title="Reference 40">(40)</a> <a href="#ref-for-dfn-invalid-argument-96" title="Reference 41">(41)</a> <a href="#ref-for-dfn-invalid-argument-97" title="Reference 42">(42)</a> <a href="#ref-for-dfn-invalid-argument-98" title="Reference 43">(43)</a> 
     </li><li>
-      <a href="#ref-for-dfn-invalid-argument-99" title="§ 16.1 User Prompt Handler">§ 16.1 User Prompt Handler</a> <a href="#ref-for-dfn-invalid-argument-100" title="Reference 2">(2)</a> <a href="#ref-for-dfn-invalid-argument-101" title="Reference 3">(3)</a> 
+      <a href="#ref-for-dfn-invalid-argument-99" title="§ 16.1 User Prompt Handler">§ 16.1 User Prompt Handler</a> <a href="#ref-for-dfn-invalid-argument-100" title="Reference 2">(2)</a> <a href="#ref-for-dfn-invalid-argument-101" title="Reference 3">(3)</a> <a href="#ref-for-dfn-invalid-argument-102" title="Reference 4">(4)</a> 
     </li><li>
-      <a href="#ref-for-dfn-invalid-argument-102" title="§ 16.5 Send Alert Text">§ 16.5 Send Alert Text</a> 
+      <a href="#ref-for-dfn-invalid-argument-103" title="§ 16.5 Send Alert Text">§ 16.5 Send Alert Text</a> 
     </li><li>
-      <a href="#ref-for-dfn-invalid-argument-103" title="§ 18. Print">§ 18. Print</a> <a href="#ref-for-dfn-invalid-argument-104" title="Reference 2">(2)</a> <a href="#ref-for-dfn-invalid-argument-105" title="Reference 3">(3)</a> <a href="#ref-for-dfn-invalid-argument-106" title="Reference 4">(4)</a> <a href="#ref-for-dfn-invalid-argument-107" title="Reference 5">(5)</a> <a href="#ref-for-dfn-invalid-argument-108" title="Reference 6">(6)</a> 
+      <a href="#ref-for-dfn-invalid-argument-104" title="§ 18. Print">§ 18. Print</a> <a href="#ref-for-dfn-invalid-argument-105" title="Reference 2">(2)</a> <a href="#ref-for-dfn-invalid-argument-106" title="Reference 3">(3)</a> <a href="#ref-for-dfn-invalid-argument-107" title="Reference 4">(4)</a> <a href="#ref-for-dfn-invalid-argument-108" title="Reference 5">(5)</a> <a href="#ref-for-dfn-invalid-argument-109" title="Reference 6">(6)</a> 
     </li><li>
-      <a href="#ref-for-dfn-invalid-argument-109" title="§ 18.1 Print Page">§ 18.1 Print Page</a> <a href="#ref-for-dfn-invalid-argument-110" title="Reference 2">(2)</a> <a href="#ref-for-dfn-invalid-argument-111" title="Reference 3">(3)</a> <a href="#ref-for-dfn-invalid-argument-112" title="Reference 4">(4)</a> <a href="#ref-for-dfn-invalid-argument-113" title="Reference 5">(5)</a> <a href="#ref-for-dfn-invalid-argument-114" title="Reference 6">(6)</a> <a href="#ref-for-dfn-invalid-argument-115" title="Reference 7">(7)</a> 
+      <a href="#ref-for-dfn-invalid-argument-110" title="§ 18.1 Print Page">§ 18.1 Print Page</a> <a href="#ref-for-dfn-invalid-argument-111" title="Reference 2">(2)</a> <a href="#ref-for-dfn-invalid-argument-112" title="Reference 3">(3)</a> <a href="#ref-for-dfn-invalid-argument-113" title="Reference 4">(4)</a> <a href="#ref-for-dfn-invalid-argument-114" title="Reference 5">(5)</a> <a href="#ref-for-dfn-invalid-argument-115" title="Reference 6">(6)</a> <a href="#ref-for-dfn-invalid-argument-116" title="Reference 7">(7)</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-invalid-cookie-domain" aria-label="Links in this document to definition: invalid cookie domain">
@@ -25593,7 +25599,7 @@ This specification relies on several other underlying specifications.
     </li><li>
       <a href="#ref-for-index-term-map-3" title="§ 12. Elements">§ 12. Elements</a> 
     </li><li>
-      <a href="#ref-for-index-term-map-4" title="§ 16.1 User Prompt Handler">§ 16.1 User Prompt Handler</a> <a href="#ref-for-index-term-map-5" title="Reference 2">(2)</a> <a href="#ref-for-index-term-map-6" title="Reference 3">(3)</a> <a href="#ref-for-index-term-map-7" title="Reference 4">(4)</a> 
+      <a href="#ref-for-index-term-map-4" title="§ 16.1 User Prompt Handler">§ 16.1 User Prompt Handler</a> <a href="#ref-for-index-term-map-5" title="Reference 2">(2)</a> <a href="#ref-for-index-term-map-6" title="Reference 3">(3)</a> <a href="#ref-for-index-term-map-7" title="Reference 4">(4)</a> <a href="#ref-for-index-term-map-8" title="Reference 5">(5)</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-index-term-queue" aria-label="Links in this document to definition: queue">
