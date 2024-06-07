@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en-us" data-issue-url="https://github.com/w3c/webdriver/" data-issue-param-milestone="Level 1"><head>
 <meta charset="utf-8">
-<meta name="generator" content="ReSpec 35.0.2">
+<meta name="generator" content="ReSpec 35.1.0">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <style>
 span.example-title{text-transform:none}
@@ -176,7 +176,7 @@ ul.index code{color:inherit}
 .mdn .samsunginternet_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/samsung-internet/samsung-internet.svg)}
 .mdn .webview_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/android-webview/android-webview.png)}
 </style>
-<meta name="revision" content="48a221b1d76c95ced1c213ba15aae8e4908f2c80">
+<meta name="revision" content="34f9efa01c94b8d1575e19f81f8fe77a2e8992ae">
 <meta name="description" content="WebDriver is a remote control interface
 that enables introspection and control of user agents.
 It provides a platform- and language-neutral wire protocol
@@ -272,15 +272,15 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     ],
     "profile": "web-platform"
   },
-  "gitRevision": "48a221b1d76c95ced1c213ba15aae8e4908f2c80",
-  "publishISODate": "2024-05-21T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 21 May 2024"
+  "gitRevision": "34f9efa01c94b8d1575e19f81f8fe77a2e8992ae",
+  "publishISODate": "2024-06-07T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 07 June 2024"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head><body data-cite="WEBIDL CSSOM-VIEW GEOMETRY-1 fileapi HTML INFRA URL WEBIDL DOM FETCH" class="h-entry"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">WebDriver</h1> 
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-05-21">21 May 2024</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-06-07">07 June 2024</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -11397,9 +11397,11 @@ given <var>requested prompt handler</var>:
 
  </p></li><li><p>If the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-2">current user prompt</a> is an alert dialog,
  set <var>type</var> to "<code>alert</code>". Otherwise, if
- the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-3">current user prompt</a> is a confirm dialog,
+ the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-3">current user prompt</a> is a beforeunload dialog,
+ set <var>type</var> to "<code>beforeUnload</code>". Otherwise, if
+ the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-4">current user prompt</a> is a confirm dialog,
  set <var>type</var> to "<code>confirm</code>". Otherwise, if
- the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-4">current user prompt</a> is a prompt dialog,
+ the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-5">current user prompt</a> is a prompt dialog,
  set <var>type</var> to "<code>prompt</code>".
 
  
@@ -11412,10 +11414,10 @@ given <var>requested prompt handler</var>:
 
 </p><dl class="switch">
  <dt>"<code>accept</code>"
- </dt><dd><p><a href="#dfn-accepting" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-accepting-4">Accept</a> the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-5">current user prompt</a>.
+ </dt><dd><p><a href="#dfn-accepting" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-accepting-4">Accept</a> the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-6">current user prompt</a>.
 
  </p></dd><dt>"<code>dismiss</code>"
- </dt><dd><p><a href="#dfn-dismissed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismissed-3">Dismiss</a> the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-6">current user prompt</a>.
+ </dt><dd><p><a href="#dfn-dismissed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismissed-3">Dismiss</a> the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-7">current user prompt</a>.
 
  </p></dd><dt>"<code>ignore</code>"
  </dt><dd><p>Do nothing.
@@ -11465,7 +11467,7 @@ on the <a data-lt="send an error" href="#dfn-send-an-error" class="internalDFN" 
 <div class="note" role="note" id="issue-container-generatedID-58"><div role="heading" class="note-title marker" id="h-note-58" aria-level="4"><span>Note</span></div><p class="">
 The <a href="#dfn-dismiss-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismiss-alert-2">Dismiss Alert</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-58">command</a>
 <a href="#dfn-dismissed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismissed-4">dismisses</a> a <a href="#dfn-simple-dialog" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-simple-dialog-6">simple dialog</a>
-if <a data-lt="current user prompt" href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-7">present</a>.
+if <a data-lt="current user prompt" href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-8">present</a>.
 A request to <a href="#dfn-dismissed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismissed-5">dismiss</a> an alert <a href="#dfn-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompts-10">user prompt</a>,
 which may not necessarily have a dismiss button,
 has the same effect as <a href="#dfn-accepting" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-accepting-5">accepting</a> it.
@@ -11478,10 +11480,10 @@ variables</var> and <var>parameters</var> are:
   context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-52">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-256">error</a>
   with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-229">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-53">no such window</a>.
 
- </p></li><li><p>If the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-8">current user prompt</a> is null,
+ </p></li><li><p>If the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-9">current user prompt</a> is null,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-257">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-230">error code</a> <a href="#dfn-no-such-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-alert-1">no such alert</a>.
 
- </p></li><li><p><a href="#dfn-dismissed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismissed-6">Dismiss</a> the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-9">current user prompt</a>.
+ </p></li><li><p><a href="#dfn-dismissed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismissed-6">Dismiss</a> the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-10">current user prompt</a>.
 
  </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-120">success</a> with data <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-84"><code>null</code></a>.
 </p></li></ol>
@@ -11509,10 +11511,10 @@ variables</var> and <var>parameters</var> are:
   context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-53">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-258">error</a>
   with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-231">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-54">no such window</a>.
 
- </p></li><li><p>If the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-10">current user prompt</a> is null,
+ </p></li><li><p>If the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-11">current user prompt</a> is null,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-259">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-232">error code</a> <a href="#dfn-no-such-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-alert-2">no such alert</a>.
 
- </p></li><li><p><a href="#dfn-accepting" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-accepting-6">Accept</a> the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-11">current user prompt</a>.
+ </p></li><li><p><a href="#dfn-accepting" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-accepting-6">Accept</a> the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-12">current user prompt</a>.
 
  </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-121">success</a> with data <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-85"><code>null</code></a>.
 </p></li></ol>
@@ -11540,11 +11542,11 @@ variables</var> and <var>parameters</var> are:
   context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-54">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-260">error</a>
   with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-233">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-55">no such window</a>.
 
- </p></li><li><p>If the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-12">current user prompt</a> is null,
+ </p></li><li><p>If the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-13">current user prompt</a> is null,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-261">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-234">error code</a> <a href="#dfn-no-such-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-alert-3">no such alert</a>.
 
  </p></li><li><p>Let <var>message</var> be the text message
-  associated with the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-13">current user prompt</a>,
+  associated with the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-14">current user prompt</a>,
   or otherwise be <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-86"><code>null</code></a>.
 
  </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-122">success</a> with data <var>message</var>.
@@ -11585,10 +11587,10 @@ variables</var> and <var>parameters</var> are:
   context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-55">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-263">error</a>
   with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-236">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-56">no such window</a>.
 
- </p></li><li><p>If the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-14">current user prompt</a> is null,
+ </p></li><li><p>If the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-15">current user prompt</a> is null,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-264">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-237">error code</a> <a href="#dfn-no-such-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-alert-4">no such alert</a>.
 
- </p></li><li><p>Run the substeps for the API that created the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-15">current user
+ </p></li><li><p>Run the substeps for the API that created the <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-16">current user
  prompt</a>:
 
   </p><dl class="switch">
@@ -11606,7 +11608,7 @@ variables</var> and <var>parameters</var> are:
   </p></dd></dl>
 
  </li><li><p>Perform user agent dependent steps
-  to set the value of <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-16">current user prompt</a>'s text field
+  to set the value of <a href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-17">current user prompt</a>'s text field
   to <var>text</var>.
 
  </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-123">success</a> with data <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-87"><code>null</code></a>.
@@ -14204,7 +14206,7 @@ This specification relies on several other underlying specifications.
     </dd><dt id="bib-fetch">[FETCH]</dt><dd>
       <a href="https://fetch.spec.whatwg.org/"><cite>Fetch Standard</cite></a>. Anne van Kesteren.  WHATWG. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
     </dd><dt id="bib-fileapi">[fileapi]</dt><dd>
-      <a href="https://www.w3.org/TR/FileAPI/"><cite>File API</cite></a>. Marijn Kruisselbrink.  W3C. 6 February 2023. W3C Working Draft. URL: <a href="https://www.w3.org/TR/FileAPI/">https://www.w3.org/TR/FileAPI/</a>
+      <a href="https://www.w3.org/TR/FileAPI/"><cite>File API</cite></a>. Marijn Kruisselbrink.  W3C. 24 May 2024. W3C Working Draft. URL: <a href="https://www.w3.org/TR/FileAPI/">https://www.w3.org/TR/FileAPI/</a>
     </dd><dt id="bib-fullscreen">[FULLSCREEN]</dt><dd>
       <a href="https://fullscreen.spec.whatwg.org/"><cite>Fullscreen API Standard</cite></a>. Philip Jägenstedt.  WHATWG. Living Standard. URL: <a href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a>
     </dd><dt id="bib-geometry-1">[GEOMETRY-1]</dt><dd>
@@ -20833,15 +20835,15 @@ This specification relies on several other underlying specifications.
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-      <a href="#ref-for-dfn-current-user-prompt-1" title="§ 16.1 User Prompt Handler">§ 16.1 User Prompt Handler</a> <a href="#ref-for-dfn-current-user-prompt-2" title="Reference 2">(2)</a> <a href="#ref-for-dfn-current-user-prompt-3" title="Reference 3">(3)</a> <a href="#ref-for-dfn-current-user-prompt-4" title="Reference 4">(4)</a> <a href="#ref-for-dfn-current-user-prompt-5" title="Reference 5">(5)</a> <a href="#ref-for-dfn-current-user-prompt-6" title="Reference 6">(6)</a> 
+      <a href="#ref-for-dfn-current-user-prompt-1" title="§ 16.1 User Prompt Handler">§ 16.1 User Prompt Handler</a> <a href="#ref-for-dfn-current-user-prompt-2" title="Reference 2">(2)</a> <a href="#ref-for-dfn-current-user-prompt-3" title="Reference 3">(3)</a> <a href="#ref-for-dfn-current-user-prompt-4" title="Reference 4">(4)</a> <a href="#ref-for-dfn-current-user-prompt-5" title="Reference 5">(5)</a> <a href="#ref-for-dfn-current-user-prompt-6" title="Reference 6">(6)</a> <a href="#ref-for-dfn-current-user-prompt-7" title="Reference 7">(7)</a> 
     </li><li>
-      <a href="#ref-for-dfn-current-user-prompt-7" title="§ 16.2 Dismiss Alert">§ 16.2 Dismiss Alert</a> <a href="#ref-for-dfn-current-user-prompt-8" title="Reference 2">(2)</a> <a href="#ref-for-dfn-current-user-prompt-9" title="Reference 3">(3)</a> 
+      <a href="#ref-for-dfn-current-user-prompt-8" title="§ 16.2 Dismiss Alert">§ 16.2 Dismiss Alert</a> <a href="#ref-for-dfn-current-user-prompt-9" title="Reference 2">(2)</a> <a href="#ref-for-dfn-current-user-prompt-10" title="Reference 3">(3)</a> 
     </li><li>
-      <a href="#ref-for-dfn-current-user-prompt-10" title="§ 16.3 Accept Alert">§ 16.3 Accept Alert</a> <a href="#ref-for-dfn-current-user-prompt-11" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-current-user-prompt-11" title="§ 16.3 Accept Alert">§ 16.3 Accept Alert</a> <a href="#ref-for-dfn-current-user-prompt-12" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-current-user-prompt-12" title="§ 16.4 Get Alert Text">§ 16.4 Get Alert Text</a> <a href="#ref-for-dfn-current-user-prompt-13" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-current-user-prompt-13" title="§ 16.4 Get Alert Text">§ 16.4 Get Alert Text</a> <a href="#ref-for-dfn-current-user-prompt-14" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-current-user-prompt-14" title="§ 16.5 Send Alert Text">§ 16.5 Send Alert Text</a> <a href="#ref-for-dfn-current-user-prompt-15" title="Reference 2">(2)</a> <a href="#ref-for-dfn-current-user-prompt-16" title="Reference 3">(3)</a> 
+      <a href="#ref-for-dfn-current-user-prompt-15" title="§ 16.5 Send Alert Text">§ 16.5 Send Alert Text</a> <a href="#ref-for-dfn-current-user-prompt-16" title="Reference 2">(2)</a> <a href="#ref-for-dfn-current-user-prompt-17" title="Reference 3">(3)</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-dismissed" aria-label="Links in this document to definition: dismiss">
