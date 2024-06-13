@@ -10481,8 +10481,11 @@ argument <var>value</var>:
  <p class="note">This is to avoid [[WebDriver-BiDi]] monkey-patching
  the current spec.
 
+ <li><p>Let <var>is string value</var> be false.
+
  <li><p>If <var>value</var> is a <a>string</a> set <var>value</var> to
- the <a data-cite=infra>map</a> «["<code>default</code>" → <var>value</var>]».
+ the <a data-cite=infra>map</a> «["<code>fallbackDefault</code>"
+ → <var>value</var>]» and set <var>is string value</var> to true.
 
  <li><p>If <var>value</var> is not a <a data-cite=infra>map</a> return
  <a>error</a> with <a>error code</a> <a>invalid argument</a>.
@@ -10492,9 +10495,9 @@ argument <var>value</var>:
  <li><p>For each <var>prompt type</var> → <var>handler</var> in <var>value</var>:
 
   <ol>
-   <li><p>If <a>valid prompt types</a> does
-   not [=map/contain=] <var>prompt type</var> return <a>error</a>
-   with <a>error code</a> <a>invalid argument</a>.
+   <li><p>If <var>is string value</var> is false and <a>valid prompt
+   types</a> does not [=map/contain=] <var>prompt type</var>
+   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
    <li><p>If <a>known prompt handlers</a> does not contain an entry
    with <a>handler key</a> <var>handler</var> return <a>error</a>
@@ -10584,9 +10587,9 @@ session=], if any.
 
  <li><p>If the <a>user prompt handler</a> has [=map/size=] 1,
  and <a>user prompt handler</a> [=list/contains=]
- "<code>default</code>", return the result of <a>serialize a prompt
+ "<code>fallbackDefault</code>", return the result of <a>serialize a prompt
  handler configuration</a> with <a>user prompt
- handler</a>["<code>default</code>"].
+ handler</a>["<code>fallbackDefault</code>"].
 
  <li><p>Let <var>serialized</var> be an empty <a data-cite=infra>map</a>.
 
@@ -10623,12 +10626,15 @@ session=], if any.
  <li><p>If <var>handlers</var> contains <var>type</var>
  return <var>handlers</var>[<var>type</var>].
 
+ <li><p>If <var>handlers</var> contains "<code>default</code>"
+ return <var>handlers</var>["<code>default</code>"].
+
  <li><p>If <var>type</var> is "<code>beforeUnload</code>", return a
    <a>prompt handler configuration</a> with [=prompt
    handler configuration/handler=] "<code>accept</code>"
    and [=prompt handler configuration/notify=] false.
 
- <li><p>If <var>handlers</var> contains "<code>default</code>"
+ <li><p>If <var>handlers</var> contains "<code>fallbackDefault</code>"
  return <var>handlers</var>["<code>default</code>"].
 
  <li><p>Return a <a>prompt handler
