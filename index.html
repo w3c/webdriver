@@ -9738,7 +9738,7 @@ and <var>actions options</var>:
 <h4>Pointer actions</h4>
 
 <p>To <dfn>dispatch a pointerDown action</dfn> given
- <var>action object</var>, <var>input state</var>, <var>global key
+ <var>action object</var>, <var>source</var>, <var>global key
  state</var>, <var>tick duration</var>, <var>browsing context</var>,
  and <var>actions options</var>:
 
@@ -9749,17 +9749,17 @@ and <var>actions options</var>:
  <li><p>Let <var>button</var> be equal to
   <var>action object</var>&apos;s <code>button</code> property.
 
- <li><p>If the <var>input state</var>&apos;s <code>pressed</code> property
+ <li><p>If the <var>source</var>&apos;s <code>pressed</code> property
   contains <var>button</var> return <a>success</a> with data <a><code>null</code></a>.
 
- <li><p>Let <var>x</var> be equal to <var>input state</var>&apos;s
+ <li><p>Let <var>x</var> be equal to <var>source</var>&apos;s
   <code>x</code> property.
 
- <li><p>Let <var>y</var> be equal to <var>input state</var>&apos;s
+ <li><p>Let <var>y</var> be equal to <var>source</var>&apos;s
   <code>y</code> property.
 
  <li><p>Add <var>button</var> to the set corresponding to
-  <var>input state</var>&apos;s <code>pressed</code> property, and
+  <var>source</var>&apos;s <code>pressed</code> property, and
   let <var>buttons</var> be the resulting value of that property.
 
  <li><p>Let <var>width</var> be equal to <var>action object</var>&apos;s
@@ -9792,7 +9792,7 @@ and <var>actions options</var>:
  <li><p><a>Perform implementation-specific action dispatch steps</a>
   on <var>browsing context</var> equivalent to pressing the button
   numbered <var>button</var> on the pointer with pointerId equal
-  to <var>input source</var>&apos;s pointerId, having
+  to <var>source</var>&apos;s pointerId, having
   type <var>pointerType</var> at viewport x coordinate <var>x</var>,
   viewport y coordinate <var>y</var>, <var>width</var>, <var>height</var>,
   <var>pressure</var>, <var>tangentialPressure</var>, <var>tiltX</var>,
