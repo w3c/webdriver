@@ -176,7 +176,7 @@ ul.index code{color:inherit}
 .mdn .samsunginternet_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/samsung-internet/samsung-internet.svg)}
 .mdn .webview_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/android-webview/android-webview.png)}
 </style>
-<meta name="revision" content="ebad903b150634ef8df8960fe296c422d7f00545">
+<meta name="revision" content="629163e910748e41ccdb4f5b11d537c0ce955922">
 <meta name="description" content="WebDriver is a remote control interface
 that enables introspection and control of user agents.
 It provides a platform- and language-neutral wire protocol
@@ -272,7 +272,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     ],
     "profile": "web-platform"
   },
-  "gitRevision": "ebad903b150634ef8df8960fe296c422d7f00545",
+  "gitRevision": "629163e910748e41ccdb4f5b11d537c0ce955922",
   "publishISODate": "2024-06-28T00:00:00.000Z",
   "generatedSubtitle": "W3C Editor's Draft 28 June 2024"
 }</script>
@@ -10504,7 +10504,7 @@ and <var>actions options</var>:
 
 
 <p>To <dfn id="dfn-dispatch-a-pointerdown-action" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch a pointerDown action</dfn> given
- <var>action object</var>, <var>input state</var>, <var>global key
+ <var>action object</var>, <var>source</var>, <var>global key
  state</var>, <var>tick duration</var>, <var>browsing context</var>,
  and <var>actions options</var>:
 
@@ -10515,17 +10515,17 @@ and <var>actions options</var>:
  </p></li><li><p>Let <var>button</var> be equal to
   <var>action object</var>'s <code>button</code> property.
 
- </p></li><li><p>If the <var>input state</var>'s <code>pressed</code> property
+ </p></li><li><p>If the <var>source</var>'s <code>pressed</code> property
   contains <var>button</var> return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-108">success</a> with data <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-74"><code>null</code></a>.
 
- </p></li><li><p>Let <var>x</var> be equal to <var>input state</var>'s
+ </p></li><li><p>Let <var>x</var> be equal to <var>source</var>'s
   <code>x</code> property.
 
- </p></li><li><p>Let <var>y</var> be equal to <var>input state</var>'s
+ </p></li><li><p>Let <var>y</var> be equal to <var>source</var>'s
   <code>y</code> property.
 
  </p></li><li><p>Add <var>button</var> to the set corresponding to
-  <var>input state</var>'s <code>pressed</code> property, and
+  <var>source</var>'s <code>pressed</code> property, and
   let <var>buttons</var> be the resulting value of that property.
 
  </p></li><li><p>Let <var>width</var> be equal to <var>action object</var>'s
@@ -10558,7 +10558,7 @@ and <var>actions options</var>:
  </p></li><li><p><a href="#dfn-perform-implementation-specific-action-dispatch-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-perform-implementation-specific-action-dispatch-steps-4">Perform implementation-specific action dispatch steps</a>
   on <var>browsing context</var> equivalent to pressing the button
   numbered <var>button</var> on the pointer with pointerId equal
-  to <var>input source</var>'s pointerId, having
+  to <var>source</var>'s pointerId, having
   type <var>pointerType</var> at viewport x coordinate <var>x</var>,
   viewport y coordinate <var>y</var>, <var>width</var>, <var>height</var>,
   <var>pressure</var>, <var>tangentialPressure</var>, <var>tiltX</var>,
