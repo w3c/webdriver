@@ -176,7 +176,7 @@ ul.index code{color:inherit}
 .mdn .samsunginternet_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/samsung-internet/samsung-internet.svg)}
 .mdn .webview_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/android-webview/android-webview.png)}
 </style>
-<meta name="revision" content="549d8aa8b211094ed9c785043c710ac40ac2e860">
+<meta name="revision" content="af51973a08cc16a06c8c7d9ca8728e71dbe6a392">
 <meta name="description" content="WebDriver is a remote control interface
 that enables introspection and control of user agents.
 It provides a platform- and language-neutral wire protocol
@@ -272,15 +272,15 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     ],
     "profile": "web-platform"
   },
-  "gitRevision": "549d8aa8b211094ed9c785043c710ac40ac2e860",
-  "publishISODate": "2024-07-01T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 01 July 2024"
+  "gitRevision": "af51973a08cc16a06c8c7d9ca8728e71dbe6a392",
+  "publishISODate": "2024-07-02T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 02 July 2024"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head><body data-cite="WEBIDL CSSOM-VIEW GEOMETRY-1 fileapi HTML INFRA URL WEBIDL DOM FETCH" class="h-entry"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">WebDriver</h1> 
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-07-01">01 July 2024</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-07-02">02 July 2024</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -2651,8 +2651,7 @@ flags</a> <var>flags</var>:
   </p></li><li><p>Let <var>serialized user prompt handler</var>
    be <a href="#dfn-serialize-the-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-serialize-the-user-prompt-handler-1">serialize the user prompt handler</a>.
 
-  </p></li><li><p>If <var>serialized user prompt handler</var> is not null, set
-   a property on <var>capabilities</var> with the name
+  </p></li><li><p>Set a property on <var>capabilities</var> with the name
    "<code>unhandledPromptBehavior</code>", and the value <var>serialized
    user prompt handler</var>.
 
@@ -11240,8 +11239,11 @@ argument <var>value</var>:
  </p><div class="note" role="note" id="issue-container-generatedID-57"><div role="heading" class="note-title marker" id="h-note-57" aria-level="3"><span>Note</span></div><p class="">This is to avoid [<cite><a class="bibref" data-link-type="biblio" href="#bib-webdriver-bidi" title="WebDriver BiDi">WebDriver-BiDi</a></cite>] monkey-patching
  the current spec.
 
- </p></div></li><li><p>If <var>value</var> is a <a href="#dfn-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-string-14">string</a> set <var>value</var> to
- the <a data-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-index-term-map-5">map</a> «["<code>default</code>" → <var>value</var>]».
+ </p></div></li><li><p>Let <var>is string value</var> be false.
+
+ </p></li><li><p>If <var>value</var> is a <a href="#dfn-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-string-14">string</a> set <var>value</var> to
+ the <a data-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-index-term-map-5">map</a> «["<code>fallbackDefault</code>"
+ → <var>value</var>]» and set <var>is string value</var> to true.
 
  </p></li><li><p>If <var>value</var> is not a <a data-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-index-term-map-6">map</a> return
  <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-251">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-225">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-100">invalid argument</a>.
@@ -11251,9 +11253,9 @@ argument <var>value</var>:
  </li><li><p>For each <var>prompt type</var> → <var>handler</var> in <var>value</var>:
 
   </p><ol>
-   <li><p>If <a href="#dfn-valid-prompt-types" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-valid-prompt-types-1">valid prompt types</a> does
-   not <a data-link-type="dfn|abstract-op" data-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-index-term-contains-for-map-5">contain</a> <var>prompt type</var> return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-252">error</a>
-   with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-226">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-101">invalid argument</a>.
+   <li><p>If <var>is string value</var> is false and <a href="#dfn-valid-prompt-types" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-valid-prompt-types-1">valid prompt
+   types</a> does not <a data-link-type="dfn|abstract-op" data-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-index-term-contains-for-map-5">contain</a> <var>prompt type</var>
+   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-252">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-226">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-101">invalid argument</a>.
 
    </p></li><li><p>If <a href="#dfn-known-prompt-handlers" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-known-prompt-handlers-1">known prompt handlers</a> does not contain an entry
    with <a href="#dfn-handler-key" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handler-key-1">handler key</a> <var>handler</var> return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-253">error</a>
@@ -11333,13 +11335,14 @@ the <a data-link-type="dfn|abstract-op" href="#dfn-handler" class="internalDFN" 
 <p>To <dfn id="dfn-serialize-the-user-prompt-handler" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">serialize the user prompt handler</dfn>:
 
 </p><ol class="algorithm">
- <li><p>If the <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-11">user prompt handler</a> is null, return null.
+ <li><p>If the <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-11">user prompt handler</a> is null, return
+ "<code>dismiss and notify</code>".
 
  </p></li><li><p>If the <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-12">user prompt handler</a> has <a data-link-type="dfn|abstract-op" data-type="dfn" href="https://infra.spec.whatwg.org/#map-size" id="ref-for-index-term-size-for-map-1">size</a> 1,
  and <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-13">user prompt handler</a> <a data-link-type="dfn|abstract-op" data-type="dfn" href="https://infra.spec.whatwg.org/#list-contain" id="ref-for-index-term-contain-for-list-4">contains</a>
- "<code>default</code>", return the result of <a href="#dfn-serialize-a-prompt-handler-configuration" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-serialize-a-prompt-handler-configuration-1">serialize a prompt
+ "<code>fallbackDefault</code>", return the result of <a href="#dfn-serialize-a-prompt-handler-configuration" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-serialize-a-prompt-handler-configuration-1">serialize a prompt
  handler configuration</a> with <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-14">user prompt
- handler</a>["<code>default</code>"].
+ handler</a>["<code>fallbackDefault</code>"].
 
  </p></li><li><p>Let <var>serialized</var> be an empty <a data-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-index-term-map-8">map</a>.
 
@@ -11376,11 +11379,14 @@ the <a data-link-type="dfn|abstract-op" href="#dfn-handler" class="internalDFN" 
  </p></li><li><p>If <var>handlers</var> contains <var>type</var>
  return <var>handlers</var>[<var>type</var>].
 
+ </p></li><li><p>If <var>handlers</var> contains "<code>default</code>"
+ return <var>handlers</var>["<code>default</code>"].
+
  </p></li><li><p>If <var>type</var> is "<code>beforeUnload</code>", return a
    <a href="#dfn-prompt-handler-configuration" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-prompt-handler-configuration-3">prompt handler configuration</a> with <a data-link-type="dfn|abstract-op" href="#dfn-handler" class="internalDFN" id="ref-for-dfn-handler-6">handler</a> "<code>accept</code>"
    and <a data-link-type="dfn|abstract-op" href="#dfn-notify" class="internalDFN" id="ref-for-dfn-notify-5">notify</a> false.
 
- </p></li><li><p>If <var>handlers</var> contains "<code>default</code>"
+ </p></li><li><p>If <var>handlers</var> contains "<code>fallbackDefault</code>"
  return <var>handlers</var>["<code>default</code>"].
 
  </p></li><li><p>Return a <a href="#dfn-prompt-handler-configuration" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-prompt-handler-configuration-4">prompt handler
