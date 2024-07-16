@@ -4044,25 +4044,23 @@ variables</var> and <var>parameters</var> are:
 <ol>
  <li><p>Let <var>width</var> be the result of
   <a>getting a property</a> named "<code>width</code>"
-  from <var>parameters</var>, else let it be <a><code>null</code></a>.
+  from <var>parameters</var></a>.
 
  <li><p>Let <var>height</var> be the result of
   <a>getting a property</a> named "<code>height</code>"
-  from <var>parameters</var>, else let it be <a><code>null</code></a>.
+  from <var>parameters</var>.
 
  <li><p>Let <var>x</var> be the result of <a>getting a property</a>
-  named "<code>x</code>" from <var>parameters</var>,
-  else let it be <a><code>null</code></a>.
+  named "<code>x</code>" from <var>parameters</var>.
 
  <li><p>Let <var>y</var> be the result of <a>getting a property</a>
-  named "<code>y</code>" from <var>parameters</var>,
-  else let it be <a><code>null</code></a>.
+  named "<code>y</code>" from <var>parameters</var>.
 
- <li><p>If <var>width</var> or <var>height</var> is neither <a><code>null</code></a>
+ <li><p>If <var>width</var> or <var>height</var> is neither <a>undefined</a>
   nor a <a>Number</a> from 0 to 2<sup>31</sup> − 1,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If <var>x</var> or <var>y</var> is neither <a><code>null</code></a>
+ <li><p>If <var>x</var> or <var>y</var> is neither <a>undefined</a>
   nor a <a>Number</a> from −(2<sup>31</sup>) to 2<sup>31</sup> − 1,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
@@ -4070,6 +4068,11 @@ variables</var> and <var>parameters</var> are:
   the <a>Set Window Rect</a> <a>command</a> for
   <var>session</var>&apos;s <a>current top-level browsing context</a> for any reason,
   return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+
+  <p class="note">In case the <a>Set Window Rect</a> command is
+  partially supported (i.e. some combinations of arguments are
+  supported but not others), the implmentation is expected to continue
+  with the remaining steps.
 
  <li><p>If <var>session</var>&apos;s <a>current top-level browsing
   context</a> is <a>no longer open</a>, return <a>error</a>
@@ -4082,20 +4085,24 @@ variables</var> and <var>parameters</var> are:
 
  <li><p><a>Restore the window</a>.
 
- <li><p>If <var>width</var> and <var>height</var> are not <a><code>null</code></a>:
+ <li><p>Let <var>window</var> be the operating system window containing
+     <var>session</var>&apos;s <a>current top-level browsing context</a>
+
+ <li><p>If the implementation is able to set the dimensions
+ of <var>window</var>:
 
   <ol>
-   <li><p>Set the width, in <a>CSS pixels</a>,
-    of the operating system window containing
-    <var>session</var>&apos;s <a>current top-level browsing context</a>,
-    including any <a>browser chrome</a> and externally drawn window decorations
+   <li><p>If <var>width</var> is not <a>undefined</a>, set the width,
+    in <a>CSS pixels</a>, of <var>window</var>, including
+    any <a>browser chrome</a> and externally drawn window decorations,
     to a value that is as close as possible to <var>width</var>.
 
-  <li><p>Set the height, in <a>CSS pixels</a>,
-   of the operating system window containing
-   <var>session</var>&apos;s <a>current top-level browsing context</a>,
-   including any <a>browser chrome</a> and externally drawn window decorations
+  <li><p>If <var>height</var> is not <a>undefined</a>, set the height,
+   in <a>CSS pixels</a>, of <var>window</var>, including
+   any <a>browser chrome</a> and externally drawn window decorations,
    to a value that is as close as possible to <var>height</var>.
+
+  </ol>
 
    <aside class=note>
     <p>The specification does not guarantee
@@ -4116,34 +4123,36 @@ variables</var> and <var>parameters</var> are:
      of <a>outerHeight</a> should be as close as possible
      to <var>height</var>.
    </aside>
-  </ol>
 
- <li><p>If <var>x</var> and <var>y</var> are not <a><code>null</code></a>:
+ <li><p>If the implementation is able to set the position of <var>window</var>:
 
   <ol>
-   <li><p>Run the implementation-specific steps to set the position of
-    the operating system level window
-    containing <var>session</var>&apos;s <a>current top-level browsing
-    context</a> to the position given by the <var>x</var>
-    and <var>y</var> coordinates.
+   <li><p>If <var>x</var> is not <a>undefined</a>, run specific
+    steps set the x-coordinate of the left edge of <var>window</var>
+    to a value that is as close as possible to <var>x</var>.
 
-    <aside class=note>
-     <p>Note that this step is similar to calling the <a>moveTo(x,
-      y)</a> method on the <a><code>WindowProxy</code></a> object
-      associated with <var>session</var>&apos;s <a>current top-level browsing
-      context</a>, but without the
-      <a href=https://developer.mozilla.org/en-US/docs/Web/API/Window/moveTo>security
-      restrictions</a> that you
-
-     <ol type=a>
-      <li>cannot move a window or tab
-       that was not created by <code>window.open</code>.
-
-      <li>cannot move a window or tab
-       when it is in a window with more than one tab.
-     </ol>
-   </aside>
+   <li><p>If <var>y</var> is not <a>undefined</a>, run specific
+    steps set the y-coordinate of the top edge of <var>window</var> to
+    a value that is as close as possible to <var>y</var>.
   </ol>
+
+  <aside class=note>
+    <p>The specification does not guarantee
+     that the resulting window position will match that which was requested.
+
+   <p>This step is similar to calling the <a>moveTo(x,
+    y)</a> method on the <a><code>WindowProxy</code></a> object
+    associated with <var>session</var>&apos;s <a>current top-level browsing
+    context</a>, but without the
+    <a href=https://developer.mozilla.org/en-US/docs/Web/API/Window/moveTo>security
+    restrictions</a> that you
+
+   <ol type=a>
+    <li>cannot move a window or tab that was not created by <code>window.open</code>.
+
+    <li>cannot move a window or tab when it is in a window with more than one tab.
+   </ol>
+  </aside>
 
  <li><p>Return <a>success</a> with data set to the <a>WindowRect
   object</a> for the <var>session</var>&apos;s <a>current top-level browsing
