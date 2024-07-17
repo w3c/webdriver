@@ -176,7 +176,7 @@ ul.index code{color:inherit}
 .mdn .samsunginternet_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/samsung-internet/samsung-internet.svg)}
 .mdn .webview_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/android-webview/android-webview.png)}
 </style>
-<meta name="revision" content="bb939cc231e43e3a88009d78f97323f6dfc6752f">
+<meta name="revision" content="57eb5e9b7cbb2593118900b575e1d194b896dd7c">
 <meta name="description" content="WebDriver is a remote control interface
 that enables introspection and control of user agents.
 It provides a platform- and language-neutral wire protocol
@@ -272,7 +272,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     ],
     "profile": "web-platform"
   },
-  "gitRevision": "bb939cc231e43e3a88009d78f97323f6dfc6752f",
+  "gitRevision": "57eb5e9b7cbb2593118900b575e1d194b896dd7c",
   "publishISODate": "2024-07-17T00:00:00.000Z",
   "generatedSubtitle": "W3C Editor's Draft 17 July 2024"
 }</script>
@@ -4690,28 +4690,39 @@ variables</var> and <var>parameters</var> are:
   <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-properties-17">getting a property</a> named "<code>width</code>"
   from <var>parameters</var>.
 
+ </p></li><li><p>If <var>width</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-8">undefined</a>, let <var>width</var>
+  be null.
+
  </p></li><li><p>Let <var>height</var> be the result of
   <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-properties-18">getting a property</a> named "<code>height</code>"
   from <var>parameters</var>.
 
+ </p></li><li><p>If <var>height</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-9">undefined</a>, let <var>height</var>
+  be null.
+
  </p></li><li><p>Let <var>x</var> be the result of <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-properties-19">getting a property</a>
   named "<code>x</code>" from <var>parameters</var>.
+
+ </p></li><li><p>If <var>x</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-10">undefined</a>, let <var>x</var> be null.
 
  </p></li><li><p>Let <var>y</var> be the result of <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-properties-20">getting a property</a>
   named "<code>y</code>" from <var>parameters</var>.
 
- </p></li><li><p>If <var>width</var> or <var>height</var> is neither <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-8">undefined</a>
-  nor a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-2">Number</a> from 0 to 2<sup>31</sup> − 1,
-  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-78">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-72">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-26">invalid argument</a>.
+ </p></li><li><p>If <var>y</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-11">undefined</a>, let <var>y</var> be null.
 
- </p></li><li><p>If <var>x</var> or <var>y</var> is neither <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-9">undefined</a>
-  nor a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-3">Number</a> from −(2<sup>31</sup>) to 2<sup>31</sup> − 1,
+ </p></li><li><p>If <var>width</var> or <var>height</var> is neither null, nor
+  a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-2">Number</a> from 0 to 2<sup>31</sup> − 1, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-78">error</a>
+  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-72">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-26">invalid argument</a>.
+
+ </p></li><li><p>If <var>x</var> or <var>y</var> is neither null, nor
+  a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-3">Number</a> from −(2<sup>31</sup>) to 2<sup>31</sup> − 1,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-79">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-73">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-27">invalid argument</a>.
 
  </p></li><li><p>If the <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-ends-61">remote end</a> does not support
   the <a href="#dfn-set-window-rect" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-set-window-rect-3">Set Window Rect</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-43">command</a> for
-  <var>session</var>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-43">current top-level browsing context</a> for any reason,
-  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-80">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-74">error code</a> <a href="#dfn-unsupported-operation" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unsupported-operation-3">unsupported operation</a>.
+  <var>session</var>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-43">current top-level browsing context</a>
+  for any reason, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-80">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-74">error
+  code</a> <a href="#dfn-unsupported-operation" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unsupported-operation-3">unsupported operation</a>.
 
   </p><div class="note" role="note" id="issue-container-generatedID-28"><div role="heading" class="note-title marker" id="h-note-28" aria-level="5"><span>Note</span></div><p class="">In case the <a href="#dfn-set-window-rect" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-set-window-rect-4">Set Window Rect</a> command is
   partially supported (i.e. some combinations of arguments are
@@ -4736,12 +4747,12 @@ variables</var> and <var>parameters</var> are:
  of <var>window</var>:
 
   </p><ol>
-   <li><p>If <var>width</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-10">undefined</a>, set the width,
+   <li><p>If <var>width</var> is not null, set the width,
     in <a href="#dfn-css-pixels" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-css-pixels-1">CSS pixels</a>, of <var>window</var>, including
     any <a href="#dfn-browser-chrome" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-browser-chrome-3">browser chrome</a> and externally drawn window decorations,
     to a value that is as close as possible to <var>width</var>.
 
-  </p></li><li><p>If <var>height</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-11">undefined</a>, set the height,
+  </p></li><li><p>If <var>height</var> is not null, set the height,
    in <a href="#dfn-css-pixels" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-css-pixels-2">CSS pixels</a>, of <var>window</var>, including
    any <a href="#dfn-browser-chrome" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-browser-chrome-4">browser chrome</a> and externally drawn window decorations,
    to a value that is as close as possible to <var>height</var>.
@@ -4771,13 +4782,13 @@ variables</var> and <var>parameters</var> are:
  </li><li><p>If the implementation is able to set the position of <var>window</var>:
 
   </p><ol>
-   <li><p>If <var>x</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-12">undefined</a>, run specific
-    steps set the x-coordinate of the left edge of <var>window</var>
-    to a value that is as close as possible to <var>x</var>.
+   <li><p>If <var>x</var> is not null, set the x-coordinate of the
+    left edge of <var>window</var> to a value that is as close as
+    possible to <var>x</var>.
 
-   </p></li><li><p>If <var>y</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-13">undefined</a>, run specific
-    steps set the y-coordinate of the top edge of <var>window</var> to
-    a value that is as close as possible to <var>y</var>.
+   </p></li><li><p>If <var>y</var> is not null, set the y-coordinate of the top
+    edge of <var>window</var> to a value that is as close as possible
+    to <var>y</var>.
   </p></li></ol>
 
   <div class="note" role="note" id="issue-container-generatedID-30"><div role="heading" class="note-title marker" id="h-note-30" aria-level="5"><span>Note</span></div><aside class="">
@@ -5735,7 +5746,7 @@ variables</var> and <var>parameters</var> are:
  </p></li><li><p>Let <var>selector</var> be the result of <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-properties-25">getting a
   property</a> named "<code>value</code>" from <var>parameters</var>.
 
- </p></li><li><p>If <var>selector</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-14">undefined</a>,
+ </p></li><li><p>If <var>selector</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-12">undefined</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-104">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-97">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-31">invalid argument</a>.
 
  </p></li><li><p>If <var>session</var>'s <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-34">current browsing context</a>
@@ -5789,7 +5800,7 @@ variables</var> and <var>parameters</var> are:
  </p></li><li><p>Let <var>selector</var> be the result of <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-properties-27">getting a
   property</a> named "<code>value</code>" from <var>parameters</var>.
 
- </p></li><li><p>If <var>selector</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-15">undefined</a>,
+ </p></li><li><p>If <var>selector</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-13">undefined</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-109">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-102">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-33">invalid argument</a>.
 
  </p></li><li><p>If <var>session</var>'s <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-36">current browsing context</a>
@@ -5839,7 +5850,7 @@ variables</var> and <var>parameters</var> are:
  </p></li><li><p>Let <var>selector</var> be the result of <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-properties-29">getting a
   property</a> named "<code>value</code>" from <var>parameters</var>.
 
- </p></li><li><p>If <var>selector</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-16">undefined</a>,
+ </p></li><li><p>If <var>selector</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-14">undefined</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-113">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-106">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-35">invalid argument</a>.
 
  </p></li><li><p>If <var>session</var>'s <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-38">current browsing context</a>
@@ -5891,7 +5902,7 @@ variables</var> and <var>parameters</var> are:
  </p></li><li><p>Let <var>selector</var> be the result of <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-properties-31">getting a
   property</a> named "<code>value</code>" from <var>parameters</var>.
 
- </p></li><li><p>If <var>selector</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-17">undefined</a>,
+ </p></li><li><p>If <var>selector</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-15">undefined</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-117">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-110">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-37">invalid argument</a>.
 
  </p></li><li><p>If <var>session</var>'s <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-39">current browsing context</a>
@@ -5938,7 +5949,7 @@ variables</var> and <var>parameters</var> are:
   </p></li><li><p>Let <var>selector</var> be the result
   of <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-properties-33">getting a property</a> called "<code>value</code>".
 
-  </p></li><li><p>If <var>selector</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-18">undefined</a>,
+  </p></li><li><p>If <var>selector</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-16">undefined</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-120">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-113">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-39">invalid argument</a>.
 
   </p></li><li><p>If the <var>ssession</var>'s <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-40">current browsing
@@ -5989,7 +6000,7 @@ variables</var> and <var>parameters</var> are:
   </p></li><li><p>Let <var>selector</var> be the result
   of <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-properties-35">getting a property</a> called "<code>value</code>".
 
-  </p></li><li><p>If <var>selector</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-19">undefined</a>,
+  </p></li><li><p>If <var>selector</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-17">undefined</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-125">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-117">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-41">invalid argument</a>.
 
   </p></li><li><p>If <var>session</var>'s <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-41">current browsing context</a>
@@ -6137,14 +6148,14 @@ given <var>session</var> and <var>element</var>:
    <li><p>Let <var>datalist parent</var> be
     the first <code><a data-link-type="element" data-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-datalist-element" id="ref-for-index-term-datalist-element-1">datalist</a></code> element reached
     by traversing the tree in reverse order from <var>element</var>,
-    or <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-20">undefined</a> if the root of the tree is reached.
+    or <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-18">undefined</a> if the root of the tree is reached.
 
    </p></li><li><p>Let <var>select parent</var> be the
     first <code><a data-link-type="element" data-type="element" href="https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element" id="ref-for-index-term-select-element-3">select</a></code> element reached
     by traversing the tree in reverse order from <var>element</var>,
-    or <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-21">undefined</a> if the root of the tree is reached.
+    or <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-19">undefined</a> if the root of the tree is reached.
 
-   </p></li><li><p>If <var>datalist parent</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-22">undefined</a>,
+   </p></li><li><p>If <var>datalist parent</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-20">undefined</a>,
     the <a href="#dfn-element-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-context-4">element context</a> is <var>select parent</var>.
     Otherwise, the <a href="#dfn-element-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-context-5">element context</a> is <var>datalist parent</var>.
   </p></li></ol>
@@ -6390,7 +6401,7 @@ variables</var> and <var>parameters</var> are:
   the <a href="#dfn-getproperty" class="internalDFN" data-link-type="idl" id="ref-for-dfn-getproperty-1">Object.[[GetProperty]]</a>(<var>name</var>) on <var>element</var>.
 
  </p></li><li><p>Let <var>result</var> be the value of
-  <var>property</var> if not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-23">undefined</a>, or <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-41"><code>null</code></a>.
+  <var>property</var> if not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-21">undefined</a>, or <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-41"><code>null</code></a>.
 
  </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-64">success</a> with data <var>result</var>.
 </p></li></ol>
@@ -7207,7 +7218,7 @@ in the <a href="#dfn-number-state" class="internalDFN" data-link-type="dfn" id="
 
 <p>An <a href="#dfn-grapheme-cluster" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-grapheme-cluster-1">extended grapheme cluster</a> is <dfn id="dfn-typeable" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">typeable</dfn>
  if it consists of a single <a href="#dfn-unicode-code-point" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unicode-code-point-1">unicode code point</a>
- and the <a href="#dfn-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-code-1">code</a> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-24">undefined</a>.
+ and the <a href="#dfn-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-code-1">code</a> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-22">undefined</a>.
 
 </p><p>The <dfn id="dfn-shifted-state" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">shifted state</dfn> for <var>keyboard</var> is the value
  of <var>keyboard</var>'s <code>shift</code> property.
@@ -7380,7 +7391,7 @@ state</var>, <var>input id</var>, <var>source</var>,
     </p></li><li><p>Empty <var>current typeable text</var>.
 
     </p></li><li><p><a href="#dfn-dispatch-a-composition-event" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dispatch-a-composition-event-1">Dispatch a <code>composition event</code></a> with
-    arguments "<code>compositionstart</code>", <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-25">undefined</a>,
+    arguments "<code>compositionstart</code>", <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-23">undefined</a>,
     and <var>browsing context</var>.
 
     </p></li><li><p><a href="#dfn-dispatch-a-composition-event" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dispatch-a-composition-event-2">Dispatch a <code>composition event</code></a> with arguments
@@ -7645,7 +7656,7 @@ steps:
  </p></li><li><p>Matching on <var>value</var>:
 
   </p><dl class="switch">
-   <dt><a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-26">undefined</a>
+   <dt><a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-24">undefined</a>
    </dt><dt><a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-50"><code>null</code></a>
    </dt><dt>type <a href="#dfn-boolean" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-boolean-7">Boolean</a>
    </dt><dt>type <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-4">Number</a>
@@ -7686,7 +7697,7 @@ steps:
  on <var>value</var>:
 
 </p><dl class="switch">
- <dt><a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-27">undefined</a>
+ <dt><a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-25">undefined</a>
  </dt><dt><a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-51"><code>null</code></a>
  </dt><dd><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-79">success</a> with data <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-52"><code>null</code></a>.
 
@@ -8235,7 +8246,7 @@ variables</var> and <var>parameters</var> are:
   document</a>, run the substeps of the first matching condition:
 
   </p><dl class="switch">
-   <dt><var>name</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-28">undefined</a>
+   <dt><var>name</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-26">undefined</a>
    </dt><dt><var>name</var> is equal to <a href="#dfn-cookie-name" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-cookie-name-1">cookie name</a>
    </dt><dd><p>Set the <a href="#dfn-cookie-expiry-time" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-cookie-expiry-time-1">cookie expiry time</a>
     to a <a href="#dfn-unix-timestamp" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-unix-timestamp-2">Unix timestamp</a> in the past.
@@ -9160,7 +9171,7 @@ options</var>:
  <li><p>Let <var>actions</var> be the result of <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-properties-42">getting a
   property</a> named "<code>actions</code>" from <var>parameters</var>.
 
- </p></li><li><p>If <var>actions</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-29">undefined</a> or is not
+ </p></li><li><p>If <var>actions</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-27">undefined</a> or is not
   an <a href="#dfn-array" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-array-5">Array</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-193">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-179">error
   code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-56">invalid argument</a>.
 
@@ -9216,7 +9227,7 @@ options</var>:
   <var>action sequence</var>.
 
  
- </p></li><li><p>If <var>id</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-30">undefined</a> or is not a <a href="#dfn-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-string-12">String</a>,
+ </p></li><li><p>If <var>id</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-28">undefined</a> or is not a <a href="#dfn-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-string-12">String</a>,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-195">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-181">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-58">invalid argument</a>.
 
  </p></li><li><p>If <var>type</var> is equal to "<code>pointer</code>",
@@ -9231,7 +9242,7 @@ options</var>:
   create an input source</a> given <var>input
   state</var>, <var>type</var> and <var>id</var>.
 
- </p></li><li><p>If <var>parameters</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-31">undefined</a>,
+ </p></li><li><p>If <var>parameters</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-29">undefined</a>,
   then if its <code>pointerType</code> property is not equal to
   <var>source</var>'s subtype property, return an <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-196">error</a>
   with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-182">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-59">invalid argument</a>.
@@ -9290,7 +9301,7 @@ options</var>:
 Let <var>parameters</var> be the <a href="#dfn-default-pointer-parameters" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-default-pointer-parameters-1">default pointer parameters</a>.
 
 </p></li><li><p>
-If <var>parameters data</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-32">undefined</a>,
+If <var>parameters data</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-30">undefined</a>,
 return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-100">success</a> with data <var>parameters</var>.
 
 </p></li><li><p>
@@ -9303,7 +9314,7 @@ of <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id
 from <var>parameters data</var>.
 
 </p></li><li><p>
-If <var>pointer type</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-33">undefined</a>:
+If <var>pointer type</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-31">undefined</a>:
 
   </p><ol>
   <li><p>
@@ -9492,7 +9503,7 @@ Let <var>duration</var> be the result of <a href="#dfn-getting-properties" class
 named "<code>duration</code>" from <var>action item</var>.
 
 </p></li><li><p>
-If <var>duration</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-34">undefined</a> and <var>duration</var>
+If <var>duration</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-32">undefined</a> and <var>duration</var>
 is not an <a href="#dfn-integer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-integer-2">Integer</a> greater than or equal to 0, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-212">error</a>
 with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-192">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-69">invalid argument</a>.
 
@@ -9505,7 +9516,7 @@ Let <var>origin</var> be the result of <a href="#dfn-getting-properties" class="
 <code>origin</code> from <var>action item</var>.
 
 </p></li><li><p>
-If <var>origin</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-35">undefined</a> let
+If <var>origin</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-33">undefined</a> let
 <var>origin</var> equal "<code>viewport</code>".
 
 </p></li><li><p>
@@ -9569,7 +9580,7 @@ and <var>action</var>:</p>
  <li><p>Let <var>duration</var> be the result of <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-properties-59">getting the
   property</a> "<code>duration</code>" from <var>action item</var>.
 
- </p></li><li><p>If <var>duration</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-36">undefined</a>
+ </p></li><li><p>If <var>duration</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-34">undefined</a>
   and <var>duration</var> is not an <a href="#dfn-integer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-integer-7">Integer</a> greater than or
   equal to 0, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-218">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-198">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-75">invalid
   argument</a>.
@@ -9599,7 +9610,7 @@ and <var>action</var>:</p>
   of getting the property <code>width</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>width</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-37">undefined</a>
+ </p></li><li><p>If <var>width</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-35">undefined</a>
   and <var>width</var> is not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-6">Number</a> greater than or
   equal to 0 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-220">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-200">error code</a>
   <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-77">invalid argument</a>.
@@ -9611,7 +9622,7 @@ and <var>action</var>:</p>
   of getting the property <code>height</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>height</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-38">undefined</a>
+ </p></li><li><p>If <var>height</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-36">undefined</a>
   and <var>height</var> is not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-7">Number</a> greater than or
   equal to 0 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-221">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-201">error code</a>
   <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-78">invalid argument</a>.
@@ -9623,7 +9634,7 @@ and <var>action</var>:</p>
   of getting the property <code>pressure</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>pressure</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-39">undefined</a>
+ </p></li><li><p>If <var>pressure</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-37">undefined</a>
   and <var>pressure</var> is not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-8">Number</a> greater than or
   equal to 0 and less than or equal to 1 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-222">error</a> with
   <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-202">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-79">invalid argument</a>.
@@ -9635,7 +9646,7 @@ and <var>action</var>:</p>
   of getting the property <code>tangentialPressure</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>tangentialPressure</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-40">undefined</a>
+ </p></li><li><p>If <var>tangentialPressure</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-38">undefined</a>
   and <var>tangentialPressure</var> is not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-9">Number</a> greater
   than or equal to -1 and less than or equal to 1 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-223">error</a>
   with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-203">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-80">invalid argument</a>.
@@ -9647,7 +9658,7 @@ and <var>action</var>:</p>
   of getting the property <code>tiltX</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>tiltX</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-41">undefined</a>
+ </p></li><li><p>If <var>tiltX</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-39">undefined</a>
   and <var>tiltX</var> is not an <a href="#dfn-integer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-integer-9">Integer</a> greater than or
   equal to -90 and less than or equal to 90 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-224">error</a> with
   <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-204">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-81">invalid argument</a>.
@@ -9659,7 +9670,7 @@ and <var>action</var>:</p>
   of getting the property <code>tiltY</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>tiltY</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-42">undefined</a>
+ </p></li><li><p>If <var>tiltY</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-40">undefined</a>
   and <var>tiltY</var> is not an <a href="#dfn-integer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-integer-10">Integer</a> greater than or
   equal to -90 and less than or equal to 90 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-225">error</a> with
   <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-205">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-82">invalid argument</a>.
@@ -9671,7 +9682,7 @@ and <var>action</var>:</p>
   of getting the property <code>twist</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>twist</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-43">undefined</a>
+ </p></li><li><p>If <var>twist</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-41">undefined</a>
   and <var>twist</var> is not an <a href="#dfn-integer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-integer-11">Integer</a> greater than or
   equal to 0 and less than or equal to 359 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-226">error</a> with
   <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-206">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-83">invalid argument</a>.
@@ -9683,7 +9694,7 @@ and <var>action</var>:</p>
   of getting the property <code>altitudeAngle</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>altitudeAngle</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-44">undefined</a>
+ </p></li><li><p>If <var>altitudeAngle</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-42">undefined</a>
   and <var>altitudeAngle</var> is not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-10">Number</a> greater than
   or equal to 0 and less than or equal to π/2 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-227">error</a> with
   <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-207">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-84">invalid argument</a>.
@@ -9695,7 +9706,7 @@ and <var>action</var>:</p>
   of getting the property <code>azimuthAngle</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>azimuthAngle</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-45">undefined</a>
+ </p></li><li><p>If <var>azimuthAngle</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-43">undefined</a>
   and <var>azimuthAngle</var> is not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-11">Number</a> greater than
   or equal to 0 and less than or equal to 2π return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-228">error</a> with
   <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-208">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-85">invalid argument</a>.
@@ -9714,7 +9725,7 @@ item</var>, <var>action</var>, and <var>actions options</var>:</p>
   of getting the property <code>duration</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>duration</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-46">undefined</a>
+ </p></li><li><p>If <var>duration</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-44">undefined</a>
   and <var>duration</var> is not an <a href="#dfn-integer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-integer-12">Integer</a> greater than or equal to 0,
   return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-229">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-209">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-86">invalid argument</a>.
 
@@ -9725,7 +9736,7 @@ item</var>, <var>action</var>, and <var>actions options</var>:</p>
   of <a href="#dfn-getting-properties" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-properties-60">getting the property</a> <code>origin</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>origin</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-47">undefined</a> let
+ </p></li><li><p>If <var>origin</var> is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-45">undefined</a> let
   <var>origin</var> equal "<code>viewport</code>".
 
  </p></li><li><p>If <var>origin</var> is not equal to "<code>viewport</code>"
@@ -9760,7 +9771,7 @@ item</var>, <var>action</var>, and <var>actions options</var>:</p>
   of getting the property <code>width</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>width</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-48">undefined</a>
+ </p></li><li><p>If <var>width</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-46">undefined</a>
   and <var>width</var> is not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-12">Number</a> greater than or
   equal to 0 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-233">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-213">error code</a>
   <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-90">invalid argument</a>.
@@ -9772,7 +9783,7 @@ item</var>, <var>action</var>, and <var>actions options</var>:</p>
   of getting the property <code>height</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>height</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-49">undefined</a>
+ </p></li><li><p>If <var>height</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-47">undefined</a>
   and <var>height</var> is not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-13">Number</a> greater than or
   equal to 0 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-234">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-214">error code</a>
   <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-91">invalid argument</a>.
@@ -9784,7 +9795,7 @@ item</var>, <var>action</var>, and <var>actions options</var>:</p>
   of getting the property <code>pressure</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>pressure</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-50">undefined</a>
+ </p></li><li><p>If <var>pressure</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-48">undefined</a>
   and <var>pressure</var> is not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-14">Number</a> greater than or
   equal to 0 and less than or equal to 1 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-235">error</a> with
   <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-215">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-92">invalid argument</a>.
@@ -9796,7 +9807,7 @@ item</var>, <var>action</var>, and <var>actions options</var>:</p>
   of getting the property <code>tangentialPressure</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>tangentialPressure</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-51">undefined</a>
+ </p></li><li><p>If <var>tangentialPressure</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-49">undefined</a>
   and <var>tangentialPressure</var> is not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-15">Number</a> greater
   than or equal to -1 and less than or equal to 1 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-236">error</a>
   with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-216">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-93">invalid argument</a>.
@@ -9808,7 +9819,7 @@ item</var>, <var>action</var>, and <var>actions options</var>:</p>
   of getting the property <code>tiltX</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>tiltX</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-52">undefined</a>
+ </p></li><li><p>If <var>tiltX</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-50">undefined</a>
   and <var>tiltX</var> is not an <a href="#dfn-integer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-integer-15">Integer</a> greater than or
   equal to -90 and less than or equal to 90 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-237">error</a> with
   <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-217">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-94">invalid argument</a>.
@@ -9820,7 +9831,7 @@ item</var>, <var>action</var>, and <var>actions options</var>:</p>
   of getting the property <code>tiltY</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>tiltY</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-53">undefined</a>
+ </p></li><li><p>If <var>tiltY</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-51">undefined</a>
   and <var>tiltY</var> is not an <a href="#dfn-integer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-integer-16">Integer</a> greater than or
   equal to -90 and less than or equal to 90 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-238">error</a> with
   <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-218">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-95">invalid argument</a>.
@@ -9832,7 +9843,7 @@ item</var>, <var>action</var>, and <var>actions options</var>:</p>
   of getting the property <code>twist</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>twist</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-54">undefined</a>
+ </p></li><li><p>If <var>twist</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-52">undefined</a>
   and <var>twist</var> is not an <a href="#dfn-integer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-integer-17">Integer</a> greater than or
   equal to 0 and less than or equal to 359 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-239">error</a> with
   <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-219">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-96">invalid argument</a>.
@@ -9844,7 +9855,7 @@ item</var>, <var>action</var>, and <var>actions options</var>:</p>
   of getting the property <code>altitudeAngle</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>altitudeAngle</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-55">undefined</a>
+ </p></li><li><p>If <var>altitudeAngle</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-53">undefined</a>
   and <var>altitudeAngle</var> is not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-16">Number</a> greater than
   or equal to 0 and less than or equal to π/2 return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-240">error</a> with
   <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-220">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-97">invalid argument</a>.
@@ -9856,7 +9867,7 @@ item</var>, <var>action</var>, and <var>actions options</var>:</p>
   of getting the property <code>azimuthAngle</code>
   from <var>action item</var>.
 
- </p></li><li><p>If <var>azimuthAngle</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-56">undefined</a>
+ </p></li><li><p>If <var>azimuthAngle</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-54">undefined</a>
   and <var>azimuthAngle</var> is not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-17">Number</a> greater than
   or equal to 0 and less than or equal to 2π return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-241">error</a> with
   <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-221">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-98">invalid argument</a>.
@@ -9953,7 +9964,7 @@ context</var>, and <var>actions options</var>:
  </p></li><li><p>For each <var>action object</var> in <var>tick actions</var>:
 
   </p><ol>
-   <li><p>let <var>duration</var> be <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-57">undefined</a>.
+   <li><p>let <var>duration</var> be <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-55">undefined</a>.
 
    </p></li><li><p>If <var>action object</var> has subtype property set to
     "<code>pause</code>" or <var>action object</var> has type property
@@ -9963,7 +9974,7 @@ context</var>, and <var>actions options</var>:
     "<code>scroll</code>", let <var>duration</var> be equal to
     the <code>duration</code> property of <var>action object</var>.
 
-   </p></li><li><p>If <var>duration</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-58">undefined</a>,
+   </p></li><li><p>If <var>duration</var> is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-56">undefined</a>,
     and <var>duration</var> is greater than <var>max duration</var>,
     let <var>max duration</var> be equal to duration.
   </p></li></ol>
@@ -10162,7 +10173,7 @@ state</var>, <var>tick duration</var>,
  is the value in the last column of the following table
  on the row with <var>key</var> in either the first or second column,
  if any such row exists,
- otherwise it is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-59">undefined</a>.
+ otherwise it is <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-57">undefined</a>.
 
 </p><p>A <dfn id="dfn-shifted-character" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">shifted character</dfn>
  is one that appears in the second column of the following table.
@@ -10664,7 +10675,7 @@ and <var>actions options</var>:
 
  </p></li><li><p>Let <var>duration</var> be equal to
   <var>action object</var>'s <code>duration</code> property if it
-  is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-60">undefined</a>, or <var>tick duration</var>
+  is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-58">undefined</a>, or <var>tick duration</var>
   otherwise.
 
  </p></li><li><p>If <var>duration</var> is greater than 0 and inside any
@@ -10882,7 +10893,7 @@ and <var>actions options</var>:
 
  </p></li><li><p>Let <var>duration</var> be equal to
   <var>action object</var>'s <code>duration</code> property if it
-  is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-61">undefined</a>, or <var>tick duration</var>
+  is not <a href="#dfn-undefined" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-undefined-59">undefined</a>, or <var>tick duration</var>
   otherwise.
 
  </p></li><li><p>If <var>duration</var> is greater than 0 and inside any
@@ -22176,39 +22187,39 @@ This specification relies on several other underlying specifications.
     </li><li>
       <a href="#ref-for-dfn-undefined-7" title="§ 11.3 Switch To Window">§ 11.3 Switch To Window</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-8" title="§ 11.8.2 Set Window Rect">§ 11.8.2 Set Window Rect</a> <a href="#ref-for-dfn-undefined-9" title="Reference 2">(2)</a> <a href="#ref-for-dfn-undefined-10" title="Reference 3">(3)</a> <a href="#ref-for-dfn-undefined-11" title="Reference 4">(4)</a> <a href="#ref-for-dfn-undefined-12" title="Reference 5">(5)</a> <a href="#ref-for-dfn-undefined-13" title="Reference 6">(6)</a> 
+      <a href="#ref-for-dfn-undefined-8" title="§ 11.8.2 Set Window Rect">§ 11.8.2 Set Window Rect</a> <a href="#ref-for-dfn-undefined-9" title="Reference 2">(2)</a> <a href="#ref-for-dfn-undefined-10" title="Reference 3">(3)</a> <a href="#ref-for-dfn-undefined-11" title="Reference 4">(4)</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-14" title="§ 12.3.2 Find Element">§ 12.3.2 Find Element</a> 
+      <a href="#ref-for-dfn-undefined-12" title="§ 12.3.2 Find Element">§ 12.3.2 Find Element</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-15" title="§ 12.3.3 Find Elements">§ 12.3.3 Find Elements</a> 
+      <a href="#ref-for-dfn-undefined-13" title="§ 12.3.3 Find Elements">§ 12.3.3 Find Elements</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-16" title="§ 12.3.4 Find Element From Element">§ 12.3.4 Find Element From Element</a> 
+      <a href="#ref-for-dfn-undefined-14" title="§ 12.3.4 Find Element From Element">§ 12.3.4 Find Element From Element</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-17" title="§ 12.3.5 Find Elements From Element">§ 12.3.5 Find Elements From Element</a> 
+      <a href="#ref-for-dfn-undefined-15" title="§ 12.3.5 Find Elements From Element">§ 12.3.5 Find Elements From Element</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-18" title="§ 12.3.6 Find Element From Shadow Root">§ 12.3.6 Find Element From Shadow Root</a> 
+      <a href="#ref-for-dfn-undefined-16" title="§ 12.3.6 Find Element From Shadow Root">§ 12.3.6 Find Element From Shadow Root</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-19" title="§ 12.3.7 Find Elements From Shadow Root">§ 12.3.7 Find Elements From Shadow Root</a> 
+      <a href="#ref-for-dfn-undefined-17" title="§ 12.3.7 Find Elements From Shadow Root">§ 12.3.7 Find Elements From Shadow Root</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-20" title="§ 12.4 State">§ 12.4 State</a> <a href="#ref-for-dfn-undefined-21" title="Reference 2">(2)</a> <a href="#ref-for-dfn-undefined-22" title="Reference 3">(3)</a> 
+      <a href="#ref-for-dfn-undefined-18" title="§ 12.4 State">§ 12.4 State</a> <a href="#ref-for-dfn-undefined-19" title="Reference 2">(2)</a> <a href="#ref-for-dfn-undefined-20" title="Reference 3">(3)</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-23" title="§ 12.4.3 Get Element Property">§ 12.4.3 Get Element Property</a> 
+      <a href="#ref-for-dfn-undefined-21" title="§ 12.4.3 Get Element Property">§ 12.4.3 Get Element Property</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-24" title="§ 12.5.3 Element Send Keys">§ 12.5.3 Element Send Keys</a> <a href="#ref-for-dfn-undefined-25" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-undefined-22" title="§ 12.5.3 Element Send Keys">§ 12.5.3 Element Send Keys</a> <a href="#ref-for-dfn-undefined-23" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-26" title="§ 13.2 Executing Script">§ 13.2 Executing Script</a> <a href="#ref-for-dfn-undefined-27" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-undefined-24" title="§ 13.2 Executing Script">§ 13.2 Executing Script</a> <a href="#ref-for-dfn-undefined-25" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-28" title="§ 14. Cookies">§ 14. Cookies</a> 
+      <a href="#ref-for-dfn-undefined-26" title="§ 14. Cookies">§ 14. Cookies</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-29" title="§ 15.5 Processing actions">§ 15.5 Processing actions</a> <a href="#ref-for-dfn-undefined-30" title="Reference 2">(2)</a> <a href="#ref-for-dfn-undefined-31" title="Reference 3">(3)</a> <a href="#ref-for-dfn-undefined-32" title="Reference 4">(4)</a> <a href="#ref-for-dfn-undefined-33" title="Reference 5">(5)</a> <a href="#ref-for-dfn-undefined-34" title="Reference 6">(6)</a> <a href="#ref-for-dfn-undefined-35" title="Reference 7">(7)</a> <a href="#ref-for-dfn-undefined-36" title="Reference 8">(8)</a> <a href="#ref-for-dfn-undefined-37" title="Reference 9">(9)</a> <a href="#ref-for-dfn-undefined-38" title="Reference 10">(10)</a> <a href="#ref-for-dfn-undefined-39" title="Reference 11">(11)</a> <a href="#ref-for-dfn-undefined-40" title="Reference 12">(12)</a> <a href="#ref-for-dfn-undefined-41" title="Reference 13">(13)</a> <a href="#ref-for-dfn-undefined-42" title="Reference 14">(14)</a> <a href="#ref-for-dfn-undefined-43" title="Reference 15">(15)</a> <a href="#ref-for-dfn-undefined-44" title="Reference 16">(16)</a> <a href="#ref-for-dfn-undefined-45" title="Reference 17">(17)</a> <a href="#ref-for-dfn-undefined-46" title="Reference 18">(18)</a> <a href="#ref-for-dfn-undefined-47" title="Reference 19">(19)</a> <a href="#ref-for-dfn-undefined-48" title="Reference 20">(20)</a> <a href="#ref-for-dfn-undefined-49" title="Reference 21">(21)</a> <a href="#ref-for-dfn-undefined-50" title="Reference 22">(22)</a> <a href="#ref-for-dfn-undefined-51" title="Reference 23">(23)</a> <a href="#ref-for-dfn-undefined-52" title="Reference 24">(24)</a> <a href="#ref-for-dfn-undefined-53" title="Reference 25">(25)</a> <a href="#ref-for-dfn-undefined-54" title="Reference 26">(26)</a> <a href="#ref-for-dfn-undefined-55" title="Reference 27">(27)</a> <a href="#ref-for-dfn-undefined-56" title="Reference 28">(28)</a> 
+      <a href="#ref-for-dfn-undefined-27" title="§ 15.5 Processing actions">§ 15.5 Processing actions</a> <a href="#ref-for-dfn-undefined-28" title="Reference 2">(2)</a> <a href="#ref-for-dfn-undefined-29" title="Reference 3">(3)</a> <a href="#ref-for-dfn-undefined-30" title="Reference 4">(4)</a> <a href="#ref-for-dfn-undefined-31" title="Reference 5">(5)</a> <a href="#ref-for-dfn-undefined-32" title="Reference 6">(6)</a> <a href="#ref-for-dfn-undefined-33" title="Reference 7">(7)</a> <a href="#ref-for-dfn-undefined-34" title="Reference 8">(8)</a> <a href="#ref-for-dfn-undefined-35" title="Reference 9">(9)</a> <a href="#ref-for-dfn-undefined-36" title="Reference 10">(10)</a> <a href="#ref-for-dfn-undefined-37" title="Reference 11">(11)</a> <a href="#ref-for-dfn-undefined-38" title="Reference 12">(12)</a> <a href="#ref-for-dfn-undefined-39" title="Reference 13">(13)</a> <a href="#ref-for-dfn-undefined-40" title="Reference 14">(14)</a> <a href="#ref-for-dfn-undefined-41" title="Reference 15">(15)</a> <a href="#ref-for-dfn-undefined-42" title="Reference 16">(16)</a> <a href="#ref-for-dfn-undefined-43" title="Reference 17">(17)</a> <a href="#ref-for-dfn-undefined-44" title="Reference 18">(18)</a> <a href="#ref-for-dfn-undefined-45" title="Reference 19">(19)</a> <a href="#ref-for-dfn-undefined-46" title="Reference 20">(20)</a> <a href="#ref-for-dfn-undefined-47" title="Reference 21">(21)</a> <a href="#ref-for-dfn-undefined-48" title="Reference 22">(22)</a> <a href="#ref-for-dfn-undefined-49" title="Reference 23">(23)</a> <a href="#ref-for-dfn-undefined-50" title="Reference 24">(24)</a> <a href="#ref-for-dfn-undefined-51" title="Reference 25">(25)</a> <a href="#ref-for-dfn-undefined-52" title="Reference 26">(26)</a> <a href="#ref-for-dfn-undefined-53" title="Reference 27">(27)</a> <a href="#ref-for-dfn-undefined-54" title="Reference 28">(28)</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-57" title="§ 15.6 Dispatching actions">§ 15.6 Dispatching actions</a> <a href="#ref-for-dfn-undefined-58" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-undefined-55" title="§ 15.6 Dispatching actions">§ 15.6 Dispatching actions</a> <a href="#ref-for-dfn-undefined-56" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-59" title="§ 15.6.2 Keyboard actions">§ 15.6.2 Keyboard actions</a> 
+      <a href="#ref-for-dfn-undefined-57" title="§ 15.6.2 Keyboard actions">§ 15.6.2 Keyboard actions</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-60" title="§ 15.6.3 Pointer actions">§ 15.6.3 Pointer actions</a> 
+      <a href="#ref-for-dfn-undefined-58" title="§ 15.6.3 Pointer actions">§ 15.6.3 Pointer actions</a> 
     </li><li>
-      <a href="#ref-for-dfn-undefined-61" title="§ 15.6.4 Wheel actions">§ 15.6.4 Wheel actions</a> 
+      <a href="#ref-for-dfn-undefined-59" title="§ 15.6.4 Wheel actions">§ 15.6.4 Wheel actions</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-utf-8-encode" aria-label="Links in this document to definition: UTF-8 Encode">
