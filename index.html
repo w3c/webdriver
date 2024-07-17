@@ -4046,28 +4046,39 @@ variables</var> and <var>parameters</var> are:
   <a>getting a property</a> named "<code>width</code>"
   from <var>parameters</var></a>.
 
+ <li><p>If <var>width</var> is <a>undefined</a> let <var>width</var>
+  be null.
+
  <li><p>Let <var>height</var> be the result of
   <a>getting a property</a> named "<code>height</code>"
   from <var>parameters</var>.
 
+ <li><p>If <var>height</var> is <a>undefined</a> let <var>height</var>
+  be null.
+
  <li><p>Let <var>x</var> be the result of <a>getting a property</a>
   named "<code>x</code>" from <var>parameters</var>.
+
+ <li><p>If <var>x</var> is <a>undefined</a> let <var>x</var> be null.
 
  <li><p>Let <var>y</var> be the result of <a>getting a property</a>
   named "<code>y</code>" from <var>parameters</var>.
 
- <li><p>If <var>width</var> or <var>height</var> is neither <a>undefined</a>
-  nor a <a>Number</a> from 0 to 2<sup>31</sup> − 1,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+ <li><p>If <var>y</var> is <a>undefined</a> let <var>y</var> be null.
 
- <li><p>If <var>x</var> or <var>y</var> is neither <a>undefined</a>
-  nor a <a>Number</a> from −(2<sup>31</sup>) to 2<sup>31</sup> − 1,
+ <li><p>If <var>width</var> or <var>height</var> is neither null, nor
+  a <a>Number</a> from 0 to 2<sup>31</sup> − 1, return <a>error</a>
+  with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>If <var>x</var> or <var>y</var> is neither null, nor
+  a <a>Number</a> from −(2<sup>31</sup>) to 2<sup>31</sup> − 1,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>If the <a>remote end</a> does not support
   the <a>Set Window Rect</a> <a>command</a> for
-  <var>session</var>&apos;s <a>current top-level browsing context</a> for any reason,
-  return <a>error</a> with <a>error code</a> <a>unsupported operation</a>.
+  <var>session</var>&apos;s <a>current top-level browsing context</a>
+  for any reason, return <a>error</a> with <a>error
+  code</a> <a>unsupported operation</a>.
 
   <p class="note">In case the <a>Set Window Rect</a> command is
   partially supported (i.e. some combinations of arguments are
@@ -4092,12 +4103,12 @@ variables</var> and <var>parameters</var> are:
  of <var>window</var>:
 
   <ol>
-   <li><p>If <var>width</var> is not <a>undefined</a>, set the width,
+   <li><p>If <var>width</var> is not null, set the width,
     in <a>CSS pixels</a>, of <var>window</var>, including
     any <a>browser chrome</a> and externally drawn window decorations,
     to a value that is as close as possible to <var>width</var>.
 
-  <li><p>If <var>height</var> is not <a>undefined</a>, set the height,
+  <li><p>If <var>height</var> is not null, set the height,
    in <a>CSS pixels</a>, of <var>window</var>, including
    any <a>browser chrome</a> and externally drawn window decorations,
    to a value that is as close as possible to <var>height</var>.
@@ -4127,13 +4138,13 @@ variables</var> and <var>parameters</var> are:
  <li><p>If the implementation is able to set the position of <var>window</var>:
 
   <ol>
-   <li><p>If <var>x</var> is not <a>undefined</a>, run specific
-    steps set the x-coordinate of the left edge of <var>window</var>
-    to a value that is as close as possible to <var>x</var>.
+   <li><p>If <var>x</var> is not null, set the x-coordinate of the
+    left edge of <var>window</var> to a value that is as close as
+    possible to <var>x</var>.
 
-   <li><p>If <var>y</var> is not <a>undefined</a>, run specific
-    steps set the y-coordinate of the top edge of <var>window</var> to
-    a value that is as close as possible to <var>y</var>.
+   <li><p>If <var>y</var> is not null, set the y-coordinate of the top
+    edge of <var>window</var> to a value that is as close as possible
+    to <var>y</var>.
   </ol>
 
   <aside class=note>
