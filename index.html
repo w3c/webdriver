@@ -10474,13 +10474,18 @@ The <dfn>known prompt handlers</dfn> are:
 "<code>default</code>", "<code>prompt</code>"».
 
 <p class="note">The "<code>default</code>" type represents a fallback
-when no specific handler is defined for a given prompt type. The
-"<code>beforeUnload</code>" prompt type does not use this default
-handler, but instead falls back to the "<code>accept</code>" handler
-if no more specific handler is defined. This is because HTTP-only
-sessions do not allow the "<code>beforeUnload</code>" handler to be
-customized, and enabling other protocols isn&apos;t expected to change
-the user prompt handling as a side effect.
+when no specific handler is defined for a given prompt type, including
+the "<code>beforeUnload</code>" prompt type. It can only be set if the
+unhandled prompt behavior is a <a data-cite=infra>map</a> which
+[=map/contains=] "<code>default</code>". For HTTP-only sessions setting
+unhandled prompt behavior as a string value, the value will be assigned to
+the internal type "<code>fallbackDefault</code>". The
+"<code>fallbackDefault</code>" value is not used for the
+"<code>beforeUnload</code>" prompt type, instead it falls back to the
+"<code>accept</code>" handler. This is because HTTP-only sessions do not
+allow the "<code>beforeUnload</code>" handler to be customized, and enabling
+other protocols isn&apos;t expected to change the user prompt handling as a
+side effect.
 
 <p>To <dfn>deserialize as an unhandled prompt behavior</dfn> given
 argument <var>value</var>:
@@ -10655,7 +10660,7 @@ session=], if any.
    and [=prompt handler configuration/notify=] false.
 
  <li><p>If <var>handlers</var> contains "<code>fallbackDefault</code>"
- return <var>handlers</var>["<code>default</code>"].
+ return <var>handlers</var>["<code>fallbackDefault</code>"].
 
  <li><p>Return a <a>prompt handler
    configuration</a> with [=prompt handler
