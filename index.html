@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en-us" data-issue-url="https://github.com/w3c/webdriver/" data-issue-param-milestone="Level 1"><head>
 <meta charset="utf-8">
-<meta name="generator" content="ReSpec 35.1.1">
+<meta name="generator" content="ReSpec 35.1.2">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <style>
 span.example-title{text-transform:none}
@@ -176,7 +176,7 @@ ul.index code{color:inherit}
 .mdn .samsunginternet_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/samsung-internet/samsung-internet.svg)}
 .mdn .webview_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/android-webview/android-webview.png)}
 </style>
-<meta name="revision" content="7a23ea0cc2579b65a6994f2919a5b0adf990fe8b">
+<meta name="revision" content="91b29b288310d98723bbbd91b9316b46a26297b5">
 <meta name="description" content="WebDriver is a remote control interface
 that enables introspection and control of user agents.
 It provides a platform- and language-neutral wire protocol
@@ -272,15 +272,15 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     ],
     "profile": "web-platform"
   },
-  "gitRevision": "7a23ea0cc2579b65a6994f2919a5b0adf990fe8b",
-  "publishISODate": "2024-07-23T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 23 July 2024"
+  "gitRevision": "91b29b288310d98723bbbd91b9316b46a26297b5",
+  "publishISODate": "2024-09-19T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 19 September 2024"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head><body data-cite="WEBIDL CSSOM-VIEW GEOMETRY-1 fileapi HTML INFRA URL WEBIDL DOM FETCH" class="h-entry"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">WebDriver</h1> 
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-07-23">23 July 2024</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-09-19">19 September 2024</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -606,7 +606,7 @@ It is acknowledged that this is complementary to the Evil Bit [<cite><a class="b
 <p>The WebDriver protocol consists of communication between:
 
 </p><dl>
- <dt><dfn data-lt="local ends|local|Local end" id="dfn-local-ends" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Local end</dfn>
+ <dt><dfn data-lt="local ends|local|Local end" class="export" data-export="" id="dfn-local-ends" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Local end</dfn>
  </dt><dd><p>The local end represents the client side of the protocol,
   which is usually in the form of language-specific libraries
   providing an API on top of the WebDriver <a href="#protocol">protocol</a>.
@@ -1409,13 +1409,13 @@ the following steps:
  where <code>1234</code> is not the <a href="#dfn-session-id" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-session-id-2">session id</a> of a <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-4">session</a>
  would return an <a href="#dfn-http-response" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-http-response-4">HTTP response</a> with the status 404 and a body of the form:
 
- </p><pre><code aria-busy="false" class="hljs json">{
-	<span class="hljs-attr">"value"</span>: {
-		<span class="hljs-attr">"error"</span>: <span class="hljs-string">"invalid session id"</span>,
-		<span class="hljs-attr">"message"</span>: <span class="hljs-string">"No active session with ID 1234"</span>,
-		<span class="hljs-attr">"stacktrace"</span>: <span class="hljs-string">""</span>
-	}
-}</code></pre>
+ </p><pre><code aria-busy="false" class="hljs json"><span class="hljs-punctuation">{</span>
+	<span class="hljs-attr">"value"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+		<span class="hljs-attr">"error"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"invalid session id"</span><span class="hljs-punctuation">,</span>
+		<span class="hljs-attr">"message"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"No active session with ID 1234"</span><span class="hljs-punctuation">,</span>
+		<span class="hljs-attr">"stacktrace"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">""</span>
+	<span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
 
  <p>Certain commands may also annotate <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-12">errors</a>
   with additional <a href="#dfn-error-data" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-data-3">error data</a>.
@@ -1424,13 +1424,13 @@ the following steps:
   where the <a href="#dfn-user-prompt-message" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-message-1">user prompt message</a>
   may be included in a "<code>text</code>" field:
 
- </p><pre><code aria-busy="false" class="hljs json">{
-	<span class="hljs-attr">"value"</span>: {
-		<span class="hljs-attr">"error"</span>: <span class="hljs-string">"unexpected alert open"</span>,
-		<span class="hljs-attr">"message"</span>: <span class="hljs-string">""</span>,
-		<span class="hljs-attr">"stacktrace"</span>: <span class="hljs-string">""</span>,
-		<span class="hljs-attr">"data"</span>: {
-			<span class="hljs-attr">"text"</span>: <span class="hljs-string">"Message from window.alert"</span>
+ </p><pre><code aria-busy="false" class="hljs css">{
+	"value": {
+		"error": <span class="hljs-string">"unexpected alert open"</span>,
+		<span class="hljs-string">"message"</span>: <span class="hljs-string">""</span>,
+		<span class="hljs-string">"stacktrace"</span>: <span class="hljs-string">""</span>,
+		<span class="hljs-string">"data"</span>: {
+			"<span class="hljs-selector-tag">text</span>": <span class="hljs-string">"Message from window.alert"</span>
 		}
 	}
 }</code></pre>
@@ -1792,17 +1792,17 @@ specification.
  </p><p>An example <a href="#dfn-new-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-new-sessions-6">new session</a> request body
   might look like this:
 
- </p><pre aria-busy="false"><code class="hljs json">{
-  <span class="hljs-attr">"capabilities"</span>: {
-    <span class="hljs-attr">"alwaysMatch"</span>: {
+ </p><pre aria-busy="false"><code class="hljs json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"capabilities"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"alwaysMatch"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
       <span class="hljs-comment">// browser specific configuration</span>
-      <span class="hljs-attr">"&lt;prefix&gt;:browserOptions"</span>: {
-        <span class="hljs-attr">"binary"</span>: <span class="hljs-string">"/usr/bin/browser-binary"</span>,
-        <span class="hljs-attr">"args"</span>: [<span class="hljs-string">"--start-page=https://example.com"</span>],
-      }
-    }
-  }
-}</code></pre>
+      <span class="hljs-attr">"&lt;prefix&gt;:browserOptions"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"binary"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"/usr/bin/browser-binary"</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">"args"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"--start-page=https://example.com"</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
 </aside>
 
 </section> 
@@ -1829,11 +1829,11 @@ specification.
 <p>As an example, Mozilla could elect to hide new features behind capabilities
 with a "<code>moz:</code>" prefix:
 
-</p><pre aria-busy="false"><code class="hljs json">{
-	<span class="hljs-attr">"browserName"</span>: <span class="hljs-string">"firefox"</span>,
-	<span class="hljs-attr">"browserVersion"</span>: <span class="hljs-string">"1234"</span>,
-	<span class="hljs-attr">"moz:experimental-webdriver"</span>: <span class="hljs-literal">true</span>
-}</code></pre>
+</p><pre aria-busy="false"><code class="hljs json"><span class="hljs-punctuation">{</span>
+	<span class="hljs-attr">"browserName"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"firefox"</span><span class="hljs-punctuation">,</span>
+	<span class="hljs-attr">"browserVersion"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"1234"</span><span class="hljs-punctuation">,</span>
+	<span class="hljs-attr">"moz:experimental-webdriver"</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>
+<span class="hljs-punctuation">}</span></code></pre>
 </aside>
 
 <table class="simple">
@@ -2801,27 +2801,27 @@ If the creation fails, a <a href="#dfn-session-not-created" class="internalDFN" 
  <a href="#dfn-extension-capability" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-extension-capability-10">extension capabilities</a> specific to that implementation to an <a href="#dfn-endpoint-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-endpoint-node-23">endpoint node</a>,
  the following is also permitted by this specification:
 
- </p><pre aria-busy="false"><code class="hljs json">{
-    <span class="hljs-attr">"capabilities"</span>: {
-        <span class="hljs-attr">"alwaysMatch"</span>: {
-            <span class="hljs-attr">"cloud:user"</span>: <span class="hljs-string">"alice"</span>,
-            <span class="hljs-attr">"cloud:password"</span>: <span class="hljs-string">"hunter2"</span>,
-            <span class="hljs-attr">"platformName"</span>: <span class="hljs-string">"linux"</span>
-        },
-        <span class="hljs-attr">"firstMatch"</span>: [
-            {<span class="hljs-attr">"browserName"</span>: <span class="hljs-string">"chrome"</span>},
-            {<span class="hljs-attr">"browserName"</span>: <span class="hljs-string">"edge"</span>}
-        ]
-    }
-}</code></pre>
+ </p><pre aria-busy="false"><code class="hljs json"><span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"capabilities"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">"alwaysMatch"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+            <span class="hljs-attr">"cloud:user"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"alice"</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">"cloud:password"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"hunter2"</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">"platformName"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"linux"</span>
+        <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">"firstMatch"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+            <span class="hljs-punctuation">{</span><span class="hljs-attr">"browserName"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"chrome"</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-punctuation">{</span><span class="hljs-attr">"browserName"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"edge"</span><span class="hljs-punctuation">}</span>
+        <span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
 
  <p>Once all <a data-lt="merging capabilities" href="#dfn-merging-capabilities" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-merging-capabilities-2">capabilities are merged</a> from this example,
   an <a href="#dfn-endpoint-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-endpoint-node-24">endpoint node</a> would receive <a href="#dfn-new-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-new-sessions-14">New Session</a> capabilities identical to:
 
- </p><pre aria-busy="false"><code class="hljs json">[
-    {<span class="hljs-attr">"browserName"</span>: <span class="hljs-string">"chrome"</span>, <span class="hljs-attr">"platformName"</span>: <span class="hljs-string">"linux"</span>},
-    {<span class="hljs-attr">"browserName"</span>: <span class="hljs-string">"edge"</span>, <span class="hljs-attr">"platformName"</span>: <span class="hljs-string">"linux"</span>}
-]</code></pre>
+ </p><pre aria-busy="false"><code class="hljs json"><span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span><span class="hljs-attr">"browserName"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"chrome"</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"platformName"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"linux"</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-punctuation">{</span><span class="hljs-attr">"browserName"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"edge"</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"platformName"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"linux"</span><span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">]</span></code></pre>
 </aside>
 
 <p>The <a href="#dfn-remote-end-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-end-steps-6">remote end steps</a>, given <var>session</var>, <var>URL
@@ -3404,7 +3404,7 @@ variables</var> and <var>parameters</var> are:
   to <code>https://example.com</code>, the <a href="#dfn-local-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-local-ends-12">local end</a> would POST
   to <i>/session/1/url</i> with the body:
 
- </p><pre aria-busy="false"><code class="hljs json">{<span class="hljs-attr">"url"</span>: <span class="hljs-string">"https://example.com"</span>}</code></pre>
+ </p><pre aria-busy="false"><code class="hljs json"><span class="hljs-punctuation">{</span><span class="hljs-attr">"url"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"https://example.com"</span><span class="hljs-punctuation">}</span></code></pre>
 </aside>
 
 <p>The <a href="#dfn-remote-end-steps" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-end-steps-11">remote end steps</a>, given <var>session</var>, <var>URL
@@ -5727,8 +5727,8 @@ which retrieves an element with the <code>#toremove</code> ID
 and uses this as the argument for a script it injects
 to remove it from the HTML document:
 
-</p><pre><code aria-busy="false" class="hljs javascript"><span class="hljs-keyword">let</span> body = session.find.css(<span class="hljs-string">"#toremove"</span>);
-session.execute(<span class="hljs-string">"arguments[0].remove()"</span>, [body]);
+</p><pre><code aria-busy="false" class="hljs javascript"><span class="hljs-keyword">let</span> body = session.<span class="hljs-property">find</span>.<span class="hljs-title function_">css</span>(<span class="hljs-string">"#toremove"</span>);
+session.<span class="hljs-title function_">execute</span>(<span class="hljs-string">"arguments[0].remove()"</span>, [body]);
 </code></pre>
 </aside></div>
 
@@ -11469,13 +11469,13 @@ a <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-fo
 as part of an additional "<code>data</code>" <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-53">Object</a>
 on the <a data-lt="send an error" href="#dfn-send-an-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-send-an-error-7">error representation</a>:
 
-</p><pre><code aria-busy="false" class="hljs json">
+</p><pre><code aria-busy="false" class="hljs css">
 {
-	<span class="hljs-attr">"error"</span>: <span class="hljs-string">"unexpected alert open"</span>,
-	<span class="hljs-attr">"message"</span>: <span class="hljs-string">"implementation defined"</span>,
-	<span class="hljs-attr">"stacktrace"</span>: <span class="hljs-string">""</span>,
-	<span class="hljs-attr">"data"</span>: {
-		<span class="hljs-attr">"text"</span>: <span class="hljs-string">"the text from the alert"</span>
+	"error": <span class="hljs-string">"unexpected alert open"</span>,
+	<span class="hljs-string">"message"</span>: <span class="hljs-string">"implementation defined"</span>,
+	<span class="hljs-string">"stacktrace"</span>: <span class="hljs-string">""</span>,
+	<span class="hljs-string">"data"</span>: {
+		"<span class="hljs-selector-tag">text</span>": <span class="hljs-string">"the text from the alert"</span>
 	}
 }
 </code></pre>
@@ -14207,7 +14207,7 @@ This specification relies on several other underlying specifications.
     <dl class="bibliography"><dt id="bib-accname-1.1">[accname-1.1]</dt><dd>
       <a href="https://www.w3.org/TR/accname-1.1/"><cite>Accessible Name and Description Computation 1.1</cite></a>. Joanmarie Diggs; Bryan Garaventa; Michael Cooper.  W3C. 18 December 2018. W3C Recommendation. URL: <a href="https://www.w3.org/TR/accname-1.1/">https://www.w3.org/TR/accname-1.1/</a>
     </dd><dt id="bib-csp3">[CSP3]</dt><dd>
-      <a href="https://www.w3.org/TR/CSP3/"><cite>Content Security Policy Level 3</cite></a>. Mike West; Antonio Sartori.  W3C. 18 June 2024. W3C Working Draft. URL: <a href="https://www.w3.org/TR/CSP3/">https://www.w3.org/TR/CSP3/</a>
+      <a href="https://www.w3.org/TR/CSP3/"><cite>Content Security Policy Level 3</cite></a>. Mike West; Antonio Sartori.  W3C. 9 September 2024. W3C Working Draft. URL: <a href="https://www.w3.org/TR/CSP3/">https://www.w3.org/TR/CSP3/</a>
     </dd><dt id="bib-css-cascade-4">[CSS-CASCADE-4]</dt><dd>
       <a href="https://www.w3.org/TR/css-cascade-4/"><cite>CSS Cascading and Inheritance Level 4</cite></a>. Elika Etemad; Tab Atkins Jr..  W3C. 13 January 2022. W3C Candidate Recommendation. URL: <a href="https://www.w3.org/TR/css-cascade-4/">https://www.w3.org/TR/css-cascade-4/</a>
     </dd><dt id="bib-css-device-adapt">[CSS-DEVICE-ADAPT]</dt><dd>
@@ -14285,7 +14285,7 @@ This specification relies on several other underlying specifications.
     </dd><dt id="bib-uax44">[UAX44]</dt><dd>
       <a href="https://www.unicode.org/reports/tr44/tr44-32.html"><cite>Unicode Character Database</cite></a>. Ken Whistler.  Unicode Consortium. 6 September 2023. Unicode Standard Annex #44. URL: <a href="https://www.unicode.org/reports/tr44/tr44-32.html">https://www.unicode.org/reports/tr44/tr44-32.html</a>
     </dd><dt id="bib-ui-events">[UI-EVENTS]</dt><dd>
-      <a href="https://www.w3.org/TR/uievents/"><cite>UI Events</cite></a>. Gary Kacmarcik; Travis Leithead.  W3C. 22 June 2024. W3C Working Draft. URL: <a href="https://www.w3.org/TR/uievents/">https://www.w3.org/TR/uievents/</a>
+      <a href="https://www.w3.org/TR/uievents/"><cite>UI Events</cite></a>. Gary Kacmarcik; Travis Leithead.  W3C. 7 September 2024. W3C Working Draft. URL: <a href="https://www.w3.org/TR/uievents/">https://www.w3.org/TR/uievents/</a>
     </dd><dt id="bib-uievents-key">[UIEVENTS-KEY]</dt><dd>
       <a href="https://www.w3.org/TR/uievents-key/"><cite>UI Events KeyboardEvent key Values</cite></a>. Travis Leithead; Gary Kacmarcik.  W3C. 30 May 2023. W3C Candidate Recommendation. URL: <a href="https://www.w3.org/TR/uievents-key/">https://www.w3.org/TR/uievents-key/</a>
     </dd><dt id="bib-unicode">[Unicode]</dt><dd>
@@ -14489,7 +14489,7 @@ This specification relies on several other underlying specifications.
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-local-ends" aria-label="Permalink for definition: Local end. Activate to close this dialog.">Permalink</a>
-         
+        <span class="marker dfn-exported" title="Definition can be referenced by other specifications">exported</span> 
       </div>
       <p><b>Referenced in:</b></p>
       <ul>
