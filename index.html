@@ -176,7 +176,7 @@ ul.index code{color:inherit}
 .mdn .samsunginternet_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/samsung-internet/samsung-internet.svg)}
 .mdn .webview_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/android-webview/android-webview.png)}
 </style>
-<meta name="revision" content="91b29b288310d98723bbbd91b9316b46a26297b5">
+<meta name="revision" content="db066844e3ef391ca3b915880a314fbda78e61aa">
 <meta name="description" content="WebDriver is a remote control interface
 that enables introspection and control of user agents.
 It provides a platform- and language-neutral wire protocol
@@ -272,15 +272,15 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     ],
     "profile": "web-platform"
   },
-  "gitRevision": "91b29b288310d98723bbbd91b9316b46a26297b5",
-  "publishISODate": "2024-09-19T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 19 September 2024"
+  "gitRevision": "db066844e3ef391ca3b915880a314fbda78e61aa",
+  "publishISODate": "2024-10-09T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 09 October 2024"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head><body data-cite="WEBIDL CSSOM-VIEW GEOMETRY-1 fileapi HTML INFRA URL WEBIDL DOM FETCH" class="h-entry"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">WebDriver</h1> 
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-09-19">19 September 2024</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-10-09">09 October 2024</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -12002,10 +12002,13 @@ variables</var> and <var>parameters</var> are:
   default of <code>27.94</code> from <var>page</var>.
 
  </p></li><li><p>If either of <var>pageWidth</var> or <var>pageHeight</var> is
- not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-21">Number</a>, or is less then 0, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-282">error</a>
+ not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-21">Number</a>, or is less than <code>(2.54 / 72)</code>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-282">error</a>
  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-253">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-113">invalid argument</a>.
 
- </p></li><li><p>Let <var>margin</var> be the result of <a href="#dfn-getting-the-property-with-default" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-the-property-with-default-7">getting a property
+ </p><div class="note" role="note" id="issue-container-generatedID-63"><div role="heading" class="note-title marker" id="h-note-63" aria-level="4"><span>Note</span></div><p class="">The minimum page size is <code>1</code> point, which is
+ <code>(2.54 / 72)</code> as per <a href="#dfn-absolute-lengths" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-absolute-lengths-1">absolute lengths</a>.
+
+ </p></div></li><li><p>Let <var>margin</var> be the result of <a href="#dfn-getting-the-property-with-default" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-the-property-with-default-7">getting a property
   with default</a> named "<code>margin</code>" and with a default of an
   empty <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-55">Object</a> from <var>parameters</var>.
 
@@ -12606,7 +12609,8 @@ This specification relies on several other underlying specifications.
  </dt><dd>The following terms are defined in
   the CSS Values and Units Module Level 3 specification: [<cite><a class="bibref" data-link-type="biblio" href="#bib-css3-values" title="CSS Values and Units Module Level 3">CSS3-VALUES</a></cite>]
   <ul>
-    <li><dfn id="dfn-css-pixels" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/css-values-3/#px">CSS pixels</a></dfn>
+    <li><dfn id="dfn-absolute-lengths" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/css-values-3/#absolute-lengths">absolute lengths</a></dfn>
+    </li><li><dfn id="dfn-css-pixels" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/css-values-3/#px">CSS pixels</a></dfn>
   </li></ul>
 
  </dd><dd>The following properties are defined in
@@ -12749,6 +12753,8 @@ This specification relies on several other underlying specifications.
       <a class="index-term" href="#dfn-2d-context-creation-algorithm">2D context creation algorithm</a> 
     <span class="print-only">§E.</span></li><li>
       <a class="index-term" href="#dfn-a-serialization-of-the-bitmap-as-a-file">A serialization of the bitmap as a file</a> 
+    <span class="print-only">§E.</span></li><li>
+      <a class="index-term" href="#dfn-absolute-lengths">absolute lengths</a> 
     <span class="print-only">§E.</span></li><li>
       <a class="index-term" href="#dfn-absolute-url">Absolute URL</a> 
     <span class="print-only">§E.</span></li><li>
@@ -14243,7 +14249,7 @@ This specification relies on several other underlying specifications.
     </dd><dt id="bib-geometry-1">[GEOMETRY-1]</dt><dd>
       <a href="https://www.w3.org/TR/geometry-1/"><cite>Geometry Interfaces Module Level 1</cite></a>. Simon Pieters; Chris Harrelson.  W3C. 4 December 2018. W3C Candidate Recommendation. URL: <a href="https://www.w3.org/TR/geometry-1/">https://www.w3.org/TR/geometry-1/</a>
     </dd><dt id="bib-html">[HTML]</dt><dd>
-      <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Anne van Kesteren; Domenic Denicola; Ian Hickson; Philip Jägenstedt; Simon Pieters.  WHATWG. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+      <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Anne van Kesteren; Domenic Denicola; Dominic Farolino; Ian Hickson; Philip Jägenstedt; Simon Pieters.  WHATWG. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
     </dd><dt id="bib-infra">[INFRA]</dt><dd>
       <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Anne van Kesteren; Domenic Denicola.  WHATWG. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
     </dd><dt id="bib-mediaqueries-4">[mediaqueries-4]</dt><dd>
@@ -14281,9 +14287,9 @@ This specification relies on several other underlying specifications.
     </dd><dt id="bib-rfc7235">[RFC7235]</dt><dd>
       <a href="https://httpwg.org/specs/rfc7235.html"><cite>Hypertext Transfer Protocol (HTTP/1.1): Authentication</cite></a>. R. Fielding, Ed.; J. Reschke, Ed..  IETF. June 2014. Proposed Standard. URL: <a href="https://httpwg.org/specs/rfc7235.html">https://httpwg.org/specs/rfc7235.html</a>
     </dd><dt id="bib-uax29">[UAX29]</dt><dd>
-      <a href="https://www.unicode.org/reports/tr29/tr29-43.html"><cite>Unicode Text Segmentation</cite></a>. Josh Hadley.  Unicode Consortium. 16 August 2023. Unicode Standard Annex #29. URL: <a href="https://www.unicode.org/reports/tr29/tr29-43.html">https://www.unicode.org/reports/tr29/tr29-43.html</a>
+      <a href="https://www.unicode.org/reports/tr29/tr29-45.html"><cite>Unicode Text Segmentation</cite></a>. Josh Hadley.  Unicode Consortium. 28 August 2024. Unicode Standard Annex #29. URL: <a href="https://www.unicode.org/reports/tr29/tr29-45.html">https://www.unicode.org/reports/tr29/tr29-45.html</a>
     </dd><dt id="bib-uax44">[UAX44]</dt><dd>
-      <a href="https://www.unicode.org/reports/tr44/tr44-32.html"><cite>Unicode Character Database</cite></a>. Ken Whistler.  Unicode Consortium. 6 September 2023. Unicode Standard Annex #44. URL: <a href="https://www.unicode.org/reports/tr44/tr44-32.html">https://www.unicode.org/reports/tr44/tr44-32.html</a>
+      <a href="https://www.unicode.org/reports/tr44/tr44-34.html"><cite>Unicode Character Database</cite></a>. Ken Whistler.  Unicode Consortium. 27 August 2024. Unicode Standard Annex #44. URL: <a href="https://www.unicode.org/reports/tr44/tr44-34.html">https://www.unicode.org/reports/tr44/tr44-34.html</a>
     </dd><dt id="bib-ui-events">[UI-EVENTS]</dt><dd>
       <a href="https://www.w3.org/TR/uievents/"><cite>UI Events</cite></a>. Gary Kacmarcik; Travis Leithead.  W3C. 7 September 2024. W3C Working Draft. URL: <a href="https://www.w3.org/TR/uievents/">https://www.w3.org/TR/uievents/</a>
     </dd><dt id="bib-uievents-key">[UIEVENTS-KEY]</dt><dd>
@@ -23829,6 +23835,18 @@ This specification relies on several other underlying specifications.
       <ul>
     <li>
       <a href="#ref-for-dfn-bot-dom-isshown-1" title="§ C. Element displayedness">§ C. Element displayedness</a> <a href="#ref-for-dfn-bot-dom-isshown-2" title="Reference 2">(2)</a> 
+    </li>
+  </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-absolute-lengths" aria-label="Links in this document to definition: absolute lengths">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-absolute-lengths" aria-label="Permalink for definition: absolute lengths. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+      <a href="#ref-for-dfn-absolute-lengths-1" title="§ 18.1 Print Page">§ 18.1 Print Page</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-css-pixels" aria-label="Links in this document to definition: CSS pixels">
