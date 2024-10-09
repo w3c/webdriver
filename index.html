@@ -11253,8 +11253,11 @@ variables</var> and <var>parameters</var> are:
   default of <code>27.94</code> from <var>page</var>.
 
  <li><p>If either of <var>pageWidth</var> or <var>pageHeight</var> is
- not a <a>Number</a>, or is less then 0, return <a>error</a>
+ not a <a>Number</a>, or is less than <code>(2.54 / 72)</code>, return <a>error</a>
  with <a>error code</a> <a>invalid argument</a>.
+
+ <p class=note>The minimum page size is <code>1</code> point, which is
+ <code>(2.54 / 72)</code> as per <a>absolute lengths</a>.
 
  <li><p>Let <var>margin</var> be the result of <a>getting a property
   with default</a> named "<code>margin</code>" and with a default of an
@@ -11862,6 +11865,7 @@ to automatically sort each list alphabetically.
  <dd>The following terms are defined in
   the CSS Values and Units Module Level 3 specification: [[CSS3-VALUES]]
   <ul>
+   <!-- absolute lengths --> <li><dfn><a href=https://www.w3.org/TR/css-values-3/#absolute-lengths>absolute lengths</a></dfn>
    <!-- CSS pixels --> <li><dfn><a href=https://www.w3.org/TR/css-values-3/#px>CSS pixels</a></dfn>
   </ul>
 
