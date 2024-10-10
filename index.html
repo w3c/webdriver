@@ -7071,12 +7071,13 @@ steps:
   and <var>arguments</var>.
 </ol>
 
-<p>The rules to <dfn>execute a function body</dfn> are as follows.
- The algorithm returns <a data-lt="completion">an ECMAScript completion record</a>.
+<p>To <dfn>execute an async function body</dfn> given <var>session</var>,
+ <var>bodySource</var>, and <var>arguments</var>.
+ The algorithm returns <a>success</a> with <a data-lt="promise">an ECMAScript Promise instance</a> or <a>error</a>.
 
 <p>If at any point during the algorithm a <a>user prompt</a> appears,
- immediately return <a>Completion</a> { [[\Type]]: <code>normal</code>, [[\Value]]: <a><code>null</code></a>,
- [[\Target]]: <code>empty</code> }, but continue to run the other steps of this algorithm [=in parallel=].
+ immediately return <a>success</a> with data <a><code>null</code></a>,
+ but continue to run the other steps of this algorithm [=in parallel=].
 
 <ol>
  <li><p>Let <var>window</var> be the <a>associated window</a>
@@ -7086,47 +7087,55 @@ steps:
  <li><p>Let <var>environment settings</var> be
   <var>window</var>&apos;s [=relevant settings object=].
 
- <li>Let <var>global scope</var> be
-  <var>environment settings</var> <a>realm</a>&apos;s
-  <a>global environment</a>.
+ <li><p>Let <var>realm</var> be <var>environment settings</var>' <a>realm</a>.
 
- <li><p>If <var>body</var> is not parsable as a <a>FunctionBody</a>
-  or if parsing detects an <a>early error</a>,
-  return
-  <a>Completion</a> { [[\Type]]: <code>normal</code>, [[\Value]]: <a><code>null</code></a>, [[\Target]]: <code>empty</code> }.
+ <li><p>Let <var>parameters</var> be <a>ParseText</a>(<var>""</var>, <a>FormalParameters</a><sub>[~Yield, +Await]</sub>).
 
- <li><p>If <var>body</var> begins with a <a>directive prologue</a>
-  that contains a <a>use strict directive</a>
-  then let <var>strict</var> be true,
-  otherwise let <var>strict</var> be false.
+ <li><p>Assert: <var>parameters</var> is a <a>Parse Node</a>.
+
+ <li><p>Let <body> be <a>ParseText</a>(<var>bodySource</var>, <a>AsyncFunctionBody</a>).
+
+ <li><p>If <var>body</var> is a List of errors:
+
+  <ol>
+
+   <li><p>Return a new <a>error</a> with <a>error code</a> <a>javascript error</a> and data null.
+
+  </ol>
 
  <li><p><a>Prepare to run script</a> with <var>environment settings</var>.
 
  <li><p><a>Prepare to run a callback</a> with <var>environment settings</var>.
 
  <li><p>Let <var>function</var> be the result of
-  calling <a>FunctionCreate</a>, with arguments:
+  calling <a>OrdinaryFunctionCreate</a> with arguments:
 
   <dl>
-   <dt><var>kind</var>
-   <dd>Normal.
+   <dt><var>functionPrototype</var>
+   <dd><a>%AsyncFunction.prototype%</a>.
 
-   <dt><var>list</var>
-   <dd>An empty <a>List</a>.
+   <dt><var>sourceText</var>
+   <dd><var>bodySource</var>.
 
-   <dt><var>body</var>
-   <dd>The result of parsing <var>body</var> above.
+   <dt><var>ParameterList</var>
+   <dd><var>parameters</var>.
 
-   <dt><var>global scope</var>
-   <dd>The result of parsing <var>global scope</var> above.
+   <dt><var>Body</var>
+   <dd><var>body</var>.
 
-   <dt><var>strict</var>
-   <dd>The result of parsing <var>strict</var> above.
+   <dt><var>thisMode</var>
+   <dd><code>NON-LEXICAL-THIS</code>.
+
+   <dt><var>env</var>
+   <dd><var>realm</var>.[[\GlobalEnv]].
+
+   <dt><var>privateEnv</var>
+   <dd>null.
   </dl>
 
  <li><p>Let <var>completion</var> be
   <a>Function.[[\Call]]</a>(<var>window</var>,
-  <var>parameters</var>) with <var>function</var> as the this value.
+  <var>arguments</var>) with <var>function</var> as the this value.
 
  <li><p><a>Clean up after running a callback</a>
   with <var>environment settings</var>.
@@ -7134,7 +7143,9 @@ steps:
  <li><p><a>Clean up after running script</a>
   with <var>environment settings</var>.
 
- <li><p>Return <var>completion</var>.
+ <li><p>Assert: <var>completion</var> is a <a>normal completion</a>.
+
+ <li><p>Return <a>success</a> with data <var>completion</var>.[[\Value]].
 </ol>
 
 <p class="note">The above algorithm is not associated
@@ -7180,22 +7191,11 @@ variables</var> and <var>parameters</var> are:
   <ol>
    <li><p><a>Start the timer</a> with <var>timer</var>
    and <var>timeout</var>.
- </ol>
+  </ol>
 
- <li><p>Let <var>promise</var> be <a>a new Promise</a>.
-
- <li><p>Run the following substeps <a>in parallel</a>:
-   <ol>
-     <li><p>Let <var>scriptPromise</var> be the result of <a>promise-calling</a>
-        <a>execute a function body</a>, with arguments
-        <var>body</var> and <var>arguments</var>.
-
-    <li><p>Upon fulfillment of <var>scriptPromise</var> with value <var>v</var>,
-      <a>resolve</a> <var>promise</var> with value <var>v</var>.
-
-    <li><p>Upon rejection of <var>scriptPromise</var> with value <var>r</var>,
-      <a>reject</a> <var>promise</var> with value <var>r</var>.
-   </ol>
+  <li><p>Let <var>promise</var> be the result of <a>trying</a> to
+      <a>execute an async function body</a>, with arguments
+      <var>session</var>, <var>body</var> and <var>arguments</var>.
 
   <li><p>Wait until <var>promise</var> is resolved,
   or <var>timer</var>&apos;s [=timer/timeout fired flag=] is set,
@@ -7275,31 +7275,9 @@ variables</var> and <var>parameters</var> are:
     <li><p>Append <var>resolvingFunctions</var><code>.[[\Resolve]]</code> to
       <var>arguments</var>.
 
-    <li><p>Let <var>scriptResult</var> be the result of calling
-      <a>execute a function body</a>, with arguments
-      <var>body</var> and <var>arguments</var>.
-
-    <li><p>If <var>scriptResult</var>.[[\Type]] is not <code>normal</code>, then <a>reject</a>
-      <var>promise</var> with value <var>scriptResult</var>.[[\Value]], and abort these steps.
-
-      <p class=note>Prior revisions of this specification did not recognize the
-        return value of the provided script. In order to preserve legacy behavior,
-        the return value only influences the command if it is a "thenable" object or
-        if determining this produces an exception.
-
-    <li><p>If <a data-lt="ecmascript type">Type</a>(<var>scriptResult</var>.[[\Value]])
-      is not <a>Object</a>, then abort these steps.
-
-    <li><p>Let <var>then</var> be <a>Get</a>(<var>scriptResult</var>.[[\Value]], "then").
-
-    <li><p>If <var>then</var>.[[\Type]] is not <code>normal</code>, then <a>reject</a>
-      <var>promise</var> with value <var>then</var>.[[\Value]], and abort these steps.
-
-    <li><p>If <a>IsCallable</a>(<var>then</var>.[[\Type]]) is <code>false</code>,
-      then abort these steps.
-
-    <li><p>Let <var>scriptPromise</var> be <a>PromiseResolve</a>(<a>Promise</a>,
-      <var>scriptResult</var>.[[\Value]]).
+    <li><p>Let <var>scriptPromise</var> be the result of <a>trying</a> to
+      <a>execute an async function body</a>, with arguments
+      <var>session</var>, <var>body</var> and <var>arguments</var>.
 
     <li><p>Upon fulfillment of <var>scriptPromise</var> with value <var>v</var>,
       <a>resolve</a> <var>promise</var> with value <var>v</var>.
@@ -11633,21 +11611,18 @@ to automatically sort each list alphabetically.
  <dd><p>The following terms are defined in the ECMAScript Language Specification: [[ECMA-262]]
   <ul>
     <!-- Iterable --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-iterable-interface>Iterable</a></dfn>
-   <!-- Completion --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-completion-record-specification-type">Completion</a></dfn>
+   <!-- %AsyncFunction.prototype% --> <li><dfn><a href=https://tc39.es/ecma262/#sec-async-function-prototype-properties>%AsyncFunction.prototype%</a></dfn>
+   <!-- AsyncFunctionBody --> <li><dfn><a href=https://tc39.es/ecma262/#prod-AsyncFunctionBody>AsyncFunctionBody</a></dfn>
    <!-- CreateResolvingFunctions --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-createresolvingfunctions>CreateResolvingFunctions</a></dfn>
-   <!-- Directive prologue --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Directive prologue</a></dfn>
-   <!-- Early error --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-16>Early error</a></dfn>
+   <!-- FormalParameters --> <li><dfn><a href=https://tc39.es/ecma262/#prod-FormalParameters>FormalParameters</a></dfn>
    <!-- Function --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-4.3.24>Function</a></dfn>
-   <!-- FunctionBody --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-13>FunctionBody</a></dfn>
-   <!-- FunctionCreate --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-functioncreate>FunctionCreate</a></dfn>
-   <!-- Get --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-get-o-p>Get</a></dfn>
-   <!-- Global environment --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-10.2.3>Global environment</a></dfn>
-   <!-- IsCallable --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-iscallable>IsCallable</a></dfn>
+   <!-- normal completion --> <li><dfn><a href=https://tc39.es/ecma262/#sec-completion-record-specification-type>normal completion</a></dfn>
+   <!-- OrdinaryFunctionCreate --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-ordinaryfunctioncreate>OrdinaryFunctionCreate</a></dfn>
    <!-- Own property --> <li><dfn data-lt="own properties"><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-4.3.30>Own property</a></dfn>
-   <!-- Promise --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-promise-constructor>Promise</a></dfn>
-   <!-- PromiseResolve --> <li><dfn><a href=https://tc39.github.io/ecma262/#sec-promise-resolve>PromiseResolve</a></dfn>
+   <!-- Parse Node --> <li><dfn><a href=https://tc39.es/ecma262/#sec-syntactic-grammar>Parse Node</a></dfn>
+   <!-- ParseText --> <li><dfn><a href=https://tc39.es/ecma262/#sec-parsetext>ParseText</a></dfn>
+   <!-- Promise --> <li><dfn><a href=https://tc39.es/ecma262/#sec-promise-constructor>Promise</a></dfn>
    <!-- Type --> <li><dfn data-lt="ecmascript type" data-lt-noDefault><a href=https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values>Type</a></dfn>
-   <!-- Use strict directive --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-14.1>Use strict directive</a></dfn>
    <!-- parseInt --> <li><dfn><a href=https://www.ecma-international.org/ecma-262/5.1/#sec-15.1.2.2>parseInt</a></dfn>
    <!-- realm --> <li><dfn><a href="https://tc39.github.io/ecma262/#sec-code-realms">realm</a></dfn>
   </ul>
@@ -12009,12 +11984,6 @@ to automatically sort each list alphabetically.
    <!-- this --> <li><dfn><a href="https://heycam.github.io/webidl/#this">this</a></dfn></li>
 
   </ul>
-
-  <dt>Promises Guide <!-- Eventually this will be merged into WebIDL -->
-  <dd><p>The following terms are defined in the Promises Guide. [[PROMISES-GUIDE]]
-    <ul>
-      <!-- Promise calling --> <li><dfn data-lt="promise-call"><a href="https://www.w3.org/2001/tag/doc/promises-guide#promise-calling">Promise-calling</a></dfn>
-    </ul>
 
   <dt>XPATH
   <dd><p>The following terms are defined in the Document Object Model XPath standard [[XPATH]]
