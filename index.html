@@ -8286,11 +8286,11 @@ and <var>subtype</var>:
  content observable effects that must be consistent across
  implementations. To accommodate this, the specification requires
  that <a>remote ends</a> <dfn>perform implementation-specific action
- dispatch steps</dfn> on a [=browsing context/top-level browsing context=] of
- <var>context</var>, and a <var>list of events</var> and their properties.
- These steps must be equivalent to performing the given input device
- manipulations on the [=browsing context/top-level browsing context=] of the
- <var>context</var>, such that trusted events corresponding to the entries in
+ dispatch steps</dfn> on a <var>context</var>, and a <var>list of events</var>
+ and their properties. These steps must be equivalent to performing the given
+ input device manipulations on the
+ [=browsing context/top-level browsing context=] of the <var>context</var>,
+ such that trusted events corresponding to the entries in
  <var>list of events</var> are dispatched.
 
 <aside class=note>
@@ -8339,6 +8339,45 @@ from a machine utilisation perspective.
  input JSON, such that the actions to be performed in a single <a>tick</a>
  are grouped together.
 
+<p>To <dfn>get parent offset</dfn> of <var>context</var>:
+ <ol class="algorithm">
+  <li>Let <var>offsetLeft</var> equal to 0 and <var>offsetTop</var> equal to 0.
+  </li>
+  Let <var>navigable</var> be <var>context</var>'s <a>active document</a>'s
+  [=navigable/parent=].  </p></li>
+  <li>Let <var>parent navigable</var> be <var>navigable</var>'s parent.</li>
+  <li>If <var>parent navigable</var> is not null:
+   <ol>
+    <li> Let <var>parent context</var> be <var>parent navigable</var>'s
+     [=navigable/document=]'s [=document/browsing context=].
+    </li>
+    <li>Let <code>(parentOffsetLeft, parentOffsetTop)</code> be result of
+     [=get parent offset=] of <var>parent context</var>.
+    </li>
+    <li>Add <code>parentOffsetLeft</code> to <code>offsetLeft</code>.</li>
+    <li>Add <code>parentOffsetTop</code> to <code>offsetTop</code>.</li>
+    <li>Let <var>containerElement</var> be an <a>element</a> which <a>navigable
+     container</a> presents <var>parent navigable</var>.
+    </li>
+    <li>Let <code>containerRect</code> be the result of calling
+     {{Element/getBoundingClientRect()}} of <var>containerElement</var>.
+    </li>
+    <li>Let <code>borderLeftWidth</code> be the computed [=border-left-width=]
+     of <code>containerElement</code> in <a>CSS pixels</a>.
+    </li>
+    <li>Let <code>borderTopWidth</code> be the computed [=border-top-width=] of
+     <code>containerElement</code> in <a>CSS pixels</a>.
+    </li>
+    <li>Add <code>containerRect.left</code> + <code>borderLeftWidth</code> to
+     <code>offsetLeft</code>.
+    </li>
+    <li>Add <code>containerRect.top</code> + <code>borderTopWidth</code> to
+     <code>offsetTop</code>.
+    </li>
+   </ol>
+  <li>Return (<var>offsetLeft</var>, <var>offsetTop</var>).</li>
+  <span class=issue>The algo does not respect transforms</span>
+</ol>
 
 <p>To <dfn>get coordinates relative to an origin</dfn>
 given <var>source</var>, <var>x offset</var>, <var>y offset</var>,
@@ -8346,6 +8385,8 @@ given <var>source</var>, <var>x offset</var>, <var>y offset</var>,
 options</var>:
 
 <ol class="algorithm">
+ <li>Let <code>(parentOffsetLeft, parentOffsetTop)</code> be result of
+  [=get parent offset=] of <var>browsing context</var>.</li>
  <li><p>Run the substeps of the first matching value
   of <var>origin</var>
   <dl>
@@ -8393,7 +8434,7 @@ options</var>:
    </dd>
   </dl>
 
- <li><p>Return (<var>x</var>, <var>y</var>)
+ <li><p>Return (<var>x</var> + <var>parentOffsetLeft</var>, <var>y</var> + <var>parentOffsetTop</var>)
 </ol>
 
 <p>To <dfn>extract an action sequence</dfn> given
@@ -11715,6 +11756,7 @@ to automatically sort each list alphabetically.
    <!-- Dirty value flag --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-dirty>Dirty value flag</a></dfn>
    <!-- Disabled --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-element-disabled>Actually disabled</a></dfn>
    <!-- Document readiness --> <li><dfn><a href=https://html.spec.whatwg.org/#current-document-readiness>Document readiness</a></dfn>
+   <!-- Document's browsing context --> <li><dfn data-dfn-for="document"><a href=https://html.spec.whatwg.org/#concept-document-bc>Browsing context</a></dfn>
    <!-- Element contexts --> <li><dfn data-lt="element context"><a href=https://html.spec.whatwg.org/#concept-element-contexts>Element contexts</a></dfn>
    <!-- Enumerated attribute --> <li><dfn><a href=https://html.spec.whatwg.org/#enumerated-attribute>Enumerated attribute</a></dfn>
    <!-- Event loop --> <li><dfn><a href=https://html.spec.whatwg.org/#event-loop>Event loop</a></dfn>
@@ -11726,6 +11768,8 @@ to automatically sort each list alphabetically.
    <!-- Joint session history --> <li><dfn><a href=https://html.spec.whatwg.org/#joint-session-history>Joint session history</a></dfn>
    <!-- Mature (navigation) --> <li><dfn data-lt="matured"><a href=https://html.spec.whatwg.org/#concept-navigate-mature>Mature</a></dfn> navigation.
    <!-- Mutable --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-fe-mutable>Mutable</a></dfn>
+   <!-- Navigable's document --> <li><dfn data-dfn-for="navigable"><a href=https://html.spec.whatwg.org/#nav-document>Document</a></dfn>
+   <!-- Navigable's parent --> <li><dfn data-dfn-for="navigable"><a href=https://html.spec.whatwg.org/#nav-parent>Parent</a></dfn>
    <!-- Navigate --> <li><dfn data-lt="navigating|navigation"><a href=https://html.spec.whatwg.org/#navigate>Navigate</a></dfn>
    <!-- Origin-clean --> <li><dfn><a href=https://html.spec.whatwg.org/#concept-canvas-origin-clean>Origin-clean</a></dfn>
    <!-- Overridden reload --> <li><dfn><a href="https://html.spec.whatwg.org/multipage/dom.html#an-overridden-reload">An overridden reload</a></dfn>
@@ -11870,6 +11914,15 @@ to automatically sort each list alphabetically.
    <!-- absolute lengths --> <li><dfn><a href=https://www.w3.org/TR/css-values-3/#absolute-lengths>absolute lengths</a></dfn>
    <!-- CSS pixels --> <li><dfn><a href=https://www.w3.org/TR/css-values-3/#px>CSS pixels</a></dfn>
   </ul>
+
+ <dd>The following properties are defined in
+  the CSS Backgrounds and Borders Module Level 3: [[CSS3-BACKGROUND]]
+   <ul>
+    <!-- border-left-width property --> <li>The <dfn><a href=https://drafts.csswg.org/css-backgrounds-3/#propdef-border-left-width><code>border-left-width</code></a></dfn> property
+   </ul>
+   <ul>
+    <!-- border-top-width property --> <li>The <dfn><a href=https://drafts.csswg.org/css-backgrounds-3/#propdef-border-left-width><code>border-top-width</code></a></dfn> property
+   </ul>
 
  <dd>The following properties are defined in
   the CSS Basic Box Model Level 3 specification: [[CSS3-BOX]]
