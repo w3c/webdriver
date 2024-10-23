@@ -8339,12 +8339,14 @@ from a machine utilisation perspective.
  input JSON, such that the actions to be performed in a single <a>tick</a>
  are grouped together.
 
-<p>To <dfn>get parent offset</dfn> of <var>context</var>:
+ <p>To <dfn>get parent offset</dfn> of <var>context</var>:
  <ol class="algorithm">
   <li>Let <var>offsetLeft</var> equal to 0 and <var>offsetTop</var> equal to 0.
   </li>
-  Let <var>navigable</var> be <var>context</var>'s <a>active document</a>'s
-  [=navigable/parent=].  </p></li>
+  <li>
+   Let <var>navigable</var> be <var>context</var>'s <a>active document</a>'s
+   [=navigable/parent=].
+  </li>
   <li>Let <var>parent navigable</var> be <var>navigable</var>'s parent.</li>
   <li>If <var>parent navigable</var> is not null:
    <ol>
@@ -8375,10 +8377,11 @@ from a machine utilisation perspective.
      <code>offsetTop</code>.
     </li>
    </ol>
+  </li>
   <li>Return (<var>offsetLeft</var>, <var>offsetTop</var>).</li>
-  <span class=issue>TODO: clarify if the algo respect transforms?</span>
-  <span class=issue>TODO: respect iframe's viewport's intersections</span>
-</ol>
+ </ol>
+ <span class=issue>TODO: clarify if the algo respect transforms?</span>
+ <span class=issue>TODO: respect iframe's viewport's intersections</span>
 
 <p>To <dfn>get coordinates relative to an origin</dfn>
 given <var>source</var>, <var>x offset</var>, <var>y offset</var>,
