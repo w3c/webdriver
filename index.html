@@ -9120,18 +9120,16 @@ item</var>, <var>action</var>, and <var>actions options</var>:</p>
  grouped by <a>tick</a>, and then causes each action to be run at the
  appropriate point in the sequence.
 
-<p>To <dfn>dispatch actions</dfn> given <var>input
-state</var>, <var>actions by tick</var>, <var>browsing
-context</var>, and <var>actions options</var>:
+<p>To <dfn>wait for an action queue token</dfn> given <var>input state</var>:
 
 <ol class=algorithm>
  <li><p>Let <var>token</var> be a new unique identifier.
 
- <li><p>Enqueue <var>token</var> in <var>input state</var>&apos;s <a>actions
- queue</a>.
+ <li><p>Enqueue <var>token</var> in <var>input state</var>&apos;s
+  <a>actions queue</a>.
 
  <li><p>Wait for <var>token</var> to be the first item
- in <var>input state</var>&apos;s <a>actions queue</a>.
+  in <var>input state</var>&apos;s <a>actions queue</a>.
 
  <aside class=note>
    <p>This ensures that only one set of actions can be run at a time,
@@ -9141,13 +9139,21 @@ context</var>, and <var>actions options</var>:
    session types can allow running multiple commands in parallel, in
    which case this is necessary to ensure sequential access.
  </aside>
+</ol>
 
- <li><p>Let <var>actions result</var> be the result of <a>dispatch
- actions inner</a> with <var>input state</var>, <var>actions by
- tick</var>, <var>browsing context</var>, and <var>actions options</var>.
+<p>To <dfn>dispatch actions</dfn> given <var>input
+state</var>, <var>actions by tick</var>, <var>browsing
+context</var>, and <var>actions options</var>:
+
+<ol class=algorithm>
+ <li><p>Call <a>wait for an action queue token</a> with <var>input state</var>.
+
+ <li><p>Let <var>actions result</var> be the result of
+  <a>dispatch actions inner</a> with <var>input state</var>, <var>actions by
+  tick</var>, <var>browsing context</var>, and <var>actions options</var>.
 
  <li><p>Dequeue <var>input state</var>&apos;s <a>actions queue</a>.
-     <p>Assert: this returns <var>token</var>
+  <p>Assert: this returns <var>token</var>
 
  <li><p>Return <var>actions result</var>.
 </ol>
@@ -10325,26 +10331,29 @@ variables</var> and <var>parameters</var> are:
   is <a>no longer open</a>, return <a>error</a> with <a>error
   code</a> <a>no such window</a>.
 
- <li><p>Let <var>input state</var> be the result of <a>get the
- input state</a> with <a>session</a> and <a>current
- top-level browsing context</a>.
+ <li><p>Let <var>input state</var> be the result of <a>get the input state</a>
+  with <a>session</a> and <a>current top-level browsing context</a>.
 
  <li><p>Let <var>actions options</var> be a new <a>actions options</a>
   with the <a>is element origin</a> steps set to <a>represents a web
   element</a>, and the <a>get element origin</a> steps set
   to <a>get a WebElement origin</a>.
 
- <li><p>Let <var>undo actions</var> be <var>input
- state</var>&apos;s <a>input cancel list</a> in reverse order.
+ <li><p>Call <a>wait for an action queue token</a> with <var>input state</var>.
 
- <li><p><a>Try</a> to <a>dispatch tick actions</a> with arguments
-  <var>undo
-  actions</var>, <code>0</code>,<var>session</var>&apos;s <a>current
-  browsing context</a>, and <a>actions options</a>.
+ <li><p>Let <var>undo actions</var> be <var>input
+  state</var>&apos;s <a>input cancel list</a> in reverse order.
+
+ <li><p><a>Dispatch actions</a> with <var>input state</var>,
+  <var>undo actions</var>, <a>current browsing context</a>,
+  and <var>actions options</var>. If this results in an <a>error</a>
+  return that error.
+
+ <li><p>Dequeue <var>input state</var>&apos;s <a>actions queue</a>.
+  <p>Assert: this returns <var>token</var>
 
  <li><p><a>Reset the input state</a> with <var>session</var>
- and <var>session</var>&apos;s <a>current top-level browsing
- context</a>.
+  and <var>session</var>&apos;s <a>current top-level browsing context</a>.
 
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
