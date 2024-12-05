@@ -176,7 +176,7 @@ ul.index code{color:inherit}
 .mdn .samsunginternet_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/samsung-internet/samsung-internet.svg)}
 .mdn .webview_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/android-webview/android-webview.png)}
 </style>
-<meta name="revision" content="0ac18fa957652f5efd2dc010d8a285cc08e89891">
+<meta name="revision" content="7d8beb949159e0f7d86a34410aedd3a1af3d4b0c">
 <meta name="description" content="WebDriver is a remote control interface
 that enables introspection and control of user agents.
 It provides a platform- and language-neutral wire protocol
@@ -272,15 +272,15 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     ],
     "profile": "web-platform"
   },
-  "gitRevision": "0ac18fa957652f5efd2dc010d8a285cc08e89891",
-  "publishISODate": "2024-11-28T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 28 November 2024"
+  "gitRevision": "7d8beb949159e0f7d86a34410aedd3a1af3d4b0c",
+  "publishISODate": "2024-12-05T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 05 December 2024"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head><body data-cite="WEBIDL CSSOM-VIEW GEOMETRY-1 fileapi HTML INFRA URL WEBIDL DOM FETCH" class="h-entry"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">WebDriver</h1> 
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-11-28">28 November 2024</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-12-05">05 December 2024</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -9887,18 +9887,16 @@ item</var>, <var>action</var>, and <var>actions options</var>:</p>
  grouped by <a href="#dfn-ticks" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-ticks-21">tick</a>, and then causes each action to be run at the
  appropriate point in the sequence.
 
-</p><p>To <dfn id="dfn-dispatch-actions" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch actions</dfn> given <var>input
-state</var>, <var>actions by tick</var>, <var>browsing
-context</var>, and <var>actions options</var>:
+</p><p>To <dfn id="dfn-wait-for-an-action-queue-token" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">wait for an action queue token</dfn> given <var>input state</var>:
 
 </p><ol class="algorithm">
  <li><p>Let <var>token</var> be a new unique identifier.
 
- </p></li><li><p>Enqueue <var>token</var> in <var>input state</var>'s <a href="#dfn-actions-queue" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-actions-queue-1">actions
- queue</a>.
+ </p></li><li><p>Enqueue <var>token</var> in <var>input state</var>'s
+  <a href="#dfn-actions-queue" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-actions-queue-1">actions queue</a>.
 
  </p></li><li><p>Wait for <var>token</var> to be the first item
- in <var>input state</var>'s <a href="#dfn-actions-queue" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-actions-queue-2">actions queue</a>.
+  in <var>input state</var>'s <a href="#dfn-actions-queue" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-actions-queue-2">actions queue</a>.
 
  </p><div class="note" role="note" id="issue-container-generatedID-50"><div role="heading" class="note-title marker" id="h-note-50" aria-level="4"><span>Note</span></div><aside class="">
    <p>This ensures that only one set of actions can be run at a time,
@@ -9908,13 +9906,21 @@ context</var>, and <var>actions options</var>:
    session types can allow running multiple commands in parallel, in
    which case this is necessary to ensure sequential access.
  </p></aside></div>
+</li></ol>
 
- </li><li><p>Let <var>actions result</var> be the result of <a href="#dfn-dispatch-actions-inner" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dispatch-actions-inner-1">dispatch
- actions inner</a> with <var>input state</var>, <var>actions by
- tick</var>, <var>browsing context</var>, and <var>actions options</var>.
+<p>To <dfn id="dfn-dispatch-actions" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">dispatch actions</dfn> given <var>input
+state</var>, <var>actions by tick</var>, <var>browsing
+context</var>, and <var>actions options</var>:
+
+</p><ol class="algorithm">
+ <li><p><a href="#dfn-wait-for-an-action-queue-token" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-wait-for-an-action-queue-token-1">Wait for an action queue token</a> with <var>input state</var>.
+
+ </p></li><li><p>Let <var>actions result</var> be the result of
+  <a href="#dfn-dispatch-actions-inner" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dispatch-actions-inner-1">dispatch actions inner</a> with <var>input state</var>, <var>actions by
+  tick</var>, <var>browsing context</var>, and <var>actions options</var>.
 
  </p></li><li><p>Dequeue <var>input state</var>'s <a href="#dfn-actions-queue" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-actions-queue-3">actions queue</a>.
-     </p><p>Assert: this returns <var>token</var>
+  </p><p>Assert: this returns <var>token</var>
 
  </p></li><li><p>Return <var>actions result</var>.
 </p></li></ol>
@@ -11087,26 +11093,26 @@ variables</var> and <var>parameters</var> are:
   is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-52">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-249">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-224">error
   code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-53">no such window</a>.
 
- </p></li><li><p>Let <var>input state</var> be the result of <a href="#dfn-get-the-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-the-input-state-4">get the
- input state</a> with <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-38">session</a> and <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-65">current
- top-level browsing context</a>.
+ </p></li><li><p>Let <var>input state</var> be the result of <a href="#dfn-get-the-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-the-input-state-4">get the input state</a>
+  with <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-38">session</a> and <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-65">current top-level browsing context</a>.
 
  </p></li><li><p>Let <var>actions options</var> be a new <a href="#dfn-actions-options" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-actions-options-6">actions options</a>
   with the <a href="#dfn-is-element-origin" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-is-element-origin-7">is element origin</a> steps set to <a href="#dfn-represents-a-web-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-represents-a-web-element-9">represents a web
   element</a>, and the <a href="#dfn-get-element-origin" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-element-origin-6">get element origin</a> steps set
   to <a href="#dfn-get-a-webelement-origin" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-a-webelement-origin-5">get a WebElement origin</a>.
 
- </p></li><li><p>Let <var>undo actions</var> be <var>input
- state</var>'s <a href="#dfn-input-cancel-list" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-cancel-list-5">input cancel list</a> in reverse order.
+ </p></li><li><p><a href="#dfn-wait-for-an-action-queue-token" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-wait-for-an-action-queue-token-2">Wait for an action queue token</a> with <var>input state</var>.
 
- </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-120">Try</a> to <a href="#dfn-dispatch-tick-actions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dispatch-tick-actions-4">dispatch tick actions</a> with arguments
-  <var>undo
-  actions</var>, <code>0</code>,<var>session</var>'s <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-86">current
-  browsing context</a>, and <a href="#dfn-actions-options" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-actions-options-7">actions options</a>.
+ </p></li><li><p>Let <var>undo actions</var> be <var>input
+  state</var>'s <a href="#dfn-input-cancel-list" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-cancel-list-5">input cancel list</a> in reverse order.
+
+ </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-120">Try</a> to <a href="#dfn-dispatch-actions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dispatch-actions-4">dispatch actions</a> with <var>input state</var>,
+  <var>undo actions</var>, <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-86">current browsing context</a>,
+  and <var>actions options</var>.
+
 
  </p></li><li><p><a href="#dfn-reset-the-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-reset-the-input-state-1">Reset the input state</a> with <var>session</var>
- and <var>session</var>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-66">current top-level browsing
- context</a>.
+  and <var>session</var>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-66">current top-level browsing context</a>.
 
  </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-116">success</a> with data <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-74"><code>null</code></a>.
 </p></li></ol>
@@ -13919,6 +13925,8 @@ This specification relies on several other underlying specifications.
     <span class="print-only">§E.</span></li><li>
       <a class="index-term" href="#dfn-wai-aria-role">WAI-ARIA role</a> 
     <span class="print-only">§E.</span></li><li>
+      <a class="index-term" href="#dfn-wait-for-an-action-queue-token">wait for an action queue token</a> 
+    <span class="print-only">§15.6</span></li><li>
       <a class="index-term" href="#dfn-wait-for-navigation-to-complete">wait for navigation to complete</a> 
     <span class="print-only">§10.</span></li><li>
       <a class="index-term" href="#dfn-asynchronously-wait">Waiting asynchronously</a> 
@@ -19847,7 +19855,7 @@ This specification relies on several other underlying specifications.
     </li><li>
       <a href="#ref-for-dfn-actions-options-5" title="§ 15.7 Perform Actions">§ 15.7 Perform Actions</a> 
     </li><li>
-      <a href="#ref-for-dfn-actions-options-6" title="§ 15.8 Release Actions">§ 15.8 Release Actions</a> <a href="#ref-for-dfn-actions-options-7" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-actions-options-6" title="§ 15.8 Release Actions">§ 15.8 Release Actions</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-is-element-origin" aria-label="Links in this document to definition: is element origin">
@@ -20588,6 +20596,20 @@ This specification relies on several other underlying specifications.
       <a href="#ref-for-dfn-process-a-pointer-move-action-1" title="§ 15.5 Processing actions">§ 15.5 Processing actions</a> 
     </li>
   </ul>
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-wait-for-an-action-queue-token" aria-label="Links in this document to definition: wait for an action queue token">
+      <span class="caret"></span>
+      <div>
+        <a class="self-link" href="#dfn-wait-for-an-action-queue-token" aria-label="Permalink for definition: wait for an action queue token. Activate to close this dialog.">Permalink</a>
+         
+      </div>
+      <p><b>Referenced in:</b></p>
+      <ul>
+    <li>
+      <a href="#ref-for-dfn-wait-for-an-action-queue-token-1" title="§ 15.6 Dispatching actions">§ 15.6 Dispatching actions</a> 
+    </li><li>
+      <a href="#ref-for-dfn-wait-for-an-action-queue-token-2" title="§ 15.8 Release Actions">§ 15.8 Release Actions</a> 
+    </li>
+  </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-dispatch-actions" aria-label="Links in this document to definition: dispatch actions">
       <span class="caret"></span>
       <div>
@@ -20600,6 +20622,8 @@ This specification relies on several other underlying specifications.
       <a href="#ref-for-dfn-dispatch-actions-1" title="§ 15.6 Dispatching actions">§ 15.6 Dispatching actions</a> <a href="#ref-for-dfn-dispatch-actions-2" title="Reference 2">(2)</a> 
     </li><li>
       <a href="#ref-for-dfn-dispatch-actions-3" title="§ 15.7 Perform Actions">§ 15.7 Perform Actions</a> 
+    </li><li>
+      <a href="#ref-for-dfn-dispatch-actions-4" title="§ 15.8 Release Actions">§ 15.8 Release Actions</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-dispatch-actions-inner" aria-label="Links in this document to definition: dispatch actions inner">
@@ -20636,8 +20660,6 @@ This specification relies on several other underlying specifications.
       <ul>
     <li>
       <a href="#ref-for-dfn-dispatch-tick-actions-1" title="§ 15.6 Dispatching actions">§ 15.6 Dispatching actions</a> <a href="#ref-for-dfn-dispatch-tick-actions-2" title="Reference 2">(2)</a> <a href="#ref-for-dfn-dispatch-tick-actions-3" title="Reference 3">(3)</a> 
-    </li><li>
-      <a href="#ref-for-dfn-dispatch-tick-actions-4" title="§ 15.8 Release Actions">§ 15.8 Release Actions</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-dispatch-a-list-of-actions" aria-label="Links in this document to definition: dispatch a list of actions">
