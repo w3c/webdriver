@@ -1040,6 +1040,18 @@ the following steps:
   <td>/session/{<var>session id</var>}/print</td>
   <td><a>Print Page</a></td>
  </tr>
+
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/webextension</td>
+  <td><a>Load WebExtension</a></td>
+ </tr>
+
+ <tr>
+  <td>DELETE</td>
+  <td>/session/{<var>session id</var>}/webextension/{extension id}</td>
+  <td><a>Unload WebExtension</a></td>
+ </tr>
 </table>
 </section> <!-- /Endpoints -->
 
@@ -1219,6 +1231,13 @@ the following steps:
  </tr>
 
  <tr>
+  <td><dfn>no such extension</dfn>
+  <td>404
+  <td><code>no such extension</code>
+  <td>No extension matching the given extension id was found.
+ </tr>
+
+ <tr>
   <td><dfn>no such frame</dfn>
   <td>404
   <td><code>no such frame</code>
@@ -1290,6 +1309,20 @@ the following steps:
   <td>500
   <td><code>unable to capture screen</code>
   <td>A screen capture was made impossible.
+ </tr>
+
+ <tr>
+  <td><dfn>unable to load extension</dfn>
+  <td>500
+  <td><code>unable to load extension</code>
+  <td>A <a>command</a> to load an extension could not be satisfied.
+ </tr>
+
+ <tr>
+  <td><dfn>unable to unload extension</dfn>
+  <td>500
+  <td><code>unable to unload extension</code>
+  <td>A <a>command</a> to unload an extension could not be satisfied.
  </tr>
 
  <tr>
@@ -11367,6 +11400,121 @@ variables</var> and <var>parameters</var> are:
 </ol>
 </section> <!-- /Print Page -->
 </section> <!-- /Print -->
+
+<section>
+<h2>WebExtensions</h2>
+
+<p>The WebExtensions API provides an interface that allows extensions to modify
+and enhance the capability of the browser. This section describes the interaction
+with WebExtensions.
+
+<section>
+<h3><dfn>Load WebExtension</dfn></h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>URI Template</th>
+ </tr>
+ <tr>
+  <td>POST</td>
+  <td>/session/{<var>session id</var>}/webextension</td>
+ </tr>
+</table>
+
+<p>The <a>remote end steps</a>, given <var>session</var>, <var>URL
+variables</var> and <var>parameters</var> are:
+
+<ol>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
+  is <a>no longer open</a>, return <a>error</a> with <a>error
+  code</a> <a>no such window</a>.
+
+  <li><p>If loading web extensions isn't supported, return <a>error</a> with
+      <a>error code</a> <a>unsupported operation</a>.
+  <li><p>Let <var>type hint</var> be the result of <a>getting the property</a>
+      "<code>type</code>" from <var>parameters</var>.
+      <ol style="list-style-type:lower-alpha">
+          <li><p> If <var>type hint</var> does not have the value of
+              "path", "archivePath", or "base64", return <a>error</a> with
+              <a>error code</a> <a>invalid argument</a>.
+          <li><p>If the implementation does not support loading web
+              extensions using <var>type hint</var>, return <a>error</a>
+              with <a>error code</a> <a>unsupported operation</a>.
+          <li><p>Let <var>value</var> be the result of
+              <a>getting the property</a>"<code>value</code>" from
+              <var>parameters</var>. If <var>value</var> is
+              <a><code>null</code></a>, return <a>error</a> with
+              <a>error code</a> <a>invalid argument</a>.
+          <li><p>If <var>type hint</var> has the value "path" and the
+              implementation supports loading a web extension given a path to
+              it's resources, the implementation should load the extension
+              located at the path stored in "<code>value</code>".
+          <li><p>If <var>type hint</var> has the value "archivePath"
+              and the implementation supports loading a web extension given a
+              path to a ZIP of it's resources, the implementation should extract
+              the ZIP and load the extension located at the path stored in
+              "<code>value</code>". If this extraction fails, return <a>error</a>
+              with <a>error code</a> <a>unable to load extension</a>.
+          <li><p>If <var>type hint</var> has the value "base64" and the
+              implementation supports loading a web extension given a Base64
+              encoded string of the ZIP representation of the extension's
+              resources, the implementation should extract the archive from the
+              encoded string stored in "<code>value</code>". If this extraction
+              fails, return <a>error</a> with <a>error code</a>
+              <a>unable to load extension</a>.
+      </ol>
+  <li><p>If the extension fails to load, return <a>error</a> with
+      <a>error code</a> <a>unable to load extension</a>.
+  <li><p>Let <var>result</var> be the identifier of the loaded extension.
+
+ <li><p>Return <a>success</a> with <var>result</var>.
+</ol>
+
+</section> <!-- /Load WebExtension -->
+
+<section>
+<h3><dfn>Unload WebExtension</dfn></h3>
+
+<table class="simple jsoncommand">
+ <tr>
+  <th>HTTP Method</th>
+  <th>URI Template</th>
+ </tr>
+ <tr>
+  <td>DELETE</td>
+  <td>/session/{<var>session id</var>}/webextension/{extension id}</td>
+ </tr>
+</table>
+
+<p>The <a>remote end steps</a>, given <var>session</var>, <var>URL
+variables</var> and <var>parameters</var> are:
+
+<ol>
+ <li><p>If <var>session</var>&apos;s <a>current browsing context</a>
+  is <a>no longer open</a>, return <a>error</a> with <a>error
+  code</a> <a>no such window</a>.
+
+  <li><p>If unloading web extensions isn't supported, return <a>error</a> with
+      <a>error code</a> <a>unsupported operation</a>.
+
+  <li><p>Let <var>extension id</var> be <var>URL variables</var>
+      ["<code>extension id</code>"].
+
+  <li><p>If the browser has no web extension installed with an id equal to
+      <var>extension id</var>, return <a>error code</a>
+      <a>no such extension</a>.
+
+  <li><p>Perform any implementation defined steps to unload the extension.
+      If these steps failed, return <a>error</a> with <a>error code</a>
+      <a>unable to unload extension</a>.
+
+  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+
+</ol>
+</section> <!-- /Unload WebExtension -->
+
+</section> <!-- WebExtensions -->
 
 
 <section class=appendix>
