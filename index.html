@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en-us" data-issue-url="https://github.com/w3c/webdriver/" data-issue-param-milestone="Level 1"><head>
 <meta charset="utf-8">
-<meta name="generator" content="ReSpec 35.2.0">
+<meta name="generator" content="ReSpec 35.2.2">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <style>
 span.example-title{text-transform:none}
@@ -176,7 +176,7 @@ ul.index code{color:inherit}
 .mdn .samsunginternet_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/samsung-internet/samsung-internet.svg)}
 .mdn .webview_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/android-webview/android-webview.png)}
 </style>
-<meta name="revision" content="9cb696c77d8419f4d7f093370221d2c449e61bae">
+<meta name="revision" content="78d3c9b2eb24a32d4ee1d8064dd3444616da9d03">
 <meta name="description" content="WebDriver is a remote control interface
 that enables introspection and control of user agents.
 It provides a platform- and language-neutral wire protocol
@@ -272,15 +272,15 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     ],
     "profile": "web-platform"
   },
-  "gitRevision": "9cb696c77d8419f4d7f093370221d2c449e61bae",
-  "publishISODate": "2024-12-12T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 12 December 2024"
+  "gitRevision": "78d3c9b2eb24a32d4ee1d8064dd3444616da9d03",
+  "publishISODate": "2025-01-31T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 31 January 2025"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head><body data-cite="WEBIDL CSSOM-VIEW GEOMETRY-1 fileapi HTML INFRA URL WEBIDL DOM FETCH" class="h-entry"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">WebDriver</h1> 
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-12-12">12 December 2024</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2025-01-31">31 January 2025</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -327,7 +327,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     <p class="copyright">
     <a href="https://www.w3.org/policies/#copyright">Copyright</a>
     ©
-    2024
+    2025
     
     <a href="https://www.w3.org/">World Wide Web Consortium</a>.
     <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup>
@@ -11032,7 +11032,13 @@ and <var>actions options</var>:
 variables</var> and <var>parameters</var> are:
 
 </p><ol class="algorithm">
-  <li><p>Let <var>input state</var> be the result of <a href="#dfn-get-the-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-the-input-state-3">get the input
+  <li><p>If <var>session</var>'s <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-83">current browsing context</a>
+  is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-51">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-247">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-223">error code</a>
+  <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-52">no such window</a>.
+
+  </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-118">Try</a> to <a href="#dfn-handle-any-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handle-any-user-prompts-49">handle any user prompts</a> with <var>session</var>.
+
+  </p></li><li><p>Let <var>input state</var> be the result of <a href="#dfn-get-the-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-the-input-state-3">get the input
   state</a> with <var>session</var>
   and <var>session</var>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-64">current top-level browsing
   context</a>.
@@ -11042,16 +11048,9 @@ variables</var> and <var>parameters</var> are:
   element</a>, and the <a href="#dfn-get-element-origin" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-element-origin-5">get element origin</a> steps set
   to <a href="#dfn-get-a-webelement-origin" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-a-webelement-origin-4">get a WebElement origin</a>.
 
- </p></li><li><p>Let <var>actions by tick</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-118">trying</a>
+ </p></li><li><p>Let <var>actions by tick</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-119">trying</a>
   to <a href="#dfn-extract-an-action-sequence" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-extract-an-action-sequence-2">extract an action sequence</a> with <var>input state</var>,
   <var>parameters</var>, and <var>actions options</var>.
-
- </p></li><li><p>If <var>session</var>'s <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-83">current browsing context</a>
-  is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-51">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-247">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-223">error
-  code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-52">no such window</a>.
-
- </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-119">Try</a> to <a href="#dfn-handle-any-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handle-any-user-prompts-49">handle any user prompts</a>
-  with <var>session</var>.
 
  </p></li><li><p><a href="#dfn-dispatch-actions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dispatch-actions-3">Dispatch actions</a> with <var>input state</var>,
   <var>actions by tick</var>, <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-84">current browsing context</a>,
@@ -11093,6 +11092,8 @@ variables</var> and <var>parameters</var> are:
   is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-52">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-249">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-224">error
   code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-53">no such window</a>.
 
+  </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-120">Try</a> to <a href="#dfn-handle-any-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handle-any-user-prompts-50">handle any user prompts</a> with <var>session</var>.
+
  </p></li><li><p>Let <var>input state</var> be the result of <a href="#dfn-get-the-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-the-input-state-4">get the input state</a>
   with <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-38">session</a> and <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-65">current top-level browsing context</a>.
 
@@ -11106,7 +11107,7 @@ variables</var> and <var>parameters</var> are:
  </p></li><li><p>Let <var>undo actions</var> be <var>input
   state</var>'s <a href="#dfn-input-cancel-list" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-cancel-list-5">input cancel list</a> in reverse order.
 
- </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-120">Try</a> to <a href="#dfn-dispatch-actions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dispatch-actions-4">dispatch actions</a> with <var>input state</var>,
+ </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-121">Try</a> to <a href="#dfn-dispatch-actions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dispatch-actions-4">dispatch actions</a> with <var>input state</var>,
   <var>undo actions</var>, <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-86">current browsing context</a>,
   and <var>actions options</var>.
 
@@ -11774,14 +11775,14 @@ variables</var> and <var>parameters</var> are:
    top-level browsing context</a>'s
     <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#document-element" id="ref-for-index-term-document-element-10">document element</a>'s <a href="#dfn-bounding-rectangle" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-bounding-rectangle-6">rectangle</a>.
 
-   </p></li><li><p>Let <var>screenshot result</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-121">trying</a> to call
+   </p></li><li><p>Let <var>screenshot result</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-122">trying</a> to call
     <a href="#dfn-draw-a-bounding-box-from-the-framebuffer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-draw-a-bounding-box-from-the-framebuffer-1">draw a bounding box from the framebuffer</a>,
     given <var>root rect</var> as an argument.
 
    </p></li><li><p>Let <var>canvas</var> be a <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/canvas.html#canvas" id="ref-for-index-term-canvas-element-4">canvas</a></code> element
     of <var>screenshot result</var>'s data.
 
-   </p></li><li><p>Let <var>encoding result</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-122">trying</a>
+   </p></li><li><p>Let <var>encoding result</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-123">trying</a>
     <a href="#dfn-encoding-a-canvas-as-base64" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-encoding-a-canvas-as-base64-1">encoding a canvas as Base64</a> <var>canvas</var>.
 
    </p></li><li><p>Let <var>encoded string</var> be <var>encoding result</var>'s data.
@@ -11818,11 +11819,11 @@ variables</var> and <var>parameters</var> are:
   is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-58">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-272">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-245">error
   code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-59">no such window</a>.
 
- </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-123">Try</a> to <a href="#dfn-handle-any-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handle-any-user-prompts-50">handle any user prompts</a>
+ </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-124">Try</a> to <a href="#dfn-handle-any-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handle-any-user-prompts-51">handle any user prompts</a>
  with <var>session</var>.
 
  </p></li><li><p>Let <var>element</var> be the result of
-  <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-124">trying</a> to <a href="#dfn-get-a-known-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-a-known-element-20">get a known element</a> with <var>session</var>
+  <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-125">trying</a> to <a href="#dfn-get-a-known-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-a-known-element-20">get a known element</a> with <var>session</var>
   and <var>URL variables</var>["<code>element id</code>"].
 
 </p></li><li>
@@ -11834,14 +11835,14 @@ variables</var> and <var>parameters</var> are:
     <a href="https://drafts.fxtf.org/geometry/#rectangle">rectangle</a>.
 
    </p></li><li><p>Let <var>screenshot result</var> be the result
-    of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-125">trying</a> to call
+    of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-126">trying</a> to call
     <a href="#dfn-draw-a-bounding-box-from-the-framebuffer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-draw-a-bounding-box-from-the-framebuffer-2">draw a bounding box from the framebuffer</a>,
     given <var>element rect</var> as an argument.
 
    </p></li><li><p>Let <var>canvas</var> be a <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/canvas.html#canvas" id="ref-for-index-term-canvas-element-5">canvas</a></code> element
     of <var>screenshot result</var>'s data.
 
-   </p></li><li><p>Let <var>encoding result</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-126">trying</a>
+   </p></li><li><p>Let <var>encoding result</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-127">trying</a>
     <a href="#dfn-encoding-a-canvas-as-base64" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-encoding-a-canvas-as-base64-2">encoding a canvas as Base64</a> <var>canvas</var>.
 
    </p></li><li><p>Let <var>encoded string</var> be <var>encoding result</var>'s data.
@@ -11892,7 +11893,7 @@ implementation must:
           argument</a>.
 
           </li><li>If rangeParts has one element, append the result
-          of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-127">trying</a> to <a href="#dfn-parse-as-an-integer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-parse-as-an-integer-1">parse as an integer</a> the first
+          of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-128">trying</a> to <a href="#dfn-parse-as-an-integer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-parse-as-an-integer-1">parse as an integer</a> the first
           element of <var>rangeParts</var>
           to <var>pages</var>.
             <p>Otherwise:
@@ -11902,7 +11903,7 @@ implementation must:
                   let <var>lowerBound</var>
                   be <code>1</code>. Otherwise
                   let <var>lowerBound</var> be the result
-                  of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-128">trying</a> to <a href="#dfn-parse-as-an-integer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-parse-as-an-integer-2">parse as an integer</a> the
+                  of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-129">trying</a> to <a href="#dfn-parse-as-an-integer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-parse-as-an-integer-2">parse as an integer</a> the
                   first element of <var>rangeParts</var>.
 
                 </li><li>If the second element of <var>rangeParts</var>
@@ -11910,7 +11911,7 @@ implementation must:
                   let <var>upperBound</var>
                   be <var>totalPages</var>. Otherwise
                   let <var>upperBound</var> be the result
-                  of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-129">trying</a> to <a href="#dfn-parse-as-an-integer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-parse-as-an-integer-3">parse as an integer</a> the
+                  of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-130">trying</a> to <a href="#dfn-parse-as-an-integer" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-parse-as-an-integer-3">parse as an integer</a> the
                   second element of <var>rangeParts</var>.
 
                 </li><li>If <var>lowerBound</var> is greater
@@ -11971,7 +11972,7 @@ variables</var> and <var>parameters</var> are:
   context</a> is <a href="#dfn-no-longer-open" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-longer-open-59">no longer open</a>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-279">error</a>
   with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-250">error code</a> <a href="#dfn-no-such-window" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-no-such-window-60">no such window</a>.
 
- </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-130">Try</a> to <a href="#dfn-handle-any-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handle-any-user-prompts-51">handle any user prompts</a>
+ </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-131">Try</a> to <a href="#dfn-handle-any-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handle-any-user-prompts-52">handle any user prompts</a>
  with <var>session</var>.
 
  </p></li><li><p>Let <var>orientation</var> be the result of <a href="#dfn-getting-the-property-with-default" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-the-property-with-default-1">getting a
@@ -12058,7 +12059,7 @@ variables</var> and <var>parameters</var> are:
  return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-286">error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-257">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-116">invalid argument</a>.
 
  </p></li><li><p>When the user agent is next to <a href="#dfn-run-the-animation-frame-callbacks" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-run-the-animation-frame-callbacks-3">run the animation frame
- callbacks</a>, let <var>pdfData</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-131">trying</a>
+ callbacks</a>, let <var>pdfData</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-132">trying</a>
  to take UA-specific steps to generate a paginated representation of
  <var>session</var>'s <a href="#dfn-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-browsing-context-90">current browsing context</a>, with the
  CSS <a href="#dfn-media-type" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-media-type-1">media type</a> set to <code>print</code>, encoded as a PDF,
@@ -12101,7 +12102,7 @@ variables</var> and <var>parameters</var> are:
      </dd></dl>
 
   </li><li><p>If <var>pageRanges</var> is not an empty <a href="#dfn-array" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-array-9">Array</a>,
- Let <var>pages</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-132">trying</a> to <a href="#dfn-parse-a-page-range" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-parse-a-page-range-1">parse a
+ Let <var>pages</var> be the result of <a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-133">trying</a> to <a href="#dfn-parse-a-page-range" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-parse-a-page-range-1">parse a
  page range</a> with arguments <var>pageRanges</var> and the number of
  pages contained in <var>pdfData</var>, then remove any pages
  from <var>pdfData</var> whose one-based index is not contained in
@@ -14224,7 +14225,7 @@ This specification relies on several other underlying specifications.
     <dl class="bibliography"><dt id="bib-accname-1.1">[accname-1.1]</dt><dd>
       <a href="https://www.w3.org/TR/accname-1.1/"><cite>Accessible Name and Description Computation 1.1</cite></a>. Joanmarie Diggs; Bryan Garaventa; Michael Cooper.  W3C. 18 December 2018. W3C Recommendation. URL: <a href="https://www.w3.org/TR/accname-1.1/">https://www.w3.org/TR/accname-1.1/</a>
     </dd><dt id="bib-csp3">[CSP3]</dt><dd>
-      <a href="https://www.w3.org/TR/CSP3/"><cite>Content Security Policy Level 3</cite></a>. Mike West; Antonio Sartori.  W3C. 6 December 2024. W3C Working Draft. URL: <a href="https://www.w3.org/TR/CSP3/">https://www.w3.org/TR/CSP3/</a>
+      <a href="https://www.w3.org/TR/CSP3/"><cite>Content Security Policy Level 3</cite></a>. Mike West; Antonio Sartori.  W3C. 23 January 2025. W3C Working Draft. URL: <a href="https://www.w3.org/TR/CSP3/">https://www.w3.org/TR/CSP3/</a>
     </dd><dt id="bib-css-cascade-4">[CSS-CASCADE-4]</dt><dd>
       <a href="https://www.w3.org/TR/css-cascade-4/"><cite>CSS Cascading and Inheritance Level 4</cite></a>. Elika Etemad; Tab Atkins Jr. W3C. 13 January 2022. W3C Candidate Recommendation. URL: <a href="https://www.w3.org/TR/css-cascade-4/">https://www.w3.org/TR/css-cascade-4/</a>
     </dd><dt id="bib-css-device-adapt">[CSS-DEVICE-ADAPT]</dt><dd>
@@ -14236,7 +14237,7 @@ This specification relies on several other underlying specifications.
     </dd><dt id="bib-css3-display">[CSS3-DISPLAY]</dt><dd>
       <a href="https://www.w3.org/TR/css-display-3/"><cite>CSS Display Module Level 3</cite></a>. Elika Etemad; Tab Atkins Jr. W3C. 30 March 2023. W3C Candidate Recommendation. URL: <a href="https://www.w3.org/TR/css-display-3/">https://www.w3.org/TR/css-display-3/</a>
     </dd><dt id="bib-css3-values">[CSS3-VALUES]</dt><dd>
-      <a href="https://www.w3.org/TR/css-values-3/"><cite>CSS Values and Units Module Level 3</cite></a>. Tab Atkins Jr.; Elika Etemad.  W3C. 22 March 2024. W3C Candidate Recommendation. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
+      <a href="https://www.w3.org/TR/css-values-3/"><cite>CSS Values and Units Module Level 3</cite></a>. Tab Atkins Jr.; Elika Etemad.  W3C. 22 March 2024. CRD. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
     </dd><dt id="bib-cssom">[CSSOM]</dt><dd>
       <a href="https://www.w3.org/TR/cssom-1/"><cite>CSS Object Model (CSSOM)</cite></a>. Daniel Glazman; Emilio Cobos Álvarez.  W3C. 26 August 2021. W3C Working Draft. URL: <a href="https://www.w3.org/TR/cssom-1/">https://www.w3.org/TR/cssom-1/</a>
     </dd><dt id="bib-cssom-view">[CSSOM-VIEW]</dt><dd>
@@ -14264,7 +14265,7 @@ This specification relies on several other underlying specifications.
     </dd><dt id="bib-infra">[INFRA]</dt><dd>
       <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Anne van Kesteren; Domenic Denicola.  WHATWG. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
     </dd><dt id="bib-mediaqueries-4">[mediaqueries-4]</dt><dd>
-      <a href="https://www.w3.org/TR/mediaqueries-4/"><cite>Media Queries Level 4</cite></a>. Florian Rivoal; Tab Atkins Jr. W3C. 25 December 2021. W3C Candidate Recommendation. URL: <a href="https://www.w3.org/TR/mediaqueries-4/">https://www.w3.org/TR/mediaqueries-4/</a>
+      <a href="https://www.w3.org/TR/mediaqueries-4/"><cite>Media Queries Level 4</cite></a>. Florian Rivoal; Tab Atkins Jr. W3C. 25 December 2021. CRD. URL: <a href="https://www.w3.org/TR/mediaqueries-4/">https://www.w3.org/TR/mediaqueries-4/</a>
     </dd><dt id="bib-page-visibility">[PAGE-VISIBILITY]</dt><dd>
       <a href="https://www.w3.org/TR/page-visibility/"><cite>Page Visibility (Second Edition)</cite></a>. Jatinder Mann; Arvind Jain.  W3C. 29 October 2013. W3C Recommendation. URL: <a href="https://www.w3.org/TR/page-visibility/">https://www.w3.org/TR/page-visibility/</a>
     </dd><dt id="bib-pointer-events">[POINTER-EVENTS]</dt><dd>
@@ -14314,7 +14315,7 @@ This specification relies on several other underlying specifications.
     </dd><dt id="bib-wai-aria-1.2">[wai-aria-1.2]</dt><dd>
       <a href="https://www.w3.org/TR/wai-aria-1.2/"><cite>Accessible Rich Internet Applications (WAI-ARIA) 1.2</cite></a>. Joanmarie Diggs; James Nurthen; Michael Cooper; Carolyn MacLeod.  W3C. 6 June 2023. W3C Recommendation. URL: <a href="https://www.w3.org/TR/wai-aria-1.2/">https://www.w3.org/TR/wai-aria-1.2/</a>
     </dd><dt id="bib-webdriver-bidi">[WebDriver-BiDi]</dt><dd>
-      <a href="https://www.w3.org/TR/webdriver-bidi/"><cite>WebDriver BiDi</cite></a>. James Graham; Alex Rudenko; Maksim Sadym.  W3C. 6 December 2024. W3C Working Draft. URL: <a href="https://www.w3.org/TR/webdriver-bidi/">https://www.w3.org/TR/webdriver-bidi/</a>
+      <a href="https://www.w3.org/TR/webdriver-bidi/"><cite>WebDriver BiDi</cite></a>. James Graham; Alex Rudenko; Maksim Sadym.  W3C. 29 January 2025. W3C Working Draft. URL: <a href="https://www.w3.org/TR/webdriver-bidi/">https://www.w3.org/TR/webdriver-bidi/</a>
     </dd><dt id="bib-webidl">[WEBIDL]</dt><dd>
       <a href="https://webidl.spec.whatwg.org/"><cite>Web IDL Standard</cite></a>. Edgar Chen; Timothy Gu.  WHATWG. Living Standard. URL: <a href="https://webidl.spec.whatwg.org/">https://webidl.spec.whatwg.org/</a>
     </dd><dt id="bib-xpath">[XPATH]</dt><dd>
@@ -15191,15 +15192,15 @@ This specification relies on several other underlying specifications.
     </li><li>
       <a href="#ref-for-dfn-try-118" title="§ 15.7 Perform Actions">§ 15.7 Perform Actions</a> <a href="#ref-for-dfn-try-119" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-try-120" title="§ 15.8 Release Actions">§ 15.8 Release Actions</a> 
+      <a href="#ref-for-dfn-try-120" title="§ 15.8 Release Actions">§ 15.8 Release Actions</a> <a href="#ref-for-dfn-try-121" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-try-121" title="§ 17.1 Take Screenshot">§ 17.1 Take Screenshot</a> <a href="#ref-for-dfn-try-122" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-try-122" title="§ 17.1 Take Screenshot">§ 17.1 Take Screenshot</a> <a href="#ref-for-dfn-try-123" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-try-123" title="§ 17.2 Take Element Screenshot">§ 17.2 Take Element Screenshot</a> <a href="#ref-for-dfn-try-124" title="Reference 2">(2)</a> <a href="#ref-for-dfn-try-125" title="Reference 3">(3)</a> <a href="#ref-for-dfn-try-126" title="Reference 4">(4)</a> 
+      <a href="#ref-for-dfn-try-124" title="§ 17.2 Take Element Screenshot">§ 17.2 Take Element Screenshot</a> <a href="#ref-for-dfn-try-125" title="Reference 2">(2)</a> <a href="#ref-for-dfn-try-126" title="Reference 3">(3)</a> <a href="#ref-for-dfn-try-127" title="Reference 4">(4)</a> 
     </li><li>
-      <a href="#ref-for-dfn-try-127" title="§ 18. Print">§ 18. Print</a> <a href="#ref-for-dfn-try-128" title="Reference 2">(2)</a> <a href="#ref-for-dfn-try-129" title="Reference 3">(3)</a> 
+      <a href="#ref-for-dfn-try-128" title="§ 18. Print">§ 18. Print</a> <a href="#ref-for-dfn-try-129" title="Reference 2">(2)</a> <a href="#ref-for-dfn-try-130" title="Reference 3">(3)</a> 
     </li><li>
-      <a href="#ref-for-dfn-try-130" title="§ 18.1 Print Page">§ 18.1 Print Page</a> <a href="#ref-for-dfn-try-131" title="Reference 2">(2)</a> <a href="#ref-for-dfn-try-132" title="Reference 3">(3)</a> 
+      <a href="#ref-for-dfn-try-131" title="§ 18.1 Print Page">§ 18.1 Print Page</a> <a href="#ref-for-dfn-try-132" title="Reference 2">(2)</a> <a href="#ref-for-dfn-try-133" title="Reference 3">(3)</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-getting-properties" aria-label="Links in this document to definition: getting a property">
@@ -21225,9 +21226,11 @@ This specification relies on several other underlying specifications.
     </li><li>
       <a href="#ref-for-dfn-handle-any-user-prompts-49" title="§ 15.7 Perform Actions">§ 15.7 Perform Actions</a> 
     </li><li>
-      <a href="#ref-for-dfn-handle-any-user-prompts-50" title="§ 17.2 Take Element Screenshot">§ 17.2 Take Element Screenshot</a> 
+      <a href="#ref-for-dfn-handle-any-user-prompts-50" title="§ 15.8 Release Actions">§ 15.8 Release Actions</a> 
     </li><li>
-      <a href="#ref-for-dfn-handle-any-user-prompts-51" title="§ 18.1 Print Page">§ 18.1 Print Page</a> 
+      <a href="#ref-for-dfn-handle-any-user-prompts-51" title="§ 17.2 Take Element Screenshot">§ 17.2 Take Element Screenshot</a> 
+    </li><li>
+      <a href="#ref-for-dfn-handle-any-user-prompts-52" title="§ 18.1 Print Page">§ 18.1 Print Page</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-dismiss-alert" aria-label="Links in this document to definition: Dismiss Alert">
