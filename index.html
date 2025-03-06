@@ -176,7 +176,7 @@ ul.index code{color:inherit}
 .mdn .samsunginternet_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/samsung-internet/samsung-internet.svg)}
 .mdn .webview_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/android-webview/android-webview.png)}
 </style>
-<meta name="revision" content="a67669c5b4bfa4dd3fde8e07ab7ee1ed142dc74c">
+<meta name="revision" content="30558080130e6b9e7644c3e0f75fc6a6cef304b1">
 <meta name="description" content="WebDriver is a remote control interface
 that enables introspection and control of user agents.
 It provides a platform- and language-neutral wire protocol
@@ -272,15 +272,15 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     ],
     "profile": "web-platform"
   },
-  "gitRevision": "a67669c5b4bfa4dd3fde8e07ab7ee1ed142dc74c",
-  "publishISODate": "2025-02-10T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 10 February 2025"
+  "gitRevision": "30558080130e6b9e7644c3e0f75fc6a6cef304b1",
+  "publishISODate": "2025-03-06T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 06 March 2025"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head><body data-cite="WEBIDL CSSOM-VIEW GEOMETRY-1 fileapi HTML INFRA URL WEBIDL DOM FETCH" class="h-entry"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">WebDriver</h1> 
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2025-02-10">10 February 2025</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2025-03-06">06 March 2025</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -11241,7 +11241,7 @@ The <dfn id="dfn-known-prompt-handlers" tabindex="0" aria-haspopup="dialog" data
 
 <p>The <dfn id="dfn-valid-prompt-types" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">valid prompt types</dfn> are «"<code>alert</code>",
 "<code>beforeUnload</code>", "<code>confirm</code>",
-"<code>default</code>", "<code>prompt</code>"».
+"<code>default</code>", "<code>file</code>", "<code>prompt</code>"».
 
 </p><div class="note" role="note" id="issue-container-generatedID-57"><div role="heading" class="note-title marker" id="h-note-57" aria-level="3"><span>Note</span></div><p class="">The "<code>default</code>" type represents a fallback
 when no specific handler is defined for a given prompt type, including
@@ -11257,6 +11257,9 @@ allow the "<code>beforeUnload</code>" handler to be customized, and enabling
 other protocols isn't expected to change the user prompt handling as a
 side effect.
 
+</p></div><div class="note" role="note" id="issue-container-generatedID-58"><div role="heading" class="note-title marker" id="h-note-58" aria-level="3"><span>Note</span></div><p class="">The "<code>file</code>" prompt type is respected only in
+[<cite><a class="bibref" data-link-type="biblio" href="#bib-webdriver-bidi" title="WebDriver BiDi">WebDriver-BiDi</a></cite>] sessions.
+
 </p></div><p>To <dfn id="dfn-deserialize-as-an-unhandled-prompt-behavior" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">deserialize as an unhandled prompt behavior</dfn> given
 argument <var>value</var>:
 
@@ -11271,7 +11274,7 @@ argument <var>value</var>:
  does not also support [<cite><a class="bibref" data-link-type="biblio" href="#bib-webdriver-bidi" title="WebDriver BiDi">WebDriver-BiDi</a></cite>] may return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-251">error</a>
  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-225">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-99">invalid argument</a>.
 
- </p><div class="note" role="note" id="issue-container-generatedID-58"><div role="heading" class="note-title marker" id="h-note-58" aria-level="3"><span>Note</span></div><p class="">This is to avoid [<cite><a class="bibref" data-link-type="biblio" href="#bib-webdriver-bidi" title="WebDriver BiDi">WebDriver-BiDi</a></cite>] monkey-patching
+ </p><div class="note" role="note" id="issue-container-generatedID-59"><div role="heading" class="note-title marker" id="h-note-59" aria-level="3"><span>Note</span></div><p class="">This is to avoid [<cite><a class="bibref" data-link-type="biblio" href="#bib-webdriver-bidi" title="WebDriver BiDi">WebDriver-BiDi</a></cite>] monkey-patching
  the current spec.
 
  </p></div></li><li><p>Let <var>is string value</var> be false.
@@ -11346,7 +11349,7 @@ given <var>requested prompt handler</var>:
  </li><li>Return true</li>
 </ol>
 
-<div class="note" role="note" id="issue-container-generatedID-59"><div role="heading" class="note-title marker" id="h-note-59" aria-level="3"><span>Note</span></div><p class="">This does not check the <var>requested prompt
+<div class="note" role="note" id="issue-container-generatedID-60"><div role="heading" class="note-title marker" id="h-note-60" aria-level="3"><span>Note</span></div><p class="">This does not check the <var>requested prompt
 handler</var>'s <a data-link-type="dfn|abstract-op" href="#dfn-notify" class="internalDFN" id="ref-for-dfn-notify-3">notify</a> matches
 the <a data-link-type="dfn|abstract-op" href="#dfn-handler" class="internalDFN" id="ref-for-dfn-handler-5">handler</a>, because the <a data-link-type="dfn|abstract-op" href="#dfn-notify" class="internalDFN" id="ref-for-dfn-notify-4">notify</a> component only affects the <a data-link-type="dfn|abstract-op" href="#dfn-http-session" class="internalDFN" id="ref-for-dfn-http-session-8">HTTP session</a>, if any.
 
@@ -11505,7 +11508,7 @@ on the <a data-lt="send an error" href="#dfn-send-an-error" class="internalDFN" 
  </tr>
 </tbody></table>
 
-<div class="note" role="note" id="issue-container-generatedID-60"><div role="heading" class="note-title marker" id="h-note-60" aria-level="4"><span>Note</span></div><p class="">
+<div class="note" role="note" id="issue-container-generatedID-61"><div role="heading" class="note-title marker" id="h-note-61" aria-level="4"><span>Note</span></div><p class="">
 The <a href="#dfn-dismiss-alert" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismiss-alert-2">Dismiss Alert</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-58">command</a>
 <a href="#dfn-dismissed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-dismissed-4">dismisses</a> a <a href="#dfn-simple-dialog" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-simple-dialog-6">simple dialog</a>
 if <a data-lt="current user prompt" href="#dfn-current-user-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-user-prompt-8">present</a>.
@@ -11608,7 +11611,7 @@ variables</var> and <var>parameters</var> are:
  </tr>
 </tbody></table>
 
-<div class="note" role="note" id="issue-container-generatedID-61"><div role="heading" class="note-title marker" id="h-note-61" aria-level="4"><span>Note</span></div><p class="">
+<div class="note" role="note" id="issue-container-generatedID-62"><div role="heading" class="note-title marker" id="h-note-62" aria-level="4"><span>Note</span></div><p class="">
 The <a href="#dfn-send-alert-text" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-send-alert-text-2">Send Alert Text</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-59">command</a>
 sets the text field of a <a href="#dfn-window-prompt" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-window-prompt-1">window.<code>prompt</code></a>
 <a href="#dfn-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompts-11">user prompt</a> to the given value.
@@ -11806,7 +11809,7 @@ variables</var> and <var>parameters</var> are:
  </td></tr>
 </tbody></table>
 
-<div class="note" role="note" id="issue-container-generatedID-62"><div role="heading" class="note-title marker" id="h-note-62" aria-level="4"><span>Note</span></div><p class="">
+<div class="note" role="note" id="issue-container-generatedID-63"><div role="heading" class="note-title marker" id="h-note-63" aria-level="4"><span>Note</span></div><p class="">
 The <a href="#dfn-take-element-screenshot" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-take-element-screenshot-3">Take Element Screenshot</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-62">command</a>
 takes a screenshot of the visible region encompassed
 by the <a href="#dfn-bounding-rectangle" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-bounding-rectangle-7">bounding rectangle</a> of an <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element" id="ref-for-index-term-element-46">element</a>.
@@ -12015,7 +12018,7 @@ variables</var> and <var>parameters</var> are:
  not a <a href="#dfn-number" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-number-23">Number</a>, or is less than <code>(2.54 / 72)</code>, return <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-283">error</a>
  with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-254">error code</a> <a href="#dfn-invalid-argument" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-argument-113">invalid argument</a>.
 
- </p><div class="note" role="note" id="issue-container-generatedID-63"><div role="heading" class="note-title marker" id="h-note-63" aria-level="4"><span>Note</span></div><p class="">The minimum page size is <code>1</code> point, which is
+ </p><div class="note" role="note" id="issue-container-generatedID-64"><div role="heading" class="note-title marker" id="h-note-64" aria-level="4"><span>Note</span></div><p class="">The minimum page size is <code>1</code> point, which is
  <code>(2.54 / 72)</code> as per <a href="#dfn-absolute-lengths" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-absolute-lengths-1">absolute lengths</a>.
 
  </p></div></li><li><p>Let <var>margin</var> be the result of <a href="#dfn-getting-the-property-with-default" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-getting-the-property-with-default-7">getting a property
@@ -14315,7 +14318,7 @@ This specification relies on several other underlying specifications.
     </dd><dt id="bib-wai-aria-1.2">[wai-aria-1.2]</dt><dd>
       <a href="https://www.w3.org/TR/wai-aria-1.2/"><cite>Accessible Rich Internet Applications (WAI-ARIA) 1.2</cite></a>. Joanmarie Diggs; James Nurthen; Michael Cooper; Carolyn MacLeod.  W3C. 6 June 2023. W3C Recommendation. URL: <a href="https://www.w3.org/TR/wai-aria-1.2/">https://www.w3.org/TR/wai-aria-1.2/</a>
     </dd><dt id="bib-webdriver-bidi">[WebDriver-BiDi]</dt><dd>
-      <a href="https://www.w3.org/TR/webdriver-bidi/"><cite>WebDriver BiDi</cite></a>. James Graham; Alex Rudenko; Maksim Sadym.  W3C. 31 January 2025. W3C Working Draft. URL: <a href="https://www.w3.org/TR/webdriver-bidi/">https://www.w3.org/TR/webdriver-bidi/</a>
+      <a href="https://www.w3.org/TR/webdriver-bidi/"><cite>WebDriver BiDi</cite></a>. James Graham; Alex Rudenko; Maksim Sadym.  W3C. 5 March 2025. W3C Working Draft. URL: <a href="https://www.w3.org/TR/webdriver-bidi/">https://www.w3.org/TR/webdriver-bidi/</a>
     </dd><dt id="bib-webidl">[WEBIDL]</dt><dd>
       <a href="https://webidl.spec.whatwg.org/"><cite>Web IDL Standard</cite></a>. Edgar Chen; Timothy Gu.  WHATWG. Living Standard. URL: <a href="https://webidl.spec.whatwg.org/">https://webidl.spec.whatwg.org/</a>
     </dd><dt id="bib-xpath">[XPATH]</dt><dd>
