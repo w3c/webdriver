@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en-us" data-issue-url="https://github.com/w3c/webdriver/" data-issue-param-milestone="Level 1"><head>
 <meta charset="utf-8">
-<meta name="generator" content="ReSpec 35.2.2">
+<meta name="generator" content="ReSpec 35.3.1">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <style>
 span.example-title{text-transform:none}
@@ -110,7 +110,7 @@ a.bibref{text-decoration:none}
 .respec-offending-element{background:url(data:image/gif;base64,R0lGODdhBAADAPEAANv///8AAP///wAAACwAAAAABAADAEACBZQjmIAFADs=) bottom repeat-x}
 }
 #references :target{background:#eaf3ff;animation:pop .4s ease-in-out 0s 1}
-cite .bibref{font-style:normal}
+cite .bibref{font-style:italic}
 a[href].orcid{padding-left:4px;padding-right:4px}
 a[href].orcid>svg{margin-bottom:-2px}
 ol.tof,ul.tof{list-style:none outside none}
@@ -176,7 +176,7 @@ ul.index code{color:inherit}
 .mdn .samsunginternet_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/samsung-internet/samsung-internet.svg)}
 .mdn .webview_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/android-webview/android-webview.png)}
 </style>
-<meta name="revision" content="30558080130e6b9e7644c3e0f75fc6a6cef304b1">
+<meta name="revision" content="6b43932257f55d69edf4c8cfce159be2c094819a">
 <meta name="description" content="WebDriver is a remote control interface
 that enables introspection and control of user agents.
 It provides a platform- and language-neutral wire protocol
@@ -199,6 +199,23 @@ to remotely instruct the behavior of web browsers.">
 .hljs-emphasis{font-style:italic}
 .hljs-strong{font-weight:700}
 .hljs-link{text-decoration:underline}
+</style>
+<style>
+var:hover{text-decoration:underline;cursor:pointer}
+var.respec-hl{color:var(--color,#000);background-color:var(--bg-color);box-shadow:0 0 0 2px var(--bg-color)}
+@media (prefers-color-scheme:dark){
+var.respec-hl{filter:saturate(.9) brightness(.9)}
+}
+var.respec-hl-c1{--bg-color:#f4d200}
+var.respec-hl-c2{--bg-color:#ff87a2}
+var.respec-hl-c3{--bg-color:#96e885}
+var.respec-hl-c4{--bg-color:#3eeed2}
+var.respec-hl-c5{--bg-color:#eacfb6}
+var.respec-hl-c6{--bg-color:#82ddff}
+var.respec-hl-c7{--bg-color:#ffbcf2}
+@media print{
+var.respec-hl{background:0 0;color:#000;box-shadow:unset}
+}
 </style>
 <style>
 var{position:relative;cursor:pointer}
@@ -272,15 +289,15 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     ],
     "profile": "web-platform"
   },
-  "gitRevision": "30558080130e6b9e7644c3e0f75fc6a6cef304b1",
-  "publishISODate": "2025-03-06T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 06 March 2025"
+  "gitRevision": "6b43932257f55d69edf4c8cfce159be2c094819a",
+  "publishISODate": "2025-05-12T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 12 May 2025"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head><body data-cite="WEBIDL CSSOM-VIEW GEOMETRY-1 fileapi HTML INFRA URL WEBIDL DOM FETCH" class="h-entry"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">WebDriver</h1> 
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2025-03-06">06 March 2025</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2025-05-12">12 May 2025</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -360,13 +377,14 @@ to control a — possibly separate — browser.
 <section id="sotd" class="introductory"><h2>Status of This Document</h2><p><em>This section describes the status of this
       document at the time of its publication. A list of current <abbr title="World Wide Web Consortium">W3C</abbr>
       publications and the latest revision of this technical report can be found
-      in the <a href="https://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> technical reports index</a> at
+      in the
+      <a href="https://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> standards and drafts index</a> at
       https://www.w3.org/TR/.</em></p><p>
     This document was published by the <a href="https://www.w3.org/groups/wg/browser-tools-testing">Browser Testing and Tools Working Group</a> as
     an Editor's Draft. 
   </p><p>Publication as an Editor's Draft does not
   imply endorsement by <abbr title="World Wide Web Consortium">W3C</abbr> and its Members. </p><p>
-    This is a draft document and may be updated, replaced or obsoleted by other
+    This is a draft document and may be updated, replaced, or obsoleted by other
     documents at any time. It is inappropriate to cite this document as other
     than work in progress.
     
@@ -14228,13 +14246,13 @@ This specification relies on several other underlying specifications.
     <dl class="bibliography"><dt id="bib-accname-1.1">[accname-1.1]</dt><dd>
       <a href="https://www.w3.org/TR/accname-1.1/"><cite>Accessible Name and Description Computation 1.1</cite></a>. Joanmarie Diggs; Bryan Garaventa; Michael Cooper.  W3C. 18 December 2018. W3C Recommendation. URL: <a href="https://www.w3.org/TR/accname-1.1/">https://www.w3.org/TR/accname-1.1/</a>
     </dd><dt id="bib-csp3">[CSP3]</dt><dd>
-      <a href="https://www.w3.org/TR/CSP3/"><cite>Content Security Policy Level 3</cite></a>. Mike West; Antonio Sartori.  W3C. 6 February 2025. W3C Working Draft. URL: <a href="https://www.w3.org/TR/CSP3/">https://www.w3.org/TR/CSP3/</a>
+      <a href="https://www.w3.org/TR/CSP3/"><cite>Content Security Policy Level 3</cite></a>. Mike West; Antonio Sartori.  W3C. 30 April 2025. W3C Working Draft. URL: <a href="https://www.w3.org/TR/CSP3/">https://www.w3.org/TR/CSP3/</a>
     </dd><dt id="bib-css-cascade-4">[CSS-CASCADE-4]</dt><dd>
       <a href="https://www.w3.org/TR/css-cascade-4/"><cite>CSS Cascading and Inheritance Level 4</cite></a>. Elika Etemad; Tab Atkins Jr. W3C. 13 January 2022. W3C Candidate Recommendation. URL: <a href="https://www.w3.org/TR/css-cascade-4/">https://www.w3.org/TR/css-cascade-4/</a>
     </dd><dt id="bib-css-device-adapt">[CSS-DEVICE-ADAPT]</dt><dd>
       <a href="https://www.w3.org/TR/css-device-adapt-1/"><cite>CSS Device Adaptation Module Level 1</cite></a>. Rune Lillesveen; Florian Rivoal; Matt Rakow.  W3C. 29 March 2016. W3C Working Draft. URL: <a href="https://www.w3.org/TR/css-device-adapt-1/">https://www.w3.org/TR/css-device-adapt-1/</a>
     </dd><dt id="bib-css21">[CSS21]</dt><dd>
-      <a href="https://www.w3.org/TR/CSS21/"><cite>Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</cite></a>. Bert Bos; Tantek Çelik; Ian Hickson; Håkon Wium Lie.  W3C. 7 June 2011. W3C Recommendation. URL: <a href="https://www.w3.org/TR/CSS21/">https://www.w3.org/TR/CSS21/</a>
+      <a href="https://www.w3.org/TR/CSS2/"><cite>Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</cite></a>. Bert Bos; Tantek Çelik; Ian Hickson; Håkon Wium Lie.  W3C. 7 June 2011. W3C Recommendation. URL: <a href="https://www.w3.org/TR/CSS2/">https://www.w3.org/TR/CSS2/</a>
     </dd><dt id="bib-css3-box">[CSS3-BOX]</dt><dd>
       <a href="https://www.w3.org/TR/css-box-3/"><cite>CSS Box Model Module Level 3</cite></a>. Elika Etemad.  W3C. 11 April 2024. W3C Recommendation. URL: <a href="https://www.w3.org/TR/css-box-3/">https://www.w3.org/TR/css-box-3/</a>
     </dd><dt id="bib-css3-display">[CSS3-DISPLAY]</dt><dd>
@@ -14308,7 +14326,7 @@ This specification relies on several other underlying specifications.
     </dd><dt id="bib-ui-events">[UI-EVENTS]</dt><dd>
       <a href="https://www.w3.org/TR/uievents/"><cite>UI Events</cite></a>. Gary Kacmarcik; Travis Leithead.  W3C. 7 September 2024. W3C Working Draft. URL: <a href="https://www.w3.org/TR/uievents/">https://www.w3.org/TR/uievents/</a>
     </dd><dt id="bib-uievents-key">[UIEVENTS-KEY]</dt><dd>
-      <a href="https://www.w3.org/TR/uievents-key/"><cite>UI Events KeyboardEvent key Values</cite></a>. Travis Leithead; Gary Kacmarcik.  W3C. 26 November 2024. W3C Proposed Recommendation. URL: <a href="https://www.w3.org/TR/uievents-key/">https://www.w3.org/TR/uievents-key/</a>
+      <a href="https://www.w3.org/TR/uievents-key/"><cite>UI Events KeyboardEvent key Values</cite></a>. Travis Leithead; Gary Kacmarcik.  W3C. 22 April 2025. W3C Recommendation. URL: <a href="https://www.w3.org/TR/uievents-key/">https://www.w3.org/TR/uievents-key/</a>
     </dd><dt id="bib-unicode">[Unicode]</dt><dd>
       <a href="https://www.unicode.org/versions/latest/"><cite>The Unicode Standard</cite></a>.  Unicode Consortium. URL: <a href="https://www.unicode.org/versions/latest/">https://www.unicode.org/versions/latest/</a>
     </dd><dt id="bib-uri-template">[URI-TEMPLATE]</dt><dd>
@@ -14318,7 +14336,7 @@ This specification relies on several other underlying specifications.
     </dd><dt id="bib-wai-aria-1.2">[wai-aria-1.2]</dt><dd>
       <a href="https://www.w3.org/TR/wai-aria-1.2/"><cite>Accessible Rich Internet Applications (WAI-ARIA) 1.2</cite></a>. Joanmarie Diggs; James Nurthen; Michael Cooper; Carolyn MacLeod.  W3C. 6 June 2023. W3C Recommendation. URL: <a href="https://www.w3.org/TR/wai-aria-1.2/">https://www.w3.org/TR/wai-aria-1.2/</a>
     </dd><dt id="bib-webdriver-bidi">[WebDriver-BiDi]</dt><dd>
-      <a href="https://www.w3.org/TR/webdriver-bidi/"><cite>WebDriver BiDi</cite></a>. James Graham; Alex Rudenko; Maksim Sadym.  W3C. 5 March 2025. W3C Working Draft. URL: <a href="https://www.w3.org/TR/webdriver-bidi/">https://www.w3.org/TR/webdriver-bidi/</a>
+      <a href="https://www.w3.org/TR/webdriver-bidi/"><cite>WebDriver BiDi</cite></a>. James Graham; Alex Rudenko; Maksim Sadym.  W3C. 8 May 2025. W3C Working Draft. URL: <a href="https://www.w3.org/TR/webdriver-bidi/">https://www.w3.org/TR/webdriver-bidi/</a>
     </dd><dt id="bib-webidl">[WEBIDL]</dt><dd>
       <a href="https://webidl.spec.whatwg.org/"><cite>Web IDL Standard</cite></a>. Edgar Chen; Timothy Gu.  WHATWG. Living Standard. URL: <a href="https://webidl.spec.whatwg.org/">https://webidl.spec.whatwg.org/</a>
     </dd><dt id="bib-xpath">[XPATH]</dt><dd>
@@ -25834,7 +25852,104 @@ This specification relies on several other underlying specifications.
       <a href="#ref-for-index-term-resolve-2" title="§ 13.2.2 Execute Async Script">§ 13.2.2 Execute Async Script</a> 
     </li>
   </ul>
-    </div><script id="respec-dfn-panel">(() => {
+    </div><script id="respec-highlight-vars">(() => {
+// @ts-check
+
+if (document.respec) {
+  document.respec.ready.then(setupVarHighlighter);
+} else {
+  setupVarHighlighter();
+}
+
+function setupVarHighlighter() {
+  document
+    .querySelectorAll("var")
+    .forEach(varElem => varElem.addEventListener("click", highlightListener));
+}
+
+function highlightListener(ev) {
+  ev.stopPropagation();
+  const { target: varElem } = ev;
+  const hightligtedElems = highlightVars(varElem);
+  const resetListener = () => {
+    const hlColor = getHighlightColor(varElem);
+    hightligtedElems.forEach(el => removeHighlight(el, hlColor));
+    [...HL_COLORS.keys()].forEach(key => HL_COLORS.set(key, true));
+  };
+  if (hightligtedElems.length) {
+    document.body.addEventListener("click", resetListener, { once: true });
+  }
+}
+
+// availability of highlight colors. colors from var.css
+const HL_COLORS = new Map([
+  ["respec-hl-c1", true],
+  ["respec-hl-c2", true],
+  ["respec-hl-c3", true],
+  ["respec-hl-c4", true],
+  ["respec-hl-c5", true],
+  ["respec-hl-c6", true],
+  ["respec-hl-c7", true],
+]);
+
+function getHighlightColor(target) {
+  // return current colors if applicable
+  const { value } = target.classList;
+  const re = /respec-hl-\w+/;
+  const activeClass = re.test(value) && value.match(re);
+  if (activeClass) return activeClass[0];
+
+  // first color preference
+  if (HL_COLORS.get("respec-hl-c1") === true) return "respec-hl-c1";
+
+  // otherwise get some other available color
+  return [...HL_COLORS.keys()].find(c => HL_COLORS.get(c)) || "respec-hl-c1";
+}
+
+function highlightVars(varElem) {
+  const textContent = norm(varElem.textContent);
+  const parent = varElem.closest(".algorithm, section");
+  const highlightColor = getHighlightColor(varElem);
+
+  const varsToHighlight = [...parent.querySelectorAll("var")].filter(
+    el =>
+      norm(el.textContent) === textContent &&
+      el.closest(".algorithm, section") === parent
+  );
+
+  // update availability of highlight color
+  const colorStatus = varsToHighlight[0].classList.contains("respec-hl");
+  HL_COLORS.set(highlightColor, colorStatus);
+
+  // highlight vars
+  if (colorStatus) {
+    varsToHighlight.forEach(el => removeHighlight(el, highlightColor));
+    return [];
+  } else {
+    varsToHighlight.forEach(el => addHighlight(el, highlightColor));
+  }
+  return varsToHighlight;
+}
+
+function removeHighlight(el, highlightColor) {
+  el.classList.remove("respec-hl", highlightColor);
+  // clean up empty class attributes so they don't come in export
+  if (!el.classList.length) el.removeAttribute("class");
+}
+
+function addHighlight(elem, highlightColor) {
+  elem.classList.add("respec-hl", highlightColor);
+}
+
+/**
+ * Same as `norm` from src/core/utils, but our build process doesn't allow
+ * imports in runtime scripts, so duplicated here.
+ * @param {string} str
+ */
+function norm(str) {
+  return str.trim().replace(/\s+/g, " ");
+}
+})()</script><script id="respec-dfn-panel">(() => {
 // @ts-check
 if (document.respec) {
   document.respec.ready.then(setupPanel);
