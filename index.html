@@ -1645,7 +1645,7 @@ with a "<code>moz:</code>" prefix:
  <tr>
   <td><code>socksProxy</code>
   <td>string
-  <td>Defines the proxy <a>host</a> for a <a>SOCKS proxy</a>
+  <td>(deprecated) defines the proxy <a>host</a> for a <a>SOCKS proxy</a>
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
   <td>A <a>proxy url</a>.
  </tr>
@@ -1653,21 +1653,33 @@ with a "<code>moz:</code>" prefix:
  <tr>
   <td><code>socksVersion</code>
   <td>number
-  <td>Defines the <a>SOCKS proxy</a> version
+  <td>(deprecated) defines the <a>SOCKS proxy</a> version
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
   <td>Any <a>integer</a> between 0 and 255 inclusive.
   </tr>
 
+ <tr>
+  <td><code>other</code>
+  <td>string
+  <td>Defines the proxy for traffic which is not HTTP nor TLS
+    when the <a><code>proxyType</code></a> is "<code>manual</code>".
+  <td>A <a>proxy url</a>.
+ </tr>
+
 </table>
 
 <p>A <dfn>proxy url</dfn> is a valid <a>host</a>, optionally followed by a colon
-  and a valid <a>port</a>, and optionally prefixed by a <var>scheme</var> and
-  "<code>://</code>" string. The <a>host</a> may
+  and a valid <a>port</a>, and optionally prefixed by a <a>proxy schema</a>
+  <var>scheme</var> and "<code>://</code>" string. The <a>host</a> may
   <a data-lt="includes credentials">include credentials</a>. If the
   <var>scheme</var> is omitted, the <var>scheme</var> is implied to be
   "<code>http</code>". If the port is omitted and <var>scheme</var> has a
   <a>default port</a>, this is the implied port. Otherwise, the port is left
   undefined.
+
+<p>A <dfn>proxy schema</dfn> is defined as being one of the following strings:
+ "<code>http</code>", "<code>https</code>", "<code>socks4</code>",
+ "<code>socks5</code>".
 
 <p>A <a><code>proxyType</code></a> of "<code>direct</code>" indicates
  that the browser should not use a proxy at all.
