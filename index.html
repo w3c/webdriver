@@ -1645,21 +1645,37 @@ with a "<code>moz:</code>" prefix:
  <tr>
   <td><code>socksProxy</code>
   <td>string
-  <td>Defines the proxy <a>host</a> for a <a>SOCKS proxy</a>
-   when the <a><code>proxyType</code></a> is "<code>manual</code>".
+  <td>Defines the proxy <a>host</a> for SOCKS traffic when the
+   <a><code>proxyType</code></a> is "<code>manual</code>".
   <td>A <a>proxy url</a>.
  </tr>
 
+ <tr>
+  <td><code>socksVersion</code>
+  <td>number
+  <td>Defines the <a>SOCKS proxy</a> version when the <a>proxy url</a>'s
+   <a>proxy scheme</a> is "<code>socks</code>".
+  <td>Any <a>integer</a> between 0 and 255 inclusive.
+  </tr>
+
 </table>
 
-<p>A <dfn>proxy url</dfn> consists of an optional <a>proxy scheme</a>
-followed by the string "<code>://</code>", a valid <a>host</a>,
-and optionally a colon followed by a valid <a>port</a>. The <a>host</a>
-may <a data-lt="includes credentials">include credentials</a>. If the
-  <var>scheme</var> is omitted, the <var>scheme</var> is implied to be
-  "<code>http</code>". If the port is omitted and <var>scheme</var> has a
-  <a>default port</a>, this is the implied port. Otherwise, the port is left
-  undefined.
+<p>A <dfn>proxy url</dfn> can be either "<code>direct</code>" or a string
+ consists of an optional <a>proxy scheme</a> <var>scheme</var> followed by the
+ string "<code>://</code>", a valid <a>host</a> <var>host</var>, and optionally
+ a colon followed by a valid <a>port</a> <var>port</var>.
+
+ <ol>
+ <li><p>The <var>host</var> may
+  <a data-lt="includes credentials">include credentials</a>.
+ <li><p>If the <var>port</var> is omitted and <var>scheme</var> has a
+  <a>default port</a>, this is the implied port. Otherwise, the <var>port</var>
+  is left undefined.
+
+ <li><p>If the <var>scheme</var> is omitted and the <var>port</var> is 443,
+  the <var>scheme</var> is implied to be "<code>https</code>". Otherwise, the
+  <var>scheme</var> is implied to be "<code>http</code>".
+ </ol>
 
 <p>A <dfn>proxy scheme</dfn> is defined as being one of the following strings:
  "<code>http</code>", "<code>https</code>", "<code>socks</code>",
@@ -1716,10 +1732,10 @@ may <a data-lt="includes credentials">include credentials</a>. If the
   <a>own property</a> for "<code>proxyAutoconfigUrl</code>" return
   an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If <var>proxy</var> has an <a>own property</a> for
-  "<code>socksProxy</code>" and does not have an <a>own property</a>
-  for "<code>socksVersion</code>" return an <a>error</a> with <a>error
-  code</a> <a>invalid argument</a>.
+ <li><p>If <var>proxy</var> contains <a>proxy url</a> with <a>proxy scheme</a>
+  "<code>socks</code>" and does not have an <a>own property</a>
+  for "<code>socksVersion</code>", return an <a>error</a> with <a>error code</a>
+  <a>invalid argument</a>.
 
  <li><p>Return <a>success</a> with data <var>proxy</var>.
 </ol>
