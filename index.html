@@ -1623,7 +1623,7 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the proxy <a>host</a> for HTTP traffic when
    the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>proxy url</a>.
+  <td>A <a>proxy url</a> for "<code>http</code>".
  </tr>
 
  <tr>
@@ -1639,7 +1639,7 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the proxy <a>host</a> for encrypted TLS traffic
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>proxy url</a>.
+  <td>A <a>proxy url</a> "<code>https</code>".
  </tr>
 
  <tr>
@@ -1647,7 +1647,7 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the proxy <a>host</a> for SOCKS traffic when the
    <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>proxy url</a>.
+  <td>A <a>proxy url</a> for "<code>socks</code>".
  </tr>
 
  <tr>
@@ -1660,21 +1660,38 @@ with a "<code>moz:</code>" prefix:
 
 </table>
 
-<p>A <dfn>proxy url</dfn> can be either "<code>direct</code>" or a string
- consists of an optional <a>proxy scheme</a> <var>scheme</var> followed by the
- string "<code>://</code>", a valid <a>host</a> <var>host</var>, and optionally
- a colon followed by a valid <a>port</a> <var>port</var>.
+ <p>A <dfn>proxy url</dfn> for <a>proxy scheme</a> <var>protocol</var> can be
+  either "<code>direct</code>" or a string consists of an optional
+  <a>proxy scheme</a> <var>scheme</var> followed by the string
+  "<code>://</code>", a valid <a>host</a> <var>host</var>, and optionally a
+  colon followed by a valid <a>port</a> <var>port</var>.
 
- <ol>
- <li><p>The <var>host</var> may
-  <a data-lt="includes credentials">include credentials</a>.
- <li><p>If the <var>port</var> is omitted and <var>scheme</var> has a
-  <a>default port</a>, this is the implied port. Otherwise, the <var>port</var>
-  is left undefined.
+  <p class=note>There <var>scheme</var> can be different from
+   <var>protocol</var>. If so it means that the <var>protocol</var> traffic will
+   be proxied via <var>scheme</var>.
 
- <li><p>If the <var>scheme</var> is omitted and the <var>port</var> is 443,
-  the <var>scheme</var> is implied to be "<code>https</code>". Otherwise, the
-  <var>scheme</var> is implied to be "<code>http</code>".
+  <ol>
+  <li><p>If <var>scheme</var> is omitted, let <var>scheme</var> be null.
+
+  <li><p>If <var>scheme</var> is null and <var>port</var> is <code>80</code>,
+   let <var>scheme</var> be "<code>http</code>".
+
+  <li><p>If <var>scheme</var> is null and <var>port</var> is <code>443</code>,
+   let <var>scheme</var> be "<code>https</code>".
+
+  <li><p>If <var>scheme</var> is null and <var>port</var> is <code>1080</code>,
+   let <var>scheme</var> be "<code>socks</code>".
+
+  <li><p>If <var>scheme</var> is null, let <var>scheme</var> be
+   <var>protocol</var>.
+
+  <li><p>If <var>scheme</var> is "<code>http</code>" or "<code>https</code>",
+    the <var>host</var> may
+    <a data-lt="includes credentials">include credentials</a>.
+
+  <li><p>If the <var>port</var> is omitted and <var>scheme</var> has a
+    <a>default port</a>, this is the implied port. Otherwise, the <var>port</var>
+    is left undefined.
  </ol>
 
 <p>A <dfn>proxy scheme</dfn> is defined as being one of the following strings:
