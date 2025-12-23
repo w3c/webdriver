@@ -1623,7 +1623,7 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the proxy <a>host</a> for HTTP traffic when
    the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>proxy url</a> for "<code>http</code>".
+  <td>A <a>proxy specifier</a> for "<code>http</code>".
  </tr>
 
  <tr>
@@ -1639,7 +1639,7 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the proxy <a>host</a> for encrypted TLS traffic
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>proxy url</a> "<code>https</code>".
+  <td>A <a>proxy specifier</a> "<code>https</code>".
  </tr>
 
  <tr>
@@ -1647,21 +1647,21 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the proxy <a>host</a> for SOCKS traffic when the
    <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>proxy url</a> for "<code>socks</code>".
+  <td>A <a>proxy specifier</a> for "<code>socks</code>".
  </tr>
 
  <tr>
   <td><code>socksVersion</code>
   <td>number
-  <td>Defines the <a>SOCKS proxy</a> version when the <a>proxy url</a>'s
+  <td>Defines the <a>SOCKS proxy</a> version when the <a>proxy specifier</a>'s
    <a>proxy scheme</a> is "<code>socks</code>".
   <td>Any <a>integer</a> between 0 and 255 inclusive.
   </tr>
 
 </table>
 
- <p>A <dfn>proxy url</dfn> for <a>proxy scheme</a> <var>protocol</var> can be
-  either "<code>direct</code>" or a string consists of an optional
+ <p>A <dfn>proxy specifier</dfn> for <a>proxy scheme</a> <var>protocol</var> can
+  be either "<code>direct</code>" or a string consists of an optional
   <a>proxy scheme</a> <var>scheme</var> followed by the string
   "<code>://</code>", a valid <a>host</a> <var>host</var>, and optionally a
   colon followed by a valid <a>port</a> <var>port</var>.
@@ -1749,10 +1749,10 @@ with a "<code>moz:</code>" prefix:
   <a>own property</a> for "<code>proxyAutoconfigUrl</code>" return
   an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If <var>proxy</var> contains <a>proxy url</a> with <a>proxy scheme</a>
-  "<code>socks</code>" and does not have an <a>own property</a>
-  for "<code>socksVersion</code>", return an <a>error</a> with <a>error code</a>
-  <a>invalid argument</a>.
+ <li><p>If <var>proxy</var> contains <a>proxy specifier</a> with
+  <a>proxy scheme</a> "<code>socks</code>" and does not have an
+  <a>own property</a> for "<code>socksVersion</code>", return an <a>error</a>
+  with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Return <a>success</a> with data <var>proxy</var>.
 </ol>
