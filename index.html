@@ -1679,7 +1679,30 @@ with a "<code>moz:</code>" prefix:
  key represents either a scheme to be proxied or a string
  "<code>default</code>" for proxying traffic with not specified schemes, and
  value is <a>proxy specifier</a> to be used as a proxy server for the traffic
- with the given scheme.
+ with the given scheme. For example, the configuration below would proxy
+ HTTP traffic to "proxy.example.com:443" over HTTPS, HTTPS traffic to
+ "proxy.example.com:1080" over SOCKS4, and all other traffic to
+ "proxy.example.com:443" over SOCKS5:
+
+<pre>
+{
+  "http": {
+    "host": "proxy.example.com",
+    "port": 443,
+    "protocol": "https"
+  },
+  "https": {
+    "host": "proxy.example.com",
+    "port": 1080,
+    "protocol": "socks4"
+  },
+  "default": {
+    "host": "proxy.example.com",
+    "port": 443,
+    "protocol": "socks5"
+  }
+}
+</pre>
 
 <p>A <a>shema proxy specifiers</a> is considered to be a
  <dfn>valid shema proxy specifiers</dfn>, if each of it's
