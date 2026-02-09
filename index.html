@@ -1621,10 +1621,9 @@ with a "<code>moz:</code>" prefix:
  <tr>
   <td><code>httpProxy</code>
   <td>string
-  <td>Defines the proxy <a>host</a> for HTTP traffic when
+  <td>Defines the proxy configuration for HTTP traffic when
    the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>host and optional port</a> for
-   scheme "<code>http</code>".
+  <td>A <a>proxy specifier</a> for "<code>http</code>".
  </tr>
 
  <tr>
@@ -1638,36 +1637,57 @@ with a "<code>moz:</code>" prefix:
  <tr>
   <td><code>sslProxy</code>
   <td>string
-  <td>Defines the proxy <a>host</a> for encrypted TLS traffic
+  <td>Defines the proxy configuration for encrypted TLS traffic
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>host and optional port</a> for
-   scheme "<code>https</code>".
+  <td>A <a>proxy specifier</a> "<code>https</code>".
  </tr>
 
  <tr>
   <td><code>socksProxy</code>
   <td>string
-  <td>Defines the proxy <a>host</a> for a <a>SOCKS proxy</a>
-   when the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>host and optional port</a> with an <a>undefined</a> scheme.
+  <td>Defines the proxy configuration for SOCKS traffic when the
+   <a><code>proxyType</code></a> is "<code>manual</code>".
+  <td>A <a>proxy specifier</a> for "<code>socks</code>".
  </tr>
 
  <tr>
   <td><code>socksVersion</code>
   <td>number
-  <td>Defines the <a>SOCKS proxy</a> version
-   when the <a><code>proxyType</code></a> is "<code>manual</code>".
+  <td>Defines the <a>SOCKS proxy</a> version when the <a>proxy specifier</a>'s
+   <a>proxy scheme</a> is "<code>socks</code>".
   <td>Any <a>integer</a> between 0 and 255 inclusive.
   </tr>
 
 </table>
 
-<p>A <dfn>host and optional port</dfn> for a <var>scheme</var> is
-  defined as being a valid <a>host</a>, optionally followed by a colon
-  and a valid <a>port</a>. The <a>host</a> may
-  <a data-lt="includes credentials">include credentials</a>. If the
-  port is omitted and <var>scheme</var> has a <a>default port</a>,
-  this is the implied port. Otherwise, the port is left undefined.
+ <p>A <dfn>proxy specifier</dfn> for <a>proxy scheme</a> <var>protocol</var> can
+  be either "<code>direct</code>" or a string consists of an optional
+  <a>proxy scheme</a> <var>scheme</var> followed by the string
+  "<code>://</code>", a valid <a>host</a> <var>host</var>, and optionally a
+  colon followed by a valid <a>port</a> <var>port</var>.
+
+  <p class=note>The <var>scheme</var> can be different from <var>protocol</var>.
+   If so, it means that the <var>protocol</var> traffic will be proxied via
+   <var>scheme</var>.
+
+  <ol>
+  <li><p>If <var>scheme</var> is omitted, let <var>scheme</var> be null.
+
+  <li><p>If <var>scheme</var> is null, let <var>scheme</var> be
+   <var>protocol</var>.
+
+  <li><p>If <var>scheme</var> is "<code>http</code>" or "<code>https</code>",
+   the <var>host</var> may
+   <a data-lt="includes credentials">include credentials</a>.
+
+  <li><p>If the <var>port</var> is omitted and <var>scheme</var> has a
+   <a>default port</a>, then <a>remote end</a> should use this port. Otherwise,
+   the <var>port</var> is left undefined.
+ </ol>
+
+<p>A <dfn>proxy scheme</dfn> is defined as being one of the following strings:
+ "<code>http</code>", "<code>https</code>", "<code>socks</code>",
+ "<code>socks4</code>", "<code>socks5</code>".
 
 <p>A <a><code>proxyType</code></a> of "<code>direct</code>" indicates
  that the browser should not use a proxy at all.
@@ -1720,10 +1740,10 @@ with a "<code>moz:</code>" prefix:
   <a>own property</a> for "<code>proxyAutoconfigUrl</code>" return
   an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
- <li><p>If <var>proxy</var> has an <a>own property</a> for
-  "<code>socksProxy</code>" and does not have an <a>own property</a>
-  for "<code>socksVersion</code>" return an <a>error</a> with <a>error
-  code</a> <a>invalid argument</a>.
+ <li><p>If <var>proxy</var> contains <a>proxy specifier</a> with
+  <a>proxy scheme</a> "<code>socks</code>" and does not have an
+  <a>own property</a> for "<code>socksVersion</code>", return an <a>error</a>
+  with <a>error code</a> <a>invalid argument</a>.
 
  <li><p>Return <a>success</a> with data <var>proxy</var>.
 </ol>
