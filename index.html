@@ -1619,12 +1619,12 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
-  <td><dfn><code>proxyPerShema</code></dfn>
-  <td>JSON <a>Object</a> representing <a>shema proxy specifiers</a>
+  <td><dfn><code>proxyPerProtocol</code></dfn>
+  <td>JSON <a>Object</a> representing <a>proxy per protocol specifiers</a>
   <td>Setting the specific <a>proxy specifier</a> per scheme or
    "<code>default</code>" for all other not specified schemes when the
    <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>valid shema proxy specifiers</a> mutually exclusive with other
+  <td>A <a>valid proxy per protocol specifiers</a> mutually exclusive with other
    scheme-specific proxy configurations ("<code>httpProxy</code>",
    "<code>sslProxy</code>", "<code>socksProxy</code>").
  </tr>
@@ -1635,7 +1635,7 @@ with a "<code>moz:</code>" prefix:
   <td>Defines the proxy <a>host</a> for HTTP traffic when
    the <a><code>proxyType</code></a> is "<code>manual</code>".
   <td>A <a>host and optional port</a> for scheme "<code>http</code>". Mutually
-    exclusive with <a><code>proxyPerShema</code></a>.
+    exclusive with <a><code>proxyPerProtocol</code></a>.
  </tr>
 
  <tr>
@@ -1652,7 +1652,7 @@ with a "<code>moz:</code>" prefix:
   <td>Defines the proxy <a>host</a> for encrypted TLS traffic
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
   <td>A <a>host and optional port</a> for scheme "<code>https</code>". Mutually
-   exclusive with <a><code>proxyPerShema</code></a>.
+   exclusive with <a><code>proxyPerProtocol</code></a>.
  </tr>
 
  <tr>
@@ -1661,7 +1661,7 @@ with a "<code>moz:</code>" prefix:
   <td>Defines the proxy <a>host</a> for a <a>SOCKS proxy</a>
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
   <td>A <a>host and optional port</a> with an <a>undefined</a> scheme. Mutually
-   exclusive with <a><code>proxyPerShema</code></a>.
+   exclusive with <a><code>proxyPerProtocol</code></a>.
  </tr>
 
  <tr>
@@ -1670,12 +1670,12 @@ with a "<code>moz:</code>" prefix:
   <td>Defines the <a>SOCKS proxy</a> version
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
   <td>Any <a>integer</a> between 0 and 255 inclusive. Mutually exclusive with
-    <a><code>proxyPerShema</code></a>.
+    <a><code>proxyPerProtocol</code></a>.
   </tr>
 
 </table>
 
-<p>A <dfn>shema proxy specifiers</dfn> is a JSON <a>Object</a> where each
+<p>A <dfn>proxy per protocol specifiers</dfn> is a JSON <a>Object</a> where each
  key represents either a scheme to be proxied or a string
  "<code>default</code>" for proxying traffic with not specified schemes, and
  value is <a>proxy specifier</a> to be used as a proxy server for the traffic
@@ -1704,8 +1704,8 @@ with a "<code>moz:</code>" prefix:
 }
 </pre>
 
-<p>A <a>shema proxy specifiers</a> is considered to be a
- <dfn>valid shema proxy specifiers</dfn>, if each of it's
+<p>A <a>proxy per protocol specifiers</a> is considered to be a
+ <dfn>valid proxy per protocol specifiers</dfn>, if each of it's
  <a>own property</a> is a non-empty <a>String</a>, and each of it's keys is a
  <a>valid proxy specifier</a>.
 
