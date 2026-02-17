@@ -1619,12 +1619,23 @@ with a "<code>moz:</code>" prefix:
  </tr>
 
  <tr>
+  <td><dfn><code>proxyPerProtocol</code></dfn>
+  <td>JSON <a>Object</a> representing <a>proxy per protocol specifiers</a>
+  <td>Setting the specific <a>proxy specifier</a> per scheme or
+   "<code>default</code>" for all other not specified schemes when the
+   <a><code>proxyType</code></a> is "<code>manual</code>".
+  <td>A <a>valid proxy per protocol specifiers</a> mutually exclusive with other
+   scheme-specific proxy configurations ("<code>httpProxy</code>",
+   "<code>sslProxy</code>", "<code>socksProxy</code>").
+ </tr>
+
+ <tr>
   <td><code>httpProxy</code>
   <td>string
   <td>Defines the proxy <a>host</a> for HTTP traffic when
    the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>host and optional port</a> for
-   scheme "<code>http</code>".
+  <td>A <a>host and optional port</a> for scheme "<code>http</code>". Mutually
+    exclusive with <a><code>proxyPerProtocol</code></a>.
  </tr>
 
  <tr>
@@ -1640,8 +1651,8 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the proxy <a>host</a> for encrypted TLS traffic
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>host and optional port</a> for
-   scheme "<code>https</code>".
+  <td>A <a>host and optional port</a> for scheme "<code>https</code>". Mutually
+   exclusive with <a><code>proxyPerProtocol</code></a>.
  </tr>
 
  <tr>
@@ -1649,7 +1660,8 @@ with a "<code>moz:</code>" prefix:
   <td>string
   <td>Defines the proxy <a>host</a> for a <a>SOCKS proxy</a>
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>A <a>host and optional port</a> with an <a>undefined</a> scheme.
+  <td>A <a>host and optional port</a> with an <a>undefined</a> scheme. Mutually
+   exclusive with <a><code>proxyPerProtocol</code></a>.
  </tr>
 
  <tr>
@@ -1657,10 +1669,85 @@ with a "<code>moz:</code>" prefix:
   <td>number
   <td>Defines the <a>SOCKS proxy</a> version
    when the <a><code>proxyType</code></a> is "<code>manual</code>".
-  <td>Any <a>integer</a> between 0 and 255 inclusive.
+  <td>Any <a>integer</a> between 0 and 255 inclusive. Mutually exclusive with
+    <a><code>proxyPerProtocol</code></a>.
   </tr>
 
 </table>
+
+<p>A <dfn>proxy per protocol specifiers</dfn> is a JSON <a>Object</a> where each
+ key represents either a scheme to be proxied or a string
+ "<code>default</code>" for proxying traffic with not specified schemes, and
+ value is <a>proxy specifier</a> to be used as a proxy server for the traffic
+ with the given scheme. For example, the configuration below would proxy
+ HTTP traffic to "proxy.example.com:443" over HTTPS, HTTPS traffic to
+ "proxy.example.com:1080" over SOCKS4, and all other traffic to
+ "proxy.example.com:443" over SOCKS5:
+
+<pre>
+{
+  "http": {
+    "host": "proxy.example.com",
+    "port": 443,
+    "protocol": "https"
+  },
+  "https": {
+    "host": "proxy.example.com",
+    "port": 1080,
+    "protocol": "socks4"
+  },
+  "default": {
+    "host": "proxy.example.com",
+    "port": 443,
+    "protocol": "socks5"
+  }
+}
+</pre>
+
+<p>A <a>proxy per protocol specifiers</a> is considered to be a
+ <dfn>valid proxy per protocol specifiers</dfn>, if each of it's
+ <a>own property</a> is a non-empty <a>String</a>, and each of it's keys is a
+ <a>valid proxy specifier</a>.
+
+<p>A <dfn>proxy specifier</dfn> is a JSON <a>Object</a> with the following keys:
+<table class=simple>
+ <thead>
+  <tr>
+   <th>Key
+   <th>Value Type
+   <th>Description
+   <th>Valid values
+  </tr>
+
+  <tr>
+   <td><code>host</code>
+   <td>string
+   <td>Defines the proxy server <a>host</a>.
+   <td>A valid <a>host</a> with optional
+    <a data-lt="includes credentials">credentials</a>.
+  </tr>
+
+  <tr>
+   <td><code>port</code>
+   <td>integer
+   <td>Defines the proxy server <a>port</a>.
+   <td>A valid <a>port</a>.
+  </tr>
+
+  <tr>
+   <td><code>protocol</code>
+   <td>string
+   <td>Defines the protocol to communicate with the proxy server.
+   <td>"<code>http</code>", "<code>ssl</code>", "<code>socks4</code>",
+    "<code>socks5</code>" or other implementation-specific proxy protocol.
+  </tr>
+</table>
+
+<p>A <a>proxy specifier</a> is considered to be a
+ <dfn>valid proxy specifier</dfn>, if it is a JSON <a>Object</a> and contains
+ <a>own properties</a> for each of the <a>proxy specifier</a>'s table's, and
+ each property contains a valid value, as defined in the
+ <a>proxy specifier</a>'s table.
 
 <p>A <dfn>host and optional port</dfn> for a <var>scheme</var> is
   defined as being a valid <a>host</a>, optionally followed by a colon
