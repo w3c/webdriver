@@ -6414,6 +6414,13 @@ and a number keypad for [^input^] elements
 in the <a><code>number</code> state</a> on non-desktop devices.
 </div>
 
+<p>
+A <dfn>typeable form control with normalization</dfn> 
+is an [^input^] element 
+whose [^input/type^] attribute state 
+requires that user-provided values be normalized before being assigned to the element's value attribute.
+This applies to <code>type="date"</code> and <code>type="datetime-local"</code>.
+
 <p>The <a>key input source</a> used for input may be cleared mid-way
  through “typing” by sending the <dfn>null key</dfn>, which is U+E000
  (NULL).
@@ -6754,6 +6761,28 @@ variables</var> and <var>parameters</var> are:
       an <a>error</a> with <a>error code</a> <a>element not
       interactable</a>.
 
+     <li><p><a>Set a property</a> <code>value</code> to <var>text</var>
+      on <var>element</var>.
+
+     <li><p>If <var>element</var> is <a>suffering from bad input</a>
+      return an <a>error</a> with <a>error code</a> <a>invalid
+      argument</a>.
+
+     <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+    </ol>
+   </dd>
+
+   <dt><var><a>element</a></var> is a <a>typeable form control with normalization</a>
+   <dd>
+    <ol>
+     <li><p>If <var>element</var> does not have an <a>own property</a>
+      named <code>value</code> return an <a>error</a> with <a>error
+      code</a> <a>element not interactable</a>
+
+     <li><p>If <var>element</var> is not <a>mutable</a> return
+      an <a>error</a> with <a>error code</a> <a>element not
+      interactable</a>.
+     <li><p>Normalize the <code>value</code> to conform to the expected input format of <var>element</var>.
      <li><p><a>Set a property</a> <code>value</code> to <var>text</var>
       on <var>element</var>.
 
