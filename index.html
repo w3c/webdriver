@@ -11313,6 +11313,13 @@ variables</var> and <var>parameters</var> are:
  <li><p>If <var>shrinkToFit</var> is not a <a>Boolean</a>
  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
+ <li><p>Let <var>safePrintableInset</var> be the result of <a>getting a
+  property with default</a> named "<code>safePrintableInset</code>" and with
+  default <code>0</code> from <var>parameters</var>.
+
+ <li><p>If <var>safePrintableInset</var> is not a <a>Number</a>, or is less than 0,
+ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
  <li><p>Let <var>pageRanges</var> be the result of <a>getting a
   property with default</a> named "<code>pageRanges</code>" from
   <var>parameters</var> with default of an
@@ -11363,6 +11370,14 @@ variables</var> and <var>parameters</var> are:
        <dd>Resize the content to match the page width, overriding any
        page width specified in the content
      </dl>
+
+   <p>The value of <var>safePrintableInset</var> defines the minimum inset along
+   each page edge needed to steer clear of the area that the printer is potentially
+   incapable of marking reliably. Most printers have a small region along each
+   edge of the page sheet which is unprintable, typically due to the printer's
+   paper handling mechanism. The document that is being printed may have
+   <a href="https://drafts.csswg.org/css-page-3/#page-margin-safety">CSS rules</a>
+   to adjust page margins based on this.
 
   <li><p>If <var>pageRanges</var> is not an empty <a>Array</a>,
  Let <var>pages</var> be the result of <a>trying</a> to <a>parse a
