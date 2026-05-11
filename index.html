@@ -190,7 +190,7 @@ ul.index code{color:inherit}
 .mdn .samsunginternet_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/samsung-internet/samsung-internet.svg)}
 .mdn .webview_android::before{background-image:url(https://www.w3.org/assets/logos/browser-logos/android-webview/android-webview.png)}
 </style>
-<meta name="revision" content="6bd15e41098717dd39129e45fea388d616fab35e">
+<meta name="revision" content="463f7edcf571975d9a05e86c8ef5372e28eda30a">
 <meta name="description" content="WebDriver is a remote control interface
 that enables introspection and control of user agents.
 It provides a platform- and language-neutral wire protocol
@@ -323,7 +323,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     ],
     "profile": "web-platform"
   },
-  "gitRevision": "6bd15e41098717dd39129e45fea388d616fab35e",
+  "gitRevision": "463f7edcf571975d9a05e86c8ef5372e28eda30a",
   "publishISODate": "2026-05-11T00:00:00.000Z",
   "generatedSubtitle": "W3C Editor's Draft 11 May 2026"
 }</script>
@@ -707,7 +707,7 @@ fail. In all other cases it must be true.
 
 </p><p class="example">If the <a href="#dfn-intermediary-nodes" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-intermediary-nodes-3">intermediary node</a> is a multiplexer that
  manages multiple <a data-lt="endpoint node" href="#dfn-endpoint-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-endpoint-node-4">endpoint nodes</a>, this
- might indicate its ability to purvey more <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-1">sessions</a>, for
+ might indicate its ability to purvey more <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-1">sessions</a>, for
  example if it has hit its maximum capacity.
 </p></section> 
 
@@ -841,7 +841,7 @@ the following steps:
     </p></li><li><p>If <var>URL variables</var> <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-index-term-contains-for-map-1">contains</a> "<code>session id"</code>:
 
      </p><div class="note" role="note" id="issue-container-generatedID-0"><div class="note-title marker" id="h-note-0"><span>Note</span></div><p class="">This condition is intended to exclude the <a href="#dfn-new-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-new-sessions-2">New Session</a> and <a href="#dfn-status" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-status-1">Status</a>
-      <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-5">commands</a> and any <a href="#dfn-extension-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-extension-commands-1">extension commands</a> which do not operate on a particular <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-2">session</a>.
+      <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-5">commands</a> and any <a href="#dfn-extension-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-extension-commands-1">extension commands</a> which do not operate on a particular <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-2">session</a>.
 
      </p></div><ol>
        <li><p>Let <var>session id</var> be <var>URL variables</var>["<code>session id</code>"].
@@ -863,7 +863,7 @@ the following steps:
     steps:
 
     </p><ol>
-      <li>If <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-3">session</a> is no longer in the list of <a href="#dfn-active-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-active-sessions-2">active
+      <li>If <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-3">session</a> is no longer in the list of <a href="#dfn-active-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-active-sessions-2">active
       sessions</a>, then <a href="#dfn-send-an-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-send-an-error-3">send an error</a> with <a href="#dfn-error-code" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-code-5">error code</a>
       <a href="#dfn-invalid-session-id" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-invalid-session-id-2">invalid session id</a> and return.
 
@@ -1460,7 +1460,7 @@ the following steps:
     <a class="self-link" href="#example-3">Example<bdi> 3</bdi></a>
   </div>
  <p>A <code>GET</code> request to <code>/session/1234/url</code>,
- where <code>1234</code> is not the <a href="#dfn-session-id" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-session-id-2">session id</a> of a <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-4">session</a>
+ where <code>1234</code> is not the <a href="#dfn-session-id" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-session-id-2">session id</a> of a <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-4">session</a>
  would return an <a href="#dfn-http-response" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-http-response-4">HTTP response</a> with the status 404 and a body of the form:
 
  </p><pre><code aria-busy="false" class="hljs json"><span class="hljs-punctuation">{</span>
@@ -1571,7 +1571,7 @@ the following steps:
   </td><td>404
   </td><td><code>invalid session id</code>
   </td><td>Occurs if the given <a href="#dfn-session-id" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-session-id-3">session id</a> is not in the list of <a href="#dfn-active-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-active-sessions-3">active sessions</a>,
-   meaning the <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-5">session</a> either does not exist or that it's not active.
+   meaning the <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-5">session</a> either does not exist or that it's not active.
  </td></tr>
 
  <tr>
@@ -1648,7 +1648,7 @@ the following steps:
   <td><dfn id="dfn-session-not-created" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">session not created</dfn>
   </td><td>500
   </td><td><code>session not created</code>
-  </td><td>A new <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-6">session</a> could not be created.
+  </td><td>A new <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-6">session</a> could not be created.
  </td></tr>
 
  <tr>
@@ -1770,7 +1770,7 @@ the following steps:
 </p><div class="note" role="note" id="issue-container-generatedID-1"><div class="note-title marker" id="h-note-1"><span>Note</span></div><aside class="">
  If the <a href="#dfn-extension-command-uri-template" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-extension-command-uri-template-2">extension command URI Template</a> includes a variable named
  <var>session id</var>, the value of this variable will be used to define the
- <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-7">session</a> during command processing.
+ <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-7">session</a> during command processing.
 </aside></div>
 
 <aside class="example" id="example-4"><div class="marker">
@@ -1871,7 +1871,7 @@ specification.
  to define which features it requires the <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-ends-30">remote end</a>
  to satisfy when creating a <a href="#dfn-new-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-new-sessions-7">new session</a>.
  Likewise, the <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-ends-31">remote end</a> uses capabilities
- to describe the full feature set for a <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-8">session</a>.
+ to describe the full feature set for a <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-8">session</a>.
 
 </p><p>The following <dfn id="dfn-table-of-standard-capabilities" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">table of standard capabilities</dfn>
  enumerates the capabilities each implementation must support.
@@ -1927,21 +1927,21 @@ with a "<code>moz:</code>" prefix:
   </td><td>boolean
   </td><td>Indicates whether untrusted and self-signed TLS certificates
    are implicitly trusted on <a href="#dfn-navigating" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-navigating-2">navigation</a>
-   for the duration of the <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-9">session</a>.
+   for the duration of the <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-9">session</a>.
  </td></tr>
 
  <tr>
   <td><dfn id="dfn-page-load-strategy" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Page load strategy</dfn>
   </td><td>"<code>pageLoadStrategy</code>"
   </td><td>string
-  </td><td>Defines the <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-10">session</a>'s <a href="#dfn-page-load-strategy" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-page-load-strategy-1">page load strategy</a>.
+  </td><td>Defines the <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-10">session</a>'s <a href="#dfn-page-load-strategy" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-page-load-strategy-1">page load strategy</a>.
  </td></tr>
 
  <tr>
   <td>Proxy configuration
   </td><td>"<code>proxy</code>"
   </td><td>JSON <a href="#dfn-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-object-8">Object</a>
-  </td><td>Defines the <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-11">session</a>'s <a href="#dfn-proxy-configuration" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-proxy-configuration-1">proxy configuration</a>.
+  </td><td>Defines the <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-11">session</a>'s <a href="#dfn-proxy-configuration" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-proxy-configuration-1">proxy configuration</a>.
  </td></tr>
 
  <tr>
@@ -1962,14 +1962,14 @@ with a "<code>moz:</code>" prefix:
   <td><a href="#dfn-strict-file-interactability" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-strict-file-interactability-1">Strict file interactability</a>
   </td><td>"<code>strictFileInteractability</code>"
   </td><td>boolean
-  </td><td>Defines the <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-12">session</a>'s <a href="#dfn-strict-file-interactability" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-strict-file-interactability-2">strict file interactability</a>.
+  </td><td>Defines the <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-12">session</a>'s <a href="#dfn-strict-file-interactability" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-strict-file-interactability-2">strict file interactability</a>.
  </td></tr>
 
  <tr>
   <td>Unhandled prompt behavior
   </td><td>"<code>unhandledPromptBehavior</code>"
   </td><td>string
-  </td><td>Describes the <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-13">session</a>'s <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-2">user prompt handler</a>.
+  </td><td>Describes the <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-13">session</a>'s <a href="#dfn-user-prompt-handler" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-user-prompt-handler-2">user prompt handler</a>.
    Defaults to "<code>dismiss and notify</code>".
  </td></tr>
 
@@ -2565,29 +2565,29 @@ with a "<code>moz:</code>" prefix:
 <section id="sessions"><div class="header-wrapper"><h2 id="x8-sessions"><bdi class="secno">8. </bdi>Sessions</h2><a class="self-link" href="#sessions" aria-label="Permalink for Section 8."></a></div>
 
 
-<p>A WebDriver <dfn data-lt="sessions|session" id="dfn-sessions" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">session</dfn> represents the
+<p>A WebDriver <dfn data-lt="WebDriver session|session" data-local-lt="sessions" data-export="" id="dfn-webdriver-session" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">session</dfn> represents the
  logical connection between a <a href="#dfn-local-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-local-ends-11">local end</a> and a
- specific <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-ends-38">remote end</a>. The <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-14">session</a> object holds state
+ specific <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-ends-38">remote end</a>. The <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-14">session</a> object holds state
  specific to that connection.
 
 </p><p>An <a href="#dfn-intermediary-nodes" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-intermediary-nodes-5">intermediary node</a> will maintain an <dfn id="dfn-associated-session" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">associated
- session</dfn> for each active <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-15">session</a>. This is
- the <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-16">session</a> on the <a href="#dfn-upstream" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-upstream-1">upstream</a> neighbor that is created
+ session</dfn> for each active <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-15">session</a>. This is
+ the <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-16">session</a> on the <a href="#dfn-upstream" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-upstream-1">upstream</a> neighbor that is created
  when the <a href="#dfn-intermediary-nodes" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-intermediary-nodes-6">intermediary node</a> executes the <a href="#dfn-new-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-new-sessions-9">New
- Session</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-27">command</a>. Closing a <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-17">session</a> on
+ Session</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-27">command</a>. Closing a <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-17">session</a> on
  an <a href="#dfn-intermediary-nodes" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-intermediary-nodes-7">intermediary node</a> will also <a href="#dfn-close-the-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-close-the-session-1">close the session</a> of
  the <a href="#dfn-associated-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-associated-session-1">associated session</a>.
 
-</p><p>A <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-18">session</a> has a <dfn id="dfn-session-id" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">session ID</dfn>, which is the string
+</p><p>A <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-18">session</a> has a <dfn id="dfn-session-id" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">session ID</dfn>, which is the string
  representation of a <a href="#dfn-uuid" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-uuid-1">UUID</a> used to uniquely identify the
  session. This is set when creating the session.
 
-</p><p>A <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-19">session</a> has a boolean <dfn id="dfn-http-flag" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">HTTP flag</dfn> which is set
+</p><p>A <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-19">session</a> has a boolean <dfn id="dfn-http-flag" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">HTTP flag</dfn> which is set
 when the session is created. A session with this flag set is
 an <dfn id="dfn-http-session" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">HTTP session</dfn>.
 
 </p><p>A <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-ends-39">remote end</a> has an associated list of
- <dfn id="dfn-active-sessions" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">active sessions</dfn>, which is a list of all <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-20">session</a>s
+ <dfn id="dfn-active-sessions" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">active sessions</dfn>, which is a list of all <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-20">session</a>s
  that are currently started.
 
 </p><p>A <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-ends-40">remote end</a> has an associated list of
@@ -2619,7 +2619,7 @@ load strategies</a>.  This is initially set to <a href="#dfn-normal-page-loading
 interactability</dfn> state which is a boolean. This is initially set
 to false.
 
-</p><p>A <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-21">session</a> has an associated <dfn id="dfn-browsing-context-input-state-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">browsing context input
+</p><p>A <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-21">session</a> has an associated <dfn id="dfn-browsing-context-input-state-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">browsing context input
 state map</dfn>, which is a <a href="#dfn-weak-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-weak-map-1">weak map</a> with <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-browsing-context" id="ref-for-index-term-top-level-browsing-contexts-1">top-level browsing
 contexts</a> as keys, and <a href="#dfn-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-input-state-1">input state</a> objects as values. This
 is initially set to an empty map.
@@ -2658,7 +2658,7 @@ flags</a> <var>flags</var>:
 </p><ol>
  <li><p>Let <var>session id</var> be the result of <a href="#dfn-generating-a-uuid" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-generating-a-uuid-1">generating a UUID</a>.
 
- </p></li><li><p>Let <var>session</var> be a new <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-22">session</a> with <a href="#dfn-session-id" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-session-id-4">session
+ </p></li><li><p>Let <var>session</var> be a new <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-22">session</a> with <a href="#dfn-session-id" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-session-id-4">session
   ID</a> <var>session id</var>, and <a href="#dfn-http-flag" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-http-flag-3">HTTP flag</a> <var>flags</var> contains
   "<code>http</code>".
 
@@ -2705,7 +2705,7 @@ flags</a> <var>flags</var>:
         <li><p>Let <var>strategy</var> be the result of getting
         property "<code>pageLoadStrategy</code>"
         from <var>capabilities</var>. </p><p>If <var>strategy</var> is a
-        string, set the <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-23">session</a>'s <a href="#dfn-page-loading-strategy" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-page-loading-strategy-1">page loading
+        string, set the <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-23">session</a>'s <a href="#dfn-page-loading-strategy" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-page-loading-strategy-1">page loading
         strategy</a> to <var>strategy</var>.  Otherwise, set
         the <a href="#dfn-page-loading-strategy" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-page-loading-strategy-2">page loading strategy</a> to <i>normal</i> and <a href="#dfn-set-a-property" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-set-a-property-7">set a
         property</a> of <var>capabilities</var> with name
@@ -2715,7 +2715,7 @@ flags</a> <var>flags</var>:
         </li><li><p>Let <var>strictFileInteractability</var> be the result
         of getting property "<code>strictFileInteractability</code>"
         from <var>capabilities</var>. If <var>strictFileInteractability</var>
-        is a boolean, set <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-24">session</a>'s <a href="#dfn-strict-file-interactability" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-strict-file-interactability-3">strict file
+        is a boolean, set <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-24">session</a>'s <a href="#dfn-strict-file-interactability" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-strict-file-interactability-3">strict file
         interactability</a> to <var>strictFileInteractability</var>.
 
         </p></li><li><p>Let <var>timeouts</var> be the result of getting a
@@ -2789,7 +2789,7 @@ flags</a> <var>flags</var>:
   data <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-16"><code>null</code></a>.
 </p></li></ol>
 
-<p>Closing a <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-25">session</a> might cause the associated browser process to be killed.
+<p>Closing a <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-25">session</a> might cause the associated browser process to be killed.
  It is assumed that any implementation-specific cleanup steps
  are performed <em>after</em> the response has been sent back to the client
  so that the <a href="#dfn-connection" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-connection-7">connection</a> is not prematurely closed.
@@ -2810,7 +2810,7 @@ flags</a> <var>flags</var>:
 
 <p>
 The <a href="#dfn-new-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-new-sessions-10">New Session</a> <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-29">command</a>
-creates a new WebDriver <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-26">session</a> with the <a href="#dfn-endpoint-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-endpoint-node-20">endpoint node</a>.
+creates a new WebDriver <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-26">session</a> with the <a href="#dfn-endpoint-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-endpoint-node-20">endpoint node</a>.
 If the creation fails, a <a href="#dfn-session-not-created" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-session-not-created-2">session not created</a> <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-34">error</a> is returned.
 
 </p><p>If the <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-ends-46">remote end</a> is an <a href="#dfn-intermediary-nodes" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-intermediary-nodes-9">intermediary node</a>,
@@ -2885,7 +2885,7 @@ variables</var> and <var>parameters</var> are:
   or in returning a <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-18">success</a> with data that is isomorphic to
   that returned by <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-ends-49">remote ends</a> according to the rest of this
   algorithm. If an <a href="#dfn-error" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-error-37">error</a> is not returned, the <a href="#dfn-intermediary-nodes" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-intermediary-nodes-16">intermediary
-  node</a> must retain a reference to the <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-27">session</a> created on
+  node</a> must retain a reference to the <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-27">session</a> created on
   the <a href="#dfn-upstream" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-upstream-2">upstream</a> node as the <a href="#dfn-associated-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-associated-session-3">associated session</a> such that
   commands may be forwarded to this <a href="#dfn-associated-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-associated-session-4">associated session</a> on
   subsequent commands.
@@ -3181,7 +3181,7 @@ variables</var> and <var>parameters</var> are:
 
 </p><ol>
  <li><p>Let <var>timeouts</var> be <a href="#dfn-serialize-the-timeouts-configuration" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-serialize-the-timeouts-configuration-2">serialize the timeouts
- configuration</a> with <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-28">session</a>'s <a href="#dfn-timeouts-configuration" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-timeouts-configuration-4">timeouts
+ configuration</a> with <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-28">session</a>'s <a href="#dfn-timeouts-configuration" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-timeouts-configuration-4">timeouts
  configuration</a>
 
  </p></li><li><p>Return <a href="#dfn-success" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-success-23">success</a> with data <var>timeouts</var>.
@@ -3269,7 +3269,7 @@ variables</var> and <var>parameters</var> are:
 
 
 <p>The <a href="#dfn-commands" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-commands-30">commands</a> in this section allow navigation of
- the <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-29">session</a>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-2">current top-level browsing context</a> to new
+ the <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-29">session</a>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-2">current top-level browsing context</a> to new
  URLs and introspection of the document currently loaded in
  this <a href="#dfn-browsing-contexts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-browsing-contexts-2">browsing context</a>.
 
@@ -3433,7 +3433,7 @@ variables</var> and <var>parameters</var> are:
 </tbody></table>
 
 <div class="note" role="note" id="issue-container-generatedID-15"><div class="note-title marker" id="h-note-15"><span>Note</span></div><p class="">The command causes the user agent to <a href="#dfn-navigating" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-navigating-5">navigate</a>
- the <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-30">session</a>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-3">current top-level browsing context</a> to a
+ the <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-30">session</a>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-3">current top-level browsing context</a> to a
  new location.
 
 </p></div><p>If the <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-ends-56">remote end</a>'s <a href="#dfn-accept-insecure-tls" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-accept-insecure-tls-5">accept insecure TLS</a> flag is true, no
@@ -3445,7 +3445,7 @@ variables</var> and <var>parameters</var> are:
     <a class="self-link" href="#example-8">Example<bdi> 8</bdi></a>
   </div>
  <p>To navigate the <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-4">current top-level browsing context</a> of
-  the <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-31">session</a> with ID <i>1</i>
+  the <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-31">session</a> with ID <i>1</i>
   to <code>https://example.com</code>, the <a href="#dfn-local-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-local-ends-12">local end</a> would POST
   to <i>/session/1/url</i> with the body:
 
@@ -3472,7 +3472,7 @@ variables</var> and <var>parameters</var> are:
  </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-15">Try</a> to <a href="#dfn-handle-any-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handle-any-user-prompts-1">handle any user prompts</a>
  with <var>session</var>.
 
- </p></li><li><p>Let <var>timeout</var> be <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-32">session</a>'s <a href="#dfn-session-timeouts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-session-timeouts-5">session
+ </p></li><li><p>Let <var>timeout</var> be <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-32">session</a>'s <a href="#dfn-session-timeouts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-session-timeouts-5">session
  timeouts</a> <a data-link-type="dfn|abstract-op" href="#dfn-page-load-timeout" class="internalDFN" id="ref-for-dfn-page-load-timeout-5">page load timeout</a>.
 
  </p></li><li><p>Let <var>current URL</var> be <var>session</var>'s <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-6">current
@@ -4462,7 +4462,7 @@ variables</var> and <var>parameters</var> are:
   </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-34">Try</a> to <a href="#dfn-handle-any-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handle-any-user-prompts-14">handle any user prompts</a>
   with <var>session</var>.
 
-  </p></li><li><p>If <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-33">session</a>'s <a href="#dfn-current-parent-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-parent-browsing-context-3">current parent browsing context</a> is
+  </p></li><li><p>If <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-33">session</a>'s <a href="#dfn-current-parent-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-parent-browsing-context-3">current parent browsing context</a> is
   not <a href="#dfn-null" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-null-34">null</a>, <a href="#dfn-set-the-current-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-set-the-current-browsing-context-7">set the current browsing context</a>
   with <var>session</var> and <a href="#dfn-current-parent-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-parent-browsing-context-4">current parent browsing context</a>.
 
@@ -5021,7 +5021,7 @@ variables</var> and <var>parameters</var> are:
 
 </p><p>The <dfn id="dfn-webdriver-node-id" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">WebDriver node id</dfn> is a globally unique string
 representing a handle to a DOM node in a specific
-WebDriver <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-34">session</a>.
+WebDriver <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-34">session</a>.
 
 </p><p>A <dfn id="dfn-weak-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">weak map</dfn> is a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-index-term-map-3">map</a> in which keys are held
 weakly i.e. items are removed if the key object is garbaged collected, and
@@ -5032,14 +5032,14 @@ alternative to defining properties directly on the key objects.
 a <a href="#dfn-weak-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-weak-map-2">weak map</a> can participate in the full set of operations available for
 a Map.
 
-</p></div><p>A WebDriver <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-35">session</a> has a <dfn id="dfn-browsing-context-group-node-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">browsing context group node
+</p></div><p>A WebDriver <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-35">session</a> has a <dfn id="dfn-browsing-context-group-node-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">browsing context group node
 map</dfn>, which is a <a href="#dfn-weak-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-weak-map-3">weak map</a> between a <a href="#dfn-browsing-context-group" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-browsing-context-group-1">browsing context group</a>
 and a <a href="#dfn-node-id-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-node-id-map-1">node id map</a>.
 
 </p><p>A <dfn id="dfn-node-id-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">node id map</dfn> is <a href="#dfn-weak-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-weak-map-4">weak map</a> between nodes and their
 corresponding <a href="#dfn-webdriver-node-id" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-node-id-1">WebDriver node id</a>.
 
-</p><p>A WebDriver <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-36">session</a> has a <dfn id="dfn-navigable-seen-nodes-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">navigable seen nodes map</dfn>
+</p><p>A WebDriver <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-36">session</a> has a <dfn id="dfn-navigable-seen-nodes-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">navigable seen nodes map</dfn>
 which is a <a href="#dfn-weak-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-weak-map-5">weak map</a> between a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#navigable" id="ref-for-index-term-navigable-2">navigable</a> and a set.
 
 </p><p>To <dfn id="dfn-get-a-node" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">get a node</dfn> given <var>session</var>,
@@ -7499,7 +7499,7 @@ variables</var> and <var>parameters</var> are:
    <code><a data-link-type="element" href="#dfn-input" class="internalDFN" id="ref-for-dfn-input-13">input</a></code> element in the <a href="#dfn-file-upload-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-file-upload-state-4">file upload state</a>, or false
    otherwise.
 
- </p></li><li><p>If <var>file</var> is false or the <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-37">session</a>'s
+ </p></li><li><p>If <var>file</var> is false or the <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-37">session</a>'s
   <a href="#dfn-strict-file-interactability" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-strict-file-interactability-4">strict file interactability</a>, is true run the following substeps:
   </p><ol>
    <li><p><a href="#dfn-scrolls-into-view" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-scrolls-into-view-6">Scroll into view</a> the <var>element</var>.
@@ -11158,7 +11158,7 @@ variables</var> and <var>parameters</var> are:
   </p></li><li><p><a href="#dfn-try" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-try-120">Try</a> to <a href="#dfn-handle-any-user-prompts" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-handle-any-user-prompts-50">handle any user prompts</a> with <var>session</var>.
 
  </p></li><li><p>Let <var>input state</var> be the result of <a href="#dfn-get-the-input-state" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-get-the-input-state-4">get the input state</a>
-  with <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-38">session</a> and <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-65">current top-level browsing context</a>.
+  with <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-38">session</a> and <a href="#dfn-current-top-level-browsing-context" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-current-top-level-browsing-context-65">current top-level browsing context</a>.
 
  </p></li><li><p>Let <var>actions options</var> be a new <a href="#dfn-actions-options" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-actions-options-6">actions options</a>
   with the <a href="#dfn-is-element-origin" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-is-element-origin-7">is element origin</a> steps set to <a href="#dfn-represents-a-web-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-represents-a-web-element-9">represents a web
@@ -12219,7 +12219,7 @@ The list is not exhaustive and might not be up to date.
 It is advisable that <a href="#dfn-remote-ends" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-remote-ends-80">remote ends</a>
 create a new profile when <a data-lt="new session" href="#dfn-new-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-new-sessions-18">creating a new session</a>.
 This prevents potentially sensitive session data
-from being accessible to new <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-39">sessions</a>,
+from being accessible to new <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-39">sessions</a>,
 ensuring both privacy and preventing state from bleeding through to the next session.
 </p></section>
 
@@ -12242,7 +12242,7 @@ ensuring both privacy and preventing state from bleeding through to the next ses
  in publicly consumed versions of the user agent.
 
 </p><p>To prevent arbitrary machines on the network
- from connecting and creating <a href="#dfn-sessions" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-sessions-40">sessions</a>,
+ from connecting and creating <a href="#dfn-webdriver-session" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-webdriver-session-40">sessions</a>,
  it is suggested that only connections from
  loopback devices are allowed by default.
 
@@ -13835,7 +13835,7 @@ This specification relies on several other underlying specifications.
     <span class="print-only">§14.</span></li><li>
       <a class="index-term" href="#dfn-serializing-to-string">serializeToString method</a> 
     <span class="print-only">§E.</span></li><li>
-      <a class="index-term" href="#dfn-sessions">session</a> 
+      <a class="index-term" href="#dfn-webdriver-session">session</a> 
     <span class="print-only">§8.</span></li><li>
       <a class="index-term" href="#dfn-session-configuration-flags">session configuration flags</a> 
     <span class="print-only">§8.</span></li><li>
@@ -16835,49 +16835,49 @@ This specification relies on several other underlying specifications.
       <a href="#ref-for-dfn-matching-capabilities-1" title="§ 7.2 Processing capabilities">§ 7.2 Processing capabilities</a> <a href="#ref-for-dfn-matching-capabilities-2" title="Reference 2">(2)</a> <a href="#ref-for-dfn-matching-capabilities-3" title="Reference 3">(3)</a> 
     </li>
   </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-sessions" aria-label="Links in this document to definition: session">
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-webdriver-session" aria-label="Links in this document to definition: session">
       <span class="caret"></span>
       <div>
-        <a class="self-link" href="#dfn-sessions" aria-label="Permalink for definition: session. Activate to close this dialog.">Permalink</a>
-         
+        <a class="self-link" href="#dfn-webdriver-session" aria-label="Permalink for definition: session. Activate to close this dialog.">Permalink</a>
+        <span class="marker dfn-exported" title="Definition can be referenced by other specifications">exported</span> 
         
       </div>
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-      <a href="#ref-for-dfn-sessions-1" title="§ 5. Nodes">§ 5. Nodes</a> 
+      <a href="#ref-for-dfn-webdriver-session-1" title="§ 5. Nodes">§ 5. Nodes</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-2" title="§ 6.3 Processing model">§ 6.3 Processing model</a> <a href="#ref-for-dfn-sessions-3" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-webdriver-session-2" title="§ 6.3 Processing model">§ 6.3 Processing model</a> <a href="#ref-for-dfn-webdriver-session-3" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-4" title="§ 6.6 Errors">§ 6.6 Errors</a> <a href="#ref-for-dfn-sessions-5" title="Reference 2">(2)</a> <a href="#ref-for-dfn-sessions-6" title="Reference 3">(3)</a> 
+      <a href="#ref-for-dfn-webdriver-session-4" title="§ 6.6 Errors">§ 6.6 Errors</a> <a href="#ref-for-dfn-webdriver-session-5" title="Reference 2">(2)</a> <a href="#ref-for-dfn-webdriver-session-6" title="Reference 3">(3)</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-7" title="§ 6.7 Extensions">§ 6.7 Extensions</a> 
+      <a href="#ref-for-dfn-webdriver-session-7" title="§ 6.7 Extensions">§ 6.7 Extensions</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-8" title="§ 7. Capabilities">§ 7. Capabilities</a> <a href="#ref-for-dfn-sessions-9" title="Reference 2">(2)</a> <a href="#ref-for-dfn-sessions-10" title="Reference 3">(3)</a> <a href="#ref-for-dfn-sessions-11" title="Reference 4">(4)</a> <a href="#ref-for-dfn-sessions-12" title="Reference 5">(5)</a> <a href="#ref-for-dfn-sessions-13" title="Reference 6">(6)</a> 
+      <a href="#ref-for-dfn-webdriver-session-8" title="§ 7. Capabilities">§ 7. Capabilities</a> <a href="#ref-for-dfn-webdriver-session-9" title="Reference 2">(2)</a> <a href="#ref-for-dfn-webdriver-session-10" title="Reference 3">(3)</a> <a href="#ref-for-dfn-webdriver-session-11" title="Reference 4">(4)</a> <a href="#ref-for-dfn-webdriver-session-12" title="Reference 5">(5)</a> <a href="#ref-for-dfn-webdriver-session-13" title="Reference 6">(6)</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-14" title="§ 8. Sessions">§ 8. Sessions</a> <a href="#ref-for-dfn-sessions-15" title="Reference 2">(2)</a> <a href="#ref-for-dfn-sessions-16" title="Reference 3">(3)</a> <a href="#ref-for-dfn-sessions-17" title="Reference 4">(4)</a> <a href="#ref-for-dfn-sessions-18" title="Reference 5">(5)</a> <a href="#ref-for-dfn-sessions-19" title="Reference 6">(6)</a> <a href="#ref-for-dfn-sessions-20" title="Reference 7">(7)</a> <a href="#ref-for-dfn-sessions-21" title="Reference 8">(8)</a> 
+      <a href="#ref-for-dfn-webdriver-session-14" title="§ 8. Sessions">§ 8. Sessions</a> <a href="#ref-for-dfn-webdriver-session-15" title="Reference 2">(2)</a> <a href="#ref-for-dfn-webdriver-session-16" title="Reference 3">(3)</a> <a href="#ref-for-dfn-webdriver-session-17" title="Reference 4">(4)</a> <a href="#ref-for-dfn-webdriver-session-18" title="Reference 5">(5)</a> <a href="#ref-for-dfn-webdriver-session-19" title="Reference 6">(6)</a> <a href="#ref-for-dfn-webdriver-session-20" title="Reference 7">(7)</a> <a href="#ref-for-dfn-webdriver-session-21" title="Reference 8">(8)</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-22" title="§ 8.1 Global State">§ 8.1 Global State</a> <a href="#ref-for-dfn-sessions-23" title="Reference 2">(2)</a> <a href="#ref-for-dfn-sessions-24" title="Reference 3">(3)</a> <a href="#ref-for-dfn-sessions-25" title="Reference 4">(4)</a> 
+      <a href="#ref-for-dfn-webdriver-session-22" title="§ 8.1 Global State">§ 8.1 Global State</a> <a href="#ref-for-dfn-webdriver-session-23" title="Reference 2">(2)</a> <a href="#ref-for-dfn-webdriver-session-24" title="Reference 3">(3)</a> <a href="#ref-for-dfn-webdriver-session-25" title="Reference 4">(4)</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-26" title="§ 8.2 New Session">§ 8.2 New Session</a> <a href="#ref-for-dfn-sessions-27" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-webdriver-session-26" title="§ 8.2 New Session">§ 8.2 New Session</a> <a href="#ref-for-dfn-webdriver-session-27" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-28" title="§ 9.1 Get Timeouts">§ 9.1 Get Timeouts</a> 
+      <a href="#ref-for-dfn-webdriver-session-28" title="§ 9.1 Get Timeouts">§ 9.1 Get Timeouts</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-29" title="§ 10. Navigation">§ 10. Navigation</a> 
+      <a href="#ref-for-dfn-webdriver-session-29" title="§ 10. Navigation">§ 10. Navigation</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-30" title="§ 10.1 Navigate To">§ 10.1 Navigate To</a> <a href="#ref-for-dfn-sessions-31" title="Reference 2">(2)</a> <a href="#ref-for-dfn-sessions-32" title="Reference 3">(3)</a> 
+      <a href="#ref-for-dfn-webdriver-session-30" title="§ 10.1 Navigate To">§ 10.1 Navigate To</a> <a href="#ref-for-dfn-webdriver-session-31" title="Reference 2">(2)</a> <a href="#ref-for-dfn-webdriver-session-32" title="Reference 3">(3)</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-33" title="§ 11.7 Switch To Parent Frame">§ 11.7 Switch To Parent Frame</a> 
+      <a href="#ref-for-dfn-webdriver-session-33" title="§ 11.7 Switch To Parent Frame">§ 11.7 Switch To Parent Frame</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-34" title="§ 12. Elements">§ 12. Elements</a> <a href="#ref-for-dfn-sessions-35" title="Reference 2">(2)</a> <a href="#ref-for-dfn-sessions-36" title="Reference 3">(3)</a> 
+      <a href="#ref-for-dfn-webdriver-session-34" title="§ 12. Elements">§ 12. Elements</a> <a href="#ref-for-dfn-webdriver-session-35" title="Reference 2">(2)</a> <a href="#ref-for-dfn-webdriver-session-36" title="Reference 3">(3)</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-37" title="§ 12.5.3 Element Send Keys">§ 12.5.3 Element Send Keys</a> 
+      <a href="#ref-for-dfn-webdriver-session-37" title="§ 12.5.3 Element Send Keys">§ 12.5.3 Element Send Keys</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-38" title="§ 15.8 Release Actions">§ 15.8 Release Actions</a> 
+      <a href="#ref-for-dfn-webdriver-session-38" title="§ 15.8 Release Actions">§ 15.8 Release Actions</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-39" title="§ A. Privacy">§ A. Privacy</a> 
+      <a href="#ref-for-dfn-webdriver-session-39" title="§ A. Privacy">§ A. Privacy</a> 
     </li><li>
-      <a href="#ref-for-dfn-sessions-40" title="§ B. Security">§ B. Security</a> 
+      <a href="#ref-for-dfn-webdriver-session-40" title="§ B. Security">§ B. Security</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-associated-session" aria-label="Links in this document to definition: associated session">
