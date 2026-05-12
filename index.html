@@ -1040,6 +1040,19 @@ the following steps:
   <td>/session/{<var>session id</var>}/print</td>
   <td><a>Print Page</a></td>
  </tr>
+
+<tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/accessibilityproperties</td>
+  <td><a>Get Accessibility Properties</a></td>
+</tr>
+
+<tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/accessibility/properties/{<var>accessibility id</var>}</td>
+  <td><a>Get Accessibility Properties For Accessible Object</a></td>
+</tr>
+
 </table>
 </section> <!-- /Endpoints -->
 
@@ -1194,6 +1207,14 @@ the following steps:
  </tr>
 
  <tr>
+  <td><dfn>no such accessible</dfn>
+  <td>404
+  <td><code>no such accessible</code>
+  <td>An accessibility node could not be located on the page
+   using the given search parameters.
+ </tr>
+
+ <tr>
   <td><dfn>no such alert</dfn>
   <td>404
   <td><code>no such alert</code>
@@ -1253,6 +1274,14 @@ the following steps:
   <td>500
   <td><code>session not created</code>
   <td>A new <a>session</a> could not be created.
+ </tr>
+
+ <tr>
+  <td><dfn>stale accessible reference</dfn>
+  <td>404
+  <td><code>stale accessible reference</code>
+  <td>A <a>command</a> failed because
+   the referenced <a>accessible</a> is no available.
  </tr>
 
  <tr>
@@ -6028,6 +6057,43 @@ variables</var> and <var>parameters</var> are:
       <li><p>Return <a>success</a> with data <var>label</var>.
     </ol>
 </section> <!-- /Get Element Computed Label -->
+
+<section>
+  <h4><dfn>Get Accessibility Properties</dfn></h4>
+
+  <table class="simple jsoncommand">
+    <tr>
+      <th>HTTP Method</th>
+      <th>URI Template</th>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/accessibilityproperties</td>
+    </tr>
+  </table>
+
+  <p>The <a>remote end steps</a>, given <var>session</var>, <var>URL
+variables</var> and <var>parameters</var> are:
+
+ <ol>
+    <li><p>If <var>session</var>&apos;s <a>current browsing context</a> is <a>no longer open</a>,
+        return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+    <li><p><a>Try</a> to <a>handle any user prompts</a>
+     with <var>session</var>.
+
+    <li><p>Let <var>element</var> be the result
+        of <a>trying</a> to <a>get a known element</a>
+        with <var>URL variables</var>["<code>element id</code>"].
+
+    <li><p>Let <var>accessible</var> be the <a>accessible object</a> that corrosponds to this element in the <a>accessibility tree</a>.
+
+    <li><p>Let <var>properties</var> be the result of computing the <a>accessibility properties</a> of <var>accessible</var>.
+
+
+    <li><p>Return <a>success</a> with data <var>properties</var>.
+  </ol>
+</section> <!-- /Get Element Accessibility Properties -->
 </section> <!-- /State -->
 
 <section>
@@ -11117,6 +11183,68 @@ variables</var> and <var>parameters</var> are:
 </section> <!-- /Screen capture -->
 
 <section>
+<h2>Accessibility</h2>
+
+<p> An <dfn>accessibility ID</dfn> is a string value representing a handle to an <a>accessible object</a> in a specific WebDriver session.
+
+<p> <dfn>Accessibility properties</dfn> is a JSON <a>Object</a> that contains the relevant <a>WAI-ARIA states and properties</a> of an <a>accessible object</a>, as well as the following properties:
+
+  <dl>
+   <dt>"<code>accessibilityId</code>"
+   <dd>The <a>accessibility ID</a> of this <a>accessible object</a>.
+
+   <dt>"<code>parent</code>"
+   <dd>The <a>accessibility ID</a> of the parent of this <a>accessible object</a> in the <a>accessibility tree</a>, including <a>ignored accessible objects</a>.
+
+   <dt>"<code>children</code>"
+   <dd>A list of <a>accessibility IDs</a> representing the children of this <a>accessible object</a> in the <a>accessibility tree</a>, including <a>ignored accessible objects</a>.
+  </dl>
+
+<p> <dfn>Ignored accessible objects</dfn> are accessible objects that represent <a>elements which are excluded from the accessibility tree</a>. The <a>accessibility properties</a> of these <a>accessible objects</a> must only have the keys <va>accessibilityID</var>, <va>parent</var>, <va>children</var> and <va>role</var> set to <code>"none"</code>.
+
+<p>To <dfn>get a known accessible object</dfn> given <var>session</var> and <var>reference</var>:
+
+<ol class="algorithm">
+  <li><p>TO DO: Should we create a parallel to the specification of <a>get a known element</a>? Do we need to make a parallel structure to <a>browsing context group node map</a> and <a>node id map</a>?
+</ol>
+
+<section>
+<h3><dfn>Get Accessibility Properties for Accessible Object</dfn></h3>
+
+  <table class="simple jsoncommand">
+    <tr>
+      <th>HTTP Method</th>
+      <th>URI Template</th>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>/session/{<var>session id</var>}/accessibiltiy/properties/{<var>accessibility id</var>}/</td>
+    </tr>
+  </table>
+
+  <p>The <a>remote end steps</a>, given <var>session</var>, <var>URL
+variables</var> and <var>parameters</var> are:
+
+ <ol>
+    <li><p>If <var>session</var>&apos;s <a>current browsing context</a> is <a>no longer open</a>,
+        return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+    <li><p><a>Try</a> to <a>handle any user prompts</a>
+     with <var>session</var>.
+
+    <li><p>Let <var>node</var> be the result
+        of <a>trying</a> to <a>get a known accessible object</a>
+        with <var>URL variables</var>["<code>accessibility id</code>"].
+
+    <li><p>Let <var>properties</var> be the result of computing the <a>accessibility properties</a> of <var>node</var>.
+
+    <li><p>Return <a>success</a> with data <var>properties</var>.
+  </ol>
+
+</section> <!-- /Get Accessibility Properties for Accessible Object -->
+</section> <!-- /Accessibility -->
+
+<section>
 <h2>Print</h2>
 
 <p>The print functions are a mechanism to render the document to a
@@ -11602,7 +11730,11 @@ to automatically sort each list alphabetically.
    <p>The following terms are defined
      in the Accessible Rich Internet Applications (WAI-ARIA) 1.2 specification: [[wai-aria-1.2]]
      <ul>
+       <li><dfn><a href="https://w3c.github.io/aria/#dfn-accessible-object"></a>accessible object</dfn>
+       <li><dfn><a href="https://w3c.github.io/aria/#accessibility_tree">accessibility tree</a></dfn>
+       <li><dfn><a href="https://w3c.github.io/aria/#tree_exclusion">elements which are excluded from the accessibility tree</a></dfn>
        <li><dfn><a href="https://w3c.github.io/aria/#introroles">WAI-ARIA role</a></dfn>
+       <li><dfn><a href="https://w3c.github.io/aria/#introstates">WAI-ARIA states and properties</a></dfn>
      </ul>
 
   <dd>
