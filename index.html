@@ -8102,37 +8102,36 @@ An <a>input state</a> has the following items:
 </ul>
 
 <p>To <dfn>get the input state</dfn> given <var>session</var>
-and <var>browsing context</var>:
+and <var>top-level traversable</var>:
 
 <ol class="algorithm">
- <li><p>Assert: <var>browsing context</var> is a <a>top-level browsing
+ <li><p>Assert: <var>top-level traversable</var> is a <a>top-level browsing
  context</a>.
 
  <li><p>Let <var>input state map</var>
  be <var>session</var>&apos;s <a>browsing context input state map</a>.
 
  <li><p>If <var>input state map</var> does not
- [=map/exist|contain=] <var>browsing context</var>, set <var>input
- state map</var>[<var>browsing context</var>] to <a>create an input
+ [=map/exist|contain=] <var>top-level traversable</var>, set <var>input
+ state map</var>[<var>top-level traversable</var>] to <a>create an input
  state</a>.
 
- <li><p>Return <var>input state map</var>[<var>browsing
- context</var>].
+ <li><p>Return <var>input state map</var>[<var>top-level traversable</var>].
 </ol>
 
 <p>To <dfn>reset the input state</dfn> given <var>session</var>
-and <var>browsing context</var>:
+and <var>top-level traversable</var>:
 
 <ol class="algorithm">
- <li><p>Assert: <var>browsing context</var> is a <a>top-level browsing
+ <li><p>Assert: <var>top-level traversable</var> is a <a>top-level browsing
  context</a>.
 
  <li><p>Let <var>input state map</var>
  be <var>session</var>&apos;s <a>browsing context input state map</a>.
 
- <li><p>If <var>input state map</var>[<var>browsing context</var>]
- [=map/exists=], then [=remove=] <var>input state map</var>[<var>browsing
- context</var>].
+ <li><p>If <var>input state map</var>[<var>top-level
+ traversable</var>] [=map/exists=], then [=remove=]
+ <var>input state map</var>[<var>top-level traversable</var>].
 </ol>
 
 <p>To <dfn>create an input state</dfn>:
@@ -8295,7 +8294,7 @@ and <var>subtype</var>:
  content observable effects that must be consistent across
  implementations. To accommodate this, the specification requires
  that <a>remote ends</a> <dfn>perform implementation-specific action
- dispatch steps</dfn> on a <a>browsing context</a> <var>context</var>,
+ dispatch steps</dfn> on a <a>navigable</a> <var>context</var>,
  and a <var>list of events</var> and their properties. These steps
  must be equivalent to performing the given input device manipulations
  on <var>context</var>, such that trusted events corresponding to the
@@ -8350,10 +8349,16 @@ from a machine utilisation perspective.
 
 <p>To <dfn>get coordinates relative to an origin</dfn>
 given <var>source</var>, <var>x offset</var>, <var>y offset</var>,
-<var>origin</var>, <var>browsing context</var>, and <var>actions
+<var>origin</var>, <var>target navigable</var>, and <var>actions
 options</var>:
 
 <ol class="algorithm">
+ <li><p>Let <a>top-level traversable</a> be <var>target
+ navigable</var>&pos;s [=navigable/top-level traversable=].
+
+ <li><p>Let <var>origin navigable</var> be <var>target
+ navigable</var>.
+
  <li><p>Run the substeps of the first matching value
   of <var>origin</var>
   <dl>
@@ -8380,12 +8385,36 @@ options</var>:
     </ol>
    </dd>
 
+   <dt>An <a>Object</a> where <a>getting a property</a>
+       named "<code>type</code>" results in "<code>viewport</code>"
+   <dd>
+    <ol>
+     <li><p>Let <var>origin navigable id</var> be the result
+     of <a>getting a property</a> named "<code>context</code>"
+     from <var>origin</var>.
+
+     <li><p>Set <var>origin navigable</var> to the result of
+     <a>trying</a> to [=get a navigable=] with
+     <var>origin navigable</var>.
+
+     <li><p>If <var>origin navigable</var> is <a>no longer open</a>,
+     return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+     <li><p>If <var>origin navigable</var>&pos;s [=navigable/top-level
+     traversable=] is not equal to <var>top-level traversable</var>,
+     the return <a>error</a> with <a>error code</a> <a>no such frame</a>.
+
+     <li><p>Let <var>x</var> equal <var>x offset</var> and
+     <var>y</var> equal <var>y offset</var>.
+    </ol>
+   </dd>
+
    <dt>Otherwise</dt>
    <dd>
     <ol>
      <li><p>Let <var>element</var> be the result of <a>trying</a> to
      run <var>actions options</var>&apos; <a>get element origin</a>
-     steps with <var>origin</var> and <var>browsing context</var>.
+     steps with <var>origin</var> and <var>target navigable</var>.
 
      <li><p>If <var>element</var> is null, return <a>error</a> with <a>error
      code</a> <a>no such element</a>.
@@ -8401,7 +8430,41 @@ options</var>:
    </dd>
   </dl>
 
+ <li><p>Let (<var>x</var>, <var>y</var>) be <a>convert to top-level
+ traversable viewport coordinates</a> with <var>origin
+ navigable</var>, <var>x<var>, and <var>y</var>.
+
  <li><p>Return (<var>x</var>, <var>y</var>)
+</ol>
+
+<p>To <dfn>convert to top-level traversable viewport coordinates</dfn>
+given <var>origin navigable</var>, <var>x</var> and <var>y</var>:
+
+<ol class=algorithm>
+ <li><p>Let <var>navigable</var> be <var>origin navigable</var>.
+
+ <li><p>While <var>navigable</var> is not null:
+
+  <ol>
+
+   <li><p>Let <var>container</var> to the [=navigable/container=] of <var>navigable</var>.
+
+   <li><p>If <var>container</var> is null then break.
+
+   <li><p>Let <var>rectangle</var> be the first <a>element</a> of the {{DOMRect}} sequence
+   returned by calling {{Element/getClientRects()}} on <a><var>element</var></a>.
+
+   Note: this is phrased as calling a DOM method, but should be
+   interpreted as invoking the underlying algorithm used to implement that DOM method.
+
+   <li><p>Set <var>x</var> to <var>x</var> + <var>rectangle</var>&apos;s <a>x coordinate</a>.
+
+   <li><p>Set <var>y</var> to <var>y</var> + <var>rectangle</var>&apos;s <a>y coordinate</a>.
+
+   <li><p>Set <var>navigable</var> to the the [=navigable/parent=] of <var>navigable</var>.
+  </ol>
+
+ <li><p>Return the <a>tuple</a> (<var>x</var>, <var>y</var>).
 </ol>
 
 <p>To <dfn>extract an action sequence</dfn> given
@@ -8982,9 +9045,10 @@ item</var>, <var>action</var>, and <var>actions options</var>:</p>
   <var>origin</var> equal "<code>viewport</code>".
 
  <li><p>If <var>origin</var> is not equal to "<code>viewport</code>"
-  or "<code>pointer</code>", and <var>actions options</var> <a>is
-  element origin</a> steps given <var>origin</var> return false,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  or "<code>pointer</code>", and the <var>actions options</var>
+  <a>is element origin</a> steps given <var>origin</var> return false,
+  return <a>error</a> with <a>error code</a> <a>invalid
+  argument</a>.
 
  <li><p>Set the <code>origin</code> property of <var>action</var>
   to <var>origin</var>.
@@ -9151,15 +9215,15 @@ item</var>, <var>action</var>, and <var>actions options</var>:</p>
 </ol>
 
 <p>To <dfn>dispatch actions</dfn> given <var>input
-state</var>, <var>actions by tick</var>, <var>browsing
-context</var>, and <var>actions options</var>:
+state</var>, <var>actions by tick</var>, <var>target navigable</var>,
+and <var>actions options</var>:
 
 <ol class=algorithm>
  <li><p><a>Wait for an action queue token</a> with <var>input state</var>.
 
  <li><p>Let <var>actions result</var> be the result of
   <a>dispatch actions inner</a> with <var>input state</var>, <var>actions by
-  tick</var>, <var>browsing context</var>, and <var>actions options</var>.
+  tick</var>, <var>target navigable</var>, and <var>actions options</var>.
 
  <li><p>Dequeue <var>input state</var>&apos;s <a>actions queue</a>.
   <p>Assert: this returns <var>token</var>
@@ -9168,23 +9232,20 @@ context</var>, and <var>actions options</var>:
 </ol>
 
 <p>To <dfn>dispatch actions inner</dfn> given <var>input
-state</var>, <var>actions by tick</var>, <var>browsing
-context</var>, and <var>actions options</var>:
+state</var>, <var>actions by tick</var>, <var>target navigable</var>,
+and <var>actions options</var>:
 
 <ol class=algorithm>
  <li><p>For each item <var>tick actions</var> in
   <var>actions by tick</var>:
 
   <ol>
-   <li>If <var>browsing context</var> is <a>no longer open</a>, return
-    <a>error</a> with <a>error code</a> <a>no such window</a>.
-
    <li><p>Let <var>tick duration</var> be the result of <a>computing
     the tick duration</a> with argument <var>tick actions</var>.
 
    <li><p><a>Try</a> to <a>dispatch tick actions</a> with
    <var>input state</var>, <var>tick actions</var>, <var>tick duration</var>,
-   <var>browsing context</var>, and <var>actions options</var>.
+   <var>target navigable</var>, and <var>actions options</var>.
 
    <li><p>Wait until the following conditions are all met:
 
@@ -9235,12 +9296,15 @@ context</var>, and <var>actions options</var>:
 
 <p>To <dfn>dispatch tick actions</dfn> given <var>input
  state</var>, <var>tick actions</var>, <var>tick duration</var>,
- <var>browsing context</var>, and <var>actions options</var>:
+ <var>target navigable</var>, and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>For each <var>action object</var> in <var>tick actions</var>:
 
   <ol>
+   <li>If <var>target navigable</var> is <a>no longer open</a>, return
+    <a>error</a> with <a>error code</a> <a>no such window</a>.
+
    <li><p>Let <var>input id</var> be equal to the value
     of <var>action object</var>&apos;s id property.
 
@@ -9257,6 +9321,9 @@ context</var>, and <var>actions options</var>:
 
    <li><p>Let <var>subtype</var> be <var>action
    object</var>&apos;s subtype.
+
+   <li><p>Let <var>top-level traversable</var> be <var>target
+   navigable</var>&apos;s <a>top-level traversable</a>.
 
    <li><p>Let <var>algorithm</var> be the value of the column
     <i>dispatch action algorithm</i> from the following table where the
@@ -9280,8 +9347,9 @@ context</var>, and <var>actions options</var>:
 
    <li><a>Try</a> to run <var>algorithm</var> with arguments
     <var>action object</var>, <var>source</var>, <var>global key
-    state</var>, <var>tick duration</var>, <var>browsing
-    context</var>, and <var>actions options</var>.
+    state</var>, <var>tick duration</var>, <var>top-level
+    traversable</var> , <var>target navigable</var>, and <var>actions
+    options</var>.
 
    <li><p>If <var>subtype</var> is "<code>keyDown</code>", append
     a copy of <var>action object</var> with the <var>subtype</var>
@@ -9299,7 +9367,7 @@ context</var>, and <var>actions options</var>:
 </ol>
 
 <p>To <dfn>dispatch a list of actions</dfn> given <var>input
-state</var>, <var>actions</var>, <var>browsing context</var>,
+state</var>, <var>actions</var>, <var>target navigable</var>,
 and <var>actions options</var>:
 
 <aside class=note>
@@ -9315,7 +9383,7 @@ and <var>actions options</var>:
  actions</var>».
 
  <li><p>Return the result of <a>dispatch actions</a> with <var>input
- state</var>, <var>actions by tick</var>, <var>browsing context</var>,
+ state</var>, <var>actions by tick</var>, <var>target navigable</var>,
  and <var>actions options</var>.
 </ol>
 
@@ -9325,7 +9393,8 @@ and <var>actions options</var>:
 <p>To <dfn>dispatch a pause action</dfn> given <var>action
 object</var>, <var>source</var>, <var>global key
 state</var>, <var>tick duration</var>,
-<var>browsing context</var>, and <var>actions options</var>:
+<var>top-level traversable</var>, <var>target navigable</var>,
+and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
@@ -9596,8 +9665,9 @@ state</var>, <var>tick duration</var>,
 </table>
 
 <p>To <dfn>dispatch a keyDown action</dfn> given <var>action
-object</var>, <var>source</var>, <var>global key state</var>, <var>tick
-duration</var>, <var>browsing context</var>, and <var>actions options</var>:
+object</var>, <var>source</var>, <var>global key state</var>,
+<var>tick duration</var>, <var>top-level traversable</var>,
+<var>target navigable</var>, and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>raw key</var> be equal to the
@@ -9638,7 +9708,7 @@ duration</var>, <var>browsing context</var>, and <var>actions options</var>:
  property.
 
  <li><p><a>Perform implementation-specific action dispatch steps</a>
-  on <var>browsing context</var> equivalent to pressing a key on the
+  on <var>top-level traversable</var> equivalent to pressing a key on the
   keyboard in accordance with the requirements of [[UI-EVENTS]], and
   producing the following events, as appropriate, with the specified
   properties.  This will always produce events including at least
@@ -9698,8 +9768,8 @@ duration</var>, <var>browsing context</var>, and <var>actions options</var>:
 
 <p>To <dfn>dispatch a keyUp action</dfn> given, <var>action
 object</var>, <var>source</var>, <var>global key state</var>,
-<var>tick duration</var>, <var>browsing context</var>,
-and <var>actions options</var>:
+<var>tick duration</var>, <var>top-level traversable</var>,
+<var>target navigable</var>, and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>raw key</var> be equal to
@@ -9740,7 +9810,7 @@ and <var>actions options</var>:
  from <var>sources</var>&apos;s <code>pressed</code> property.
 
  <li><p><a>Perform implementation-specific action dispatch steps</a>
-  on <var>browsing context</var> equivalent to releasing a key on the
+  on <var>top-level traversable</var> equivalent to releasing a key on the
   keyboard in accordance with the requirements of [[UI-EVENTS]], and
   producing at least the following events with the specified
   properties:
@@ -9776,8 +9846,8 @@ and <var>actions options</var>:
 
 <p>To <dfn>dispatch a pointerDown action</dfn> given
  <var>action object</var>, <var>source</var>, <var>global key
- state</var>, <var>tick duration</var>, <var>browsing context</var>,
- and <var>actions options</var>:
+ state</var>, <var>tick duration</var>, <var>top-level traversable</var>,
+ <var>target navigable</var>,  and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>pointerType</var> be equal to
@@ -9827,7 +9897,7 @@ and <var>actions options</var>:
   <code>azimuthAngle</code> property.
 
  <li><p><a>Perform implementation-specific action dispatch steps</a>
-  on <var>browsing context</var> equivalent to pressing the button
+  on <var>top-level traversable</var> equivalent to pressing the button
   numbered <var>button</var> on the pointer with pointerId equal
   to <var>source</var>&apos;s pointerId, having
   type <var>pointerType</var> at viewport x coordinate <var>x</var>,
@@ -9852,8 +9922,8 @@ and <var>actions options</var>:
 
 <p>To <dfn>dispatch a pointerUp action</dfn> given, <var>action
 object</var>, <var>source</var>, <var>global key
-state</var>, <var>tick duration</var>, <var>browsing context</var>,
-and <var>actions options</var>:
+state</var>, <var>tick duration</var>, <var>top-level traversable</var>,
+<var>target navigable</var>, and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>pointerType</var> be equal to
@@ -9878,7 +9948,7 @@ and <var>actions options</var>:
   property.
 
  <li><p><a>Perform implementation-specific action dispatch steps</a>
-  on <var>browsing context</var> equivalent to releasing the button
+  on <var>top-level traversable</var> equivalent to releasing the button
   numbered <var>button</var> on the pointer with pointerId equal
   to <var>input source</var>&apos;s pointerId, having
   type <var>pointerType</var> at viewport x coordinate <var>x</var>,
@@ -9901,8 +9971,8 @@ and <var>actions options</var>:
 
 <p>To <dfn>dispatch a pointerMove action</dfn> given <var>action
 object</var>, <var>source</var>, <var>global key state</var>,
-<var>tick duration</var>, <var>browsing context</var>,
-and <var>actions options</var>:
+<var>tick duration</var>, <var>top-level traversable</var>,
+<var>target navigable</var>, and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>x offset</var> be equal to the <code>x</code>
@@ -9917,7 +9987,7 @@ and <var>actions options</var>:
  <li><p>Let (<var>x</var>, <var>y</var>) be the result
   of <a>trying</a> to <a>get coordinates relative to an origin</a>
   with <var>source</var>, <var>x offset</var>, <var>y offset</var>,
-  <var>origin</var>, <var>browsing context</var>, and <var>actions
+  <var>origin</var>, <var>target navigable</var>, and <var>actions
   options</var>.
 
  <li><p>If <var>x</var> is less than 0 or greater than the width of
@@ -10026,7 +10096,7 @@ and <var>azimuthAngle</var>:
     state&apos;s <code>buttons</code> property.
 
    <li><p><a>Perform implementation-specific action dispatch steps</a>
-    on <var>browsing context</var> equivalent to moving the pointer
+    on <var>top-level traversable</var> equivalent to moving the pointer
     with pointerId equal to <var>input source</var>&apos;s pointerId,
     having type <var>pointerType</var> from viewport x
     coordinate <var>current x</var>, viewport y
@@ -10092,12 +10162,12 @@ and <var>azimuthAngle</var>:
 
 <p>To <dfn>dispatch a pointerCancel action</dfn> given <var>action
 object</var>, <var>source</var>, <var>global key state</var>,
-<var>tick duration</var>, <var>browsing context</var>,
-and <var>actions options</var>:
+<var>tick duration</var>, <var>top-level traversable</var>,
+<var>target navigable</var>, and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p><a>Perform implementation-specific action dispatch steps</a>
-  on <var>browsing context</var> equivalent to cancelling the any
+  on <var>top-level traversable</var> equivalent to cancelling the any
   action of the pointer with pointerId equal to <var>source</var>&apos;s
   pointerId item. having type <var>pointerType</var>, in accordance
   with the requirements of [[UI-EVENTS]] and [[POINTER-EVENTS]].
@@ -10112,8 +10182,8 @@ and <var>actions options</var>:
 
 <p>To <dfn>dispatch a scroll action</dfn> given <var>action
 object</var>, <var>source</var>, <var>global key state</var>,
-<var>tick duration</var>, <var>browsing context</var>,
-and <var>actions options</var>:
+<var>tick duration</var>, <var>top-level traversable</var>,
+<var>target navigable</var>, and <var>actions options</var>:
 
 <ol class="algorithm">
  <li><p>Let <var>x offset</var> be equal to the <code>x</code>
@@ -10128,7 +10198,7 @@ and <var>actions options</var>:
  <li><p>Let (<var>x</var>, <var>y</var>) be the result
   of <a>trying</a> to <a>get coordinates relative to an origin</a>
   with <var>source</var>, <var>x offset</var>, <var>y offset</var>,
-  <var>origin</var>, <var>browsing context</var>, and <var>actions
+  <var>origin</var>, <var>target navigable</var>, and <var>actions
   options</var>.
 
  <li><p>If <var>x</var> is less than 0 or greater than the width of
@@ -10207,7 +10277,7 @@ and <var>actions options</var>:
 
   <ol>
    <li><p><a>Perform implementation-specific action dispatch steps</a>
-    on <var>browsing context</var> equivalent to wheel scroll at
+    on <var>top-level traversable</var> equivalent to wheel scroll at
     viewport x coordinate <var>x</var>, viewport y
     coordinate <var>y</var>, deltaX value <var>delta x</var>, deltaY
     value <var>delta y</var>, in accordance with the requirements of
