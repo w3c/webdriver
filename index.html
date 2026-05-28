@@ -4496,27 +4496,43 @@ and <var>element</var> is:
  or if it is not <a>connected</a>.
 
 <p>To <dfn data-lt="scrolls into view|scrolled into view">scroll into view</dfn>
- an <var><a>element</a></var>
- perform the following steps
- only if the element is not already <a>in view</a>:
+ a <var><a>node</a></var>
+ given optional arguments <var>onlyIfNecessary</var> (default true),
+ <var>behavior</var> (default "<code>instant</code>"),
+ <var>block</var> (default "<code>end</code>")
+ and <var>inline</var> (default "<code>nearest</code>"):
 
 <ol>
- <li><p>Let <var>options</var> be
-  the following <a><code>ScrollIntoViewOptions</code></a>:
+ <li><p>Let <var>target</var> be determined as follows:
 
-  <dl>
-   <dt>"<code>behavior</code>"
-   <dd>"<code>instant</code>"
+  <dl class=switch>
+   <dt><var>node</var> implements {{Element}}
+    and has an associated [=CSS/box=]
+   <dd>
+    <ol>
+     <li><p>Let <var>target</var> be <var>node</var>.
 
-   <dt><a>Logical scroll position "<code>block</code>"</a>
-   <dd>"<code>end</code>"
+     <li><p>If <var>onlyIfNecessary</var> is true
+      and <var>target</var> is <a>in view</a>, return.
+    </ol>
 
-   <dt><a>Logical scroll position "<code>inline</code>"</a>
-   <dd>"<code>nearest</code>"
+   <dt>Otherwise
+   <dd>
+    <ol>
+     <li><p>Let <var>target</var> be a new {{Range}} obtained by calling
+      {{Document/createRange()}} on <var>node</var>&apos;s [=Node/node document=]
+      and then invoking {{Range/selectNodeContents()}} on it with <var>node</var>
+      as argument.
+
+     <li><p>If <var>onlyIfNecessary</var> is true
+      and <var>target</var> is <a data-lt="range is in view">in view</a>, return.
+    </ol>
   </dl>
 
- <li><p>Run <a>Function.[[\Call]]</a>(<a>scrollIntoView</a>, <var>options</var>)
- with <var>element</var> as the this value.
+ <li><p><a>Scroll <var>target</var> into view</a>
+  with scroll behavior <var>behavior</var>,
+  block flow direction position <var>block</var>,
+  and inline base direction position <var>inline</var>.
 </ol>
 
 <p><dfn>Editable</dfn> <a>elements</a>
@@ -4715,6 +4731,46 @@ and <var>element</var> is:
 
  <li><p>Return the <a>elements from point</a>
   given the coordinates <var>center point</var>.
+</ol>
+
+<p>A <dfn>{{Range}} is in view</dfn>
+ if the first {{DOMRect}}
+ returned by calling {{Range/getClientRects()}} on it
+ overlaps the <a>viewport</a>.
+ It can be checked this way:
+
+<ol>
+ <li><p>Let <var>rectangles</var> be
+  the {{DOMRect}} sequence
+  returned by calling {{Range/getClientRects()}} on the {{Range}}.
+
+ <li><p>If <var>rectangles</var> has the length of 0, return false.
+
+ <li><p>Let <var>rectangle</var> be the first object in <var>rectangles</var>.
+
+ <li><p>Return true if all of the following conditions are true,
+  and false otherwise:
+  <ul>
+   <li><p><a>min</a>(<var>rectangle</var>&apos;s <a>x coordinate</a>,
+    <var>rectangle</var>&apos;s <a>x coordinate</a>
+    + <var>rectangle</var>&apos;s <a>width dimension</a>)
+    is less than <a>innerWidth</a>.
+
+   <li><p><a>max</a>(<var>rectangle</var>&apos;s <a>x coordinate</a>,
+    <var>rectangle</var>&apos;s <a>x coordinate</a>
+    + <var>rectangle</var>&apos;s <a>width dimension</a>)
+    is greater than 0.
+
+   <li><p><a>min</a>(<var>rectangle</var>&apos;s <a>y coordinate</a>,
+    <var>rectangle</var>&apos;s <a>y coordinate</a>
+    + <var>rectangle</var>&apos;s <a>height dimension</a>)
+    is less than <a>innerHeight</a>.
+
+   <li><p><a>max</a>(<var>rectangle</var>&apos;s <a>y coordinate</a>,
+    <var>rectangle</var>&apos;s <a>y coordinate</a>
+    + <var>rectangle</var>&apos;s <a>height dimension</a>)
+    is greater than 0.
+  </ul>
 </ol>
 </section> <!-- /Interactability -->
 
@@ -7895,6 +7951,10 @@ state</var>, <var>type</var> and optional <var>subtype</var>:
    a <a>tick</a>, or as a placeholder to indicate that an <a>input
    source</a> does nothing during a particular <a>tick</a>.</td>
  </tr>
+ <tr>
+  <td><dfn>scrollIntoView</dfn></td>
+  <td>Used to scroll a particular node into the viewport.</td>
+ </tr>
 </table>
 
 <p>To <dfn>create a null input source</dfn>, return a new <a>null input
@@ -7943,8 +8003,9 @@ source</a>.
  </tr>
 </table>
 
-<p>A <a>key input source</a> supports the same <a>pause</a> action
-as a <a>null input source</a> plus the following actions:
+<p>A <a>key input source</a> supports the same <a>pause</a>
+and <a>scrollIntoView</a> actions as a <a>null input source</a>
+plus the following actions:
 
 <table class=simple>
  <tr>
@@ -8012,8 +8073,9 @@ input source</a> with the items initalized to their default values.
  </tr>
 </table>
 
-<p>A <a>pointer input source</a> supports the same <a>pause</a> action as
- a <a>null input source</a> plus the following actions:
+<p>A <a>pointer input source</a> supports the same <a>pause</a>
+ and <a>scrollIntoView</a> actions as a <a>null input source</a>
+ plus the following actions:
 
 <table class=simple>
  <tr>
@@ -8058,8 +8120,8 @@ input source</a> with the items initalized to their default values.
 <p>A <dfn>wheel input source</dfn> is an <a>input source</a> that is
  associated with a wheel-type input device.  A <a>wheel input
  source</a> has no type specific items, and supports the
- same <a>pause</a> action as a <a>null input source</a> plus the
- following actions:
+ same <a>pause</a> and <a>scrollIntoView</a> actions as a <a>null
+ input source</a> plus the following actions:
 
  <table class=simple>
   <tr>
@@ -8507,13 +8569,13 @@ options</var>:
 
    <li><p>If <var>type</var> is "<code>none</code>"
     let <var>action</var> be the result of <a>trying</a> to <a>process
-    a null action</a> with parameters <var>id</var>, and
-    <var>action item</var>.
+    a null action</a> with parameters <var>id</var>,
+    <var>action item</var>, and <var>actions options</var>.
 
    <li><p>Otherwise, if <var>type</var> is "<code>key</code>"
     let <var>action</var> be the result of <a>trying</a> to <a>process
-    a key action</a> with parameters <var>id</var>, and
-    <var>action item</var>.
+    a key action</a> with parameters <var>id</var>,
+    <var>action item</var>, and <var>actions options</var>.
 
    <li><p>Otherwise, if <var>type</var> is "<code>pointer</code>"
     let <var>action</var> be the result of <a>trying</a> to <a>process
@@ -8583,7 +8645,7 @@ If <var>pointer type</var> is not <a>undefined</a>:
 
 <p>
 To <dfn>process a null action</dfn> given
-<var>id</var> and <var>action item</var>:
+<var>id</var>, <var>action item</var>, and <var>actions options</var>:
 
 <ol class="algorithm">
 <li><p>
@@ -8591,7 +8653,9 @@ Let <var>subtype</var> be the result of <a>getting a property</a>
 named "<code>type</code>" from <var>action item</var>.
 
 <li><p>
-If <var>subtype</var> is not "<code>pause</code>",
+If <var>subtype</var> is not one of the values
+"<code>pause</code>"
+or "<code>scrollIntoView</code>",
 return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
 <li><p>
@@ -8601,17 +8665,20 @@ Let <var>action</var> be an <a>action object</a> constructed with arguments
 and <var>subtype</var>.
 
 <li><p>
-Let <var>result</var> be the result
-of <a>trying</a> to <a>process a pause action</a>
+If <var>subtype</var> is "<code>pause</code>",
+return the result of <a>trying</a> to <a>process a pause action</a>
 with arguments <var>action item</var> and <var>action</var>.
 
 <li><p>
-Return <var>result</var>.
+If <var>subtype</var> is "<code>scrollIntoView</code>",
+return the result of <a>trying</a> to <a>process a scrollIntoView action</a>
+with arguments <var>action item</var>, <var>action</var>,
+and <var>actions options</var>.
 </ol>
 
 <p>
 To <dfn>process a key action</dfn> given
-<var>id</var> and <var>action item</var>:</p>
+<var>id</var>, <var>action item</var>, and <var>actions options</var>:</p>
 
 <ol class="algorithm">
 <li><p>
@@ -8622,7 +8689,8 @@ named "<code>type</code>" from <var>action item</var>.
 If <var>subtype</var> is not one of the values
 "<code>keyUp</code>",
 "<code>keyDown</code>",
-or "<code>pause</code>",
+"<code>pause</code>",
+or "<code>scrollIntoView</code>",
 return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
 <li><p>
@@ -8633,10 +8701,15 @@ and <var>subtype</var>.
 
 <li><p>
 If <var>subtype</var> is "<code>pause</code>",
-let <var>result</var> be the result
+return the result
 of <a>trying</a> to <a>process a pause action</a> with arguments
-<var>action item</var> and <var>action</var>,
-and return <var>result</var>.
+<var>action item</var> and <var>action</var>.
+
+<li><p>
+If <var>subtype</var> is "<code>scrollIntoView</code>",
+return the result
+of <a>trying</a> to <a>process a scrollIntoView action</a> with arguments
+<var>action item</var>, <var>action</var>, and <var>actions options</var>.
 
 <li><p> Let <var>key</var> be the result of <a>getting a property</a>
 named "<code>value</code>" from <var>action item</var>.
@@ -8669,7 +8742,8 @@ If <var>subtype</var> is not one of the values
 "<code>pointerUp</code>",
 "<code>pointerDown</code>",
 "<code>pointerMove</code>",
-or "<code>pointerCancel</code>",
+"<code>pointerCancel</code>",
+or "<code>scrollIntoView</code>",
 return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
 <li><p>
@@ -8680,10 +8754,17 @@ and <var>subtype</var>.
 
 <li><p>
 If <var>subtype</var> is "<code>pause</code>",
-let <var>result</var> be the result of <a>trying</a> to
+return the result of <a>trying</a> to
 <a>process a pause action</a> with arguments
 <var>action item</var>, <var>action</var>, and <var>actions
-options</var>, and return <var>result</var>.
+options</var>.
+
+<li><p>
+If <var>subtype</var> is "<code>scrollIntoView</code>",
+return the result of <a>trying</a> to
+<a>process a scrollIntoView action</a> with arguments
+<var>action item</var>, <var>action</var>, and <var>actions
+options</var>.
 
 <li><p>
 Set the <code>pointerType</code> property of <var>action</var>
@@ -8722,9 +8803,10 @@ of <a>getting a property</a> named "<code>type</code>"
 from <var>action item</var>.
 
 <li><p>
-If <var>subtype</var> is not the value
-"<code>pause</code>", or
+If <var>subtype</var> is not one of the values
+"<code>pause</code>",
 "<code>scroll</code>",
+or "<code>scrollIntoView</code>",
 return an <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
 <li><p>
@@ -8735,10 +8817,15 @@ and <var>subtype</var>.
 
 <li><p>
 If <var>subtype</var> is "<code>pause</code>",
-let <var>result</var> be the result of <a>trying</a> to
+return the result of <a>trying</a> to
 <a>process a pause action</a> with arguments
-<var>action item</var> and <var>action</var>,
-and return <var>result</var>.
+<var>action item</var> and <var>action</var>.
+
+<li><p>
+If <var>subtype</var> is "<code>scrollIntoView</code>",
+return the result of <a>trying</a> to
+<a>process a scrollIntoView action</a> with arguments
+<var>action item</var>, <var>action</var>, and <var>actions options</var>.
 
 <li><p>
 Let <var>duration</var> be the result of <a>getting a property</a>
@@ -8829,6 +8916,76 @@ and <var>action</var>:</p>
 
  <li><p>Set the <code>duration</code> property of <var>action</var>
  to <var>duration</var>.
+
+ <li><p>Return success with data <var>action</var>.
+</ol>
+
+<p>To <dfn>process a scrollIntoView action</dfn> given <var>action item</var>,
+<var>action</var>, and <var>actions options</var>:</p>
+
+<ol class="algorithm">
+ <li><p>Let <var>node</var> be the result of <a>getting the property</a>
+  "<code>node</code>" from <var>action item</var>.
+
+ <li><p>If <var>actions options</var>&apos; <a>is element origin</a> steps
+  given <var>node</var> return false, return <a>error</a> with
+  <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Set the <code>node</code> property of <var>action</var>
+  to <var>node</var>.
+
+ <li><p>Let <var>onlyIfNecessary</var> be the result of <a>getting the
+  property</a> "<code>onlyIfNecessary</code>" from <var>action item</var>.
+
+ <li><p>If <var>onlyIfNecessary</var> is <a>undefined</a>, let
+  <var>onlyIfNecessary</var> be true.
+
+ <li><p>If <var>onlyIfNecessary</var> is not a <a>boolean</a>, return
+  <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Set the <code>onlyIfNecessary</code> property of <var>action</var>
+  to <var>onlyIfNecessary</var>.
+
+ <li><p>Let <var>behavior</var> be the result of <a>getting the property</a>
+  "<code>behavior</code>" from <var>action item</var>.
+
+ <li><p>If <var>behavior</var> is <a>undefined</a>, let
+  <var>behavior</var> be "<code>instant</code>".
+
+ <li><p>If <var>behavior</var> is not one of the values
+  "<code>auto</code>", "<code>instant</code>" or "<code>smooth</code>", return <a>error</a>
+  with <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Set the <code>behavior</code> property of <var>action</var>
+  to <var>behavior</var>.
+
+ <li><p>Let <var>block</var> be the result of <a>getting the property</a>
+  "<code>block</code>" from <var>action item</var>.
+
+ <li><p>If <var>block</var> is <a>undefined</a>, let
+  <var>block</var> be "<code>end</code>".
+
+ <li><p>If <var>block</var> is not one of the values
+  "<code>start</code>", "<code>center</code>", "<code>end</code>",
+  or "<code>nearest</code>", return <a>error</a> with
+  <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Set the <code>block</code> property of <var>action</var>
+  to <var>block</var>.
+
+ <li><p>Let <var>inline</var> be the result of <a>getting the property</a>
+  "<code>inline</code>" from <var>action item</var>.
+
+ <li><p>If <var>inline</var> is <a>undefined</a>, let
+  <var>inline</var> be "<code>nearest</code>".
+
+ <li><p>If <var>inline</var> is not one of the values
+  "<code>start</code>", "<code>center</code>", "<code>end</code>",
+  or "<code>nearest</code>", return <a>error</a> with
+  <a>error code</a> <a>invalid argument</a>.
+
+ <li><p>Set the <code>inline</code> property of <var>action</var>
+  to <var>inline</var>.
 
  <li><p>Return success with data <var>action</var>.
 </ol>
@@ -9266,16 +9423,20 @@ context</var>, and <var>actions options</var>:
 <table class=simple>
 <tr><th>source type             <th>subtype                             <th>Dispatch action algorithm
 <tr><td>"<code>none</code>"     <td>"<code>pause</code>"                <td><a>Dispatch a pause action</a>
+<tr><td>"<code>none</code>"     <td>"<code>scrollIntoView</code>"       <td><a>Dispatch a scrollIntoView action</a>
 <tr><td>"<code>key</code>"      <td>"<code>pause</code>"                <td><a>Dispatch a pause action</a>
 <tr><td>"<code>key</code>"      <td>"<code>keyDown</code>"              <td><a>Dispatch a keyDown action</a>
 <tr><td>"<code>key</code>"      <td>"<code>keyUp</code>"                <td><a>Dispatch a keyUp action</a>
+<tr><td>"<code>key</code>"      <td>"<code>scrollIntoView</code>"       <td><a>Dispatch a scrollIntoView action</a>
 <tr><td>"<code>pointer</code>"  <td>"<code>pause</code>"                <td><a>Dispatch a pause action</a>
 <tr><td>"<code>pointer</code>"  <td>"<code>pointerDown</code>"          <td><a>Dispatch a pointerDown action</a>
 <tr><td>"<code>pointer</code>"  <td>"<code>pointerUp</code>"            <td><a>Dispatch a pointerUp action</a>
 <tr><td>"<code>pointer</code>"  <td>"<code>pointerMove</code>"          <td><a>Dispatch a pointerMove action</a>
 <tr><td>"<code>pointer</code>"  <td>"<code>pointerCancel</code>"        <td><a>Dispatch a pointerCancel action</a>
+<tr><td>"<code>pointer</code>"  <td>"<code>scrollIntoView</code>"       <td><a>Dispatch a scrollIntoView action</a>
 <tr><td>"<code>wheel</code>"    <td>"<code>pause</code>"                <td><a>Dispatch a pause action</a>
 <tr><td>"<code>wheel</code>"    <td>"<code>scroll</code>"               <td><a>Dispatch a scroll action</a>
+<tr><td>"<code>wheel</code>"    <td>"<code>scrollIntoView</code>"       <td><a>Dispatch a scrollIntoView action</a>
 </table>
 
    <li><a>Try</a> to run <var>algorithm</var> with arguments
@@ -9328,6 +9489,39 @@ state</var>, <var>tick duration</var>,
 <var>browsing context</var>, and <var>actions options</var>:
 
 <ol class="algorithm">
+ <li><p>Return <a>success</a> with data <a><code>null</code></a>.
+</ol>
+
+<p>To <dfn>dispatch a scrollIntoView action</dfn> given <var>action
+object</var>, <var>source</var>, <var>global key state</var>,
+<var>tick duration</var>, <var>browsing context</var>,
+and <var>actions options</var>:
+
+<ol class="algorithm">
+ <li><p>Let <var>node</var> be the result of <a>trying</a> to run
+  <var>actions options</var>&apos; <a>get element origin</a> steps with
+  the <code>node</code> property of <var>action object</var>
+  and <var>browsing context</var>.
+
+ <li><p>If <var>node</var> is null, return <a>error</a> with
+  <a>error code</a> <a>no such element</a>.
+
+ <li><p>Let <var>onlyIfNecessary</var> be the <code>onlyIfNecessary</code>
+  property of <var>action object</var>.
+
+ <li><p>Let <var>behavior</var> be the <code>behavior</code>
+  property of <var>action object</var>.
+
+ <li><p>Let <var>block</var> be the <code>block</code>
+  property of <var>action object</var>.
+
+ <li><p>Let <var>inline</var> be the <code>inline</code>
+  property of <var>action object</var>.
+
+ <li><p><a>Scroll into view</a> <var>node</var> with
+  <var>onlyIfNecessary</var>, <var>behavior</var>, <var>block</var>,
+  and <var>inline</var>.
+
  <li><p>Return <a>success</a> with data <a><code>null</code></a>.
 </ol>
 </section> <!-- /General actions -->
@@ -11932,10 +12126,11 @@ to automatically sort each list alphabetically.
      sometimes here referred to as the <i>viewport</i>.
    </ul>
 
- <dd>The following properties are defined in
-  the CSS Display Module Level 3 specification: [[CSS3-DISPLAY]]
+ <dd>The following terms are defined in
+  the CSS Display Module Level 4 specification: [[CSS-DISPLAY-4]]
   <ul>
-   <!-- Display property --> <li>The <dfn><a href=https://drafts.csswg.org/css-display/#the-display-properties><code>display</code></a></dfn> property
+   <!-- Display property --> <li>The <dfn><a href=https://drafts.csswg.org/css-display-4/#the-display-properties><code>display</code></a></dfn> property
+   <!-- Box --> <li><dfn><a href=https://drafts.csswg.org/css-display-4/#box><code>box</code></a></dfn>
   </ul>
 
  <dd>The following terms are defined in
@@ -11972,10 +12167,7 @@ to automatically sort each list alphabetically.
    <!-- screenY --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-screeny>screenY</a></dfn>
    <!-- scrollX --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-window-scrollx">scrollX</a></dfn>
    <!-- scrollY --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-window-scrolly">scrollY</a></dfn>
-   <!-- scrollIntoView --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-element-scrollintoview>scrollIntoView</a></dfn>
-   <!-- ScrollIntoViewOptions --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dictdef-scrollintoviewoptions><code>ScrollIntoViewOptions</code></a></dfn>
-   <!-- ScrollIntoViewOptions block --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-scrollintoviewoptions-block>Logical scroll position "<code>block</code>"</a></dfn>
-   <!-- ScrollIntoViewOptions inline --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-scrollintoviewoptions-inline>Logical scroll position "<code>inline</code>"</a></dfn>
+   <!-- scroll target into view --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#scroll-a-target-into-view>scroll target into view</a></dfn>
    <!-- visual viewport --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#visual-viewport">visual viewport</a></dfn>
   </ul>
 
