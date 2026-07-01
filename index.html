@@ -4591,13 +4591,16 @@ and <var>element</var> is:
  is the origin position of the rectangle
  that is the intersection between
  the element&apos;s first {{DOMRect}} of {{Element/getClientRects()}}
+ with non-zero width and height (or the first {{DOMRect}} if none have non-zero dimensions)
  and the <a>initial viewport</a>.
  It can be calculated this way:
 
 <ol>
  <li><p>Let <var>rectangle</var> be
-  the first object of the {{DOMRect}} collection
-  returned by calling {{Element/getClientRects()}} on <a><var>element</var></a>.
+  the first object in the {{DOMRect}} collection
+  returned by calling {{Element/getClientRects()}} on <a><var>element</var></a>
+  that has non-zero width and height,
+  or the first object in the collection if no such object is found.
 
  <li><p>Let <var>left</var> be
   <a>max</a>(0, <a>min</a>(<a>x coordinate</a>,
