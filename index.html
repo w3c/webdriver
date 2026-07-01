@@ -4591,14 +4591,20 @@ and <var>element</var> is:
 <p>An <a>element</a>&apos;s <dfn data-lt="center point">in-view center point</dfn>
  is the origin position of the rectangle
  that is the intersection between
- the element&apos;s first {{DOMRect}} of {{Element/getClientRects()}}
- and the <a>initial viewport</a>.
+ the element&apos;s {{DOMRect}} and the <a>initial viewport</a>.
+ The {{DOMRect}} is the first result of {{Element/getClientRects()}}
+ with non-zero width and height, or the first result if none qualify.
  It can be calculated this way:
 
 <ol>
- <li><p>Let <var>rectangle</var> be
-  the first object of the {{DOMRect}} collection
+ <li><p>Let <var>rectangles</var> be
+  the {{DOMRect}} collection
   returned by calling {{Element/getClientRects()}} on <a><var>element</var></a>.
+
+ <li><p>Let <var>rectangle</var> be the first object in <var>rectangles</var>
+  whose <a>width dimension</a> and <a>height dimension</a> are both non-zero.
+  If no such object exists, let <var>rectangle</var> be the first object in
+  <var>rectangles</var>.
 
  <li><p>Let <var>left</var> be
   <a>max</a>(0, <a>min</a>(<a>x coordinate</a>,
