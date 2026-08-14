@@ -11315,7 +11315,8 @@ variables</var> and <var>parameters</var> are:
 
  <li><p>Let <var>safePrintableInset</var> be the result of <a>getting a
   property with default</a> named "<code>safePrintableInset</code>" and with
-  default <code>0</code> from <var>parameters</var>.
+  default <code>0</code> from <var>parameters</var>. This is used by
+  <a>page-margin-safety</a>.
 
  <li><p>If <var>safePrintableInset</var> is not a <a>Number</a>, or is less than 0,
  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
@@ -11358,6 +11359,10 @@ variables</var> and <var>parameters</var> are:
      <tr>
        <td>Right margin, in cm
        <td><var>marginRight</var>
+
+     <tr>
+       <td><var>Safe printable inset, in cm</var>
+       <td><var>safePrintableInset</var>
    </table>
 
    <p>In addition, the following formatting hints should be applied by the UA:
@@ -11370,14 +11375,6 @@ variables</var> and <var>parameters</var> are:
        <dd>Resize the content to match the page width, overriding any
        page width specified in the content
      </dl>
-
-   <p>The value of <var>safePrintableInset</var> defines the minimum inset along
-   each page edge needed to steer clear of the area that the printer is potentially
-   incapable of marking reliably. Most printers have a small region along each
-   edge of the page sheet which is unprintable, typically due to the printer's
-   paper handling mechanism. The document that is being printed may have
-   <a href="https://drafts.csswg.org/css-page-3/#page-margin-safety">CSS rules</a>
-   to adjust page margins based on this.
 
   <li><p>If <var>pageRanges</var> is not an empty <a>Array</a>,
  Let <var>pages</var> be the result of <a>trying</a> to <a>parse a
@@ -11993,6 +11990,11 @@ to automatically sort each list alphabetically.
  <dd>The following terms are defined in  [[mediaqueries-4]]:
   <ul>
    <!-- media type --> <li><dfn><a href=https://www.w3.org/TR/mediaqueries-4/#media-types>media type</a></dfn>
+  </ul>
+
+ <dd>The following terms are defined in  [[css-page-3]]:
+  <ul>
+   <!-- page-margin-safety --> <li><dfn><a href=https://drafts.csswg.org/css-page-3/#page-margin-safety>page-margin-safety</a></dfn>
   </ul>
 
  <dt>SOCKS Proxy:
