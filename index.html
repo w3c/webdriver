@@ -11312,6 +11312,14 @@ variables</var> and <var>parameters</var> are:
  <li><p>If <var>shrinkToFit</var> is not a <a>Boolean</a>
  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
+ <li><p>Let <var>safePrintableInset</var> be the result of <a>getting a
+  property with default</a> named "<code>safePrintableInset</code>" and with
+  default <code>0</code> from <var>parameters</var>. This is used by
+  <a>page-margin-safety</a>.
+
+ <li><p>If <var>safePrintableInset</var> is not a <a>Number</a>, or is less than 0,
+ return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
  <li><p>Let <var>pageRanges</var> be the result of <a>getting a
   property with default</a> named "<code>pageRanges</code>" from
   <var>parameters</var> with default of an
@@ -11350,6 +11358,10 @@ variables</var> and <var>parameters</var> are:
      <tr>
        <td>Right margin, in cm
        <td><var>marginRight</var>
+
+     <tr>
+       <td><var>Safe printable inset, in cm</var>
+       <td><var>safePrintableInset</var>
    </table>
 
    <p>In addition, the following formatting hints should be applied by the UA:
@@ -11981,6 +11993,11 @@ to automatically sort each list alphabetically.
  <dd>The following terms are defined in  [[mediaqueries-4]]:
   <ul>
    <!-- media type --> <li><dfn><a href=https://www.w3.org/TR/mediaqueries-4/#media-types>media type</a></dfn>
+  </ul>
+
+ <dd>The following terms are defined in  [[css-page-3]]:
+  <ul>
+   <!-- page-margin-safety --> <li><dfn><a href=https://drafts.csswg.org/css-page-3/#page-margin-safety>page-margin-safety</a></dfn>
   </ul>
 
  <dt>SOCKS Proxy:
