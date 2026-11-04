@@ -8189,11 +8189,15 @@ optional <var>subtype</var>:
   <li><p>Let <var>source</var> be <a>get an input source</a>
   with <var>input state</var> and <var>input id</var>.
 
-  <li><p>If <var>source</var> is not undefined and either
-  <var>source</var>&apos;s type is not equal to <var>type</var>, or
-  <var>source</var> is a <a>pointer input source</a> and
-  <var>source</var>&apos;s subtype is not equal to <var>subtype</var>,
-  return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+  <li><p>If <var>source</var> is not undefined:
+   <ol>
+    <li><p>If <var>source</var>&apos;s type is not equal to <var>type</var>,
+     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+    <li><p>If <var>source</var> is a <a>pointer input source</a> and
+     <var>source</var>&apos;s subtype is not equal to <var>subtype</var>,
+     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+   </ol>
 
   <li><p>If <var>source</var> is undefined, set <var>source</var> to
   the result of <a>trying</a> to <a>create an input source</a>
