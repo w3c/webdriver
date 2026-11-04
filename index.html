@@ -8189,14 +8189,19 @@ optional <var>subtype</var>:
   <li><p>Let <var>source</var> be <a>get an input source</a>
   with <var>input state</var> and <var>input id</var>.
 
-  <li><p>If <var>source</var> is not undefined and <var>source</var>&apos;s
-  type is not equal to <var>type</var>, or <var>source</var> is
-  a <a>pointer input source</a>, return <a>error</a> with <a>error
-  code</a> <a>invalid argument</a>.
+  <li><p>If <var>source</var> is not undefined:
+   <ol>
+    <li><p>If <var>source</var>&apos;s type is not equal to <var>type</var>,
+     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+
+    <li><p>If <var>source</var> is a <a>pointer input source</a> and
+     <var>source</var>&apos;s subtype is not equal to <var>subtype</var>,
+     return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
+   </ol>
 
   <li><p>If <var>source</var> is undefined, set <var>source</var> to
   the result of <a>trying</a> to <a>create an input source</a>
-  with <var>input state</var> and <var>type</var>.
+  with <var>input state</var>, <var>type</var> and <var>subtype</var>.
 
  <li><p>Return success with data <var>source</var>.</p></li>
 </ol>
@@ -8471,6 +8476,8 @@ options</var>:
  <li><p>If <var>id</var> is <a>undefined</a> or is not a <a>String</a>,
   return <a>error</a> with <a>error code</a> <a>invalid argument</a>.
 
+ <li><p>Let <var>subtype</var> be <a>undefined</a>.
+
  <li><p>If <var>type</var> is equal to "<code>pointer</code>",
   let <var>parameters data</var> be the result
   of <a>getting the property</a> "<code>parameters</code>"
@@ -8478,15 +8485,12 @@ options</var>:
   Then let <var>parameters</var> be the result
   of <a>trying</a> to <a>process pointer parameters</a>
   with argument <var>parameters data</var>.
+  Then set <var>subtype</var> to <var>parameters</var>&apos;s
+  <code>pointerType</code> property.
 
   <li><p>Let <var>source</var> be the result of trying to <a>get or
   create an input source</a> given <var>input
-  state</var>, <var>type</var> and <var>id</var>.
-
- <li><p>If <var>parameters</var> is not <a>undefined</a>,
-  then if its <code>pointerType</code> property is not equal to
-  <var>source</var>&apos;s subtype property, return an <a>error</a>
-  with <a>error code</a> <a>invalid argument</a>.
+  state</var>, <var>type</var>, <var>id</var> and <var>subtype</var>.
 
  <li><p>Let <var>action items</var> be the result of <a>getting a
   property</a> named "<code>actions</code>" from
