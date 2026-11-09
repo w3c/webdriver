@@ -1041,6 +1041,19 @@ the following steps:
   <td>/session/{<var>session id</var>}/print</td>
   <td><a>Print Page</a></td>
  </tr>
+
+<tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/accessibilityproperties</td>
+  <td><a>Get Accessibility Properties For Element</a></td>
+</tr>
+
+<tr>
+  <td>GET</td>
+  <td>/session/{<var>session id</var>}/accessibility/properties/{<var>accessibility id</var>}</td>
+  <td><a>Get Accessibility Properties For Accessibility Node</a></td>
+</tr>
+
 </table>
 </section> <!-- /Endpoints -->
 
@@ -1192,6 +1205,14 @@ the following steps:
   <td><code>move target out of bounds</code>
   <td>The target for mouse interaction is not in the browser&apos;s viewport
    and cannot be brought into that viewport.
+ </tr>
+
+ <tr>
+  <td><dfn>no such accessibility node</dfn>
+  <td>404
+  <td><code>no such accessibility node</code>
+  <td>An <a>accessibility node</a> could not be located on the page
+   using the given search parameters.
  </tr>
 
  <tr>
@@ -6028,6 +6049,42 @@ variables</var> and <var>parameters</var> are:
       <li><p>Return <a>success</a> with data <var>label</var>.
     </ol>
 </section> <!-- /Get Element Computed Label -->
+
+<section>
+  <h4><dfn>Get Accessibility Properties For Element</dfn></h4>
+
+  <table class="simple jsoncommand">
+    <tr>
+      <th>HTTP Method</th>
+      <th>URI Template</th>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>/session/{<var>session id</var>}/element/{<var>element id</var>}/accessibilityproperties</td>
+    </tr>
+  </table>
+
+  <p>The <a>remote end steps</a>, given <var>session</var>, <var>URL
+variables</var> and <var>parameters</var> are:
+
+ <ol>
+    <li><p>If <var>session</var>&apos;s <a>current browsing context</a> is <a>no longer open</a>,
+        return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+    <li><p><a>Try</a> to <a>handle any user prompts</a>
+     with <var>session</var>.
+
+    <li><p>Let <var>element</var> be the result
+        of <a>trying</a> to <a>get a known element</a>
+        with <var>URL variables</var>["<code>element id</code>"].
+
+    <li><p>Let <var>accessible</var> be the <a>accessibility node</a> that corresponds to this element. If no <a>accessibility node</a> exists, return <a>error</a> with <a>error code</a> <a>no such accessibility node</a>.
+
+    <li><p>Let <var>properties</var> be the result of computing the <a>accessibility properties</a> of <var>accessible</var>.
+
+    <li><p>Return <a>success</a> with data <var>properties</var>.
+  </ol>
+</section> <!-- /Get Element Accessibility Properties -->
 </section> <!-- /State -->
 
 <section>
@@ -11116,6 +11173,42 @@ variables</var> and <var>parameters</var> are:
 </section> <!-- /Screen capture -->
 
 <section>
+<h2>Accessibility</h2>
+<section>
+<h3><dfn>Get Accessibility Properties for Accessibility Node</dfn></h3>
+
+  <table class="simple jsoncommand">
+    <tr>
+      <th>HTTP Method</th>
+      <th>URI Template</th>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>/session/{<var>session id</var>}/accessibility/properties/{<var>accessibility id</var>}</td>
+    </tr>
+  </table>
+
+  <p>The <a>remote end steps</a>, given <var>session</var>, <var>URL
+variables</var> and <var>parameters</var> are:
+
+ <ol>
+    <li><p>If <var>session</var>&apos;s <a>current browsing context</a> is <a>no longer open</a>,
+        return <a>error</a> with <a>error code</a> <a>no such window</a>.
+
+    <li><p><a>Try</a> to <a>handle any user prompts</a>
+     with <var>session</var>.
+
+    <li><p>Let <var>node</var> be the <a>accessibility node</a> with <a>accessibility node ID</a> matching the <var>URL variables</var>["<code>accessibility id</code>"]. If no such <a>accessibility node</a> exists, return <a>error</a> with <a>error code</a> <a>no such accessibility node</a>.
+
+    <li><p>Let <var>properties</var> be the result of computing the <a>accessibility properties</a> of <var>node</var>.
+
+    <li><p>Return <a>success</a> with data <var>properties</var>.
+  </ol>
+
+</section> <!-- /Get Accessibility Properties for Accessibility Node -->
+</section> <!-- /Accessibility -->
+
+<section>
 <h2>Print</h2>
 
 <p>The print functions are a mechanism to render the document to a
@@ -11548,6 +11641,7 @@ This standard is authored by
 <!-- Jonathan Lipps --> Jonathan Lipps,
 <!-- Jonathon Kereliuk --> Jonathon Kereliuk,
 <!-- Luke Inman-Semerau --> Luke Inman-Semerau,
+<!-- Lola Odelola --> Lola Odelola,
 <!-- Maja Frydrychowicz --> <a href=https://www.erranderr.com/>Maja Frydrychowicz</a>,
 <!-- Malini Das --> Malini Das,
 <!-- Manoj Kumar --> Manoj Kumar,
@@ -11560,6 +11654,7 @@ This standard is authored by
 <!-- Simon Stewart --> <a href=http://www.rocketpoweredjetpants.com/>Simon Stewart</a>,
 <!-- Sri Harsha --> Sri Harsha,
 <!-- Titus Fortner --> Titus Fortner,
+<!-- Valerie Young--> Valerie Young,
 <!-- Vangelis Katsikaros --> and Vangelis Katsikaros.
 
 <!-- ~~~ end sort ~~~ -->
@@ -11602,6 +11697,10 @@ to automatically sort each list alphabetically.
      in the Accessible Rich Internet Applications (WAI-ARIA) 1.2 specification: [[wai-aria-1.2]]
      <ul>
        <li><dfn><a href="https://w3c.github.io/aria/#introroles">WAI-ARIA role</a></dfn>
+       <li><dfn><a href="https://w3c.github.io/aria/#accessibility_tree">Accessibility tree</a></dfn>
+       <li><dfn><a href="https://w3c.github.io/aria/#dfn-accessibility-api">Accessibility API</a></dfn>
+       <li><dfn><a href="https://w3c.github.io/aria/#aria-hidden">aria-hidden</a></dfn>
+
      </ul>
 
   <dd>
@@ -11612,6 +11711,23 @@ to automatically sort each list alphabetically.
         <li><dfn><a href="https://www.w3.org/TR/accname-1.1/#mapping_additional_nd_te">Accessible
               Name and Description Computation</a></dfn>
       </ul>
+
+ <dd>
+   <p>The following terms are defined
+     in the Core Accessibility API Mappings (Core-AAM) 1.2 specification: [[core-aam-1.2]]
+     <ul>
+       <!-- Computed accessibility properties --> <li><dfn><a
+        href="https://w3c.github.io/core-aam/#computed_accessibility_properties">Computed accessibility properties</a></dfn>
+       <!-- Accessibility node --> <li><dfn><a
+        href="https://w3c.github.io/core-aam/#computed_accessibility_properties">Accessibility node</a></dfn>
+       <!-- accessibilityId --> <li><dfn><a
+        href="https://w3c.github.io/core-aam/#computed_accessibility_properties_aria_states_and_properties">accessibilityId</a></dfn>
+        <!-- parent --> <li><dfn><a
+        href="https://w3c.github.io/core-aam/#computed_accessibility_properties_aria_states_and_properties">parent</a></dfn>
+        <!-- children --> <li><dfn><a
+        href="https://w3c.github.io/core-aam/#computed_accessibility_properties_aria_states_and_properties">children</a></dfn>
+     </ul>
+
 
  <dt>Web App Security
  <dd><p>The following terms are defined
