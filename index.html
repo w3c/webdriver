@@ -4496,45 +4496,56 @@ and <var>element</var> is:
  or if it is not <a>connected</a>.
 
 <p>To <dfn data-lt="scrolls into view|scrolled into view">scroll into view</dfn>
- a <var><a>node</a></var>
+ a <var>node</var>, which is an {{Element}} or {{Text}} node,
  given optional arguments <var>onlyIfNecessary</var> (default true),
  <var>behavior</var> (default "<code>instant</code>"),
  <var>block</var> (default "<code>end</code>")
  and <var>inline</var> (default "<code>nearest</code>"):
 
 <ol>
+ <li><p>If <var>node</var> is not available to user-agent features,
+  return a promise resolved with a <a>non-interrupted scroll result</a>.
+
  <li><p>Let <var>target</var> be determined as follows:
 
   <dl class=switch>
    <dt><var>node</var> implements {{Element}}
-    and has an associated [=CSS/box=]
+    and has an associated <a>box</a>
    <dd>
     <ol>
-     <li><p>Let <var>target</var> be <var>node</var>.
+     <li><p>Set <var>target</var> to <var>node</var>.
 
      <li><p>If <var>onlyIfNecessary</var> is true
-      and <var>target</var> is <a>in view</a>, return.
+      and <var>target</var> is <a>in view</a>,
+      return a promise resolved with a <a>non-interrupted scroll result</a>.
     </ol>
 
    <dt>Otherwise
    <dd>
     <ol>
-     <li><p>Let <var>target</var> be a new {{Range}} obtained by calling
+     <li><p>Set <var>target</var> to a new {{Range}} obtained by calling
       {{Document/createRange()}} on <var>node</var>&apos;s [=Node/node document=]
       and then invoking {{Range/selectNodeContents()}} on it with <var>node</var>
       as argument.
 
+     <li><p>If calling {{Range/getClientRects()}} on <var>target</var>
+      returns a sequence of length 0,
+      return a promise resolved with a <a>non-interrupted scroll result</a>.
+
      <li><p>If <var>onlyIfNecessary</var> is true
-      and the <var>target</var> <a>range is in view</a>, return.
+      and the <var>target</var> <a>range is in view</a>,
+      return a promise resolved with a <a>non-interrupted scroll result</a>.
     </ol>
   </dl>
 
- <li><p>Let <var>promise</var> be the result of <a data-lt="scroll target into view">scroll into view</a> <var>target</var>
+ <li><p>Let <var>promise</var> be the result of running
+  <a data-lt="scroll target into view">scroll a target into view</a>
+  given <var>target</var>
   with scroll behavior <var>behavior</var>,
   block flow direction position <var>block</var>,
   and inline base direction position <var>inline</var>.
 
-  <li><p>Return <var>promise</var>.
+ <li><p>Return <var>promise</var>.
 </ol>
 
 <p><dfn>Editable</dfn> <a>elements</a>
@@ -8970,6 +8981,13 @@ and <var>action</var>:</p>
  <li><p>Return success with data <var>action</var>.
 </ol>
 
+<p class=note>The default values of <code>block</code> ("<code>end</code>")
+ and <code>behavior</code> ("<code>instant</code>") differ from
+ the defaults of the {{Element/scrollIntoView()}} method
+ ("<code>start</code>" and "<code>auto</code>").
+ They match the scrolling performed implicitly by commands such as
+ <a>Element Click</a> and <a>Element Send Keys</a>.
+
 <p>To <dfn>process a pointer up or pointer down action</dfn>
  given <var>action item</var>, and <var>action</var>:</p>
 
@@ -12146,6 +12164,7 @@ to automatically sort each list alphabetically.
    <!-- screenY --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#dom-window-screeny>screenY</a></dfn>
    <!-- scrollX --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-window-scrollx">scrollX</a></dfn>
    <!-- scrollY --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#dom-window-scrolly">scrollY</a></dfn>
+   <!-- non-interrupted scroll result --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#non-interrupted-scroll-result>non-interrupted scroll result</a></dfn>
    <!-- scroll target into view --> <li><dfn><a href=https://drafts.csswg.org/cssom-view/#scroll-a-target-into-view>scroll target into view</a></dfn>
    <!-- visual viewport --> <li><dfn><a href="https://drafts.csswg.org/cssom-view/#visual-viewport">visual viewport</a></dfn>
   </ul>
